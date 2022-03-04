@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.icons.dart';
 
-class Navbar extends StatelessWidget {
-  const Navbar({Key? key, required this.selectedIndex, required this.onPressed})
-      : super(key: key);
+import '../../constants/navbar/navbar.enum.dart';
+import '../../providers/navbar/navbar.provider.dart';
 
-  final int selectedIndex;
-  final Function onPressed;
+class Navbar extends HookConsumerWidget {
+  const Navbar({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
+    final provider = ref.watch(navbarStateProvider.notifier);
     return Container(
       height: 80,
       decoration: BoxDecoration(
@@ -33,49 +35,46 @@ class Navbar extends StatelessWidget {
             enableFeedback: false,
             icon: Icon(
               NavbarIcon.matchmaking,
-              color: GetNavbarIconColor(context, selectedIndex, 0),
+              color: GetNavbarIconColor(
+                  context, selectedPage, NavbarPage.MATCHMAKING),
             ),
-            onPressed: () {
-              onPressed(0);
-            },
+            onPressed: () => provider.navigate(NavbarPage.MATCHMAKING),
           ),
           IconButton(
             enableFeedback: false,
             icon: Icon(
               NavbarIcon.group,
-              color: GetNavbarIconColor(context, selectedIndex, 1),
+              color:
+                  GetNavbarIconColor(context, selectedPage, NavbarPage.GROUPS),
             ),
-            onPressed: () {
-              onPressed(1);
-            },
+            onPressed: () => provider.navigate(NavbarPage.GROUPS),
           ),
           IconButton(
             enableFeedback: false,
             icon: Icon(
               NavbarIcon.notification,
-              color: GetNavbarIconColor(context, selectedIndex, 2),
+              color: GetNavbarIconColor(
+                  context, selectedPage, NavbarPage.NOTIFICATIONS),
             ),
-            onPressed: () {
-              onPressed(2);
-            },
+            onPressed: () => provider.navigate(NavbarPage.NOTIFICATIONS),
           ),
           IconButton(
             enableFeedback: false,
             icon: Icon(
               NavbarIcon.settings,
-              color: GetNavbarIconColor(context, selectedIndex, 3),
+              color: GetNavbarIconColor(
+                  context, selectedPage, NavbarPage.SETTINGS),
             ),
-            onPressed: () {
-              onPressed(3);
-            },
+            onPressed: () => provider.navigate(NavbarPage.SETTINGS),
           ),
         ],
       ),
     );
   }
 
-  Color GetNavbarIconColor(BuildContext context, int selectedIndex, int index) {
-    return selectedIndex == index
+  Color GetNavbarIconColor(
+      BuildContext context, NavbarPage selectedPage, NavbarPage page) {
+    return selectedPage == page
         ? Theme.of(context).colorScheme.secondary
         : Theme.of(context).colorScheme.primaryContainer;
   }
