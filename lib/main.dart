@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
-import 'package:trip_n_joy_front/widgets/navbar/navbar,widget.dart';
+import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
 
 import 'constants/navbar/navbar.enum.dart';
 import 'widgets/groups/groups.widget.dart';
