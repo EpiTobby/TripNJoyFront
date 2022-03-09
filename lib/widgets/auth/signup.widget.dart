@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 import 'package:trip_n_joy_front/providers/auth/auth_step.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/date_picker.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/dropdown.widget.dart';
 
+import '../../models/auth/signup.model.dart';
 import '../../providers/auth/auth.provider.dart';
 import '../common/button.widget.dart';
 import '../common/input.widget.dart';
@@ -28,15 +30,19 @@ class _SignUpState extends ConsumerState<SignUp> {
     final email = useState('');
     final password = useState('');
     final phoneNumber = useState('');
-    final birthdate = useState(DateTime.now());
+    final birthDate = useState(DateTime.now());
     final gender = useState('MEN');
+
+    ref.listen<AsyncValue<void>>(authSignupStateProvider,
+        (_, state) => state.showSnackBarOnError(context));
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Padding(
-            padding: EdgeInsets.only(bottom: 29),
+            padding: EdgeInsets.only(bottom: 30),
             child: Text('TripNJoy',
-                style: TextStyle(fontSize: 39, fontWeight: FontWeight.bold))),
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold))),
         Expanded(
           child: ListView(
             shrinkWrap: true,
@@ -52,43 +58,56 @@ class _SignUpState extends ConsumerState<SignUp> {
                   label: "Prénom",
                   hint: "Votre prénom",
                   onChanged: (value) => firstname.value = value,
+                  isError: authService.signupState.isError,
                   icon: const Icon(Icons.person)),
               InputField(
                   label: "Nom",
                   hint: "Votre nom",
                   onChanged: (value) => lastname.value = value,
+                  isError: authService.signupState.isError,
                   icon: const Icon(Icons.person)),
               DatePicker(
                   label: "Date de naissance",
-                  selectedDate: birthdate.value,
-                  onChanged: (value) => birthdate.value = value),
+                  selectedDate: birthDate.value,
+                  onChanged: (value) => birthDate.value = value),
               InputField(
                   label: "Email",
                   hint: "Votre adresse email",
                   onChanged: (value) => email.value = value,
+                  isError: authService.signupState.isError,
                   icon: const Icon(Icons.email)),
               InputField(
                   label: "Mot de passe",
                   hint: "Votre mot de passe",
                   onChanged: (value) => password.value = value,
                   icon: const Icon(Icons.lock),
+                  isError: authService.signupState.isError,
                   isPassword: true),
               InputField(
                   label: "Numéro de téléphone (optionnel)",
                   hint: "Votre numéro de téléphone",
                   onChanged: (value) => phoneNumber.value = value,
+                  isError: authService.signupState.isError,
                   icon: const Icon(Icons.phone)),
             ],
           ),
         ),
         Padding(
-            padding: const EdgeInsets.only(top: 29),
+            padding: const EdgeInsets.only(top: 30),
             child: Column(
               children: [
                 PrimaryButton(
                     text: 'Créer son compte',
-                    onPressed: () =>
-                        authService.login(email.value, password.value)),
+                    onPressed: () => authService.signup(SignupCredentials(
+                        gender: gender.value,
+                        firstname: firstname.value,
+                        lastname: lastname.value,
+                        birthDate: birthDate.value.toString(),
+                        email: email.value,
+                        password: password.value,
+                        phoneNumber: phoneNumber.value.isEmpty
+                            ? null
+                            : phoneNumber.value))),
                 SecondaryButton(
                     text: 'Retour', onPressed: () => stepProvider.login()),
               ],

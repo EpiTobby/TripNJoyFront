@@ -14,7 +14,6 @@ extension AsyncValueUI on VoidAsyncValue {
   void showSnackBarOnError(BuildContext context) => whenOrNull(
         error: (error, _) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            duration: const Duration(days: 1),
             behavior: SnackBarBehavior.floating,
             elevation: 6,
             backgroundColor: Theme.of(context).colorScheme.error,

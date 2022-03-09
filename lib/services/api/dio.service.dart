@@ -6,7 +6,7 @@ import '../log/logger.service.dart';
 
 enum Method { POST, GET, PUT, DELETE, PATCH }
 
-const BASE_URL = "http://localhost";
+const BASE_URL = String.fromEnvironment("BASE_URL");
 
 class HttpService {
   Dio? _dio;

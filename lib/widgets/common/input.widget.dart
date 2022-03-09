@@ -41,6 +41,7 @@ class InputField extends StatelessWidget {
                   ),
                 )),
             TextField(
+              onChanged: (value) => onChanged(value),
               obscureText: isPassword,
               decoration: InputDecoration(
                 prefixIcon: icon,
