@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/providers/auth/auth_step.provider.dart';
+import 'package:trip_n_joy_front/widgets/common/date_picker.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/dropdown.widget.dart';
 
 import '../../providers/auth/auth.provider.dart';
@@ -27,6 +28,7 @@ class _SignUpState extends ConsumerState<SignUp> {
     final email = useState('');
     final password = useState('');
     final phoneNumber = useState('');
+    final birthdate = useState(DateTime.now());
     final gender = useState('MEN');
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -41,6 +43,7 @@ class _SignUpState extends ConsumerState<SignUp> {
             children: [
               Dropdown(
                   label: "Genre",
+                  icon: Icon(Icons.person),
                   selectedValue: gender.value,
                   listValue: ["MEN", "WOMAN", "OTHER"],
                   listLabel: ["Homme", "Femme", "Autre"],
@@ -55,6 +58,10 @@ class _SignUpState extends ConsumerState<SignUp> {
                   hint: "Votre nom",
                   onChanged: (value) => lastname.value = value,
                   icon: const Icon(Icons.person)),
+              DatePicker(
+                  label: "Date de naissance",
+                  selectedDate: birthdate.value,
+                  onChanged: (value) => birthdate.value = value),
               InputField(
                   label: "Email",
                   hint: "Votre adresse email",
