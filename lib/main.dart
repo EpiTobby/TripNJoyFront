@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
+import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
+import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar,widget.dart';
 
 import 'constants/navbar/navbar.enum.dart';
@@ -33,13 +35,20 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
 
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-            .copyWith(
-                background: CColors.background,
-                primary: CColors.primary,
-                secondary: CColors.secondary,
-                tertiary: CColors.tertiary,
-                primaryContainer: CColors.variant),
+        colorScheme:
+            ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(
+          background: CColors.background,
+          primary: CColors.primary,
+          secondary: CColors.secondary,
+          tertiary: CColors.tertiary,
+          onBackground: CColors.onBackground,
+          onPrimary: CColors.onPrimary,
+          onSecondary: CColors.onSecondary,
+          onTertiary: CColors.onTertiary,
+          primaryContainer: CColors.variant,
+          error: CColors.error,
+          onError: CColors.onError,
+        ),
       ),
       home: const TripNJoy(title: 'TripNJoy'),
     );
@@ -67,8 +76,12 @@ class TripNJoy extends StatefulHookConsumerWidget {
 class _TripNJoyState extends ConsumerState<TripNJoy> {
   @override
   Widget build(BuildContext context) {
-    final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
+    final isLoggedIn = ref.watch(authProvider);
+    if (!isLoggedIn.isAuthenticated) {
+      return Auth();
+    }
 
+    final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
