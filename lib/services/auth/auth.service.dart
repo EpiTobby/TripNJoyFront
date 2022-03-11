@@ -28,10 +28,10 @@ class AuthService extends ChangeNotifier {
           params: {'email': email, 'password': password});
       loginState = const AsyncValue.data(null);
       token = response['token'];
-      notifyListeners();
       return token;
     } catch (e) {
       loginState = AsyncValue.error("Identifiants incorrects");
+    } finally {
       notifyListeners();
     }
   }
@@ -45,10 +45,10 @@ class AuthService extends ChangeNotifier {
           url: '/auth/signup', method: Method.POST, params: data.toJson());
       signupState = const AsyncValue.data(null);
       token = response['token'];
-      notifyListeners();
       return token;
     } catch (e) {
       signupState = AsyncValue.error("Identifiants incorrects");
+    } finally {
       notifyListeners();
     }
   }
