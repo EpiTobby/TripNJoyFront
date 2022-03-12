@@ -10,6 +10,9 @@ import 'widgets/matchmaking/matchmaking.widget.dart';
 import 'widgets/notification/notification.widget.dart';
 import 'widgets/settings/settings.widget.dart';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'app_localizations.dart';
+
 void main() {
   runApp(ProviderScope(child: MyApp()));
 }
@@ -41,6 +44,16 @@ class MyApp extends StatelessWidget {
                 tertiary: CColors.tertiary,
                 primaryContainer: CColors.variant),
       ),
+      supportedLocales: const [
+        Locale('fr', 'FR'),
+        Locale('en', 'US'),
+
+      ],
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: const TripNJoy(title: 'TripNJoy'),
     );
   }
