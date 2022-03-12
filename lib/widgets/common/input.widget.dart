@@ -23,13 +23,14 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-                padding: EdgeInsets.only(bottom: 5, left: 10),
+                padding: const EdgeInsets.only(bottom: 5, left: 10),
                 child: Text(
                   label,
                   style: TextStyle(

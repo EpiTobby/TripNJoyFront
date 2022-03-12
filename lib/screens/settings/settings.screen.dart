@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:trip_n_joy_front/widgets/common/input.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 
-class SettingsPage extends StatefulWidget {
+import '../../services/log/logger.service.dart';
+import '../../widgets/common/button.widget.dart';
+import '../../widgets/common/input_dialog.widget.dart';
+
+class SettingsPage extends StatefulHookWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
@@ -18,14 +24,31 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
-        LayoutHeader(title: "Yanis Chaabane",imageURL: "https://cdn.discordapp.com/avatars/297465470133731329/a9c6e37f6959a30d98038743c799a21f.webp?size=240",),
+        LayoutHeader(
+          title: "Yanis Chaabane",
+          imageURL:
+              "https://cdn.discordapp.com/avatars/297465470133731329/a9c6e37f6959a30d98038743c799a21f.webp?size=240",
+        ),
         LayoutBox(title: "Information personnelles", children: <Widget>[
           LayoutItem(
               title: 'Prénom',
               child: LayoutItemValue(
                 value: "Tony",
                 icon: const Icon(Icons.keyboard_arrow_right_sharp),
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialog(
+                            title: "Changer de prénom",
+                            label: "Prénom",
+                            initialValue: "Tony",
+                            onConfirm: (value) {
+                              logger.i("Prénom changé de Tony à $value");
+                              Navigator.of(context).pop();
+                            });
+                      });
+                },
               )),
           LayoutItem(
               title: 'Nom',
@@ -54,8 +77,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Mode Sombre",  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary, fontSize: 24)),
+                Text("Mode Sombre",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 24)),
                 Switch(
                   value: _darkMode,
                   onChanged: (bool value) {
