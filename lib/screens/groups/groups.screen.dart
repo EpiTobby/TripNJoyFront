@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
 
 class GroupsPage extends StatefulWidget {
   const GroupsPage({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class _GroupsPageState extends State<GroupsPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('Groups'),
+      child: GroupsSettings(),
     );
   }
 }
