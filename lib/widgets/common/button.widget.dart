@@ -26,7 +26,7 @@ class PrimaryButton extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                minimumSize: const Size(200, 48)),
+                minimumSize: const Size(170, 48)),
             onPressed: () => onPressed(),
             child: isLoading
                 ? SizedBox(
@@ -68,7 +68,7 @@ class SecondaryButton extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                minimumSize: const Size(200, 48)),
+                minimumSize: const Size(170, 48)),
             onPressed: () => onPressed(),
             child: isLoading
                 ? const CircularProgressIndicator()

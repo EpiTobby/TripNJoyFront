@@ -4,14 +4,13 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
-import 'package:trip_n_joy_front/widgets/navbar/navbar,widget.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
 
 import 'constants/navbar/navbar.enum.dart';
-import 'widgets/groups/groups.widget.dart';
-import 'widgets/matchmaking/matchmaking.widget.dart';
-import 'widgets/notification/notification.widget.dart';
-import 'widgets/settings/settings.widget.dart';
+import 'screens/groups/groups.screen.dart';
+import 'screens/matchmaking/matchmaking.screen.dart';
+import 'screens/notification/notification.screen.dart';
+import 'screens/settings/settings.screen.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app_localizations.dart';
@@ -57,7 +56,6 @@ class MyApp extends StatelessWidget {
       supportedLocales: const [
         Locale('fr', 'FR'),
         Locale('en', 'US'),
-
       ],
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -90,10 +88,10 @@ class TripNJoy extends StatefulHookConsumerWidget {
 class _TripNJoyState extends ConsumerState<TripNJoy> {
   @override
   Widget build(BuildContext context) {
-    final isLoggedIn = ref.watch(authProvider);
-    if (!isLoggedIn.isAuthenticated) {
-      return Auth();
-    }
+    // final isLoggedIn = ref.watch(authProvider);
+    // if (!isLoggedIn.isAuthenticated) {
+    //   return Auth();
+    // }
 
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
     return Scaffold(
