@@ -1,8 +1,61 @@
 {
+  "common": {
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "description": "Description",
+    "account": "Compte",
+    "gender": "Genre",
+    "back": "Retour",
+    "cancel": "Annuler",
+    "save": "Sauvegarder",
+    "submit": "Valider",
+    "tryAgain": "Réessayer"
+  },
+  "user" : {
+    "firstname": "Prénom",
+    "lastname": "Nom",
+    "email": "Email",
+    "password": "Mot de passe",
+    "phoneNumber": "Numéro de téléphone",
+    "birthDate": "Date de naissance",
+    "gender": {
+      "man": "Homme",
+      "woman": "Femme",
+      "other": "Autre"
+    }
+  },
+  "auth": {
+    "firstname": "Votre prénom",
+    "lastname": "Votre nom",
+    "email": "Votre adresse email",
+    "password": "Votre mot de passe",
+    "phoneNumber": "Votre numéro de téléphone",
+    "createAccount": "Créer son compte"
+  },
   "groups": {
-    "title": "Groupes"
+    "title": "Groupes",
+    "members": "Membres",
+    "settings": {
+      "about": "Information sur le groupe",
+      "groupName": "Nom du groupe",
+      "groupSettings": "Paramètres du groupe",
+      "close": "Fermer le groupe",
+      "archive": "Archiver le groupe",
+      "quit": "Quitter le groupe"
+    }
   },
   "settings": {
-    "title": "Paramètres"
+    "title": "Paramètres",
+    "about": "Informations personnelles",
+    "firstname": "Changer de prénom",
+    "lastname": "Changer de nom",
+    "noPhoneNumber": "Aucun numéro",
+    "theme": "Thème",
+    "darkMode": "Mode sombre",
+    "lightMode": "Mode clair",
+    "deleteAccount": "Supprimer mon compte"
+  },
+  "errors": {
+    "login": "Identifiants incorrects"
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 
 import '../../providers/auth/auth.provider.dart';
@@ -39,15 +40,15 @@ class _LoginState extends ConsumerState<Login> {
                     fontSize: 40,
                     fontWeight: FontWeight.bold))),
         InputField(
-          label: "Email",
-          hint: "Votre adresse email",
+          label: AppLocalizations.of(context).translate("user.email"),
+          hint: AppLocalizations.of(context).translate("auth.email"),
           onChanged: (value) => email.value = value,
           icon: const Icon(Icons.email),
           isError: auth.loginState.isError,
         ),
         InputField(
-            label: "Mot de passe",
-            hint: "Votre mot de passe",
+            label: AppLocalizations.of(context).translate("user.password"),
+            hint: AppLocalizations.of(context).translate("auth.password"),
             onChanged: (value) => password.value = value,
             icon: const Icon(Icons.lock),
             isError: auth.loginState.isError,
@@ -57,11 +58,13 @@ class _LoginState extends ConsumerState<Login> {
             child: Column(
               children: [
                 PrimaryButton(
-                    text: 'Se connecter',
+                    text:
+                        AppLocalizations.of(context).translate("common.login"),
                     isLoading: auth.loginState.isLoading,
                     onPressed: () => auth.login(email.value, password.value)),
                 SecondaryButton(
-                    text: 'Créer un compte',
+                    text: AppLocalizations.of(context)
+                        .translate("auth.createAccount"),
                     onPressed: () => stepProvider.signUp()),
               ],
             )),
