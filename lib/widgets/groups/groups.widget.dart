@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../app_localizations.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
 
 class GroupsPage extends StatefulWidget {
   const GroupsPage({Key? key}) : super(key: key);
