@@ -1,39 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/input.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 
+import '../../providers/user/user.provider.dart';
 import '../../services/log/logger.service.dart';
 import '../../widgets/common/button.widget.dart';
 import '../../widgets/common/input_dialog.widget.dart';
 
-class SettingsPage extends StatefulHookWidget {
+class SettingsPage extends StatefulHookConsumerWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _SettingsPageState extends ConsumerState<SettingsPage> {
   bool _darkMode = false;
 
   @override
   Widget build(BuildContext context) {
+    var settingsService = ref.watch(settingsProvider);
+    var user = ref.watch(userProvider);
     return ListView(
       children: <Widget>[
         LayoutHeader(
-          title: "Yanis Chaabane",
-          imageURL:
+          title: "${user.firstname} ${user.lastname}",
+          imageURL: user.profilePicture ??
               "https://cdn.discordapp.com/avatars/297465470133731329/a9c6e37f6959a30d98038743c799a21f.webp?size=240",
         ),
         LayoutBox(title: "Information personnelles", children: <Widget>[
           LayoutItem(
               title: 'Prénom',
               child: LayoutItemValue(
-                value: "Tony",
+                value: user.firstname,
                 icon: const Icon(Icons.keyboard_arrow_right_sharp),
                 onPressed: () {
                   showDialog(
@@ -42,10 +47,10 @@ class _SettingsPageState extends State<SettingsPage> {
                         return InputDialog(
                             title: "Changer de prénom",
                             label: "Prénom",
-                            initialValue: "Tony",
-                            onConfirm: (value) {
-                              logger.i("Prénom changé de Tony à $value");
-                              Navigator.of(context).pop();
+                            initialValue: user.firstname,
+                            onConfirm: (value) async {
+                              await settingsService.updateFirstname(
+                                  "id", value);
                             });
                       });
                 },
@@ -53,19 +58,26 @@ class _SettingsPageState extends State<SettingsPage> {
           LayoutItem(
               title: 'Nom',
               child: LayoutItemValue(
-                value: "Heng",
+                value: user.lastname,
                 icon: const Icon(Icons.keyboard_arrow_right_sharp),
                 onPressed: () {},
               )),
           LayoutItem(
               title: 'Email',
               child: LayoutItemValue(
-                value: "tony.heng@epita.fr",
+                value: user.email,
               )),
           LayoutItem(
               title: 'Mot de passe',
               child: LayoutItemValue(
-                value: "********",
+                value: "•••••••••",
+                icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                onPressed: () {},
+              )),
+          LayoutItem(
+              title: 'Numéro de téléphone',
+              child: LayoutItemValue(
+                value: user.phoneNumber ?? "Aucun numéro",
                 icon: const Icon(Icons.keyboard_arrow_right_sharp),
                 onPressed: () {},
               )),

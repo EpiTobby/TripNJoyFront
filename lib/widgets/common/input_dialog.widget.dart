@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 
 import 'button.widget.dart';
 import 'input.widget.dart';
@@ -25,6 +27,7 @@ class _InputDialogState extends State<InputDialog> {
   @override
   Widget build(BuildContext context) {
     final value = useState(widget.initialValue);
+    final status = useState<AsyncValue<void>>(AsyncValue.data(null));
     return AlertDialog(
       title: Center(
           child: Text(widget.title ?? '',
@@ -32,6 +35,7 @@ class _InputDialogState extends State<InputDialog> {
       content: InputField(
         label: widget.label,
         onChanged: (newValue) => value.value = newValue,
+        isError: status.value.isError,
       ),
       actions: <Widget>[
         Padding(
@@ -43,8 +47,18 @@ class _InputDialogState extends State<InputDialog> {
                 onPressed: () => Navigator.of(context).pop(),
               ),
               PrimaryButton(
-                  text: "Valider",
-                  onPressed: () => widget.onConfirm(value.value)),
+                  text: status.value.isError ? "Réessayer" : "Valider",
+                  isLoading: status.value.isLoading,
+                  onPressed: () async {
+                    status.value = AsyncLoading();
+                    try {
+                      await widget.onConfirm(value.value);
+                      status.value = AsyncData(null);
+                      Navigator.of(context).pop();
+                    } catch (e) {
+                      status.value = AsyncError(e);
+                    }
+                  }),
             ],
           ),
         )
