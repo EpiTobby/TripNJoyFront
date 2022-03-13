@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:trip_n_joy_front/models/user/user.model.dart';
 
 import '../log/logger.service.dart';
-
-enum Method { POST, GET, PUT, DELETE, PATCH }
+import 'http.service.dart';
 
 const BASE_URL = String.fromEnvironment("BASE_URL");
 
-class HttpService {
+class DioService extends HttpService {
   Dio? _dio;
 
   static header() => {"Content-Type": "application/json"};
@@ -80,5 +80,14 @@ class HttpService {
       logger.e(e);
       throw Exception("Something wen't wrong");
     }
+  }
+
+  @override
+  Future<User> loadUser(String token) async {
+    final response = await request(
+      url: "/user/" + token,
+      method: Method.GET,
+    );
+    return User.fromJson(response.data);
   }
 }

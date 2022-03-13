@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-import 'package:trip_n_joy_front/services/api/dio.service.dart';
 
+import '../api/http.service.dart';
 import '../log/logger.service.dart';
 
 class AuthService extends ChangeNotifier {

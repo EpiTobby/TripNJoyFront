@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../api/dio.service.dart';
-import '../log/logger.service.dart';
+import '../api/http.service.dart';
 
 class SettingsService extends ChangeNotifier {
   SettingsService(this.httpService) {

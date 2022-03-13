@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
+import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
 
 import 'constants/navbar/navbar.enum.dart';
@@ -88,22 +91,57 @@ class TripNJoy extends StatefulHookConsumerWidget {
 class _TripNJoyState extends ConsumerState<TripNJoy> {
   @override
   Widget build(BuildContext context) {
+    useEffect(() {
+      ref.read(userProvider.notifier).loadUser("token");
+    }, []);
+
     // final isLoggedIn = ref.watch(authProvider);
     // if (!isLoggedIn.isAuthenticated) {
     //   return Auth();
     // }
 
+    final user = ref.watch(userProvider);
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      extendBody: true,
-      body: Center(
-        child: getPageWidget(selectedPage),
-      ),
-      bottomNavigationBar: Navbar(),
-    );
+    return user.when(
+        data: (data) => Scaffold(
+              appBar: AppBar(
+                title: Text(widget.title),
+              ),
+              extendBody: true,
+              body: Center(
+                child: getPageWidget(selectedPage),
+              ),
+              bottomNavigationBar: Navbar(),
+            ),
+        error: (error, r) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Wrap(
+                  children: [
+                    Text(
+                      "Une erreur est survenue, veuillez vous reconnectez.",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.none),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+              PrimaryButton(
+                text: "Se reconnecter",
+                onPressed: () {},
+              ),
+            ],
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()));
   }
 
   getPageWidget(NavbarPage selectedPage) {

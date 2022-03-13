@@ -8,6 +8,7 @@ import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 
+import '../../models/user/user.model.dart';
 import '../../providers/user/user.provider.dart';
 import '../../services/log/logger.service.dart';
 import '../../widgets/common/button.widget.dart';
@@ -26,7 +27,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     var settingsService = ref.watch(settingsProvider);
-    var user = ref.watch(userProvider);
+    var user = ref.watch(userProvider).value as User;
     return ListView(
       children: <Widget>[
         LayoutHeader(
@@ -38,7 +39,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           LayoutItem(
               title: 'Prénom',
               child: LayoutItemValue(
-                value: user.firstname,
+                value: user.firstname!,
                 icon: const Icon(Icons.keyboard_arrow_right_sharp),
                 onPressed: () {
                   showDialog(
@@ -47,7 +48,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         return InputDialog(
                             title: "Changer de prénom",
                             label: "Prénom",
-                            initialValue: user.firstname,
+                            initialValue: user.firstname!,
                             onConfirm: (value) async {
                               await settingsService.updateFirstname(
                                   "id", value);
@@ -58,14 +59,14 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           LayoutItem(
               title: 'Nom',
               child: LayoutItemValue(
-                value: user.lastname,
+                value: user.lastname!,
                 icon: const Icon(Icons.keyboard_arrow_right_sharp),
                 onPressed: () {},
               )),
           LayoutItem(
               title: 'Email',
               child: LayoutItemValue(
-                value: user.email,
+                value: user.email!,
               )),
           LayoutItem(
               title: 'Mot de passe',
