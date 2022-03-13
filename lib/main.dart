@@ -4,13 +4,16 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
-import 'package:trip_n_joy_front/widgets/navbar/navbar,widget.dart';
+import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
 
 import 'constants/navbar/navbar.enum.dart';
 import 'screens/groups/groups.screen.dart';
 import 'screens/matchmaking/matchmaking.screen.dart';
 import 'screens/notification/notification.screen.dart';
 import 'screens/settings/settings.screen.dart';
+
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'app_localizations.dart';
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
@@ -50,6 +53,15 @@ class MyApp extends StatelessWidget {
           onError: CColors.onError,
         ),
       ),
+      supportedLocales: const [
+        Locale('fr', 'FR'),
+        Locale('en', 'US'),
+      ],
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: const TripNJoy(title: 'TripNJoy'),
     );
   }
