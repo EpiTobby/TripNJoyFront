@@ -97,6 +97,15 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
   @override
   Widget build(BuildContext context) {
     final authService = ref.watch(authProvider);
+    final userService = ref.watch(userProvider.notifier);
+    useEffect(() {
+      authService.updateTokenFromStorage().then((value) {
+        if (value != null) {
+          userService.loadUser(value);
+        }
+      });
+      return null;
+    }, []);
     final step = ref.watch(authStepProvider) as AuthStep;
     if (!authService.isAuthenticated) {
       return Auth();
@@ -104,7 +113,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
 
     useEffect(() {
       if (authService.isAuthenticated) {
-        ref.read(userProvider.notifier).loadUser(authService.token!);
+        userService.loadUser(authService.token!);
       }
       if (step == AuthStep.SIGNUP) {
         SchedulerBinding.instance?.endOfFrame.then((_) {
