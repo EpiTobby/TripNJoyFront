@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
+import 'package:trip_n_joy_front/providers/auth/auth_step.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
@@ -11,6 +12,7 @@ import 'package:trip_n_joy_front/screens/auth/verification.screen.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
 
+import 'constants/auth/auth_step.enum.dart';
 import 'constants/navbar/navbar.enum.dart';
 import 'screens/groups/groups.screen.dart';
 import 'screens/matchmaking/matchmaking.screen.dart';
@@ -94,6 +96,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
   @override
   Widget build(BuildContext context) {
     final authService = ref.watch(authProvider);
+    final step = ref.watch(authStepProvider) as AuthStep;
     if (!authService.isAuthenticated) {
       return Auth();
     }
@@ -102,7 +105,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
       if (authService.isAuthenticated) {
         ref.read(userProvider.notifier).loadUser(authService.token!);
       }
-      if (true) {
+      if (step == AuthStep.SIGNUP) {
         SchedulerBinding.instance?.endOfFrame.then((_) {
           Navigator.push(context,
               MaterialPageRoute(builder: (_) => AccountVerification()));
