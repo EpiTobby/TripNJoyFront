@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 
 import '../api/http.service.dart';
@@ -28,8 +29,8 @@ class AuthService extends ChangeNotifier {
       loginState = const AsyncValue.data(null);
       return await saveToken(sessionToken.token!);
     } catch (e) {
-      loginState = AsyncValue.error(
-          "Identifiants incorrects"); // TODO: add translations but need to handle call with context
+      loginState = AsyncValue.error(AppLocalizations.instance.translate(
+          "errors.login")); // not safe as instance could result to null if error on load
     } finally {
       notifyListeners();
     }
@@ -44,8 +45,8 @@ class AuthService extends ChangeNotifier {
       signupState = const AsyncValue.data(null);
       return await saveToken(sessionToken.token!);
     } catch (e) {
-      signupState = AsyncValue.error(
-          "Identifiants incorrects"); // TODO: add translations but need to handle call with context
+      signupState = AsyncValue.error(AppLocalizations.instance.translate(
+          "errors.login")); // not safe as instance could result to null if error on load
     } finally {
       notifyListeners();
     }

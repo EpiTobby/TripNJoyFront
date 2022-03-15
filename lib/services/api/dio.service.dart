@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/models/auth/session_token.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
 import 'package:trip_n_joy_front/models/user/user.model.dart';
 
 import '../log/logger.service.dart';
@@ -18,6 +20,7 @@ class DioService extends HttpService {
   Future<HttpService> init() async {
     _dio = Dio(BaseOptions(baseUrl: BASE_URL, headers: header()));
     initInterceptors();
+
     return this;
   }
 
@@ -60,27 +63,35 @@ class DioService extends HttpService {
         response = await _dio!.get(url, queryParameters: params);
       }
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == HttpStatus.ok) {
         return response;
-      } else if (response.statusCode == 401) {
-        throw Exception("Unauthorized");
-      } else if (response.statusCode == 500) {
-        throw Exception("Server Error");
+      } else if (response.statusCode == HttpStatus.unauthorized) {
+        throw UnauthorizedException(
+            message: AppLocalizations.instance
+                .translate("errors.exceptions.unauthorized"));
+      } else if (response.statusCode == HttpStatus.internalServerError) {
+        throw InternalServerError(
+            message: AppLocalizations.instance
+                .translate("errors.exceptions.serverError"));
       } else {
-        throw Exception("Something does wen't wrong");
+        throw HttpException(
+            message: AppLocalizations.instance
+                .translate("errors.exceptions.unexpected"));
       }
     } on SocketException catch (e) {
       logger.e(e);
-      throw Exception("Not Internet Connection");
+      throw Exception(AppLocalizations.instance.translate("errors.internet"));
     } on FormatException catch (e) {
       logger.e(e);
-      throw Exception("Bad response format");
+      throw Exception(AppLocalizations.instance
+          .translate("errors.exceptions.responseFormat"));
     } on DioError catch (e) {
       logger.e(e);
       throw Exception(e);
     } catch (e) {
       logger.e(e);
-      throw Exception("Something wen't wrong");
+      throw Exception(
+          AppLocalizations.instance.translate("errors.exceptions.unexpected"));
     }
   }
 
