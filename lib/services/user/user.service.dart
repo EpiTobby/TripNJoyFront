@@ -2,6 +2,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/user/user.model.dart';
 import '../api/http.service.dart';
+import '../log/logger.service.dart';
 
 class UserService extends StateNotifier<AsyncValue<User>> {
   UserService(this.httpService) : super(const AsyncValue.loading());

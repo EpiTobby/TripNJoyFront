@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 
@@ -6,11 +7,14 @@ import '../api/http.service.dart';
 import '../log/logger.service.dart';
 
 class AuthService extends ChangeNotifier {
-  AuthService(this.httpService) {
+  AuthService(this.httpService, this.storage) {
     httpService.init();
   }
   final HttpService httpService;
+  final FlutterSecureStorage storage;
   String? token;
+  static const String tokenKey = 'token';
+
   AsyncValue<void> loginState = const AsyncValue.data(null);
   AsyncValue<void> signupState = const AsyncValue.data(null);
 
@@ -20,13 +24,9 @@ class AuthService extends ChangeNotifier {
     loginState = const AsyncValue.loading();
     notifyListeners();
     try {
-      var response = await httpService.request(
-          url: '/auth/login',
-          method: Method.POST,
-          params: {'email': email, 'password': password});
+      var sessionToken = await httpService.login(email, password);
       loginState = const AsyncValue.data(null);
-      token = response['token'];
-      return token;
+      return await saveToken(sessionToken.token!);
     } catch (e) {
       loginState = AsyncValue.error("Identifiants incorrects");
     } finally {
@@ -39,15 +39,26 @@ class AuthService extends ChangeNotifier {
     signupState = const AsyncValue.loading();
     notifyListeners();
     try {
-      var response = await httpService.request(
-          url: '/auth/signup', method: Method.POST, params: data.toJson());
+      var sessionToken = await httpService.signup(data);
       signupState = const AsyncValue.data(null);
-      token = response['token'];
-      return token;
+      return await saveToken(sessionToken.token!);
     } catch (e) {
       signupState = AsyncValue.error("Identifiants incorrects");
     } finally {
       notifyListeners();
     }
+  }
+
+  Future<String> saveToken(String token) async {
+    await storage.delete(key: tokenKey);
+    await storage.write(key: tokenKey, value: token);
+    await updateTokenFromStorage();
+    return token;
+  }
+
+  Future<String?> updateTokenFromStorage() async {
+    token = await storage.read(key: tokenKey);
+    notifyListeners();
+    return token;
   }
 }

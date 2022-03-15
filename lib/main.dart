@@ -91,14 +91,17 @@ class TripNJoy extends StatefulHookConsumerWidget {
 class _TripNJoyState extends ConsumerState<TripNJoy> {
   @override
   Widget build(BuildContext context) {
-    useEffect(() {
-      ref.read(userProvider.notifier).loadUser("token");
-    }, []);
+    final authService = ref.watch(authProvider);
+    if (!authService.isAuthenticated) {
+      return Auth();
+    }
 
-    // final isLoggedIn = ref.watch(authProvider);
-    // if (!isLoggedIn.isAuthenticated) {
-    //   return Auth();
-    // }
+    useEffect(() {
+      if (authService.isAuthenticated) {
+        ref.read(userProvider.notifier).loadUser(authService.token!);
+      }
+      return null;
+    }, [authService]);
 
     final user = ref.watch(userProvider);
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;

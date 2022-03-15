@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:trip_n_joy_front/models/auth/session_token.model.dart';
+import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 import 'package:trip_n_joy_front/models/user/user.model.dart';
 
 import '../log/logger.service.dart';
@@ -89,5 +91,28 @@ class DioService extends HttpService {
       method: Method.GET,
     );
     return User.fromJson(response.data);
+  }
+
+  @override
+  Future<SessionToken> login(String email, String password) async {
+    final response = await request(
+      url: "/login",
+      method: Method.POST,
+      params: {
+        "email": email,
+        "password": password,
+      },
+    );
+    return SessionToken.fromJson(response.data);
+  }
+
+  @override
+  Future<SessionToken> signup(SignupCredentials data) async {
+    final response = await request(
+      url: "/signup",
+      method: Method.POST,
+      params: data.toJson(),
+    );
+    return SessionToken.fromJson(response.data);
   }
 }

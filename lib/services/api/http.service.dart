@@ -1,5 +1,8 @@
 import 'package:trip_n_joy_front/models/user/user.model.dart';
 
+import '../../models/auth/session_token.model.dart';
+import '../../models/auth/signup.model.dart';
+
 enum Method { POST, GET, PUT, DELETE, PATCH }
 
 abstract class HttpService {
@@ -10,4 +13,6 @@ abstract class HttpService {
       required Method method,
       Map<String, dynamic>? params});
   Future<User> loadUser(String token);
+  Future<SessionToken> login(String email, String password);
+  Future<SessionToken> signup(SignupCredentials data);
 }
