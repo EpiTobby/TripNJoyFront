@@ -4,5 +4,13 @@
   },
   "settings": {
     "title": "Paramètres"
+  },
+  "auth": {
+    "verification": {
+      "title": "Vérification du compte",
+      "description": "Veuillez entrer le code envoyé à votre adresse e-mail pour activer votre compte.",
+      "code": "Code",
+      "submit": "Vérifier"
+    }
   }
 }
