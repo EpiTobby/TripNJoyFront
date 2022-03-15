@@ -15,7 +15,7 @@ class LayoutHeader extends StatelessWidget {
           children: [
             ColoredBox(
               color: Theme.of(context).colorScheme.secondary,
-              child: SizedBox(
+              child: const SizedBox(
                 width: double.infinity,
                 height: 100,
               ),
@@ -24,7 +24,7 @@ class LayoutHeader extends StatelessWidget {
               padding: const EdgeInsets.only(top: 16),
               child: Center(
                 child: CircleAvatar(
-                  backgroundImage: new NetworkImage(imageURL),
+                  backgroundImage: NetworkImage(imageURL),
                   radius: 70,
                 ),
               ),

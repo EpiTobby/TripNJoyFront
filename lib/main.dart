@@ -88,10 +88,10 @@ class TripNJoy extends StatefulHookConsumerWidget {
 class _TripNJoyState extends ConsumerState<TripNJoy> {
   @override
   Widget build(BuildContext context) {
-    // final isLoggedIn = ref.watch(authProvider);
-    // if (!isLoggedIn.isAuthenticated) {
-    //   return Auth();
-    // }
+    //final isLoggedIn = ref.watch(authProvider);
+    //if (!isLoggedIn.isAuthenticated) {
+    //  return Auth();
+    //}
 
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
     return Scaffold(

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
-import 'package:trip_n_joy_front/widgets/common/input.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 
 import '../../providers/user/user.provider.dart';
-import '../../services/log/logger.service.dart';
-import '../../widgets/common/button.widget.dart';
 import '../../widgets/common/input_dialog.widget.dart';
 
 class SettingsPage extends StatefulHookConsumerWidget {
@@ -34,62 +31,73 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           imageURL: user.profilePicture ??
               "https://cdn.discordapp.com/avatars/297465470133731329/a9c6e37f6959a30d98038743c799a21f.webp?size=240",
         ),
-        LayoutBox(title: "Information personnelles", children: <Widget>[
-          LayoutItem(
-              title: 'Prénom',
-              child: LayoutItemValue(
-                value: user.firstname,
-                icon: const Icon(Icons.keyboard_arrow_right_sharp),
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return InputDialog(
-                            title: "Changer de prénom",
-                            label: "Prénom",
-                            initialValue: user.firstname,
-                            onConfirm: (value) async {
-                              await settingsService.updateFirstname(
-                                  "id", value);
-                            });
-                      });
-                },
-              )),
-          LayoutItem(
-              title: 'Nom',
-              child: LayoutItemValue(
-                value: user.lastname,
-                icon: const Icon(Icons.keyboard_arrow_right_sharp),
-                onPressed: () {},
-              )),
-          LayoutItem(
-              title: 'Email',
-              child: LayoutItemValue(
-                value: user.email,
-              )),
-          LayoutItem(
-              title: 'Mot de passe',
-              child: LayoutItemValue(
-                value: "•••••••••",
-                icon: const Icon(Icons.keyboard_arrow_right_sharp),
-                onPressed: () {},
-              )),
-          LayoutItem(
-              title: 'Numéro de téléphone',
-              child: LayoutItemValue(
-                value: user.phoneNumber ?? "Aucun numéro",
-                icon: const Icon(Icons.keyboard_arrow_right_sharp),
-                onPressed: () {},
-              )),
-        ]),
         LayoutBox(
-          title: "Thème",
+            title: AppLocalizations.of(context).translate("settings.about"),
+            children: <Widget>[
+              LayoutItem(
+                  title:
+                      AppLocalizations.of(context).translate("user.firstname"),
+                  child: LayoutItemValue(
+                    value: user.firstname,
+                    icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return InputDialog(
+                                title: AppLocalizations.of(context)
+                                    .translate("settings.firstname"),
+                                label: AppLocalizations.of(context)
+                                    .translate("user.firstname"),
+                                initialValue: user.firstname,
+                                onConfirm: (value) async {
+                                  await settingsService.updateFirstname(
+                                      "id", value);
+                                });
+                          });
+                    },
+                  )),
+              LayoutItem(
+                  title:
+                      AppLocalizations.of(context).translate("user.lastname"),
+                  child: LayoutItemValue(
+                    value: user.lastname,
+                    icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                    onPressed: () {},
+                  )),
+              LayoutItem(
+                  title: AppLocalizations.of(context).translate("user.email"),
+                  child: LayoutItemValue(
+                    value: user.email,
+                  )),
+              LayoutItem(
+                  title:
+                      AppLocalizations.of(context).translate("user.password"),
+                  child: LayoutItemValue(
+                    value: "•••••••••",
+                    icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                    onPressed: () {},
+                  )),
+              LayoutItem(
+                  title: AppLocalizations.of(context)
+                      .translate("user.phoneNumber"),
+                  child: LayoutItemValue(
+                    value: user.phoneNumber ??
+                        AppLocalizations.of(context)
+                            .translate("settings.noPhoneNumber"),
+                    icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                    onPressed: () {},
+                  )),
+            ]),
+        LayoutBox(
+          title: AppLocalizations.of(context).translate("settings.theme"),
           children: <Widget>[
             LayoutItem(
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Mode Sombre",
+                Text(
+                    AppLocalizations.of(context).translate("settings.darkMode"),
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                         fontSize: 24)),
@@ -105,21 +113,24 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             ))
           ],
         ),
-        LayoutBox(title: "Compte", children: <Widget>[
-          LayoutItem(
-              child: LayoutItemValue(
-            value: "Se déconnecter",
-            icon: const Icon(Icons.exit_to_app),
-            onPressed: () {},
-          )),
-          LayoutItem(
-              child: LayoutItemValue(
-            value: "Supprimer mon compte",
-            icon: const Icon(Icons.close),
-            customColor: Theme.of(context).colorScheme.error,
-            onPressed: () {},
-          )),
-        ])
+        LayoutBox(
+            title: AppLocalizations.of(context).translate("common.account"),
+            children: <Widget>[
+              LayoutItem(
+                  child: LayoutItemValue(
+                value: AppLocalizations.of(context).translate("common.logout"),
+                icon: const Icon(Icons.exit_to_app),
+                onPressed: () {},
+              )),
+              LayoutItem(
+                  child: LayoutItemValue(
+                value: AppLocalizations.of(context)
+                    .translate("settings.deleteAccount"),
+                icon: const Icon(Icons.close),
+                customColor: Theme.of(context).colorScheme.error,
+                onPressed: () {},
+              )),
+            ])
       ],
     );
   }

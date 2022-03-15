@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
@@ -30,7 +28,8 @@ class AuthService extends ChangeNotifier {
       token = response['token'];
       return token;
     } catch (e) {
-      loginState = AsyncValue.error("Identifiants incorrects");
+      loginState = AsyncValue.error(
+          "Identifiants incorrects"); // TODO: add translations but need to handle call with context
     } finally {
       notifyListeners();
     }
@@ -47,7 +46,8 @@ class AuthService extends ChangeNotifier {
       token = response['token'];
       return token;
     } catch (e) {
-      signupState = AsyncValue.error("Identifiants incorrects");
+      signupState = AsyncValue.error(
+          "Identifiants incorrects"); // TODO: add translations but need to handle call with context
     } finally {
       notifyListeners();
     }
