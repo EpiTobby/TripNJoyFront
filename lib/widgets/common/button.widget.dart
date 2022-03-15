@@ -6,11 +6,13 @@ class PrimaryButton extends StatelessWidget {
     required String this.text,
     bool this.isLoading = false,
     required Function this.onPressed,
+    bool this.isDisabled = false,
   }) : super(key: key);
 
   final String text;
   final bool isLoading;
   final Function onPressed;
+  final bool isDisabled;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,7 +29,7 @@ class PrimaryButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 minimumSize: const Size(180, 48)),
-            onPressed: () => onPressed(),
+            onPressed: isDisabled ? null : () => onPressed(),
             child: isLoading
                 ? SizedBox(
                     child: CircularProgressIndicator(
@@ -47,11 +49,13 @@ class SecondaryButton extends StatelessWidget {
     required String this.text,
     bool this.isLoading = false,
     required Function this.onPressed,
+    bool this.isDisabled = false,
   }) : super(key: key);
 
   final String text;
   final bool isLoading;
   final Function onPressed;
+  final bool isDisabled;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -69,7 +73,7 @@ class SecondaryButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 minimumSize: const Size(180, 48)),
-            onPressed: () => onPressed(),
+            onPressed: isDisabled ? null : () => onPressed(),
             child: isLoading
                 ? const CircularProgressIndicator()
                 : Text(text,
@@ -84,11 +88,13 @@ class TertiaryButton extends StatelessWidget {
     required String this.text,
     bool this.isLoading = false,
     required Function this.onPressed,
+    bool this.isDisabled = false,
   }) : super(key: key);
 
   final String text;
   final bool isLoading;
   final Function onPressed;
+  final bool isDisabled;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -97,7 +103,7 @@ class TertiaryButton extends StatelessWidget {
         style: TextButton.styleFrom(
           textStyle: const TextStyle(fontSize: 16),
         ),
-        onPressed: () => onPressed(),
+        onPressed: isDisabled ? null : () => onPressed(),
         child: Text(text,
             style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
       ),

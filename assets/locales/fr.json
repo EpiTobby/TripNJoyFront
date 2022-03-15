@@ -39,7 +39,8 @@
       "code": "Code",
       "label": "Entrer le code",
       "submit": "Vérifier",
-      "sendBack": "Renvoyer un code"
+      "sendBack": "Renvoyer un code",
+      "resendCountdown": "Vous pouvez renvoyer le code dans $time secondes."
     }
   },
   "groups": {

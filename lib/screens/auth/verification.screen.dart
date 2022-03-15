@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 
@@ -12,6 +15,15 @@ class AccountVerification extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final resendCountdown = useState(0);
+    useEffect(() {
+      final timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        if (resendCountdown.value > 0) {
+          resendCountdown.value--;
+        }
+      });
+      return timer.cancel;
+    }, [resendCountdown]);
     return Scaffold(
       body: Center(
         child: Padding(
@@ -52,9 +64,16 @@ class AccountVerification extends HookConsumerWidget {
                 },
               ),
               SecondaryButton(
-                  text: AppLocalizations.of(context)
-                      .translate('auth.verification.sendBack'),
-                  onPressed: () {})
+                  text: resendCountdown.value == 0
+                      ? AppLocalizations.of(context)
+                          .translate('auth.verification.sendBack')
+                      : AppLocalizations.of(context).translate(
+                          'auth.verification.resendCountdown',
+                          {'time': resendCountdown.value.toString()}),
+                  onPressed: () {
+                    resendCountdown.value = 30;
+                  },
+                  isDisabled: resendCountdown.value != 0)
             ],
           ),
         ),
