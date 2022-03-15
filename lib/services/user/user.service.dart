@@ -4,10 +4,10 @@ import '../../models/user/user.model.dart';
 import '../api/http.service.dart';
 import '../log/logger.service.dart';
 
-class UserService extends StateNotifier<AsyncValue<User>> {
+class UserService extends StateNotifier<AsyncValue<User?>> {
   UserService(this.httpService) : super(const AsyncValue.loading());
   final HttpService httpService;
-  late User user;
+  User? user;
 
   Future<void> loadUser(String token) async {
     try {
@@ -15,7 +15,7 @@ class UserService extends StateNotifier<AsyncValue<User>> {
       user = await httpService
           .loadUser(token)
           .timeout(const Duration(seconds: 10));
-      state = AsyncData(user);
+      state = AsyncData(user!);
     } catch (e) {
       state = AsyncError(e);
     }
@@ -24,10 +24,8 @@ class UserService extends StateNotifier<AsyncValue<User>> {
   Future<void> deleteUser(String token) async {
     try {
       state = const AsyncLoading();
-      await httpService
-          .deleteUser(token)
-          .timeout(const Duration(seconds: 10));
-      state = AsyncData(user); // TODO: change to null user
+      await httpService.deleteUser(token).timeout(const Duration(seconds: 10));
+      state = const AsyncData(null);
     } catch (e) {
       state = AsyncError(e);
     }

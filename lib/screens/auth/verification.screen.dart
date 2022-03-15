@@ -20,7 +20,8 @@ class AccountVerification extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppLocalizations.of(context).translate('auth.verification.title'),
+                AppLocalizations.of(context)
+                    .translate('auth.verification.title'),
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: 40,
@@ -28,24 +29,32 @@ class AccountVerification extends HookConsumerWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                AppLocalizations.of(context).translate('auth.verification.description'),
+                AppLocalizations.of(context)
+                    .translate('auth.verification.description'),
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.primary, fontSize: 16),
               ),
               InputField(
-                label: AppLocalizations.of(context).translate('auth.verification.code'),
-                hint: AppLocalizations.of(context).translate('auth.verification.label'),
+                label: AppLocalizations.of(context)
+                    .translate('auth.verification.code'),
+                hint: AppLocalizations.of(context)
+                    .translate('auth.verification.label'),
                 icon: const Icon(Icons.lock),
                 onChanged: (value) {},
               ),
               const SizedBox(height: 16),
               PrimaryButton(
-                text: AppLocalizations.of(context).translate('auth.verification.submit'),
+                text: AppLocalizations.of(context)
+                    .translate('auth.verification.submit'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
-              SecondaryButton(text: AppLocalizations.of(context).translate('auth.verification.sendBack'), onPressed: () {})
+              SecondaryButton(
+                  text: AppLocalizations.of(context)
+                      .translate('auth.verification.sendBack'),
+                  onPressed: () {})
             ],
           ),
         ),

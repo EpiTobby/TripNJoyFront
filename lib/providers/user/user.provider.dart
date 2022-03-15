@@ -5,7 +5,7 @@ import '../../models/user/user.model.dart';
 import '../../services/user/user.service.dart';
 
 final userProvider =
-    StateNotifierProvider.autoDispose<UserService, AsyncValue<User>>((ref) {
+    StateNotifierProvider.autoDispose<UserService, AsyncValue<User?>>((ref) {
   final httpService = ref.watch(dioProvider);
   return UserService(httpService);
 });

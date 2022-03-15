@@ -9,6 +9,7 @@ import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
 import 'package:trip_n_joy_front/screens/auth/verification.screen.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
 
@@ -137,7 +138,8 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
                 child: Wrap(
                   children: [
                     Text(
-                      AppLocalizations.of(context).translate('errors.unexpected'),
+                      AppLocalizations.of(context)
+                          .translate('errors.unexpected'),
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 20,
@@ -149,7 +151,8 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
                 ),
               ),
               PrimaryButton(
-                text: AppLocalizations.of(context).translate('common.reconnect'),
+                text:
+                    AppLocalizations.of(context).translate('common.reconnect'),
                 onPressed: () {},
               ),
             ],
