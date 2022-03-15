@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 
+import '../../providers/auth/auth.provider.dart';
 import '../../widgets/common/button.widget.dart';
 import '../../widgets/common/input.widget.dart';
 
@@ -15,6 +17,8 @@ class AccountVerification extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authService = ref.watch(authProvider);
+    final code = useState('');
     final resendCountdown = useState(0);
     useEffect(() {
       final timer = Timer.periodic(Duration(seconds: 1), (timer) {
@@ -53,15 +57,21 @@ class AccountVerification extends HookConsumerWidget {
                 hint: AppLocalizations.of(context)
                     .translate('auth.verification.label'),
                 icon: const Icon(Icons.lock),
-                onChanged: (value) {},
+                isError: authService.verifyAccountState.isError,
+                onChanged: (value) {
+                  code.value = value;
+                },
               ),
               const SizedBox(height: 16),
               PrimaryButton(
                 text: AppLocalizations.of(context)
                     .translate('auth.verification.submit'),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  authService.verifyAccount(code.value).then((value) =>
+                      {if (value != null) Navigator.of(context).pop()});
                 },
+                isLoading: authService.verifyAccountState.isLoading,
+                isDisabled: code.value.isEmpty,
               ),
               SecondaryButton(
                   text: resendCountdown.value == 0

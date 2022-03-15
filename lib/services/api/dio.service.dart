@@ -123,4 +123,16 @@ class DioService extends HttpService {
       method: Method.DELETE,
     );
   }
+
+  @override
+  Future<SessionToken> verifyAccount(String code) async {
+    final response = await request(
+      url: "/confirm",
+      method: Method.POST,
+      params: {
+        "code": code,
+      },
+    );
+    return SessionToken.fromJson(response.data);
+  }
 }

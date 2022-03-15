@@ -35,18 +35,31 @@ class MockService extends HttpService {
   Future<SessionToken> login(String email, String password) {
     var sessionToken = SessionToken();
     sessionToken.token = "token";
-    return Future.value(sessionToken);
+    return Future.delayed(Duration(seconds: 1), () {
+      return sessionToken;
+    });
   }
 
   @override
   Future<SessionToken> signup(SignupCredentials data) {
     var sessionToken = SessionToken();
     sessionToken.token = "token";
-    return Future.value(sessionToken);
+    return Future.delayed(Duration(seconds: 1), () {
+      return sessionToken;
+    });
   }
 
   @override
   Future<void> deleteUser(String token) {
     return Future.value();
+  }
+
+  @override
+  Future<SessionToken> verifyAccount(String code) {
+    var sessionToken = SessionToken();
+    sessionToken.token = "token";
+    return Future.delayed(Duration(seconds: 1), () {
+      return sessionToken;
+    });
   }
 }
