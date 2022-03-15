@@ -134,7 +134,10 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     .translate("settings.deleteAccount"),
                 icon: const Icon(Icons.close),
                 customColor: Theme.of(context).colorScheme.error,
-                onPressed: () {},
+                onPressed: () async {
+                  await authService.logout();
+                  ref.read(userProvider.notifier).deleteUser(authService.token!);
+                },
               )),
             ])
       ],

@@ -15,4 +15,5 @@ abstract class HttpService {
   Future<User> loadUser(String token);
   Future<SessionToken> login(String email, String password);
   Future<SessionToken> signup(SignupCredentials data);
+  Future<void> deleteUser(String token);
 }

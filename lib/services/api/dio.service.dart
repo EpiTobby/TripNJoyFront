@@ -115,4 +115,12 @@ class DioService extends HttpService {
     );
     return SessionToken.fromJson(response.data);
   }
+
+  @override
+  Future<void> deleteUser(String token) async {
+    await request(
+      url: '/user' + token,
+      method: Method.DELETE,
+    );
+  }
 }

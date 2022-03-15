@@ -44,4 +44,9 @@ class MockService extends HttpService {
     sessionToken.token = "token";
     return Future.value(sessionToken);
   }
+
+  @override
+  Future<void> deleteUser(String token) {
+    return Future.value();
+  }
 }

@@ -20,4 +20,16 @@ class UserService extends StateNotifier<AsyncValue<User>> {
       state = AsyncError(e);
     }
   }
+
+  Future<void> deleteUser(String token) async {
+    try {
+      state = const AsyncLoading();
+      await httpService
+          .deleteUser(token)
+          .timeout(const Duration(seconds: 10));
+      state = AsyncData(user); // TODO: change to null user
+    } catch (e) {
+      state = AsyncError(e);
+    }
+  }
 }
