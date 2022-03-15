@@ -1,16 +1,71 @@
 {
-  "groups": {
-    "title": "Groups"
+  "common": {
+    "login": "Connect",
+    "logout": "Disconnect",
+    "reconnect": "Reconnect",
+    "description": "Description",
+    "account": "Account",
+    "gender": "Gender",
+    "back": "Back",
+    "cancel": "Cancel",
+    "save": "Save",
+    "submit": "Submit",
+    "tryAgain": "Try again"
   },
-  "settings": {
-    "title": "Settings"
+  "user" : {
+    "firstname": "Firstname",
+    "lastname": "Lastname",
+    "email": "Email",
+    "password": "Password",
+    "phoneNumber": "Phone number",
+    "birthDate": "Birth date",
+    "gender": {
+      "man": "Man",
+      "woman": "Woman",
+      "other": "Other"
+    }
   },
   "auth": {
+    "firstname": "Your firstname",
+    "lastname": "Your lastname",
+    "email": "Your email",
+    "password": "Your password",
+    "phoneNumber": "Your phone number",
+    "createAccount": "Create an account",
     "verification": {
       "title": "Account Verification",
       "description": "Please enter the code sent to your email address to activate your account.",
       "code": "Code",
-      "submit": "Verify"
+      "label": "Enter the code",
+      "submit": "Verify",
+      "sendBack": "Send a new code"
     }
+  },
+  "groups": {
+    "title": "Groups",
+    "members": "Members",
+    "settings": {
+      "about": "About the group",
+      "groupName": "Name of the group",
+      "groupSettings": "Settings for the group",
+      "close": "Close the group",
+      "archive": "Archive the group",
+      "quit": "Quit the group"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "about": "About me",
+    "firstname": "Change the firstname",
+    "lastname": "Change the lastname",
+    "noPhoneNumber": "No phone number",
+    "theme": "Theme",
+    "darkMode": "Dark mode",
+    "lightMode": "Light mode",
+    "deleteAccount": "Delete my account"
+  },
+  "errors": {
+    "login": "Wrong email or password",
+    "unexpected": "An error occurred, please reconnect."
   }
 }

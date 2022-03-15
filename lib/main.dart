@@ -134,7 +134,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
                 child: Wrap(
                   children: [
                     Text(
-                      "Une erreur est survenue, veuillez vous reconnectez.",
+                      AppLocalizations.of(context).translate('errors.unexpected'),
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 20,
@@ -146,7 +146,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
                 ),
               ),
               PrimaryButton(
-                text: "Se reconnecter",
+                text: AppLocalizations.of(context).translate('common.reconnect'),
                 onPressed: () {},
               ),
             ],

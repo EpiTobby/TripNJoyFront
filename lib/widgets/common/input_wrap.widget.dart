@@ -16,7 +16,7 @@ class InputWrap extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-                padding: EdgeInsets.only(bottom: 5, left: 10),
+                padding: const EdgeInsets.only(bottom: 5, left: 10),
                 child: Text(
                   label,
                   style: TextStyle(
@@ -41,7 +41,7 @@ class InputWrap extends StatelessWidget {
                       children: [
                         if (icon != null)
                           Padding(
-                              padding: EdgeInsets.only(right: 5),
+                              padding: const EdgeInsets.only(right: 5),
                               child: Icon(icon!.icon,
                                   color: Theme.of(context)
                                       .colorScheme

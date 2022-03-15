@@ -51,7 +51,7 @@ class InputField extends StatelessWidget {
                     : Theme.of(context).colorScheme.secondary,
                 labelText: hint,
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                   borderSide: BorderSide(
                     width: 2,
                     color: isError
@@ -60,7 +60,7 @@ class InputField extends StatelessWidget {
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                   borderSide: BorderSide(
                       width: 2,
                       color: isError
@@ -68,7 +68,7 @@ class InputField extends StatelessWidget {
                           : Theme.of(context).colorScheme.secondary),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                   borderSide: BorderSide(
                       width: 2, color: Theme.of(context).colorScheme.tertiary),
                 ),

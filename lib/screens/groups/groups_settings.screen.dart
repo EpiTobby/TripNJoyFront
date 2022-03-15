@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
@@ -20,9 +21,9 @@ class _GroupsSettingsState extends State<GroupsSettings> {
         LayoutHeader(
             imageURL:
                 "https://cdn.discordapp.com/avatars/297465470133731329/a9c6e37f6959a30d98038743c799a21f.webp?size=240"),
-        LayoutBox(title: "Information sur le groupe", children: [
+        LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.about"), children: [
           LayoutItem(
-            title: "Nom du groupe",
+            title: AppLocalizations.of(context).translate("groups.settings.groupName"),
             child: LayoutItemValue(
               value: "Direction Marseille!",
               icon: const Icon(Icons.keyboard_arrow_right_sharp),
@@ -30,7 +31,7 @@ class _GroupsSettingsState extends State<GroupsSettings> {
             ),
           ),
           LayoutItem(
-            title: "Description",
+            title: AppLocalizations.of(context).translate("common.description"),
             child: LayoutItemValue(
               value:
                   "Ce groupe est destiné à ...", // TODO : handle overflow of the text
@@ -39,7 +40,7 @@ class _GroupsSettingsState extends State<GroupsSettings> {
             ),
           ),
           LayoutItem(
-              title: "Membres",
+              title: AppLocalizations.of(context).translate("groups.members"),
               child: Column(
                 children: [
                   LayoutMember(
@@ -54,22 +55,22 @@ class _GroupsSettingsState extends State<GroupsSettings> {
                 ],
               )),
         ]),
-        LayoutBox(title: "Paramètres du groupe", children: [
+        LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.groupSettings"), children: [
           LayoutItem(
               child: LayoutItemValue(
-            value: "Fermer le groupe",
+            value: AppLocalizations.of(context).translate("groups.settings.close"),
             icon: const Icon(Icons.lock_outline),
             onPressed: () {},
           )),
           LayoutItem(
               child: LayoutItemValue(
-            value: "Archiver le groupe",
+            value: AppLocalizations.of(context).translate("groups.settings.archive"),
             icon: const Icon(Icons.archive_outlined),
             onPressed: () {},
           )),
           LayoutItem(
               child: LayoutItemValue(
-            value: "Quitter le groupe",
+            value: AppLocalizations.of(context).translate("groups.settings.quit"),
             icon: const Icon(Icons.exit_to_app),
             customColor: Theme.of(context).colorScheme.error,
             onPressed: () {},

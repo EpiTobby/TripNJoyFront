@@ -28,7 +28,8 @@ class AuthService extends ChangeNotifier {
       loginState = const AsyncValue.data(null);
       return await saveToken(sessionToken.token!);
     } catch (e) {
-      loginState = AsyncValue.error("Identifiants incorrects");
+      loginState = AsyncValue.error(
+          "Identifiants incorrects"); // TODO: add translations but need to handle call with context
     } finally {
       notifyListeners();
     }
@@ -43,7 +44,8 @@ class AuthService extends ChangeNotifier {
       signupState = const AsyncValue.data(null);
       return await saveToken(sessionToken.token!);
     } catch (e) {
-      signupState = AsyncValue.error("Identifiants incorrects");
+      signupState = AsyncValue.error(
+          "Identifiants incorrects"); // TODO: add translations but need to handle call with context
     } finally {
       notifyListeners();
     }

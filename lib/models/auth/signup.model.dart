@@ -1,5 +1,5 @@
 class SignupCredentials {
-  String _gender = "MEN";
+  String _gender = "MAN";
   String _firstname = "";
   String _lastname = "";
   String _birthDate = "";

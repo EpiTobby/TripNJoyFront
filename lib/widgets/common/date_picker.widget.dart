@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/widgets/common/input_wrap.widget.dart';
 
 class DatePicker extends StatelessWidget {
@@ -18,7 +19,9 @@ class DatePicker extends StatelessWidget {
         label: label,
         icon: const Icon(Icons.date_range),
         child: GestureDetector(
-          child: Text(DateFormat("EEE d MMM yyyy").format(selectedDate)),
+          child: Text(DateFormat("EEE d MMM yyyy",
+                  AppLocalizations.of(context).locale.countryCode)
+              .format(selectedDate)),
           onTap: () async {
             final DateTime? picked = await showDatePicker(
               context: context,
