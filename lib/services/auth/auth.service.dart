@@ -51,6 +51,12 @@ class AuthService extends ChangeNotifier {
     }
   }
 
+  void logout() async {
+    await storage.delete(key: tokenKey);
+    token = null;
+    notifyListeners();
+  }
+
   Future<String> saveToken(String token) async {
     await storage.delete(key: tokenKey);
     await storage.write(key: tokenKey, value: token);

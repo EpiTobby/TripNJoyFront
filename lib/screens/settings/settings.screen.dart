@@ -8,6 +8,7 @@ import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 
 import '../../models/user/user.model.dart';
+import '../../providers/auth/auth.provider.dart';
 import '../../providers/user/user.provider.dart';
 import '../../widgets/common/input_dialog.widget.dart';
 
@@ -24,7 +25,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     var settingsService = ref.watch(settingsProvider);
+    final authService = ref.watch(authProvider);
     var user = ref.watch(userProvider).value as User;
+
     return ListView(
       children: <Widget>[
         LayoutHeader(
@@ -121,7 +124,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   child: LayoutItemValue(
                 value: AppLocalizations.of(context).translate("common.logout"),
                 icon: const Icon(Icons.exit_to_app),
-                onPressed: () {},
+                onPressed: () {
+                  authService.logout();
+                },
               )),
               LayoutItem(
                   child: LayoutItemValue(
