@@ -63,10 +63,15 @@ class SecondaryButton extends StatelessWidget {
         child: OutlinedButton(
             style: OutlinedButton.styleFrom(
                 side: BorderSide(
-                    color: Theme.of(context).colorScheme.secondary, width: 2),
+                    color: isDisabled
+                        ? Theme.of(context).colorScheme.primaryContainer
+                        : Theme.of(context).colorScheme.secondary,
+                    width: 2),
                 textStyle: TextStyle(
                     fontSize: 16,
-                    color: Theme.of(context).colorScheme.secondary),
+                    color: isDisabled
+                        ? Theme.of(context).colorScheme.primaryContainer
+                        : Theme.of(context).colorScheme.secondary),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 shape: RoundedRectangleBorder(
@@ -78,7 +83,9 @@ class SecondaryButton extends StatelessWidget {
                 ? const CircularProgressIndicator()
                 : Text(text,
                     style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary))));
+                        color: isDisabled
+                            ? Theme.of(context).colorScheme.primaryContainer
+                            : Theme.of(context).colorScheme.secondary))));
   }
 }
 

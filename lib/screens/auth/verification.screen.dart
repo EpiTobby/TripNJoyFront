@@ -20,6 +20,7 @@ class AccountVerification extends HookConsumerWidget {
     final authService = ref.watch(authProvider);
     final code = useState('');
     final resendCountdown = useState(0);
+
     useEffect(() {
       final timer = Timer.periodic(Duration(seconds: 1), (timer) {
         if (resendCountdown.value > 0) {
@@ -28,6 +29,10 @@ class AccountVerification extends HookConsumerWidget {
       });
       return timer.cancel;
     }, [resendCountdown]);
+
+    ref.listen<AsyncValue<void>>(authVerifyAccountStateProvider,
+        (_, state) => state.showSnackBarOnError(context));
+
     return Scaffold(
       body: Center(
         child: Padding(

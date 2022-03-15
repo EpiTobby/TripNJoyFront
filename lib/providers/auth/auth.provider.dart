@@ -12,3 +12,5 @@ final authLoginStateProvider =
     StateProvider((ref) => ref.watch(authProvider).loginState);
 final authSignupStateProvider =
     StateProvider((ref) => ref.watch(authProvider).signupState);
+final authVerifyAccountStateProvider =
+    StateProvider((ref) => ref.watch(authProvider).verifyAccountState);
