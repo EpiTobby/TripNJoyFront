@@ -66,6 +66,10 @@ class _LoginState extends ConsumerState<Login> {
                     text: AppLocalizations.of(context)
                         .translate("auth.createAccount"),
                     onPressed: () => stepProvider.signUp()),
+                TertiaryButton(
+                    text: AppLocalizations.of(context)
+                        .translate("auth.forgotPassword"),
+                    onPressed: () {}),
               ],
             )),
       ],

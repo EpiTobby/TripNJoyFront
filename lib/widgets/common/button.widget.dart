@@ -26,7 +26,7 @@ class PrimaryButton extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                minimumSize: const Size(170, 48)),
+                minimumSize: const Size(180, 48)),
             onPressed: () => onPressed(),
             child: isLoading
                 ? SizedBox(
@@ -68,12 +68,39 @@ class SecondaryButton extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                minimumSize: const Size(170, 48)),
+                minimumSize: const Size(180, 48)),
             onPressed: () => onPressed(),
             child: isLoading
                 ? const CircularProgressIndicator()
                 : Text(text,
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.secondary))));
+  }
+}
+
+class TertiaryButton extends StatelessWidget {
+  const TertiaryButton({
+    Key? key,
+    required String this.text,
+    bool this.isLoading = false,
+    required Function this.onPressed,
+  }) : super(key: key);
+
+  final String text;
+  final bool isLoading;
+  final Function onPressed;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          textStyle: const TextStyle(fontSize: 16),
+        ),
+        onPressed: () => onPressed(),
+        child: Text(text,
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
+      ),
+    );
   }
 }

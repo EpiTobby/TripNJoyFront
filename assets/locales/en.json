@@ -32,6 +32,7 @@
     "password": "Your password",
     "phoneNumber": "Your phone number",
     "createAccount": "Create an account",
+    "forgotPassword": "Forgot your password?",
     "verification": {
       "title": "Account Verification",
       "description": "Please enter the code sent to your email address to activate your account.",
