@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
@@ -6,6 +7,7 @@ import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
+import 'package:trip_n_joy_front/screens/auth/verification.screen.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
 
@@ -99,6 +101,12 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     useEffect(() {
       if (authService.isAuthenticated) {
         ref.read(userProvider.notifier).loadUser(authService.token!);
+      }
+      if (true) {
+        SchedulerBinding.instance?.endOfFrame.then((_) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => AccountVerification()));
+        });
       }
       return null;
     }, [authService]);

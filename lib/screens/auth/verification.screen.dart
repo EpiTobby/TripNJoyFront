@@ -45,7 +45,8 @@ class AccountVerification extends HookConsumerWidget {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-              )
+              ),
+              SecondaryButton(text: 'Renvoyer le code', onPressed: () {})
             ],
           ),
         ),
