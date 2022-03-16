@@ -68,6 +68,13 @@
   },
   "errors": {
     "login": "Wrong email or password",
-    "unexpected": "An error occurred, please reconnect."
+    "unexpected": "An error occurred, please reconnect.",
+    "exceptions": {
+      "unauthorized": "Unauthorized",
+      "serverError": "Server error",
+      "unexpected": "An error occured",
+      "responseFormat": "Bad response format"
+    },
+    "internet": "No internet connection"
   }
 }

@@ -68,6 +68,13 @@
   },
   "errors": {
     "login": "Identifiants incorrects",
-    "unexpected": "Une erreur est survenue, veuillez vous reconnectez."
+    "unexpected": "Une erreur est survenue, veuillez vous reconnectez.",
+    "exceptions": {
+      "unauthorized": "Non autorisé",
+      "serverError": "Erreur de serveur",
+      "unexpected": "Une erreur est survenue",
+      "responseFormat": "Mauvais format de réponse"
+    },
+    "internet": "Pas de connexion internet"
   }
 }
