@@ -42,12 +42,19 @@ dependencies:
   intl: ^0.17.0
   flutter_i18n: ^0.32.0
   flutter_secure_storage: ^5.0.2
+  chopper: ^4.0.1
+  json_annotation: ^4.1.0
+  jwt_decode: ^0.3.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  build_runner: ^2.1.4
+  chopper_generator: ^4.0.2
+  json_serializable: ^5.0.0
+  swagger_dart_code_generator: any
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
