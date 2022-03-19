@@ -11,6 +11,7 @@ class AuthService extends ChangeNotifier {
   AuthService(this.httpService, this.storage) {
     httpService.init();
   }
+
   final HttpService httpService;
   final FlutterSecureStorage storage;
   String? token;
@@ -28,8 +29,9 @@ class AuthService extends ChangeNotifier {
     try {
       var sessionToken = await httpService.login(email, password);
       loginState = const AsyncValue.data(null);
-      return await saveToken(sessionToken.token!);
+      return await saveToken(sessionToken!.token!);
     } catch (e) {
+      logger.e(e.toString(), e);
       loginState = AsyncValue.error(AppLocalizations.instance.translate(
           "errors.login")); // not safe as instance could result to null if error on load
     } finally {
@@ -42,10 +44,15 @@ class AuthService extends ChangeNotifier {
     signupState = const AsyncValue.loading();
     notifyListeners();
     try {
-      var sessionToken = await httpService.signup(data);
-      signupState = const AsyncValue.data(null);
-      return await saveToken(sessionToken.token!);
+      var user = await httpService.signup(data);
+      if (user != null) {
+        signupState = const AsyncValue.data(null);
+        return await login(data.email, data.password);
+      }
+      signupState =
+          AsyncValue.error(AppLocalizations.instance.translate("errors.login"));
     } catch (e) {
+      logger.e(e.toString(), e);
       signupState = AsyncValue.error(AppLocalizations.instance.translate(
           "errors.login")); // not safe as instance could result to null if error on load
     } finally {
@@ -53,15 +60,19 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  Future<String?> verifyAccount(String code) async {
+  Future<bool?> verifyAccount(String code) async {
     logger.d('confirm code : $code');
     verifyAccountState = const AsyncValue.loading();
     notifyListeners();
+    var userId = httpService.getUserIdFromToken(token);
     try {
-      var sessionToken = await httpService.verifyAccount(code);
-      verifyAccountState = const AsyncValue.data(null);
-      return await saveToken(sessionToken.token!);
+      var isVerified = await httpService.verifyAccount(userId!, code);
+      verifyAccountState = isVerified
+          ? const AsyncValue.data(null)
+          : const AsyncValue.error("Code incorrect");
+      return isVerified;
     } catch (e) {
+      logger.e(e.toString(), e);
       verifyAccountState = AsyncValue.error(
           "Code incorrect"); // TODO: add translations but need to handle call with context
     } finally {

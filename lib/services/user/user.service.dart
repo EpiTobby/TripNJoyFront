@@ -1,21 +1,20 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../models/user/user.model.dart';
+import '../../codegen/api.swagger.dart';
 import '../api/http.service.dart';
-import '../log/logger.service.dart';
 
-class UserService extends StateNotifier<AsyncValue<User?>> {
+class UserService extends StateNotifier<AsyncValue<UserModel?>> {
   UserService(this.httpService) : super(const AsyncValue.loading());
   final HttpService httpService;
-  User? user;
+  UserModel? user;
 
   Future<void> loadUser(String token) async {
     try {
       state = const AsyncLoading();
       user = await httpService
-          .loadUser(token)
+          .loadUser(httpService.getUserIdFromToken(token))
           .timeout(const Duration(seconds: 10));
-      state = AsyncData(user!);
+      state = AsyncData(user);
     } catch (e) {
       state = AsyncError(e);
     }
