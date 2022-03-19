@@ -34,7 +34,7 @@ class ForgotPassword extends HookConsumerWidget {
                     .translate('auth.forgot_password.title'),
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
-                    fontSize: 40,
+                    fontSize: 32,
                     fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
@@ -72,8 +72,7 @@ class ForgotPassword extends HookConsumerWidget {
                 isDisabled: email.value.isEmpty,
               ),
               SecondaryButton(
-                  text: AppLocalizations.of(context)
-                      .translate('auth.common.back'),
+                  text: AppLocalizations.of(context).translate('common.back'),
                   onPressed: () => Navigator.pop(context)),
             ],
           ),

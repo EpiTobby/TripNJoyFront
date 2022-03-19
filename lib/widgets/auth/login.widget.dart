@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
+import 'package:trip_n_joy_front/screens/auth/forgot_password.screen.dart';
 
 import '../../providers/auth/auth.provider.dart';
 import '../../providers/auth/auth_step.provider.dart';
@@ -69,7 +70,10 @@ class _LoginState extends ConsumerState<Login> {
                 TertiaryButton(
                     text: AppLocalizations.of(context)
                         .translate("auth.forgotPassword"),
-                    onPressed: () {}),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ForgotPassword()))),
               ],
             )),
       ],

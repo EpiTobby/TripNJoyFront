@@ -37,7 +37,7 @@ class ResetPassword extends HookConsumerWidget {
                     .translate('auth.reset_password.title'),
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
-                    fontSize: 40,
+                    fontSize: 32,
                     fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
@@ -83,11 +83,10 @@ class ResetPassword extends HookConsumerWidget {
                   });
                 },
                 isLoading: authService.resetPasswordState.isLoading,
-                isDisabled: code.value.isEmpty,
+                isDisabled: code.value.isEmpty || password.value.isEmpty,
               ),
               SecondaryButton(
-                  text: AppLocalizations.of(context)
-                      .translate('auth.common.back'),
+                  text: AppLocalizations.of(context).translate('common.back'),
                   onPressed: () => Navigator.of(context).pop()),
             ],
           ),
