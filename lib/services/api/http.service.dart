@@ -1,7 +1,4 @@
-import 'package:trip_n_joy_front/models/user/user.model.dart';
-
 import '../../codegen/api.swagger.dart';
-import '../../models/auth/session_token.model.dart';
 import '../../models/auth/signup.model.dart';
 
 enum Method { POST, GET, PUT, DELETE, PATCH }
@@ -11,7 +8,7 @@ abstract class HttpService {
 
   void initInterceptors();
 
-  Future<UserModel?> loadUser(int id);
+  Future<UserModel?> loadUser(int? id);
 
   Future<LoginResponse?> login(String email, String password);
 
@@ -22,4 +19,6 @@ abstract class HttpService {
   Future<void> deleteUser(String token);
 
   Future<String> updateFirstname(String token, String firstname);
+
+  int? getUserIdFromToken(String? token);
 }

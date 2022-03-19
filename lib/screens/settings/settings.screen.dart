@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 
-import '../../models/user/user.model.dart';
 import '../../providers/auth/auth.provider.dart';
 import '../../providers/user/user.provider.dart';
 import '../../widgets/common/input_dialog.widget.dart';
@@ -26,7 +26,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   Widget build(BuildContext context) {
     var settingsService = ref.watch(settingsProvider);
     final authService = ref.watch(authProvider);
-    var user = ref.watch(userProvider).value as User;
+    var user = ref.watch(userProvider).value as UserModel;
 
     return ListView(
       children: <Widget>[
@@ -135,7 +135,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 icon: const Icon(Icons.close),
                 customColor: Theme.of(context).colorScheme.error,
                 onPressed: () async {
-                  ref.read(userProvider.notifier).deleteUser(authService.token!);
+                  ref
+                      .read(userProvider.notifier)
+                      .deleteUser(authService.token!);
                   authService.logout();
                 },
               )),

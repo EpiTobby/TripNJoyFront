@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:jwt_decode/jwt_decode.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 
 import '../api/http.service.dart';
 import '../log/logger.service.dart';
-import '../auth/auth.service.dart';
 
 class AuthService extends ChangeNotifier {
   AuthService(this.httpService, this.storage) {
@@ -66,7 +64,7 @@ class AuthService extends ChangeNotifier {
     logger.d('confirm code : $code');
     verifyAccountState = const AsyncValue.loading();
     notifyListeners();
-    var userId = getUserIdFromToken(token);
+    var userId = httpService.getUserIdFromToken(token);
     try {
       var isVerified = await httpService.verifyAccount(userId!, code);
       verifyAccountState = isVerified
@@ -99,13 +97,5 @@ class AuthService extends ChangeNotifier {
     token = await storage.read(key: tokenKey);
     notifyListeners();
     return token;
-  }
-
-  static int? getUserIdFromToken(String? token) {
-    if (token == null) {
-      return null;
-    }
-    Map<String, dynamic> payload = Jwt.parseJwt(token!);
-    return int.parse(payload['userId']);
   }
 }

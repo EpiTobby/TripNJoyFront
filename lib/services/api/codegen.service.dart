@@ -1,14 +1,7 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
-import 'package:trip_n_joy_front/app_localizations.dart';
-import 'package:trip_n_joy_front/models/auth/session_token.model.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
-import 'package:trip_n_joy_front/models/user/user.model.dart';
 
 import '../../codegen/api.swagger.dart';
-import '../log/logger.service.dart';
 import 'http.service.dart';
 
 const BASE_URL = String.fromEnvironment("BASE_URL");
@@ -18,16 +11,21 @@ class CodegenService extends HttpService {
 
   static header() => {"Content-Type": "application/json"};
 
+  @override
   Future<HttpService> init() async {
     api = Api.create(baseUrl: BASE_URL);
     initInterceptors();
     return this;
   }
 
+  @override
   void initInterceptors() {}
 
   @override
-  Future<UserModel?> loadUser(int id) async {
+  Future<UserModel?> loadUser(int? id) async {
+    if (id == null) {
+      return null;
+    }
     final response = await api.usersIdGet(id: id);
     return response.body;
   }
@@ -69,5 +67,14 @@ class CodegenService extends HttpService {
   Future<String> updateFirstname(String token, String firstname) {
     // TODO: implement updateFirstname
     throw UnimplementedError();
+  }
+
+  @override
+  int? getUserIdFromToken(String? token) {
+    if (token == null) {
+      return null;
+    }
+    Map<String, dynamic> payload = Jwt.parseJwt(token);
+    return int.parse(payload['userId']);
   }
 }

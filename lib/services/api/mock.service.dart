@@ -1,7 +1,6 @@
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/auth/session_token.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-import 'package:trip_n_joy_front/models/user/user.model.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 
 class MockService extends HttpService {
@@ -14,7 +13,7 @@ class MockService extends HttpService {
   void initInterceptors() {}
 
   @override
-  Future<UserModel?> loadUser(int id) async {
+  Future<UserModel?> loadUser(int? id) async {
     return UserModel(
         firstname: "Tony",
         lastname: "Heng",
@@ -56,5 +55,10 @@ class MockService extends HttpService {
     return Future.delayed(Duration(seconds: 1), () {
       return firstname;
     });
+  }
+
+  @override
+  int? getUserIdFromToken(String? token) {
+    return 1;
   }
 }
