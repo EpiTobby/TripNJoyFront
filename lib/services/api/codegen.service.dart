@@ -75,6 +75,12 @@ class CodegenService extends HttpService {
       return null;
     }
     Map<String, dynamic> payload = Jwt.parseJwt(token);
-    return int.parse(payload['userId']);
+    var id = payload['userId'];
+
+    if (id.runtimeType == int) {
+      return id;
+    }
+
+    return int.parse(id);
   }
 }

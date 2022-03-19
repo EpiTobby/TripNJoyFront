@@ -106,7 +106,9 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
       });
       return null;
     }, []);
+
     final step = ref.watch(authStepProvider) as AuthStep;
+
     if (!authService.isAuthenticated) {
       return Auth();
     }
@@ -138,6 +140,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
               bottomNavigationBar: Navbar(),
             ),
         error: (error, r) {
+          logger.e(error, r);
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -162,7 +165,9 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
               PrimaryButton(
                 text:
                     AppLocalizations.of(context).translate('common.reconnect'),
-                onPressed: () {},
+                onPressed: () {
+                  authService.logout();
+                },
               ),
             ],
           );

@@ -24,7 +24,7 @@ abstract class Api extends ChopperService {
     final newClient = ChopperClient(
         services: [_$Api()],
         converter: $JsonSerializableConverter(),
-        baseUrl: baseUrl ?? 'http://localhost:8080');
+        baseUrl: baseUrl!.isNotEmpty ? baseUrl.toString() : 'http://localhost:8080');
     return _$Api(newClient);
   }
 

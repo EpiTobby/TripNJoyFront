@@ -73,8 +73,8 @@ class AuthService extends ChangeNotifier {
       return isVerified;
     } catch (e) {
       logger.e(e.toString(), e);
-      verifyAccountState = AsyncValue.error(
-          "Code incorrect"); // TODO: add translations but need to handle call with context
+      verifyAccountState = AsyncValue.error(AppLocalizations.instance.translate(
+          'errors.wrongCodeConfirmation')); // TODO: add translations but need to handle call with context
     } finally {
       notifyListeners();
     }

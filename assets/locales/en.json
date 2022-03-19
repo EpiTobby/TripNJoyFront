@@ -75,6 +75,7 @@
       "unexpected": "An error occured",
       "responseFormat": "Bad response format"
     },
-    "internet": "No internet connection"
+    "internet": "No internet connection",
+    "wrongCodeConfirmation": "Wrong confirmation code"
   }
 }

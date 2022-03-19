@@ -75,6 +75,7 @@
       "unexpected": "Une erreur est survenue",
       "responseFormat": "Mauvais format de réponse"
     },
-    "internet": "Pas de connexion internet"
+    "internet": "Pas de connexion internet",
+    "wrongCodeConfirmation": "Code incorrect"
   }
 }
