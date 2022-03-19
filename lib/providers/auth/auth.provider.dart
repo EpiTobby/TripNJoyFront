@@ -14,3 +14,7 @@ final authSignupStateProvider =
     StateProvider((ref) => ref.watch(authProvider).signupState);
 final authVerifyAccountStateProvider =
     StateProvider((ref) => ref.watch(authProvider).verifyAccountState);
+final authForgotPasswordStateProvider =
+    StateProvider((ref) => ref.watch(authProvider).forgotPasswordState);
+final authResetPasswordStateProvider =
+    StateProvider((ref) => ref.watch(authProvider).resetPasswordState);

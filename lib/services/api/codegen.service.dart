@@ -77,4 +77,19 @@ class CodegenService extends HttpService {
     Map<String, dynamic> payload = Jwt.parseJwt(token);
     return int.parse(payload['userId']);
   }
+
+  @override
+  Future<void> forgotPassword(String email) async {
+    await api.authForgotpasswordPost(
+        forgotPasswordRequest: ForgotPasswordRequest(email: email));
+  }
+
+  @override
+  Future<UserIdResponse?> resetPassword(
+      String email, String code, String password) async {
+    final response = await api.authValidatepasswordPost(
+        validateCodePasswordRequest: ValidateCodePasswordRequest(
+            email: email, newPassword: password, value: code));
+    return response.body;
+  }
 }

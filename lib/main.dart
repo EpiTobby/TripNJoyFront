@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
@@ -9,19 +10,16 @@ import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
 import 'package:trip_n_joy_front/screens/auth/verification.screen.dart';
-import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
 
+import 'app_localizations.dart';
 import 'constants/auth/auth_step.enum.dart';
 import 'constants/navbar/navbar.enum.dart';
 import 'screens/groups/groups.screen.dart';
 import 'screens/matchmaking/matchmaking.screen.dart';
 import 'screens/notification/notification.screen.dart';
 import 'screens/settings/settings.screen.dart';
-
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'app_localizations.dart';
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
@@ -162,7 +160,9 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
               PrimaryButton(
                 text:
                     AppLocalizations.of(context).translate('common.reconnect'),
-                onPressed: () {},
+                onPressed: () {
+                  authService.logout();
+                },
               ),
             ],
           );

@@ -21,4 +21,9 @@ abstract class HttpService {
   Future<String> updateFirstname(String token, String firstname);
 
   int? getUserIdFromToken(String? token);
+
+  Future<void> forgotPassword(String email);
+
+  Future<UserIdResponse?> resetPassword(
+      String email, String code, String password);
 }

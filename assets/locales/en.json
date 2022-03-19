@@ -12,7 +12,7 @@
     "submit": "Submit",
     "tryAgain": "Try again"
   },
-  "user" : {
+  "user": {
     "firstname": "Firstname",
     "lastname": "Lastname",
     "email": "Email",
@@ -41,6 +41,22 @@
       "submit": "Verify",
       "sendBack": "Send a new code",
       "resendCountdown": "Resend in $time seconds"
+    },
+    "forgot_password": {
+      "title": "Forgot your password?",
+      "description": "Please enter your email address and we will send you a code to reset your password.",
+      "email": "Email",
+      "label": "Enter your email",
+      "submit": "Send code"
+    },
+    "reset_password": {
+      "title": "Reset your password",
+      "description": "Please enter the code sent by email and your new password.",
+      "password": "Password",
+      "password_label": "Enter your password",
+      "code": "Code",
+      "code_label": "Enter the code",
+      "submit": "Reset password"
     }
   },
   "groups": {

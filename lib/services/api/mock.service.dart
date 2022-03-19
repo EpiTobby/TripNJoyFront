@@ -61,4 +61,12 @@ class MockService extends HttpService {
   int? getUserIdFromToken(String? token) {
     return 1;
   }
+
+  @override
+  Future<void> forgotPassword(String email) async {}
+
+  Future<UserIdResponse?> resetPassword(
+      String email, String code, String password) async {
+    return UserIdResponse(userId: 1);
+  }
 }

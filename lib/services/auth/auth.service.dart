@@ -20,6 +20,8 @@ class AuthService extends ChangeNotifier {
   AsyncValue<void> loginState = const AsyncValue.data(null);
   AsyncValue<void> signupState = const AsyncValue.data(null);
   AsyncValue<void> verifyAccountState = const AsyncValue.data(null);
+  AsyncValue<void> forgotPasswordState = const AsyncValue.data(null);
+  AsyncValue<void> resetPasswordState = const AsyncValue.data(null);
 
   bool get isAuthenticated => token != null;
 
@@ -75,6 +77,38 @@ class AuthService extends ChangeNotifier {
       logger.e(e.toString(), e);
       verifyAccountState = AsyncValue.error(
           "Code incorrect"); // TODO: add translations but need to handle call with context
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> forgotPassword(String email) async {
+    logger.d('forgot password : $email');
+    forgotPasswordState = const AsyncValue.loading();
+    notifyListeners();
+    try {
+      await httpService.forgotPassword(email);
+      forgotPasswordState = const AsyncValue.data(null);
+    } catch (e) {
+      logger.e(e.toString(), e);
+      forgotPasswordState = AsyncValue.error(
+          "Une erreur est survenue, veuillez réessayer"); // TODO: add translations but need to handle call with context
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> resetPassword(String email, String code, String password) async {
+    logger.d('reset password : $code');
+    resetPasswordState = const AsyncValue.loading();
+    notifyListeners();
+    try {
+      await httpService.resetPassword(email, code, password);
+      resetPasswordState = const AsyncValue.data(null);
+    } catch (e) {
+      logger.e(e.toString(), e);
+      resetPasswordState = AsyncValue.error(
+          "Une erreur est survenue, veuillez réessayer"); // TODO: add translations but need to handle call with context
     } finally {
       notifyListeners();
     }
