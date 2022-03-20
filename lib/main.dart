@@ -10,6 +10,7 @@ import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
 import 'package:trip_n_joy_front/screens/auth/verification.screen.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
 
@@ -104,7 +105,9 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
       });
       return null;
     }, []);
+
     final step = ref.watch(authStepProvider) as AuthStep;
+
     if (!authService.isAuthenticated) {
       return Auth();
     }
@@ -136,6 +139,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
               bottomNavigationBar: Navbar(),
             ),
         error: (error, r) {
+          logger.e(error, r);
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

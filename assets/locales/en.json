@@ -40,8 +40,7 @@
       "label": "Enter the code",
       "submit": "Verify",
       "sendBack": "Send a new code",
-      "resendCountdown": "Resend in $time seconds",
-      "incorrectCode": "Incorrect code"
+      "resendCountdown": "Resend in $time seconds"
     },
     "forgot_password": {
       "title": "Forgot your password?",
@@ -92,6 +91,7 @@
       "unexpected": "An error occured",
       "responseFormat": "Bad response format"
     },
-    "internet": "No internet connection"
+    "internet": "No internet connection",
+    "wrongCodeConfirmation": "Wrong confirmation code"
   }
 }

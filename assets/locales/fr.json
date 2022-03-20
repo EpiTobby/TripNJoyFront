@@ -40,8 +40,7 @@
       "label": "Entrer le code",
       "submit": "Vérifier",
       "sendBack": "Renvoyer un code",
-      "resendCountdown": "Vous pouvez renvoyer le code dans $time secondes.",
-      "incorrectCode": "Code incorrect"
+      "resendCountdown": "Vous pouvez renvoyer le code dans $time secondes."
     },
     "forgot_password": {
       "title": "Mot de passe oublié ?",
@@ -92,6 +91,7 @@
       "unexpected": "Une erreur est survenue",
       "responseFormat": "Mauvais format de réponse"
     },
-    "internet": "Pas de connexion internet"
+    "internet": "Pas de connexion internet",
+    "wrongCodeConfirmation": "Code incorrect"
   }
 }
