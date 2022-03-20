@@ -40,7 +40,8 @@
       "label": "Enter the code",
       "submit": "Verify",
       "sendBack": "Send a new code",
-      "resendCountdown": "Resend in $time seconds"
+      "resendCountdown": "Resend in $time seconds",
+      "incorrectCode": "Incorrect code"
     },
     "forgot_password": {
       "title": "Forgot your password?",

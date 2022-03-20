@@ -75,8 +75,8 @@ class AuthService extends ChangeNotifier {
       return isVerified;
     } catch (e) {
       logger.e(e.toString(), e);
-      verifyAccountState = AsyncValue.error(
-          "Code incorrect"); // TODO: add translations but need to handle call with context
+      verifyAccountState = AsyncValue.error(AppLocalizations.instance
+          .translate("auth.verification.incorrectCode"));
     } finally {
       notifyListeners();
     }
@@ -92,7 +92,7 @@ class AuthService extends ChangeNotifier {
     } catch (e) {
       logger.e(e.toString(), e);
       forgotPasswordState = AsyncValue.error(
-          "Une erreur est survenue, veuillez réessayer"); // TODO: add translations but need to handle call with context
+          AppLocalizations.instance.translate("errors.unexpected"));
     } finally {
       notifyListeners();
     }
@@ -108,7 +108,7 @@ class AuthService extends ChangeNotifier {
     } catch (e) {
       logger.e(e.toString(), e);
       resetPasswordState = AsyncValue.error(
-          "Une erreur est survenue, veuillez réessayer"); // TODO: add translations but need to handle call with context
+          AppLocalizations.instance.translate("errors.unexpected"));
     } finally {
       notifyListeners();
     }
