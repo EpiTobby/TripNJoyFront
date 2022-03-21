@@ -2,6 +2,7 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/auth/session_token.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:trip_n_joy_front/services/auth/auth.service.dart';
 
 class MockService extends HttpService {
   @override
@@ -60,5 +61,13 @@ class MockService extends HttpService {
   @override
   int? getUserIdFromToken(String? token) {
     return 1;
+  }
+
+  @override
+  Future<void> forgotPassword(String email) async {}
+
+  Future<UserIdResponse?> resetPassword(
+      String email, String code, String password) async {
+    return UserIdResponse(userId: 1);
   }
 }

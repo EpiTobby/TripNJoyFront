@@ -33,7 +33,7 @@ class _SignUpState extends ConsumerState<SignUp> {
     final password = useState('');
     final phoneNumber = useState('');
     final birthDate = useState(DateTime.now());
-    final gender = useState('MAN');
+    final gender = useState(Gender.male.name);
 
     ref.listen<AsyncValue<void>>(authSignupStateProvider,
         (_, state) => state.showSnackBarOnError(context));
@@ -55,9 +55,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                   icon: Icon(Icons.person),
                   selectedValue: gender.value,
                   listValue: [
-                    Gender.MAN.name,
-                    Gender.WOMAN.name,
-                    Gender.OTHER.name
+                    Gender.male.name,
+                    Gender.female.name,
+                    Gender.other.name
                   ],
                   listLabel: [
                     AppLocalizations.of(context).translate("user.gender.man"),

@@ -12,7 +12,7 @@
     "submit": "Valider",
     "tryAgain": "Réessayer"
   },
-  "user" : {
+  "user": {
     "firstname": "Prénom",
     "lastname": "Nom",
     "email": "Email",
@@ -41,6 +41,22 @@
       "submit": "Vérifier",
       "sendBack": "Renvoyer un code",
       "resendCountdown": "Vous pouvez renvoyer le code dans $time secondes."
+    },
+    "forgot_password": {
+      "title": "Mot de passe oublié ?",
+      "description": "Veuillez entrer votre adresse e-mail pour recevoir un code de réinitialisation.",
+      "email": "Email",
+      "label": "Entrer votre email",
+      "submit": "Envoyer le code"
+    },
+    "reset_password": {
+      "title": "Réinitialiser le mot de passe",
+      "description": "Veuillez entrer le code envoyé par mail ainsi que votre nouveau mot de passe.",
+      "password": "Mot de passe",
+      "password_label": "Entrer votre mot de passe",
+      "code": "Code",
+      "code_label": "Entrer le code",
+      "submit": "Réinitialiser"
     }
   },
   "groups": {

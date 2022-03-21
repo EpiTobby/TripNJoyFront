@@ -1,3 +1,5 @@
+import 'package:trip_n_joy_front/services/auth/auth.service.dart';
+
 import '../../codegen/api.swagger.dart';
 import '../../models/auth/signup.model.dart';
 
@@ -21,4 +23,9 @@ abstract class HttpService {
   Future<String> updateFirstname(String token, String firstname);
 
   int? getUserIdFromToken(String? token);
+
+  Future<void> forgotPassword(String email);
+
+  Future<UserIdResponse?> resetPassword(
+      String email, String code, String password);
 }

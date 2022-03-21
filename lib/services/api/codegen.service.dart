@@ -1,19 +1,44 @@
+import 'package:chopper/chopper.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 
 import '../../codegen/api.swagger.dart';
+import '../auth/auth.service.dart';
 import 'http.service.dart';
 
-const BASE_URL = String.fromEnvironment("BASE_URL");
+const BASE_URL =
+    String.fromEnvironment("BASE_URL", defaultValue: "http://localhost:8080");
 
 class CodegenService extends HttpService {
   late Api api;
+  final FlutterSecureStorage storage;
+
+  CodegenService(this.storage);
 
   static header() => {"Content-Type": "application/json"};
 
   @override
   Future<HttpService> init() async {
-    api = Api.create(baseUrl: BASE_URL);
+    api = Api.create(
+        client: ChopperClient(
+            converter: $JsonSerializableConverter(),
+            interceptors: [
+              (Request request) async => applyHeader(
+                  request,
+                  'authorization',
+                  "Bearer " +
+                      (await storage.read(key: AuthService.tokenKey) ?? ""),
+                  override: false),
+              (Response response) async {
+                if (response.statusCode == 401) {
+                  await storage.delete(key: AuthService.tokenKey);
+                }
+                return response;
+              }
+            ],
+            baseUrl: BASE_URL),
+        baseUrl: BASE_URL);
     initInterceptors();
     return this;
   }
@@ -41,6 +66,7 @@ class CodegenService extends HttpService {
   Future<UserModel?> signup(SignupCredentials data) async {
     final response = await api.authRegisterPost(
         model: UserCreationRequest(
+      gender: data.gender,
       email: data.email,
       password: data.password,
       birthDate: DateTime.parse(data.birthDate),
@@ -82,5 +108,20 @@ class CodegenService extends HttpService {
     }
 
     return int.parse(id);
+  }
+
+  @override
+  Future<void> forgotPassword(String email) async {
+    await api.authForgotpasswordPost(
+        forgotPasswordRequest: ForgotPasswordRequest(email: email));
+  }
+
+  @override
+  Future<UserIdResponse?> resetPassword(
+      String email, String code, String password) async {
+    final response = await api.authValidatepasswordPost(
+        validateCodePasswordRequest: ValidateCodePasswordRequest(
+            email: email, newPassword: password, value: code));
+    return response.body;
   }
 }
