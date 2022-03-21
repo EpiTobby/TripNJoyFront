@@ -30,12 +30,15 @@ class AuthService extends ChangeNotifier {
     notifyListeners();
     try {
       var sessionToken = await httpService.login(email, password);
-      loginState = const AsyncValue.data(null);
-      return await saveToken(sessionToken!.token!);
+      if (sessionToken != null) {
+        loginState = const AsyncValue.data(null);
+        return await saveToken(sessionToken.token!);
+      }
+      loginState = AsyncValue.error(AppLocalizations.instance.translate("errors.login"));
     } catch (e) {
       logger.e(e.toString(), e);
-      loginState = AsyncValue.error(AppLocalizations.instance.translate(
-          "errors.login")); // not safe as instance could result to null if error on load
+      loginState = AsyncValue.error(AppLocalizations.instance
+          .translate("errors.login")); // not safe as instance could result to null if error on load
     } finally {
       notifyListeners();
     }
@@ -51,12 +54,11 @@ class AuthService extends ChangeNotifier {
         signupState = const AsyncValue.data(null);
         return await login(data.email, data.password);
       }
-      signupState =
-          AsyncValue.error(AppLocalizations.instance.translate("errors.login"));
+      signupState = AsyncValue.error(AppLocalizations.instance.translate("errors.login"));
     } catch (e) {
       logger.e(e.toString(), e);
-      signupState = AsyncValue.error(AppLocalizations.instance.translate(
-          "errors.login")); // not safe as instance could result to null if error on load
+      signupState = AsyncValue.error(AppLocalizations.instance
+          .translate("errors.login")); // not safe as instance could result to null if error on load
     } finally {
       notifyListeners();
     }
@@ -69,14 +71,11 @@ class AuthService extends ChangeNotifier {
     var userId = httpService.getUserIdFromToken(token);
     try {
       var isVerified = await httpService.verifyAccount(userId!, code);
-      verifyAccountState = isVerified
-          ? const AsyncValue.data(null)
-          : const AsyncValue.error("Code incorrect");
+      verifyAccountState = isVerified ? const AsyncValue.data(null) : const AsyncValue.error("Code incorrect");
       return isVerified;
     } catch (e) {
       logger.e(e.toString(), e);
-      verifyAccountState = AsyncValue.error(
-          AppLocalizations.instance.translate('errors.wrongCodeConfirmation'));
+      verifyAccountState = AsyncValue.error(AppLocalizations.instance.translate('errors.wrongCodeConfirmation'));
     } finally {
       notifyListeners();
     }
@@ -91,8 +90,7 @@ class AuthService extends ChangeNotifier {
       forgotPasswordState = const AsyncValue.data(null);
     } catch (e) {
       logger.e(e.toString(), e);
-      forgotPasswordState = AsyncValue.error(
-          AppLocalizations.instance.translate("errors.unexpected"));
+      forgotPasswordState = AsyncValue.error(AppLocalizations.instance.translate("errors.unexpected"));
     } finally {
       notifyListeners();
     }
@@ -107,8 +105,7 @@ class AuthService extends ChangeNotifier {
       resetPasswordState = const AsyncValue.data(null);
     } catch (e) {
       logger.e(e.toString(), e);
-      resetPasswordState = AsyncValue.error(
-          AppLocalizations.instance.translate("errors.unexpected"));
+      resetPasswordState = AsyncValue.error(AppLocalizations.instance.translate("errors.unexpected"));
     } finally {
       notifyListeners();
     }
