@@ -8,6 +8,7 @@ class InputField extends StatefulHookWidget {
       required this.onChanged,
       this.hint = "",
       this.keyboardType = TextInputType.text,
+      this.textCapitalization = TextCapitalization.sentences,
       this.icon,
       this.isPassword = false,
       this.isError = false})
@@ -18,6 +19,7 @@ class InputField extends StatefulHookWidget {
   final String hint;
   final Icon? icon;
   final TextInputType keyboardType;
+  final TextCapitalization textCapitalization;
   final bool isPassword;
   final bool isError;
 
@@ -41,9 +43,7 @@ class _InputFieldState extends State<InputField> {
                 child: Text(
                   widget.label,
                   style: TextStyle(
-                    color: widget.isError
-                        ? Theme.of(context).colorScheme.error
-                        : Theme.of(context).colorScheme.primary,
+                    color: widget.isError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -51,19 +51,18 @@ class _InputFieldState extends State<InputField> {
             TextField(
               onChanged: (value) => widget.onChanged(value),
               obscureText: widget.isPassword && !isVisible.value,
+              keyboardType: widget.keyboardType,
+              textCapitalization: widget.isPassword ? TextCapitalization.none : widget.textCapitalization,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(15),
                 prefixIcon: widget.icon,
-                prefixIconColor: widget.isError
-                    ? Theme.of(context).colorScheme.error
-                    : Theme.of(context).colorScheme.secondary,
+                prefixIconColor:
+                    widget.isError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.secondary,
                 suffixIcon: widget.isPassword
                     ? IconButton(
                         splashRadius: 15,
                         icon: Icon(
-                          isVisible.value
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                          isVisible.value ? Icons.visibility : Icons.visibility_off,
                           color: widget.isError
                               ? Theme.of(context).colorScheme.error
                               : Theme.of(context).colorScheme.primaryContainer,
@@ -78,9 +77,7 @@ class _InputFieldState extends State<InputField> {
                   borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                   borderSide: BorderSide(
                     width: 2,
-                    color: widget.isError
-                        ? Theme.of(context).colorScheme.error
-                        : Theme.of(context).colorScheme.primary,
+                    color: widget.isError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
@@ -93,8 +90,7 @@ class _InputFieldState extends State<InputField> {
                 ),
                 focusedErrorBorder: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                  borderSide: BorderSide(
-                      width: 2, color: Theme.of(context).colorScheme.tertiary),
+                  borderSide: BorderSide(width: 2, color: Theme.of(context).colorScheme.tertiary),
                 ),
               ),
             )

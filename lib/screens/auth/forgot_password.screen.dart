@@ -19,8 +19,7 @@ class ForgotPassword extends HookConsumerWidget {
     final authService = ref.watch(authProvider);
     final email = useState('');
 
-    ref.listen<AsyncValue<void>>(authForgotPasswordStateProvider,
-        (_, state) => state.showSnackBarOnError(context));
+    ref.listen<AsyncValue<void>>(authForgotPasswordStateProvider, (_, state) => state.showSnackBarOnError(context));
 
     return Scaffold(
       body: Center(
@@ -30,27 +29,21 @@ class ForgotPassword extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppLocalizations.of(context)
-                    .translate('auth.forgot_password.title'),
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold),
+                AppLocalizations.of(context).translate('auth.forgot_password.title'),
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 32, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               Text(
-                AppLocalizations.of(context)
-                    .translate('auth.forgot_password.description'),
+                AppLocalizations.of(context).translate('auth.forgot_password.description'),
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary, fontSize: 16),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 16),
               ),
               InputField(
-                label: AppLocalizations.of(context)
-                    .translate('auth.forgot_password.email'),
-                hint: AppLocalizations.of(context)
-                    .translate('auth.forgot_password.label'),
+                label: AppLocalizations.of(context).translate('auth.forgot_password.email'),
+                hint: AppLocalizations.of(context).translate('auth.forgot_password.label'),
                 icon: const Icon(Icons.email),
+                keyboardType: TextInputType.emailAddress,
                 isError: authService.forgotPasswordState.isError,
                 onChanged: (value) {
                   email.value = value;
@@ -58,22 +51,16 @@ class ForgotPassword extends HookConsumerWidget {
               ),
               const SizedBox(height: 16),
               PrimaryButton(
-                text: AppLocalizations.of(context)
-                    .translate('auth.forgot_password.submit'),
+                text: AppLocalizations.of(context).translate('auth.forgot_password.submit'),
                 onPressed: () {
                   authService.forgotPassword(email.value).then((value) =>
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) =>
-                                  ResetPassword(email: email.value))));
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => ResetPassword(email: email.value))));
                 },
                 isLoading: authService.forgotPasswordState.isLoading,
                 isDisabled: email.value.isEmpty,
               ),
               SecondaryButton(
-                  text: AppLocalizations.of(context).translate('common.back'),
-                  onPressed: () => Navigator.pop(context)),
+                  text: AppLocalizations.of(context).translate('common.back'), onPressed: () => Navigator.pop(context)),
             ],
           ),
         ),

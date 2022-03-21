@@ -43,6 +43,8 @@ class _LoginState extends ConsumerState<Login> {
           hint: AppLocalizations.of(context).translate("auth.email"),
           onChanged: (value) => email.value = value,
           icon: const Icon(Icons.email),
+          keyboardType: TextInputType.emailAddress,
+          textCapitalization: TextCapitalization.none,
           isError: auth.loginState.isError,
         ),
         InputField(
