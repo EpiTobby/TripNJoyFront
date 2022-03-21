@@ -27,8 +27,7 @@ class _LoginState extends ConsumerState<Login> {
     final email = useState('');
     final password = useState('');
 
-    ref.listen<AsyncValue<void>>(authLoginStateProvider,
-        (_, state) => state.showSnackBarOnError(context));
+    ref.listen<AsyncValue<void>>(authLoginStateProvider, (_, state) => state.showSnackBarOnError(context));
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -37,14 +36,14 @@ class _LoginState extends ConsumerState<Login> {
             padding: const EdgeInsets.only(bottom: 30),
             child: Text('TripNJoy',
                 style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold))),
+                    color: Theme.of(context).colorScheme.primary, fontSize: 40, fontWeight: FontWeight.bold))),
         InputField(
           label: AppLocalizations.of(context).translate("user.email"),
           hint: AppLocalizations.of(context).translate("auth.email"),
           onChanged: (value) => email.value = value,
           icon: const Icon(Icons.email),
+          keyboardType: TextInputType.emailAddress,
+          textCapitalization: TextCapitalization.none,
           isError: auth.loginState.isError,
         ),
         InputField(
@@ -59,21 +58,16 @@ class _LoginState extends ConsumerState<Login> {
             child: Column(
               children: [
                 PrimaryButton(
-                    text:
-                        AppLocalizations.of(context).translate("common.login"),
+                    text: AppLocalizations.of(context).translate("common.login"),
                     isLoading: auth.loginState.isLoading,
                     onPressed: () => auth.login(email.value, password.value)),
                 SecondaryButton(
-                    text: AppLocalizations.of(context)
-                        .translate("auth.createAccount"),
+                    text: AppLocalizations.of(context).translate("auth.createAccount"),
                     onPressed: () => stepProvider.signUp()),
                 TertiaryButton(
-                    text: AppLocalizations.of(context)
-                        .translate("auth.forgotPassword"),
-                    onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ForgotPassword()))),
+                    text: AppLocalizations.of(context).translate("auth.forgotPassword"),
+                    onPressed: () =>
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassword()))),
               ],
             )),
       ],
