@@ -20,6 +20,7 @@ class InputDialog extends StatefulHookWidget {
   final String label;
   final String initialValue;
   final Function onConfirm;
+
   @override
   State<InputDialog> createState() => _InputDialogState();
 }
@@ -30,9 +31,7 @@ class _InputDialogState extends State<InputDialog> {
     final value = useState(widget.initialValue);
     final status = useState<AsyncValue<void>>(AsyncValue.data(null));
     return AlertDialog(
-      title: Center(
-          child: Text(widget.title ?? '',
-              style: TextStyle(color: Theme.of(context).colorScheme.primary))),
+      title: Center(child: Text(widget.title ?? '', style: TextStyle(color: Theme.of(context).colorScheme.primary))),
       content: InputField(
         label: widget.label,
         onChanged: (newValue) => value.value = newValue,
@@ -42,27 +41,29 @@ class _InputDialogState extends State<InputDialog> {
         Padding(
           padding: const EdgeInsets.only(bottom: 18.0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              SecondaryButton(
+              TertiaryButton(
                 text: AppLocalizations.of(context).translate("common.cancel"),
                 onPressed: () => Navigator.of(context).pop(),
               ),
               PrimaryButton(
-                  text: status.value.isError
-                      ? AppLocalizations.of(context)
-                          .translate("common.tryAgain")
-                      : AppLocalizations.of(context).translate("common.submit"),
-                  isLoading: status.value.isLoading,
-                  onPressed: () async {
-                    status.value = AsyncLoading();
-                    try {
-                      await widget.onConfirm(value.value);
-                      status.value = AsyncData(null);
-                      Navigator.of(context).pop();
-                    } catch (e) {
-                      status.value = AsyncError(e);
-                    }
-                  }),
+                text: status.value.isError
+                    ? AppLocalizations.of(context).translate("common.tryAgain")
+                    : AppLocalizations.of(context).translate("common.submit"),
+                isLoading: status.value.isLoading,
+                onPressed: () async {
+                  status.value = AsyncLoading();
+                  try {
+                    await widget.onConfirm(value.value);
+                    status.value = AsyncData(null);
+                    Navigator.of(context).pop();
+                  } catch (e) {
+                    status.value = AsyncError(e);
+                  }
+                },
+                fitContent: true,
+              ),
             ],
           ),
         )
