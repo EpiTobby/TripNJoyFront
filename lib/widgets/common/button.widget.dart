@@ -13,6 +13,7 @@ class PrimaryButton extends StatelessWidget {
   final bool isLoading;
   final Function onPressed;
   final bool isDisabled;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -24,11 +25,11 @@ class PrimaryButton extends StatelessWidget {
                     fontSize: 16,
                     color: Theme.of(context).colorScheme.onSecondary),
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                minimumSize: const Size(180, 48)),
+                minimumSize: const Size(180, 30)),
             onPressed: isDisabled ? null : () => onPressed(),
             child: isLoading
                 ? SizedBox(
@@ -56,6 +57,7 @@ class SecondaryButton extends StatelessWidget {
   final bool isLoading;
   final Function onPressed;
   final bool isDisabled;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -73,11 +75,11 @@ class SecondaryButton extends StatelessWidget {
                         ? Theme.of(context).colorScheme.primaryContainer
                         : Theme.of(context).colorScheme.secondary),
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                minimumSize: const Size(180, 48)),
+                minimumSize: const Size(180, 30)),
             onPressed: isDisabled ? null : () => onPressed(),
             child: isLoading
                 ? const CircularProgressIndicator()
@@ -102,6 +104,7 @@ class TertiaryButton extends StatelessWidget {
   final bool isLoading;
   final Function onPressed;
   final bool isDisabled;
+
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -92,6 +92,7 @@ class ResetPassword extends HookConsumerWidget {
           ),
         ),
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 }

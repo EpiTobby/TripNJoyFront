@@ -93,6 +93,7 @@ class AccountVerification extends HookConsumerWidget {
           ),
         ),
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 }

@@ -137,6 +137,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
                 child: getPageWidget(selectedPage),
               ),
               bottomNavigationBar: Navbar(),
+              resizeToAvoidBottomInset: false,
             ),
         error: (error, r) {
           logger.e(error, r);
