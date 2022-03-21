@@ -42,11 +42,12 @@ class _SignUpState extends ConsumerState<SignUp> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Padding(
-            padding: EdgeInsets.only(bottom: 30),
+            padding: EdgeInsets.only(top: 20, bottom: 20),
             child: Text('TripNJoy',
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold))),
         Expanded(
           child: ListView(
+            padding: const EdgeInsets.all(0),
             shrinkWrap: true,
             children: [
               Dropdown(

@@ -78,6 +78,7 @@ class ForgotPassword extends HookConsumerWidget {
           ),
         ),
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 }

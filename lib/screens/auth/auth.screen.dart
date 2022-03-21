@@ -22,7 +22,7 @@ class _AuthState extends ConsumerState<Auth> {
     return Scaffold(
         body: Center(
             child: Padding(
-                padding: const EdgeInsets.all(70),
+                padding: const EdgeInsets.all(30),
                 child: step == AuthStep.LOGIN ? Login() : SignUp())));
   }
 }

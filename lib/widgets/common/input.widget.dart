@@ -52,6 +52,7 @@ class _InputFieldState extends State<InputField> {
               onChanged: (value) => widget.onChanged(value),
               obscureText: widget.isPassword && !isVisible.value,
               decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(15),
                 prefixIcon: widget.icon,
                 prefixIconColor: widget.isError
                     ? Theme.of(context).colorScheme.error

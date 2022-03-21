@@ -7,6 +7,7 @@ class InputWrap extends StatelessWidget {
   final String label;
   final Icon? icon;
   final Widget child;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,7 +28,7 @@ class InputWrap extends StatelessWidget {
                 )),
             Container(
                 width: double.infinity,
-                height: 50,
+                height: 55,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Theme.of(context).colorScheme.primary,

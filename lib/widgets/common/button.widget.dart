@@ -7,12 +7,15 @@ class PrimaryButton extends StatelessWidget {
     bool this.isLoading = false,
     required Function this.onPressed,
     bool this.isDisabled = false,
+    bool this.fitContent = false,
   }) : super(key: key);
 
   final String text;
   final bool isLoading;
   final Function onPressed;
   final bool isDisabled;
+  final bool fitContent;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,15 +23,12 @@ class PrimaryButton extends StatelessWidget {
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
                 primary: Theme.of(context).colorScheme.secondary,
-                textStyle: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.onSecondary),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                textStyle: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSecondary),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                minimumSize: const Size(180, 48)),
+                minimumSize: fitContent ? const Size(0, 0) : const Size(180, 30)),
             onPressed: isDisabled ? null : () => onPressed(),
             child: isLoading
                 ? SizedBox(
@@ -50,12 +50,15 @@ class SecondaryButton extends StatelessWidget {
     bool this.isLoading = false,
     required Function this.onPressed,
     bool this.isDisabled = false,
+    bool this.fitContent = false,
   }) : super(key: key);
 
   final String text;
   final bool isLoading;
   final Function onPressed;
   final bool isDisabled;
+  final bool fitContent;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -72,12 +75,11 @@ class SecondaryButton extends StatelessWidget {
                     color: isDisabled
                         ? Theme.of(context).colorScheme.primaryContainer
                         : Theme.of(context).colorScheme.secondary),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                minimumSize: const Size(180, 48)),
+                minimumSize: fitContent ? const Size(0, 0) : const Size(180, 30)),
             onPressed: isDisabled ? null : () => onPressed(),
             child: isLoading
                 ? const CircularProgressIndicator()
@@ -102,6 +104,7 @@ class TertiaryButton extends StatelessWidget {
   final bool isLoading;
   final Function onPressed;
   final bool isDisabled;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -111,8 +114,7 @@ class TertiaryButton extends StatelessWidget {
           textStyle: const TextStyle(fontSize: 16),
         ),
         onPressed: isDisabled ? null : () => onPressed(),
-        child: Text(text,
-            style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
+        child: Text(text, style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
       ),
     );
   }
