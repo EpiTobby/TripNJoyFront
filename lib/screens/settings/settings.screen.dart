@@ -11,6 +11,7 @@ import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 import '../../providers/auth/auth.provider.dart';
 import '../../providers/user/user.provider.dart';
 import '../../widgets/common/input_dialog.widget.dart';
+import '../auth/reset_password.screen.dart';
 
 class SettingsPage extends StatefulHookConsumerWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -25,6 +26,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     var settingsService = ref.watch(settingsProvider);
+    final userService = ref.watch(userProvider.notifier);
     final authService = ref.watch(authProvider);
     var user = ref.watch(userProvider).value as UserModel;
 
@@ -35,64 +37,84 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           imageURL: user.profilePicture ??
               "https://cdn.discordapp.com/avatars/297465470133731329/a9c6e37f6959a30d98038743c799a21f.webp?size=240",
         ),
-        LayoutBox(
-            title: AppLocalizations.of(context).translate("settings.about"),
-            children: <Widget>[
-              LayoutItem(
-                  title:
-                      AppLocalizations.of(context).translate("user.firstname"),
-                  child: LayoutItemValue(
-                    value: user.firstname!,
-                    icon: const Icon(Icons.keyboard_arrow_right_sharp),
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return InputDialog(
-                                title: AppLocalizations.of(context)
-                                    .translate("settings.firstname"),
-                                label: AppLocalizations.of(context)
-                                    .translate("user.firstname"),
-                                initialValue: user.firstname!,
-                                onConfirm: (value) async {
-                                  await settingsService.updateFirstname(
-                                      "id", value);
-                                });
-                          });
-                    },
-                  )),
-              LayoutItem(
-                  title:
-                      AppLocalizations.of(context).translate("user.lastname"),
-                  child: LayoutItemValue(
-                    value: user.lastname!,
-                    icon: const Icon(Icons.keyboard_arrow_right_sharp),
-                    onPressed: () {},
-                  )),
-              LayoutItem(
-                  title: AppLocalizations.of(context).translate("user.email"),
-                  child: LayoutItemValue(
-                    value: user.email!,
-                  )),
-              LayoutItem(
-                  title:
-                      AppLocalizations.of(context).translate("user.password"),
-                  child: LayoutItemValue(
-                    value: "•••••••••",
-                    icon: const Icon(Icons.keyboard_arrow_right_sharp),
-                    onPressed: () {},
-                  )),
-              LayoutItem(
-                  title: AppLocalizations.of(context)
-                      .translate("user.phoneNumber"),
-                  child: LayoutItemValue(
-                    value: user.phoneNumber ??
-                        AppLocalizations.of(context)
-                            .translate("settings.noPhoneNumber"),
-                    icon: const Icon(Icons.keyboard_arrow_right_sharp),
-                    onPressed: () {},
-                  )),
-            ]),
+        LayoutBox(title: AppLocalizations.of(context).translate("settings.about"), children: <Widget>[
+          LayoutItem(
+              title: AppLocalizations.of(context).translate("user.firstname"),
+              child: LayoutItemValue(
+                value: user.firstname!,
+                icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialog(
+                            title: AppLocalizations.of(context).translate("settings.firstname"),
+                            label: AppLocalizations.of(context).translate("user.firstname"),
+                            initialValue: user.firstname!,
+                            onConfirm: (value) async {
+                              userService.updateUser(authService.token!, UserUpdateRequest(firstname: value));
+                            });
+                      });
+                },
+              )),
+          LayoutItem(
+              title: AppLocalizations.of(context).translate("user.lastname"),
+              child: LayoutItemValue(
+                value: user.lastname!,
+                icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialog(
+                            title: AppLocalizations.of(context).translate("settings.lastname"),
+                            label: AppLocalizations.of(context).translate("user.lastname"),
+                            initialValue: user.lastname!,
+                            onConfirm: (value) async {
+                              userService.updateUser(authService.token!, UserUpdateRequest(lastname: value));
+                            });
+                      });
+                },
+              )),
+          LayoutItem(
+              title: AppLocalizations.of(context).translate("user.email"),
+              child: LayoutItemValue(
+                value: user.email!,
+              )),
+          LayoutItem(
+              title: AppLocalizations.of(context).translate("user.password"),
+              child: LayoutItemValue(
+                value: "•••••••••",
+                icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => ResetPassword(
+                                email: user.email!,
+                              )));
+                },
+              )),
+          LayoutItem(
+              title: AppLocalizations.of(context).translate("user.phoneNumber"),
+              child: LayoutItemValue(
+                value: user.phoneNumber ?? AppLocalizations.of(context).translate("settings.noPhoneNumber"),
+                icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialog(
+                            title: AppLocalizations.of(context).translate("settings.phoneNumber"),
+                            label: AppLocalizations.of(context).translate("user.phoneNumber"),
+                            initialValue: user.phoneNumber!,
+                            onConfirm: (value) async {
+                              userService.updateUser(authService.token!, UserUpdateRequest(phoneNumber: value));
+                            });
+                      });
+                },
+              )),
+        ]),
         LayoutBox(
           title: AppLocalizations.of(context).translate("settings.theme"),
           children: <Widget>[
@@ -100,11 +122,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                    AppLocalizations.of(context).translate("settings.darkMode"),
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: 24)),
+                Text(AppLocalizations.of(context).translate("settings.darkMode"),
+                    style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 24)),
                 Switch(
                   value: _darkMode,
                   onChanged: (bool value) {
@@ -117,31 +136,26 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             ))
           ],
         ),
-        LayoutBox(
-            title: AppLocalizations.of(context).translate("common.account"),
-            children: <Widget>[
-              LayoutItem(
-                  child: LayoutItemValue(
-                value: AppLocalizations.of(context).translate("common.logout"),
-                icon: const Icon(Icons.exit_to_app),
-                onPressed: () {
-                  authService.logout();
-                },
-              )),
-              LayoutItem(
-                  child: LayoutItemValue(
-                value: AppLocalizations.of(context)
-                    .translate("settings.deleteAccount"),
-                icon: const Icon(Icons.close),
-                customColor: Theme.of(context).colorScheme.error,
-                onPressed: () async {
-                  ref
-                      .read(userProvider.notifier)
-                      .deleteUser(authService.token!);
-                  authService.logout();
-                },
-              )),
-            ])
+        LayoutBox(title: AppLocalizations.of(context).translate("common.account"), children: <Widget>[
+          LayoutItem(
+              child: LayoutItemValue(
+            value: AppLocalizations.of(context).translate("common.logout"),
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () {
+              authService.logout();
+            },
+          )),
+          LayoutItem(
+              child: LayoutItemValue(
+            value: AppLocalizations.of(context).translate("settings.deleteAccount"),
+            icon: const Icon(Icons.close),
+            customColor: Theme.of(context).colorScheme.error,
+            onPressed: () async {
+              ref.read(userProvider.notifier).deleteUser(authService.token!);
+              authService.logout();
+            },
+          )),
+        ])
       ],
     );
   }

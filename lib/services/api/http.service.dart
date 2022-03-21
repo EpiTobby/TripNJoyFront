@@ -20,7 +20,7 @@ abstract class HttpService {
 
   Future<void> deleteUser(String token);
 
-  Future<String> updateFirstname(String token, String firstname);
+  Future<void> updateUser(int id, UserUpdateRequest updateRequest);
 
   int? getUserIdFromToken(String? token);
 

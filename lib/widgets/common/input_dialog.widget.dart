@@ -14,12 +14,14 @@ class InputDialog extends StatefulHookWidget {
     required this.label,
     required this.initialValue,
     required this.onConfirm,
+    this.isPassword = false
   }) : super(key: key);
 
   final String? title;
   final String label;
   final String initialValue;
   final Function onConfirm;
+  final bool isPassword;
 
   @override
   State<InputDialog> createState() => _InputDialogState();
@@ -33,6 +35,7 @@ class _InputDialogState extends State<InputDialog> {
     return AlertDialog(
       title: Center(child: Text(widget.title ?? '', style: TextStyle(color: Theme.of(context).colorScheme.primary))),
       content: InputField(
+        isPassword: widget.isPassword,
         label: widget.label,
         onChanged: (newValue) => value.value = newValue,
         isError: status.value.isError,
