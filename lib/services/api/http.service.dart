@@ -1,3 +1,5 @@
+import 'package:trip_n_joy_front/services/auth/auth.service.dart';
+
 import '../../codegen/api.swagger.dart';
 import '../../models/auth/signup.model.dart';
 
