@@ -124,6 +124,8 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
                 ),
               );
             }
+          } else {
+            logger.d("user not found");
           }
         });
       }

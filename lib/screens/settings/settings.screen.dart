@@ -26,11 +26,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   Widget build(BuildContext context) {
     var settingsService = ref.watch(settingsProvider);
     final authService = ref.watch(authProvider);
-    var user = ref.watch(userProvider).value;
+    var user = ref.watch(userProvider).value as UserModel;
 
-    if (user == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
     return ListView(
       children: <Widget>[
         LayoutHeader(
