@@ -22,37 +22,28 @@ abstract class Api extends ChopperService {
     }
 
     final newClient = ChopperClient(
-        services: [_$Api()],
-        converter: $JsonSerializableConverter(),
-        baseUrl: baseUrl!.isNotEmpty ? baseUrl.toString() : 'http://localhost:8080');
+        services: [_$Api()], converter: $JsonSerializableConverter(), baseUrl: baseUrl ?? 'http://localhost:8080/');
     return _$Api(newClient);
   }
 
   ///Used to receive a confirmation to update a password
   ///@param forgotPasswordRequest forgotPasswordRequest
-  Future<chopper.Response> authForgotpasswordPost(
-      {required ForgotPasswordRequest? forgotPasswordRequest}) {
-    generatedMapping.putIfAbsent(
-        ForgotPasswordRequest, () => ForgotPasswordRequest.fromJsonFactory);
+  Future<chopper.Response> authForgotpasswordPost({required ForgotPasswordRequest? forgotPasswordRequest}) {
+    generatedMapping.putIfAbsent(ForgotPasswordRequest, () => ForgotPasswordRequest.fromJsonFactory);
 
-    return _authForgotpasswordPost(
-        forgotPasswordRequest: forgotPasswordRequest);
+    return _authForgotpasswordPost(forgotPasswordRequest: forgotPasswordRequest);
   }
 
   ///Used to receive a confirmation to update a password
   ///@param forgotPasswordRequest forgotPasswordRequest
   @Post(path: '/auth/forgotpassword')
-  Future<chopper.Response> _authForgotpasswordPost(
-      {@Body() required ForgotPasswordRequest? forgotPasswordRequest});
+  Future<chopper.Response> _authForgotpasswordPost({@Body() required ForgotPasswordRequest? forgotPasswordRequest});
 
   ///Log a user, to allow authenticated endpoints
   ///@param loginRequest loginRequest
-  Future<chopper.Response<LoginResponse>> authLoginPost(
-      {required LoginRequest? loginRequest}) {
-    generatedMapping.putIfAbsent(
-        LoginRequest, () => LoginRequest.fromJsonFactory);
-    generatedMapping.putIfAbsent(
-        LoginResponse, () => LoginResponse.fromJsonFactory);
+  Future<chopper.Response<LoginResponse>> authLoginPost({required LoginRequest? loginRequest}) {
+    generatedMapping.putIfAbsent(LoginRequest, () => LoginRequest.fromJsonFactory);
+    generatedMapping.putIfAbsent(LoginResponse, () => LoginResponse.fromJsonFactory);
 
     return _authLoginPost(loginRequest: loginRequest);
   }
@@ -60,16 +51,13 @@ abstract class Api extends ChopperService {
   ///Log a user, to allow authenticated endpoints
   ///@param loginRequest loginRequest
   @Post(path: '/auth/login')
-  Future<chopper.Response<LoginResponse>> _authLoginPost(
-      {@Body() required LoginRequest? loginRequest});
+  Future<chopper.Response<LoginResponse>> _authLoginPost({@Body() required LoginRequest? loginRequest});
 
   ///Create a new account. Will send a confirmation mail to the given address
   ///@param model model
-  Future<chopper.Response<UserModel>> authRegisterPost(
-      {required UserCreationRequest? model}) {
-    generatedMapping.putIfAbsent(
-        UserCreationRequest, () => UserCreationRequest.fromJsonFactory);
-    generatedMapping.putIfAbsent(UserModel, () => UserModel.fromJsonFactory);
+  Future<chopper.Response<AuthTokenResponse>> authRegisterPost({required UserCreationRequest? model}) {
+    generatedMapping.putIfAbsent(UserCreationRequest, () => UserCreationRequest.fromJsonFactory);
+    generatedMapping.putIfAbsent(AuthTokenResponse, () => AuthTokenResponse.fromJsonFactory);
 
     return _authRegisterPost(model: model);
   }
@@ -77,36 +65,29 @@ abstract class Api extends ChopperService {
   ///Create a new account. Will send a confirmation mail to the given address
   ///@param model model
   @Post(path: '/auth/register')
-  Future<chopper.Response<UserModel>> _authRegisterPost(
-      {@Body() required UserCreationRequest? model});
+  Future<chopper.Response<AuthTokenResponse>> _authRegisterPost({@Body() required UserCreationRequest? model});
 
   ///Used to update the password with a confirmation code
   ///@param validateCodePasswordRequest validateCodePasswordRequest
   Future<chopper.Response<UserIdResponse>> authValidatepasswordPost(
       {required ValidateCodePasswordRequest? validateCodePasswordRequest}) {
-    generatedMapping.putIfAbsent(ValidateCodePasswordRequest,
-        () => ValidateCodePasswordRequest.fromJsonFactory);
-    generatedMapping.putIfAbsent(
-        UserIdResponse, () => UserIdResponse.fromJsonFactory);
+    generatedMapping.putIfAbsent(ValidateCodePasswordRequest, () => ValidateCodePasswordRequest.fromJsonFactory);
+    generatedMapping.putIfAbsent(UserIdResponse, () => UserIdResponse.fromJsonFactory);
 
-    return _authValidatepasswordPost(
-        validateCodePasswordRequest: validateCodePasswordRequest);
+    return _authValidatepasswordPost(validateCodePasswordRequest: validateCodePasswordRequest);
   }
 
   ///Used to update the password with a confirmation code
   ///@param validateCodePasswordRequest validateCodePasswordRequest
   @Post(path: '/auth/validatepassword')
   Future<chopper.Response<UserIdResponse>> _authValidatepasswordPost(
-      {@Body()
-          required ValidateCodePasswordRequest? validateCodePasswordRequest});
+      {@Body() required ValidateCodePasswordRequest? validateCodePasswordRequest});
 
   ///Confirm a user's email
   ///@param confirmationCode confirmationCode
   ///@param id id
-  Future<chopper.Response<bool>> authIdConfirmPatch(
-      {required ConfirmationCodeModel? confirmationCode, required int? id}) {
-    generatedMapping.putIfAbsent(
-        ConfirmationCodeModel, () => ConfirmationCodeModel.fromJsonFactory);
+  Future<chopper.Response> authIdConfirmPatch({required ConfirmationCodeModel? confirmationCode, required int? id}) {
+    generatedMapping.putIfAbsent(ConfirmationCodeModel, () => ConfirmationCodeModel.fromJsonFactory);
 
     return _authIdConfirmPatch(confirmationCode: confirmationCode, id: id);
   }
@@ -115,20 +96,16 @@ abstract class Api extends ChopperService {
   ///@param confirmationCode confirmationCode
   ///@param id id
   @Patch(path: '/auth/{id}/confirm')
-  Future<chopper.Response<bool>> _authIdConfirmPatch(
-      {@Body() required ConfirmationCodeModel? confirmationCode,
-      @Path('id') required int? id});
+  Future<chopper.Response> _authIdConfirmPatch(
+      {@Body() required ConfirmationCodeModel? confirmationCode, @Path('id') required int? id});
 
   ///Used to ask update the user email
   ///@param id id
   ///@param updateEmailRequest updateEmailRequest
-  Future<chopper.Response> authIdUpdateemailPatch(
-      {required int? id, required UpdateEmailRequest? updateEmailRequest}) {
-    generatedMapping.putIfAbsent(
-        UpdateEmailRequest, () => UpdateEmailRequest.fromJsonFactory);
+  Future<chopper.Response> authIdUpdateemailPatch({required int? id, required UpdateEmailRequest? updateEmailRequest}) {
+    generatedMapping.putIfAbsent(UpdateEmailRequest, () => UpdateEmailRequest.fromJsonFactory);
 
-    return _authIdUpdateemailPatch(
-        id: id, updateEmailRequest: updateEmailRequest);
+    return _authIdUpdateemailPatch(id: id, updateEmailRequest: updateEmailRequest);
   }
 
   ///Used to ask update the user email
@@ -136,20 +113,16 @@ abstract class Api extends ChopperService {
   ///@param updateEmailRequest updateEmailRequest
   @Patch(path: '/auth/{id}/updateemail')
   Future<chopper.Response> _authIdUpdateemailPatch(
-      {@Path('id') required int? id,
-      @Body() required UpdateEmailRequest? updateEmailRequest});
+      {@Path('id') required int? id, @Body() required UpdateEmailRequest? updateEmailRequest});
 
   ///Used to update the password
   ///@param id id
   ///@param updatePasswordRequest updatePasswordRequest
   Future<chopper.Response> authIdUpdatepasswordPatch(
-      {required int? id,
-      required UpdatePasswordRequest? updatePasswordRequest}) {
-    generatedMapping.putIfAbsent(
-        UpdatePasswordRequest, () => UpdatePasswordRequest.fromJsonFactory);
+      {required int? id, required UpdatePasswordRequest? updatePasswordRequest}) {
+    generatedMapping.putIfAbsent(UpdatePasswordRequest, () => UpdatePasswordRequest.fromJsonFactory);
 
-    return _authIdUpdatepasswordPatch(
-        id: id, updatePasswordRequest: updatePasswordRequest);
+    return _authIdUpdatepasswordPatch(id: id, updatePasswordRequest: updatePasswordRequest);
   }
 
   ///Used to update the password
@@ -157,17 +130,30 @@ abstract class Api extends ChopperService {
   ///@param updatePasswordRequest updatePasswordRequest
   @Patch(path: '/auth/{id}/updatepassword')
   Future<chopper.Response> _authIdUpdatepasswordPatch(
-      {@Path('id') required int? id,
-      @Body() required UpdatePasswordRequest? updatePasswordRequest});
+      {@Path('id') required int? id, @Body() required UpdatePasswordRequest? updatePasswordRequest});
 
   ///getAll
-  Future<chopper.Response<Object>> usersGet() {
+  Future<chopper.Response<Iterable<UserEntity>>> usersGet() {
+    // generatedMapping.putIfAbsent(
+    //     Iterable<UserEntity>, () => Iterable<UserEntity>.fromJsonFactory);
+
     return _usersGet();
   }
 
   ///getAll
   @Get(path: '/users')
-  Future<chopper.Response<Object>> _usersGet();
+  Future<chopper.Response<Iterable<UserEntity>>> _usersGet();
+
+  ///getCurrentUser
+  Future<chopper.Response<UserModel>> usersMeGet() {
+    generatedMapping.putIfAbsent(UserModel, () => UserModel.fromJsonFactory);
+
+    return _usersMeGet();
+  }
+
+  ///getCurrentUser
+  @Get(path: '/users/me')
+  Future<chopper.Response<UserModel>> _usersMeGet();
 
   ///getUserById
   ///@param id id
@@ -180,16 +166,13 @@ abstract class Api extends ChopperService {
   ///getUserById
   ///@param id id
   @Get(path: '/users/{id}')
-  Future<chopper.Response<UserModel>> _usersIdGet(
-      {@Path('id') required int? id});
+  Future<chopper.Response<UserModel>> _usersIdGet({@Path('id') required int? id});
 
   ///Used to update the user information
   ///@param id id
   ///@param userUpdateRequest userUpdateRequest
-  Future<chopper.Response> usersIdUpdatePatch(
-      {required int? id, required UserUpdateRequest? userUpdateRequest}) {
-    generatedMapping.putIfAbsent(
-        UserUpdateRequest, () => UserUpdateRequest.fromJsonFactory);
+  Future<chopper.Response> usersIdUpdatePatch({required int? id, required UserUpdateRequest? userUpdateRequest}) {
+    generatedMapping.putIfAbsent(UserUpdateRequest, () => UserUpdateRequest.fromJsonFactory);
 
     return _usersIdUpdatePatch(id: id, userUpdateRequest: userUpdateRequest);
   }
@@ -199,8 +182,38 @@ abstract class Api extends ChopperService {
   ///@param userUpdateRequest userUpdateRequest
   @Patch(path: '/users/{id}/update')
   Future<chopper.Response> _usersIdUpdatePatch(
-      {@Path('id') required int? id,
-      @Body() required UserUpdateRequest? userUpdateRequest});
+      {@Path('id') required int? id, @Body() required UserUpdateRequest? userUpdateRequest});
+}
+
+@JsonSerializable(explicitToJson: true)
+class AuthTokenResponse {
+  AuthTokenResponse({
+    this.token,
+  });
+
+  factory AuthTokenResponse.fromJson(Map<String, dynamic> json) => _$AuthTokenResponseFromJson(json);
+
+  @JsonKey(name: 'token')
+  final String? token;
+  static const fromJsonFactory = _$AuthTokenResponseFromJson;
+  static const toJsonFactory = _$AuthTokenResponseToJson;
+  Map<String, dynamic> toJson() => _$AuthTokenResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is AuthTokenResponse &&
+            (identical(other.token, token) || const DeepCollectionEquality().equals(other.token, token)));
+  }
+
+  @override
+  int get hashCode => const DeepCollectionEquality().hash(token) ^ runtimeType.hashCode;
+}
+
+extension $AuthTokenResponseExtension on AuthTokenResponse {
+  AuthTokenResponse copyWith({String? token}) {
+    return AuthTokenResponse(token: token ?? this.token);
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -210,8 +223,7 @@ class CityEntity {
     this.name,
   });
 
-  factory CityEntity.fromJson(Map<String, dynamic> json) =>
-      _$CityEntityFromJson(json);
+  factory CityEntity.fromJson(Map<String, dynamic> json) => _$CityEntityFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -225,17 +237,13 @@ class CityEntity {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is CityEntity &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(name) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(id) ^ const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
 }
 
 extension $CityEntityExtension on CityEntity {
@@ -250,8 +258,7 @@ class CityModel {
     this.name,
   });
 
-  factory CityModel.fromJson(Map<String, dynamic> json) =>
-      _$CityModelFromJson(json);
+  factory CityModel.fromJson(Map<String, dynamic> json) => _$CityModelFromJson(json);
 
   @JsonKey(name: 'name')
   final String? name;
@@ -263,13 +270,11 @@ class CityModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is CityModel &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
 }
 
 extension $CityModelExtension on CityModel {
@@ -284,8 +289,7 @@ class ConfirmationCodeModel {
     this.value,
   });
 
-  factory ConfirmationCodeModel.fromJson(Map<String, dynamic> json) =>
-      _$ConfirmationCodeModelFromJson(json);
+  factory ConfirmationCodeModel.fromJson(Map<String, dynamic> json) => _$ConfirmationCodeModelFromJson(json);
 
   @JsonKey(name: 'value')
   final String? value;
@@ -297,13 +301,11 @@ class ConfirmationCodeModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ConfirmationCodeModel &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)));
+            (identical(other.value, value) || const DeepCollectionEquality().equals(other.value, value)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(value) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(value) ^ runtimeType.hashCode;
 }
 
 extension $ConfirmationCodeModelExtension on ConfirmationCodeModel {
@@ -318,8 +320,7 @@ class ForgotPasswordRequest {
     this.email,
   });
 
-  factory ForgotPasswordRequest.fromJson(Map<String, dynamic> json) =>
-      _$ForgotPasswordRequestFromJson(json);
+  factory ForgotPasswordRequest.fromJson(Map<String, dynamic> json) => _$ForgotPasswordRequestFromJson(json);
 
   @JsonKey(name: 'email')
   final String? email;
@@ -331,13 +332,11 @@ class ForgotPasswordRequest {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ForgotPasswordRequest &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)));
+            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(email) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(email) ^ runtimeType.hashCode;
 }
 
 extension $ForgotPasswordRequestExtension on ForgotPasswordRequest {
@@ -353,8 +352,7 @@ class GenderEntity {
     this.value,
   });
 
-  factory GenderEntity.fromJson(Map<String, dynamic> json) =>
-      _$GenderEntityFromJson(json);
+  factory GenderEntity.fromJson(Map<String, dynamic> json) => _$GenderEntityFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -368,17 +366,13 @@ class GenderEntity {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is GenderEntity &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)));
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.value, value) || const DeepCollectionEquality().equals(other.value, value)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(value) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(id) ^ const DeepCollectionEquality().hash(value) ^ runtimeType.hashCode;
 }
 
 extension $GenderEntityExtension on GenderEntity {
@@ -391,8 +385,7 @@ extension $GenderEntityExtension on GenderEntity {
 class IterableUserEntity {
   IterableUserEntity();
 
-  factory IterableUserEntity.fromJson(Map<String, dynamic> json) =>
-      _$IterableUserEntityFromJson(json);
+  factory IterableUserEntity.fromJson(Map<String, dynamic> json) => _$IterableUserEntityFromJson(json);
 
   static const fromJsonFactory = _$IterableUserEntityFromJson;
   static const toJsonFactory = _$IterableUserEntityToJson;
@@ -409,8 +402,7 @@ class LoginRequest {
     this.username,
   });
 
-  factory LoginRequest.fromJson(Map<String, dynamic> json) =>
-      _$LoginRequestFromJson(json);
+  factory LoginRequest.fromJson(Map<String, dynamic> json) => _$LoginRequestFromJson(json);
 
   @JsonKey(name: 'password')
   final String? password;
@@ -424,12 +416,8 @@ class LoginRequest {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is LoginRequest &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)) &&
-            (identical(other.username, username) ||
-                const DeepCollectionEquality()
-                    .equals(other.username, username)));
+            (identical(other.password, password) || const DeepCollectionEquality().equals(other.password, password)) &&
+            (identical(other.username, username) || const DeepCollectionEquality().equals(other.username, username)));
   }
 
   @override
@@ -441,9 +429,7 @@ class LoginRequest {
 
 extension $LoginRequestExtension on LoginRequest {
   LoginRequest copyWith({String? password, String? username}) {
-    return LoginRequest(
-        password: password ?? this.password,
-        username: username ?? this.username);
+    return LoginRequest(password: password ?? this.password, username: username ?? this.username);
   }
 }
 
@@ -454,8 +440,7 @@ class LoginResponse {
     this.username,
   });
 
-  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
-      _$LoginResponseFromJson(json);
+  factory LoginResponse.fromJson(Map<String, dynamic> json) => _$LoginResponseFromJson(json);
 
   @JsonKey(name: 'token')
   final String? token;
@@ -469,24 +454,62 @@ class LoginResponse {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is LoginResponse &&
-            (identical(other.token, token) ||
-                const DeepCollectionEquality().equals(other.token, token)) &&
-            (identical(other.username, username) ||
-                const DeepCollectionEquality()
-                    .equals(other.username, username)));
+            (identical(other.token, token) || const DeepCollectionEquality().equals(other.token, token)) &&
+            (identical(other.username, username) || const DeepCollectionEquality().equals(other.username, username)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(token) ^
-      const DeepCollectionEquality().hash(username) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(token) ^ const DeepCollectionEquality().hash(username) ^ runtimeType.hashCode;
 }
 
 extension $LoginResponseExtension on LoginResponse {
   LoginResponse copyWith({String? token, String? username}) {
-    return LoginResponse(
-        token: token ?? this.token, username: username ?? this.username);
+    return LoginResponse(token: token ?? this.token, username: username ?? this.username);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class RoleEntity {
+  RoleEntity({
+    this.authority,
+    this.id,
+    this.name,
+  });
+
+  factory RoleEntity.fromJson(Map<String, dynamic> json) => _$RoleEntityFromJson(json);
+
+  @JsonKey(name: 'authority')
+  final String? authority;
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'name')
+  final String? name;
+  static const fromJsonFactory = _$RoleEntityFromJson;
+  static const toJsonFactory = _$RoleEntityToJson;
+  Map<String, dynamic> toJson() => _$RoleEntityToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is RoleEntity &&
+            (identical(other.authority, authority) ||
+                const DeepCollectionEquality().equals(other.authority, authority)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(authority) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      runtimeType.hashCode;
+}
+
+extension $RoleEntityExtension on RoleEntity {
+  RoleEntity copyWith({String? authority, num? id, String? name}) {
+    return RoleEntity(authority: authority ?? this.authority, id: id ?? this.id, name: name ?? this.name);
   }
 }
 
@@ -497,8 +520,7 @@ class UpdateEmailRequest {
     this.password,
   });
 
-  factory UpdateEmailRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateEmailRequestFromJson(json);
+  factory UpdateEmailRequest.fromJson(Map<String, dynamic> json) => _$UpdateEmailRequestFromJson(json);
 
   @JsonKey(name: 'newEmail')
   final String? newEmail;
@@ -512,12 +534,8 @@ class UpdateEmailRequest {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UpdateEmailRequest &&
-            (identical(other.newEmail, newEmail) ||
-                const DeepCollectionEquality()
-                    .equals(other.newEmail, newEmail)) &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)));
+            (identical(other.newEmail, newEmail) || const DeepCollectionEquality().equals(other.newEmail, newEmail)) &&
+            (identical(other.password, password) || const DeepCollectionEquality().equals(other.password, password)));
   }
 
   @override
@@ -529,9 +547,7 @@ class UpdateEmailRequest {
 
 extension $UpdateEmailRequestExtension on UpdateEmailRequest {
   UpdateEmailRequest copyWith({String? newEmail, String? password}) {
-    return UpdateEmailRequest(
-        newEmail: newEmail ?? this.newEmail,
-        password: password ?? this.password);
+    return UpdateEmailRequest(newEmail: newEmail ?? this.newEmail, password: password ?? this.password);
   }
 }
 
@@ -542,8 +558,7 @@ class UpdatePasswordRequest {
     this.oldPassword,
   });
 
-  factory UpdatePasswordRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePasswordRequestFromJson(json);
+  factory UpdatePasswordRequest.fromJson(Map<String, dynamic> json) => _$UpdatePasswordRequestFromJson(json);
 
   @JsonKey(name: 'newPassword')
   final String? newPassword;
@@ -558,11 +573,9 @@ class UpdatePasswordRequest {
     return identical(this, other) ||
         (other is UpdatePasswordRequest &&
             (identical(other.newPassword, newPassword) ||
-                const DeepCollectionEquality()
-                    .equals(other.newPassword, newPassword)) &&
+                const DeepCollectionEquality().equals(other.newPassword, newPassword)) &&
             (identical(other.oldPassword, oldPassword) ||
-                const DeepCollectionEquality()
-                    .equals(other.oldPassword, oldPassword)));
+                const DeepCollectionEquality().equals(other.oldPassword, oldPassword)));
   }
 
   @override
@@ -575,8 +588,7 @@ class UpdatePasswordRequest {
 extension $UpdatePasswordRequestExtension on UpdatePasswordRequest {
   UpdatePasswordRequest copyWith({String? newPassword, String? oldPassword}) {
     return UpdatePasswordRequest(
-        newPassword: newPassword ?? this.newPassword,
-        oldPassword: oldPassword ?? this.oldPassword);
+        newPassword: newPassword ?? this.newPassword, oldPassword: oldPassword ?? this.oldPassword);
   }
 }
 
@@ -592,8 +604,7 @@ class UserCreationRequest {
     this.phoneNumber,
   });
 
-  factory UserCreationRequest.fromJson(Map<String, dynamic> json) =>
-      _$UserCreationRequestFromJson(json);
+  factory UserCreationRequest.fromJson(Map<String, dynamic> json) => _$UserCreationRequestFromJson(json);
 
   @JsonKey(name: 'birthDate')
   final DateTime? birthDate;
@@ -618,24 +629,15 @@ class UserCreationRequest {
     return identical(this, other) ||
         (other is UserCreationRequest &&
             (identical(other.birthDate, birthDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthDate, birthDate)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
+                const DeepCollectionEquality().equals(other.birthDate, birthDate)) &&
+            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)) &&
             (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)) &&
+                const DeepCollectionEquality().equals(other.firstname, firstname)) &&
+            (identical(other.gender, gender) || const DeepCollectionEquality().equals(other.gender, gender)) &&
+            (identical(other.lastname, lastname) || const DeepCollectionEquality().equals(other.lastname, lastname)) &&
+            (identical(other.password, password) || const DeepCollectionEquality().equals(other.password, password)) &&
             (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)));
+                const DeepCollectionEquality().equals(other.phoneNumber, phoneNumber)));
   }
 
   @override
@@ -685,10 +687,10 @@ class UserEntity {
     this.password,
     this.phoneNumber,
     this.profilePicture,
+    this.roles,
   });
 
-  factory UserEntity.fromJson(Map<String, dynamic> json) =>
-      _$UserEntityFromJson(json);
+  factory UserEntity.fromJson(Map<String, dynamic> json) => _$UserEntityFromJson(json);
 
   @JsonKey(name: 'birthDate')
   final DateTime? birthDate;
@@ -714,6 +716,8 @@ class UserEntity {
   final String? phoneNumber;
   @JsonKey(name: 'profilePicture')
   final String? profilePicture;
+  @JsonKey(name: 'roles', defaultValue: <RoleEntity>[])
+  final List<RoleEntity>? roles;
   static const fromJsonFactory = _$UserEntityFromJson;
   static const toJsonFactory = _$UserEntityToJson;
   Map<String, dynamic> toJson() => _$UserEntityToJson(this);
@@ -723,37 +727,24 @@ class UserEntity {
     return identical(this, other) ||
         (other is UserEntity &&
             (identical(other.birthDate, birthDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthDate, birthDate)) &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
+                const DeepCollectionEquality().equals(other.birthDate, birthDate)) &&
+            (identical(other.city, city) || const DeepCollectionEquality().equals(other.city, city)) &&
             (identical(other.confirmed, confirmed) ||
-                const DeepCollectionEquality()
-                    .equals(other.confirmed, confirmed)) &&
+                const DeepCollectionEquality().equals(other.confirmed, confirmed)) &&
             (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
+                const DeepCollectionEquality().equals(other.createdDate, createdDate)) &&
+            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)) &&
             (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)) &&
+                const DeepCollectionEquality().equals(other.firstname, firstname)) &&
+            (identical(other.gender, gender) || const DeepCollectionEquality().equals(other.gender, gender)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.lastname, lastname) || const DeepCollectionEquality().equals(other.lastname, lastname)) &&
+            (identical(other.password, password) || const DeepCollectionEquality().equals(other.password, password)) &&
             (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
+                const DeepCollectionEquality().equals(other.phoneNumber, phoneNumber)) &&
             (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)));
+                const DeepCollectionEquality().equals(other.profilePicture, profilePicture)) &&
+            (identical(other.roles, roles) || const DeepCollectionEquality().equals(other.roles, roles)));
   }
 
   @override
@@ -770,6 +761,7 @@ class UserEntity {
       const DeepCollectionEquality().hash(password) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
       const DeepCollectionEquality().hash(profilePicture) ^
+      const DeepCollectionEquality().hash(roles) ^
       runtimeType.hashCode;
 }
 
@@ -786,7 +778,8 @@ extension $UserEntityExtension on UserEntity {
       String? lastname,
       String? password,
       String? phoneNumber,
-      String? profilePicture}) {
+      String? profilePicture,
+      List<RoleEntity>? roles}) {
     return UserEntity(
         birthDate: birthDate ?? this.birthDate,
         city: city ?? this.city,
@@ -799,7 +792,8 @@ extension $UserEntityExtension on UserEntity {
         lastname: lastname ?? this.lastname,
         password: password ?? this.password,
         phoneNumber: phoneNumber ?? this.phoneNumber,
-        profilePicture: profilePicture ?? this.profilePicture);
+        profilePicture: profilePicture ?? this.profilePicture,
+        roles: roles ?? this.roles);
   }
 }
 
@@ -809,8 +803,7 @@ class UserIdResponse {
     this.userId,
   });
 
-  factory UserIdResponse.fromJson(Map<String, dynamic> json) =>
-      _$UserIdResponseFromJson(json);
+  factory UserIdResponse.fromJson(Map<String, dynamic> json) => _$UserIdResponseFromJson(json);
 
   @JsonKey(name: 'userId')
   final num? userId;
@@ -822,13 +815,11 @@ class UserIdResponse {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UserIdResponse &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)));
+            (identical(other.userId, userId) || const DeepCollectionEquality().equals(other.userId, userId)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(userId) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(userId) ^ runtimeType.hashCode;
 }
 
 extension $UserIdResponseExtension on UserIdResponse {
@@ -852,10 +843,10 @@ class UserModel {
     this.password,
     this.phoneNumber,
     this.profilePicture,
+    this.roles,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) =>
-      _$UserModelFromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
 
   @JsonKey(name: 'birthDate')
   final DateTime? birthDate;
@@ -869,10 +860,7 @@ class UserModel {
   final String? email;
   @JsonKey(name: 'firstname')
   final String? firstname;
-  @JsonKey(
-      name: 'gender',
-      toJson: userModelGenderToJson,
-      fromJson: userModelGenderFromJson)
+  @JsonKey(name: 'gender', toJson: userModelGenderToJson, fromJson: userModelGenderFromJson)
   final enums.UserModelGender? gender;
   @JsonKey(name: 'id')
   final num? id;
@@ -884,6 +872,8 @@ class UserModel {
   final String? phoneNumber;
   @JsonKey(name: 'profilePicture')
   final String? profilePicture;
+  @JsonKey(name: 'roles', toJson: userModelRolesListToJson, fromJson: userModelRolesListFromJson)
+  final List<enums.UserModelRoles>? roles;
   static const fromJsonFactory = _$UserModelFromJson;
   static const toJsonFactory = _$UserModelToJson;
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
@@ -893,37 +883,24 @@ class UserModel {
     return identical(this, other) ||
         (other is UserModel &&
             (identical(other.birthDate, birthDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthDate, birthDate)) &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
+                const DeepCollectionEquality().equals(other.birthDate, birthDate)) &&
+            (identical(other.city, city) || const DeepCollectionEquality().equals(other.city, city)) &&
             (identical(other.confirmed, confirmed) ||
-                const DeepCollectionEquality()
-                    .equals(other.confirmed, confirmed)) &&
+                const DeepCollectionEquality().equals(other.confirmed, confirmed)) &&
             (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
+                const DeepCollectionEquality().equals(other.createdDate, createdDate)) &&
+            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)) &&
             (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)) &&
+                const DeepCollectionEquality().equals(other.firstname, firstname)) &&
+            (identical(other.gender, gender) || const DeepCollectionEquality().equals(other.gender, gender)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.lastname, lastname) || const DeepCollectionEquality().equals(other.lastname, lastname)) &&
+            (identical(other.password, password) || const DeepCollectionEquality().equals(other.password, password)) &&
             (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
+                const DeepCollectionEquality().equals(other.phoneNumber, phoneNumber)) &&
             (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)));
+                const DeepCollectionEquality().equals(other.profilePicture, profilePicture)) &&
+            (identical(other.roles, roles) || const DeepCollectionEquality().equals(other.roles, roles)));
   }
 
   @override
@@ -940,6 +917,7 @@ class UserModel {
       const DeepCollectionEquality().hash(password) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
       const DeepCollectionEquality().hash(profilePicture) ^
+      const DeepCollectionEquality().hash(roles) ^
       runtimeType.hashCode;
 }
 
@@ -956,7 +934,8 @@ extension $UserModelExtension on UserModel {
       String? lastname,
       String? password,
       String? phoneNumber,
-      String? profilePicture}) {
+      String? profilePicture,
+      List<enums.UserModelRoles>? roles}) {
     return UserModel(
         birthDate: birthDate ?? this.birthDate,
         city: city ?? this.city,
@@ -969,7 +948,8 @@ extension $UserModelExtension on UserModel {
         lastname: lastname ?? this.lastname,
         password: password ?? this.password,
         phoneNumber: phoneNumber ?? this.phoneNumber,
-        profilePicture: profilePicture ?? this.profilePicture);
+        profilePicture: profilePicture ?? this.profilePicture,
+        roles: roles ?? this.roles);
   }
 }
 
@@ -983,8 +963,7 @@ class UserUpdateRequest {
     this.profilePicture,
   });
 
-  factory UserUpdateRequest.fromJson(Map<String, dynamic> json) =>
-      _$UserUpdateRequestFromJson(json);
+  factory UserUpdateRequest.fromJson(Map<String, dynamic> json) => _$UserUpdateRequestFromJson(json);
 
   @JsonKey(name: 'city')
   final CityModel? city;
@@ -1004,20 +983,14 @@ class UserUpdateRequest {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UserUpdateRequest &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
+            (identical(other.city, city) || const DeepCollectionEquality().equals(other.city, city)) &&
             (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
+                const DeepCollectionEquality().equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) || const DeepCollectionEquality().equals(other.lastname, lastname)) &&
             (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
+                const DeepCollectionEquality().equals(other.phoneNumber, phoneNumber)) &&
             (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)));
+                const DeepCollectionEquality().equals(other.profilePicture, profilePicture)));
   }
 
   @override
@@ -1032,11 +1005,7 @@ class UserUpdateRequest {
 
 extension $UserUpdateRequestExtension on UserUpdateRequest {
   UserUpdateRequest copyWith(
-      {CityModel? city,
-      String? firstname,
-      String? lastname,
-      String? phoneNumber,
-      String? profilePicture}) {
+      {CityModel? city, String? firstname, String? lastname, String? phoneNumber, String? profilePicture}) {
     return UserUpdateRequest(
         city: city ?? this.city,
         firstname: firstname ?? this.firstname,
@@ -1071,13 +1040,10 @@ class ValidateCodePasswordRequest {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ValidateCodePasswordRequest &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)) &&
             (identical(other.newPassword, newPassword) ||
-                const DeepCollectionEquality()
-                    .equals(other.newPassword, newPassword)) &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)));
+                const DeepCollectionEquality().equals(other.newPassword, newPassword)) &&
+            (identical(other.value, value) || const DeepCollectionEquality().equals(other.value, value)));
   }
 
   @override
@@ -1089,12 +1055,9 @@ class ValidateCodePasswordRequest {
 }
 
 extension $ValidateCodePasswordRequestExtension on ValidateCodePasswordRequest {
-  ValidateCodePasswordRequest copyWith(
-      {String? email, String? newPassword, String? value}) {
+  ValidateCodePasswordRequest copyWith({String? email, String? newPassword, String? value}) {
     return ValidateCodePasswordRequest(
-        email: email ?? this.email,
-        newPassword: newPassword ?? this.newPassword,
-        value: value ?? this.value);
+        email: email ?? this.email, newPassword: newPassword ?? this.newPassword, value: value ?? this.value);
   }
 }
 
@@ -1105,29 +1068,22 @@ String? userModelGenderToJson(enums.UserModelGender? userModelGender) {
 enums.UserModelGender userModelGenderFromJson(Object? userModelGender) {
   if (userModelGender is int) {
     return enums.$UserModelGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == userModelGender.toString(),
-            orElse: () => const MapEntry(
-                enums.UserModelGender.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == userModelGender.toString(),
+            orElse: () => const MapEntry(enums.UserModelGender.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (userModelGender is String) {
     return enums.$UserModelGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == userModelGender.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.UserModelGender.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == userModelGender.toLowerCase(),
+            orElse: () => const MapEntry(enums.UserModelGender.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.UserModelGender.swaggerGeneratedUnknown;
 }
 
-List<String> userModelGenderListToJson(
-    List<enums.UserModelGender>? userModelGender) {
+List<String> userModelGenderListToJson(List<enums.UserModelGender>? userModelGender) {
   if (userModelGender == null) {
     return [];
   }
@@ -1140,9 +1096,45 @@ List<enums.UserModelGender> userModelGenderListFromJson(List? userModelGender) {
     return [];
   }
 
-  return userModelGender
-      .map((e) => userModelGenderFromJson(e.toString()))
-      .toList();
+  return userModelGender.map((e) => userModelGenderFromJson(e.toString())).toList();
+}
+
+String? userModelRolesToJson(enums.UserModelRoles? userModelRoles) {
+  return enums.$UserModelRolesMap[userModelRoles];
+}
+
+enums.UserModelRoles userModelRolesFromJson(Object? userModelRoles) {
+  if (userModelRoles is int) {
+    return enums.$UserModelRolesMap.entries
+        .firstWhere((element) => element.value.toLowerCase() == userModelRoles.toString(),
+            orElse: () => const MapEntry(enums.UserModelRoles.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (userModelRoles is String) {
+    return enums.$UserModelRolesMap.entries
+        .firstWhere((element) => element.value.toLowerCase() == userModelRoles.toLowerCase(),
+            orElse: () => const MapEntry(enums.UserModelRoles.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.UserModelRoles.swaggerGeneratedUnknown;
+}
+
+List<String> userModelRolesListToJson(List<enums.UserModelRoles>? userModelRoles) {
+  if (userModelRoles == null) {
+    return [];
+  }
+
+  return userModelRoles.map((e) => enums.$UserModelRolesMap[e]!).toList();
+}
+
+List<enums.UserModelRoles> userModelRolesListFromJson(List? userModelRoles) {
+  if (userModelRoles == null) {
+    return [];
+  }
+
+  return userModelRoles.map((e) => userModelRolesFromJson(e.toString())).toList();
 }
 
 typedef $JsonFactory<T> = T Function(Map<String, dynamic> json);
@@ -1177,14 +1169,12 @@ class $CustomJsonDecoder {
     return jsonFactory(values);
   }
 
-  List<T> _decodeList<T>(Iterable values) =>
-      values.where((v) => v != null).map<T>((v) => decode<T>(v) as T).toList();
+  List<T> _decodeList<T>(Iterable values) => values.where((v) => v != null).map<T>((v) => decode<T>(v) as T).toList();
 }
 
 class $JsonSerializableConverter extends chopper.JsonConverter {
   @override
-  chopper.Response<ResultType> convertResponse<ResultType, Item>(
-      chopper.Response response) {
+  chopper.Response<ResultType> convertResponse<ResultType, Item>(chopper.Response response) {
     if (response.bodyString.isEmpty) {
       // In rare cases, when let's say 204 (no content) is returned -
       // we cannot decode the missing json with the result type specified
@@ -1192,8 +1182,7 @@ class $JsonSerializableConverter extends chopper.JsonConverter {
     }
 
     final jsonRes = super.convertResponse(response);
-    return jsonRes.copyWith<ResultType>(
-        body: $jsonDecoder.decode<Item>(jsonRes.body) as ResultType);
+    return jsonRes.copyWith<ResultType>(body: $jsonDecoder.decode<Item>(jsonRes.body) as ResultType);
   }
 }
 

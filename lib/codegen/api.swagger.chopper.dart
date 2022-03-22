@@ -35,12 +35,12 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<UserModel>> _authRegisterPost(
+  Future<Response<AuthTokenResponse>> _authRegisterPost(
       {required UserCreationRequest? model}) {
     final $url = '/auth/register';
     final $body = model;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
-    return client.send<UserModel, UserModel>($request);
+    return client.send<AuthTokenResponse, AuthTokenResponse>($request);
   }
 
   @override
@@ -53,12 +53,12 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<bool>> _authIdConfirmPatch(
+  Future<Response<dynamic>> _authIdConfirmPatch(
       {required ConfirmationCodeModel? confirmationCode, required int? id}) {
     final $url = '/auth/${id}/confirm';
     final $body = confirmationCode;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
-    return client.send<bool, bool>($request);
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override
@@ -81,10 +81,17 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<Object>> _usersGet() {
+  Future<Response<Iterable<UserEntity>>> _usersGet() {
     final $url = '/users';
     final $request = Request('GET', $url, client.baseUrl);
-    return client.send<Object, Object>($request);
+    return client.send<Iterable<UserEntity>, UserEntity>($request);
+  }
+
+  @override
+  Future<Response<UserModel>> _usersMeGet() {
+    final $url = '/users/me';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<UserModel, UserModel>($request);
   }
 
   @override

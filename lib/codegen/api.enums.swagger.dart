@@ -16,3 +16,17 @@ const $UserModelGenderMap = {
   UserModelGender.male: 'MALE',
   UserModelGender.notSpecified: 'NOT_SPECIFIED'
 };
+
+enum UserModelRoles {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('ADMIN')
+  admin,
+  @JsonValue('DEFAULT')
+  $default
+}
+
+const $UserModelRolesMap = {
+  UserModelRoles.admin: 'ADMIN',
+  UserModelRoles.$default: 'DEFAULT'
+};

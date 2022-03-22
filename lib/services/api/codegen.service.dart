@@ -7,8 +7,7 @@ import '../../codegen/api.swagger.dart';
 import '../auth/auth.service.dart';
 import 'http.service.dart';
 
-const BASE_URL =
-    String.fromEnvironment("BASE_URL", defaultValue: "http://localhost:8080");
+const BASE_URL = String.fromEnvironment("BASE_URL", defaultValue: "http://localhost:8080");
 
 class CodegenService extends HttpService {
   late Api api;
@@ -25,10 +24,7 @@ class CodegenService extends HttpService {
             converter: $JsonSerializableConverter(),
             interceptors: [
               (Request request) async => applyHeader(
-                  request,
-                  'authorization',
-                  "Bearer " +
-                      (await storage.read(key: AuthService.tokenKey) ?? ""),
+                  request, 'authorization', "Bearer " + (await storage.read(key: AuthService.tokenKey) ?? ""),
                   override: false),
               (Response response) async {
                 if (response.statusCode == 401) {
@@ -51,19 +47,18 @@ class CodegenService extends HttpService {
     if (id == null) {
       return null;
     }
-    final response = await api.usersIdGet(id: id);
+    final response = await api.usersMeGet();
     return response.body;
   }
 
   @override
   Future<LoginResponse?> login(String email, String password) async {
-    final response = await api.authLoginPost(
-        loginRequest: LoginRequest(password: password, username: email));
+    final response = await api.authLoginPost(loginRequest: LoginRequest(password: password, username: email));
     return response.body;
   }
 
   @override
-  Future<UserModel?> signup(SignupCredentials data) async {
+  Future<AuthTokenResponse?> signup(SignupCredentials data) async {
     final response = await api.authRegisterPost(
         model: UserCreationRequest(
       gender: data.gender,
@@ -84,8 +79,7 @@ class CodegenService extends HttpService {
 
   @override
   Future<bool> verifyAccount(int id, String code) async {
-    final response = await api.authIdConfirmPatch(
-        confirmationCode: ConfirmationCodeModel(value: code), id: id);
+    final response = await api.authIdConfirmPatch(confirmationCode: ConfirmationCodeModel(value: code), id: id);
     return response.isSuccessful ? response.body! : false;
   }
 
@@ -112,16 +106,18 @@ class CodegenService extends HttpService {
 
   @override
   Future<void> forgotPassword(String email) async {
-    await api.authForgotpasswordPost(
-        forgotPasswordRequest: ForgotPasswordRequest(email: email));
+    await api.authForgotpasswordPost(forgotPasswordRequest: ForgotPasswordRequest(email: email));
   }
 
   @override
-  Future<UserIdResponse?> resetPassword(
-      String email, String code, String password) async {
+  Future<UserIdResponse?> resetPassword(String email, String code, String password) async {
     final response = await api.authValidatepasswordPost(
-        validateCodePasswordRequest: ValidateCodePasswordRequest(
-            email: email, newPassword: password, value: code));
+        validateCodePasswordRequest: ValidateCodePasswordRequest(email: email, newPassword: password, value: code));
     return response.body;
+  }
+
+  @override
+  Future<void> resendVerificationCode(String email) async {
+    await api.authForgotpasswordPost(forgotPasswordRequest: ForgotPasswordRequest(email: email));
   }
 }

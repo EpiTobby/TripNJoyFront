@@ -14,7 +14,7 @@ abstract class HttpService {
 
   Future<LoginResponse?> login(String email, String password);
 
-  Future<UserModel?> signup(SignupCredentials data);
+  Future<AuthTokenResponse?> signup(SignupCredentials data);
 
   Future<bool> verifyAccount(int id, String code);
 
@@ -26,6 +26,7 @@ abstract class HttpService {
 
   Future<void> forgotPassword(String email);
 
-  Future<UserIdResponse?> resetPassword(
-      String email, String code, String password);
+  Future<UserIdResponse?> resetPassword(String email, String code, String password);
+
+  Future<void> resendVerificationCode(String email);
 }

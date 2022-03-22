@@ -45,8 +45,7 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
 
-        colorScheme:
-            ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(
           background: CColors.background,
           primary: CColors.primary,
           secondary: CColors.secondary,
@@ -114,12 +113,18 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
 
     useEffect(() {
       if (authService.isAuthenticated) {
-        userService.loadUser(authService.token!);
-      }
-      if (step == AuthStep.SIGNUP) {
-        SchedulerBinding.instance?.endOfFrame.then((_) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (_) => AccountVerification()));
+        userService.loadUser(authService.token!).then((value) {
+          if (value != null) {
+            if (value.confirmed == false) {
+              logger.d("user not confirmed");
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => AccountVerification(email: value.email!),
+                ),
+              );
+            }
+          }
         });
       }
       return null;
@@ -150,8 +155,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
                 child: Wrap(
                   children: [
                     Text(
-                      AppLocalizations.of(context)
-                          .translate('errors.unexpected'),
+                      AppLocalizations.of(context).translate('errors.unexpected'),
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 20,
@@ -163,8 +167,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
                 ),
               ),
               PrimaryButton(
-                text:
-                    AppLocalizations.of(context).translate('common.reconnect'),
+                text: AppLocalizations.of(context).translate('common.reconnect'),
                 onPressed: () {
                   authService.logout();
                 },

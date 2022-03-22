@@ -49,10 +49,10 @@ class AuthService extends ChangeNotifier {
     signupState = const AsyncValue.loading();
     notifyListeners();
     try {
-      var user = await httpService.signup(data);
-      if (user != null) {
+      var token = await httpService.signup(data);
+      if (token != null) {
         signupState = const AsyncValue.data(null);
-        return await login(data.email, data.password);
+        return await saveToken(token.token!);
       }
       signupState = AsyncValue.error(AppLocalizations.instance.translate("errors.login"));
     } catch (e) {
@@ -71,11 +71,28 @@ class AuthService extends ChangeNotifier {
     var userId = httpService.getUserIdFromToken(token);
     try {
       var isVerified = await httpService.verifyAccount(userId!, code);
-      verifyAccountState = isVerified ? const AsyncValue.data(null) : const AsyncValue.error("Code incorrect");
+      verifyAccountState = isVerified
+          ? const AsyncValue.data(null)
+          : AsyncValue.error(AppLocalizations.instance.translate('errors.wrongCodeConfirmation'));
       return isVerified;
     } catch (e) {
       logger.e(e.toString(), e);
       verifyAccountState = AsyncValue.error(AppLocalizations.instance.translate('errors.wrongCodeConfirmation'));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> resendVerificationCode(String email) async {
+    logger.d('resend code to $email');
+    verifyAccountState = const AsyncValue.loading();
+    notifyListeners();
+    try {
+      await httpService.resendVerificationCode(email);
+      verifyAccountState = const AsyncValue.data(null);
+    } catch (e) {
+      logger.e(e.toString(), e);
+      verifyAccountState = AsyncValue.error(AppLocalizations.instance.translate('errors.unexpected'));
     } finally {
       notifyListeners();
     }
