@@ -3,6 +3,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
+import 'package:trip_n_joy_front/services/auth/auth.service.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
+import 'package:trip_n_joy_front/services/user/user.service.dart';
+import 'package:trip_n_joy_front/widgets/common/input_dialog_password.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
@@ -11,7 +15,6 @@ import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 import '../../providers/auth/auth.provider.dart';
 import '../../providers/user/user.provider.dart';
 import '../../widgets/common/input_dialog.widget.dart';
-import '../auth/reset_password.screen.dart';
 
 class SettingsPage extends StatefulHookConsumerWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -22,6 +25,14 @@ class SettingsPage extends StatefulHookConsumerWidget {
 
 class _SettingsPageState extends ConsumerState<SettingsPage> {
   bool _darkMode = false;
+
+  void upload(UserService userService, AuthService authService) async {
+    userService.updateUser(
+        authService.token!,
+        UserUpdateRequest(
+            profilePicture:
+                "https://cdn.discordapp.com/avatars/297465470133731329/a9c6e37f6959a30d98038743c799a21f.webp?size=240"));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +46,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         LayoutHeader(
           title: "${user.firstname} ${user.lastname}",
           imageURL: user.profilePicture ??
-              "https://cdn.discordapp.com/avatars/297465470133731329/a9c6e37f6959a30d98038743c799a21f.webp?size=240",
+              "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png",
+          onClick: () => upload(userService, authService),
         ),
         LayoutBox(title: AppLocalizations.of(context).translate("settings.about"), children: <Widget>[
           LayoutItem(
@@ -87,12 +99,14 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 value: "•••••••••",
                 icon: const Icon(Icons.keyboard_arrow_right_sharp),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => ResetPassword(
-                                email: user.email!,
-                              )));
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialogPassword(onConfirm: (password, newPassword) async {
+                          authService
+                              .updatePassword(UpdatePasswordRequest(oldPassword: password, newPassword: newPassword));
+                        });
+                      });
                 },
               )),
           LayoutItem(

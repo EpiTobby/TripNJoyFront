@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 
 import '../api/http.service.dart';
@@ -22,6 +23,7 @@ class AuthService extends ChangeNotifier {
   AsyncValue<void> verifyAccountState = const AsyncValue.data(null);
   AsyncValue<void> forgotPasswordState = const AsyncValue.data(null);
   AsyncValue<void> resetPasswordState = const AsyncValue.data(null);
+  AsyncValue<void> updatePasswordState = const AsyncValue.data(null);
 
   bool get isAuthenticated => token != null;
 
@@ -106,6 +108,22 @@ class AuthService extends ChangeNotifier {
     } catch (e) {
       logger.e(e.toString(), e);
       resetPasswordState = AsyncValue.error(AppLocalizations.instance.translate("errors.unexpected"));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> updatePassword(UpdatePasswordRequest updatePasswordRequest) async {
+    logger.d('update password');
+    updatePasswordState = const AsyncValue.loading();
+    notifyListeners();
+    try {
+      var id = httpService.getUserIdFromToken(token);
+      await httpService.updatePassword(id!, updatePasswordRequest);
+      updatePasswordState = const AsyncValue.data(null);
+    } catch (e) {
+      logger.e(e.toString(), e);
+      updatePasswordState = AsyncValue.error(AppLocalizations.instance.translate("errors.unexpected"));
     } finally {
       notifyListeners();
     }

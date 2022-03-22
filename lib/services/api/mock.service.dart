@@ -59,6 +59,7 @@ class MockService extends HttpService {
   @override
   Future<void> forgotPassword(String email) async {}
 
+  @override
   Future<UserIdResponse?> resetPassword(
       String email, String code, String password) async {
     return UserIdResponse(userId: 1);
@@ -68,4 +69,12 @@ class MockService extends HttpService {
   Future<void> updateUser(int id, UserUpdateRequest updateRequest) {
     return Future.value();
   }
+
+  @override
+  Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest ) {
+    return Future.value();
+  }
+
+
+
 }
