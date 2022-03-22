@@ -91,6 +91,7 @@ class AuthService extends ChangeNotifier {
     } catch (e) {
       logger.e(e.toString(), e);
       forgotPasswordState = AsyncValue.error(AppLocalizations.instance.translate("errors.unexpected"));
+      rethrow;
     } finally {
       notifyListeners();
     }

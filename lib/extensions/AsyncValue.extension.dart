@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,38 +10,32 @@ typedef VoidAsyncValue = AsyncValue<void>;
 
 extension AsyncValueUI on VoidAsyncValue {
   bool get isLoading => this is AsyncLoading<void>;
+
   bool get isError => this is AsyncError<void>;
 
   void showSnackBarOnError(BuildContext context) => whenOrNull(
         error: (error, _) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            behavior: SnackBarBehavior.floating,
-            elevation: 6,
-            backgroundColor: Theme.of(context).colorScheme.error,
+          Flushbar(
+            flushbarPosition: FlushbarPosition.TOP,
+            message: error.toString(),
+            borderRadius: BorderRadius.circular(5),
             margin: const EdgeInsets.all(20),
-            padding: const EdgeInsets.all(10),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(error.toString(),
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Theme.of(context).colorScheme.onError)),
-                IconButton(
-                  splashRadius: 20,
-                  enableFeedback: false,
-                  icon: Icon(
-                    Icons.close,
-                    color: Theme.of(context).colorScheme.onError,
-                  ),
-                  onPressed: () =>
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar(),
-                ),
-              ],
+            messageColor: Theme.of(context).colorScheme.onError,
+            backgroundColor: Theme.of(context).colorScheme.error,
+            boxShadows: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+                offset: Offset(0, 3),
+                blurRadius: 10,
+              ),
+            ],
+            animationDuration: Duration(milliseconds: 500),
+            icon: const Icon(
+              Icons.error,
+              color: Colors.white,
             ),
-          ));
+            duration: const Duration(seconds: 10),
+          ).show(context);
         },
       );
 }
