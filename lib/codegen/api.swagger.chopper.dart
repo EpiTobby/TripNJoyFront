@@ -102,6 +102,25 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<dynamic>> _usersIdDelete(
+      {required DeleteUserRequest? deleteUserRequest, required int? id}) {
+    final $url = '/users/${id}';
+    final $body = deleteUserRequest;
+    final $request = Request('DELETE', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _usersIdAdminDelete(
+      {required DeleteUserByAdminRequest? deleteUserByAdminRequest,
+      required int? id}) {
+    final $url = '/users/${id}/admin';
+    final $body = deleteUserByAdminRequest;
+    final $request = Request('DELETE', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _usersIdUpdatePatch(
       {required int? id, required UserUpdateRequest? userUpdateRequest}) {
     final $url = '/users/${id}/update';

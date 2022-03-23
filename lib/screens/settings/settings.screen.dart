@@ -194,8 +194,20 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             icon: const Icon(Icons.close),
             customColor: Theme.of(context).colorScheme.error,
             onPressed: () async {
-              ref.read(userProvider.notifier).deleteUser(authService.token!);
-              authService.logout();
+
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return InputDialog(
+                        title: AppLocalizations.of(context).translate("settings.password"),
+                        label: AppLocalizations.of(context).translate("user.password"),
+                        isPassword: true,
+                        initialValue: user.lastname!,
+                        onConfirm: (value) async {
+                          await ref.read(userProvider.notifier).deleteUser(authService.token!, DeleteUserRequest(password: value));
+                          authService.logout();
+                        });
+                  });
             },
           )),
         ])
