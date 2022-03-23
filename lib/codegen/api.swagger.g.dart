@@ -6,6 +6,16 @@ part of 'api.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AuthTokenResponse _$AuthTokenResponseFromJson(Map<String, dynamic> json) =>
+    AuthTokenResponse(
+      token: json['token'] as String?,
+    );
+
+Map<String, dynamic> _$AuthTokenResponseToJson(AuthTokenResponse instance) =>
+    <String, dynamic>{
+      'token': instance.token,
+    };
+
 CityEntity _$CityEntityFromJson(Map<String, dynamic> json) => CityEntity(
       id: json['id'] as num?,
       name: json['name'] as String?,
@@ -89,6 +99,19 @@ Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
       'username': instance.username,
     };
 
+RoleEntity _$RoleEntityFromJson(Map<String, dynamic> json) => RoleEntity(
+      authority: json['authority'] as String?,
+      id: json['id'] as num?,
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$RoleEntityToJson(RoleEntity instance) =>
+    <String, dynamic>{
+      'authority': instance.authority,
+      'id': instance.id,
+      'name': instance.name,
+    };
+
 UpdateEmailRequest _$UpdateEmailRequestFromJson(Map<String, dynamic> json) =>
     UpdateEmailRequest(
       newEmail: json['newEmail'] as String?,
@@ -161,6 +184,10 @@ UserEntity _$UserEntityFromJson(Map<String, dynamic> json) => UserEntity(
       password: json['password'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       profilePicture: json['profilePicture'] as String?,
+      roles: (json['roles'] as List<dynamic>?)
+              ?.map((e) => RoleEntity.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$UserEntityToJson(UserEntity instance) =>
@@ -177,6 +204,7 @@ Map<String, dynamic> _$UserEntityToJson(UserEntity instance) =>
       'password': instance.password,
       'phoneNumber': instance.phoneNumber,
       'profilePicture': instance.profilePicture,
+      'roles': instance.roles?.map((e) => e.toJson()).toList(),
     };
 
 UserIdResponse _$UserIdResponseFromJson(Map<String, dynamic> json) =>
@@ -208,6 +236,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       password: json['password'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       profilePicture: json['profilePicture'] as String?,
+      roles: userModelRolesListFromJson(json['roles'] as List?),
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -223,6 +252,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'password': instance.password,
       'phoneNumber': instance.phoneNumber,
       'profilePicture': instance.profilePicture,
+      'roles': userModelRolesListToJson(instance.roles),
     };
 
 UserUpdateRequest _$UserUpdateRequestFromJson(Map<String, dynamic> json) =>

@@ -44,6 +44,7 @@ class ForgotPassword extends HookConsumerWidget {
                 hint: AppLocalizations.of(context).translate('auth.forgot_password.label'),
                 icon: const Icon(Icons.email),
                 keyboardType: TextInputType.emailAddress,
+                textCapitalization: TextCapitalization.none,
                 isError: authService.forgotPasswordState.isError,
                 onChanged: (value) {
                   email.value = value;

@@ -8,14 +8,13 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
   final HttpService httpService;
   UserModel? user;
 
-  Future<void> loadUser(String token) async {
+  Future<UserModel?> loadUser(String token) async {
     try {
       state = const AsyncLoading();
       var id = httpService.getUserIdFromToken(token);
-      user = await httpService
-          .loadUser(id)
-          .timeout(const Duration(seconds: 10));
+      user = await httpService.loadUser(id).timeout(const Duration(seconds: 10));
       state = AsyncData(user);
+      return user;
     } catch (e) {
       state = AsyncError(e);
     }

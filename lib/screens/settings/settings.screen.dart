@@ -27,7 +27,6 @@ const MINIO_SECRET_KEY = "minioadmin";
 const MINIO_PORT = 9000;
 const MINIO_BUCKET = "tripnjoy";
 
-
 class SettingsPage extends StatefulHookConsumerWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
@@ -52,12 +51,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     var imageBytes = pickedFile.readAsBytes().asStream();
 
     final minio = Minio(
-      endPoint: MINIO_ENDPOINT,
-      accessKey: MINIO_ACCESS_KEY,
-      secretKey: MINIO_SECRET_KEY,
-      useSSL: false,
-      port: MINIO_PORT
-    );
+        endPoint: MINIO_ENDPOINT,
+        accessKey: MINIO_ACCESS_KEY,
+        secretKey: MINIO_SECRET_KEY,
+        useSSL: false,
+        port: MINIO_PORT);
 
     await minio.putObject(MINIO_BUCKET, pickedFile.name, imageBytes);
 

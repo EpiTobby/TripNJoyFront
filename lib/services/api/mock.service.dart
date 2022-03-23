@@ -31,11 +31,9 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<UserModel?> signup(SignupCredentials data) {
-    var sessionToken = SessionToken();
-    sessionToken.token = "token";
+  Future<AuthTokenResponse?> signup(SignupCredentials data) {
     return Future.delayed(Duration(seconds: 1), () {
-      return UserModel();
+      return AuthTokenResponse(token: "token");
     });
   }
 
@@ -67,15 +65,17 @@ class MockService extends HttpService {
   }
 
   @override
+  Future<void> resendVerificationCode(String email) {
+    return Future.delayed(Duration(seconds: 1), () {});
+  }
+
+  @override
   Future<void> updateUser(int id, UserUpdateRequest updateRequest) {
     return Future.value();
   }
 
   @override
-  Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest ) {
+  Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest) {
     return Future.value();
   }
-
-
-
 }

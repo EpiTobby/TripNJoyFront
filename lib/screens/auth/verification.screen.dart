@@ -6,14 +6,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 
+import '../../main.dart';
 import '../../providers/auth/auth.provider.dart';
 import '../../widgets/common/button.widget.dart';
 import '../../widgets/common/input.widget.dart';
 
 class AccountVerification extends HookConsumerWidget {
-  const AccountVerification({
-    Key? key,
-  }) : super(key: key);
+  const AccountVerification({Key? key, required this.email}) : super(key: key);
+  final String email;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -64,9 +64,10 @@ class AccountVerification extends HookConsumerWidget {
               PrimaryButton(
                 text: AppLocalizations.of(context).translate('auth.verification.submit'),
                 onPressed: () {
-                  authService
-                      .verifyAccount(code.value)
-                      .then((value) => {if (value != null) Navigator.of(context).pop()});
+                  authService.verifyAccount(code.value).then((value) => {
+                        if (value != null)
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyApp()))
+                      });
                 },
                 isLoading: authService.verifyAccountState.isLoading,
                 isDisabled: code.value.isEmpty,
@@ -78,6 +79,7 @@ class AccountVerification extends HookConsumerWidget {
                           .translate('auth.verification.resendCountdown', {'time': resendCountdown.value.toString()}),
                   onPressed: () {
                     resendCountdown.value = 30;
+                    authService.resendVerificationCode(email);
                   },
                   isDisabled: resendCountdown.value != 0)
             ],

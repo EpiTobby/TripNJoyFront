@@ -80,6 +80,8 @@ class _SignUpState extends ConsumerState<SignUp> {
                   label: AppLocalizations.of(context).translate("user.email"),
                   hint: AppLocalizations.of(context).translate("auth.email"),
                   onChanged: (value) => email.value = value,
+                  keyboardType: TextInputType.emailAddress,
+                  textCapitalization: TextCapitalization.none,
                   isError: authService.signupState.isError,
                   icon: const Icon(Icons.email)),
               InputField(
