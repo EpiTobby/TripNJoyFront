@@ -30,8 +30,7 @@ class AccountVerification extends HookConsumerWidget {
       return timer.cancel;
     }, [resendCountdown]);
 
-    ref.listen<AsyncValue<void>>(authVerifyAccountStateProvider,
-        (_, state) => state.showSnackBarOnError(context));
+    ref.listen<AsyncValue<void>>(authVerifyAccountStateProvider, (_, state) => state.showSnackBarOnError(context));
 
     return Scaffold(
       body: Center(
@@ -41,27 +40,21 @@ class AccountVerification extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppLocalizations.of(context)
-                    .translate('auth.verification.title'),
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold),
+                AppLocalizations.of(context).translate('auth.verification.title'),
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 40, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               Text(
-                AppLocalizations.of(context)
-                    .translate('auth.verification.description'),
+                AppLocalizations.of(context).translate('auth.verification.description'),
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary, fontSize: 16),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 16),
               ),
               InputField(
-                label: AppLocalizations.of(context)
-                    .translate('auth.verification.code'),
-                hint: AppLocalizations.of(context)
-                    .translate('auth.verification.label'),
-                icon: const Icon(Icons.lock),
+                label: AppLocalizations.of(context).translate('auth.verification.code'),
+                hint: AppLocalizations.of(context).translate('auth.verification.label'),
+                icon: const Icon(Icons.app_registration),
+                keyboardType: TextInputType.number,
                 isError: authService.verifyAccountState.isError,
                 onChanged: (value) {
                   code.value = value;
@@ -69,22 +62,20 @@ class AccountVerification extends HookConsumerWidget {
               ),
               const SizedBox(height: 16),
               PrimaryButton(
-                text: AppLocalizations.of(context)
-                    .translate('auth.verification.submit'),
+                text: AppLocalizations.of(context).translate('auth.verification.submit'),
                 onPressed: () {
-                  authService.verifyAccount(code.value).then((value) =>
-                      {if (value != null) Navigator.of(context).pop()});
+                  authService
+                      .verifyAccount(code.value)
+                      .then((value) => {if (value != null) Navigator.of(context).pop()});
                 },
                 isLoading: authService.verifyAccountState.isLoading,
                 isDisabled: code.value.isEmpty,
               ),
               SecondaryButton(
                   text: resendCountdown.value == 0
-                      ? AppLocalizations.of(context)
-                          .translate('auth.verification.sendBack')
-                      : AppLocalizations.of(context).translate(
-                          'auth.verification.resendCountdown',
-                          {'time': resendCountdown.value.toString()}),
+                      ? AppLocalizations.of(context).translate('auth.verification.sendBack')
+                      : AppLocalizations.of(context)
+                          .translate('auth.verification.resendCountdown', {'time': resendCountdown.value.toString()}),
                   onPressed: () {
                     resendCountdown.value = 30;
                   },

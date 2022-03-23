@@ -23,6 +23,6 @@ class _AuthState extends ConsumerState<Auth> {
         body: Center(
             child: Padding(
                 padding: const EdgeInsets.all(30),
-                child: step == AuthStep.LOGIN ? Login() : SignUp())));
+                child: step == AuthStep.LOGIN ? Login(parentContext: context) : SignUp(parentContext: context))));
   }
 }

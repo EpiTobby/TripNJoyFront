@@ -22,8 +22,7 @@ class ResetPassword extends HookConsumerWidget {
     final code = useState('');
     final password = useState('');
 
-    ref.listen<AsyncValue<void>>(authResetPasswordStateProvider,
-        (_, state) => state.showSnackBarOnError(context));
+    ref.listen<AsyncValue<void>>(authResetPasswordStateProvider, (_, state) => state.showSnackBarOnError(context));
 
     return Scaffold(
       body: Center(
@@ -33,51 +32,41 @@ class ResetPassword extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppLocalizations.of(context)
-                    .translate('auth.reset_password.title'),
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold),
+                AppLocalizations.of(context).translate('auth.reset_password.title'),
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 32, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               Text(
-                AppLocalizations.of(context)
-                    .translate('auth.reset_password.description'),
+                AppLocalizations.of(context).translate('auth.reset_password.description'),
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary, fontSize: 16),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 16),
               ),
               InputField(
-                label: AppLocalizations.of(context)
-                    .translate('auth.reset_password.code'),
-                hint: AppLocalizations.of(context)
-                    .translate('auth.reset_password.code_label'),
+                label: AppLocalizations.of(context).translate('auth.reset_password.code'),
+                hint: AppLocalizations.of(context).translate('auth.reset_password.code_label'),
                 icon: const Icon(Icons.app_registration),
                 isError: authService.resetPasswordState.isError,
+                keyboardType: TextInputType.number,
                 onChanged: (value) {
                   code.value = value;
                 },
               ),
               InputField(
-                label: AppLocalizations.of(context)
-                    .translate('auth.reset_password.password'),
-                hint: AppLocalizations.of(context)
-                    .translate('auth.reset_password.password_label'),
+                label: AppLocalizations.of(context).translate('auth.reset_password.password'),
+                hint: AppLocalizations.of(context).translate('auth.reset_password.password_label'),
                 icon: const Icon(Icons.lock),
                 isError: authService.resetPasswordState.isError,
+                isPassword: true,
                 onChanged: (value) {
                   password.value = value;
                 },
               ),
               const SizedBox(height: 16),
               PrimaryButton(
-                text: AppLocalizations.of(context)
-                    .translate('auth.reset_password.submit'),
+                text: AppLocalizations.of(context).translate('auth.reset_password.submit'),
                 onPressed: () {
-                  authService
-                      .resetPassword(email, code.value, password.value)
-                      .then((value) {
+                  authService.resetPassword(email, code.value, password.value).then((value) {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   });

@@ -13,7 +13,10 @@ import '../common/input.widget.dart';
 class Login extends StatefulHookConsumerWidget {
   const Login({
     Key? key,
+    required this.parentContext,
   }) : super(key: key);
+
+  final BuildContext parentContext;
 
   @override
   ConsumerState createState() => _LoginState();
@@ -27,7 +30,7 @@ class _LoginState extends ConsumerState<Login> {
     final email = useState('');
     final password = useState('');
 
-    ref.listen<AsyncValue<void>>(authLoginStateProvider, (_, state) => state.showSnackBarOnError(context));
+    ref.listen<AsyncValue<void>>(authLoginStateProvider, (_, state) => state.showSnackBarOnError(widget.parentContext));
 
     return SingleChildScrollView(
         child: Column(
@@ -43,6 +46,8 @@ class _LoginState extends ConsumerState<Login> {
           hint: AppLocalizations.of(context).translate("auth.email"),
           onChanged: (value) => email.value = value,
           icon: const Icon(Icons.email),
+          keyboardType: TextInputType.emailAddress,
+          textCapitalization: TextCapitalization.none,
           isError: auth.loginState.isError,
         ),
         InputField(

@@ -57,11 +57,12 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<void> forgotPassword(String email) async {}
+  Future<void> forgotPassword(String email) async {
+    return Future.delayed(Duration(seconds: 1), () {});
+  }
 
   @override
-  Future<UserIdResponse?> resetPassword(
-      String email, String code, String password) async {
+  Future<UserIdResponse?> resetPassword(String email, String code, String password) async {
     return UserIdResponse(userId: 1);
   }
 
