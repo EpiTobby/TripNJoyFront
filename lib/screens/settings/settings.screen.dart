@@ -150,7 +150,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         return InputDialog(
                             title: AppLocalizations.of(context).translate("settings.phoneNumber"),
                             label: AppLocalizations.of(context).translate("user.phoneNumber"),
-                            initialValue: user.phoneNumber!,
+                            initialValue: user.phoneNumber ?? "",
                             onConfirm: (value) async {
                               userService.updateUser(authService.token!, UserUpdateRequest(phoneNumber: value));
                             });

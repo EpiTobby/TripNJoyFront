@@ -77,10 +77,13 @@
     "firstname": "Change the firstname",
     "lastname": "Change the lastname",
     "noPhoneNumber": "No phone number",
+    "phoneNumber": "Change the phone number",
+    "email": "Change the email",
     "theme": "Theme",
     "darkMode": "Dark mode",
     "lightMode": "Light mode",
     "deleteAccount": "Delete my account",
+    "password": "Change the password",
     "oldPassword": "Old password",
     "newPassword": "New password"
   },
