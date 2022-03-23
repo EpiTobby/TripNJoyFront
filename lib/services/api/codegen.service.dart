@@ -121,6 +121,11 @@ class CodegenService extends HttpService {
   }
 
   @override
+  Future<void> updateEmail(int id, UpdateEmailRequest updateEmailRequest) async {
+    await api.authIdUpdateemailPatch(id: id, updateEmailRequest: updateEmailRequest);
+  }
+
+  @override
   Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest) async {
     await api.authIdUpdatepasswordPatch(id: id, updatePasswordRequest: updatePasswordRequest);
   }

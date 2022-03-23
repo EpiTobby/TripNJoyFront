@@ -31,4 +31,6 @@ abstract class HttpService {
   Future<void> resendVerificationCode(String email);
 
   Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest);
+
+  Future<void> updateEmail(int id, UpdateEmailRequest updateEmailRequest);
 }
