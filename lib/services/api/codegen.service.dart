@@ -84,12 +84,6 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<String> updateFirstname(String token, String firstname) {
-    // TODO: implement updateFirstname
-    throw UnimplementedError();
-  }
-
-  @override
   int? getUserIdFromToken(String? token) {
     if (token == null) {
       return null;
@@ -119,5 +113,15 @@ class CodegenService extends HttpService {
   @override
   Future<void> resendVerificationCode(String email) async {
     await api.authForgotpasswordPost(forgotPasswordRequest: ForgotPasswordRequest(email: email));
+  }
+
+  @override
+  Future<void> updateUser(int id, UserUpdateRequest updateRequest) async {
+    await api.usersIdUpdatePatch(id: id, userUpdateRequest: updateRequest);
+  }
+
+  @override
+  Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest) async {
+    await api.authIdUpdatepasswordPatch(id: id, updatePasswordRequest: updatePasswordRequest);
   }
 }

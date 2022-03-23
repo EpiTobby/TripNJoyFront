@@ -29,4 +29,18 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
       state = AsyncError(e);
     }
   }
+
+  Future<void> updateUser(String token, UserUpdateRequest updateRequest) async {
+    try {
+      state = const AsyncLoading();
+      var id = httpService.getUserIdFromToken(token);
+      await httpService.updateUser(id!, updateRequest);
+      user = await httpService
+          .loadUser(id)
+          .timeout(const Duration(seconds: 10));
+      state = AsyncData(user);
+    } catch (e) {
+      state = AsyncError(e);
+    }
+  }
 }

@@ -80,7 +80,9 @@
     "theme": "Theme",
     "darkMode": "Dark mode",
     "lightMode": "Light mode",
-    "deleteAccount": "Delete my account"
+    "deleteAccount": "Delete my account",
+    "oldPassword": "Old password",
+    "newPassword": "New password"
   },
   "errors": {
     "login": "Wrong email or password",

@@ -16,15 +16,4 @@ class SettingsService extends ChangeNotifier {
     _isDarkMode = value;
     notifyListeners();
   }
-
-  Future<String> updateFirstname(String id, String firstname) async {
-    try {
-      var response = await httpService.updateFirstname(id, firstname);
-      return response;
-    } catch (e) {
-      return Future.error(e);
-    } finally {
-      notifyListeners();
-    }
-  }
 }

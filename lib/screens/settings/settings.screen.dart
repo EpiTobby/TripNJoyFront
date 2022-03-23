@@ -3,6 +3,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
+import 'package:trip_n_joy_front/services/auth/auth.service.dart';
+import 'package:trip_n_joy_front/services/user/user.service.dart';
+import 'package:trip_n_joy_front/widgets/common/input_dialog_password.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
@@ -11,6 +14,18 @@ import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 import '../../providers/auth/auth.provider.dart';
 import '../../providers/user/user.provider.dart';
 import '../../widgets/common/input_dialog.widget.dart';
+
+import 'package:image_picker/image_picker.dart';
+
+import 'package:minio/io.dart';
+import 'package:minio/minio.dart';
+
+const DEFAULT_AVATAR_URL = "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png";
+const MINIO_ENDPOINT = "127.0.0.1";
+const MINIO_ACCESS_KEY = "minioadmin";
+const MINIO_SECRET_KEY = "minioadmin";
+const MINIO_PORT = 9000;
+const MINIO_BUCKET = "tripnjoy";
 
 class SettingsPage extends StatefulHookConsumerWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -22,9 +37,37 @@ class SettingsPage extends StatefulHookConsumerWidget {
 class _SettingsPageState extends ConsumerState<SettingsPage> {
   bool _darkMode = false;
 
+  void upload(UserService userService, AuthService authService) async {
+    var pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+
+    if (pickedFile == null) {
+      return;
+    }
+
+    var imageBytes = pickedFile.readAsBytes().asStream();
+
+    final minio = Minio(
+        endPoint: MINIO_ENDPOINT,
+        accessKey: MINIO_ACCESS_KEY,
+        secretKey: MINIO_SECRET_KEY,
+        useSSL: false,
+        port: MINIO_PORT);
+
+    await minio.putObject(MINIO_BUCKET, pickedFile.name, imageBytes);
+
+    var imageURL = await minio.presignedGetObject(MINIO_BUCKET, pickedFile.name);
+
+    userService.updateUser(authService.token!, UserUpdateRequest(profilePicture: imageURL));
+  }
+
   @override
   Widget build(BuildContext context) {
     var settingsService = ref.watch(settingsProvider);
+    final userService = ref.watch(userProvider.notifier);
     final authService = ref.watch(authProvider);
     var user = ref.watch(userProvider).value as UserModel;
 
@@ -32,8 +75,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       children: <Widget>[
         LayoutHeader(
           title: "${user.firstname} ${user.lastname}",
-          imageURL: user.profilePicture ??
-              "https://cdn.discordapp.com/avatars/297465470133731329/a9c6e37f6959a30d98038743c799a21f.webp?size=240",
+          imageURL: user.profilePicture ?? DEFAULT_AVATAR_URL,
+          onClick: () => upload(userService, authService),
         ),
         LayoutBox(title: AppLocalizations.of(context).translate("settings.about"), children: <Widget>[
           LayoutItem(
@@ -50,7 +93,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                             label: AppLocalizations.of(context).translate("user.firstname"),
                             initialValue: user.firstname!,
                             onConfirm: (value) async {
-                              await settingsService.updateFirstname("id", value);
+                              userService.updateUser(authService.token!, UserUpdateRequest(firstname: value));
                             });
                       });
                 },
@@ -60,7 +103,19 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: user.lastname!,
                 icon: const Icon(Icons.keyboard_arrow_right_sharp),
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialog(
+                            title: AppLocalizations.of(context).translate("settings.lastname"),
+                            label: AppLocalizations.of(context).translate("user.lastname"),
+                            initialValue: user.lastname!,
+                            onConfirm: (value) async {
+                              userService.updateUser(authService.token!, UserUpdateRequest(lastname: value));
+                            });
+                      });
+                },
               )),
           LayoutItem(
               title: AppLocalizations.of(context).translate("user.email"),
@@ -72,14 +127,35 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: "•••••••••",
                 icon: const Icon(Icons.keyboard_arrow_right_sharp),
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialogPassword(onConfirm: (password, newPassword) async {
+                          authService
+                              .updatePassword(UpdatePasswordRequest(oldPassword: password, newPassword: newPassword));
+                        });
+                      });
+                },
               )),
           LayoutItem(
               title: AppLocalizations.of(context).translate("user.phoneNumber"),
               child: LayoutItemValue(
                 value: user.phoneNumber ?? AppLocalizations.of(context).translate("settings.noPhoneNumber"),
                 icon: const Icon(Icons.keyboard_arrow_right_sharp),
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialog(
+                            title: AppLocalizations.of(context).translate("settings.phoneNumber"),
+                            label: AppLocalizations.of(context).translate("user.phoneNumber"),
+                            initialValue: user.phoneNumber!,
+                            onConfirm: (value) async {
+                              userService.updateUser(authService.token!, UserUpdateRequest(phoneNumber: value));
+                            });
+                      });
+                },
               )),
         ]),
         LayoutBox(

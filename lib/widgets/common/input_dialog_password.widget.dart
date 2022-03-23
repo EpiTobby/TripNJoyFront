@@ -7,38 +7,46 @@ import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 import 'button.widget.dart';
 import 'input.widget.dart';
 
-class InputDialog extends StatefulHookWidget {
-  const InputDialog({
+class InputDialogPassword extends StatefulHookWidget {
+  const InputDialogPassword({
     Key? key,
-    this.title,
-    required this.label,
-    required this.initialValue,
     required this.onConfirm,
-    this.isPassword = false
   }) : super(key: key);
 
-  final String? title;
-  final String label;
-  final String initialValue;
   final Function onConfirm;
-  final bool isPassword;
 
   @override
-  State<InputDialog> createState() => _InputDialogState();
+  State<InputDialogPassword> createState() => _InputDialogPasswordState();
 }
 
-class _InputDialogState extends State<InputDialog> {
+class _InputDialogPasswordState extends State<InputDialogPassword> {
   @override
   Widget build(BuildContext context) {
-    final value = useState(widget.initialValue);
+    final value = useState("•••••••••");
+    final passwordNewValue = useState('');
     final status = useState<AsyncValue<void>>(AsyncValue.data(null));
+
     return AlertDialog(
-      title: Center(child: Text(widget.title ?? '', style: TextStyle(color: Theme.of(context).colorScheme.primary))),
-      content: InputField(
-        isPassword: widget.isPassword,
-        label: widget.label,
-        onChanged: (newValue) => value.value = newValue,
-        isError: status.value.isError,
+      title: Center(
+          child: Text(AppLocalizations.of(context).translate("settings.password"),
+              style: TextStyle(color: Theme.of(context).colorScheme.primary))),
+      content: SingleChildScrollView(
+          child: ListBody(
+            children: [
+              InputField(
+                isPassword: true,
+                label: AppLocalizations.of(context).translate("settings.oldPassword"),
+                onChanged: (newValue) => value.value = newValue,
+                isError: status.value.isError,
+              ),
+              InputField(
+                isPassword: true,
+                label: AppLocalizations.of(context).translate("settings.newPassword"),
+                onChanged: (newValue) => passwordNewValue.value = newValue,
+                isError: status.value.isError,
+              ),
+          ],
+        )
       ),
       actions: <Widget>[
         Padding(
@@ -58,7 +66,7 @@ class _InputDialogState extends State<InputDialog> {
                 onPressed: () async {
                   status.value = AsyncLoading();
                   try {
-                    await widget.onConfirm(value.value);
+                    await widget.onConfirm(value.value, passwordNewValue.value);
                     status.value = AsyncData(null);
                     Navigator.of(context).pop();
                   } catch (e) {

@@ -14,9 +14,9 @@ import '../common/button.widget.dart';
 import '../common/input.widget.dart';
 
 class SignUp extends StatefulHookConsumerWidget {
-  const SignUp({
-    Key? key,
-  }) : super(key: key);
+  const SignUp({Key? key, required this.parentContext}) : super(key: key);
+
+  final BuildContext parentContext;
 
   @override
   ConsumerState createState() => _SignUpState();
@@ -35,7 +35,8 @@ class _SignUpState extends ConsumerState<SignUp> {
     final birthDate = useState(DateTime.now());
     final gender = useState(Gender.male.name);
 
-    ref.listen<AsyncValue<void>>(authSignupStateProvider, (_, state) => state.showSnackBarOnError(context));
+    ref.listen<AsyncValue<void>>(
+        authSignupStateProvider, (_, state) => state.showSnackBarOnError(widget.parentContext));
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -105,6 +106,7 @@ class _SignUpState extends ConsumerState<SignUp> {
               children: [
                 PrimaryButton(
                     text: AppLocalizations.of(context).translate("auth.createAccount"),
+                    isLoading: authService.signupState.isLoading,
                     onPressed: () => authService.signup(SignupCredentials(
                         gender: gender.value,
                         firstname: firstname.value,
