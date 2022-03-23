@@ -14,9 +14,9 @@ import '../common/button.widget.dart';
 import '../common/input.widget.dart';
 
 class SignUp extends StatefulHookConsumerWidget {
-  const SignUp({
-    Key? key,
-  }) : super(key: key);
+  const SignUp({Key? key, required this.parentContext}) : super(key: key);
+
+  final BuildContext parentContext;
 
   @override
   ConsumerState createState() => _SignUpState();
@@ -35,31 +35,25 @@ class _SignUpState extends ConsumerState<SignUp> {
     final birthDate = useState(DateTime.now());
     final gender = useState(Gender.male.name);
 
-    ref.listen<AsyncValue<void>>(authSignupStateProvider,
-        (_, state) => state.showSnackBarOnError(context));
+    ref.listen<AsyncValue<void>>(
+        authSignupStateProvider, (_, state) => state.showSnackBarOnError(widget.parentContext));
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Padding(
             padding: EdgeInsets.only(top: 20, bottom: 20),
-            child: Text('TripNJoy',
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold))),
+            child: Text('TripNJoy', style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold))),
         Expanded(
           child: ListView(
             padding: const EdgeInsets.all(0),
             shrinkWrap: true,
             children: [
               Dropdown(
-                  label:
-                      AppLocalizations.of(context).translate("common.gender"),
+                  label: AppLocalizations.of(context).translate("common.gender"),
                   icon: Icon(Icons.person),
                   selectedValue: gender.value,
-                  listValue: [
-                    Gender.male.name,
-                    Gender.female.name,
-                    Gender.other.name
-                  ],
+                  listValue: [Gender.male.name, Gender.female.name, Gender.other.name],
                   listLabel: [
                     AppLocalizations.of(context).translate("user.gender.man"),
                     AppLocalizations.of(context).translate("user.gender.woman"),
@@ -67,23 +61,19 @@ class _SignUpState extends ConsumerState<SignUp> {
                   ],
                   onChanged: (value) => gender.value = value),
               InputField(
-                  label:
-                      AppLocalizations.of(context).translate("user.firstname"),
-                  hint:
-                      AppLocalizations.of(context).translate("auth.firstname"),
+                  label: AppLocalizations.of(context).translate("user.firstname"),
+                  hint: AppLocalizations.of(context).translate("auth.firstname"),
                   onChanged: (value) => firstname.value = value,
                   isError: authService.signupState.isError,
                   icon: const Icon(Icons.person)),
               InputField(
-                  label:
-                      AppLocalizations.of(context).translate("user.lastname"),
+                  label: AppLocalizations.of(context).translate("user.lastname"),
                   hint: AppLocalizations.of(context).translate("auth.lastname"),
                   onChanged: (value) => lastname.value = value,
                   isError: authService.signupState.isError,
                   icon: const Icon(Icons.person)),
               DatePicker(
-                  label:
-                      AppLocalizations.of(context).translate("user.birthDate"),
+                  label: AppLocalizations.of(context).translate("user.birthDate"),
                   selectedDate: birthDate.value,
                   onChanged: (value) => birthDate.value = value),
               InputField(
@@ -93,18 +83,15 @@ class _SignUpState extends ConsumerState<SignUp> {
                   isError: authService.signupState.isError,
                   icon: const Icon(Icons.email)),
               InputField(
-                  label:
-                      AppLocalizations.of(context).translate("user.password"),
+                  label: AppLocalizations.of(context).translate("user.password"),
                   hint: AppLocalizations.of(context).translate("auth.password"),
                   onChanged: (value) => password.value = value,
                   icon: const Icon(Icons.lock),
                   isError: authService.signupState.isError,
                   isPassword: true),
               InputField(
-                  label: AppLocalizations.of(context)
-                      .translate("user.phoneNumber"),
-                  hint: AppLocalizations.of(context)
-                      .translate("auth.phoneNumber"),
+                  label: AppLocalizations.of(context).translate("user.phoneNumber"),
+                  hint: AppLocalizations.of(context).translate("auth.phoneNumber"),
                   onChanged: (value) => phoneNumber.value = value,
                   isError: authService.signupState.isError,
                   icon: const Icon(Icons.phone)),
@@ -116,8 +103,8 @@ class _SignUpState extends ConsumerState<SignUp> {
             child: Column(
               children: [
                 PrimaryButton(
-                    text: AppLocalizations.of(context)
-                        .translate("auth.createAccount"),
+                    text: AppLocalizations.of(context).translate("auth.createAccount"),
+                    isLoading: authService.signupState.isLoading,
                     onPressed: () => authService.signup(SignupCredentials(
                         gender: gender.value,
                         firstname: firstname.value,
@@ -125,12 +112,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                         birthDate: birthDate.value.toString(),
                         email: email.value,
                         password: password.value,
-                        phoneNumber: phoneNumber.value.isEmpty
-                            ? null
-                            : phoneNumber.value))),
+                        phoneNumber: phoneNumber.value.isEmpty ? null : phoneNumber.value))),
                 SecondaryButton(
-                    text: AppLocalizations.of(context).translate("common.back"),
-                    onPressed: () => stepProvider.login()),
+                    text: AppLocalizations.of(context).translate("common.back"), onPressed: () => stepProvider.login()),
               ],
             )),
       ],
