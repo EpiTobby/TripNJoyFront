@@ -23,7 +23,7 @@ import 'screens/notification/notification.screen.dart';
 import 'screens/settings/settings.screen.dart';
 
 void main() {
-  runApp(ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -119,7 +119,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
       if (step == AuthStep.SIGNUP) {
         SchedulerBinding.instance?.endOfFrame.then((_) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (_) => AccountVerification()));
+              MaterialPageRoute(builder: (_) => const AccountVerification()));
         });
       }
       return null;
@@ -178,15 +178,15 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
   getPageWidget(NavbarPage selectedPage) {
     switch (selectedPage) {
       case NavbarPage.MATCHMAKING:
-        return MatchmakingPage();
+        return const MatchmakingPage();
       case NavbarPage.GROUPS:
-        return GroupsPage();
+        return const GroupsPage();
       case NavbarPage.NOTIFICATIONS:
-        return NotificationPage();
+        return const NotificationPage();
       case NavbarPage.SETTINGS:
-        return SettingsPage();
+        return const SettingsPage();
       default:
-        return MatchmakingPage();
+        return const MatchmakingPage();
     }
   }
 }

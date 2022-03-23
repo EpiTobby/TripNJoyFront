@@ -52,13 +52,6 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<String> updateFirstname(String token, String firstname) {
-    return Future.delayed(Duration(seconds: 1), () {
-      return firstname;
-    });
-  }
-
-  @override
   int? getUserIdFromToken(String? token) {
     return 1;
   }
@@ -68,7 +61,21 @@ class MockService extends HttpService {
     return Future.delayed(Duration(seconds: 1), () {});
   }
 
+  @override
   Future<UserIdResponse?> resetPassword(String email, String code, String password) async {
     return UserIdResponse(userId: 1);
   }
+
+  @override
+  Future<void> updateUser(int id, UserUpdateRequest updateRequest) {
+    return Future.value();
+  }
+
+  @override
+  Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest ) {
+    return Future.value();
+  }
+
+
+
 }

@@ -80,7 +80,9 @@
     "theme": "Thème",
     "darkMode": "Mode sombre",
     "lightMode": "Mode clair",
-    "deleteAccount": "Supprimer mon compte"
+    "deleteAccount": "Supprimer mon compte",
+    "oldPassword": "Ancien mot de passe",
+    "newPassword": "Nouveau mot de passe"
   },
   "errors": {
     "login": "Identifiants incorrects",
