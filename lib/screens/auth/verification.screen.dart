@@ -12,8 +12,8 @@ import '../../widgets/common/button.widget.dart';
 import '../../widgets/common/input.widget.dart';
 
 class AccountVerification extends HookConsumerWidget {
-  const AccountVerification({Key? key, required this.email}) : super(key: key);
-  final String email;
+  const AccountVerification({Key? key, required this.userId}) : super(key: key);
+  final int userId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -79,7 +79,7 @@ class AccountVerification extends HookConsumerWidget {
                           .translate('auth.verification.resendCountdown', {'time': resendCountdown.value.toString()}),
                   onPressed: () {
                     resendCountdown.value = 30;
-                    authService.resendVerificationCode(email);
+                    authService.resendVerificationCode(userId);
                   },
                   isDisabled: resendCountdown.value != 0)
             ],

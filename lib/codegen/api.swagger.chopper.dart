@@ -62,6 +62,13 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<dynamic>> _authIdReSendPost({required int? id}) {
+    final $url = '/auth/${id}/re-send';
+    final $request = Request('POST', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _authIdUpdateemailPatch(
       {required int? id, required UpdateEmailRequest? updateEmailRequest}) {
     final $url = '/auth/${id}/updateemail';
@@ -81,13 +88,6 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<Iterable<UserEntity>>> _usersGet() {
-    final $url = '/users';
-    final $request = Request('GET', $url, client.baseUrl);
-    return client.send<Iterable<UserEntity>, UserEntity>($request);
-  }
-
-  @override
   Future<Response<UserModel>> _usersMeGet() {
     final $url = '/users/me';
     final $request = Request('GET', $url, client.baseUrl);
@@ -99,6 +99,25 @@ class _$Api extends Api {
     final $url = '/users/${id}';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<UserModel, UserModel>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _usersIdDelete(
+      {required DeleteUserRequest? deleteUserRequest, required int? id}) {
+    final $url = '/users/${id}';
+    final $body = deleteUserRequest;
+    final $request = Request('DELETE', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _usersIdAdminDelete(
+      {required DeleteUserByAdminRequest? deleteUserByAdminRequest,
+      required int? id}) {
+    final $url = '/users/${id}/admin';
+    final $body = deleteUserByAdminRequest;
+    final $request = Request('DELETE', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override
