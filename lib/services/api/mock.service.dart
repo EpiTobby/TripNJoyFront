@@ -78,4 +78,9 @@ class MockService extends HttpService {
   Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest) {
     return Future.value();
   }
+
+  @override
+  Future<void> updateEmail(int id, UpdateEmailRequest updateEmailRequest) {
+    return Future.value();
+  }
 }

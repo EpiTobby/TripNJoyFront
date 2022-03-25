@@ -35,9 +35,18 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
       state = const AsyncLoading();
       var id = httpService.getUserIdFromToken(token);
       await httpService.updateUser(id!, updateRequest);
-      user = await httpService
-          .loadUser(id)
-          .timeout(const Duration(seconds: 10));
+      user = await httpService.loadUser(id).timeout(const Duration(seconds: 10));
+      state = AsyncData(user);
+    } catch (e) {
+      state = AsyncError(e);
+    }
+  }
+
+  Future<void> updateEmail(int id, UpdateEmailRequest updateEmailRequest) async {
+    try {
+      state = const AsyncLoading();
+      await httpService.updateEmail(id, updateEmailRequest);
+      user = await httpService.loadUser(id).timeout(const Duration(seconds: 10));
       state = AsyncData(user);
     } catch (e) {
       state = AsyncError(e);

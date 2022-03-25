@@ -10,6 +10,8 @@ import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
 import 'package:trip_n_joy_front/screens/auth/verification.screen.dart';
+import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
+import 'package:trip_n_joy_front/services/auth/auth.service.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
@@ -99,7 +101,9 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     useEffect(() {
       authService.updateTokenFromStorage().then((value) {
         if (value != null) {
-          userService.loadUser(value);
+          userService.loadUser(value).then((value) {
+            if (value == null) authService.logout();
+          });
         }
       });
       return null;
@@ -128,6 +132,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
             }
           } else {
             logger.d("user not found");
+            authService.logout();
           }
         });
       }
@@ -150,34 +155,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
             ),
         error: (error, r) {
           logger.e(error, r);
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Wrap(
-                  children: [
-                    Text(
-                      AppLocalizations.of(context).translate('errors.unexpected'),
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.none),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-              PrimaryButton(
-                text: AppLocalizations.of(context).translate('common.reconnect'),
-                onPressed: () {
-                  authService.logout();
-                },
-              ),
-            ],
-          );
+          return ErrorScreen(authService: authService);
         },
         loading: () => const Center(child: CircularProgressIndicator()));
   }
