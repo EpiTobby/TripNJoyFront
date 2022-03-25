@@ -14,7 +14,7 @@ class MockService extends HttpService {
   void initInterceptors() {}
 
   @override
-  Future<UserModel?> loadUser(int? id) async {
+  Future<UserModel?> loadUser() async {
     return UserModel(
         firstname: "Tony",
         lastname: "Heng",

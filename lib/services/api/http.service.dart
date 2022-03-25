@@ -10,7 +10,7 @@ abstract class HttpService {
 
   void initInterceptors();
 
-  Future<UserModel?> loadUser(int? id);
+  Future<UserModel?> loadUser();
 
   Future<LoginResponse?> login(String email, String password);
 

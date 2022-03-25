@@ -43,10 +43,7 @@ class CodegenService extends HttpService {
   void initInterceptors() {}
 
   @override
-  Future<UserModel?> loadUser(int? id) async {
-    if (id == null) {
-      return null;
-    }
+  Future<UserModel?> loadUser() async {
     final response = await api.usersMeGet();
     return response.body;
   }

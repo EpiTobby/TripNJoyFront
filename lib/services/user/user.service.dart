@@ -11,11 +11,10 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
   final AuthService authService;
   UserModel? user;
 
-  Future<UserModel?> loadUser(String token) async {
+  Future<UserModel?> loadUser() async {
     try {
       state = const AsyncLoading();
-      var id = httpService.getUserIdFromToken(token);
-      user = await httpService.loadUser(id).timeout(const Duration(seconds: 10));
+      user = await httpService.loadUser().timeout(const Duration(seconds: 10));
       state = AsyncData(user);
       return user;
     } catch (e) {
@@ -38,7 +37,7 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
       state = const AsyncLoading();
       var id = httpService.getUserIdFromToken(token);
       await httpService.updateUser(id!, updateRequest);
-      user = await httpService.loadUser(id).timeout(const Duration(seconds: 10));
+      user = await httpService.loadUser().timeout(const Duration(seconds: 10));
       state = AsyncData(user);
     } catch (e) {
       state = AsyncError(e);
