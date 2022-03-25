@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/services/auth/auth.service.dart';
 
+import '../../app_localizations.dart';
 import '../../codegen/api.swagger.dart';
 import '../api/http.service.dart';
 
@@ -49,9 +50,9 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
       state = const AsyncLoading();
       final loginResponse = await httpService.updateEmail(id, updateEmailRequest);
       if (loginResponse != null && loginResponse.token != null) {
-        await authService.saveToken(loginResponse.token!);
-        user = await httpService.loadUser(id).timeout(const Duration(seconds: 10));
-        state = AsyncData(user);
+        await authService.logout();
+      } else {
+        state = AsyncError(Exception(AppLocalizations.instance.translate("errors.unexpected")));
       }
     } catch (e) {
       state = AsyncError(e);
