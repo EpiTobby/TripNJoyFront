@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
 
 import '../../codegen/api.swagger.dart';
 import '../api/http.service.dart';
@@ -20,14 +21,20 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
     }
   }
 
-  Future<void> deleteUser(String token, DeleteUserRequest deleteUserRequest) async {
+  Future<bool> deleteUser(String token, DeleteUserRequest deleteUserRequest) async {
     try {
       state = const AsyncLoading();
       var id = httpService.getUserIdFromToken(token);
-      await httpService.deleteUser(id!, deleteUserRequest).timeout(const Duration(seconds: 10));
-      state = const AsyncData(null);
+      final success = await httpService.deleteUser(id!, deleteUserRequest).timeout(const Duration(seconds: 10));
+      if (!success) {
+        state = AsyncValue.error(AppLocalizations.instance.translate('errors.unexpected'));
+      } else {
+        state = const AsyncData(null);
+      }
+      return success;
     } catch (e) {
       state = AsyncError(e);
+      return false;
     }
   }
 
@@ -36,9 +43,7 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
       state = const AsyncLoading();
       var id = httpService.getUserIdFromToken(token);
       await httpService.updateUser(id!, updateRequest);
-      user = await httpService
-          .loadUser(id)
-          .timeout(const Duration(seconds: 10));
+      user = await httpService.loadUser(id).timeout(const Duration(seconds: 10));
       state = AsyncData(user);
     } catch (e) {
       state = AsyncError(e);

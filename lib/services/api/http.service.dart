@@ -18,7 +18,7 @@ abstract class HttpService {
 
   Future<bool> verifyAccount(int id, String code);
 
-  Future<void> deleteUser(int id, DeleteUserRequest deleteUserRequest);
+  Future<bool> deleteUser(int id, DeleteUserRequest deleteUserRequest);
 
   Future<void> updateUser(int id, UserUpdateRequest updateRequest);
 

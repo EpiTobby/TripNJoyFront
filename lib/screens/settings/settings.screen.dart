@@ -204,8 +204,10 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         isPassword: true,
                         initialValue: user.lastname!,
                         onConfirm: (value) async {
-                          await ref.read(userProvider.notifier).deleteUser(authService.token!, DeleteUserRequest(password: value));
-                          authService.logout();
+                          final success = await ref.read(userProvider.notifier).deleteUser(authService.token!, DeleteUserRequest(password: value));
+                          if (success) {
+                            authService.logout();
+                          }
                         });
                   });
             },
