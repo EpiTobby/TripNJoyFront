@@ -28,7 +28,7 @@ abstract class HttpService {
 
   Future<UserIdResponse?> resetPassword(String email, String code, String password);
 
-  Future<void> resendVerificationCode(String email);
+  Future<void> resendVerificationCode(int id);
 
   Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest);
 }

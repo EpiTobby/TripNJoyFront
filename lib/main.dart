@@ -120,7 +120,9 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => AccountVerification(email: value.email!),
+                  builder: (_) => AccountVerification(
+                    userId: value.id!.toInt(),
+                  ),
                 ),
               );
             }

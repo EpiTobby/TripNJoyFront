@@ -80,7 +80,7 @@ class CodegenService extends HttpService {
   @override
   Future<bool> verifyAccount(int id, String code) async {
     final response = await api.authIdConfirmPatch(confirmationCode: ConfirmationCodeModel(value: code), id: id);
-    return response.isSuccessful ? response.body! : false;
+    return response.isSuccessful;
   }
 
   @override
@@ -111,8 +111,8 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<void> resendVerificationCode(String email) async {
-    await api.authForgotpasswordPost(forgotPasswordRequest: ForgotPasswordRequest(email: email));
+  Future<void> resendVerificationCode(int id) async {
+    await api.authIdReSendPost(id: id);
   }
 
   @override

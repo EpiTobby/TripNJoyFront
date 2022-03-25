@@ -65,7 +65,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<void> resendVerificationCode(String email) {
+  Future<void> resendVerificationCode(int id) {
     return Future.delayed(Duration(seconds: 1), () {});
   }
 

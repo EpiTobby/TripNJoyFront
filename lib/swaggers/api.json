@@ -253,6 +253,48 @@
         }
       }
     },
+    "/auth/{id}/re-send": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Will send a new confirmation code to the user",
+        "operationId": "resendConfirmationCodeUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A new confirmation code has been sent"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "The user is already confirmed"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/auth/{id}/updateemail": {
       "patch": {
         "tags": [
@@ -299,7 +341,7 @@
             "description": "If the given password is not valid"
           },
           "422": {
-            "description": "If the new email does not exist"
+            "description": "If the new email does not exist or is already in use"
           }
         }
       }
@@ -348,35 +390,6 @@
           },
           "403": {
             "description": "If the old password is not valid"
-          }
-        }
-      }
-    },
-    "/users": {
-      "get": {
-        "tags": [
-          "user-controller"
-        ],
-        "summary": "getAll",
-        "operationId": "getAllUsingGET",
-        "produces": [
-          "*/*"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Iterable<UserEntity>"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
           }
         }
       }
@@ -445,6 +458,94 @@
           },
           "404": {
             "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "deleteUserAccount",
+        "operationId": "deleteUserAccountUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "deleteUserRequest",
+            "description": "deleteUserRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteUserRequest"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/users/{id}/admin": {
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "deleteUserByAdmin",
+        "operationId": "deleteUserByAdminUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "deleteUserByAdminRequest",
+            "description": "deleteUserByAdminRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteUserByAdminRequest"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -542,6 +643,24 @@
       },
       "title": "ConfirmationCodeModel"
     },
+    "DeleteUserByAdminRequest": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string"
+        }
+      },
+      "title": "DeleteUserByAdminRequest"
+    },
+    "DeleteUserRequest": {
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "DeleteUserRequest"
+    },
     "ForgotPasswordRequest": {
       "type": "object",
       "properties": {
@@ -563,10 +682,6 @@
         }
       },
       "title": "GenderEntity"
-    },
-    "Iterable<UserEntity>": {
-      "type": "object",
-      "title": "Iterable<UserEntity>"
     },
     "LoginRequest": {
       "type": "object",
@@ -641,8 +756,7 @@
           "format": "date-time"
         },
         "email": {
-          "type": "string",
-          "description": "Also known as username. Must be unique"
+          "type": "string"
         },
         "firstname": {
           "type": "string"

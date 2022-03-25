@@ -47,6 +47,28 @@ Map<String, dynamic> _$ConfirmationCodeModelToJson(
       'value': instance.value,
     };
 
+DeleteUserByAdminRequest _$DeleteUserByAdminRequestFromJson(
+        Map<String, dynamic> json) =>
+    DeleteUserByAdminRequest(
+      reason: json['reason'] as String?,
+    );
+
+Map<String, dynamic> _$DeleteUserByAdminRequestToJson(
+        DeleteUserByAdminRequest instance) =>
+    <String, dynamic>{
+      'reason': instance.reason,
+    };
+
+DeleteUserRequest _$DeleteUserRequestFromJson(Map<String, dynamic> json) =>
+    DeleteUserRequest(
+      password: json['password'] as String?,
+    );
+
+Map<String, dynamic> _$DeleteUserRequestToJson(DeleteUserRequest instance) =>
+    <String, dynamic>{
+      'password': instance.password,
+    };
+
 ForgotPasswordRequest _$ForgotPasswordRequestFromJson(
         Map<String, dynamic> json) =>
     ForgotPasswordRequest(
@@ -69,12 +91,6 @@ Map<String, dynamic> _$GenderEntityToJson(GenderEntity instance) =>
       'id': instance.id,
       'value': instance.value,
     };
-
-IterableUserEntity _$IterableUserEntityFromJson(Map<String, dynamic> json) =>
-    IterableUserEntity();
-
-Map<String, dynamic> _$IterableUserEntityToJson(IterableUserEntity instance) =>
-    <String, dynamic>{};
 
 LoginRequest _$LoginRequestFromJson(Map<String, dynamic> json) => LoginRequest(
       password: json['password'] as String?,
