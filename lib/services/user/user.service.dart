@@ -1,11 +1,13 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/services/auth/auth.service.dart';
 
 import '../../codegen/api.swagger.dart';
 import '../api/http.service.dart';
 
 class UserService extends StateNotifier<AsyncValue<UserModel?>> {
-  UserService(this.httpService) : super(const AsyncValue.loading());
+  UserService(this.httpService, this.authService) : super(const AsyncValue.loading());
   final HttpService httpService;
+  final AuthService authService;
   UserModel? user;
 
   Future<UserModel?> loadUser(String token) async {
@@ -45,9 +47,12 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
   Future<void> updateEmail(int id, UpdateEmailRequest updateEmailRequest) async {
     try {
       state = const AsyncLoading();
-      await httpService.updateEmail(id, updateEmailRequest);
-      user = await httpService.loadUser(id).timeout(const Duration(seconds: 10));
-      state = AsyncData(user);
+      final loginResponse = await httpService.updateEmail(id, updateEmailRequest);
+      if (loginResponse != null && loginResponse.token != null) {
+        await authService.saveToken(loginResponse.token!);
+        user = await httpService.loadUser(id).timeout(const Duration(seconds: 10));
+        state = AsyncData(user);
+      }
     } catch (e) {
       state = AsyncError(e);
     }

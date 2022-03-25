@@ -72,7 +72,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     var settingsService = ref.watch(settingsProvider);
     final userService = ref.watch(userProvider.notifier);
     final authService = ref.watch(authProvider);
-    var user = ref.watch(userProvider).value;
+    var user = ref
+        .watch(userProvider)
+        .value;
 
     if (user == null) {
       return ErrorScreen(authService: authService);
@@ -134,7 +136,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialogEmail(onConfirm: (newEmail, password) async {
-                          userService.updateEmail(
+                          await userService.updateEmail(
                               user.id!.toInt(), UpdateEmailRequest(newEmail: newEmail, password: password));
                         });
                       });
@@ -181,41 +183,47 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           children: <Widget>[
             LayoutItem(
                 child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(AppLocalizations.of(context).translate("settings.darkMode"),
-                    style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 24)),
-                Switch(
-                  value: _darkMode,
-                  onChanged: (bool value) {
-                    setState(() {
-                      _darkMode = value;
-                    });
-                  },
-                ),
-              ],
-            ))
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(AppLocalizations.of(context).translate("settings.darkMode"),
+                        style: TextStyle(color: Theme
+                            .of(context)
+                            .colorScheme
+                            .primary, fontSize: 24)),
+                    Switch(
+                      value: _darkMode,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _darkMode = value;
+                        });
+                      },
+                    ),
+                  ],
+                ))
           ],
         ),
         LayoutBox(title: AppLocalizations.of(context).translate("common.account"), children: <Widget>[
           LayoutItem(
               child: LayoutItemValue(
-            value: AppLocalizations.of(context).translate("common.logout"),
-            icon: const Icon(Icons.exit_to_app),
-            onPressed: () {
-              authService.logout();
-            },
-          )),
+                value: AppLocalizations.of(context).translate("common.logout"),
+                icon: const Icon(Icons.exit_to_app),
+                onPressed: () {
+                  authService.logout();
+                },
+              )),
           LayoutItem(
               child: LayoutItemValue(
-            value: AppLocalizations.of(context).translate("settings.deleteAccount"),
-            icon: const Icon(Icons.close),
-            customColor: Theme.of(context).colorScheme.error,
-            onPressed: () async {
-              ref.read(userProvider.notifier).deleteUser(authService.token!);
-              authService.logout();
-            },
-          )),
+                value: AppLocalizations.of(context).translate("settings.deleteAccount"),
+                icon: const Icon(Icons.close),
+                customColor: Theme
+                    .of(context)
+                    .colorScheme
+                    .error,
+                onPressed: () async {
+                  ref.read(userProvider.notifier).deleteUser(authService.token!);
+                  authService.logout();
+                },
+              )),
         ])
       ],
     );

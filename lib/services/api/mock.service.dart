@@ -80,7 +80,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<void> updateEmail(int id, UpdateEmailRequest updateEmailRequest) {
+  Future<LoginResponse?> updateEmail(int id, UpdateEmailRequest updateEmailRequest) {
     return Future.value();
   }
 }

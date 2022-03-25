@@ -18,7 +18,7 @@
     }
   ],
   "paths": {
-    "/auth/forgotpassword": {
+    "/auth/forgot/password": {
       "post": {
         "tags": [
           "auth-controller"
@@ -159,7 +159,7 @@
         }
       }
     },
-    "/auth/validatepassword": {
+    "/auth/validation/password": {
       "post": {
         "tags": [
           "auth-controller"
@@ -205,7 +205,7 @@
         }
       }
     },
-    "/auth/{id}/confirm": {
+    "/auth/{id}/confirmation": {
       "patch": {
         "tags": [
           "auth-controller"
@@ -253,54 +253,12 @@
         }
       }
     },
-    "/auth/{id}/re-send": {
-      "post": {
-        "tags": [
-          "auth-controller"
-        ],
-        "summary": "Will send a new confirmation code to the user",
-        "operationId": "resendConfirmationCodeUsingPOST",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "*/*"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A new confirmation code has been sent"
-          },
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "The user is already confirmed"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/auth/{id}/updateemail": {
+    "/auth/{id}/email": {
       "patch": {
         "tags": [
           "auth-controller"
         ],
-        "summary": "Used to ask update the user email",
+        "summary": "Used to ask update the user email. Returns a new jwt",
         "operationId": "updateEmailUsingPATCH",
         "consumes": [
           "application/json"
@@ -329,7 +287,10 @@
         ],
         "responses": {
           "200": {
-            "description": "If the email has been updated"
+            "description": "If the email has been updated",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
           },
           "204": {
             "description": "No Content"
@@ -346,7 +307,7 @@
         }
       }
     },
-    "/auth/{id}/updatepassword": {
+    "/auth/{id}/password": {
       "patch": {
         "tags": [
           "auth-controller"
@@ -390,6 +351,48 @@
           },
           "403": {
             "description": "If the old password is not valid"
+          }
+        }
+      }
+    },
+    "/auth/{id}/resend": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Will send a new confirmation code to the user",
+        "operationId": "resendConfirmationCodeUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A new confirmation code has been sent"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "The user is already confirmed"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -775,57 +778,6 @@
         }
       },
       "title": "UserCreationRequest"
-    },
-    "UserEntity": {
-      "type": "object",
-      "properties": {
-        "birthDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "city": {
-          "$ref": "#/definitions/CityEntity"
-        },
-        "confirmed": {
-          "type": "boolean"
-        },
-        "createdDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "email": {
-          "type": "string"
-        },
-        "firstname": {
-          "type": "string"
-        },
-        "gender": {
-          "$ref": "#/definitions/GenderEntity"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "lastname": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "phoneNumber": {
-          "type": "string"
-        },
-        "profilePicture": {
-          "type": "string"
-        },
-        "roles": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RoleEntity"
-          }
-        }
-      },
-      "title": "UserEntity"
     },
     "UserIdResponse": {
       "type": "object",
