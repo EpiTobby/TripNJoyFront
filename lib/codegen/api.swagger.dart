@@ -24,237 +24,296 @@ abstract class Api extends ChopperService {
     final newClient = ChopperClient(
         services: [_$Api()],
         converter: $JsonSerializableConverter(),
-        baseUrl: baseUrl ?? 'http://localhost:8080/');
+        baseUrl: baseUrl ?? 'http://');
     return _$Api(newClient);
   }
 
-  ///Used to receive a confirmation to update a password
-  ///@param forgotPasswordRequest forgotPasswordRequest
-  Future<chopper.Response> authForgotpasswordPost(
-      {required ForgotPasswordRequest? forgotPasswordRequest}) {
-    generatedMapping.putIfAbsent(
-        ForgotPasswordRequest, () => ForgotPasswordRequest.fromJsonFactory);
-
-    return _authForgotpasswordPost(
-        forgotPasswordRequest: forgotPasswordRequest);
+  ///Will send a new confirmation code to the user
+  ///@param id
+  Future<chopper.Response> authIdResendPost({required num? id}) {
+    return _authIdResendPost(id: id);
   }
 
-  ///Used to receive a confirmation to update a password
-  ///@param forgotPasswordRequest forgotPasswordRequest
-  @Post(path: '/auth/forgotpassword')
-  Future<chopper.Response> _authForgotpasswordPost(
-      {@Body() required ForgotPasswordRequest? forgotPasswordRequest});
-
-  ///Log a user, to allow authenticated endpoints
-  ///@param loginRequest loginRequest
-  Future<chopper.Response<LoginResponse>> authLoginPost(
-      {required LoginRequest? loginRequest}) {
-    generatedMapping.putIfAbsent(
-        LoginRequest, () => LoginRequest.fromJsonFactory);
-    generatedMapping.putIfAbsent(
-        LoginResponse, () => LoginResponse.fromJsonFactory);
-
-    return _authLoginPost(loginRequest: loginRequest);
-  }
-
-  ///Log a user, to allow authenticated endpoints
-  ///@param loginRequest loginRequest
-  @Post(path: '/auth/login')
-  Future<chopper.Response<LoginResponse>> _authLoginPost(
-      {@Body() required LoginRequest? loginRequest});
+  ///Will send a new confirmation code to the user
+  ///@param id
+  @Post(path: '/auth/{id}/resend', optionalBody: true)
+  Future<chopper.Response> _authIdResendPost({@Path('id') required num? id});
 
   ///Create a new account. Will send a confirmation mail to the given address
-  ///@param model model
   Future<chopper.Response<AuthTokenResponse>> authRegisterPost(
-      {required UserCreationRequest? model}) {
-    generatedMapping.putIfAbsent(
-        UserCreationRequest, () => UserCreationRequest.fromJsonFactory);
+      {required UserCreationRequest? body}) {
     generatedMapping.putIfAbsent(
         AuthTokenResponse, () => AuthTokenResponse.fromJsonFactory);
 
-    return _authRegisterPost(model: model);
+    return _authRegisterPost(body: body);
   }
 
   ///Create a new account. Will send a confirmation mail to the given address
-  ///@param model model
   @Post(path: '/auth/register')
   Future<chopper.Response<AuthTokenResponse>> _authRegisterPost(
-      {@Body() required UserCreationRequest? model});
+      {@Body() required UserCreationRequest? body});
+
+  ///Log a user, to allow authenticated endpoints
+  Future<chopper.Response<LoginResponse>> authLoginPost(
+      {required LoginRequest? body}) {
+    generatedMapping.putIfAbsent(
+        LoginResponse, () => LoginResponse.fromJsonFactory);
+
+    return _authLoginPost(body: body);
+  }
+
+  ///Log a user, to allow authenticated endpoints
+  @Post(path: '/auth/login')
+  Future<chopper.Response<LoginResponse>> _authLoginPost(
+      {@Body() required LoginRequest? body});
+
+  ///Log a user, to allow authenticated endpoints
+  Future<chopper.Response<LoginResponse>> authGooglePost(
+      {required GoogleRequest? body}) {
+    generatedMapping.putIfAbsent(
+        LoginResponse, () => LoginResponse.fromJsonFactory);
+
+    return _authGooglePost(body: body);
+  }
+
+  ///Log a user, to allow authenticated endpoints
+  @Post(path: '/auth/google')
+  Future<chopper.Response<LoginResponse>> _authGooglePost(
+      {@Body() required GoogleRequest? body});
+
+  ///Used to receive a confirmation to update a password
+  Future<chopper.Response> authForgotPasswordPost(
+      {required ForgotPasswordRequest? body}) {
+    return _authForgotPasswordPost(body: body);
+  }
+
+  ///Used to receive a confirmation to update a password
+  @Post(path: '/auth/forgot/password')
+  Future<chopper.Response> _authForgotPasswordPost(
+      {@Body() required ForgotPasswordRequest? body});
+
+  ///Used to update the user information
+  ///@param id
+  Future<chopper.Response> usersIdUpdatePatch(
+      {required num? id, required UserUpdateRequest? body}) {
+    return _usersIdUpdatePatch(id: id, body: body);
+  }
+
+  ///Used to update the user information
+  ///@param id
+  @Patch(path: '/users/{id}/update')
+  Future<chopper.Response> _usersIdUpdatePatch(
+      {@Path('id') required num? id, @Body() required UserUpdateRequest? body});
+
+  ///Used to update the password
+  ///@param id
+  Future<chopper.Response> authIdPasswordPatch(
+      {required num? id, required UpdatePasswordRequest? body}) {
+    return _authIdPasswordPatch(id: id, body: body);
+  }
+
+  ///Used to update the password
+  ///@param id
+  @Patch(path: '/auth/{id}/password')
+  Future<chopper.Response> _authIdPasswordPatch(
+      {@Path('id') required num? id,
+      @Body() required UpdatePasswordRequest? body});
+
+  ///Used to ask update the user email. Returns a new jwt
+  ///@param id
+  Future<chopper.Response<LoginResponse>> authIdEmailPatch(
+      {required num? id, required UpdateEmailRequest? body}) {
+    generatedMapping.putIfAbsent(
+        LoginResponse, () => LoginResponse.fromJsonFactory);
+
+    return _authIdEmailPatch(id: id, body: body);
+  }
+
+  ///Used to ask update the user email. Returns a new jwt
+  ///@param id
+  @Patch(path: '/auth/{id}/email')
+  Future<chopper.Response<LoginResponse>> _authIdEmailPatch(
+      {@Path('id') required num? id,
+      @Body() required UpdateEmailRequest? body});
+
+  ///Confirm a user's email
+  ///@param id
+  Future<chopper.Response> authIdConfirmationPatch(
+      {required num? id, required ConfirmationCodeModel? body}) {
+    return _authIdConfirmationPatch(id: id, body: body);
+  }
+
+  ///Confirm a user's email
+  ///@param id
+  @Patch(path: '/auth/{id}/confirmation')
+  Future<chopper.Response> _authIdConfirmationPatch(
+      {@Path('id') required num? id,
+      @Body() required ConfirmationCodeModel? body});
 
   ///Used to update the password with a confirmation code
-  ///@param validateCodePasswordRequest validateCodePasswordRequest
-  Future<chopper.Response<UserIdResponse>> authValidatepasswordPost(
-      {required ValidateCodePasswordRequest? validateCodePasswordRequest}) {
-    generatedMapping.putIfAbsent(ValidateCodePasswordRequest,
-        () => ValidateCodePasswordRequest.fromJsonFactory);
+  Future<chopper.Response<UserIdResponse>> authValidationPasswordPatch(
+      {required ValidateCodePasswordRequest? body}) {
     generatedMapping.putIfAbsent(
         UserIdResponse, () => UserIdResponse.fromJsonFactory);
 
-    return _authValidatepasswordPost(
-        validateCodePasswordRequest: validateCodePasswordRequest);
+    return _authValidationPasswordPatch(body: body);
   }
 
   ///Used to update the password with a confirmation code
-  ///@param validateCodePasswordRequest validateCodePasswordRequest
-  @Post(path: '/auth/validatepassword')
-  Future<chopper.Response<UserIdResponse>> _authValidatepasswordPost(
-      {@Body()
-          required ValidateCodePasswordRequest? validateCodePasswordRequest});
+  @Patch(path: '/auth/validation/password')
+  Future<chopper.Response<UserIdResponse>> _authValidationPasswordPatch(
+      {@Body() required ValidateCodePasswordRequest? body});
 
-  ///Confirm a user's email
-  ///@param confirmationCode confirmationCode
-  ///@param id id
-  Future<chopper.Response> authIdConfirmPatch(
-      {required ConfirmationCodeModel? confirmationCode, required int? id}) {
-    generatedMapping.putIfAbsent(
-        ConfirmationCodeModel, () => ConfirmationCodeModel.fromJsonFactory);
-
-    return _authIdConfirmPatch(confirmationCode: confirmationCode, id: id);
+  ///
+  Future<chopper.Response<Object>> usersGet() {
+    return _usersGet();
   }
 
-  ///Confirm a user's email
-  ///@param confirmationCode confirmationCode
-  ///@param id id
-  @Patch(path: '/auth/{id}/confirm')
-  Future<chopper.Response> _authIdConfirmPatch(
-      {@Body() required ConfirmationCodeModel? confirmationCode,
-      @Path('id') required int? id});
+  ///
+  @Get(path: '/users')
+  Future<chopper.Response<Object>> _usersGet();
 
-  ///Will send a new confirmation code to the user
-  ///@param id id
-  Future<chopper.Response> authIdReSendPost({required int? id}) {
-    return _authIdReSendPost(id: id);
+  ///
+  ///@param id
+  Future<chopper.Response<UserModel>> usersIdGet({required num? id}) {
+    generatedMapping.putIfAbsent(UserModel, () => UserModel.fromJsonFactory);
+
+    return _usersIdGet(id: id);
   }
 
-  ///Will send a new confirmation code to the user
-  ///@param id id
-  @Post(path: '/auth/{id}/re-send', optionalBody: true)
-  Future<chopper.Response> _authIdReSendPost({@Path('id') required int? id});
+  ///
+  ///@param id
+  @Get(path: '/users/{id}')
+  Future<chopper.Response<UserModel>> _usersIdGet(
+      {@Path('id') required num? id});
 
-  ///Used to ask update the user email
-  ///@param id id
-  ///@param updateEmailRequest updateEmailRequest
-  Future<chopper.Response> authIdUpdateemailPatch(
-      {required int? id, required UpdateEmailRequest? updateEmailRequest}) {
-    generatedMapping.putIfAbsent(
-        UpdateEmailRequest, () => UpdateEmailRequest.fromJsonFactory);
-
-    return _authIdUpdateemailPatch(
-        id: id, updateEmailRequest: updateEmailRequest);
+  ///
+  ///@param id
+  Future<chopper.Response> usersIdDelete(
+      {required num? id, required DeleteUserRequest? body}) {
+    return _usersIdDelete(id: id, body: body);
   }
 
-  ///Used to ask update the user email
-  ///@param id id
-  ///@param updateEmailRequest updateEmailRequest
-  @Patch(path: '/auth/{id}/updateemail')
-  Future<chopper.Response> _authIdUpdateemailPatch(
-      {@Path('id') required int? id,
-      @Body() required UpdateEmailRequest? updateEmailRequest});
+  ///
+  ///@param id
+  @Delete(path: '/users/{id}')
+  Future<chopper.Response> _usersIdDelete(
+      {@Path('id') required num? id, @Body() required DeleteUserRequest? body});
 
-  ///Used to update the password
-  ///@param id id
-  ///@param updatePasswordRequest updatePasswordRequest
-  Future<chopper.Response> authIdUpdatepasswordPatch(
-      {required int? id,
-      required UpdatePasswordRequest? updatePasswordRequest}) {
-    generatedMapping.putIfAbsent(
-        UpdatePasswordRequest, () => UpdatePasswordRequest.fromJsonFactory);
-
-    return _authIdUpdatepasswordPatch(
-        id: id, updatePasswordRequest: updatePasswordRequest);
-  }
-
-  ///Used to update the password
-  ///@param id id
-  ///@param updatePasswordRequest updatePasswordRequest
-  @Patch(path: '/auth/{id}/updatepassword')
-  Future<chopper.Response> _authIdUpdatepasswordPatch(
-      {@Path('id') required int? id,
-      @Body() required UpdatePasswordRequest? updatePasswordRequest});
-
-  ///getCurrentUser
+  ///
   Future<chopper.Response<UserModel>> usersMeGet() {
     generatedMapping.putIfAbsent(UserModel, () => UserModel.fromJsonFactory);
 
     return _usersMeGet();
   }
 
-  ///getCurrentUser
+  ///
   @Get(path: '/users/me')
   Future<chopper.Response<UserModel>> _usersMeGet();
 
-  ///getUserById
-  ///@param id id
-  Future<chopper.Response<UserModel>> usersIdGet({required int? id}) {
-    generatedMapping.putIfAbsent(UserModel, () => UserModel.fromJsonFactory);
-
-    return _usersIdGet(id: id);
-  }
-
-  ///getUserById
-  ///@param id id
-  @Get(path: '/users/{id}')
-  Future<chopper.Response<UserModel>> _usersIdGet(
-      {@Path('id') required int? id});
-
-  ///deleteUserAccount
-  ///@param deleteUserRequest deleteUserRequest
-  ///@param id id
-  Future<chopper.Response> usersIdDelete(
-      {required DeleteUserRequest? deleteUserRequest, required int? id}) {
-    generatedMapping.putIfAbsent(
-        DeleteUserRequest, () => DeleteUserRequest.fromJsonFactory);
-
-    return _usersIdDelete(deleteUserRequest: deleteUserRequest, id: id);
-  }
-
-  ///deleteUserAccount
-  ///@param deleteUserRequest deleteUserRequest
-  ///@param id id
-  @Delete(path: '/users/{id}')
-  Future<chopper.Response> _usersIdDelete(
-      {@Body() required DeleteUserRequest? deleteUserRequest,
-      @Path('id') required int? id});
-
-  ///deleteUserByAdmin
-  ///@param deleteUserByAdminRequest deleteUserByAdminRequest
-  ///@param id id
+  ///
+  ///@param id
   Future<chopper.Response> usersIdAdminDelete(
-      {required DeleteUserByAdminRequest? deleteUserByAdminRequest,
-      required int? id}) {
-    generatedMapping.putIfAbsent(DeleteUserByAdminRequest,
-        () => DeleteUserByAdminRequest.fromJsonFactory);
-
-    return _usersIdAdminDelete(
-        deleteUserByAdminRequest: deleteUserByAdminRequest, id: id);
+      {required num? id, required DeleteUserByAdminRequest? body}) {
+    return _usersIdAdminDelete(id: id, body: body);
   }
 
-  ///deleteUserByAdmin
-  ///@param deleteUserByAdminRequest deleteUserByAdminRequest
-  ///@param id id
+  ///
+  ///@param id
   @Delete(path: '/users/{id}/admin')
   Future<chopper.Response> _usersIdAdminDelete(
-      {@Body() required DeleteUserByAdminRequest? deleteUserByAdminRequest,
-      @Path('id') required int? id});
+      {@Path('id') required num? id,
+      @Body() required DeleteUserByAdminRequest? body});
+}
 
-  ///Used to update the user information
-  ///@param id id
-  ///@param userUpdateRequest userUpdateRequest
-  Future<chopper.Response> usersIdUpdatePatch(
-      {required int? id, required UserUpdateRequest? userUpdateRequest}) {
-    generatedMapping.putIfAbsent(
-        UserUpdateRequest, () => UserUpdateRequest.fromJsonFactory);
+@JsonSerializable(explicitToJson: true)
+class UserCreationRequest {
+  UserCreationRequest({
+    this.firstname,
+    this.lastname,
+    this.password,
+    this.gender,
+    this.birthDate,
+    this.phoneNumber,
+    this.email,
+  });
 
-    return _usersIdUpdatePatch(id: id, userUpdateRequest: userUpdateRequest);
+  factory UserCreationRequest.fromJson(Map<String, dynamic> json) =>
+      _$UserCreationRequestFromJson(json);
+
+  @JsonKey(name: 'firstname')
+  final String? firstname;
+  @JsonKey(name: 'lastname')
+  final String? lastname;
+  @JsonKey(name: 'password')
+  final String? password;
+  @JsonKey(name: 'gender')
+  final String? gender;
+  @JsonKey(name: 'birthDate')
+  final DateTime? birthDate;
+  @JsonKey(name: 'phoneNumber')
+  final String? phoneNumber;
+  @JsonKey(name: 'email')
+  final String? email;
+  static const fromJsonFactory = _$UserCreationRequestFromJson;
+  static const toJsonFactory = _$UserCreationRequestToJson;
+  Map<String, dynamic> toJson() => _$UserCreationRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UserCreationRequest &&
+            (identical(other.firstname, firstname) ||
+                const DeepCollectionEquality()
+                    .equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastname, lastname)) &&
+            (identical(other.password, password) ||
+                const DeepCollectionEquality()
+                    .equals(other.password, password)) &&
+            (identical(other.gender, gender) ||
+                const DeepCollectionEquality().equals(other.gender, gender)) &&
+            (identical(other.birthDate, birthDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.birthDate, birthDate)) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)));
   }
 
-  ///Used to update the user information
-  ///@param id id
-  ///@param userUpdateRequest userUpdateRequest
-  @Patch(path: '/users/{id}/update')
-  Future<chopper.Response> _usersIdUpdatePatch(
-      {@Path('id') required int? id,
-      @Body() required UserUpdateRequest? userUpdateRequest});
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(lastname) ^
+      const DeepCollectionEquality().hash(password) ^
+      const DeepCollectionEquality().hash(gender) ^
+      const DeepCollectionEquality().hash(birthDate) ^
+      const DeepCollectionEquality().hash(phoneNumber) ^
+      const DeepCollectionEquality().hash(email) ^
+      runtimeType.hashCode;
+}
+
+extension $UserCreationRequestExtension on UserCreationRequest {
+  UserCreationRequest copyWith(
+      {String? firstname,
+      String? lastname,
+      String? password,
+      String? gender,
+      DateTime? birthDate,
+      String? phoneNumber,
+      String? email}) {
+    return UserCreationRequest(
+        firstname: firstname ?? this.firstname,
+        lastname: lastname ?? this.lastname,
+        password: password ?? this.password,
+        gender: gender ?? this.gender,
+        birthDate: birthDate ?? this.birthDate,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        email: email ?? this.email);
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -288,259 +347,6 @@ class AuthTokenResponse {
 extension $AuthTokenResponseExtension on AuthTokenResponse {
   AuthTokenResponse copyWith({String? token}) {
     return AuthTokenResponse(token: token ?? this.token);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class CityEntity {
-  CityEntity({
-    this.id,
-    this.name,
-  });
-
-  factory CityEntity.fromJson(Map<String, dynamic> json) =>
-      _$CityEntityFromJson(json);
-
-  @JsonKey(name: 'id')
-  final num? id;
-  @JsonKey(name: 'name')
-  final String? name;
-  static const fromJsonFactory = _$CityEntityFromJson;
-  static const toJsonFactory = _$CityEntityToJson;
-  Map<String, dynamic> toJson() => _$CityEntityToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is CityEntity &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(name) ^
-      runtimeType.hashCode;
-}
-
-extension $CityEntityExtension on CityEntity {
-  CityEntity copyWith({num? id, String? name}) {
-    return CityEntity(id: id ?? this.id, name: name ?? this.name);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class CityModel {
-  CityModel({
-    this.name,
-  });
-
-  factory CityModel.fromJson(Map<String, dynamic> json) =>
-      _$CityModelFromJson(json);
-
-  @JsonKey(name: 'name')
-  final String? name;
-  static const fromJsonFactory = _$CityModelFromJson;
-  static const toJsonFactory = _$CityModelToJson;
-  Map<String, dynamic> toJson() => _$CityModelToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is CityModel &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
-}
-
-extension $CityModelExtension on CityModel {
-  CityModel copyWith({String? name}) {
-    return CityModel(name: name ?? this.name);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class ConfirmationCodeModel {
-  ConfirmationCodeModel({
-    this.value,
-  });
-
-  factory ConfirmationCodeModel.fromJson(Map<String, dynamic> json) =>
-      _$ConfirmationCodeModelFromJson(json);
-
-  @JsonKey(name: 'value')
-  final String? value;
-  static const fromJsonFactory = _$ConfirmationCodeModelFromJson;
-  static const toJsonFactory = _$ConfirmationCodeModelToJson;
-  Map<String, dynamic> toJson() => _$ConfirmationCodeModelToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is ConfirmationCodeModel &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(value) ^ runtimeType.hashCode;
-}
-
-extension $ConfirmationCodeModelExtension on ConfirmationCodeModel {
-  ConfirmationCodeModel copyWith({String? value}) {
-    return ConfirmationCodeModel(value: value ?? this.value);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class DeleteUserByAdminRequest {
-  DeleteUserByAdminRequest({
-    this.reason,
-  });
-
-  factory DeleteUserByAdminRequest.fromJson(Map<String, dynamic> json) =>
-      _$DeleteUserByAdminRequestFromJson(json);
-
-  @JsonKey(name: 'reason')
-  final String? reason;
-  static const fromJsonFactory = _$DeleteUserByAdminRequestFromJson;
-  static const toJsonFactory = _$DeleteUserByAdminRequestToJson;
-  Map<String, dynamic> toJson() => _$DeleteUserByAdminRequestToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is DeleteUserByAdminRequest &&
-            (identical(other.reason, reason) ||
-                const DeepCollectionEquality().equals(other.reason, reason)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(reason) ^ runtimeType.hashCode;
-}
-
-extension $DeleteUserByAdminRequestExtension on DeleteUserByAdminRequest {
-  DeleteUserByAdminRequest copyWith({String? reason}) {
-    return DeleteUserByAdminRequest(reason: reason ?? this.reason);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class DeleteUserRequest {
-  DeleteUserRequest({
-    this.password,
-  });
-
-  factory DeleteUserRequest.fromJson(Map<String, dynamic> json) =>
-      _$DeleteUserRequestFromJson(json);
-
-  @JsonKey(name: 'password')
-  final String? password;
-  static const fromJsonFactory = _$DeleteUserRequestFromJson;
-  static const toJsonFactory = _$DeleteUserRequestToJson;
-  Map<String, dynamic> toJson() => _$DeleteUserRequestToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is DeleteUserRequest &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(password) ^ runtimeType.hashCode;
-}
-
-extension $DeleteUserRequestExtension on DeleteUserRequest {
-  DeleteUserRequest copyWith({String? password}) {
-    return DeleteUserRequest(password: password ?? this.password);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class ForgotPasswordRequest {
-  ForgotPasswordRequest({
-    this.email,
-  });
-
-  factory ForgotPasswordRequest.fromJson(Map<String, dynamic> json) =>
-      _$ForgotPasswordRequestFromJson(json);
-
-  @JsonKey(name: 'email')
-  final String? email;
-  static const fromJsonFactory = _$ForgotPasswordRequestFromJson;
-  static const toJsonFactory = _$ForgotPasswordRequestToJson;
-  Map<String, dynamic> toJson() => _$ForgotPasswordRequestToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is ForgotPasswordRequest &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(email) ^ runtimeType.hashCode;
-}
-
-extension $ForgotPasswordRequestExtension on ForgotPasswordRequest {
-  ForgotPasswordRequest copyWith({String? email}) {
-    return ForgotPasswordRequest(email: email ?? this.email);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class GenderEntity {
-  GenderEntity({
-    this.id,
-    this.value,
-  });
-
-  factory GenderEntity.fromJson(Map<String, dynamic> json) =>
-      _$GenderEntityFromJson(json);
-
-  @JsonKey(name: 'id')
-  final num? id;
-  @JsonKey(name: 'value')
-  final String? value;
-  static const fromJsonFactory = _$GenderEntityFromJson;
-  static const toJsonFactory = _$GenderEntityToJson;
-  Map<String, dynamic> toJson() => _$GenderEntityToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is GenderEntity &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(value) ^
-      runtimeType.hashCode;
-}
-
-extension $GenderEntityExtension on GenderEntity {
-  GenderEntity copyWith({num? id, String? value}) {
-    return GenderEntity(id: id ?? this.id, value: value ?? this.value);
   }
 }
 
@@ -592,17 +398,17 @@ extension $LoginRequestExtension on LoginRequest {
 @JsonSerializable(explicitToJson: true)
 class LoginResponse {
   LoginResponse({
-    this.token,
     this.username,
+    this.token,
   });
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseFromJson(json);
 
-  @JsonKey(name: 'token')
-  final String? token;
   @JsonKey(name: 'username')
   final String? username;
+  @JsonKey(name: 'token')
+  final String? token;
   static const fromJsonFactory = _$LoginResponseFromJson;
   static const toJsonFactory = _$LoginResponseToJson;
   Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
@@ -611,75 +417,292 @@ class LoginResponse {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is LoginResponse &&
-            (identical(other.token, token) ||
-                const DeepCollectionEquality().equals(other.token, token)) &&
             (identical(other.username, username) ||
                 const DeepCollectionEquality()
-                    .equals(other.username, username)));
+                    .equals(other.username, username)) &&
+            (identical(other.token, token) ||
+                const DeepCollectionEquality().equals(other.token, token)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(token) ^
       const DeepCollectionEquality().hash(username) ^
+      const DeepCollectionEquality().hash(token) ^
       runtimeType.hashCode;
 }
 
 extension $LoginResponseExtension on LoginResponse {
-  LoginResponse copyWith({String? token, String? username}) {
+  LoginResponse copyWith({String? username, String? token}) {
     return LoginResponse(
-        token: token ?? this.token, username: username ?? this.username);
+        username: username ?? this.username, token: token ?? this.token);
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class RoleEntity {
-  RoleEntity({
-    this.authority,
-    this.id,
-    this.name,
+class GoogleRequest {
+  GoogleRequest({
+    this.firstname,
+    this.lastname,
+    this.password,
+    this.profilePicture,
+    this.phoneNumber,
+    this.email,
   });
 
-  factory RoleEntity.fromJson(Map<String, dynamic> json) =>
-      _$RoleEntityFromJson(json);
+  factory GoogleRequest.fromJson(Map<String, dynamic> json) =>
+      _$GoogleRequestFromJson(json);
 
-  @JsonKey(name: 'authority')
-  final String? authority;
-  @JsonKey(name: 'id')
-  final num? id;
-  @JsonKey(name: 'name')
-  final String? name;
-  static const fromJsonFactory = _$RoleEntityFromJson;
-  static const toJsonFactory = _$RoleEntityToJson;
-  Map<String, dynamic> toJson() => _$RoleEntityToJson(this);
+  @JsonKey(name: 'firstname')
+  final String? firstname;
+  @JsonKey(name: 'lastname')
+  final String? lastname;
+  @JsonKey(name: 'password')
+  final String? password;
+  @JsonKey(name: 'profilePicture')
+  final String? profilePicture;
+  @JsonKey(name: 'phoneNumber')
+  final String? phoneNumber;
+  @JsonKey(name: 'email')
+  final String? email;
+  static const fromJsonFactory = _$GoogleRequestFromJson;
+  static const toJsonFactory = _$GoogleRequestToJson;
+  Map<String, dynamic> toJson() => _$GoogleRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is RoleEntity &&
-            (identical(other.authority, authority) ||
+        (other is GoogleRequest &&
+            (identical(other.firstname, firstname) ||
                 const DeepCollectionEquality()
-                    .equals(other.authority, authority)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+                    .equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastname, lastname)) &&
+            (identical(other.password, password) ||
+                const DeepCollectionEquality()
+                    .equals(other.password, password)) &&
+            (identical(other.profilePicture, profilePicture) ||
+                const DeepCollectionEquality()
+                    .equals(other.profilePicture, profilePicture)) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(lastname) ^
+      const DeepCollectionEquality().hash(password) ^
+      const DeepCollectionEquality().hash(profilePicture) ^
+      const DeepCollectionEquality().hash(phoneNumber) ^
+      const DeepCollectionEquality().hash(email) ^
+      runtimeType.hashCode;
+}
+
+extension $GoogleRequestExtension on GoogleRequest {
+  GoogleRequest copyWith(
+      {String? firstname,
+      String? lastname,
+      String? password,
+      String? profilePicture,
+      String? phoneNumber,
+      String? email}) {
+    return GoogleRequest(
+        firstname: firstname ?? this.firstname,
+        lastname: lastname ?? this.lastname,
+        password: password ?? this.password,
+        profilePicture: profilePicture ?? this.profilePicture,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        email: email ?? this.email);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ForgotPasswordRequest {
+  ForgotPasswordRequest({
+    this.email,
+  });
+
+  factory ForgotPasswordRequest.fromJson(Map<String, dynamic> json) =>
+      _$ForgotPasswordRequestFromJson(json);
+
+  @JsonKey(name: 'email')
+  final String? email;
+  static const fromJsonFactory = _$ForgotPasswordRequestFromJson;
+  static const toJsonFactory = _$ForgotPasswordRequestToJson;
+  Map<String, dynamic> toJson() => _$ForgotPasswordRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ForgotPasswordRequest &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(email) ^ runtimeType.hashCode;
+}
+
+extension $ForgotPasswordRequestExtension on ForgotPasswordRequest {
+  ForgotPasswordRequest copyWith({String? email}) {
+    return ForgotPasswordRequest(email: email ?? this.email);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CityModel {
+  CityModel({
+    this.name,
+  });
+
+  factory CityModel.fromJson(Map<String, dynamic> json) =>
+      _$CityModelFromJson(json);
+
+  @JsonKey(name: 'name')
+  final String? name;
+  static const fromJsonFactory = _$CityModelFromJson;
+  static const toJsonFactory = _$CityModelToJson;
+  Map<String, dynamic> toJson() => _$CityModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is CityModel &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(authority) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
+}
+
+extension $CityModelExtension on CityModel {
+  CityModel copyWith({String? name}) {
+    return CityModel(name: name ?? this.name);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UserUpdateRequest {
+  UserUpdateRequest({
+    this.firstname,
+    this.lastname,
+    this.profilePicture,
+    this.city,
+    this.phoneNumber,
+  });
+
+  factory UserUpdateRequest.fromJson(Map<String, dynamic> json) =>
+      _$UserUpdateRequestFromJson(json);
+
+  @JsonKey(name: 'firstname')
+  final String? firstname;
+  @JsonKey(name: 'lastname')
+  final String? lastname;
+  @JsonKey(name: 'profilePicture')
+  final String? profilePicture;
+  @JsonKey(name: 'city')
+  final CityModel? city;
+  @JsonKey(name: 'phoneNumber')
+  final String? phoneNumber;
+  static const fromJsonFactory = _$UserUpdateRequestFromJson;
+  static const toJsonFactory = _$UserUpdateRequestToJson;
+  Map<String, dynamic> toJson() => _$UserUpdateRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UserUpdateRequest &&
+            (identical(other.firstname, firstname) ||
+                const DeepCollectionEquality()
+                    .equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastname, lastname)) &&
+            (identical(other.profilePicture, profilePicture) ||
+                const DeepCollectionEquality()
+                    .equals(other.profilePicture, profilePicture)) &&
+            (identical(other.city, city) ||
+                const DeepCollectionEquality().equals(other.city, city)) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.phoneNumber, phoneNumber)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(lastname) ^
+      const DeepCollectionEquality().hash(profilePicture) ^
+      const DeepCollectionEquality().hash(city) ^
+      const DeepCollectionEquality().hash(phoneNumber) ^
       runtimeType.hashCode;
 }
 
-extension $RoleEntityExtension on RoleEntity {
-  RoleEntity copyWith({String? authority, num? id, String? name}) {
-    return RoleEntity(
-        authority: authority ?? this.authority,
-        id: id ?? this.id,
-        name: name ?? this.name);
+extension $UserUpdateRequestExtension on UserUpdateRequest {
+  UserUpdateRequest copyWith(
+      {String? firstname,
+      String? lastname,
+      String? profilePicture,
+      CityModel? city,
+      String? phoneNumber}) {
+    return UserUpdateRequest(
+        firstname: firstname ?? this.firstname,
+        lastname: lastname ?? this.lastname,
+        profilePicture: profilePicture ?? this.profilePicture,
+        city: city ?? this.city,
+        phoneNumber: phoneNumber ?? this.phoneNumber);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdatePasswordRequest {
+  UpdatePasswordRequest({
+    this.oldPassword,
+    this.newPassword,
+  });
+
+  factory UpdatePasswordRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdatePasswordRequestFromJson(json);
+
+  @JsonKey(name: 'oldPassword')
+  final String? oldPassword;
+  @JsonKey(name: 'newPassword')
+  final String? newPassword;
+  static const fromJsonFactory = _$UpdatePasswordRequestFromJson;
+  static const toJsonFactory = _$UpdatePasswordRequestToJson;
+  Map<String, dynamic> toJson() => _$UpdatePasswordRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UpdatePasswordRequest &&
+            (identical(other.oldPassword, oldPassword) ||
+                const DeepCollectionEquality()
+                    .equals(other.oldPassword, oldPassword)) &&
+            (identical(other.newPassword, newPassword) ||
+                const DeepCollectionEquality()
+                    .equals(other.newPassword, newPassword)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(oldPassword) ^
+      const DeepCollectionEquality().hash(newPassword) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdatePasswordRequestExtension on UpdatePasswordRequest {
+  UpdatePasswordRequest copyWith({String? oldPassword, String? newPassword}) {
+    return UpdatePasswordRequest(
+        oldPassword: oldPassword ?? this.oldPassword,
+        newPassword: newPassword ?? this.newPassword);
   }
 }
 
@@ -729,278 +752,88 @@ extension $UpdateEmailRequestExtension on UpdateEmailRequest {
 }
 
 @JsonSerializable(explicitToJson: true)
-class UpdatePasswordRequest {
-  UpdatePasswordRequest({
-    this.newPassword,
-    this.oldPassword,
+class ConfirmationCodeModel {
+  ConfirmationCodeModel({
+    this.value,
   });
 
-  factory UpdatePasswordRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePasswordRequestFromJson(json);
+  factory ConfirmationCodeModel.fromJson(Map<String, dynamic> json) =>
+      _$ConfirmationCodeModelFromJson(json);
 
-  @JsonKey(name: 'newPassword')
-  final String? newPassword;
-  @JsonKey(name: 'oldPassword')
-  final String? oldPassword;
-  static const fromJsonFactory = _$UpdatePasswordRequestFromJson;
-  static const toJsonFactory = _$UpdatePasswordRequestToJson;
-  Map<String, dynamic> toJson() => _$UpdatePasswordRequestToJson(this);
+  @JsonKey(name: 'value')
+  final String? value;
+  static const fromJsonFactory = _$ConfirmationCodeModelFromJson;
+  static const toJsonFactory = _$ConfirmationCodeModelToJson;
+  Map<String, dynamic> toJson() => _$ConfirmationCodeModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is UpdatePasswordRequest &&
+        (other is ConfirmationCodeModel &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(value) ^ runtimeType.hashCode;
+}
+
+extension $ConfirmationCodeModelExtension on ConfirmationCodeModel {
+  ConfirmationCodeModel copyWith({String? value}) {
+    return ConfirmationCodeModel(value: value ?? this.value);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ValidateCodePasswordRequest {
+  ValidateCodePasswordRequest({
+    this.value,
+    this.newPassword,
+    this.email,
+  });
+
+  factory ValidateCodePasswordRequest.fromJson(Map<String, dynamic> json) =>
+      _$ValidateCodePasswordRequestFromJson(json);
+
+  @JsonKey(name: 'value')
+  final String? value;
+  @JsonKey(name: 'newPassword')
+  final String? newPassword;
+  @JsonKey(name: 'email')
+  final String? email;
+  static const fromJsonFactory = _$ValidateCodePasswordRequestFromJson;
+  static const toJsonFactory = _$ValidateCodePasswordRequestToJson;
+  Map<String, dynamic> toJson() => _$ValidateCodePasswordRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ValidateCodePasswordRequest &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)) &&
             (identical(other.newPassword, newPassword) ||
                 const DeepCollectionEquality()
                     .equals(other.newPassword, newPassword)) &&
-            (identical(other.oldPassword, oldPassword) ||
-                const DeepCollectionEquality()
-                    .equals(other.oldPassword, oldPassword)));
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)));
   }
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(value) ^
       const DeepCollectionEquality().hash(newPassword) ^
-      const DeepCollectionEquality().hash(oldPassword) ^
+      const DeepCollectionEquality().hash(email) ^
       runtimeType.hashCode;
 }
 
-extension $UpdatePasswordRequestExtension on UpdatePasswordRequest {
-  UpdatePasswordRequest copyWith({String? newPassword, String? oldPassword}) {
-    return UpdatePasswordRequest(
+extension $ValidateCodePasswordRequestExtension on ValidateCodePasswordRequest {
+  ValidateCodePasswordRequest copyWith(
+      {String? value, String? newPassword, String? email}) {
+    return ValidateCodePasswordRequest(
+        value: value ?? this.value,
         newPassword: newPassword ?? this.newPassword,
-        oldPassword: oldPassword ?? this.oldPassword);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class UserCreationRequest {
-  UserCreationRequest({
-    this.birthDate,
-    this.email,
-    this.firstname,
-    this.gender,
-    this.lastname,
-    this.password,
-    this.phoneNumber,
-  });
-
-  factory UserCreationRequest.fromJson(Map<String, dynamic> json) =>
-      _$UserCreationRequestFromJson(json);
-
-  @JsonKey(name: 'birthDate')
-  final DateTime? birthDate;
-  @JsonKey(name: 'email')
-  final String? email;
-  @JsonKey(name: 'firstname')
-  final String? firstname;
-  @JsonKey(name: 'gender')
-  final String? gender;
-  @JsonKey(name: 'lastname')
-  final String? lastname;
-  @JsonKey(name: 'password')
-  final String? password;
-  @JsonKey(name: 'phoneNumber')
-  final String? phoneNumber;
-  static const fromJsonFactory = _$UserCreationRequestFromJson;
-  static const toJsonFactory = _$UserCreationRequestToJson;
-  Map<String, dynamic> toJson() => _$UserCreationRequestToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is UserCreationRequest &&
-            (identical(other.birthDate, birthDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthDate, birthDate)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
-            (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)) &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(birthDate) ^
-      const DeepCollectionEquality().hash(email) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(gender) ^
-      const DeepCollectionEquality().hash(lastname) ^
-      const DeepCollectionEquality().hash(password) ^
-      const DeepCollectionEquality().hash(phoneNumber) ^
-      runtimeType.hashCode;
-}
-
-extension $UserCreationRequestExtension on UserCreationRequest {
-  UserCreationRequest copyWith(
-      {DateTime? birthDate,
-      String? email,
-      String? firstname,
-      String? gender,
-      String? lastname,
-      String? password,
-      String? phoneNumber}) {
-    return UserCreationRequest(
-        birthDate: birthDate ?? this.birthDate,
-        email: email ?? this.email,
-        firstname: firstname ?? this.firstname,
-        gender: gender ?? this.gender,
-        lastname: lastname ?? this.lastname,
-        password: password ?? this.password,
-        phoneNumber: phoneNumber ?? this.phoneNumber);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class UserEntity {
-  UserEntity({
-    this.birthDate,
-    this.city,
-    this.confirmed,
-    this.createdDate,
-    this.email,
-    this.firstname,
-    this.gender,
-    this.id,
-    this.lastname,
-    this.password,
-    this.phoneNumber,
-    this.profilePicture,
-    this.roles,
-  });
-
-  factory UserEntity.fromJson(Map<String, dynamic> json) =>
-      _$UserEntityFromJson(json);
-
-  @JsonKey(name: 'birthDate')
-  final DateTime? birthDate;
-  @JsonKey(name: 'city')
-  final CityEntity? city;
-  @JsonKey(name: 'confirmed')
-  final bool? confirmed;
-  @JsonKey(name: 'createdDate')
-  final DateTime? createdDate;
-  @JsonKey(name: 'email')
-  final String? email;
-  @JsonKey(name: 'firstname')
-  final String? firstname;
-  @JsonKey(name: 'gender')
-  final GenderEntity? gender;
-  @JsonKey(name: 'id')
-  final num? id;
-  @JsonKey(name: 'lastname')
-  final String? lastname;
-  @JsonKey(name: 'password')
-  final String? password;
-  @JsonKey(name: 'phoneNumber')
-  final String? phoneNumber;
-  @JsonKey(name: 'profilePicture')
-  final String? profilePicture;
-  @JsonKey(name: 'roles', defaultValue: <RoleEntity>[])
-  final List<RoleEntity>? roles;
-  static const fromJsonFactory = _$UserEntityFromJson;
-  static const toJsonFactory = _$UserEntityToJson;
-  Map<String, dynamic> toJson() => _$UserEntityToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is UserEntity &&
-            (identical(other.birthDate, birthDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthDate, birthDate)) &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
-            (identical(other.confirmed, confirmed) ||
-                const DeepCollectionEquality()
-                    .equals(other.confirmed, confirmed)) &&
-            (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
-            (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)) &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
-            (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)) &&
-            (identical(other.roles, roles) ||
-                const DeepCollectionEquality().equals(other.roles, roles)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(birthDate) ^
-      const DeepCollectionEquality().hash(city) ^
-      const DeepCollectionEquality().hash(confirmed) ^
-      const DeepCollectionEquality().hash(createdDate) ^
-      const DeepCollectionEquality().hash(email) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(gender) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(lastname) ^
-      const DeepCollectionEquality().hash(password) ^
-      const DeepCollectionEquality().hash(phoneNumber) ^
-      const DeepCollectionEquality().hash(profilePicture) ^
-      const DeepCollectionEquality().hash(roles) ^
-      runtimeType.hashCode;
-}
-
-extension $UserEntityExtension on UserEntity {
-  UserEntity copyWith(
-      {DateTime? birthDate,
-      CityEntity? city,
-      bool? confirmed,
-      DateTime? createdDate,
-      String? email,
-      String? firstname,
-      GenderEntity? gender,
-      num? id,
-      String? lastname,
-      String? password,
-      String? phoneNumber,
-      String? profilePicture,
-      List<RoleEntity>? roles}) {
-    return UserEntity(
-        birthDate: birthDate ?? this.birthDate,
-        city: city ?? this.city,
-        confirmed: confirmed ?? this.confirmed,
-        createdDate: createdDate ?? this.createdDate,
-        email: email ?? this.email,
-        firstname: firstname ?? this.firstname,
-        gender: gender ?? this.gender,
-        id: id ?? this.id,
-        lastname: lastname ?? this.lastname,
-        password: password ?? this.password,
-        phoneNumber: phoneNumber ?? this.phoneNumber,
-        profilePicture: profilePicture ?? this.profilePicture,
-        roles: roles ?? this.roles);
+        email: email ?? this.email);
   }
 }
 
@@ -1041,51 +874,51 @@ extension $UserIdResponseExtension on UserIdResponse {
 @JsonSerializable(explicitToJson: true)
 class UserModel {
   UserModel({
-    this.birthDate,
-    this.city,
-    this.confirmed,
-    this.createdDate,
-    this.email,
-    this.firstname,
-    this.gender,
     this.id,
+    this.firstname,
     this.lastname,
     this.password,
-    this.phoneNumber,
+    this.email,
+    this.birthDate,
+    this.gender,
     this.profilePicture,
+    this.city,
+    this.createdDate,
+    this.phoneNumber,
+    this.confirmed,
     this.roles,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 
-  @JsonKey(name: 'birthDate')
-  final DateTime? birthDate;
-  @JsonKey(name: 'city')
-  final CityModel? city;
-  @JsonKey(name: 'confirmed')
-  final bool? confirmed;
-  @JsonKey(name: 'createdDate')
-  final DateTime? createdDate;
-  @JsonKey(name: 'email')
-  final String? email;
+  @JsonKey(name: 'id')
+  final num? id;
   @JsonKey(name: 'firstname')
   final String? firstname;
+  @JsonKey(name: 'lastname')
+  final String? lastname;
+  @JsonKey(name: 'password')
+  final String? password;
+  @JsonKey(name: 'email')
+  final String? email;
+  @JsonKey(name: 'birthDate')
+  final DateTime? birthDate;
   @JsonKey(
       name: 'gender',
       toJson: userModelGenderToJson,
       fromJson: userModelGenderFromJson)
   final enums.UserModelGender? gender;
-  @JsonKey(name: 'id')
-  final num? id;
-  @JsonKey(name: 'lastname')
-  final String? lastname;
-  @JsonKey(name: 'password')
-  final String? password;
-  @JsonKey(name: 'phoneNumber')
-  final String? phoneNumber;
   @JsonKey(name: 'profilePicture')
   final String? profilePicture;
+  @JsonKey(name: 'city')
+  final CityModel? city;
+  @JsonKey(name: 'createdDate')
+  final DateTime? createdDate;
+  @JsonKey(name: 'phoneNumber')
+  final String? phoneNumber;
+  @JsonKey(name: 'confirmed')
+  final bool? confirmed;
   @JsonKey(
       name: 'roles',
       toJson: userModelRolesListToJson,
@@ -1099,214 +932,158 @@ class UserModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UserModel &&
-            (identical(other.birthDate, birthDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthDate, birthDate)) &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
-            (identical(other.confirmed, confirmed) ||
-                const DeepCollectionEquality()
-                    .equals(other.confirmed, confirmed)) &&
-            (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.firstname, firstname) ||
                 const DeepCollectionEquality()
                     .equals(other.firstname, firstname)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.lastname, lastname) ||
                 const DeepCollectionEquality()
                     .equals(other.lastname, lastname)) &&
             (identical(other.password, password) ||
                 const DeepCollectionEquality()
                     .equals(other.password, password)) &&
-            (identical(other.phoneNumber, phoneNumber) ||
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.birthDate, birthDate) ||
                 const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
+                    .equals(other.birthDate, birthDate)) &&
+            (identical(other.gender, gender) ||
+                const DeepCollectionEquality().equals(other.gender, gender)) &&
             (identical(other.profilePicture, profilePicture) ||
                 const DeepCollectionEquality()
                     .equals(other.profilePicture, profilePicture)) &&
+            (identical(other.city, city) ||
+                const DeepCollectionEquality().equals(other.city, city)) &&
+            (identical(other.createdDate, createdDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdDate, createdDate)) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.confirmed, confirmed) ||
+                const DeepCollectionEquality()
+                    .equals(other.confirmed, confirmed)) &&
             (identical(other.roles, roles) ||
                 const DeepCollectionEquality().equals(other.roles, roles)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(birthDate) ^
-      const DeepCollectionEquality().hash(city) ^
-      const DeepCollectionEquality().hash(confirmed) ^
-      const DeepCollectionEquality().hash(createdDate) ^
-      const DeepCollectionEquality().hash(email) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(gender) ^
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(firstname) ^
       const DeepCollectionEquality().hash(lastname) ^
       const DeepCollectionEquality().hash(password) ^
-      const DeepCollectionEquality().hash(phoneNumber) ^
+      const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(birthDate) ^
+      const DeepCollectionEquality().hash(gender) ^
       const DeepCollectionEquality().hash(profilePicture) ^
+      const DeepCollectionEquality().hash(city) ^
+      const DeepCollectionEquality().hash(createdDate) ^
+      const DeepCollectionEquality().hash(phoneNumber) ^
+      const DeepCollectionEquality().hash(confirmed) ^
       const DeepCollectionEquality().hash(roles) ^
       runtimeType.hashCode;
 }
 
 extension $UserModelExtension on UserModel {
   UserModel copyWith(
-      {DateTime? birthDate,
-      CityModel? city,
-      bool? confirmed,
-      DateTime? createdDate,
-      String? email,
+      {num? id,
       String? firstname,
-      enums.UserModelGender? gender,
-      num? id,
       String? lastname,
       String? password,
-      String? phoneNumber,
+      String? email,
+      DateTime? birthDate,
+      enums.UserModelGender? gender,
       String? profilePicture,
+      CityModel? city,
+      DateTime? createdDate,
+      String? phoneNumber,
+      bool? confirmed,
       List<enums.UserModelRoles>? roles}) {
     return UserModel(
-        birthDate: birthDate ?? this.birthDate,
-        city: city ?? this.city,
-        confirmed: confirmed ?? this.confirmed,
-        createdDate: createdDate ?? this.createdDate,
-        email: email ?? this.email,
-        firstname: firstname ?? this.firstname,
-        gender: gender ?? this.gender,
         id: id ?? this.id,
+        firstname: firstname ?? this.firstname,
         lastname: lastname ?? this.lastname,
         password: password ?? this.password,
-        phoneNumber: phoneNumber ?? this.phoneNumber,
+        email: email ?? this.email,
+        birthDate: birthDate ?? this.birthDate,
+        gender: gender ?? this.gender,
         profilePicture: profilePicture ?? this.profilePicture,
+        city: city ?? this.city,
+        createdDate: createdDate ?? this.createdDate,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        confirmed: confirmed ?? this.confirmed,
         roles: roles ?? this.roles);
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class UserUpdateRequest {
-  UserUpdateRequest({
-    this.city,
-    this.firstname,
-    this.lastname,
-    this.phoneNumber,
-    this.profilePicture,
+class DeleteUserRequest {
+  DeleteUserRequest({
+    this.password,
   });
 
-  factory UserUpdateRequest.fromJson(Map<String, dynamic> json) =>
-      _$UserUpdateRequestFromJson(json);
+  factory DeleteUserRequest.fromJson(Map<String, dynamic> json) =>
+      _$DeleteUserRequestFromJson(json);
 
-  @JsonKey(name: 'city')
-  final CityModel? city;
-  @JsonKey(name: 'firstname')
-  final String? firstname;
-  @JsonKey(name: 'lastname')
-  final String? lastname;
-  @JsonKey(name: 'phoneNumber')
-  final String? phoneNumber;
-  @JsonKey(name: 'profilePicture')
-  final String? profilePicture;
-  static const fromJsonFactory = _$UserUpdateRequestFromJson;
-  static const toJsonFactory = _$UserUpdateRequestToJson;
-  Map<String, dynamic> toJson() => _$UserUpdateRequestToJson(this);
+  @JsonKey(name: 'password')
+  final String? password;
+  static const fromJsonFactory = _$DeleteUserRequestFromJson;
+  static const toJsonFactory = _$DeleteUserRequestToJson;
+  Map<String, dynamic> toJson() => _$DeleteUserRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is UserUpdateRequest &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
-            (identical(other.firstname, firstname) ||
+        (other is DeleteUserRequest &&
+            (identical(other.password, password) ||
                 const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
-            (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)));
+                    .equals(other.password, password)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(city) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(lastname) ^
-      const DeepCollectionEquality().hash(phoneNumber) ^
-      const DeepCollectionEquality().hash(profilePicture) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(password) ^ runtimeType.hashCode;
 }
 
-extension $UserUpdateRequestExtension on UserUpdateRequest {
-  UserUpdateRequest copyWith(
-      {CityModel? city,
-      String? firstname,
-      String? lastname,
-      String? phoneNumber,
-      String? profilePicture}) {
-    return UserUpdateRequest(
-        city: city ?? this.city,
-        firstname: firstname ?? this.firstname,
-        lastname: lastname ?? this.lastname,
-        phoneNumber: phoneNumber ?? this.phoneNumber,
-        profilePicture: profilePicture ?? this.profilePicture);
+extension $DeleteUserRequestExtension on DeleteUserRequest {
+  DeleteUserRequest copyWith({String? password}) {
+    return DeleteUserRequest(password: password ?? this.password);
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class ValidateCodePasswordRequest {
-  ValidateCodePasswordRequest({
-    this.email,
-    this.newPassword,
-    this.value,
+class DeleteUserByAdminRequest {
+  DeleteUserByAdminRequest({
+    this.reason,
   });
 
-  factory ValidateCodePasswordRequest.fromJson(Map<String, dynamic> json) =>
-      _$ValidateCodePasswordRequestFromJson(json);
+  factory DeleteUserByAdminRequest.fromJson(Map<String, dynamic> json) =>
+      _$DeleteUserByAdminRequestFromJson(json);
 
-  @JsonKey(name: 'email')
-  final String? email;
-  @JsonKey(name: 'newPassword')
-  final String? newPassword;
-  @JsonKey(name: 'value')
-  final String? value;
-  static const fromJsonFactory = _$ValidateCodePasswordRequestFromJson;
-  static const toJsonFactory = _$ValidateCodePasswordRequestToJson;
-  Map<String, dynamic> toJson() => _$ValidateCodePasswordRequestToJson(this);
+  @JsonKey(name: 'reason')
+  final String? reason;
+  static const fromJsonFactory = _$DeleteUserByAdminRequestFromJson;
+  static const toJsonFactory = _$DeleteUserByAdminRequestToJson;
+  Map<String, dynamic> toJson() => _$DeleteUserByAdminRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ValidateCodePasswordRequest &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
-            (identical(other.newPassword, newPassword) ||
-                const DeepCollectionEquality()
-                    .equals(other.newPassword, newPassword)) &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)));
+        (other is DeleteUserByAdminRequest &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(email) ^
-      const DeepCollectionEquality().hash(newPassword) ^
-      const DeepCollectionEquality().hash(value) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(reason) ^ runtimeType.hashCode;
 }
 
-extension $ValidateCodePasswordRequestExtension on ValidateCodePasswordRequest {
-  ValidateCodePasswordRequest copyWith(
-      {String? email, String? newPassword, String? value}) {
-    return ValidateCodePasswordRequest(
-        email: email ?? this.email,
-        newPassword: newPassword ?? this.newPassword,
-        value: value ?? this.value);
+extension $DeleteUserByAdminRequestExtension on DeleteUserByAdminRequest {
+  DeleteUserByAdminRequest copyWith({String? reason}) {
+    return DeleteUserByAdminRequest(reason: reason ?? this.reason);
   }
 }
 

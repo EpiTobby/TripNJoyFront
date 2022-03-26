@@ -3,30 +3,30 @@ import 'package:json_annotation/json_annotation.dart';
 enum UserModelGender {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
-  @JsonValue('FEMALE')
-  female,
   @JsonValue('MALE')
   male,
+  @JsonValue('FEMALE')
+  female,
   @JsonValue('NOT_SPECIFIED')
   notSpecified
 }
 
 const $UserModelGenderMap = {
-  UserModelGender.female: 'FEMALE',
   UserModelGender.male: 'MALE',
+  UserModelGender.female: 'FEMALE',
   UserModelGender.notSpecified: 'NOT_SPECIFIED'
 };
 
 enum UserModelRoles {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
-  @JsonValue('ADMIN')
-  admin,
   @JsonValue('DEFAULT')
-  $default
+  $default,
+  @JsonValue('ADMIN')
+  admin
 }
 
 const $UserModelRolesMap = {
-  UserModelRoles.admin: 'ADMIN',
-  UserModelRoles.$default: 'DEFAULT'
+  UserModelRoles.$default: 'DEFAULT',
+  UserModelRoles.admin: 'ADMIN'
 };

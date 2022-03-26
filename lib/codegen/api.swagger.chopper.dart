@@ -17,73 +17,113 @@ class _$Api extends Api {
   final definitionType = Api;
 
   @override
-  Future<Response<dynamic>> _authForgotpasswordPost(
-      {required ForgotPasswordRequest? forgotPasswordRequest}) {
-    final $url = '/auth/forgotpassword';
-    final $body = forgotPasswordRequest;
-    final $request = Request('POST', $url, client.baseUrl, body: $body);
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<LoginResponse>> _authLoginPost(
-      {required LoginRequest? loginRequest}) {
-    final $url = '/auth/login';
-    final $body = loginRequest;
-    final $request = Request('POST', $url, client.baseUrl, body: $body);
-    return client.send<LoginResponse, LoginResponse>($request);
-  }
-
-  @override
-  Future<Response<AuthTokenResponse>> _authRegisterPost(
-      {required UserCreationRequest? model}) {
-    final $url = '/auth/register';
-    final $body = model;
-    final $request = Request('POST', $url, client.baseUrl, body: $body);
-    return client.send<AuthTokenResponse, AuthTokenResponse>($request);
-  }
-
-  @override
-  Future<Response<UserIdResponse>> _authValidatepasswordPost(
-      {required ValidateCodePasswordRequest? validateCodePasswordRequest}) {
-    final $url = '/auth/validatepassword';
-    final $body = validateCodePasswordRequest;
-    final $request = Request('POST', $url, client.baseUrl, body: $body);
-    return client.send<UserIdResponse, UserIdResponse>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _authIdConfirmPatch(
-      {required ConfirmationCodeModel? confirmationCode, required int? id}) {
-    final $url = '/auth/${id}/confirm';
-    final $body = confirmationCode;
-    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _authIdReSendPost({required int? id}) {
-    final $url = '/auth/${id}/re-send';
+  Future<Response<dynamic>> _authIdResendPost({required num? id}) {
+    final $url = '/auth/${id}/resend';
     final $request = Request('POST', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> _authIdUpdateemailPatch(
-      {required int? id, required UpdateEmailRequest? updateEmailRequest}) {
-    final $url = '/auth/${id}/updateemail';
-    final $body = updateEmailRequest;
+  Future<Response<AuthTokenResponse>> _authRegisterPost(
+      {required UserCreationRequest? body}) {
+    final $url = '/auth/register';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<AuthTokenResponse, AuthTokenResponse>($request);
+  }
+
+  @override
+  Future<Response<LoginResponse>> _authLoginPost(
+      {required LoginRequest? body}) {
+    final $url = '/auth/login';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<LoginResponse, LoginResponse>($request);
+  }
+
+  @override
+  Future<Response<LoginResponse>> _authGooglePost(
+      {required GoogleRequest? body}) {
+    final $url = '/auth/google';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<LoginResponse, LoginResponse>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _authForgotPasswordPost(
+      {required ForgotPasswordRequest? body}) {
+    final $url = '/auth/forgot/password';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _usersIdUpdatePatch(
+      {required num? id, required UserUpdateRequest? body}) {
+    final $url = '/users/${id}/update';
+    final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> _authIdUpdatepasswordPatch(
-      {required int? id,
-      required UpdatePasswordRequest? updatePasswordRequest}) {
-    final $url = '/auth/${id}/updatepassword';
-    final $body = updatePasswordRequest;
+  Future<Response<dynamic>> _authIdPasswordPatch(
+      {required num? id, required UpdatePasswordRequest? body}) {
+    final $url = '/auth/${id}/password';
+    final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<LoginResponse>> _authIdEmailPatch(
+      {required num? id, required UpdateEmailRequest? body}) {
+    final $url = '/auth/${id}/email';
+    final $body = body;
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
+    return client.send<LoginResponse, LoginResponse>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _authIdConfirmationPatch(
+      {required num? id, required ConfirmationCodeModel? body}) {
+    final $url = '/auth/${id}/confirmation';
+    final $body = body;
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<UserIdResponse>> _authValidationPasswordPatch(
+      {required ValidateCodePasswordRequest? body}) {
+    final $url = '/auth/validation/password';
+    final $body = body;
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
+    return client.send<UserIdResponse, UserIdResponse>($request);
+  }
+
+  @override
+  Future<Response<Object>> _usersGet() {
+    final $url = '/users';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<Object, Object>($request);
+  }
+
+  @override
+  Future<Response<UserModel>> _usersIdGet({required num? id}) {
+    final $url = '/users/${id}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<UserModel, UserModel>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _usersIdDelete(
+      {required num? id, required DeleteUserRequest? body}) {
+    final $url = '/users/${id}';
+    final $body = body;
+    final $request = Request('DELETE', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
   }
 
@@ -95,37 +135,11 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<UserModel>> _usersIdGet({required int? id}) {
-    final $url = '/users/${id}';
-    final $request = Request('GET', $url, client.baseUrl);
-    return client.send<UserModel, UserModel>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _usersIdDelete(
-      {required DeleteUserRequest? deleteUserRequest, required int? id}) {
-    final $url = '/users/${id}';
-    final $body = deleteUserRequest;
-    final $request = Request('DELETE', $url, client.baseUrl, body: $body);
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
   Future<Response<dynamic>> _usersIdAdminDelete(
-      {required DeleteUserByAdminRequest? deleteUserByAdminRequest,
-      required int? id}) {
+      {required num? id, required DeleteUserByAdminRequest? body}) {
     final $url = '/users/${id}/admin';
-    final $body = deleteUserByAdminRequest;
+    final $body = body;
     final $request = Request('DELETE', $url, client.baseUrl, body: $body);
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _usersIdUpdatePatch(
-      {required int? id, required UserUpdateRequest? userUpdateRequest}) {
-    final $url = '/users/${id}/update';
-    final $body = userUpdateRequest;
-    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
   }
 }

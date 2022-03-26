@@ -1,3 +1,4 @@
+import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/services/auth/auth.service.dart';
 
 import '../../codegen/api.swagger.dart';
@@ -15,6 +16,8 @@ abstract class HttpService {
   Future<LoginResponse?> login(String email, String password);
 
   Future<AuthTokenResponse?> signup(SignupCredentials data);
+
+  Future<LoginResponse?> signInUpGoogle(SignInUpGoogleCredentials data);
 
   Future<bool> verifyAccount(int id, String code);
 

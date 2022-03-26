@@ -1,6 +1,7 @@
 import 'package:chopper/chopper.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 
 import '../../codegen/api.swagger.dart';
@@ -53,14 +54,14 @@ class CodegenService extends HttpService {
 
   @override
   Future<LoginResponse?> login(String email, String password) async {
-    final response = await api.authLoginPost(loginRequest: LoginRequest(password: password, username: email));
+    final response = await api.authLoginPost(body: LoginRequest(password: password, username: email));
     return response.body;
   }
 
   @override
   Future<AuthTokenResponse?> signup(SignupCredentials data) async {
     final response = await api.authRegisterPost(
-        model: UserCreationRequest(
+        body: UserCreationRequest(
       gender: data.gender,
       email: data.email,
       password: data.password,
@@ -79,7 +80,7 @@ class CodegenService extends HttpService {
 
   @override
   Future<bool> verifyAccount(int id, String code) async {
-    final response = await api.authIdConfirmPatch(confirmationCode: ConfirmationCodeModel(value: code), id: id);
+    final response = await api.authIdConfirmationPatch(body: ConfirmationCodeModel(value: code), id: id);
     return response.isSuccessful;
   }
 
@@ -100,33 +101,47 @@ class CodegenService extends HttpService {
 
   @override
   Future<void> forgotPassword(String email) async {
-    await api.authForgotpasswordPost(forgotPasswordRequest: ForgotPasswordRequest(email: email));
+    await api.authForgotPasswordPost(body: ForgotPasswordRequest(email: email));
   }
 
   @override
   Future<UserIdResponse?> resetPassword(String email, String code, String password) async {
-    final response = await api.authValidatepasswordPost(
-        validateCodePasswordRequest: ValidateCodePasswordRequest(email: email, newPassword: password, value: code));
+    final response = await api.authValidationPasswordPatch(
+        body: ValidateCodePasswordRequest(email: email, newPassword: password, value: code));
     return response.body;
   }
 
   @override
   Future<void> resendVerificationCode(int id) async {
-    await api.authIdReSendPost(id: id);
+    await api.authIdResendPost(id: id);
   }
 
   @override
   Future<void> updateUser(int id, UserUpdateRequest updateRequest) async {
-    await api.usersIdUpdatePatch(id: id, userUpdateRequest: updateRequest);
+    await api.usersIdUpdatePatch(id: id, body: updateRequest);
   }
 
   @override
   Future<void> updateEmail(int id, UpdateEmailRequest updateEmailRequest) async {
-    await api.authIdUpdateemailPatch(id: id, updateEmailRequest: updateEmailRequest);
+    await api.authIdEmailPatch(id: id, body: updateEmailRequest);
   }
 
   @override
   Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest) async {
-    await api.authIdUpdatepasswordPatch(id: id, updatePasswordRequest: updatePasswordRequest);
+    await api.authIdPasswordPatch(id: id, body: updatePasswordRequest);
+  }
+
+  @override
+  Future<LoginResponse?> signInUpGoogle(SignInUpGoogleCredentials data) async {
+    final response = await api.authGooglePost(body: GoogleRequest(
+      email: data.email,
+      firstname: data.firstname,
+      lastname: data.lastname,
+      phoneNumber: data.phoneNumber,
+      profilePicture: data.profilePicture,
+      password: data.password
+    ));
+
+    return response.body;
   }
 }

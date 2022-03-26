@@ -57,7 +57,8 @@
       "code": "Code",
       "code_label": "Entrer le code",
       "submit": "Réinitialiser"
-    }
+    },
+    "google": "Se connecter avec Google"
   },
   "groups": {
     "title": "Groupes",
@@ -98,6 +99,7 @@
       "responseFormat": "Mauvais format de réponse"
     },
     "internet": "Pas de connexion internet",
-    "wrongCodeConfirmation": "Code incorrect"
+    "wrongCodeConfirmation": "Code incorrect",
+    "firebase": "Erreur d'initialisation de Firebase"
   }
 }
