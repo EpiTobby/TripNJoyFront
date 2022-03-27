@@ -82,7 +82,8 @@
     "lightMode": "Light mode",
     "deleteAccount": "Delete my account",
     "oldPassword": "Old password",
-    "newPassword": "New password"
+    "newPassword": "New password",
+    "confirmDeleteAccount": "Confirm password to delete your account"
   },
   "errors": {
     "login": "Wrong email or password",
@@ -94,6 +95,7 @@
       "responseFormat": "Bad response format"
     },
     "internet": "No internet connection",
-    "wrongCodeConfirmation": "Wrong confirmation code"
+    "wrongCodeConfirmation": "Wrong confirmation code",
+    "wrongPassword": "Wrong password"
   }
 }

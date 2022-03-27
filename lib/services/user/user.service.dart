@@ -23,17 +23,13 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
 
   Future<bool> deleteUser(String token, DeleteUserRequest deleteUserRequest) async {
     try {
-      state = const AsyncLoading();
       var id = httpService.getUserIdFromToken(token);
       final success = await httpService.deleteUser(id!, deleteUserRequest).timeout(const Duration(seconds: 10));
-      if (!success) {
-        state = AsyncValue.error(AppLocalizations.instance.translate('errors.unexpected'));
-      } else {
+      if (success) {
         state = const AsyncData(null);
       }
       return success;
     } catch (e) {
-      state = AsyncError(e);
       return false;
     }
   }

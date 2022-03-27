@@ -82,7 +82,8 @@
     "lightMode": "Mode clair",
     "deleteAccount": "Supprimer mon compte",
     "oldPassword": "Ancien mot de passe",
-    "newPassword": "Nouveau mot de passe"
+    "newPassword": "Nouveau mot de passe",
+    "confirmDeleteAccount": "Confirmer le mot de passe pour supprimer votre compte"
   },
   "errors": {
     "login": "Identifiants incorrects",
@@ -94,6 +95,7 @@
       "responseFormat": "Mauvais format de réponse"
     },
     "internet": "Pas de connexion internet",
-    "wrongCodeConfirmation": "Code incorrect"
+    "wrongCodeConfirmation": "Code incorrect",
+    "wrongPassword": "Mot de passe incorrect"
   }
 }

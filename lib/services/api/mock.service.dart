@@ -40,7 +40,7 @@ class MockService extends HttpService {
   @override
   Future<bool> deleteUser(int id, DeleteUserRequest deleteUserRequest) {
     return Future.delayed(const Duration(seconds: 1), () {
-      return true;
+      return false;
     });
   }
 
