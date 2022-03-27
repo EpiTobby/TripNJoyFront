@@ -134,7 +134,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialogEmail(onConfirm: (newEmail, password) async {
-                          userService.updateEmail(
+                          await userService.updateEmail(
                               user.id!.toInt(), UpdateEmailRequest(newEmail: newEmail, password: password));
                         });
                       });

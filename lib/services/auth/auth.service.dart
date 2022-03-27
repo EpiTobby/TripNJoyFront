@@ -147,6 +147,7 @@ class AuthService extends ChangeNotifier {
       var id = httpService.getUserIdFromToken(token);
       await httpService.updatePassword(id!, updatePasswordRequest);
       updatePasswordState = const AsyncValue.data(null);
+      logout();
     } catch (e) {
       logger.e(e.toString(), e);
       updatePasswordState = AsyncValue.error(AppLocalizations.instance.translate("errors.unexpected"));

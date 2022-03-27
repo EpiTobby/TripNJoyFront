@@ -101,7 +101,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     useEffect(() {
       authService.updateTokenFromStorage().then((value) {
         if (value != null) {
-          userService.loadUser(value).then((value) {
+          userService.loadUser().then((value) {
             if (value == null) authService.logout();
           });
         }
@@ -117,7 +117,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
 
     useEffect(() {
       if (authService.isAuthenticated) {
-        userService.loadUser(authService.token!).then((value) {
+        userService.loadUser().then((value) {
           if (value != null) {
             if (value.confirmed == false) {
               logger.d("user not confirmed");
