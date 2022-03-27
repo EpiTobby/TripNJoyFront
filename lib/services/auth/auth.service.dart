@@ -91,12 +91,12 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  Future<void> resendVerificationCode(String email) async {
-    logger.d('resend code to $email');
+  Future<void> resendVerificationCode(int id) async {
+    logger.d('resend code to $id');
     verifyAccountState = const AsyncValue.loading();
     notifyListeners();
     try {
-      await httpService.resendVerificationCode(email);
+      await httpService.resendVerificationCode(id);
       verifyAccountState = const AsyncValue.data(null);
     } catch (e) {
       logger.e(e.toString(), e);
@@ -147,6 +147,7 @@ class AuthService extends ChangeNotifier {
       var id = httpService.getUserIdFromToken(token);
       await httpService.updatePassword(id!, updatePasswordRequest);
       updatePasswordState = const AsyncValue.data(null);
+      logout();
     } catch (e) {
       logger.e(e.toString(), e);
       updatePasswordState = AsyncValue.error(AppLocalizations.instance.translate("errors.unexpected"));

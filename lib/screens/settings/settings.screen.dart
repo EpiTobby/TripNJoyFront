@@ -4,6 +4,7 @@ import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
 import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
+import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
 import 'package:trip_n_joy_front/services/auth/auth.service.dart';
 import 'package:trip_n_joy_front/services/user/user.service.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_password.widget.dart';
@@ -22,6 +23,8 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:minio/io.dart';
 import 'package:minio/minio.dart';
+
+import '../../widgets/common/input_dialog_email.widget.dart';
 
 const DEFAULT_AVATAR_URL = "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png";
 const MINIO_ENDPOINT = "127.0.0.1";
@@ -72,7 +75,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     var settingsService = ref.watch(settingsProvider);
     final userService = ref.watch(userProvider.notifier);
     final authService = ref.watch(authProvider);
-    var user = ref.watch(userProvider).value as UserModel;
+    var user = ref.watch(userProvider).value;
+
+    if (user == null) {
+      return ErrorScreen(authService: authService);
+    }
 
     return ListView(
       children: <Widget>[
@@ -124,6 +131,17 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               title: AppLocalizations.of(context).translate("user.email"),
               child: LayoutItemValue(
                 value: user.email!,
+                icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialogEmail(onConfirm: (newEmail, password) async {
+                          await userService.updateEmail(
+                              user.id!.toInt(), UpdateEmailRequest(newEmail: newEmail, password: password));
+                        });
+                      });
+                },
               )),
           LayoutItem(
               title: AppLocalizations.of(context).translate("user.password"),
@@ -153,7 +171,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         return InputDialog(
                             title: AppLocalizations.of(context).translate("settings.phoneNumber"),
                             label: AppLocalizations.of(context).translate("user.phoneNumber"),
-                            initialValue: user.phoneNumber!,
+                            initialValue: user.phoneNumber ?? "",
                             onConfirm: (value) async {
                               userService.updateUser(authService.token!, UserUpdateRequest(phoneNumber: value));
                             });

@@ -18,7 +18,7 @@
     }
   ],
   "paths": {
-    "/auth/forgotpassword": {
+    "/auth/forgot/password": {
       "post": {
         "tags": [
           "auth-controller"
@@ -159,7 +159,7 @@
         }
       }
     },
-    "/auth/validatepassword": {
+    "/auth/validation/password": {
       "post": {
         "tags": [
           "auth-controller"
@@ -205,7 +205,7 @@
         }
       }
     },
-    "/auth/{id}/confirm": {
+    "/auth/{id}/confirmation": {
       "patch": {
         "tags": [
           "auth-controller"
@@ -253,12 +253,12 @@
         }
       }
     },
-    "/auth/{id}/updateemail": {
+    "/auth/{id}/email": {
       "patch": {
         "tags": [
           "auth-controller"
         ],
-        "summary": "Used to ask update the user email",
+        "summary": "Used to ask update the user email. Returns a new jwt",
         "operationId": "updateEmailUsingPATCH",
         "consumes": [
           "application/json"
@@ -287,7 +287,10 @@
         ],
         "responses": {
           "200": {
-            "description": "If the email has been updated"
+            "description": "If the email has been updated",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
           },
           "204": {
             "description": "No Content"
@@ -299,12 +302,12 @@
             "description": "If the given password is not valid"
           },
           "422": {
-            "description": "If the new email does not exist"
+            "description": "If the new email does not exist or is already in use"
           }
         }
       }
     },
-    "/auth/{id}/updatepassword": {
+    "/auth/{id}/password": {
       "patch": {
         "tags": [
           "auth-controller"
@@ -352,25 +355,38 @@
         }
       }
     },
-    "/users": {
-      "get": {
+    "/auth/{id}/resend": {
+      "post": {
         "tags": [
-          "user-controller"
+          "auth-controller"
         ],
-        "summary": "getAll",
-        "operationId": "getAllUsingGET",
+        "summary": "Will send a new confirmation code to the user",
+        "operationId": "resendConfirmationCodeUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
         "produces": [
           "*/*"
         ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Iterable<UserEntity>"
-            }
+            "description": "A new confirmation code has been sent"
+          },
+          "201": {
+            "description": "Created"
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "The user is already confirmed"
           },
           "403": {
             "description": "Forbidden"
@@ -670,10 +686,6 @@
       },
       "title": "GenderEntity"
     },
-    "Iterable<UserEntity>": {
-      "type": "object",
-      "title": "Iterable<UserEntity>"
-    },
     "LoginRequest": {
       "type": "object",
       "properties": {
@@ -747,8 +759,7 @@
           "format": "date-time"
         },
         "email": {
-          "type": "string",
-          "description": "Also known as username. Must be unique"
+          "type": "string"
         },
         "firstname": {
           "type": "string"
@@ -767,57 +778,6 @@
         }
       },
       "title": "UserCreationRequest"
-    },
-    "UserEntity": {
-      "type": "object",
-      "properties": {
-        "birthDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "city": {
-          "$ref": "#/definitions/CityEntity"
-        },
-        "confirmed": {
-          "type": "boolean"
-        },
-        "createdDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "email": {
-          "type": "string"
-        },
-        "firstname": {
-          "type": "string"
-        },
-        "gender": {
-          "$ref": "#/definitions/GenderEntity"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "lastname": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "phoneNumber": {
-          "type": "string"
-        },
-        "profilePicture": {
-          "type": "string"
-        },
-        "roles": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RoleEntity"
-          }
-        }
-      },
-      "title": "UserEntity"
     },
     "UserIdResponse": {
       "type": "object",

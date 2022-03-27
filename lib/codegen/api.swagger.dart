@@ -30,19 +30,19 @@ abstract class Api extends ChopperService {
 
   ///Used to receive a confirmation to update a password
   ///@param forgotPasswordRequest forgotPasswordRequest
-  Future<chopper.Response> authForgotpasswordPost(
+  Future<chopper.Response> authForgotPasswordPost(
       {required ForgotPasswordRequest? forgotPasswordRequest}) {
     generatedMapping.putIfAbsent(
         ForgotPasswordRequest, () => ForgotPasswordRequest.fromJsonFactory);
 
-    return _authForgotpasswordPost(
+    return _authForgotPasswordPost(
         forgotPasswordRequest: forgotPasswordRequest);
   }
 
   ///Used to receive a confirmation to update a password
   ///@param forgotPasswordRequest forgotPasswordRequest
-  @Post(path: '/auth/forgotpassword')
-  Future<chopper.Response> _authForgotpasswordPost(
+  @Post(path: '/auth/forgot/password')
+  Future<chopper.Response> _authForgotPasswordPost(
       {@Body() required ForgotPasswordRequest? forgotPasswordRequest});
 
   ///Log a user, to allow authenticated endpoints
@@ -83,83 +83,95 @@ abstract class Api extends ChopperService {
 
   ///Used to update the password with a confirmation code
   ///@param validateCodePasswordRequest validateCodePasswordRequest
-  Future<chopper.Response<UserIdResponse>> authValidatepasswordPost(
+  Future<chopper.Response<UserIdResponse>> authValidationPasswordPost(
       {required ValidateCodePasswordRequest? validateCodePasswordRequest}) {
     generatedMapping.putIfAbsent(ValidateCodePasswordRequest,
         () => ValidateCodePasswordRequest.fromJsonFactory);
     generatedMapping.putIfAbsent(
         UserIdResponse, () => UserIdResponse.fromJsonFactory);
 
-    return _authValidatepasswordPost(
+    return _authValidationPasswordPost(
         validateCodePasswordRequest: validateCodePasswordRequest);
   }
 
   ///Used to update the password with a confirmation code
   ///@param validateCodePasswordRequest validateCodePasswordRequest
-  @Post(path: '/auth/validatepassword')
-  Future<chopper.Response<UserIdResponse>> _authValidatepasswordPost(
+  @Post(path: '/auth/validation/password')
+  Future<chopper.Response<UserIdResponse>> _authValidationPasswordPost(
       {@Body()
           required ValidateCodePasswordRequest? validateCodePasswordRequest});
 
   ///Confirm a user's email
   ///@param confirmationCode confirmationCode
   ///@param id id
-  Future<chopper.Response> authIdConfirmPatch(
+  Future<chopper.Response> authIdConfirmationPatch(
       {required ConfirmationCodeModel? confirmationCode, required int? id}) {
     generatedMapping.putIfAbsent(
         ConfirmationCodeModel, () => ConfirmationCodeModel.fromJsonFactory);
 
-    return _authIdConfirmPatch(confirmationCode: confirmationCode, id: id);
+    return _authIdConfirmationPatch(confirmationCode: confirmationCode, id: id);
   }
 
   ///Confirm a user's email
   ///@param confirmationCode confirmationCode
   ///@param id id
-  @Patch(path: '/auth/{id}/confirm')
-  Future<chopper.Response> _authIdConfirmPatch(
+  @Patch(path: '/auth/{id}/confirmation')
+  Future<chopper.Response> _authIdConfirmationPatch(
       {@Body() required ConfirmationCodeModel? confirmationCode,
       @Path('id') required int? id});
 
-  ///Used to ask update the user email
+  ///Used to ask update the user email. Returns a new jwt
   ///@param id id
   ///@param updateEmailRequest updateEmailRequest
-  Future<chopper.Response> authIdUpdateemailPatch(
+  Future<chopper.Response<LoginResponse>> authIdEmailPatch(
       {required int? id, required UpdateEmailRequest? updateEmailRequest}) {
     generatedMapping.putIfAbsent(
         UpdateEmailRequest, () => UpdateEmailRequest.fromJsonFactory);
+    generatedMapping.putIfAbsent(
+        LoginResponse, () => LoginResponse.fromJsonFactory);
 
-    return _authIdUpdateemailPatch(
-        id: id, updateEmailRequest: updateEmailRequest);
+    return _authIdEmailPatch(id: id, updateEmailRequest: updateEmailRequest);
   }
 
-  ///Used to ask update the user email
+  ///Used to ask update the user email. Returns a new jwt
   ///@param id id
   ///@param updateEmailRequest updateEmailRequest
-  @Patch(path: '/auth/{id}/updateemail')
-  Future<chopper.Response> _authIdUpdateemailPatch(
+  @Patch(path: '/auth/{id}/email')
+  Future<chopper.Response<LoginResponse>> _authIdEmailPatch(
       {@Path('id') required int? id,
       @Body() required UpdateEmailRequest? updateEmailRequest});
 
   ///Used to update the password
   ///@param id id
   ///@param updatePasswordRequest updatePasswordRequest
-  Future<chopper.Response> authIdUpdatepasswordPatch(
+  Future<chopper.Response> authIdPasswordPatch(
       {required int? id,
       required UpdatePasswordRequest? updatePasswordRequest}) {
     generatedMapping.putIfAbsent(
         UpdatePasswordRequest, () => UpdatePasswordRequest.fromJsonFactory);
 
-    return _authIdUpdatepasswordPatch(
+    return _authIdPasswordPatch(
         id: id, updatePasswordRequest: updatePasswordRequest);
   }
 
   ///Used to update the password
   ///@param id id
   ///@param updatePasswordRequest updatePasswordRequest
-  @Patch(path: '/auth/{id}/updatepassword')
-  Future<chopper.Response> _authIdUpdatepasswordPatch(
+  @Patch(path: '/auth/{id}/password')
+  Future<chopper.Response> _authIdPasswordPatch(
       {@Path('id') required int? id,
       @Body() required UpdatePasswordRequest? updatePasswordRequest});
+
+  ///Will send a new confirmation code to the user
+  ///@param id id
+  Future<chopper.Response> authIdResendPost({required int? id}) {
+    return _authIdResendPost(id: id);
+  }
+
+  ///Will send a new confirmation code to the user
+  ///@param id id
+  @Post(path: '/auth/{id}/resend', optionalBody: true)
+  Future<chopper.Response> _authIdResendPost({@Path('id') required int? id});
 
   ///getCurrentUser
   Future<chopper.Response<UserModel>> usersMeGet() {
@@ -534,21 +546,6 @@ extension $GenderEntityExtension on GenderEntity {
 }
 
 @JsonSerializable(explicitToJson: true)
-class IterableUserEntity {
-  IterableUserEntity();
-
-  factory IterableUserEntity.fromJson(Map<String, dynamic> json) =>
-      _$IterableUserEntityFromJson(json);
-
-  static const fromJsonFactory = _$IterableUserEntityFromJson;
-  static const toJsonFactory = _$IterableUserEntityToJson;
-  Map<String, dynamic> toJson() => _$IterableUserEntityToJson(this);
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-}
-
-@JsonSerializable(explicitToJson: true)
 class LoginRequest {
   LoginRequest({
     this.password,
@@ -864,147 +861,6 @@ extension $UserCreationRequestExtension on UserCreationRequest {
         lastname: lastname ?? this.lastname,
         password: password ?? this.password,
         phoneNumber: phoneNumber ?? this.phoneNumber);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class UserEntity {
-  UserEntity({
-    this.birthDate,
-    this.city,
-    this.confirmed,
-    this.createdDate,
-    this.email,
-    this.firstname,
-    this.gender,
-    this.id,
-    this.lastname,
-    this.password,
-    this.phoneNumber,
-    this.profilePicture,
-    this.roles,
-  });
-
-  factory UserEntity.fromJson(Map<String, dynamic> json) =>
-      _$UserEntityFromJson(json);
-
-  @JsonKey(name: 'birthDate')
-  final DateTime? birthDate;
-  @JsonKey(name: 'city')
-  final CityEntity? city;
-  @JsonKey(name: 'confirmed')
-  final bool? confirmed;
-  @JsonKey(name: 'createdDate')
-  final DateTime? createdDate;
-  @JsonKey(name: 'email')
-  final String? email;
-  @JsonKey(name: 'firstname')
-  final String? firstname;
-  @JsonKey(name: 'gender')
-  final GenderEntity? gender;
-  @JsonKey(name: 'id')
-  final num? id;
-  @JsonKey(name: 'lastname')
-  final String? lastname;
-  @JsonKey(name: 'password')
-  final String? password;
-  @JsonKey(name: 'phoneNumber')
-  final String? phoneNumber;
-  @JsonKey(name: 'profilePicture')
-  final String? profilePicture;
-  @JsonKey(name: 'roles', defaultValue: <RoleEntity>[])
-  final List<RoleEntity>? roles;
-  static const fromJsonFactory = _$UserEntityFromJson;
-  static const toJsonFactory = _$UserEntityToJson;
-  Map<String, dynamic> toJson() => _$UserEntityToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is UserEntity &&
-            (identical(other.birthDate, birthDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthDate, birthDate)) &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
-            (identical(other.confirmed, confirmed) ||
-                const DeepCollectionEquality()
-                    .equals(other.confirmed, confirmed)) &&
-            (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
-            (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)) &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
-            (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)) &&
-            (identical(other.roles, roles) ||
-                const DeepCollectionEquality().equals(other.roles, roles)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(birthDate) ^
-      const DeepCollectionEquality().hash(city) ^
-      const DeepCollectionEquality().hash(confirmed) ^
-      const DeepCollectionEquality().hash(createdDate) ^
-      const DeepCollectionEquality().hash(email) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(gender) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(lastname) ^
-      const DeepCollectionEquality().hash(password) ^
-      const DeepCollectionEquality().hash(phoneNumber) ^
-      const DeepCollectionEquality().hash(profilePicture) ^
-      const DeepCollectionEquality().hash(roles) ^
-      runtimeType.hashCode;
-}
-
-extension $UserEntityExtension on UserEntity {
-  UserEntity copyWith(
-      {DateTime? birthDate,
-      CityEntity? city,
-      bool? confirmed,
-      DateTime? createdDate,
-      String? email,
-      String? firstname,
-      GenderEntity? gender,
-      num? id,
-      String? lastname,
-      String? password,
-      String? phoneNumber,
-      String? profilePicture,
-      List<RoleEntity>? roles}) {
-    return UserEntity(
-        birthDate: birthDate ?? this.birthDate,
-        city: city ?? this.city,
-        confirmed: confirmed ?? this.confirmed,
-        createdDate: createdDate ?? this.createdDate,
-        email: email ?? this.email,
-        firstname: firstname ?? this.firstname,
-        gender: gender ?? this.gender,
-        id: id ?? this.id,
-        lastname: lastname ?? this.lastname,
-        password: password ?? this.password,
-        phoneNumber: phoneNumber ?? this.phoneNumber,
-        profilePicture: profilePicture ?? this.profilePicture,
-        roles: roles ?? this.roles);
   }
 }
 

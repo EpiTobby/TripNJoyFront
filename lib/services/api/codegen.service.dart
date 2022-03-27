@@ -43,10 +43,7 @@ class CodegenService extends HttpService {
   void initInterceptors() {}
 
   @override
-  Future<UserModel?> loadUser(int? id) async {
-    if (id == null) {
-      return null;
-    }
+  Future<UserModel?> loadUser() async {
     final response = await api.usersMeGet();
     return response.body;
   }
@@ -81,8 +78,8 @@ class CodegenService extends HttpService {
 
   @override
   Future<bool> verifyAccount(int id, String code) async {
-    final response = await api.authIdConfirmPatch(confirmationCode: ConfirmationCodeModel(value: code), id: id);
-    return response.isSuccessful ? response.body! : false;
+    final response = await api.authIdConfirmationPatch(confirmationCode: ConfirmationCodeModel(value: code), id: id);
+    return response.isSuccessful;
   }
 
   @override
@@ -102,19 +99,19 @@ class CodegenService extends HttpService {
 
   @override
   Future<void> forgotPassword(String email) async {
-    await api.authForgotpasswordPost(forgotPasswordRequest: ForgotPasswordRequest(email: email));
+    await api.authForgotPasswordPost(forgotPasswordRequest: ForgotPasswordRequest(email: email));
   }
 
   @override
   Future<UserIdResponse?> resetPassword(String email, String code, String password) async {
-    final response = await api.authValidatepasswordPost(
+    final response = await api.authValidationPasswordPost(
         validateCodePasswordRequest: ValidateCodePasswordRequest(email: email, newPassword: password, value: code));
     return response.body;
   }
 
   @override
-  Future<void> resendVerificationCode(String email) async {
-    await api.authForgotpasswordPost(forgotPasswordRequest: ForgotPasswordRequest(email: email));
+  Future<void> resendVerificationCode(int id) async {
+    await api.authIdResendPost(id: id);
   }
 
   @override
@@ -123,7 +120,13 @@ class CodegenService extends HttpService {
   }
 
   @override
+  Future<LoginResponse?> updateEmail(int id, UpdateEmailRequest updateEmailRequest) async {
+    final response = await api.authIdEmailPatch(id: id, updateEmailRequest: updateEmailRequest);
+    return response.body;
+  }
+
+  @override
   Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest) async {
-    await api.authIdUpdatepasswordPatch(id: id, updatePasswordRequest: updatePasswordRequest);
+    await api.authIdPasswordPatch(id: id, updatePasswordRequest: updatePasswordRequest);
   }
 }

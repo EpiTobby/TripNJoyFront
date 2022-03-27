@@ -92,12 +92,6 @@ Map<String, dynamic> _$GenderEntityToJson(GenderEntity instance) =>
       'value': instance.value,
     };
 
-IterableUserEntity _$IterableUserEntityFromJson(Map<String, dynamic> json) =>
-    IterableUserEntity();
-
-Map<String, dynamic> _$IterableUserEntityToJson(IterableUserEntity instance) =>
-    <String, dynamic>{};
-
 LoginRequest _$LoginRequestFromJson(Map<String, dynamic> json) => LoginRequest(
       password: json['password'] as String?,
       username: json['username'] as String?,
@@ -183,50 +177,6 @@ Map<String, dynamic> _$UserCreationRequestToJson(
       'lastname': instance.lastname,
       'password': instance.password,
       'phoneNumber': instance.phoneNumber,
-    };
-
-UserEntity _$UserEntityFromJson(Map<String, dynamic> json) => UserEntity(
-      birthDate: json['birthDate'] == null
-          ? null
-          : DateTime.parse(json['birthDate'] as String),
-      city: json['city'] == null
-          ? null
-          : CityEntity.fromJson(json['city'] as Map<String, dynamic>),
-      confirmed: json['confirmed'] as bool?,
-      createdDate: json['createdDate'] == null
-          ? null
-          : DateTime.parse(json['createdDate'] as String),
-      email: json['email'] as String?,
-      firstname: json['firstname'] as String?,
-      gender: json['gender'] == null
-          ? null
-          : GenderEntity.fromJson(json['gender'] as Map<String, dynamic>),
-      id: json['id'] as num?,
-      lastname: json['lastname'] as String?,
-      password: json['password'] as String?,
-      phoneNumber: json['phoneNumber'] as String?,
-      profilePicture: json['profilePicture'] as String?,
-      roles: (json['roles'] as List<dynamic>?)
-              ?.map((e) => RoleEntity.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-    );
-
-Map<String, dynamic> _$UserEntityToJson(UserEntity instance) =>
-    <String, dynamic>{
-      'birthDate': instance.birthDate?.toIso8601String(),
-      'city': instance.city?.toJson(),
-      'confirmed': instance.confirmed,
-      'createdDate': instance.createdDate?.toIso8601String(),
-      'email': instance.email,
-      'firstname': instance.firstname,
-      'gender': instance.gender?.toJson(),
-      'id': instance.id,
-      'lastname': instance.lastname,
-      'password': instance.password,
-      'phoneNumber': instance.phoneNumber,
-      'profilePicture': instance.profilePicture,
-      'roles': instance.roles?.map((e) => e.toJson()).toList(),
     };
 
 UserIdResponse _$UserIdResponseFromJson(Map<String, dynamic> json) =>

@@ -14,7 +14,7 @@ class MockService extends HttpService {
   void initInterceptors() {}
 
   @override
-  Future<UserModel?> loadUser(int? id) async {
+  Future<UserModel?> loadUser() async {
     return UserModel(
         firstname: "Tony",
         lastname: "Heng",
@@ -67,7 +67,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<void> resendVerificationCode(String email) {
+  Future<void> resendVerificationCode(int id) {
     return Future.delayed(Duration(seconds: 1), () {});
   }
 
@@ -78,6 +78,11 @@ class MockService extends HttpService {
 
   @override
   Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest) {
+    return Future.value();
+  }
+
+  @override
+  Future<LoginResponse?> updateEmail(int id, UpdateEmailRequest updateEmailRequest) {
     return Future.value();
   }
 }
