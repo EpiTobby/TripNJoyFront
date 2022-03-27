@@ -155,9 +155,12 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
             ),
         error: (error, r) {
           logger.e(error, r);
-          return ErrorScreen(authService: authService);
+          return const ErrorScreen();
         },
-        loading: () => const Center(child: CircularProgressIndicator()));
+        loading: () => Scaffold(
+            body: Center(
+                child: Container(
+                    color: Theme.of(context).colorScheme.background, child: const CircularProgressIndicator()))));
   }
 
   getPageWidget(NavbarPage selectedPage) {

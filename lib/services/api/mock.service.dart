@@ -15,12 +15,14 @@ class MockService extends HttpService {
 
   @override
   Future<UserModel?> loadUser() async {
-    return UserModel(
-        firstname: "Tony",
-        lastname: "Heng",
-        email: "tony.heng@epita.fr",
-        birthDate: DateTime.now(),
-        phoneNumber: "0612345678");
+    return Future.delayed(Duration(seconds: 1), () {
+      return UserModel(
+          firstname: "Tony",
+          lastname: "Heng",
+          email: "tony.heng@epita.fr",
+          birthDate: DateTime.now(),
+          phoneNumber: "0612345678");
+    });
   }
 
   @override
