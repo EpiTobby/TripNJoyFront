@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/services/auth/auth.service.dart';
 
 import '../../app_localizations.dart';
@@ -22,13 +23,16 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
     }
   }
 
-  Future<void> deleteUser(String token) async {
+  Future<bool> deleteUser(String token, DeleteUserRequest deleteUserRequest) async {
     try {
-      state = const AsyncLoading();
-      await httpService.deleteUser(token).timeout(const Duration(seconds: 10));
-      state = const AsyncData(null);
+      var id = httpService.getUserIdFromToken(token);
+      final success = await httpService.deleteUser(id!, deleteUserRequest).timeout(const Duration(seconds: 10));
+      if (success) {
+        state = const AsyncData(null);
+      }
+      return success;
     } catch (e) {
-      state = AsyncError(e);
+      return false;
     }
   }
 

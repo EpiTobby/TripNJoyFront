@@ -32,19 +32,21 @@ class MockService extends HttpService {
 
   @override
   Future<AuthTokenResponse?> signup(SignupCredentials data) {
-    return Future.delayed(Duration(seconds: 1), () {
+    return Future.delayed(const Duration(seconds: 1), () {
       return AuthTokenResponse(token: "token");
     });
   }
 
   @override
-  Future<void> deleteUser(String token) {
-    return Future.value();
+  Future<bool> deleteUser(int id, DeleteUserRequest deleteUserRequest) {
+    return Future.delayed(const Duration(seconds: 1), () {
+      return false;
+    });
   }
 
   @override
   Future<bool> verifyAccount(int id, String code) {
-    return Future.delayed(Duration(seconds: 1), () {
+    return Future.delayed(const Duration(seconds: 1), () {
       return true;
     });
   }

@@ -70,8 +70,10 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<void> deleteUser(String token) async {
-    throw UnimplementedError();
+  Future<bool> deleteUser(int id, DeleteUserRequest deleteUserRequest) async {
+    final response = await api.usersIdDelete(deleteUserRequest: deleteUserRequest, id: id);
+
+    return response.isSuccessful;
   }
 
   @override
