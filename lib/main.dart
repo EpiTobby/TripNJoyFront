@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
 
+        fontFamily: GoogleFonts.roboto().fontFamily,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(
           background: CColors.background,
           primary: CColors.primary,
@@ -147,7 +149,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
                 title: Text(widget.title),
               ),
               extendBody: true,
-              body: Center(
+              body: Container(
                 child: getPageWidget(selectedPage),
               ),
               bottomNavigationBar: Navbar(),
