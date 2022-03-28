@@ -78,7 +78,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     var user = ref.watch(userProvider).value;
 
     if (user == null) {
-      return ErrorScreen(authService: authService);
+      return const ErrorScreen();
     }
 
     return ListView(
