@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation.widget.dart';
 
-class MatchmakingPage extends StatefulWidget {
-  const MatchmakingPage({Key? key}) : super(key: key);
+class MatchmakingPage extends ConsumerStatefulWidget {
+  const MatchmakingPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  _MatchmakingPageState createState() => _MatchmakingPageState();
+  ConsumerState createState() => _MatchmakingPageState();
 }
 
-class _MatchmakingPageState extends State<MatchmakingPage> {
+class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
   @override
   Widget build(BuildContext context) {
+    final cards = ref.watch(matchmakingProvider);
     return Container(
-      child: StandardCard(
-        isLightBackground: true,
-        title: "Création du profil voyage",
-        subtitle: "Cliquer pour démarrer la création du profil voyage",
-        child: Center(
-          child: PrimaryButton(text: "Démarrer", onPressed: () {}),
-        ),
-      ),
+      child: cards.isEmpty ? ProfileCreation() : cards.first,
     );
   }
 }
