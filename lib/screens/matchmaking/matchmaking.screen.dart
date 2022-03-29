@@ -14,9 +14,9 @@ class _MatchmakingPageState extends State<MatchmakingPage> {
   Widget build(BuildContext context) {
     return Container(
       child: StandardCard(
-        isLightBackground: true,
         title: "Création du profil voyage",
         subtitle: "Cliquer pour démarrer la création du profil voyage",
+        shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
         child: Center(
           child: PrimaryButton(text: "Démarrer", onPressed: () {}),
         ),
