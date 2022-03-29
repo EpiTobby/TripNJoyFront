@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 
 class StandardCard extends StatelessWidget {
   const StandardCard(
@@ -7,16 +8,16 @@ class StandardCard extends StatelessWidget {
       required this.child,
       this.title,
       this.subtitle,
-      this.color = const Color(0xff1E1B18),
-      this.backgroundColor = const Color(0xfffafaff),
-      this.isLightBackground = false})
+      this.color = CColors.primary,
+      this.backgroundColor = CardColors.white,
+      this.shadowColor})
       : super(key: key);
   final Widget? child;
   final String? title;
   final String? subtitle;
   final Color color;
   final Color backgroundColor;
-  final bool isLightBackground;
+  final Color? shadowColor;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +33,7 @@ class StandardCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
-                color: isLightBackground
-                    ? Theme.of(context).colorScheme.secondary.withOpacity(0.5)
-                    : backgroundColor.withOpacity(0.5),
+                color: shadowColor != null ? shadowColor! : backgroundColor.withOpacity(0.5),
                 blurRadius: 30,
                 spreadRadius: -10,
                 offset: const Offset(0, 20),

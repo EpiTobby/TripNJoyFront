@@ -14,9 +14,11 @@ class ProfileCreation extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final matchmakingService = ref.watch(matchmakingProvider.notifier);
     return StandardCard(
-      isLightBackground: true,
       title: "Création du profil voyage",
       subtitle: "Cliquer pour démarrer la création du profil voyage",
+      color: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).colorScheme.onPrimary,
+      shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       child: Center(
         child: PrimaryButton(text: "Démarrer", onPressed: () => matchmakingService.startProfileCreation()),
       ),
