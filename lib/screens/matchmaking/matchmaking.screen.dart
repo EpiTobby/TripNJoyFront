@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
 
 class MatchmakingPage extends StatefulWidget {
@@ -16,7 +17,9 @@ class _MatchmakingPageState extends State<MatchmakingPage> {
         isLightBackground: true,
         title: "Création du profil voyage",
         subtitle: "Cliquer pour démarrer la création du profil voyage",
-        child: Text('Matchmaking'),
+        child: Center(
+          child: PrimaryButton(text: "Démarrer", onPressed: () {}),
+        ),
       ),
     );
   }

@@ -35,13 +35,14 @@ class StandardCard extends StatelessWidget {
                 color: isLightBackground
                     ? Theme.of(context).colorScheme.secondary.withOpacity(0.5)
                     : backgroundColor.withOpacity(0.5),
-                blurRadius: 20,
-                offset: const Offset(0, 4),
+                blurRadius: 30,
+                spreadRadius: -10,
+                offset: const Offset(0, 20),
               ),
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.only(top: 30.0, bottom: 20.0, left: 10.0, right: 10.0),
+            padding: const EdgeInsets.only(top: 40.0, bottom: 20.0, left: 10.0, right: 10.0),
             child: Column(children: [
               if (title != null)
                 Padding(
@@ -62,13 +63,14 @@ class StandardCard extends StatelessWidget {
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
                     subtitle!,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16,
                       color: color,
                     ),
                   ),
                 ),
-              if (child != null) child!
+              if (child != null) Expanded(child: child!)
             ]),
           ),
         ),
