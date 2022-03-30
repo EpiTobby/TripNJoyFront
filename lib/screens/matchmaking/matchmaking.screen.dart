@@ -17,7 +17,7 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
   Widget build(BuildContext context) {
     final cards = ref.watch(matchmakingProvider);
     return Container(
-      child: cards.isEmpty ? const ProfileCreation() : cards.first,
+      child: cards.isEmpty ? const ProfileCreation() : Stack(children: cards),
     );
   }
 }

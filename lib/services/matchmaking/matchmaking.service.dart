@@ -5,6 +5,7 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation.widget.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/cards/swipe_card.widget.dart';
 
 import '../api/http.service.dart';
 
@@ -27,6 +28,12 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
   void startProfileCreation() {
     // TODO: add all question cards
     state = [
+      SwipeCard(
+          title: "Swipe card 1",
+          subtitle: "Subtitle 1",
+          color: CColors.primary,
+          backgroundColor: CardColors.pink,
+          values: []),
       StandardCard(
           title: "card 1",
           subtitle: "card 1",
@@ -82,6 +89,6 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
                   state = state.sublist(1);
                 }),
           )),
-    ];
+    ].reversed.toList();
   }
 }

@@ -27,6 +27,10 @@ class SwipeCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    return buildFrontCard(ref);
+  }
+
+  Widget buildFrontCard(WidgetRef ref) {
     return GestureDetector(child: LayoutBuilder(builder: (context, constraints) {
       final provider = ref.watch(swipeProvider);
       final position = provider.position;
@@ -61,5 +65,16 @@ class SwipeCard extends ConsumerWidget {
       final provider = ref.watch(swipeProvider);
       provider.endPosition(details);
     });
+  }
+
+  Widget buildCard() {
+    return StandardCard(
+        name: name,
+        title: title,
+        subtitle: subtitle,
+        color: color,
+        backgroundColor: backgroundColor,
+        shadowColor: shadowColor,
+        child: Container());
   }
 }
