@@ -42,7 +42,7 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
             child: PrimaryButton(
                 text: "Pop!",
                 onPressed: () {
-                  state = state.sublist(1);
+                  nextCard();
                 }),
           )),
       StandardCard(
@@ -53,7 +53,7 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
             child: PrimaryButton(
                 text: "Pop!",
                 onPressed: () {
-                  state = state.sublist(1);
+                  nextCard();
                 }),
           )),
       StandardCard(
@@ -64,7 +64,7 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
             child: PrimaryButton(
                 text: "Pop!",
                 onPressed: () {
-                  state = state.sublist(1);
+                  nextCard();
                 }),
           )),
       StandardCard(
@@ -75,7 +75,7 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
             child: PrimaryButton(
                 text: "Pop!",
                 onPressed: () {
-                  state = state.sublist(1);
+                  nextCard();
                 }),
           )),
       StandardCard(
@@ -86,9 +86,14 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
             child: PrimaryButton(
                 text: "Pop!",
                 onPressed: () {
-                  state = state.sublist(1);
+                  nextCard();
                 }),
           )),
     ].reversed.toList();
+  }
+
+  void nextCard() {
+    final newState = state.sublist(0, state.length - 1);
+    state = newState;
   }
 }

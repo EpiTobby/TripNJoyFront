@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:trip_n_joy_front/services/matchmaking/matchmaking.service.dart';
 
 import '../../constants/matchmaking/card_status.enum.dart';
+import '../log/logger.service.dart';
 
 class SwipeService extends ChangeNotifier {
-  SwipeService();
+  SwipeService(this.matchmakingService);
+
+  final MatchmakingService matchmakingService;
 
   bool _isDragging = false;
   double _angle = 0;
@@ -24,13 +28,12 @@ class SwipeService extends ChangeNotifier {
 
   void startPosition(DragStartDetails details) {
     _isDragging = true;
-    _position = details.globalPosition;
     notifyListeners();
   }
 
   void updatePosition(DragUpdateDetails details) {
     _position += details.delta;
-    _angle = 30 * _position.dx / _screenSize.width;
+    _angle = 10 * _position.dx / _screenSize.width;
     notifyListeners();
   }
 
@@ -51,9 +54,9 @@ class SwipeService extends ChangeNotifier {
         swipeBottom();
         break;
       default:
+        resetPosition();
         break;
     }
-    resetPosition();
   }
 
   void resetPosition() {
@@ -67,37 +70,48 @@ class SwipeService extends ChangeNotifier {
     final x = _position.dx;
     final y = _position.dy;
     final delta = _screenSize.width / 4;
-    final forceBottom = x.abs() < 20;
+    final forceBottom = x.abs() < _screenSize.width / 2;
 
-    if (x >= delta) {
+    if (y >= delta / 2 && forceBottom) {
+      return CardStatus.BOTTOM;
+    } else if (x >= delta) {
       return CardStatus.RIGHT;
     } else if (x <= -delta) {
       return CardStatus.LEFT;
-    } else if (y >= delta / 2 && forceBottom) {
-      return CardStatus.BOTTOM;
     }
   }
 
   void swipeLeft() {
     _angle = -30;
     _position -= Offset(2 * _screenSize.width, 0);
+    notifyListeners();
     nextCard();
+    logger.i('Swipe Left');
     notifyListeners();
   }
 
   void swipeRight() {
     _angle = 30;
     _position += Offset(2 * _screenSize.width, 0);
+    notifyListeners();
     nextCard();
+    logger.i('Swipe Right');
     notifyListeners();
   }
 
   void swipeBottom() {
     _angle = 0;
     _position += Offset(0, 2 * _screenSize.height);
+    notifyListeners();
     nextCard();
+    logger.i('Swipe bottom');
     notifyListeners();
   }
 
-  void nextCard() {}
+  void nextCard() async {
+    Future.delayed(const Duration(milliseconds: 200), () {
+      matchmakingService.nextCard();
+      resetPosition();
+    });
+  }
 }
