@@ -69,12 +69,7 @@ class _LoginState extends ConsumerState<Login> {
                 FutureBuilder(
                   future: AuthService.initializeFirebase(context),
                   builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Text(AppLocalizations.of(context).translate('errors.firebase'));
-                    } else if (snapshot.connectionState == ConnectionState.done) {
-                      return const GoogleSignInButton();
-                    }
-                    return const CircularProgressIndicator();
+                    return const GoogleSignInButton();
                   },
                 ),
                 PrimaryButton(
