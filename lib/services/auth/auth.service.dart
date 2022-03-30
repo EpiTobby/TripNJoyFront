@@ -221,7 +221,7 @@ class AuthService extends ChangeNotifier {
           email: userCredential.user!.email ?? "",
           firstname: userCredential.additionalUserInfo!.profile!["given_name"] ?? "",
           lastname: userCredential.additionalUserInfo!.profile!["family_name"] ?? "",
-          password: userCredential.user!.uid,
+          accessToken: googleSignInAuthentication.accessToken!,
           profilePicture: userCredential.user!.photoURL ?? "",
           phoneNumber: userCredential.user!.phoneNumber
         );

@@ -443,7 +443,7 @@ class GoogleRequest {
   GoogleRequest({
     this.firstname,
     this.lastname,
-    this.password,
+    this.accessToken,
     this.profilePicture,
     this.phoneNumber,
     this.email,
@@ -456,8 +456,8 @@ class GoogleRequest {
   final String? firstname;
   @JsonKey(name: 'lastname')
   final String? lastname;
-  @JsonKey(name: 'password')
-  final String? password;
+  @JsonKey(name: 'accessToken')
+  final String? accessToken;
   @JsonKey(name: 'profilePicture')
   final String? profilePicture;
   @JsonKey(name: 'phoneNumber')
@@ -478,9 +478,9 @@ class GoogleRequest {
             (identical(other.lastname, lastname) ||
                 const DeepCollectionEquality()
                     .equals(other.lastname, lastname)) &&
-            (identical(other.password, password) ||
+            (identical(other.accessToken, accessToken) ||
                 const DeepCollectionEquality()
-                    .equals(other.password, password)) &&
+                    .equals(other.accessToken, accessToken)) &&
             (identical(other.profilePicture, profilePicture) ||
                 const DeepCollectionEquality()
                     .equals(other.profilePicture, profilePicture)) &&
@@ -495,7 +495,7 @@ class GoogleRequest {
   int get hashCode =>
       const DeepCollectionEquality().hash(firstname) ^
       const DeepCollectionEquality().hash(lastname) ^
-      const DeepCollectionEquality().hash(password) ^
+      const DeepCollectionEquality().hash(accessToken) ^
       const DeepCollectionEquality().hash(profilePicture) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
       const DeepCollectionEquality().hash(email) ^
@@ -506,14 +506,14 @@ extension $GoogleRequestExtension on GoogleRequest {
   GoogleRequest copyWith(
       {String? firstname,
       String? lastname,
-      String? password,
+      String? accessToken,
       String? profilePicture,
       String? phoneNumber,
       String? email}) {
     return GoogleRequest(
         firstname: firstname ?? this.firstname,
         lastname: lastname ?? this.lastname,
-        password: password ?? this.password,
+        accessToken: accessToken ?? this.accessToken,
         profilePicture: profilePicture ?? this.profilePicture,
         phoneNumber: phoneNumber ?? this.phoneNumber,
         email: email ?? this.email);

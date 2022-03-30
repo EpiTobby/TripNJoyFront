@@ -613,7 +613,7 @@
           "lastname": {
             "type": "string"
           },
-          "password": {
+          "accessToken": {
             "type": "string"
           },
           "profilePicture": {

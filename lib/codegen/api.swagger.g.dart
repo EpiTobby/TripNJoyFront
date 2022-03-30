@@ -68,7 +68,7 @@ GoogleRequest _$GoogleRequestFromJson(Map<String, dynamic> json) =>
     GoogleRequest(
       firstname: json['firstname'] as String?,
       lastname: json['lastname'] as String?,
-      password: json['password'] as String?,
+      accessToken: json['accessToken'] as String?,
       profilePicture: json['profilePicture'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       email: json['email'] as String?,
@@ -78,7 +78,7 @@ Map<String, dynamic> _$GoogleRequestToJson(GoogleRequest instance) =>
     <String, dynamic>{
       'firstname': instance.firstname,
       'lastname': instance.lastname,
-      'password': instance.password,
+      'accessToken': instance.accessToken,
       'profilePicture': instance.profilePicture,
       'phoneNumber': instance.phoneNumber,
       'email': instance.email,

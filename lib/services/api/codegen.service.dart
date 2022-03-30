@@ -139,7 +139,7 @@ class CodegenService extends HttpService {
       lastname: data.lastname,
       phoneNumber: data.phoneNumber,
       profilePicture: data.profilePicture,
-      password: data.password
+      accessToken: data.accessToken
     ));
 
     return response.body;

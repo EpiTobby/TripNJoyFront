@@ -2,7 +2,7 @@ class SignInUpGoogleCredentials {
   String _firstname = "";
   String _lastname = "";
   String _email = "";
-  String _password = "";
+  String _accessToken = "";
   String _profilePicture = "";
   String? _phoneNumber;
 
@@ -11,13 +11,13 @@ class SignInUpGoogleCredentials {
         required String firstname,
         required String lastname,
         required String email,
-        required String password,
+        required String accessToken,
         required String profilePicture,
         String? phoneNumber}) {
     this.firstname = firstname;
     this.lastname = lastname;
     this.email = email;
-    this.password = password;
+    this.accessToken = accessToken;
     this.profilePicture = profilePicture;
     this.phoneNumber = phoneNumber;
   }
@@ -28,8 +28,8 @@ class SignInUpGoogleCredentials {
   set lastname(String lastname) => _lastname = lastname;
   String get email => _email;
   set email(String email) => _email = email;
-  String get password => _password;
-  set password(String password) => _password = password;
+  String get accessToken => _accessToken;
+  set accessToken(String accessToken) => _accessToken = accessToken;
   String get profilePicture => _profilePicture;
   set profilePicture(String profilePicture) => _profilePicture = profilePicture;
   String? get phoneNumber => _phoneNumber;
@@ -39,7 +39,7 @@ class SignInUpGoogleCredentials {
     _firstname = json['firstname'];
     _lastname = json['lastname'];
     _email = json['email'];
-    _password = json['password'];
+    _accessToken = json['accessToken'];
     _profilePicture = json['profilePicture'];
     _phoneNumber = json['phoneNumber'];
   }
@@ -49,7 +49,7 @@ class SignInUpGoogleCredentials {
     data['firstname'] = this._firstname;
     data['lastname'] = this._lastname;
     data['email'] = this._email;
-    data['password'] = this._password;
+    data['accessToken'] = this._accessToken;
     data['profilePicture'] = this.profilePicture;
     data['phoneNumber'] = this._phoneNumber;
     return data;
