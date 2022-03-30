@@ -5,7 +5,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
-import 'package:trip_n_joy_front/providers/auth/auth_step.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';

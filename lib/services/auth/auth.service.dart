@@ -5,6 +5,7 @@ import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 
+import '../../constants/auth/auth_step.enum.dart';
 import '../api/http.service.dart';
 import '../log/logger.service.dart';
 
@@ -17,6 +18,7 @@ class AuthService extends ChangeNotifier {
   final FlutterSecureStorage storage;
   String? token;
   static const String tokenKey = 'token';
+  AuthStep step = AuthStep.LOGIN;
 
   AsyncValue<void> loginState = const AsyncValue.data(null);
   AsyncValue<void> signupState = const AsyncValue.data(null);
@@ -26,6 +28,16 @@ class AuthService extends ChangeNotifier {
   AsyncValue<void> updatePasswordState = const AsyncValue.data(null);
 
   bool get isAuthenticated => token != null;
+
+  void goToSignup() {
+    step = AuthStep.SIGNUP;
+    notifyListeners();
+  }
+
+  void goToLogin() {
+    step = AuthStep.LOGIN;
+    notifyListeners();
+  }
 
   Future<String?> login(String email, String password) async {
     logger.d("login - $email, $password");
@@ -187,5 +199,6 @@ class AuthService extends ChangeNotifier {
     forgotPasswordState = const AsyncValue.data(null);
     resetPasswordState = const AsyncValue.data(null);
     updatePasswordState = const AsyncValue.data(null);
+    goToLogin();
   }
 }
