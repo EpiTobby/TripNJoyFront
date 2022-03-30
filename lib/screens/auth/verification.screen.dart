@@ -65,7 +65,7 @@ class AccountVerification extends HookConsumerWidget {
                 text: AppLocalizations.of(context).translate('auth.verification.submit'),
                 onPressed: () {
                   authService.verifyAccount(code.value).then((value) => {
-                        if (value != null)
+                        if (value != null && value)
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyApp()))
                       });
                 },

@@ -160,6 +160,7 @@ class AuthService extends ChangeNotifier {
     logger.d("logout");
     await storage.delete(key: tokenKey);
     token = null;
+    clearStates();
     notifyListeners();
   }
 
@@ -177,5 +178,14 @@ class AuthService extends ChangeNotifier {
     logger.d("updateTokenFromStorage - success - token: $token");
     notifyListeners();
     return token;
+  }
+
+  void clearStates() {
+    loginState = const AsyncValue.data(null);
+    signupState = const AsyncValue.data(null);
+    verifyAccountState = const AsyncValue.data(null);
+    forgotPasswordState = const AsyncValue.data(null);
+    resetPasswordState = const AsyncValue.data(null);
+    updatePasswordState = const AsyncValue.data(null);
   }
 }

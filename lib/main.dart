@@ -101,24 +101,22 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     useEffect(() {
       authService.updateTokenFromStorage().then((value) {
         if (value != null) {
-          userService.loadUser().then((value) {
+          ref.watch(userProvider.notifier).loadUser().then((value) {
             if (value == null) authService.logout();
           });
         }
       });
-      return null;
+      return () {};
     }, []);
-
-    final step = ref.watch(authStepProvider) as AuthStep;
 
     if (!authService.isAuthenticated) {
       return Auth();
     }
 
     useEffect(() {
-      if (authService.isAuthenticated) {
+      if (authService.isAuthenticated && mounted) {
         userService.loadUser().then((value) {
-          if (value != null) {
+          if (value != null && mounted) {
             if (value.confirmed == false) {
               logger.d("user not confirmed");
               Navigator.pushReplacement(
