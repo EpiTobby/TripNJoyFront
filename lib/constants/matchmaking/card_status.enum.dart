@@ -1,1 +1,1 @@
-enum CardStatus { LEFT, RIGHT, BOTTOM }
+enum CardStatus { LEFT, RIGHT, DOWN }

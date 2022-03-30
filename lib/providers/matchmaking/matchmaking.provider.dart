@@ -4,7 +4,7 @@ import 'package:trip_n_joy_front/services/matchmaking/matchmaking.service.dart';
 
 import '../api/api.provider.dart';
 
-final matchmakingProvider = StateNotifierProvider.autoDispose<MatchmakingService, List<Widget>>((ref) {
+final matchmakingProvider = StateNotifierProvider<MatchmakingService, List<Widget>>((ref) {
   final httpService = ref.watch(codegenProvider);
   return MatchmakingService(httpService);
 });

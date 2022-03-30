@@ -50,8 +50,8 @@ class SwipeService extends ChangeNotifier {
       case CardStatus.RIGHT:
         swipeRight();
         break;
-      case CardStatus.BOTTOM:
-        swipeBottom();
+      case CardStatus.DOWN:
+        swipeDown();
         break;
       default:
         resetPosition();
@@ -70,10 +70,10 @@ class SwipeService extends ChangeNotifier {
     final x = _position.dx;
     final y = _position.dy;
     final delta = _screenSize.width / 4;
-    final forceBottom = x.abs() < _screenSize.width / 2;
+    final forceDown = x.abs() < _screenSize.width / 2;
 
-    if (y >= delta / 2 && forceBottom) {
-      return CardStatus.BOTTOM;
+    if (y >= delta / 2 && forceDown) {
+      return CardStatus.DOWN;
     } else if (x >= delta) {
       return CardStatus.RIGHT;
     } else if (x <= -delta) {
@@ -99,12 +99,12 @@ class SwipeService extends ChangeNotifier {
     notifyListeners();
   }
 
-  void swipeBottom() {
+  void swipeDown() {
     _angle = 0;
     _position += Offset(0, 2 * _screenSize.height);
     notifyListeners();
     nextCard();
-    logger.i('Swipe bottom');
+    logger.i('Swipe Down');
     notifyListeners();
   }
 

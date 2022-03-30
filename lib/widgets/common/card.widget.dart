@@ -25,10 +25,8 @@ class StandardCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: FractionallySizedBox(
-        alignment: Alignment.topCenter,
-        widthFactor: 1,
-        heightFactor: 0.8,
+      child: SizedBox(
+        height: 500,
         child: Container(
           decoration: BoxDecoration(
             color: backgroundColor,

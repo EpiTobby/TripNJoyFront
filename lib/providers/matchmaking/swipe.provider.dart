@@ -5,6 +5,6 @@ import 'package:trip_n_joy_front/services/matchmaking/swipe.service.dart';
 import 'matchmaking.provider.dart';
 
 final swipeProvider = ChangeNotifierProvider<SwipeService>((ref) {
-  final matchmakingService = ref.read(matchmakingProvider.notifier);
+  final matchmakingService = ref.watch(matchmakingProvider.notifier);
   return SwipeService(matchmakingService);
 });
