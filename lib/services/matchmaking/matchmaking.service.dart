@@ -33,7 +33,8 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
           subtitle: "Subtitle 1",
           color: CColors.primary,
           backgroundColor: CardColors.pink,
-          values: []),
+          onTop: true,
+          values: ["Left Answer", "Right Answer", "Down Answer"]),
       StandardCard(
           title: "card 1",
           subtitle: "card 1",

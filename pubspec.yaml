@@ -115,3 +115,6 @@ flutter:
     - family: NavbarIcon
       fonts:
         - asset: fonts/NavbarIcon.ttf
+    - family: SwipeCardIcon
+      fonts:
+        - asset: fonts/SwipeCardIcon.ttf

@@ -8,6 +8,8 @@ import 'package:trip_n_joy_front/providers/matchmaking/swipe.provider.dart';
 import 'package:trip_n_joy_front/services/matchmaking/swipe.service.dart';
 import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
 
+import '../../../constants/matchmaking/swipe.icons.dart';
+
 class SwipeCard extends ConsumerWidget {
   const SwipeCard(
       {Key? key,
@@ -17,6 +19,7 @@ class SwipeCard extends ConsumerWidget {
       required this.color,
       required this.backgroundColor,
       this.shadowColor,
+      this.onTop = false,
       required this.values})
       : super(key: key);
 
@@ -26,14 +29,15 @@ class SwipeCard extends ConsumerWidget {
   final Color color;
   final Color backgroundColor;
   final Color? shadowColor;
+  final bool onTop;
   final List<String> values;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return buildFrontCard(ref);
+    return onTop ? buildFrontCard(context, ref) : buildCard(context);
   }
 
-  Widget buildFrontCard(WidgetRef ref) {
+  Widget buildFrontCard(BuildContext context, WidgetRef ref) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
@@ -53,7 +57,7 @@ class SwipeCard extends ConsumerWidget {
             curve: Curves.easeInOut,
             duration: Duration(milliseconds: milliseconds),
             transform: rotatedMatrix..translate(position.dx, position.dy),
-            child: buildCard(),
+            child: buildCard(context),
           );
         }), onPanStart: (details) {
           final provider = ref.watch(swipeProvider);
@@ -70,15 +74,89 @@ class SwipeCard extends ConsumerWidget {
     );
   }
 
-  Widget buildCard() {
+  Widget buildCard(BuildContext context) {
     return StandardCard(
-        name: name,
-        title: title,
-        subtitle: subtitle,
-        color: color,
-        backgroundColor: backgroundColor,
-        shadowColor: shadowColor,
-        child: Container());
+      name: name,
+      title: title,
+      subtitle: subtitle,
+      color: color,
+      backgroundColor: backgroundColor,
+      shadowColor: shadowColor,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0, left: 20.0),
+                      child: Text(
+                        values[0],
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Icon(
+                      SwipeCardIcon.left_arrow,
+                      color: Theme.of(context).colorScheme.secondary,
+                      size: 36,
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Icon(
+                      SwipeCardIcon.right_arrow,
+                      color: Theme.of(context).colorScheme.tertiary,
+                      size: 36,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0, right: 20.0),
+                      child: Text(
+                        values[1],
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 80),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Text(
+                values[2],
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Icon(
+              SwipeCardIcon.down_arrow,
+              color: Theme.of(context).colorScheme.primaryContainer,
+              size: 36,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
