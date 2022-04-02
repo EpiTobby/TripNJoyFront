@@ -11,6 +11,79 @@
     }
   ],
   "paths": {
+    "/{id}/profiles": {
+      "get": {
+        "tags": [
+          "profile-controller"
+        ],
+        "operationId": "getUserProfiles",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProfileModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "profile-controller"
+        ],
+        "operationId": "createProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileCreationModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/{id}/resend": {
       "post": {
         "tags": [
@@ -406,6 +479,29 @@
         }
       }
     },
+    "/{id}/profiles/active": {
+      "get": {
+        "tags": [
+          "profile-controller"
+        ],
+        "operationId": "getActiveProfiles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProfileModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users": {
       "get": {
         "tags": [
@@ -509,6 +605,39 @@
         }
       }
     },
+    "/{id}/profiles/{profile}": {
+      "delete": {
+        "tags": [
+          "profile-controller"
+        ],
+        "operationId": "deleteProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "profile",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/users/{id}/admin": {
       "delete": {
         "tags": [
@@ -546,6 +675,219 @@
   },
   "components": {
     "schemas": {
+      "AvailabilityAnswerModel": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ProfileCreationModel": {
+        "type": "object",
+        "properties": {
+          "availability": {
+            "$ref": "#/components/schemas/AvailabilityAnswerModel"
+          },
+          "duration": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "budget": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "destinationTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CITY",
+                "COUNTRYSIDE",
+                "BEACH",
+                "MOUNTAIN"
+              ]
+            }
+          },
+          "ages": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "travelWithPersonFromSameCity": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "travelWithPersonFromSameCountry": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "travelWithPersonSameLanguage": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE"
+            ]
+          },
+          "groupeSize": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "chillOrVisit": {
+            "type": "string",
+            "enum": [
+              "CHILL",
+              "ANSWER"
+            ]
+          },
+          "aboutFood": {
+            "type": "string",
+            "enum": [
+              "COOKING",
+              "RESTAURANT"
+            ]
+          },
+          "goOutAtNight": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "sport": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          }
+        }
+      },
+      "RangeAnswerModel": {
+        "type": "object",
+        "properties": {
+          "minValue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxValue": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ProfileModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "availability": {
+            "$ref": "#/components/schemas/AvailabilityAnswerModel"
+          },
+          "duration": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "budget": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "destinationTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CITY",
+                "COUNTRYSIDE",
+                "BEACH",
+                "MOUNTAIN"
+              ]
+            }
+          },
+          "ages": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "travelWithPersonFromSameCity": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "travelWithPersonFromSameCountry": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "travelWithPersonSameLanguage": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE"
+            ]
+          },
+          "groupeSize": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "chillOrVisit": {
+            "type": "string",
+            "enum": [
+              "CHILL",
+              "ANSWER"
+            ]
+          },
+          "aboutFood": {
+            "type": "string",
+            "enum": [
+              "COOKING",
+              "RESTAURANT"
+            ]
+          },
+          "goOutAtNight": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "sport": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
       "UserCreationRequest": {
         "type": "object",
         "properties": {
