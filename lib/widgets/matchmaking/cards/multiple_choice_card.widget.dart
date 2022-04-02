@@ -42,25 +42,29 @@ class MultipleChoiceCard extends HookConsumerWidget {
       child: Column(
         children: [
           Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 60),
-              children: <Widget>[
-                for (final value in values)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: StandardCheckbox(
-                      value: value,
-                      onTap: () {
-                        if (selectedValues.value.contains(value)) {
-                          selectedValues.value = selectedValues.value.where((element) => element != value).toList();
-                        } else {
-                          selectedValues.value = [...selectedValues.value, value];
-                        }
-                      },
-                      checked: selectedValues.value.contains(value),
+            child: Scrollbar(
+              isAlwaysShown: true,
+              interactive: false,
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 60),
+                children: <Widget>[
+                  for (final value in values)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: StandardCheckbox(
+                        value: value,
+                        onTap: () {
+                          if (selectedValues.value.contains(value)) {
+                            selectedValues.value = selectedValues.value.where((element) => element != value).toList();
+                          } else {
+                            selectedValues.value = [...selectedValues.value, value];
+                          }
+                        },
+                        checked: selectedValues.value.contains(value),
+                      ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
           PrimaryButton(

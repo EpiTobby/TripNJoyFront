@@ -64,6 +64,9 @@ class MyApp extends StatelessWidget {
           surface: CColors.surface,
           onSurface: CColors.onSurface,
         ),
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: MaterialStateProperty.all(CColors.secondary),
+        ),
       ),
       supportedLocales: const [
         Locale('fr', 'FR'),
