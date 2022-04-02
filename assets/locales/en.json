@@ -57,7 +57,8 @@
       "code": "Code",
       "code_label": "Enter the code",
       "submit": "Reset password"
-    }
+    },
+    "google": "Sign in with Google"
   },
   "groups": {
     "title": "Groups",
@@ -100,6 +101,7 @@
     },
     "internet": "No internet connection",
     "wrongCodeConfirmation": "Wrong confirmation code",
+    "firebase": "Error initializing Firebase",
     "wrongPassword": "Wrong password"
   }
 }

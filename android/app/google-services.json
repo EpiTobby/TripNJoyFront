@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "879706606771",
+    "project_id": "tripnjoy",
+    "storage_bucket": "tripnjoy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879706606771:android:2a1b92ce4438b03571f4c6",
+        "android_client_info": {
+          "package_name": "fr.tobby.trip_n_joy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879706606771-hbhsct9f3kah78iiuesbtnufuhi7qe4d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.tobby.trip_n_joy",
+            "certificate_hash": "e241e484656223eb76e6f4fe310fb26e2c571fcc"
+          }
+        },
+        {
+          "client_id": "879706606771-uiq85k89qnqn2ck9ej7u65sou1r5henv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcRL1zbDjS-28DDHxwpwCcnqIMmPVtKkU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879706606771-uiq85k89qnqn2ck9ej7u65sou1r5henv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "879706606771-82bqb64e1lc5tr8v7lgii8bi4ius1l0a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "fr.tobby.tripNJoyFront"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
