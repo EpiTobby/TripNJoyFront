@@ -15,3 +15,14 @@ abstract class CColors {
   static const error = Color(0xffEB4040);
   static const onError = Color(0xffFAFAFF);
 }
+
+abstract class CardColors {
+  static const white = Color(0xffFAFAFF);
+  static const red = Color(0xffFAD2D2);
+  static const yellow = Color(0xffFAF1D2);
+  static const green = Color(0xffDAFAD2);
+  static const lightBlue = Color(0xffD2F8FA);
+  static const darkBlue = Color(0xffD2D8FA);
+  static const purple = Color(0xffD8D2FA);
+  static const pink = Color(0xffFAD2E8);
+}
