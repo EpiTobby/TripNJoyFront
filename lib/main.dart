@@ -61,6 +61,8 @@ class MyApp extends StatelessWidget {
           primaryContainer: CColors.variant,
           error: CColors.error,
           onError: CColors.onError,
+          surface: CColors.surface,
+          onSurface: CColors.onSurface,
         ),
       ),
       supportedLocales: const [

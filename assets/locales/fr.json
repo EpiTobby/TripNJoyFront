@@ -10,7 +10,9 @@
     "cancel": "Annuler",
     "save": "Sauvegarder",
     "submit": "Valider",
-    "tryAgain": "Réessayer"
+    "tryAgain": "Réessayer",
+    "validate": "Valider",
+    "next": "Suivant"
   },
   "user": {
     "firstname": "Prénom",
