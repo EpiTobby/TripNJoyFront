@@ -17,6 +17,22 @@ class _$Api extends Api {
   final definitionType = Api;
 
   @override
+  Future<Response<List<ProfileModel>>> _idProfilesGet({required num? id}) {
+    final $url = '/${id}/profiles';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<List<ProfileModel>, ProfileModel>($request);
+  }
+
+  @override
+  Future<Response<ProfileModel>> _idProfilesPost(
+      {required num? id, required ProfileCreationModel? body}) {
+    final $url = '/${id}/profiles';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<ProfileModel, ProfileModel>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _authIdResendPost({required num? id}) {
     final $url = '/auth/${id}/resend';
     final $request = Request('POST', $url, client.baseUrl);
@@ -105,6 +121,13 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<List<ProfileModel>>> _idProfilesActiveGet() {
+    final $url = '/{id}/profiles/active';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<List<ProfileModel>, ProfileModel>($request);
+  }
+
+  @override
   Future<Response<Object>> _usersGet() {
     final $url = '/users';
     final $request = Request('GET', $url, client.baseUrl);
@@ -132,6 +155,14 @@ class _$Api extends Api {
     final $url = '/users/me';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<UserModel, UserModel>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _idProfilesProfileDelete(
+      {required num? id, required num? profile}) {
+    final $url = '/${id}/profiles/${profile}';
+    final $request = Request('DELETE', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override

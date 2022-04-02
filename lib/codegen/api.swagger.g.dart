@@ -6,6 +6,171 @@ part of 'api.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AvailabilityAnswerModel _$AvailabilityAnswerModelFromJson(
+        Map<String, dynamic> json) =>
+    AvailabilityAnswerModel(
+      startDate: json['startDate'] == null
+          ? null
+          : DateTime.parse(json['startDate'] as String),
+      endDate: json['endDate'] == null
+          ? null
+          : DateTime.parse(json['endDate'] as String),
+    );
+
+Map<String, dynamic> _$AvailabilityAnswerModelToJson(
+        AvailabilityAnswerModel instance) =>
+    <String, dynamic>{
+      'startDate': instance.startDate?.toIso8601String(),
+      'endDate': instance.endDate?.toIso8601String(),
+    };
+
+ProfileCreationModel _$ProfileCreationModelFromJson(
+        Map<String, dynamic> json) =>
+    ProfileCreationModel(
+      availability: json['availability'] == null
+          ? null
+          : AvailabilityAnswerModel.fromJson(
+              json['availability'] as Map<String, dynamic>),
+      duration: json['duration'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['duration'] as Map<String, dynamic>),
+      budget: json['budget'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['budget'] as Map<String, dynamic>),
+      destinationTypes: profileCreationModelDestinationTypesListFromJson(
+          json['destinationTypes'] as List?),
+      ages: json['ages'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['ages'] as Map<String, dynamic>),
+      travelWithPersonFromSameCity:
+          profileCreationModelTravelWithPersonFromSameCityFromJson(
+              json['travelWithPersonFromSameCity']),
+      travelWithPersonFromSameCountry:
+          profileCreationModelTravelWithPersonFromSameCountryFromJson(
+              json['travelWithPersonFromSameCountry']),
+      travelWithPersonSameLanguage:
+          profileCreationModelTravelWithPersonSameLanguageFromJson(
+              json['travelWithPersonSameLanguage']),
+      gender: profileCreationModelGenderFromJson(json['gender']),
+      groupeSize: json['groupeSize'] == null
+          ? null
+          : RangeAnswerModel.fromJson(
+              json['groupeSize'] as Map<String, dynamic>),
+      chillOrVisit:
+          profileCreationModelChillOrVisitFromJson(json['chillOrVisit']),
+      aboutFood: profileCreationModelAboutFoodFromJson(json['aboutFood']),
+      goOutAtNight:
+          profileCreationModelGoOutAtNightFromJson(json['goOutAtNight']),
+      sport: profileCreationModelSportFromJson(json['sport']),
+    );
+
+Map<String, dynamic> _$ProfileCreationModelToJson(
+        ProfileCreationModel instance) =>
+    <String, dynamic>{
+      'availability': instance.availability?.toJson(),
+      'duration': instance.duration?.toJson(),
+      'budget': instance.budget?.toJson(),
+      'destinationTypes': profileCreationModelDestinationTypesListToJson(
+          instance.destinationTypes),
+      'ages': instance.ages?.toJson(),
+      'travelWithPersonFromSameCity':
+          profileCreationModelTravelWithPersonFromSameCityToJson(
+              instance.travelWithPersonFromSameCity),
+      'travelWithPersonFromSameCountry':
+          profileCreationModelTravelWithPersonFromSameCountryToJson(
+              instance.travelWithPersonFromSameCountry),
+      'travelWithPersonSameLanguage':
+          profileCreationModelTravelWithPersonSameLanguageToJson(
+              instance.travelWithPersonSameLanguage),
+      'gender': profileCreationModelGenderToJson(instance.gender),
+      'groupeSize': instance.groupeSize?.toJson(),
+      'chillOrVisit':
+          profileCreationModelChillOrVisitToJson(instance.chillOrVisit),
+      'aboutFood': profileCreationModelAboutFoodToJson(instance.aboutFood),
+      'goOutAtNight':
+          profileCreationModelGoOutAtNightToJson(instance.goOutAtNight),
+      'sport': profileCreationModelSportToJson(instance.sport),
+    };
+
+RangeAnswerModel _$RangeAnswerModelFromJson(Map<String, dynamic> json) =>
+    RangeAnswerModel(
+      minValue: json['minValue'] as int?,
+      maxValue: json['maxValue'] as int?,
+    );
+
+Map<String, dynamic> _$RangeAnswerModelToJson(RangeAnswerModel instance) =>
+    <String, dynamic>{
+      'minValue': instance.minValue,
+      'maxValue': instance.maxValue,
+    };
+
+ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
+      id: json['id'] as num?,
+      availability: json['availability'] == null
+          ? null
+          : AvailabilityAnswerModel.fromJson(
+              json['availability'] as Map<String, dynamic>),
+      duration: json['duration'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['duration'] as Map<String, dynamic>),
+      budget: json['budget'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['budget'] as Map<String, dynamic>),
+      destinationTypes: profileModelDestinationTypesListFromJson(
+          json['destinationTypes'] as List?),
+      ages: json['ages'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['ages'] as Map<String, dynamic>),
+      travelWithPersonFromSameCity:
+          profileModelTravelWithPersonFromSameCityFromJson(
+              json['travelWithPersonFromSameCity']),
+      travelWithPersonFromSameCountry:
+          profileModelTravelWithPersonFromSameCountryFromJson(
+              json['travelWithPersonFromSameCountry']),
+      travelWithPersonSameLanguage:
+          profileModelTravelWithPersonSameLanguageFromJson(
+              json['travelWithPersonSameLanguage']),
+      gender: profileModelGenderFromJson(json['gender']),
+      groupeSize: json['groupeSize'] == null
+          ? null
+          : RangeAnswerModel.fromJson(
+              json['groupeSize'] as Map<String, dynamic>),
+      chillOrVisit: profileModelChillOrVisitFromJson(json['chillOrVisit']),
+      aboutFood: profileModelAboutFoodFromJson(json['aboutFood']),
+      goOutAtNight: profileModelGoOutAtNightFromJson(json['goOutAtNight']),
+      sport: profileModelSportFromJson(json['sport']),
+      userId: json['userId'] as num?,
+      active: json['active'] as bool?,
+    );
+
+Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'availability': instance.availability?.toJson(),
+      'duration': instance.duration?.toJson(),
+      'budget': instance.budget?.toJson(),
+      'destinationTypes':
+          profileModelDestinationTypesListToJson(instance.destinationTypes),
+      'ages': instance.ages?.toJson(),
+      'travelWithPersonFromSameCity':
+          profileModelTravelWithPersonFromSameCityToJson(
+              instance.travelWithPersonFromSameCity),
+      'travelWithPersonFromSameCountry':
+          profileModelTravelWithPersonFromSameCountryToJson(
+              instance.travelWithPersonFromSameCountry),
+      'travelWithPersonSameLanguage':
+          profileModelTravelWithPersonSameLanguageToJson(
+              instance.travelWithPersonSameLanguage),
+      'gender': profileModelGenderToJson(instance.gender),
+      'groupeSize': instance.groupeSize?.toJson(),
+      'chillOrVisit': profileModelChillOrVisitToJson(instance.chillOrVisit),
+      'aboutFood': profileModelAboutFoodToJson(instance.aboutFood),
+      'goOutAtNight': profileModelGoOutAtNightToJson(instance.goOutAtNight),
+      'sport': profileModelSportToJson(instance.sport),
+      'userId': instance.userId,
+      'active': instance.active,
+    };
+
 UserCreationRequest _$UserCreationRequestFromJson(Map<String, dynamic> json) =>
     UserCreationRequest(
       firstname: json['firstname'] as String?,
