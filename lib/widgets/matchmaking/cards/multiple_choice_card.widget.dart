@@ -52,9 +52,9 @@ class MultipleChoiceCard extends HookConsumerWidget {
                       value: value,
                       onTap: () {
                         if (selectedValues.value.contains(value)) {
-                          selectedValues.value.remove(value);
+                          selectedValues.value = selectedValues.value.where((element) => element != value).toList();
                         } else {
-                          selectedValues.value.add(value);
+                          selectedValues.value = [...selectedValues.value, value];
                         }
                       },
                       checked: selectedValues.value.contains(value),
