@@ -1,18 +1,21 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/services/auth/auth.service.dart';
 
+import '../../app_localizations.dart';
 import '../../codegen/api.swagger.dart';
 import '../api/http.service.dart';
 
 class UserService extends StateNotifier<AsyncValue<UserModel?>> {
-  UserService(this.httpService) : super(const AsyncValue.loading());
+  UserService(this.httpService, this.authService) : super(const AsyncValue.loading());
   final HttpService httpService;
+  final AuthService authService;
   UserModel? user;
 
-  Future<UserModel?> loadUser(String token) async {
+  Future<UserModel?> loadUser() async {
     try {
       state = const AsyncLoading();
-      var id = httpService.getUserIdFromToken(token);
-      user = await httpService.loadUser(id).timeout(const Duration(seconds: 10));
+      user = await httpService.loadUser().timeout(const Duration(seconds: 10));
       state = AsyncData(user);
       return user;
     } catch (e) {
@@ -20,13 +23,16 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
     }
   }
 
-  Future<void> deleteUser(String token) async {
+  Future<bool> deleteUser(String token, DeleteUserRequest deleteUserRequest) async {
     try {
-      state = const AsyncLoading();
-      await httpService.deleteUser(token).timeout(const Duration(seconds: 10));
-      state = const AsyncData(null);
+      var id = httpService.getUserIdFromToken(token);
+      final success = await httpService.deleteUser(id!, deleteUserRequest).timeout(const Duration(seconds: 10));
+      if (success) {
+        state = const AsyncData(null);
+      }
+      return success;
     } catch (e) {
-      state = AsyncError(e);
+      return false;
     }
   }
 
@@ -35,7 +41,7 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
       state = const AsyncLoading();
       var id = httpService.getUserIdFromToken(token);
       await httpService.updateUser(id!, updateRequest);
-      user = await httpService.loadUser(id).timeout(const Duration(seconds: 10));
+      user = await httpService.loadUser().timeout(const Duration(seconds: 10));
       state = AsyncData(user);
     } catch (e) {
       state = AsyncError(e);
@@ -45,9 +51,12 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
   Future<void> updateEmail(int id, UpdateEmailRequest updateEmailRequest) async {
     try {
       state = const AsyncLoading();
-      await httpService.updateEmail(id, updateEmailRequest);
-      user = await httpService.loadUser(id).timeout(const Duration(seconds: 10));
-      state = AsyncData(user);
+      final loginResponse = await httpService.updateEmail(id, updateEmailRequest);
+      if (loginResponse != null && loginResponse.token != null) {
+        await authService.logout();
+      } else {
+        state = AsyncError(Exception(AppLocalizations.instance.translate("errors.unexpected")));
+      }
     } catch (e) {
       state = AsyncError(e);
     }

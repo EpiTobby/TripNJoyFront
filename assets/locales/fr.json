@@ -87,7 +87,8 @@
     "deleteAccount": "Supprimer mon compte",
     "password": "Changer de mot de passe",
     "oldPassword": "Ancien mot de passe",
-    "newPassword": "Nouveau mot de passe"
+    "newPassword": "Nouveau mot de passe",
+    "confirmDeleteAccount": "Confirmer le mot de passe pour supprimer votre compte"
   },
   "errors": {
     "login": "Identifiants incorrects",
@@ -100,6 +101,7 @@
     },
     "internet": "Pas de connexion internet",
     "wrongCodeConfirmation": "Code incorrect",
-    "firebase": "Erreur d'initialisation de Firebase"
+    "firebase": "Erreur d'initialisation de Firebase",
+    "wrongPassword": "Mot de passe incorrect"
   }
 }

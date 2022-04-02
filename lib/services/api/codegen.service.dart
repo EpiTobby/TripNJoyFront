@@ -44,10 +44,7 @@ class CodegenService extends HttpService {
   void initInterceptors() {}
 
   @override
-  Future<UserModel?> loadUser(int? id) async {
-    if (id == null) {
-      return null;
-    }
+  Future<UserModel?> loadUser() async {
     final response = await api.usersMeGet();
     return response.body;
   }
@@ -74,8 +71,10 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<void> deleteUser(String token) async {
-    throw UnimplementedError();
+  Future<bool> deleteUser(int id, DeleteUserRequest deleteUserRequest) async {
+    final response = await api.usersIdDelete(body: deleteUserRequest, id: id);
+
+    return response.isSuccessful;
   }
 
   @override
@@ -122,8 +121,9 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<void> updateEmail(int id, UpdateEmailRequest updateEmailRequest) async {
-    await api.authIdEmailPatch(id: id, body: updateEmailRequest);
+  Future<LoginResponse?> updateEmail(int id, UpdateEmailRequest updateEmailRequest) async {
+    final response = await api.authIdEmailPatch(id: id, body: updateEmailRequest);
+    return response.body;
   }
 
   @override

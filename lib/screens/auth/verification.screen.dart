@@ -41,6 +41,7 @@ class AccountVerification extends HookConsumerWidget {
             children: [
               Text(
                 AppLocalizations.of(context).translate('auth.verification.title'),
+                textAlign: TextAlign.center,
                 style:
                     TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 40, fontWeight: FontWeight.bold),
               ),
@@ -65,7 +66,7 @@ class AccountVerification extends HookConsumerWidget {
                 text: AppLocalizations.of(context).translate('auth.verification.submit'),
                 onPressed: () {
                   authService.verifyAccount(code.value).then((value) => {
-                        if (value != null)
+                        if (value != null && value)
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyApp()))
                       });
                 },
@@ -81,7 +82,15 @@ class AccountVerification extends HookConsumerWidget {
                     resendCountdown.value = 30;
                     authService.resendVerificationCode(userId);
                   },
-                  isDisabled: resendCountdown.value != 0)
+                  isDisabled: resendCountdown.value != 0),
+              TertiaryButton(
+                text: AppLocalizations.of(context).translate('common.back'),
+                onPressed: () {
+                  authService.logout().then((value) {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyApp()));
+                  });
+                },
+              ),
             ],
           ),
         ),

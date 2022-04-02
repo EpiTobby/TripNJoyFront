@@ -87,7 +87,8 @@
     "deleteAccount": "Delete my account",
     "password": "Change the password",
     "oldPassword": "Old password",
-    "newPassword": "New password"
+    "newPassword": "New password",
+    "confirmDeleteAccount": "Confirm password to delete your account"
   },
   "errors": {
     "login": "Wrong email or password",
@@ -100,6 +101,7 @@
     },
     "internet": "No internet connection",
     "wrongCodeConfirmation": "Wrong confirmation code",
-    "firebase": "Error initializing Firebase"
+    "firebase": "Error initializing Firebase",
+    "wrongPassword": "Wrong password"
   }
 }

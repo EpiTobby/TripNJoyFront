@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/constants/user/user.gender.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
-import 'package:trip_n_joy_front/providers/auth/auth_step.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/date_picker.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/dropdown.widget.dart';
 
@@ -25,7 +24,6 @@ class SignUp extends StatefulHookConsumerWidget {
 class _SignUpState extends ConsumerState<SignUp> {
   @override
   Widget build(BuildContext context) {
-    final stepProvider = ref.watch(authStepProvider.notifier);
     final authService = ref.watch(authProvider);
     final firstname = useState('');
     final lastname = useState('');
@@ -116,7 +114,8 @@ class _SignUpState extends ConsumerState<SignUp> {
                         password: password.value,
                         phoneNumber: phoneNumber.value.isEmpty ? null : phoneNumber.value))),
                 SecondaryButton(
-                    text: AppLocalizations.of(context).translate("common.back"), onPressed: () => stepProvider.login()),
+                    text: AppLocalizations.of(context).translate("common.back"),
+                    onPressed: () => authService.goToLogin()),
               ],
             )),
       ],

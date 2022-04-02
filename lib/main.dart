@@ -5,7 +5,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
-import 'package:trip_n_joy_front/providers/auth/auth_step.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
@@ -101,24 +100,22 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     useEffect(() {
       authService.updateTokenFromStorage().then((value) {
         if (value != null) {
-          userService.loadUser(value).then((value) {
+          ref.watch(userProvider.notifier).loadUser().then((value) {
             if (value == null) authService.logout();
           });
         }
       });
-      return null;
+      return () {};
     }, []);
-
-    final step = ref.watch(authStepProvider) as AuthStep;
 
     if (!authService.isAuthenticated) {
       return Auth();
     }
 
     useEffect(() {
-      if (authService.isAuthenticated) {
-        userService.loadUser(authService.token!).then((value) {
-          if (value != null) {
+      if (authService.isAuthenticated && mounted) {
+        userService.loadUser().then((value) {
+          if (value != null && mounted) {
             if (value.confirmed == false) {
               logger.d("user not confirmed");
               Navigator.pushReplacement(
@@ -155,9 +152,12 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
             ),
         error: (error, r) {
           logger.e(error, r);
-          return ErrorScreen(authService: authService);
+          return const ErrorScreen();
         },
-        loading: () => const Center(child: CircularProgressIndicator()));
+        loading: () => Scaffold(
+            body: Center(
+                child: Container(
+                    color: Theme.of(context).colorScheme.background, child: const CircularProgressIndicator()))));
   }
 
   getPageWidget(NavbarPage selectedPage) {

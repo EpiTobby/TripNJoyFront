@@ -11,7 +11,7 @@ abstract class HttpService {
 
   void initInterceptors();
 
-  Future<UserModel?> loadUser(int? id);
+  Future<UserModel?> loadUser();
 
   Future<LoginResponse?> login(String email, String password);
 
@@ -21,7 +21,7 @@ abstract class HttpService {
 
   Future<bool> verifyAccount(int id, String code);
 
-  Future<void> deleteUser(String token);
+  Future<bool> deleteUser(int id, DeleteUserRequest deleteUserRequest);
 
   Future<void> updateUser(int id, UserUpdateRequest updateRequest);
 
@@ -35,5 +35,5 @@ abstract class HttpService {
 
   Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest);
 
-  Future<void> updateEmail(int id, UpdateEmailRequest updateEmailRequest);
+  Future<LoginResponse?> updateEmail(int id, UpdateEmailRequest updateEmailRequest);
 }

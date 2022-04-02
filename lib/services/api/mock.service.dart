@@ -15,13 +15,15 @@ class MockService extends HttpService {
   void initInterceptors() {}
 
   @override
-  Future<UserModel?> loadUser(int? id) async {
-    return UserModel(
-        firstname: "Tony",
-        lastname: "Heng",
-        email: "tony.heng@epita.fr",
-        birthDate: DateTime.now(),
-        phoneNumber: "0612345678");
+  Future<UserModel?> loadUser() async {
+    return Future.delayed(Duration(seconds: 1), () {
+      return UserModel(
+          firstname: "Tony",
+          lastname: "Heng",
+          email: "tony.heng@epita.fr",
+          birthDate: DateTime.now(),
+          phoneNumber: "0612345678");
+    });
   }
 
   @override
@@ -33,19 +35,21 @@ class MockService extends HttpService {
 
   @override
   Future<AuthTokenResponse?> signup(SignupCredentials data) {
-    return Future.delayed(Duration(seconds: 1), () {
+    return Future.delayed(const Duration(seconds: 1), () {
       return AuthTokenResponse(token: "token");
     });
   }
 
   @override
-  Future<void> deleteUser(String token) {
-    return Future.value();
+  Future<bool> deleteUser(int id, DeleteUserRequest deleteUserRequest) {
+    return Future.delayed(const Duration(seconds: 1), () {
+      return false;
+    });
   }
 
   @override
   Future<bool> verifyAccount(int id, String code) {
-    return Future.delayed(Duration(seconds: 1), () {
+    return Future.delayed(const Duration(seconds: 1), () {
       return true;
     });
   }
@@ -81,7 +85,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<void> updateEmail(int id, UpdateEmailRequest updateEmailRequest) {
+  Future<LoginResponse?> updateEmail(int id, UpdateEmailRequest updateEmailRequest) {
     return Future.value();
   }
 

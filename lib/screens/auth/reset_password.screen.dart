@@ -33,6 +33,7 @@ class ResetPassword extends HookConsumerWidget {
             children: [
               Text(
                 AppLocalizations.of(context).translate('auth.reset_password.title'),
+                textAlign: TextAlign.center,
                 style:
                     TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 32, fontWeight: FontWeight.bold),
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
 import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
 import 'package:trip_n_joy_front/services/auth/auth.service.dart';
@@ -11,9 +12,11 @@ import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/snackbar.widget.dart';
 
 import '../../providers/auth/auth.provider.dart';
 import '../../providers/user/user.provider.dart';
+import '../../services/log/logger.service.dart';
 import '../../widgets/common/input_dialog.widget.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -75,7 +78,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     var user = ref.watch(userProvider).value;
 
     if (user == null) {
-      return ErrorScreen(authService: authService);
+      return const ErrorScreen();
     }
 
     return ListView(
@@ -134,7 +137,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialogEmail(onConfirm: (newEmail, password) async {
-                          userService.updateEmail(
+                          await userService.updateEmail(
                               user.id!.toInt(), UpdateEmailRequest(newEmail: newEmail, password: password));
                         });
                       });
@@ -212,8 +215,25 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             icon: const Icon(Icons.close),
             customColor: Theme.of(context).colorScheme.error,
             onPressed: () async {
-              ref.read(userProvider.notifier).deleteUser(authService.token!);
-              authService.logout();
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return InputDialog(
+                        title: AppLocalizations.of(context).translate("settings.confirmDeleteAccount"),
+                        label: AppLocalizations.of(context).translate("user.password"),
+                        isPassword: true,
+                        initialValue: user.lastname!,
+                        onConfirm: (value) async {
+                          final success =
+                              await userService.deleteUser(authService.token!, DeleteUserRequest(password: value));
+                          if (success) {
+                            authService.logout();
+                          } else {
+                            throw HttpException(
+                                message: AppLocalizations.of(context).translate("errors.wrongPassword"));
+                          }
+                        });
+                  });
             },
           )),
         ])
