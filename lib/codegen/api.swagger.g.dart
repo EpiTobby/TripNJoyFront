@@ -6,6 +6,196 @@ part of 'api.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AvailabilityAnswerModel _$AvailabilityAnswerModelFromJson(
+        Map<String, dynamic> json) =>
+    AvailabilityAnswerModel(
+      startDate: json['startDate'] == null
+          ? null
+          : DateTime.parse(json['startDate'] as String),
+      endDate: json['endDate'] == null
+          ? null
+          : DateTime.parse(json['endDate'] as String),
+    );
+
+Map<String, dynamic> _$AvailabilityAnswerModelToJson(
+        AvailabilityAnswerModel instance) =>
+    <String, dynamic>{
+      'startDate': instance.startDate?.toIso8601String(),
+      'endDate': instance.endDate?.toIso8601String(),
+    };
+
+ProfileCreationModel _$ProfileCreationModelFromJson(
+        Map<String, dynamic> json) =>
+    ProfileCreationModel(
+      availability: json['availability'] == null
+          ? null
+          : AvailabilityAnswerModel.fromJson(
+              json['availability'] as Map<String, dynamic>),
+      duration: json['duration'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['duration'] as Map<String, dynamic>),
+      budget: json['budget'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['budget'] as Map<String, dynamic>),
+      destinationTypes: profileCreationModelDestinationTypesListFromJson(
+          json['destinationTypes'] as List?),
+      ages: json['ages'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['ages'] as Map<String, dynamic>),
+      travelWithPersonFromSameCity:
+          profileCreationModelTravelWithPersonFromSameCityFromJson(
+              json['travelWithPersonFromSameCity']),
+      travelWithPersonFromSameCountry:
+          profileCreationModelTravelWithPersonFromSameCountryFromJson(
+              json['travelWithPersonFromSameCountry']),
+      travelWithPersonSameLanguage:
+          profileCreationModelTravelWithPersonSameLanguageFromJson(
+              json['travelWithPersonSameLanguage']),
+      gender: profileCreationModelGenderFromJson(json['gender']),
+      groupeSize: json['groupeSize'] == null
+          ? null
+          : RangeAnswerModel.fromJson(
+              json['groupeSize'] as Map<String, dynamic>),
+      chillOrVisit:
+          profileCreationModelChillOrVisitFromJson(json['chillOrVisit']),
+      aboutFood: profileCreationModelAboutFoodFromJson(json['aboutFood']),
+      goOutAtNight:
+          profileCreationModelGoOutAtNightFromJson(json['goOutAtNight']),
+      sport: profileCreationModelSportFromJson(json['sport']),
+    );
+
+Map<String, dynamic> _$ProfileCreationModelToJson(
+        ProfileCreationModel instance) =>
+    <String, dynamic>{
+      'availability': instance.availability?.toJson(),
+      'duration': instance.duration?.toJson(),
+      'budget': instance.budget?.toJson(),
+      'destinationTypes': profileCreationModelDestinationTypesListToJson(
+          instance.destinationTypes),
+      'ages': instance.ages?.toJson(),
+      'travelWithPersonFromSameCity':
+          profileCreationModelTravelWithPersonFromSameCityToJson(
+              instance.travelWithPersonFromSameCity),
+      'travelWithPersonFromSameCountry':
+          profileCreationModelTravelWithPersonFromSameCountryToJson(
+              instance.travelWithPersonFromSameCountry),
+      'travelWithPersonSameLanguage':
+          profileCreationModelTravelWithPersonSameLanguageToJson(
+              instance.travelWithPersonSameLanguage),
+      'gender': profileCreationModelGenderToJson(instance.gender),
+      'groupeSize': instance.groupeSize?.toJson(),
+      'chillOrVisit':
+          profileCreationModelChillOrVisitToJson(instance.chillOrVisit),
+      'aboutFood': profileCreationModelAboutFoodToJson(instance.aboutFood),
+      'goOutAtNight':
+          profileCreationModelGoOutAtNightToJson(instance.goOutAtNight),
+      'sport': profileCreationModelSportToJson(instance.sport),
+    };
+
+RangeAnswerModel _$RangeAnswerModelFromJson(Map<String, dynamic> json) =>
+    RangeAnswerModel(
+      minValue: json['minValue'] as int?,
+      maxValue: json['maxValue'] as int?,
+    );
+
+Map<String, dynamic> _$RangeAnswerModelToJson(RangeAnswerModel instance) =>
+    <String, dynamic>{
+      'minValue': instance.minValue,
+      'maxValue': instance.maxValue,
+    };
+
+ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
+      id: json['id'] as num?,
+      availability: json['availability'] == null
+          ? null
+          : AvailabilityAnswerModel.fromJson(
+              json['availability'] as Map<String, dynamic>),
+      duration: json['duration'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['duration'] as Map<String, dynamic>),
+      budget: json['budget'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['budget'] as Map<String, dynamic>),
+      destinationTypes: profileModelDestinationTypesListFromJson(
+          json['destinationTypes'] as List?),
+      ages: json['ages'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['ages'] as Map<String, dynamic>),
+      travelWithPersonFromSameCity:
+          profileModelTravelWithPersonFromSameCityFromJson(
+              json['travelWithPersonFromSameCity']),
+      travelWithPersonFromSameCountry:
+          profileModelTravelWithPersonFromSameCountryFromJson(
+              json['travelWithPersonFromSameCountry']),
+      travelWithPersonSameLanguage:
+          profileModelTravelWithPersonSameLanguageFromJson(
+              json['travelWithPersonSameLanguage']),
+      gender: profileModelGenderFromJson(json['gender']),
+      groupeSize: json['groupeSize'] == null
+          ? null
+          : RangeAnswerModel.fromJson(
+              json['groupeSize'] as Map<String, dynamic>),
+      chillOrVisit: profileModelChillOrVisitFromJson(json['chillOrVisit']),
+      aboutFood: profileModelAboutFoodFromJson(json['aboutFood']),
+      goOutAtNight: profileModelGoOutAtNightFromJson(json['goOutAtNight']),
+      sport: profileModelSportFromJson(json['sport']),
+      userId: json['userId'] as num?,
+      active: json['active'] as bool?,
+    );
+
+Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'availability': instance.availability?.toJson(),
+      'duration': instance.duration?.toJson(),
+      'budget': instance.budget?.toJson(),
+      'destinationTypes':
+          profileModelDestinationTypesListToJson(instance.destinationTypes),
+      'ages': instance.ages?.toJson(),
+      'travelWithPersonFromSameCity':
+          profileModelTravelWithPersonFromSameCityToJson(
+              instance.travelWithPersonFromSameCity),
+      'travelWithPersonFromSameCountry':
+          profileModelTravelWithPersonFromSameCountryToJson(
+              instance.travelWithPersonFromSameCountry),
+      'travelWithPersonSameLanguage':
+          profileModelTravelWithPersonSameLanguageToJson(
+              instance.travelWithPersonSameLanguage),
+      'gender': profileModelGenderToJson(instance.gender),
+      'groupeSize': instance.groupeSize?.toJson(),
+      'chillOrVisit': profileModelChillOrVisitToJson(instance.chillOrVisit),
+      'aboutFood': profileModelAboutFoodToJson(instance.aboutFood),
+      'goOutAtNight': profileModelGoOutAtNightToJson(instance.goOutAtNight),
+      'sport': profileModelSportToJson(instance.sport),
+      'userId': instance.userId,
+      'active': instance.active,
+    };
+
+UserCreationRequest _$UserCreationRequestFromJson(Map<String, dynamic> json) =>
+    UserCreationRequest(
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
+      password: json['password'] as String?,
+      gender: json['gender'] as String?,
+      birthDate: json['birthDate'] == null
+          ? null
+          : DateTime.parse(json['birthDate'] as String),
+      phoneNumber: json['phoneNumber'] as String?,
+      email: json['email'] as String?,
+    );
+
+Map<String, dynamic> _$UserCreationRequestToJson(
+        UserCreationRequest instance) =>
+    <String, dynamic>{
+      'firstname': instance.firstname,
+      'lastname': instance.lastname,
+      'password': instance.password,
+      'gender': instance.gender,
+      'birthDate': instance.birthDate?.toIso8601String(),
+      'phoneNumber': instance.phoneNumber,
+      'email': instance.email,
+    };
+
 AuthTokenResponse _$AuthTokenResponseFromJson(Map<String, dynamic> json) =>
     AuthTokenResponse(
       token: json['token'] as String?,
@@ -14,82 +204,6 @@ AuthTokenResponse _$AuthTokenResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$AuthTokenResponseToJson(AuthTokenResponse instance) =>
     <String, dynamic>{
       'token': instance.token,
-    };
-
-CityEntity _$CityEntityFromJson(Map<String, dynamic> json) => CityEntity(
-      id: json['id'] as num?,
-      name: json['name'] as String?,
-    );
-
-Map<String, dynamic> _$CityEntityToJson(CityEntity instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-    };
-
-CityModel _$CityModelFromJson(Map<String, dynamic> json) => CityModel(
-      name: json['name'] as String?,
-    );
-
-Map<String, dynamic> _$CityModelToJson(CityModel instance) => <String, dynamic>{
-      'name': instance.name,
-    };
-
-ConfirmationCodeModel _$ConfirmationCodeModelFromJson(
-        Map<String, dynamic> json) =>
-    ConfirmationCodeModel(
-      value: json['value'] as String?,
-    );
-
-Map<String, dynamic> _$ConfirmationCodeModelToJson(
-        ConfirmationCodeModel instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-    };
-
-DeleteUserByAdminRequest _$DeleteUserByAdminRequestFromJson(
-        Map<String, dynamic> json) =>
-    DeleteUserByAdminRequest(
-      reason: json['reason'] as String?,
-    );
-
-Map<String, dynamic> _$DeleteUserByAdminRequestToJson(
-        DeleteUserByAdminRequest instance) =>
-    <String, dynamic>{
-      'reason': instance.reason,
-    };
-
-DeleteUserRequest _$DeleteUserRequestFromJson(Map<String, dynamic> json) =>
-    DeleteUserRequest(
-      password: json['password'] as String?,
-    );
-
-Map<String, dynamic> _$DeleteUserRequestToJson(DeleteUserRequest instance) =>
-    <String, dynamic>{
-      'password': instance.password,
-    };
-
-ForgotPasswordRequest _$ForgotPasswordRequestFromJson(
-        Map<String, dynamic> json) =>
-    ForgotPasswordRequest(
-      email: json['email'] as String?,
-    );
-
-Map<String, dynamic> _$ForgotPasswordRequestToJson(
-        ForgotPasswordRequest instance) =>
-    <String, dynamic>{
-      'email': instance.email,
-    };
-
-GenderEntity _$GenderEntityFromJson(Map<String, dynamic> json) => GenderEntity(
-      id: json['id'] as num?,
-      value: json['value'] as String?,
-    );
-
-Map<String, dynamic> _$GenderEntityToJson(GenderEntity instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'value': instance.value,
     };
 
 LoginRequest _$LoginRequestFromJson(Map<String, dynamic> json) => LoginRequest(
@@ -105,27 +219,88 @@ Map<String, dynamic> _$LoginRequestToJson(LoginRequest instance) =>
 
 LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) =>
     LoginResponse(
-      token: json['token'] as String?,
       username: json['username'] as String?,
+      token: json['token'] as String?,
     );
 
 Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
     <String, dynamic>{
-      'token': instance.token,
       'username': instance.username,
+      'token': instance.token,
     };
 
-RoleEntity _$RoleEntityFromJson(Map<String, dynamic> json) => RoleEntity(
-      authority: json['authority'] as String?,
-      id: json['id'] as num?,
+GoogleRequest _$GoogleRequestFromJson(Map<String, dynamic> json) =>
+    GoogleRequest(
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
+      accessToken: json['accessToken'] as String?,
+      profilePicture: json['profilePicture'] as String?,
+      phoneNumber: json['phoneNumber'] as String?,
+      email: json['email'] as String?,
+    );
+
+Map<String, dynamic> _$GoogleRequestToJson(GoogleRequest instance) =>
+    <String, dynamic>{
+      'firstname': instance.firstname,
+      'lastname': instance.lastname,
+      'accessToken': instance.accessToken,
+      'profilePicture': instance.profilePicture,
+      'phoneNumber': instance.phoneNumber,
+      'email': instance.email,
+    };
+
+ForgotPasswordRequest _$ForgotPasswordRequestFromJson(
+        Map<String, dynamic> json) =>
+    ForgotPasswordRequest(
+      email: json['email'] as String?,
+    );
+
+Map<String, dynamic> _$ForgotPasswordRequestToJson(
+        ForgotPasswordRequest instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+    };
+
+CityModel _$CityModelFromJson(Map<String, dynamic> json) => CityModel(
       name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$RoleEntityToJson(RoleEntity instance) =>
-    <String, dynamic>{
-      'authority': instance.authority,
-      'id': instance.id,
+Map<String, dynamic> _$CityModelToJson(CityModel instance) => <String, dynamic>{
       'name': instance.name,
+    };
+
+UserUpdateRequest _$UserUpdateRequestFromJson(Map<String, dynamic> json) =>
+    UserUpdateRequest(
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
+      profilePicture: json['profilePicture'] as String?,
+      city: json['city'] == null
+          ? null
+          : CityModel.fromJson(json['city'] as Map<String, dynamic>),
+      phoneNumber: json['phoneNumber'] as String?,
+    );
+
+Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
+    <String, dynamic>{
+      'firstname': instance.firstname,
+      'lastname': instance.lastname,
+      'profilePicture': instance.profilePicture,
+      'city': instance.city?.toJson(),
+      'phoneNumber': instance.phoneNumber,
+    };
+
+UpdatePasswordRequest _$UpdatePasswordRequestFromJson(
+        Map<String, dynamic> json) =>
+    UpdatePasswordRequest(
+      oldPassword: json['oldPassword'] as String?,
+      newPassword: json['newPassword'] as String?,
+    );
+
+Map<String, dynamic> _$UpdatePasswordRequestToJson(
+        UpdatePasswordRequest instance) =>
+    <String, dynamic>{
+      'oldPassword': instance.oldPassword,
+      'newPassword': instance.newPassword,
     };
 
 UpdateEmailRequest _$UpdateEmailRequestFromJson(Map<String, dynamic> json) =>
@@ -140,43 +315,32 @@ Map<String, dynamic> _$UpdateEmailRequestToJson(UpdateEmailRequest instance) =>
       'password': instance.password,
     };
 
-UpdatePasswordRequest _$UpdatePasswordRequestFromJson(
+ConfirmationCodeModel _$ConfirmationCodeModelFromJson(
         Map<String, dynamic> json) =>
-    UpdatePasswordRequest(
-      newPassword: json['newPassword'] as String?,
-      oldPassword: json['oldPassword'] as String?,
+    ConfirmationCodeModel(
+      value: json['value'] as String?,
     );
 
-Map<String, dynamic> _$UpdatePasswordRequestToJson(
-        UpdatePasswordRequest instance) =>
+Map<String, dynamic> _$ConfirmationCodeModelToJson(
+        ConfirmationCodeModel instance) =>
     <String, dynamic>{
-      'newPassword': instance.newPassword,
-      'oldPassword': instance.oldPassword,
+      'value': instance.value,
     };
 
-UserCreationRequest _$UserCreationRequestFromJson(Map<String, dynamic> json) =>
-    UserCreationRequest(
-      birthDate: json['birthDate'] == null
-          ? null
-          : DateTime.parse(json['birthDate'] as String),
+ValidateCodePasswordRequest _$ValidateCodePasswordRequestFromJson(
+        Map<String, dynamic> json) =>
+    ValidateCodePasswordRequest(
+      value: json['value'] as String?,
+      newPassword: json['newPassword'] as String?,
       email: json['email'] as String?,
-      firstname: json['firstname'] as String?,
-      gender: json['gender'] as String?,
-      lastname: json['lastname'] as String?,
-      password: json['password'] as String?,
-      phoneNumber: json['phoneNumber'] as String?,
     );
 
-Map<String, dynamic> _$UserCreationRequestToJson(
-        UserCreationRequest instance) =>
+Map<String, dynamic> _$ValidateCodePasswordRequestToJson(
+        ValidateCodePasswordRequest instance) =>
     <String, dynamic>{
-      'birthDate': instance.birthDate?.toIso8601String(),
+      'value': instance.value,
+      'newPassword': instance.newPassword,
       'email': instance.email,
-      'firstname': instance.firstname,
-      'gender': instance.gender,
-      'lastname': instance.lastname,
-      'password': instance.password,
-      'phoneNumber': instance.phoneNumber,
     };
 
 UserIdResponse _$UserIdResponseFromJson(Map<String, dynamic> json) =>
@@ -190,75 +354,61 @@ Map<String, dynamic> _$UserIdResponseToJson(UserIdResponse instance) =>
     };
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
+      id: json['id'] as num?,
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
+      password: json['password'] as String?,
+      email: json['email'] as String?,
       birthDate: json['birthDate'] == null
           ? null
           : DateTime.parse(json['birthDate'] as String),
+      gender: userModelGenderFromJson(json['gender']),
+      profilePicture: json['profilePicture'] as String?,
       city: json['city'] == null
           ? null
           : CityModel.fromJson(json['city'] as Map<String, dynamic>),
-      confirmed: json['confirmed'] as bool?,
       createdDate: json['createdDate'] == null
           ? null
           : DateTime.parse(json['createdDate'] as String),
-      email: json['email'] as String?,
-      firstname: json['firstname'] as String?,
-      gender: userModelGenderFromJson(json['gender']),
-      id: json['id'] as num?,
-      lastname: json['lastname'] as String?,
-      password: json['password'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
-      profilePicture: json['profilePicture'] as String?,
+      confirmed: json['confirmed'] as bool?,
       roles: userModelRolesListFromJson(json['roles'] as List?),
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
-      'birthDate': instance.birthDate?.toIso8601String(),
-      'city': instance.city?.toJson(),
-      'confirmed': instance.confirmed,
-      'createdDate': instance.createdDate?.toIso8601String(),
-      'email': instance.email,
-      'firstname': instance.firstname,
-      'gender': userModelGenderToJson(instance.gender),
       'id': instance.id,
+      'firstname': instance.firstname,
       'lastname': instance.lastname,
       'password': instance.password,
-      'phoneNumber': instance.phoneNumber,
+      'email': instance.email,
+      'birthDate': instance.birthDate?.toIso8601String(),
+      'gender': userModelGenderToJson(instance.gender),
       'profilePicture': instance.profilePicture,
+      'city': instance.city?.toJson(),
+      'createdDate': instance.createdDate?.toIso8601String(),
+      'phoneNumber': instance.phoneNumber,
+      'confirmed': instance.confirmed,
       'roles': userModelRolesListToJson(instance.roles),
     };
 
-UserUpdateRequest _$UserUpdateRequestFromJson(Map<String, dynamic> json) =>
-    UserUpdateRequest(
-      city: json['city'] == null
-          ? null
-          : CityModel.fromJson(json['city'] as Map<String, dynamic>),
-      firstname: json['firstname'] as String?,
-      lastname: json['lastname'] as String?,
-      phoneNumber: json['phoneNumber'] as String?,
-      profilePicture: json['profilePicture'] as String?,
+DeleteUserRequest _$DeleteUserRequestFromJson(Map<String, dynamic> json) =>
+    DeleteUserRequest(
+      password: json['password'] as String?,
     );
 
-Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
+Map<String, dynamic> _$DeleteUserRequestToJson(DeleteUserRequest instance) =>
     <String, dynamic>{
-      'city': instance.city?.toJson(),
-      'firstname': instance.firstname,
-      'lastname': instance.lastname,
-      'phoneNumber': instance.phoneNumber,
-      'profilePicture': instance.profilePicture,
+      'password': instance.password,
     };
 
-ValidateCodePasswordRequest _$ValidateCodePasswordRequestFromJson(
+DeleteUserByAdminRequest _$DeleteUserByAdminRequestFromJson(
         Map<String, dynamic> json) =>
-    ValidateCodePasswordRequest(
-      email: json['email'] as String?,
-      newPassword: json['newPassword'] as String?,
-      value: json['value'] as String?,
+    DeleteUserByAdminRequest(
+      reason: json['reason'] as String?,
     );
 
-Map<String, dynamic> _$ValidateCodePasswordRequestToJson(
-        ValidateCodePasswordRequest instance) =>
+Map<String, dynamic> _$DeleteUserByAdminRequestToJson(
+        DeleteUserByAdminRequest instance) =>
     <String, dynamic>{
-      'email': instance.email,
-      'newPassword': instance.newPassword,
-      'value': instance.value,
+      'reason': instance.reason,
     };
