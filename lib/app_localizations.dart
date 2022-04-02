@@ -15,6 +15,8 @@ class AppLocalizations {
   static const LocalizationsDelegate<AppLocalizations> delegate =
       _AppLocalizationsDelegate();
 
+  static AppLocalizations get instance => _AppLocalizationsDelegate.instance!;
+
   final Locale locale;
   Map _localizedStrings = {};
   Map _fallbackLocalizedStrings = {};
@@ -85,6 +87,8 @@ class _AppLocalizationsDelegate
     extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
+  static AppLocalizations? instance;
+
   @override
   bool isSupported(Locale locale) {
     return true;
@@ -94,6 +98,8 @@ class _AppLocalizationsDelegate
   Future<AppLocalizations> load(Locale locale) async {
     AppLocalizations localizations = AppLocalizations(locale);
     await localizations.load();
+
+    instance = localizations;
 
     return localizations;
   }

@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
+import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
+import 'package:trip_n_joy_front/screens/auth/verification.screen.dart';
+import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
+import 'package:trip_n_joy_front/services/auth/auth.service.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
 
+import 'app_localizations.dart';
+import 'constants/auth/auth_step.enum.dart';
 import 'constants/navbar/navbar.enum.dart';
 import 'screens/groups/groups.screen.dart';
 import 'screens/matchmaking/matchmaking.screen.dart';
 import 'screens/notification/notification.screen.dart';
 import 'screens/settings/settings.screen.dart';
 
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'app_localizations.dart';
-
 void main() {
-  runApp(ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -38,8 +46,7 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
 
-        colorScheme:
-            ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(
           background: CColors.background,
           primary: CColors.primary,
           secondary: CColors.secondary,
@@ -55,7 +62,7 @@ class MyApp extends StatelessWidget {
       ),
       supportedLocales: const [
         Locale('fr', 'FR'),
-        Locale('en', 'US'),
+        Locale('en', 'en_US'),
       ],
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -88,36 +95,83 @@ class TripNJoy extends StatefulHookConsumerWidget {
 class _TripNJoyState extends ConsumerState<TripNJoy> {
   @override
   Widget build(BuildContext context) {
-    //final isLoggedIn = ref.watch(authProvider);
-    //if (!isLoggedIn.isAuthenticated) {
-    //  return Auth();
-    //}
+    final authService = ref.watch(authProvider);
+    final userService = ref.watch(userProvider.notifier);
+    useEffect(() {
+      authService.updateTokenFromStorage().then((value) {
+        if (value != null) {
+          ref.watch(userProvider.notifier).loadUser().then((value) {
+            if (value == null) authService.logout();
+          });
+        }
+      });
+      return () {};
+    }, []);
 
+    if (!authService.isAuthenticated) {
+      return Auth();
+    }
+
+    useEffect(() {
+      if (authService.isAuthenticated && mounted) {
+        userService.loadUser().then((value) {
+          if (value != null && mounted) {
+            if (value.confirmed == false) {
+              logger.d("user not confirmed");
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => AccountVerification(
+                    userId: value.id!.toInt(),
+                  ),
+                ),
+              );
+            }
+          } else {
+            logger.d("user not found");
+            authService.logout();
+          }
+        });
+      }
+      return null;
+    }, [authService]);
+
+    final user = ref.watch(userProvider);
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      extendBody: true,
-      body: Center(
-        child: getPageWidget(selectedPage),
-      ),
-      bottomNavigationBar: Navbar(),
-    );
+    return user.when(
+        data: (data) => Scaffold(
+              appBar: AppBar(
+                title: Text(widget.title),
+              ),
+              extendBody: true,
+              body: Center(
+                child: getPageWidget(selectedPage),
+              ),
+              bottomNavigationBar: Navbar(),
+              resizeToAvoidBottomInset: false,
+            ),
+        error: (error, r) {
+          logger.e(error, r);
+          return const ErrorScreen();
+        },
+        loading: () => Scaffold(
+            body: Center(
+                child: Container(
+                    color: Theme.of(context).colorScheme.background, child: const CircularProgressIndicator()))));
   }
 
   getPageWidget(NavbarPage selectedPage) {
     switch (selectedPage) {
       case NavbarPage.MATCHMAKING:
-        return MatchmakingPage();
+        return const MatchmakingPage();
       case NavbarPage.GROUPS:
-        return GroupsPage();
+        return const GroupsPage();
       case NavbarPage.NOTIFICATIONS:
-        return NotificationPage();
+        return const NotificationPage();
       case NavbarPage.SETTINGS:
-        return SettingsPage();
+        return const SettingsPage();
       default:
-        return MatchmakingPage();
+        return const MatchmakingPage();
     }
   }
 }

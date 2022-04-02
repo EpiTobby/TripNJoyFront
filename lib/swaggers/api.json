@@ -1,0 +1,1138 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/{id}/profiles": {
+      "get": {
+        "tags": [
+          "profile-controller"
+        ],
+        "operationId": "getUserProfiles",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProfileModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "profile-controller"
+        ],
+        "operationId": "createProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileCreationModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/{id}/resend": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Will send a new confirmation code to the user",
+        "operationId": "resendConfirmationCode",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A new confirmation code has been sent"
+          },
+          "401": {
+            "description": "The user is already confirmed"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Create a new account. Will send a confirmation mail to the given address",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User is created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "If the email is already in use by another user",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Log a user, to allow authenticated endpoints",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Authentication failed. Wrong username or password",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/google": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Log a user, to allow authenticated endpoints",
+        "operationId": "signInUpGoogle",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoogleRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Authentication failed. Wrong username or password",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/forgot/password": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Used to receive a confirmation to update a password",
+        "operationId": "forgotPassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "description": "If the user does not exist"
+          },
+          "200": {
+            "description": "Email is sent to reset password"
+          }
+        }
+      }
+    },
+    "/users/{id}/update": {
+      "patch": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "Used to update the user information",
+        "operationId": "updateUserInfo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "description": "If the user does not exist"
+          },
+          "200": {
+            "description": "User information have been updated"
+          }
+        }
+      }
+    },
+    "/auth/{id}/password": {
+      "patch": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Used to update the password",
+        "operationId": "updatePassword",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "If the password has been updated"
+          },
+          "403": {
+            "description": "If the old password is not valid"
+          }
+        }
+      }
+    },
+    "/auth/{id}/email": {
+      "patch": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Used to ask update the user email. Returns a new jwt",
+        "operationId": "updateEmail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEmailRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "If the email has been updated",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "If the given password is not valid",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "If the new email does not exist or is already in use",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/{id}/confirmation": {
+      "patch": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Confirm a user's email",
+        "operationId": "confirmUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmationCodeModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User is now confirmed"
+          },
+          "403": {
+            "description": "Invalid or expired confirmation code"
+          }
+        }
+      }
+    },
+    "/auth/validation/password": {
+      "patch": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Used to update the password with a confirmation code",
+        "operationId": "validateCodePassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateCodePasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The password has been updated",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserIdResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Invalid or expired confirmation code",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserIdResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{id}/profiles/active": {
+      "get": {
+        "tags": [
+          "profile-controller"
+        ],
+        "operationId": "getActiveProfiles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProfileModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "getAll",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "deleteUserAccount",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/me": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "getCurrentUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{id}/profiles/{profile}": {
+      "delete": {
+        "tags": [
+          "profile-controller"
+        ],
+        "operationId": "deleteProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "profile",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/{id}/admin": {
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "deleteUserByAdmin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteUserByAdminRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AvailabilityAnswerModel": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ProfileCreationModel": {
+        "type": "object",
+        "properties": {
+          "availability": {
+            "$ref": "#/components/schemas/AvailabilityAnswerModel"
+          },
+          "duration": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "budget": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "destinationTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CITY",
+                "COUNTRYSIDE",
+                "BEACH",
+                "MOUNTAIN"
+              ]
+            }
+          },
+          "ages": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "travelWithPersonFromSameCity": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "travelWithPersonFromSameCountry": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "travelWithPersonSameLanguage": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE"
+            ]
+          },
+          "groupeSize": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "chillOrVisit": {
+            "type": "string",
+            "enum": [
+              "CHILL",
+              "ANSWER"
+            ]
+          },
+          "aboutFood": {
+            "type": "string",
+            "enum": [
+              "COOKING",
+              "RESTAURANT"
+            ]
+          },
+          "goOutAtNight": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "sport": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          }
+        }
+      },
+      "RangeAnswerModel": {
+        "type": "object",
+        "properties": {
+          "minValue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxValue": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ProfileModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "availability": {
+            "$ref": "#/components/schemas/AvailabilityAnswerModel"
+          },
+          "duration": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "budget": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "destinationTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CITY",
+                "COUNTRYSIDE",
+                "BEACH",
+                "MOUNTAIN"
+              ]
+            }
+          },
+          "ages": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "travelWithPersonFromSameCity": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "travelWithPersonFromSameCountry": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "travelWithPersonSameLanguage": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE"
+            ]
+          },
+          "groupeSize": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "chillOrVisit": {
+            "type": "string",
+            "enum": [
+              "CHILL",
+              "ANSWER"
+            ]
+          },
+          "aboutFood": {
+            "type": "string",
+            "enum": [
+              "COOKING",
+              "RESTAURANT"
+            ]
+          },
+          "goOutAtNight": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "sport": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO"
+            ]
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UserCreationRequest": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthTokenResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string",
+            "description": "Aka email"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "GoogleRequest": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "accessToken": {
+            "type": "string"
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "ForgotPasswordRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "CityModel": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "UserUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "city": {
+            "$ref": "#/components/schemas/CityModel"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdatePasswordRequest": {
+        "type": "object",
+        "properties": {
+          "oldPassword": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateEmailRequest": {
+        "type": "object",
+        "properties": {
+          "newEmail": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "ConfirmationCodeModel": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "ValidateCodePasswordRequest": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "UserIdResponse": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "UserModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "NOT_SPECIFIED"
+            ]
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "city": {
+            "$ref": "#/components/schemas/CityModel"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "DEFAULT",
+                "ADMIN"
+              ]
+            }
+          }
+        }
+      },
+      "DeleteUserRequest": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteUserByAdminRequest": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

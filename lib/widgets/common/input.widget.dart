@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class InputField extends StatelessWidget {
+class InputField extends StatefulHookWidget {
   const InputField(
       {Key? key,
       required this.label,
       required this.onChanged,
       this.hint = "",
       this.keyboardType = TextInputType.text,
+      this.textCapitalization = TextCapitalization.sentences,
       this.icon,
       this.isPassword = false,
       this.isError = false})
@@ -17,11 +19,18 @@ class InputField extends StatelessWidget {
   final String hint;
   final Icon? icon;
   final TextInputType keyboardType;
+  final TextCapitalization textCapitalization;
   final bool isPassword;
   final bool isError;
 
   @override
+  State<InputField> createState() => _InputFieldState();
+}
+
+class _InputFieldState extends State<InputField> {
+  @override
   Widget build(BuildContext context) {
+    final isVisible = useState(false);
     return Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -32,45 +41,56 @@ class InputField extends StatelessWidget {
             Padding(
                 padding: const EdgeInsets.only(bottom: 5, left: 10),
                 child: Text(
-                  label,
+                  widget.label,
                   style: TextStyle(
-                    color: isError
-                        ? Theme.of(context).colorScheme.error
-                        : Theme.of(context).colorScheme.primary,
+                    color: widget.isError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 )),
             TextField(
-              onChanged: (value) => onChanged(value),
-              obscureText: isPassword,
+              onChanged: (value) => widget.onChanged(value),
+              obscureText: widget.isPassword && !isVisible.value,
+              keyboardType: widget.keyboardType,
+              textCapitalization: widget.isPassword ? TextCapitalization.none : widget.textCapitalization,
               decoration: InputDecoration(
-                prefixIcon: icon,
-                prefixIconColor: isError
-                    ? Theme.of(context).colorScheme.error
-                    : Theme.of(context).colorScheme.secondary,
-                labelText: hint,
+                contentPadding: const EdgeInsets.all(15),
+                prefixIcon: widget.icon,
+                prefixIconColor:
+                    widget.isError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.secondary,
+                suffixIcon: widget.isPassword
+                    ? IconButton(
+                        splashRadius: 15,
+                        icon: Icon(
+                          isVisible.value ? Icons.visibility : Icons.visibility_off,
+                          color: widget.isError
+                              ? Theme.of(context).colorScheme.error
+                              : Theme.of(context).colorScheme.primaryContainer,
+                        ),
+                        onPressed: () {
+                          isVisible.value = !isVisible.value;
+                        },
+                      )
+                    : null,
+                labelText: widget.hint,
                 enabledBorder: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                   borderSide: BorderSide(
                     width: 2,
-                    color: isError
-                        ? Theme.of(context).colorScheme.error
-                        : Theme.of(context).colorScheme.primary,
+                    color: widget.isError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                   borderSide: BorderSide(
                       width: 2,
-                      color: isError
+                      color: widget.isError
                           ? Theme.of(context).colorScheme.error
                           : Theme.of(context).colorScheme.secondary),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                  borderSide: BorderSide(
-                      width: 2, color: Theme.of(context).colorScheme.tertiary),
+                  borderSide: BorderSide(width: 2, color: Theme.of(context).colorScheme.tertiary),
                 ),
               ),
             )

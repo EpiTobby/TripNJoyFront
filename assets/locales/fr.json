@@ -2,6 +2,7 @@
   "common": {
     "login": "Se connecter",
     "logout": "Se déconnecter",
+    "reconnect": "Se reconnecter",
     "description": "Description",
     "account": "Compte",
     "gender": "Genre",
@@ -11,7 +12,7 @@
     "submit": "Valider",
     "tryAgain": "Réessayer"
   },
-  "user" : {
+  "user": {
     "firstname": "Prénom",
     "lastname": "Nom",
     "email": "Email",
@@ -30,7 +31,34 @@
     "email": "Votre adresse email",
     "password": "Votre mot de passe",
     "phoneNumber": "Votre numéro de téléphone",
-    "createAccount": "Créer son compte"
+    "createAccount": "Créer son compte",
+    "forgotPassword": "Mot de passe oublié ?",
+    "verification": {
+      "title": "Vérification du compte",
+      "description": "Veuillez entrer le code envoyé à votre adresse e-mail pour activer votre compte.",
+      "code": "Code",
+      "label": "Entrer le code",
+      "submit": "Vérifier",
+      "sendBack": "Renvoyer un code",
+      "resendCountdown": "Vous pouvez renvoyer le code dans $time secondes."
+    },
+    "forgot_password": {
+      "title": "Mot de passe oublié ?",
+      "description": "Veuillez entrer votre adresse e-mail pour recevoir un code de réinitialisation.",
+      "email": "Email",
+      "label": "Entrer votre email",
+      "submit": "Envoyer le code"
+    },
+    "reset_password": {
+      "title": "Réinitialiser le mot de passe",
+      "description": "Veuillez entrer le code envoyé par mail ainsi que votre nouveau mot de passe.",
+      "password": "Mot de passe",
+      "password_label": "Entrer votre mot de passe",
+      "code": "Code",
+      "code_label": "Entrer le code",
+      "submit": "Réinitialiser"
+    },
+    "google": "Se connecter avec Google"
   },
   "groups": {
     "title": "Groupes",
@@ -50,12 +78,30 @@
     "firstname": "Changer de prénom",
     "lastname": "Changer de nom",
     "noPhoneNumber": "Aucun numéro",
+    "phoneNumber": "Changer de numéro",
+    "email": "Changer d'email",
+    "newEmail": "Nouveau email",
     "theme": "Thème",
     "darkMode": "Mode sombre",
     "lightMode": "Mode clair",
-    "deleteAccount": "Supprimer mon compte"
+    "deleteAccount": "Supprimer mon compte",
+    "password": "Changer de mot de passe",
+    "oldPassword": "Ancien mot de passe",
+    "newPassword": "Nouveau mot de passe",
+    "confirmDeleteAccount": "Confirmer le mot de passe pour supprimer votre compte"
   },
   "errors": {
-    "login": "Identifiants incorrects"
+    "login": "Identifiants incorrects",
+    "unexpected": "Une erreur est survenue, veuillez vous reconnectez.",
+    "exceptions": {
+      "unauthorized": "Non autorisé",
+      "serverError": "Erreur de serveur",
+      "unexpected": "Une erreur est survenue",
+      "responseFormat": "Mauvais format de réponse"
+    },
+    "internet": "Pas de connexion internet",
+    "wrongCodeConfirmation": "Code incorrect",
+    "firebase": "Erreur d'initialisation de Firebase",
+    "wrongPassword": "Mot de passe incorrect"
   }
 }
