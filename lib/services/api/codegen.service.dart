@@ -50,14 +50,14 @@ class CodegenService extends HttpService {
 
   @override
   Future<LoginResponse?> login(String email, String password) async {
-    final response = await api.authLoginPost(loginRequest: LoginRequest(password: password, username: email));
+    final response = await api.authLoginPost(body: LoginRequest(password: password, username: email));
     return response.body;
   }
 
   @override
   Future<AuthTokenResponse?> signup(SignupCredentials data) async {
     final response = await api.authRegisterPost(
-        model: UserCreationRequest(
+        body: UserCreationRequest(
       gender: data.gender,
       email: data.email,
       password: data.password,
@@ -71,14 +71,14 @@ class CodegenService extends HttpService {
 
   @override
   Future<bool> deleteUser(int id, DeleteUserRequest deleteUserRequest) async {
-    final response = await api.usersIdDelete(deleteUserRequest: deleteUserRequest, id: id);
+    final response = await api.usersIdDelete(body: deleteUserRequest, id: id);
 
     return response.isSuccessful;
   }
 
   @override
   Future<bool> verifyAccount(int id, String code) async {
-    final response = await api.authIdConfirmationPatch(confirmationCode: ConfirmationCodeModel(value: code), id: id);
+    final response = await api.authIdConfirmationPatch(body: ConfirmationCodeModel(value: code), id: id);
     return response.isSuccessful;
   }
 
@@ -99,13 +99,13 @@ class CodegenService extends HttpService {
 
   @override
   Future<void> forgotPassword(String email) async {
-    await api.authForgotPasswordPost(forgotPasswordRequest: ForgotPasswordRequest(email: email));
+    await api.authForgotPasswordPost(body: ForgotPasswordRequest(email: email));
   }
 
   @override
   Future<UserIdResponse?> resetPassword(String email, String code, String password) async {
-    final response = await api.authValidationPasswordPost(
-        validateCodePasswordRequest: ValidateCodePasswordRequest(email: email, newPassword: password, value: code));
+    final response = await api.authValidationPasswordPatch(
+        body: ValidateCodePasswordRequest(email: email, newPassword: password, value: code));
     return response.body;
   }
 
@@ -116,17 +116,22 @@ class CodegenService extends HttpService {
 
   @override
   Future<void> updateUser(int id, UserUpdateRequest updateRequest) async {
-    await api.usersIdUpdatePatch(id: id, userUpdateRequest: updateRequest);
+    await api.usersIdUpdatePatch(id: id, body: updateRequest);
   }
 
   @override
   Future<LoginResponse?> updateEmail(int id, UpdateEmailRequest updateEmailRequest) async {
-    final response = await api.authIdEmailPatch(id: id, updateEmailRequest: updateEmailRequest);
+    final response = await api.authIdEmailPatch(id: id, body: updateEmailRequest);
     return response.body;
   }
 
   @override
   Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest) async {
-    await api.authIdPasswordPatch(id: id, updatePasswordRequest: updatePasswordRequest);
+    await api.authIdPasswordPatch(id: id, body: updatePasswordRequest);
+  }
+
+  @override
+  Future<void> sendProfile(int id, ProfileCreationRequest profile) async {
+    await api.idProfilesPost(id: id, body: profile);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
@@ -14,8 +15,7 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
   }
 
   final HttpService httpService;
-
-  // TODO: create a profile state, which will contains the profile data and be sent to then backend
+  final List<ProfileModel> profiles = [];
 
   // we use a list instead of a stack, because we need to handle user mistakes and go back to the previous card
   void _init() {
@@ -83,5 +83,10 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
                 }),
           )),
     ];
+  }
+
+  void sendProfile(String token) async {
+    int? id = httpService.getUserIdFromToken(token);
+    await httpService.sendProfile(id!, ProfileCreationRequest.fromJsonFactory({}));
   }
 }
