@@ -8,6 +8,7 @@ import 'package:trip_n_joy_front/widgets/matchmaking/cards/multiple_choice_card.
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/swipe_card.widget.dart';
 
+import '../../widgets/matchmaking/cards/name_profile_card.widget.dart';
 import '../api/http.service.dart';
 import '../log/logger.service.dart';
 
@@ -30,6 +31,7 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
   void startProfileCreation() {
     // TODO: add all question cards
     state = [
+      NameProfileCard(),
       MultipleChoiceCard(
           name: "activities",
           title: "What are your interests?",
@@ -98,6 +100,13 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
   void nextCard() {
     final newState = state.sublist(0, state.length - 1);
     state = newState;
+  }
+
+  void submitCard(String name, String value) {
+    // TODO: populate profile object
+    logger.i("submitCard: $name, value: $value");
+    // profile[name] = value;
+    nextCard();
   }
 
   void submitMultipleChoiceCard(String name, List<String> values) {

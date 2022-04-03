@@ -20,20 +20,25 @@ class NameProfileCard extends HookConsumerWidget {
     final matchmakingService = ref.watch(matchmakingProvider.notifier);
     return StandardCard(
       name: "NameProfileCard",
-      title: AppLocalizations.of(context).translate("card.name_profile.title"),
-      subtitle: AppLocalizations.of(context).translate("card.name_profile.title"),
+      title: AppLocalizations.of(context).translate("cards.name_profile.title"),
+      subtitle: AppLocalizations.of(context).translate("cards.name_profile.title"),
       shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       child: Column(
         children: [
           Expanded(
-            child: InputField(
-              label: AppLocalizations.of(context).translate("card.name_profile.label"),
-              onChanged: (value) => profileName.value = value,
-              hint: AppLocalizations.of(context).translate("card.name_profile.hint"),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Center(
+                child: InputField(
+                  label: AppLocalizations.of(context).translate("cards.name_profile.label"),
+                  onChanged: (value) => profileName.value = value,
+                ),
+              ),
             ),
           ),
           PrimaryButton(
             text: AppLocalizations.of(context).translate('common.validate'),
+            isDisabled: profileName.value.isEmpty,
             onPressed: () {
               matchmakingService.submitCard(name, profileName.value);
             },

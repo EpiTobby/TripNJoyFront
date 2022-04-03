@@ -37,7 +37,7 @@ class SwipeService extends ChangeNotifier {
     notifyListeners();
   }
 
-  void endPosition(DragEndDetails details) {
+  void endPosition(DragEndDetails details, String name, List<String> values) {
     _isDragging = false;
     notifyListeners();
 
@@ -45,13 +45,13 @@ class SwipeService extends ChangeNotifier {
 
     switch (status) {
       case CardStatus.LEFT:
-        swipeLeft();
+        swipeLeft(name, values[0]);
         break;
       case CardStatus.RIGHT:
-        swipeRight();
+        swipeRight(name, values[1]);
         break;
       case CardStatus.DOWN:
-        swipeDown();
+        swipeDown(name, values[2]);
         break;
       default:
         resetPosition();
@@ -81,35 +81,36 @@ class SwipeService extends ChangeNotifier {
     }
   }
 
-  void swipeLeft() {
+  void swipeLeft(String name, String value) {
     _angle = -30;
     _position -= Offset(2 * _screenSize.width, 0);
     notifyListeners();
-    nextCard();
+    nextCard(name, value);
     logger.i('Swipe Left');
     notifyListeners();
   }
 
-  void swipeRight() {
+  void swipeRight(String name, String value) {
     _angle = 30;
     _position += Offset(2 * _screenSize.width, 0);
     notifyListeners();
-    nextCard();
+    nextCard(name, value);
     logger.i('Swipe Right');
     notifyListeners();
   }
 
-  void swipeDown() {
+  void swipeDown(String name, String value) {
     _angle = 0;
     _position += Offset(0, 2 * _screenSize.height);
     notifyListeners();
-    nextCard();
+    nextCard(name, value);
     logger.i('Swipe Down');
     notifyListeners();
   }
 
-  void nextCard() async {
+  void nextCard(String name, String value) async {
     Future.delayed(const Duration(milliseconds: 200), () {
+      matchmakingService.submitCard(name, value);
       matchmakingService.nextCard();
       resetPosition();
     });
