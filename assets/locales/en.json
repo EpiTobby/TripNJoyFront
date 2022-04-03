@@ -61,6 +61,14 @@
       "submit": "Reset password"
     }
   },
+  "cards": {
+    "name_profile": {
+      "title": "Profile generated!",
+      "subtitle": "Give a name to your profile before the matchmaking process.",
+      "label": "Name of the profile",
+      "hint": "Ex: Summer profile"
+    }
+  },
   "groups": {
     "title": "Groups",
     "members": "Members",

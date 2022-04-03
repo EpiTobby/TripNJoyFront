@@ -61,6 +61,14 @@
       "submit": "Réinitialiser"
     }
   },
+  "cards": {
+    "name_profile": {
+      "title": "Profil généré !",
+      "subtitle": "Donnez un nom au profil avant de lancer le matchmaking.",
+      "label": "Nom du profil",
+      "hint": "Ex: Profil été"
+    }
+  },
   "groups": {
     "title": "Groupes",
     "members": "Membres",
