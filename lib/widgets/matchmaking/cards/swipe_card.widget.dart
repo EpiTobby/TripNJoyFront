@@ -13,7 +13,7 @@ import '../../../constants/matchmaking/swipe.icons.dart';
 class SwipeCard extends ConsumerWidget {
   const SwipeCard(
       {Key? key,
-      this.name,
+      required this.name,
       this.title,
       this.subtitle,
       required this.color,
@@ -23,7 +23,7 @@ class SwipeCard extends ConsumerWidget {
       required this.values})
       : super(key: key);
 
-  final String? name;
+  final String name;
   final String? title;
   final String? subtitle;
   final Color color;
@@ -67,9 +67,9 @@ class SwipeCard extends ConsumerWidget {
           provider.updatePosition(details);
         }, onPanEnd: (details) {
           final provider = ref.watch(swipeProvider);
-          provider.endPosition(details);
+          provider.endPosition(details, name, values);
         }),
-        SwipeButtons(),
+        SwipeButtons(name: name, values: values),
       ],
     );
   }
@@ -163,7 +163,12 @@ class SwipeCard extends ConsumerWidget {
 class SwipeButtons extends ConsumerWidget {
   const SwipeButtons({
     Key? key,
+    required this.name,
+    required this.values,
   }) : super(key: key);
+
+  final String name;
+  final List<String> values;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -171,9 +176,18 @@ class SwipeButtons extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        SwipeButton(icon: Icons.arrow_circle_left_outlined, onPressed: () => provider.swipeLeft()),
-        SwipeButton(icon: Icons.arrow_circle_down_outlined, onPressed: () => provider.swipeDown()),
-        SwipeButton(icon: Icons.arrow_circle_right_outlined, onPressed: () => provider.swipeRight()),
+        SwipeButton(
+            icon: Icons.arrow_circle_left_outlined,
+            color: Theme.of(context).colorScheme.secondary,
+            onPressed: () => provider.swipeLeft(name, values[0])),
+        SwipeButton(
+            icon: Icons.arrow_circle_down_outlined,
+            color: Theme.of(context).colorScheme.primaryContainer,
+            onPressed: () => provider.swipeDown(name, values[1])),
+        SwipeButton(
+            icon: Icons.arrow_circle_right_outlined,
+            color: Theme.of(context).colorScheme.tertiary,
+            onPressed: () => provider.swipeRight(name, values[2])),
       ],
     );
   }
@@ -183,9 +197,11 @@ class SwipeButton extends StatelessWidget {
   const SwipeButton({
     Key? key,
     required this.icon,
+    required this.color,
     required this.onPressed,
   }) : super(key: key);
   final IconData? icon;
+  final Color color;
   final void Function()? onPressed;
 
   @override
@@ -201,8 +217,7 @@ class SwipeButton extends StatelessWidget {
           ),
         ],
       ),
-      child: IconButton(
-          iconSize: 40, icon: Icon(icon, color: Theme.of(context).colorScheme.primary), onPressed: onPressed),
+      child: IconButton(iconSize: 40, icon: Icon(icon, color: color), onPressed: onPressed),
     );
   }
 }
