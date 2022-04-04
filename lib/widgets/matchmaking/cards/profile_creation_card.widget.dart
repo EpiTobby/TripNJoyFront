@@ -6,8 +6,8 @@ import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart
 import '../../common/button.widget.dart';
 import '../../common/card.widget.dart';
 
-class ProfileCreation extends ConsumerWidget {
-  const ProfileCreation({
+class ProfileCreationCard extends ConsumerWidget {
+  const ProfileCreationCard({
     Key? key,
   }) : super(key: key);
 
