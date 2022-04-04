@@ -37,7 +37,21 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
           title: "What are your interests?",
           subtitle: "Select all that apply",
           color: CColors.primary,
+          backgroundColor: CardColors.pink,
+          values: ["sport", "culture", "food", "nature", "shopping", "sightseeing", "other"]),
+      MultipleChoiceCard(
+          name: "activities",
+          title: "What are your interests?",
+          subtitle: "Select all that apply",
+          color: CColors.primary,
           backgroundColor: CardColors.darkBlue,
+          values: ["sport", "culture", "food", "nature", "shopping", "sightseeing", "other"]),
+      MultipleChoiceCard(
+          name: "activities",
+          title: "What are your interests?",
+          subtitle: "Select all that apply",
+          color: CColors.primary,
+          backgroundColor: CardColors.green,
           values: ["sport", "culture", "food", "nature", "shopping", "sightseeing", "other"]),
       StandardCard(
           title: "card 1",
