@@ -295,6 +295,7 @@ class AuthService extends ChangeNotifier {
     forgotPasswordState = const AsyncValue.data(null);
     resetPasswordState = const AsyncValue.data(null);
     updatePasswordState = const AsyncValue.data(null);
+    googleSignInUpState = const AsyncValue.data(null);
     goToLogin();
   }
 }

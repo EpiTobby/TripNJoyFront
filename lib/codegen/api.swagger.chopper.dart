@@ -25,7 +25,7 @@ class _$Api extends Api {
 
   @override
   Future<Response<ProfileModel>> _idProfilesPost(
-      {required num? id, required ProfileCreationModel? body}) {
+      {required num? id, required ProfileCreationRequest? body}) {
     final $url = '/${id}/profiles';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -72,6 +72,28 @@ class _$Api extends Api {
     final $url = '/auth/forgot/password';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _idProfilesProfileUpdatePatch(
+      {required num? id,
+      required num? profile,
+      required ProfileUpdateRequest? body}) {
+    final $url = '/${id}/profiles/${profile}/update';
+    final $body = body;
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _idProfilesProfileReusePatch(
+      {required num? id,
+      required num? profile,
+      required AvailabilityAnswerModel? body}) {
+    final $url = '/${id}/profiles/${profile}/reuse';
+    final $body = body;
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
   }
 

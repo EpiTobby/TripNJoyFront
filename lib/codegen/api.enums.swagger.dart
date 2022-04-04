@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-enum ProfileCreationModelDestinationTypes {
+enum ProfileCreationRequestDestinationTypes {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
   @JsonValue('CITY')
@@ -13,123 +13,150 @@ enum ProfileCreationModelDestinationTypes {
   mountain
 }
 
-const $ProfileCreationModelDestinationTypesMap = {
-  ProfileCreationModelDestinationTypes.city: 'CITY',
-  ProfileCreationModelDestinationTypes.countryside: 'COUNTRYSIDE',
-  ProfileCreationModelDestinationTypes.beach: 'BEACH',
-  ProfileCreationModelDestinationTypes.mountain: 'MOUNTAIN'
+const $ProfileCreationRequestDestinationTypesMap = {
+  ProfileCreationRequestDestinationTypes.city: 'CITY',
+  ProfileCreationRequestDestinationTypes.countryside: 'COUNTRYSIDE',
+  ProfileCreationRequestDestinationTypes.beach: 'BEACH',
+  ProfileCreationRequestDestinationTypes.mountain: 'MOUNTAIN'
 };
 
-enum ProfileCreationModelTravelWithPersonFromSameCity {
+enum ProfileCreationRequestTravelWithPersonFromSameCity {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
   @JsonValue('YES')
   yes,
   @JsonValue('NO')
-  no
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
-const $ProfileCreationModelTravelWithPersonFromSameCityMap = {
-  ProfileCreationModelTravelWithPersonFromSameCity.yes: 'YES',
-  ProfileCreationModelTravelWithPersonFromSameCity.no: 'NO'
+const $ProfileCreationRequestTravelWithPersonFromSameCityMap = {
+  ProfileCreationRequestTravelWithPersonFromSameCity.yes: 'YES',
+  ProfileCreationRequestTravelWithPersonFromSameCity.no: 'NO',
+  ProfileCreationRequestTravelWithPersonFromSameCity.noPreference:
+      'NO_PREFERENCE'
 };
 
-enum ProfileCreationModelTravelWithPersonFromSameCountry {
+enum ProfileCreationRequestTravelWithPersonFromSameCountry {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
   @JsonValue('YES')
   yes,
   @JsonValue('NO')
-  no
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
-const $ProfileCreationModelTravelWithPersonFromSameCountryMap = {
-  ProfileCreationModelTravelWithPersonFromSameCountry.yes: 'YES',
-  ProfileCreationModelTravelWithPersonFromSameCountry.no: 'NO'
+const $ProfileCreationRequestTravelWithPersonFromSameCountryMap = {
+  ProfileCreationRequestTravelWithPersonFromSameCountry.yes: 'YES',
+  ProfileCreationRequestTravelWithPersonFromSameCountry.no: 'NO',
+  ProfileCreationRequestTravelWithPersonFromSameCountry.noPreference:
+      'NO_PREFERENCE'
 };
 
-enum ProfileCreationModelTravelWithPersonSameLanguage {
+enum ProfileCreationRequestTravelWithPersonSameLanguage {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
   @JsonValue('YES')
   yes,
   @JsonValue('NO')
-  no
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
-const $ProfileCreationModelTravelWithPersonSameLanguageMap = {
-  ProfileCreationModelTravelWithPersonSameLanguage.yes: 'YES',
-  ProfileCreationModelTravelWithPersonSameLanguage.no: 'NO'
+const $ProfileCreationRequestTravelWithPersonSameLanguageMap = {
+  ProfileCreationRequestTravelWithPersonSameLanguage.yes: 'YES',
+  ProfileCreationRequestTravelWithPersonSameLanguage.no: 'NO',
+  ProfileCreationRequestTravelWithPersonSameLanguage.noPreference:
+      'NO_PREFERENCE'
 };
 
-enum ProfileCreationModelGender {
+enum ProfileCreationRequestGender {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
   @JsonValue('MALE')
   male,
   @JsonValue('FEMALE')
-  female
+  female,
+  @JsonValue('MIXED')
+  mixed
 }
 
-const $ProfileCreationModelGenderMap = {
-  ProfileCreationModelGender.male: 'MALE',
-  ProfileCreationModelGender.female: 'FEMALE'
+const $ProfileCreationRequestGenderMap = {
+  ProfileCreationRequestGender.male: 'MALE',
+  ProfileCreationRequestGender.female: 'FEMALE',
+  ProfileCreationRequestGender.mixed: 'MIXED'
 };
 
-enum ProfileCreationModelChillOrVisit {
+enum ProfileCreationRequestChillOrVisit {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
   @JsonValue('CHILL')
   chill,
-  @JsonValue('ANSWER')
-  answer
+  @JsonValue('VISIT')
+  visit,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
-const $ProfileCreationModelChillOrVisitMap = {
-  ProfileCreationModelChillOrVisit.chill: 'CHILL',
-  ProfileCreationModelChillOrVisit.answer: 'ANSWER'
+const $ProfileCreationRequestChillOrVisitMap = {
+  ProfileCreationRequestChillOrVisit.chill: 'CHILL',
+  ProfileCreationRequestChillOrVisit.visit: 'VISIT',
+  ProfileCreationRequestChillOrVisit.noPreference: 'NO_PREFERENCE'
 };
 
-enum ProfileCreationModelAboutFood {
+enum ProfileCreationRequestAboutFood {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
   @JsonValue('COOKING')
   cooking,
   @JsonValue('RESTAURANT')
-  restaurant
+  restaurant,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
-const $ProfileCreationModelAboutFoodMap = {
-  ProfileCreationModelAboutFood.cooking: 'COOKING',
-  ProfileCreationModelAboutFood.restaurant: 'RESTAURANT'
+const $ProfileCreationRequestAboutFoodMap = {
+  ProfileCreationRequestAboutFood.cooking: 'COOKING',
+  ProfileCreationRequestAboutFood.restaurant: 'RESTAURANT',
+  ProfileCreationRequestAboutFood.noPreference: 'NO_PREFERENCE'
 };
 
-enum ProfileCreationModelGoOutAtNight {
+enum ProfileCreationRequestGoOutAtNight {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
   @JsonValue('YES')
   yes,
   @JsonValue('NO')
-  no
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
-const $ProfileCreationModelGoOutAtNightMap = {
-  ProfileCreationModelGoOutAtNight.yes: 'YES',
-  ProfileCreationModelGoOutAtNight.no: 'NO'
+const $ProfileCreationRequestGoOutAtNightMap = {
+  ProfileCreationRequestGoOutAtNight.yes: 'YES',
+  ProfileCreationRequestGoOutAtNight.no: 'NO',
+  ProfileCreationRequestGoOutAtNight.noPreference: 'NO_PREFERENCE'
 };
 
-enum ProfileCreationModelSport {
+enum ProfileCreationRequestSport {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
   @JsonValue('YES')
   yes,
   @JsonValue('NO')
-  no
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
-const $ProfileCreationModelSportMap = {
-  ProfileCreationModelSport.yes: 'YES',
-  ProfileCreationModelSport.no: 'NO'
+const $ProfileCreationRequestSportMap = {
+  ProfileCreationRequestSport.yes: 'YES',
+  ProfileCreationRequestSport.no: 'NO',
+  ProfileCreationRequestSport.noPreference: 'NO_PREFERENCE'
 };
 
 enum ProfileModelDestinationTypes {
@@ -158,12 +185,15 @@ enum ProfileModelTravelWithPersonFromSameCity {
   @JsonValue('YES')
   yes,
   @JsonValue('NO')
-  no
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
 const $ProfileModelTravelWithPersonFromSameCityMap = {
   ProfileModelTravelWithPersonFromSameCity.yes: 'YES',
-  ProfileModelTravelWithPersonFromSameCity.no: 'NO'
+  ProfileModelTravelWithPersonFromSameCity.no: 'NO',
+  ProfileModelTravelWithPersonFromSameCity.noPreference: 'NO_PREFERENCE'
 };
 
 enum ProfileModelTravelWithPersonFromSameCountry {
@@ -172,12 +202,15 @@ enum ProfileModelTravelWithPersonFromSameCountry {
   @JsonValue('YES')
   yes,
   @JsonValue('NO')
-  no
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
 const $ProfileModelTravelWithPersonFromSameCountryMap = {
   ProfileModelTravelWithPersonFromSameCountry.yes: 'YES',
-  ProfileModelTravelWithPersonFromSameCountry.no: 'NO'
+  ProfileModelTravelWithPersonFromSameCountry.no: 'NO',
+  ProfileModelTravelWithPersonFromSameCountry.noPreference: 'NO_PREFERENCE'
 };
 
 enum ProfileModelTravelWithPersonSameLanguage {
@@ -186,12 +219,15 @@ enum ProfileModelTravelWithPersonSameLanguage {
   @JsonValue('YES')
   yes,
   @JsonValue('NO')
-  no
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
 const $ProfileModelTravelWithPersonSameLanguageMap = {
   ProfileModelTravelWithPersonSameLanguage.yes: 'YES',
-  ProfileModelTravelWithPersonSameLanguage.no: 'NO'
+  ProfileModelTravelWithPersonSameLanguage.no: 'NO',
+  ProfileModelTravelWithPersonSameLanguage.noPreference: 'NO_PREFERENCE'
 };
 
 enum ProfileModelGender {
@@ -200,12 +236,15 @@ enum ProfileModelGender {
   @JsonValue('MALE')
   male,
   @JsonValue('FEMALE')
-  female
+  female,
+  @JsonValue('MIXED')
+  mixed
 }
 
 const $ProfileModelGenderMap = {
   ProfileModelGender.male: 'MALE',
-  ProfileModelGender.female: 'FEMALE'
+  ProfileModelGender.female: 'FEMALE',
+  ProfileModelGender.mixed: 'MIXED'
 };
 
 enum ProfileModelChillOrVisit {
@@ -213,13 +252,16 @@ enum ProfileModelChillOrVisit {
   swaggerGeneratedUnknown,
   @JsonValue('CHILL')
   chill,
-  @JsonValue('ANSWER')
-  answer
+  @JsonValue('VISIT')
+  visit,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
 const $ProfileModelChillOrVisitMap = {
   ProfileModelChillOrVisit.chill: 'CHILL',
-  ProfileModelChillOrVisit.answer: 'ANSWER'
+  ProfileModelChillOrVisit.visit: 'VISIT',
+  ProfileModelChillOrVisit.noPreference: 'NO_PREFERENCE'
 };
 
 enum ProfileModelAboutFood {
@@ -228,12 +270,15 @@ enum ProfileModelAboutFood {
   @JsonValue('COOKING')
   cooking,
   @JsonValue('RESTAURANT')
-  restaurant
+  restaurant,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
 const $ProfileModelAboutFoodMap = {
   ProfileModelAboutFood.cooking: 'COOKING',
-  ProfileModelAboutFood.restaurant: 'RESTAURANT'
+  ProfileModelAboutFood.restaurant: 'RESTAURANT',
+  ProfileModelAboutFood.noPreference: 'NO_PREFERENCE'
 };
 
 enum ProfileModelGoOutAtNight {
@@ -242,12 +287,15 @@ enum ProfileModelGoOutAtNight {
   @JsonValue('YES')
   yes,
   @JsonValue('NO')
-  no
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
 const $ProfileModelGoOutAtNightMap = {
   ProfileModelGoOutAtNight.yes: 'YES',
-  ProfileModelGoOutAtNight.no: 'NO'
+  ProfileModelGoOutAtNight.no: 'NO',
+  ProfileModelGoOutAtNight.noPreference: 'NO_PREFERENCE'
 };
 
 enum ProfileModelSport {
@@ -256,12 +304,172 @@ enum ProfileModelSport {
   @JsonValue('YES')
   yes,
   @JsonValue('NO')
-  no
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
 const $ProfileModelSportMap = {
   ProfileModelSport.yes: 'YES',
-  ProfileModelSport.no: 'NO'
+  ProfileModelSport.no: 'NO',
+  ProfileModelSport.noPreference: 'NO_PREFERENCE'
+};
+
+enum ProfileUpdateRequestDestinationTypes {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('CITY')
+  city,
+  @JsonValue('COUNTRYSIDE')
+  countryside,
+  @JsonValue('BEACH')
+  beach,
+  @JsonValue('MOUNTAIN')
+  mountain
+}
+
+const $ProfileUpdateRequestDestinationTypesMap = {
+  ProfileUpdateRequestDestinationTypes.city: 'CITY',
+  ProfileUpdateRequestDestinationTypes.countryside: 'COUNTRYSIDE',
+  ProfileUpdateRequestDestinationTypes.beach: 'BEACH',
+  ProfileUpdateRequestDestinationTypes.mountain: 'MOUNTAIN'
+};
+
+enum ProfileUpdateRequestTravelWithPersonFromSameCity {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('YES')
+  yes,
+  @JsonValue('NO')
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
+}
+
+const $ProfileUpdateRequestTravelWithPersonFromSameCityMap = {
+  ProfileUpdateRequestTravelWithPersonFromSameCity.yes: 'YES',
+  ProfileUpdateRequestTravelWithPersonFromSameCity.no: 'NO',
+  ProfileUpdateRequestTravelWithPersonFromSameCity.noPreference: 'NO_PREFERENCE'
+};
+
+enum ProfileUpdateRequestTravelWithPersonFromSameCountry {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('YES')
+  yes,
+  @JsonValue('NO')
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
+}
+
+const $ProfileUpdateRequestTravelWithPersonFromSameCountryMap = {
+  ProfileUpdateRequestTravelWithPersonFromSameCountry.yes: 'YES',
+  ProfileUpdateRequestTravelWithPersonFromSameCountry.no: 'NO',
+  ProfileUpdateRequestTravelWithPersonFromSameCountry.noPreference:
+      'NO_PREFERENCE'
+};
+
+enum ProfileUpdateRequestTravelWithPersonSameLanguage {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('YES')
+  yes,
+  @JsonValue('NO')
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
+}
+
+const $ProfileUpdateRequestTravelWithPersonSameLanguageMap = {
+  ProfileUpdateRequestTravelWithPersonSameLanguage.yes: 'YES',
+  ProfileUpdateRequestTravelWithPersonSameLanguage.no: 'NO',
+  ProfileUpdateRequestTravelWithPersonSameLanguage.noPreference: 'NO_PREFERENCE'
+};
+
+enum ProfileUpdateRequestGender {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('MALE')
+  male,
+  @JsonValue('FEMALE')
+  female,
+  @JsonValue('MIXED')
+  mixed
+}
+
+const $ProfileUpdateRequestGenderMap = {
+  ProfileUpdateRequestGender.male: 'MALE',
+  ProfileUpdateRequestGender.female: 'FEMALE',
+  ProfileUpdateRequestGender.mixed: 'MIXED'
+};
+
+enum ProfileUpdateRequestChillOrVisit {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('CHILL')
+  chill,
+  @JsonValue('VISIT')
+  visit,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
+}
+
+const $ProfileUpdateRequestChillOrVisitMap = {
+  ProfileUpdateRequestChillOrVisit.chill: 'CHILL',
+  ProfileUpdateRequestChillOrVisit.visit: 'VISIT',
+  ProfileUpdateRequestChillOrVisit.noPreference: 'NO_PREFERENCE'
+};
+
+enum ProfileUpdateRequestAboutFood {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('COOKING')
+  cooking,
+  @JsonValue('RESTAURANT')
+  restaurant,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
+}
+
+const $ProfileUpdateRequestAboutFoodMap = {
+  ProfileUpdateRequestAboutFood.cooking: 'COOKING',
+  ProfileUpdateRequestAboutFood.restaurant: 'RESTAURANT',
+  ProfileUpdateRequestAboutFood.noPreference: 'NO_PREFERENCE'
+};
+
+enum ProfileUpdateRequestGoOutAtNight {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('YES')
+  yes,
+  @JsonValue('NO')
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
+}
+
+const $ProfileUpdateRequestGoOutAtNightMap = {
+  ProfileUpdateRequestGoOutAtNight.yes: 'YES',
+  ProfileUpdateRequestGoOutAtNight.no: 'NO',
+  ProfileUpdateRequestGoOutAtNight.noPreference: 'NO_PREFERENCE'
+};
+
+enum ProfileUpdateRequestSport {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('YES')
+  yes,
+  @JsonValue('NO')
+  no,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
+}
+
+const $ProfileUpdateRequestSportMap = {
+  ProfileUpdateRequestSport.yes: 'YES',
+  ProfileUpdateRequestSport.no: 'NO',
+  ProfileUpdateRequestSport.noPreference: 'NO_PREFERENCE'
 };
 
 enum UserModelGender {
