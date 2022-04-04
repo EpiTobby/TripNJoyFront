@@ -5,7 +5,7 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/multiple_choice_card.widget.dart';
-import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation.widget.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/swipe_card.widget.dart';
 
 import '../../widgets/matchmaking/cards/name_profile_card.widget.dart';
@@ -24,7 +24,7 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
   // we use a list instead of a stack, because we need to handle user mistakes and go back to the previous card
   void _init() {
     state = [
-      const ProfileCreation(),
+      const ProfileCreationCard(),
     ];
   }
 

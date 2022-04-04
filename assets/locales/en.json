@@ -12,7 +12,8 @@
     "submit": "Submit",
     "tryAgain": "Try again",
     "validate": "Validate",
-    "next": "Next"
+    "next": "Next",
+    "start": "Start"
   },
   "user": {
     "firstname": "Firstname",
@@ -62,6 +63,10 @@
     }
   },
   "cards": {
+    "creation_profile": {
+      "title": "Create your travel profile",
+      "subtitle": "Press the button to start the profile creation"
+    },
     "name_profile": {
       "title": "Profile generated!",
       "subtitle": "Give a name to your profile before the matchmaking process.",
