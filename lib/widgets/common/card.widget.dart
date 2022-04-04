@@ -5,13 +5,15 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 class StandardCard extends StatelessWidget {
   const StandardCard(
       {Key? key,
-      required this.child,
+      this.name,
       this.title,
       this.subtitle,
       this.color = CColors.primary,
       this.backgroundColor = CardColors.white,
-      this.shadowColor})
+      this.shadowColor,
+      required this.child})
       : super(key: key);
+  final String? name;
   final Widget? child;
   final String? title;
   final String? subtitle;
@@ -23,10 +25,8 @@ class StandardCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: FractionallySizedBox(
-        alignment: Alignment.topCenter,
-        widthFactor: 1,
-        heightFactor: 0.8,
+      child: SizedBox(
+        height: 500,
         child: Container(
           decoration: BoxDecoration(
             color: backgroundColor,
