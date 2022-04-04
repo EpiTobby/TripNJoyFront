@@ -15,9 +15,7 @@ import '../../providers/auth/auth.provider.dart';
 import '../../widgets/common/button.widget.dart';
 
 class GoogleMoreInfo extends StatefulHookConsumerWidget {
-  const GoogleMoreInfo({Key? key, required this.parentContext}) : super(key: key);
-
-  final BuildContext parentContext;
+  const GoogleMoreInfo({Key? key}) : super(key: key);
 
   @override
   ConsumerState createState() => _GoogleMoreInfo();
@@ -31,46 +29,48 @@ class _GoogleMoreInfo extends ConsumerState<GoogleMoreInfo> {
     final birthDate = useState(DateTime.now());
     final gender = useState(Gender.male.name);
 
-    return Column(
+    return Scaffold(
+        body: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Padding(
-            padding: EdgeInsets.only(top: 20, bottom: 20),
-            child: Text('TripNJoy', style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold))),
-        Expanded(
-          child: ListView(
-            padding: const EdgeInsets.all(0),
-            shrinkWrap: true,
-            children: [
-              Dropdown(
-                  label: AppLocalizations.of(context).translate("common.gender"),
-                  icon: Icon(Icons.person),
-                  selectedValue: gender.value,
-                  listValue: [Gender.male.name, Gender.female.name, Gender.other.name],
-                  listLabel: [
-                    AppLocalizations.of(context).translate("user.gender.man"),
-                    AppLocalizations.of(context).translate("user.gender.woman"),
-                    AppLocalizations.of(context).translate("user.gender.other")
-                  ],
-                  onChanged: (value) => gender.value = value),
-              DatePicker(
-                  label: AppLocalizations.of(context).translate("user.birthDate"),
-                  selectedDate: birthDate.value,
-                  onChanged: (value) => birthDate.value = value),
-            ],
-          ),
+        Padding(
+            padding: const EdgeInsets.only(top: 20, bottom: 20),
+            child: Text(AppLocalizations.of(context).translate('auth.google.moreInfo'),
+                textAlign: TextAlign.center, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+        ListView(
+          padding: const EdgeInsets.all(0),
+          shrinkWrap: true,
+          children: [
+            Dropdown(
+                label: AppLocalizations.of(context).translate("common.gender"),
+                icon: const Icon(Icons.person),
+                selectedValue: gender.value,
+                listValue: [Gender.male.name, Gender.female.name, Gender.other.name],
+                listLabel: [
+                  AppLocalizations.of(context).translate("user.gender.man"),
+                  AppLocalizations.of(context).translate("user.gender.woman"),
+                  AppLocalizations.of(context).translate("user.gender.other")
+                ],
+                onChanged: (value) => gender.value = value),
+            DatePicker(
+                label: AppLocalizations.of(context).translate("user.birthDate"),
+                selectedDate: birthDate.value,
+                onChanged: (value) => birthDate.value = value),
+          ],
         ),
         Padding(
             padding: const EdgeInsets.only(top: 30),
             child: Column(
               children: [
                 PrimaryButton(
-                    text: AppLocalizations.of(context).translate("auth.createAccount"),
-                    onPressed: () => userService.updateUser(
-                        authService.token!, UserUpdateRequest(gender: gender.value, birthdate: birthDate.value))),
+                    text: AppLocalizations.of(context).translate("common.submit"),
+                    onPressed: () => userService
+                        .updateUser(
+                            authService.token!, UserUpdateRequest(gender: gender.value, birthdate: birthDate.value))
+                        .then((value) => Navigator.pop(context))),
               ],
             )),
       ],
-    );
+    ));
   }
 }

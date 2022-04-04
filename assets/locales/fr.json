@@ -58,7 +58,10 @@
       "code_label": "Entrer le code",
       "submit": "Réinitialiser"
     },
-    "google": "Se connecter avec Google"
+    "google": {
+      "login": "Se connecter avec Google",
+      "moreInfo": "Veuillez compléter les informations complémentaires"
+    }
   },
   "groups": {
     "title": "Groupes",

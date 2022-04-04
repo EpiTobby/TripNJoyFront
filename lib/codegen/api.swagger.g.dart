@@ -249,6 +249,20 @@ Map<String, dynamic> _$GoogleRequestToJson(GoogleRequest instance) =>
       'email': instance.email,
     };
 
+GoogleAuthResponse _$GoogleAuthResponseFromJson(Map<String, dynamic> json) =>
+    GoogleAuthResponse(
+      username: json['username'] as String?,
+      token: json['token'] as String?,
+      newUser: json['newUser'] as bool?,
+    );
+
+Map<String, dynamic> _$GoogleAuthResponseToJson(GoogleAuthResponse instance) =>
+    <String, dynamic>{
+      'username': instance.username,
+      'token': instance.token,
+      'newUser': instance.newUser,
+    };
+
 ForgotPasswordRequest _$ForgotPasswordRequestFromJson(
         Map<String, dynamic> json) =>
     ForgotPasswordRequest(

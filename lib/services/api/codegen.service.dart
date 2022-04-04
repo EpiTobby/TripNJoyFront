@@ -132,7 +132,7 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<LoginResponse?> signInUpGoogle(SignInUpGoogleCredentials data) async {
+  Future<GoogleAuthResponse?> signInUpGoogle(SignInUpGoogleCredentials data) async {
     final response = await api.authGooglePost(body: GoogleRequest(
       email: data.email,
       firstname: data.firstname,

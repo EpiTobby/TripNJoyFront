@@ -101,17 +101,17 @@ abstract class Api extends ChopperService {
       {@Body() required LoginRequest? body});
 
   ///Log a user, to allow authenticated endpoints
-  Future<chopper.Response<LoginResponse>> authGooglePost(
+  Future<chopper.Response<GoogleAuthResponse>> authGooglePost(
       {required GoogleRequest? body}) {
     generatedMapping.putIfAbsent(
-        LoginResponse, () => LoginResponse.fromJsonFactory);
+        GoogleAuthResponse, () => GoogleAuthResponse.fromJsonFactory);
 
     return _authGooglePost(body: body);
   }
 
   ///Log a user, to allow authenticated endpoints
   @Post(path: '/auth/google')
-  Future<chopper.Response<LoginResponse>> _authGooglePost(
+  Future<chopper.Response<GoogleAuthResponse>> _authGooglePost(
       {@Body() required GoogleRequest? body});
 
   ///Used to receive a confirmation to update a password
@@ -1109,6 +1109,58 @@ extension $GoogleRequestExtension on GoogleRequest {
         profilePicture: profilePicture ?? this.profilePicture,
         phoneNumber: phoneNumber ?? this.phoneNumber,
         email: email ?? this.email);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GoogleAuthResponse {
+  GoogleAuthResponse({
+    this.username,
+    this.token,
+    this.newUser,
+  });
+
+  factory GoogleAuthResponse.fromJson(Map<String, dynamic> json) =>
+      _$GoogleAuthResponseFromJson(json);
+
+  @JsonKey(name: 'username')
+  final String? username;
+  @JsonKey(name: 'token')
+  final String? token;
+  @JsonKey(name: 'newUser')
+  final bool? newUser;
+  static const fromJsonFactory = _$GoogleAuthResponseFromJson;
+  static const toJsonFactory = _$GoogleAuthResponseToJson;
+  Map<String, dynamic> toJson() => _$GoogleAuthResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is GoogleAuthResponse &&
+            (identical(other.username, username) ||
+                const DeepCollectionEquality()
+                    .equals(other.username, username)) &&
+            (identical(other.token, token) ||
+                const DeepCollectionEquality().equals(other.token, token)) &&
+            (identical(other.newUser, newUser) ||
+                const DeepCollectionEquality().equals(other.newUser, newUser)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(username) ^
+      const DeepCollectionEquality().hash(token) ^
+      const DeepCollectionEquality().hash(newUser) ^
+      runtimeType.hashCode;
+}
+
+extension $GoogleAuthResponseExtension on GoogleAuthResponse {
+  GoogleAuthResponse copyWith(
+      {String? username, String? token, bool? newUser}) {
+    return GoogleAuthResponse(
+        username: username ?? this.username,
+        token: token ?? this.token,
+        newUser: newUser ?? this.newUser);
   }
 }
 

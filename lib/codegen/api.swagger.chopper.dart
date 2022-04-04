@@ -58,12 +58,12 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<LoginResponse>> _authGooglePost(
+  Future<Response<GoogleAuthResponse>> _authGooglePost(
       {required GoogleRequest? body}) {
     final $url = '/auth/google';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
-    return client.send<LoginResponse, LoginResponse>($request);
+    return client.send<GoogleAuthResponse, GoogleAuthResponse>($request);
   }
 
   @override

@@ -217,7 +217,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "$ref": "#/components/schemas/GoogleAuthResponse"
                 }
               }
             }
@@ -227,7 +227,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "$ref": "#/components/schemas/GoogleAuthResponse"
                 }
               }
             }
@@ -1084,6 +1084,20 @@
           },
           "email": {
             "type": "string"
+          }
+        }
+      },
+      "GoogleAuthResponse": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "newUser": {
+            "type": "boolean"
           }
         }
       },

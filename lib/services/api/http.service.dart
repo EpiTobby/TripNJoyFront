@@ -17,7 +17,7 @@ abstract class HttpService {
 
   Future<AuthTokenResponse?> signup(SignupCredentials data);
 
-  Future<LoginResponse?> signInUpGoogle(SignInUpGoogleCredentials data);
+  Future<GoogleAuthResponse?> signInUpGoogle(SignInUpGoogleCredentials data);
 
   Future<bool> verifyAccount(int id, String code);
 

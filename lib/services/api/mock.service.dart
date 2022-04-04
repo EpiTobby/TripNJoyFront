@@ -90,9 +90,9 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<LoginResponse?> signInUpGoogle(SignInUpGoogleCredentials data) {
+  Future<GoogleAuthResponse?> signInUpGoogle(SignInUpGoogleCredentials data) {
     return Future.delayed(Duration(seconds: 1), () {
-      return LoginResponse(token: "token", username: "username");
+      return GoogleAuthResponse(token: "token", username: "username", newUser: true);
     });
   }
 }
