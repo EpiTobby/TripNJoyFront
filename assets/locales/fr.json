@@ -12,7 +12,8 @@
     "submit": "Valider",
     "tryAgain": "Réessayer",
     "validate": "Valider",
-    "next": "Suivant"
+    "next": "Suivant",
+    "start": "Démarrer"
   },
   "user": {
     "firstname": "Prénom",
@@ -62,6 +63,10 @@
     }
   },
   "cards": {
+    "creation_profile": {
+      "title": "Création du profil voyage",
+      "subtitle": "Cliquer pour démarrer la création du profil voyage"
+    },
     "name_profile": {
       "title": "Profil généré !",
       "subtitle": "Donnez un nom au profil avant de lancer le matchmaking.",
