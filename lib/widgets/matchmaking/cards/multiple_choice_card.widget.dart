@@ -34,6 +34,7 @@ class MultipleChoiceCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedValues = useState<List<String>>([]);
     final matchmakingService = ref.watch(matchmakingProvider.notifier);
+    final scrollController = useState(ScrollController());
     return StandardCard(
       name: name,
       title: title,
@@ -48,8 +49,10 @@ class MultipleChoiceCard extends HookConsumerWidget {
             child: Scrollbar(
               isAlwaysShown: true,
               interactive: false,
+              controller: scrollController.value,
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 60),
+                controller: scrollController.value,
                 children: <Widget>[
                   for (final value in values)
                     Padding(
@@ -74,6 +77,7 @@ class MultipleChoiceCard extends HookConsumerWidget {
             text: AppLocalizations.of(context).translate('common.validate'),
             onPressed: () {
               matchmakingService.submitMultipleChoiceCard(name, selectedValues.value);
+              selectedValues.value = [];
             },
           ),
         ],
