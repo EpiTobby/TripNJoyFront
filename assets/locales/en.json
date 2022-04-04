@@ -10,7 +10,9 @@
     "cancel": "Cancel",
     "save": "Save",
     "submit": "Submit",
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "validate": "Validate",
+    "next": "Next"
   },
   "user": {
     "firstname": "Firstname",
