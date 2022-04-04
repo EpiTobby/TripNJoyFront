@@ -72,6 +72,12 @@
       "subtitle": "Give a name to your profile before the matchmaking process.",
       "label": "Name of the profile",
       "hint": "Ex: Summer profile"
+    },
+    "group_found": {
+      "title": "Group found!",
+      "button": "Join",
+      "retry": "Try another group",
+      "members": "$count Members"
     }
   },
   "groups": {

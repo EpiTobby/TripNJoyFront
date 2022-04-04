@@ -72,6 +72,12 @@
       "subtitle": "Donnez un nom au profil avant de lancer le matchmaking.",
       "label": "Nom du profil",
       "hint": "Ex: Profil été"
+    },
+    "group_found": {
+      "title": "Groupe trouvé !",
+      "button": "Rejoindre",
+      "retry": "Essayer un autre groupe",
+      "members": "$count Membres"
     }
   },
   "groups": {

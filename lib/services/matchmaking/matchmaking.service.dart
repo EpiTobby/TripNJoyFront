@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/cards/group_found_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/multiple_choice_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/swipe_card.widget.dart';
@@ -31,7 +32,14 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
 
   void startProfileCreation() {
     // TODO: add all question cards
+
+    const DEFAULT_AVATAR_URL =
+        "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png";
     state = [
+      GroupFoundCard(
+          groupId: 1,
+          groupPhotoUrl: DEFAULT_AVATAR_URL,
+          membersPhotoUrls: [DEFAULT_AVATAR_URL, DEFAULT_AVATAR_URL, DEFAULT_AVATAR_URL]),
       RangeCard(
           name: "number_people",
           title: 'How many people are you looking for?',
@@ -142,4 +150,12 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
     logger.i("Submit ${name} - values: ${values.start} - ${values.end}");
     nextCard();
   }
+
+  void joinGroup(int groupId) {
+    nextCard();
+  }
+
+  void matchmaking() {}
+
+  void retryMatchmaking() {}
 }
