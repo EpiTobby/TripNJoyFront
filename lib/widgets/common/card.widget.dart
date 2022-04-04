@@ -27,18 +27,19 @@ class StandardCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: SizedBox(
-        height: 500,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 480,
         child: Container(
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
-                color: shadowColor != null ? shadowColor! : backgroundColor.withOpacity(0.5),
+                color: shadowColor != null ? shadowColor! : backgroundColor,
                 blurRadius: 30,
-                spreadRadius: -10,
-                offset: const Offset(0, 20),
+                spreadRadius: -5,
+                offset: const Offset(0, 10),
               ),
             ],
           ),
