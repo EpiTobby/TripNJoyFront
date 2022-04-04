@@ -20,6 +20,7 @@ class SwipeCard extends ConsumerWidget {
       required this.backgroundColor,
       this.shadowColor,
       this.onTop = false,
+      this.isLoading = false,
       required this.values})
       : super(key: key);
 
@@ -30,6 +31,7 @@ class SwipeCard extends ConsumerWidget {
   final Color backgroundColor;
   final Color? shadowColor;
   final bool onTop;
+  final bool isLoading;
   final List<String> values;
 
   @override
@@ -82,6 +84,7 @@ class SwipeCard extends ConsumerWidget {
       color: color,
       backgroundColor: backgroundColor,
       shadowColor: shadowColor,
+      isLoading: isLoading,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(

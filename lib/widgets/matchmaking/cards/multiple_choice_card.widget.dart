@@ -17,6 +17,7 @@ class MultipleChoiceCard extends HookConsumerWidget {
       required this.color,
       required this.backgroundColor,
       this.shadowColor,
+      this.isLoading = false,
       required this.values})
       : super(key: key);
 
@@ -26,6 +27,7 @@ class MultipleChoiceCard extends HookConsumerWidget {
   final Color color;
   final Color backgroundColor;
   final Color? shadowColor;
+  final bool isLoading;
   final List<String> values;
 
   @override
@@ -39,6 +41,7 @@ class MultipleChoiceCard extends HookConsumerWidget {
       color: color,
       backgroundColor: backgroundColor,
       shadowColor: shadowColor,
+      isLoading: isLoading,
       child: Column(
         children: [
           Expanded(

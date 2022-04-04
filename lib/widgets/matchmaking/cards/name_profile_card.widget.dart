@@ -7,11 +7,11 @@ import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input.widget.dart';
 
 import '../../common/button.widget.dart';
-import '../../common/checkbox.widget.dart';
 
 class NameProfileCard extends HookConsumerWidget {
-  const NameProfileCard({Key? key}) : super(key: key);
+  const NameProfileCard({Key? key, this.isLoading = false}) : super(key: key);
 
+  final bool isLoading;
   final name = "name_profile";
 
   @override
@@ -23,6 +23,7 @@ class NameProfileCard extends HookConsumerWidget {
       title: AppLocalizations.of(context).translate("cards.name_profile.title"),
       subtitle: AppLocalizations.of(context).translate("cards.name_profile.title"),
       shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+      isLoading: isLoading,
       child: Column(
         children: [
           Expanded(
