@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/swipe.provider.dart';
-import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation.widget.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation_card.widget.dart';
 
 class MatchmakingPage extends StatefulHookConsumerWidget {
   const MatchmakingPage({
@@ -23,7 +23,7 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
       swipeService.setScreenSize(MediaQuery.of(context).size);
     }
     return Container(
-      child: cards.isEmpty ? const ProfileCreation() : Stack(children: cards),
+      child: cards.isEmpty ? const ProfileCreationCard() : Stack(children: cards),
     );
   }
 }
