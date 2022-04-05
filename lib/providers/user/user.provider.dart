@@ -6,7 +6,7 @@ import '../../models/user/user.model.dart';
 import '../../services/user/user.service.dart';
 import '../auth/auth.provider.dart';
 
-final userProvider = StateNotifierProvider.autoDispose<UserService, AsyncValue<UserModel?>>((ref) {
+final userProvider = StateNotifierProvider<UserService, AsyncValue<UserModel?>>((ref) {
   final httpService = ref.watch(codegenProvider);
   final authService = ref.watch(authProvider);
   return UserService(httpService, authService);
