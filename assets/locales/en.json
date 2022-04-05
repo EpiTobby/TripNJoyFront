@@ -78,6 +78,12 @@
       "button": "Join",
       "retry": "Try another group",
       "members": "$count Members"
+    },
+    "availability": {
+      "title": "Availability",
+      "subtitle": "Choose your availability",
+      "begin": "Begin",
+      "end": "End"
     }
   },
   "groups": {
