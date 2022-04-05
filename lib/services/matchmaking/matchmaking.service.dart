@@ -28,6 +28,7 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
   final AuthService authService;
   final HttpService httpService;
   final List<ProfileModel> profiles = [];
+  ProfileModel? activeProfile;
   Map<String, dynamic> profileCreationRequest = {};
 
   // we use a list instead of a stack, because we need to handle user mistakes and go back to the previous card
@@ -36,9 +37,9 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
       const ProfileCreationCard(),
     ];
 
-    var id = httpService.getUserIdFromToken(authService.token!);
-    List<ProfileModel>? userProfiles = await httpService.getUserProfiles(id!);
-    profiles.addAll(userProfiles!);
+    if (authService.token != null) {
+      getUserProfiles();
+    }
   }
 
   void startProfileCreation() {
@@ -53,11 +54,11 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
           groupPhotoUrl: DEFAULT_AVATAR_URL,
           membersPhotoUrls: [DEFAULT_AVATAR_URL, DEFAULT_AVATAR_URL, DEFAULT_AVATAR_URL]),
       const RangeCard(
-          name: "number_people",
+          name: "groupSize",
           title: 'How many people are you looking for?',
           subtitle: "Select the range of people you are looking for",
-          min: 18,
-          max: 100,
+          min: 1,
+          max: 15,
           color: CColors.primary,
           backgroundColor: CardColors.yellow),
       const MultipleChoiceCard(
@@ -133,7 +134,7 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
             child: PrimaryButton(
                 text: "Pop!",
                 onPressed: () {
-                  nextCard();
+                  createProfile();
                 }),
           )),
     ].reversed.toList();
@@ -157,22 +158,17 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
   }
 
   void submitRangeValue(String name, RangeValues values) {
-    // TODO: populate profile object
     logger.i("Submit ${name} - values: ${values.start} - ${values.end}");
-
+    profileCreationRequest[name] = {"minValue": values.start.toInt(), "maxValue": values.end.toInt()};
     nextCard();
   }
 
-
-  void createProfile(String token) async {
-    int? id = httpService.getUserIdFromToken(token);
-    await httpService.createProfile(id!, ProfileCreationRequest.fromJsonFactory({}));
-  }
-
   void submitAvailability(String name, List<Availability> availabilities) {
-    // TODO: populate profile object
     logger.i(
         "Submit ${name} - availabilities: ${availabilities.map((e) => "begin: ${e.startDate} - end: ${e.endDate}").join(", ")}");
+    profileCreationRequest[name] = availabilities
+        .map((e) => {"startDate": e.startDate.toIso8601String(), "endDate": e.endDate.toIso8601String()})
+        .first;
     nextCard();
   }
 
@@ -183,4 +179,55 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
   void matchmaking() {}
 
   void retryMatchmaking() {}
+
+  void createProfile() async {
+    nextCard();
+
+    mockProfileData();
+
+    int? id = httpService.getUserIdFromToken(authService.token!);
+    var profileModel =
+        await httpService.createProfile(id!, ProfileCreationRequest.fromJsonFactory(profileCreationRequest));
+    profiles.add(profileModel!);
+    activeProfile = profileModel;
+  }
+
+  void getUserProfiles() async {
+    var id = httpService.getUserIdFromToken(authService.token!);
+    List<ProfileModel>? userProfiles = await httpService.getUserProfiles(id!);
+    profiles.addAll(userProfiles!);
+  }
+
+  void updateProfile(int profileId) async {
+    int? id = httpService.getUserIdFromToken(authService.token!);
+
+    await httpService.updateProfile(id!, profileId, ProfileUpdateRequest.fromJsonFactory({}));
+  }
+
+  void deleteProfile(int profileId) async {
+    int? id = httpService.getUserIdFromToken(authService.token!);
+
+    await httpService.deleteProfile(id!, profileId);
+  }
+
+  void reuseProfile(int profileId) async {
+    int? id = httpService.getUserIdFromToken(authService.token!);
+
+    await httpService.reuseProfile(id!, profileId, AvailabilityAnswerModel.fromJsonFactory({}));
+  }
+
+  void mockProfileData() {
+    profileCreationRequest["duration"] = {"minValue": 1, "maxValue": 10};
+    profileCreationRequest["budget"] = {"minValue": 1, "maxValue": 10};
+    profileCreationRequest["destinationTypes"] = ["CITY"];
+    profileCreationRequest["ages"] = {"minValue": 1, "maxValue": 10};
+    profileCreationRequest["travelWithPersonFromSameCity"] = "YES";
+    profileCreationRequest["travelWithPersonFromSameCountry"] = "YES";
+    profileCreationRequest["travelWithPersonSameLanguage"] = "YES";
+    profileCreationRequest["gender"] = "MALE";
+    profileCreationRequest["chillOrVisit"] = "VISIT";
+    profileCreationRequest["aboutFood"] = "RESTAURANT";
+    profileCreationRequest["goOutAtNight"] = "NO_PREFERENCE";
+    profileCreationRequest["sport"] = "NO";
+  }
 }
