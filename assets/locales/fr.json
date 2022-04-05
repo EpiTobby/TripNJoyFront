@@ -78,6 +78,12 @@
       "button": "Rejoindre",
       "retry": "Essayer un autre groupe",
       "members": "$count Membres"
+    },
+    "availability": {
+      "title": "Disponibilité",
+      "subtitle": "Indiquez vos disponibilités",
+      "begin": "Début",
+      "end": "Fin"
     }
   },
   "groups": {
