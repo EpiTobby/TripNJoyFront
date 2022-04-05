@@ -67,6 +67,14 @@ class MyApp extends StatelessWidget {
         scrollbarTheme: ScrollbarThemeData(
           thumbColor: MaterialStateProperty.all(CColors.secondary),
         ),
+        sliderTheme: SliderThemeData(
+          thumbColor: CColors.secondary,
+          activeTickMarkColor: CColors.secondary,
+          activeTrackColor: CColors.secondary,
+          showValueIndicator: ShowValueIndicator.always,
+          overlayColor: CColors.secondary,
+          valueIndicatorColor: CColors.secondary,
+        ),
       ),
       supportedLocales: const [
         Locale('fr', 'FR'),
