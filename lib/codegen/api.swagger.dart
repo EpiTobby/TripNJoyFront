@@ -47,7 +47,7 @@ abstract class Api extends ChopperService {
   ///
   ///@param id
   Future<chopper.Response<ProfileModel>> idProfilesPost(
-      {required num? id, required ProfileCreationModel? body}) {
+      {required num? id, required ProfileCreationRequest? body}) {
     generatedMapping.putIfAbsent(
         ProfileModel, () => ProfileModel.fromJsonFactory);
 
@@ -59,7 +59,7 @@ abstract class Api extends ChopperService {
   @Post(path: '/{id}/profiles')
   Future<chopper.Response<ProfileModel>> _idProfilesPost(
       {@Path('id') required num? id,
-      @Body() required ProfileCreationModel? body});
+      @Body() required ProfileCreationRequest? body});
 
   ///Will send a new confirmation code to the user
   ///@param id
@@ -101,17 +101,17 @@ abstract class Api extends ChopperService {
       {@Body() required LoginRequest? body});
 
   ///Log a user, to allow authenticated endpoints
-  Future<chopper.Response<LoginResponse>> authGooglePost(
+  Future<chopper.Response<GoogleAuthResponse>> authGooglePost(
       {required GoogleRequest? body}) {
     generatedMapping.putIfAbsent(
-        LoginResponse, () => LoginResponse.fromJsonFactory);
+        GoogleAuthResponse, () => GoogleAuthResponse.fromJsonFactory);
 
     return _authGooglePost(body: body);
   }
 
   ///Log a user, to allow authenticated endpoints
   @Post(path: '/auth/google')
-  Future<chopper.Response<LoginResponse>> _authGooglePost(
+  Future<chopper.Response<GoogleAuthResponse>> _authGooglePost(
       {@Body() required GoogleRequest? body});
 
   ///Used to receive a confirmation to update a password
@@ -124,6 +124,44 @@ abstract class Api extends ChopperService {
   @Post(path: '/auth/forgot/password')
   Future<chopper.Response> _authForgotPasswordPost(
       {@Body() required ForgotPasswordRequest? body});
+
+  ///
+  ///@param id
+  ///@param profile
+  Future<chopper.Response> idProfilesProfileUpdatePatch(
+      {required num? id,
+      required num? profile,
+      required ProfileUpdateRequest? body}) {
+    return _idProfilesProfileUpdatePatch(id: id, profile: profile, body: body);
+  }
+
+  ///
+  ///@param id
+  ///@param profile
+  @Patch(path: '/{id}/profiles/{profile}/update')
+  Future<chopper.Response> _idProfilesProfileUpdatePatch(
+      {@Path('id') required num? id,
+      @Path('profile') required num? profile,
+      @Body() required ProfileUpdateRequest? body});
+
+  ///
+  ///@param id
+  ///@param profile
+  Future<chopper.Response> idProfilesProfileReusePatch(
+      {required num? id,
+      required num? profile,
+      required AvailabilityAnswerModel? body}) {
+    return _idProfilesProfileReusePatch(id: id, profile: profile, body: body);
+  }
+
+  ///
+  ///@param id
+  ///@param profile
+  @Patch(path: '/{id}/profiles/{profile}/reuse')
+  Future<chopper.Response> _idProfilesProfileReusePatch(
+      {@Path('id') required num? id,
+      @Path('profile') required num? profile,
+      @Body() required AvailabilityAnswerModel? body});
 
   ///Used to update the user information
   ///@param id
@@ -331,8 +369,8 @@ extension $AvailabilityAnswerModelExtension on AvailabilityAnswerModel {
 }
 
 @JsonSerializable(explicitToJson: true)
-class ProfileCreationModel {
-  ProfileCreationModel({
+class ProfileCreationRequest {
+  ProfileCreationRequest({
     this.availability,
     this.duration,
     this.budget,
@@ -342,15 +380,15 @@ class ProfileCreationModel {
     this.travelWithPersonFromSameCountry,
     this.travelWithPersonSameLanguage,
     this.gender,
-    this.groupeSize,
+    this.groupSize,
     this.chillOrVisit,
     this.aboutFood,
     this.goOutAtNight,
     this.sport,
   });
 
-  factory ProfileCreationModel.fromJson(Map<String, dynamic> json) =>
-      _$ProfileCreationModelFromJson(json);
+  factory ProfileCreationRequest.fromJson(Map<String, dynamic> json) =>
+      _$ProfileCreationRequestFromJson(json);
 
   @JsonKey(name: 'availability')
   final AvailabilityAnswerModel? availability;
@@ -360,64 +398,64 @@ class ProfileCreationModel {
   final RangeAnswerModel? budget;
   @JsonKey(
       name: 'destinationTypes',
-      toJson: profileCreationModelDestinationTypesListToJson,
-      fromJson: profileCreationModelDestinationTypesListFromJson)
-  final List<enums.ProfileCreationModelDestinationTypes>? destinationTypes;
+      toJson: profileCreationRequestDestinationTypesListToJson,
+      fromJson: profileCreationRequestDestinationTypesListFromJson)
+  final List<enums.ProfileCreationRequestDestinationTypes>? destinationTypes;
   @JsonKey(name: 'ages')
   final RangeAnswerModel? ages;
   @JsonKey(
       name: 'travelWithPersonFromSameCity',
-      toJson: profileCreationModelTravelWithPersonFromSameCityToJson,
-      fromJson: profileCreationModelTravelWithPersonFromSameCityFromJson)
-  final enums.ProfileCreationModelTravelWithPersonFromSameCity?
+      toJson: profileCreationRequestTravelWithPersonFromSameCityToJson,
+      fromJson: profileCreationRequestTravelWithPersonFromSameCityFromJson)
+  final enums.ProfileCreationRequestTravelWithPersonFromSameCity?
       travelWithPersonFromSameCity;
   @JsonKey(
       name: 'travelWithPersonFromSameCountry',
-      toJson: profileCreationModelTravelWithPersonFromSameCountryToJson,
-      fromJson: profileCreationModelTravelWithPersonFromSameCountryFromJson)
-  final enums.ProfileCreationModelTravelWithPersonFromSameCountry?
+      toJson: profileCreationRequestTravelWithPersonFromSameCountryToJson,
+      fromJson: profileCreationRequestTravelWithPersonFromSameCountryFromJson)
+  final enums.ProfileCreationRequestTravelWithPersonFromSameCountry?
       travelWithPersonFromSameCountry;
   @JsonKey(
       name: 'travelWithPersonSameLanguage',
-      toJson: profileCreationModelTravelWithPersonSameLanguageToJson,
-      fromJson: profileCreationModelTravelWithPersonSameLanguageFromJson)
-  final enums.ProfileCreationModelTravelWithPersonSameLanguage?
+      toJson: profileCreationRequestTravelWithPersonSameLanguageToJson,
+      fromJson: profileCreationRequestTravelWithPersonSameLanguageFromJson)
+  final enums.ProfileCreationRequestTravelWithPersonSameLanguage?
       travelWithPersonSameLanguage;
   @JsonKey(
       name: 'gender',
-      toJson: profileCreationModelGenderToJson,
-      fromJson: profileCreationModelGenderFromJson)
-  final enums.ProfileCreationModelGender? gender;
-  @JsonKey(name: 'groupeSize')
-  final RangeAnswerModel? groupeSize;
+      toJson: profileCreationRequestGenderToJson,
+      fromJson: profileCreationRequestGenderFromJson)
+  final enums.ProfileCreationRequestGender? gender;
+  @JsonKey(name: 'groupSize')
+  final RangeAnswerModel? groupSize;
   @JsonKey(
       name: 'chillOrVisit',
-      toJson: profileCreationModelChillOrVisitToJson,
-      fromJson: profileCreationModelChillOrVisitFromJson)
-  final enums.ProfileCreationModelChillOrVisit? chillOrVisit;
+      toJson: profileCreationRequestChillOrVisitToJson,
+      fromJson: profileCreationRequestChillOrVisitFromJson)
+  final enums.ProfileCreationRequestChillOrVisit? chillOrVisit;
   @JsonKey(
       name: 'aboutFood',
-      toJson: profileCreationModelAboutFoodToJson,
-      fromJson: profileCreationModelAboutFoodFromJson)
-  final enums.ProfileCreationModelAboutFood? aboutFood;
+      toJson: profileCreationRequestAboutFoodToJson,
+      fromJson: profileCreationRequestAboutFoodFromJson)
+  final enums.ProfileCreationRequestAboutFood? aboutFood;
   @JsonKey(
       name: 'goOutAtNight',
-      toJson: profileCreationModelGoOutAtNightToJson,
-      fromJson: profileCreationModelGoOutAtNightFromJson)
-  final enums.ProfileCreationModelGoOutAtNight? goOutAtNight;
+      toJson: profileCreationRequestGoOutAtNightToJson,
+      fromJson: profileCreationRequestGoOutAtNightFromJson)
+  final enums.ProfileCreationRequestGoOutAtNight? goOutAtNight;
   @JsonKey(
       name: 'sport',
-      toJson: profileCreationModelSportToJson,
-      fromJson: profileCreationModelSportFromJson)
-  final enums.ProfileCreationModelSport? sport;
-  static const fromJsonFactory = _$ProfileCreationModelFromJson;
-  static const toJsonFactory = _$ProfileCreationModelToJson;
-  Map<String, dynamic> toJson() => _$ProfileCreationModelToJson(this);
+      toJson: profileCreationRequestSportToJson,
+      fromJson: profileCreationRequestSportFromJson)
+  final enums.ProfileCreationRequestSport? sport;
+  static const fromJsonFactory = _$ProfileCreationRequestFromJson;
+  static const toJsonFactory = _$ProfileCreationRequestToJson;
+  Map<String, dynamic> toJson() => _$ProfileCreationRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ProfileCreationModel &&
+        (other is ProfileCreationRequest &&
             (identical(other.availability, availability) ||
                 const DeepCollectionEquality()
                     .equals(other.availability, availability)) &&
@@ -446,9 +484,9 @@ class ProfileCreationModel {
                     travelWithPersonSameLanguage)) &&
             (identical(other.gender, gender) ||
                 const DeepCollectionEquality().equals(other.gender, gender)) &&
-            (identical(other.groupeSize, groupeSize) ||
+            (identical(other.groupSize, groupSize) ||
                 const DeepCollectionEquality()
-                    .equals(other.groupeSize, groupeSize)) &&
+                    .equals(other.groupSize, groupSize)) &&
             (identical(other.chillOrVisit, chillOrVisit) ||
                 const DeepCollectionEquality()
                     .equals(other.chillOrVisit, chillOrVisit)) &&
@@ -473,7 +511,7 @@ class ProfileCreationModel {
       const DeepCollectionEquality().hash(travelWithPersonFromSameCountry) ^
       const DeepCollectionEquality().hash(travelWithPersonSameLanguage) ^
       const DeepCollectionEquality().hash(gender) ^
-      const DeepCollectionEquality().hash(groupeSize) ^
+      const DeepCollectionEquality().hash(groupSize) ^
       const DeepCollectionEquality().hash(chillOrVisit) ^
       const DeepCollectionEquality().hash(aboutFood) ^
       const DeepCollectionEquality().hash(goOutAtNight) ^
@@ -481,26 +519,26 @@ class ProfileCreationModel {
       runtimeType.hashCode;
 }
 
-extension $ProfileCreationModelExtension on ProfileCreationModel {
-  ProfileCreationModel copyWith(
+extension $ProfileCreationRequestExtension on ProfileCreationRequest {
+  ProfileCreationRequest copyWith(
       {AvailabilityAnswerModel? availability,
       RangeAnswerModel? duration,
       RangeAnswerModel? budget,
-      List<enums.ProfileCreationModelDestinationTypes>? destinationTypes,
+      List<enums.ProfileCreationRequestDestinationTypes>? destinationTypes,
       RangeAnswerModel? ages,
-      enums.ProfileCreationModelTravelWithPersonFromSameCity?
+      enums.ProfileCreationRequestTravelWithPersonFromSameCity?
           travelWithPersonFromSameCity,
-      enums.ProfileCreationModelTravelWithPersonFromSameCountry?
+      enums.ProfileCreationRequestTravelWithPersonFromSameCountry?
           travelWithPersonFromSameCountry,
-      enums.ProfileCreationModelTravelWithPersonSameLanguage?
+      enums.ProfileCreationRequestTravelWithPersonSameLanguage?
           travelWithPersonSameLanguage,
-      enums.ProfileCreationModelGender? gender,
-      RangeAnswerModel? groupeSize,
-      enums.ProfileCreationModelChillOrVisit? chillOrVisit,
-      enums.ProfileCreationModelAboutFood? aboutFood,
-      enums.ProfileCreationModelGoOutAtNight? goOutAtNight,
-      enums.ProfileCreationModelSport? sport}) {
-    return ProfileCreationModel(
+      enums.ProfileCreationRequestGender? gender,
+      RangeAnswerModel? groupSize,
+      enums.ProfileCreationRequestChillOrVisit? chillOrVisit,
+      enums.ProfileCreationRequestAboutFood? aboutFood,
+      enums.ProfileCreationRequestGoOutAtNight? goOutAtNight,
+      enums.ProfileCreationRequestSport? sport}) {
+    return ProfileCreationRequest(
         availability: availability ?? this.availability,
         duration: duration ?? this.duration,
         budget: budget ?? this.budget,
@@ -513,7 +551,7 @@ extension $ProfileCreationModelExtension on ProfileCreationModel {
         travelWithPersonSameLanguage:
             travelWithPersonSameLanguage ?? this.travelWithPersonSameLanguage,
         gender: gender ?? this.gender,
-        groupeSize: groupeSize ?? this.groupeSize,
+        groupSize: groupSize ?? this.groupSize,
         chillOrVisit: chillOrVisit ?? this.chillOrVisit,
         aboutFood: aboutFood ?? this.aboutFood,
         goOutAtNight: goOutAtNight ?? this.goOutAtNight,
@@ -1075,6 +1113,58 @@ extension $GoogleRequestExtension on GoogleRequest {
 }
 
 @JsonSerializable(explicitToJson: true)
+class GoogleAuthResponse {
+  GoogleAuthResponse({
+    this.username,
+    this.token,
+    this.newUser,
+  });
+
+  factory GoogleAuthResponse.fromJson(Map<String, dynamic> json) =>
+      _$GoogleAuthResponseFromJson(json);
+
+  @JsonKey(name: 'username')
+  final String? username;
+  @JsonKey(name: 'token')
+  final String? token;
+  @JsonKey(name: 'newUser')
+  final bool? newUser;
+  static const fromJsonFactory = _$GoogleAuthResponseFromJson;
+  static const toJsonFactory = _$GoogleAuthResponseToJson;
+  Map<String, dynamic> toJson() => _$GoogleAuthResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is GoogleAuthResponse &&
+            (identical(other.username, username) ||
+                const DeepCollectionEquality()
+                    .equals(other.username, username)) &&
+            (identical(other.token, token) ||
+                const DeepCollectionEquality().equals(other.token, token)) &&
+            (identical(other.newUser, newUser) ||
+                const DeepCollectionEquality().equals(other.newUser, newUser)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(username) ^
+      const DeepCollectionEquality().hash(token) ^
+      const DeepCollectionEquality().hash(newUser) ^
+      runtimeType.hashCode;
+}
+
+extension $GoogleAuthResponseExtension on GoogleAuthResponse {
+  GoogleAuthResponse copyWith(
+      {String? username, String? token, bool? newUser}) {
+    return GoogleAuthResponse(
+        username: username ?? this.username,
+        token: token ?? this.token,
+        newUser: newUser ?? this.newUser);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ForgotPasswordRequest {
   ForgotPasswordRequest({
     this.email,
@@ -1105,6 +1195,204 @@ class ForgotPasswordRequest {
 extension $ForgotPasswordRequestExtension on ForgotPasswordRequest {
   ForgotPasswordRequest copyWith({String? email}) {
     return ForgotPasswordRequest(email: email ?? this.email);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ProfileUpdateRequest {
+  ProfileUpdateRequest({
+    this.availability,
+    this.duration,
+    this.budget,
+    this.destinationTypes,
+    this.ages,
+    this.travelWithPersonFromSameCity,
+    this.travelWithPersonFromSameCountry,
+    this.travelWithPersonSameLanguage,
+    this.gender,
+    this.groupSize,
+    this.chillOrVisit,
+    this.aboutFood,
+    this.goOutAtNight,
+    this.sport,
+    this.active,
+  });
+
+  factory ProfileUpdateRequest.fromJson(Map<String, dynamic> json) =>
+      _$ProfileUpdateRequestFromJson(json);
+
+  @JsonKey(name: 'availability')
+  final AvailabilityAnswerModel? availability;
+  @JsonKey(name: 'duration')
+  final RangeAnswerModel? duration;
+  @JsonKey(name: 'budget')
+  final RangeAnswerModel? budget;
+  @JsonKey(
+      name: 'destinationTypes',
+      toJson: profileUpdateRequestDestinationTypesListToJson,
+      fromJson: profileUpdateRequestDestinationTypesListFromJson)
+  final List<enums.ProfileUpdateRequestDestinationTypes>? destinationTypes;
+  @JsonKey(name: 'ages')
+  final RangeAnswerModel? ages;
+  @JsonKey(
+      name: 'travelWithPersonFromSameCity',
+      toJson: profileUpdateRequestTravelWithPersonFromSameCityToJson,
+      fromJson: profileUpdateRequestTravelWithPersonFromSameCityFromJson)
+  final enums.ProfileUpdateRequestTravelWithPersonFromSameCity?
+      travelWithPersonFromSameCity;
+  @JsonKey(
+      name: 'travelWithPersonFromSameCountry',
+      toJson: profileUpdateRequestTravelWithPersonFromSameCountryToJson,
+      fromJson: profileUpdateRequestTravelWithPersonFromSameCountryFromJson)
+  final enums.ProfileUpdateRequestTravelWithPersonFromSameCountry?
+      travelWithPersonFromSameCountry;
+  @JsonKey(
+      name: 'travelWithPersonSameLanguage',
+      toJson: profileUpdateRequestTravelWithPersonSameLanguageToJson,
+      fromJson: profileUpdateRequestTravelWithPersonSameLanguageFromJson)
+  final enums.ProfileUpdateRequestTravelWithPersonSameLanguage?
+      travelWithPersonSameLanguage;
+  @JsonKey(
+      name: 'gender',
+      toJson: profileUpdateRequestGenderToJson,
+      fromJson: profileUpdateRequestGenderFromJson)
+  final enums.ProfileUpdateRequestGender? gender;
+  @JsonKey(name: 'groupSize')
+  final RangeAnswerModel? groupSize;
+  @JsonKey(
+      name: 'chillOrVisit',
+      toJson: profileUpdateRequestChillOrVisitToJson,
+      fromJson: profileUpdateRequestChillOrVisitFromJson)
+  final enums.ProfileUpdateRequestChillOrVisit? chillOrVisit;
+  @JsonKey(
+      name: 'aboutFood',
+      toJson: profileUpdateRequestAboutFoodToJson,
+      fromJson: profileUpdateRequestAboutFoodFromJson)
+  final enums.ProfileUpdateRequestAboutFood? aboutFood;
+  @JsonKey(
+      name: 'goOutAtNight',
+      toJson: profileUpdateRequestGoOutAtNightToJson,
+      fromJson: profileUpdateRequestGoOutAtNightFromJson)
+  final enums.ProfileUpdateRequestGoOutAtNight? goOutAtNight;
+  @JsonKey(
+      name: 'sport',
+      toJson: profileUpdateRequestSportToJson,
+      fromJson: profileUpdateRequestSportFromJson)
+  final enums.ProfileUpdateRequestSport? sport;
+  @JsonKey(name: 'active')
+  final bool? active;
+  static const fromJsonFactory = _$ProfileUpdateRequestFromJson;
+  static const toJsonFactory = _$ProfileUpdateRequestToJson;
+  Map<String, dynamic> toJson() => _$ProfileUpdateRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ProfileUpdateRequest &&
+            (identical(other.availability, availability) ||
+                const DeepCollectionEquality()
+                    .equals(other.availability, availability)) &&
+            (identical(other.duration, duration) ||
+                const DeepCollectionEquality()
+                    .equals(other.duration, duration)) &&
+            (identical(other.budget, budget) ||
+                const DeepCollectionEquality().equals(other.budget, budget)) &&
+            (identical(other.destinationTypes, destinationTypes) ||
+                const DeepCollectionEquality()
+                    .equals(other.destinationTypes, destinationTypes)) &&
+            (identical(other.ages, ages) ||
+                const DeepCollectionEquality().equals(other.ages, ages)) &&
+            (identical(other.travelWithPersonFromSameCity, travelWithPersonFromSameCity) ||
+                const DeepCollectionEquality().equals(
+                    other.travelWithPersonFromSameCity,
+                    travelWithPersonFromSameCity)) &&
+            (identical(other.travelWithPersonFromSameCountry, travelWithPersonFromSameCountry) ||
+                const DeepCollectionEquality().equals(
+                    other.travelWithPersonFromSameCountry,
+                    travelWithPersonFromSameCountry)) &&
+            (identical(other.travelWithPersonSameLanguage, travelWithPersonSameLanguage) ||
+                const DeepCollectionEquality().equals(
+                    other.travelWithPersonSameLanguage,
+                    travelWithPersonSameLanguage)) &&
+            (identical(other.gender, gender) ||
+                const DeepCollectionEquality().equals(other.gender, gender)) &&
+            (identical(other.groupSize, groupSize) ||
+                const DeepCollectionEquality()
+                    .equals(other.groupSize, groupSize)) &&
+            (identical(other.chillOrVisit, chillOrVisit) ||
+                const DeepCollectionEquality()
+                    .equals(other.chillOrVisit, chillOrVisit)) &&
+            (identical(other.aboutFood, aboutFood) ||
+                const DeepCollectionEquality()
+                    .equals(other.aboutFood, aboutFood)) &&
+            (identical(other.goOutAtNight, goOutAtNight) ||
+                const DeepCollectionEquality()
+                    .equals(other.goOutAtNight, goOutAtNight)) &&
+            (identical(other.sport, sport) ||
+                const DeepCollectionEquality().equals(other.sport, sport)) &&
+            (identical(other.active, active) ||
+                const DeepCollectionEquality().equals(other.active, active)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(availability) ^
+      const DeepCollectionEquality().hash(duration) ^
+      const DeepCollectionEquality().hash(budget) ^
+      const DeepCollectionEquality().hash(destinationTypes) ^
+      const DeepCollectionEquality().hash(ages) ^
+      const DeepCollectionEquality().hash(travelWithPersonFromSameCity) ^
+      const DeepCollectionEquality().hash(travelWithPersonFromSameCountry) ^
+      const DeepCollectionEquality().hash(travelWithPersonSameLanguage) ^
+      const DeepCollectionEquality().hash(gender) ^
+      const DeepCollectionEquality().hash(groupSize) ^
+      const DeepCollectionEquality().hash(chillOrVisit) ^
+      const DeepCollectionEquality().hash(aboutFood) ^
+      const DeepCollectionEquality().hash(goOutAtNight) ^
+      const DeepCollectionEquality().hash(sport) ^
+      const DeepCollectionEquality().hash(active) ^
+      runtimeType.hashCode;
+}
+
+extension $ProfileUpdateRequestExtension on ProfileUpdateRequest {
+  ProfileUpdateRequest copyWith(
+      {AvailabilityAnswerModel? availability,
+      RangeAnswerModel? duration,
+      RangeAnswerModel? budget,
+      List<enums.ProfileUpdateRequestDestinationTypes>? destinationTypes,
+      RangeAnswerModel? ages,
+      enums.ProfileUpdateRequestTravelWithPersonFromSameCity?
+          travelWithPersonFromSameCity,
+      enums.ProfileUpdateRequestTravelWithPersonFromSameCountry?
+          travelWithPersonFromSameCountry,
+      enums.ProfileUpdateRequestTravelWithPersonSameLanguage?
+          travelWithPersonSameLanguage,
+      enums.ProfileUpdateRequestGender? gender,
+      RangeAnswerModel? groupSize,
+      enums.ProfileUpdateRequestChillOrVisit? chillOrVisit,
+      enums.ProfileUpdateRequestAboutFood? aboutFood,
+      enums.ProfileUpdateRequestGoOutAtNight? goOutAtNight,
+      enums.ProfileUpdateRequestSport? sport,
+      bool? active}) {
+    return ProfileUpdateRequest(
+        availability: availability ?? this.availability,
+        duration: duration ?? this.duration,
+        budget: budget ?? this.budget,
+        destinationTypes: destinationTypes ?? this.destinationTypes,
+        ages: ages ?? this.ages,
+        travelWithPersonFromSameCity:
+            travelWithPersonFromSameCity ?? this.travelWithPersonFromSameCity,
+        travelWithPersonFromSameCountry: travelWithPersonFromSameCountry ??
+            this.travelWithPersonFromSameCountry,
+        travelWithPersonSameLanguage:
+            travelWithPersonSameLanguage ?? this.travelWithPersonSameLanguage,
+        gender: gender ?? this.gender,
+        groupSize: groupSize ?? this.groupSize,
+        chillOrVisit: chillOrVisit ?? this.chillOrVisit,
+        aboutFood: aboutFood ?? this.aboutFood,
+        goOutAtNight: goOutAtNight ?? this.goOutAtNight,
+        sport: sport ?? this.sport,
+        active: active ?? this.active);
   }
 }
 
@@ -1150,6 +1438,8 @@ class UserUpdateRequest {
     this.profilePicture,
     this.city,
     this.phoneNumber,
+    this.birthdate,
+    this.gender,
   });
 
   factory UserUpdateRequest.fromJson(Map<String, dynamic> json) =>
@@ -1165,6 +1455,10 @@ class UserUpdateRequest {
   final CityModel? city;
   @JsonKey(name: 'phoneNumber')
   final String? phoneNumber;
+  @JsonKey(name: 'birthdate')
+  final DateTime? birthdate;
+  @JsonKey(name: 'gender')
+  final String? gender;
   static const fromJsonFactory = _$UserUpdateRequestFromJson;
   static const toJsonFactory = _$UserUpdateRequestToJson;
   Map<String, dynamic> toJson() => _$UserUpdateRequestToJson(this);
@@ -1186,7 +1480,12 @@ class UserUpdateRequest {
                 const DeepCollectionEquality().equals(other.city, city)) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)));
+                    .equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.birthdate, birthdate) ||
+                const DeepCollectionEquality()
+                    .equals(other.birthdate, birthdate)) &&
+            (identical(other.gender, gender) ||
+                const DeepCollectionEquality().equals(other.gender, gender)));
   }
 
   @override
@@ -1196,6 +1495,8 @@ class UserUpdateRequest {
       const DeepCollectionEquality().hash(profilePicture) ^
       const DeepCollectionEquality().hash(city) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
+      const DeepCollectionEquality().hash(birthdate) ^
+      const DeepCollectionEquality().hash(gender) ^
       runtimeType.hashCode;
 }
 
@@ -1205,13 +1506,17 @@ extension $UserUpdateRequestExtension on UserUpdateRequest {
       String? lastname,
       String? profilePicture,
       CityModel? city,
-      String? phoneNumber}) {
+      String? phoneNumber,
+      DateTime? birthdate,
+      String? gender}) {
     return UserUpdateRequest(
         firstname: firstname ?? this.firstname,
         lastname: lastname ?? this.lastname,
         profilePicture: profilePicture ?? this.profilePicture,
         city: city ?? this.city,
-        phoneNumber: phoneNumber ?? this.phoneNumber);
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        birthdate: birthdate ?? this.birthdate,
+        gender: gender ?? this.gender);
   }
 }
 
@@ -1641,548 +1946,564 @@ extension $DeleteUserByAdminRequestExtension on DeleteUserByAdminRequest {
   }
 }
 
-String? profileCreationModelDestinationTypesToJson(
-    enums.ProfileCreationModelDestinationTypes?
-        profileCreationModelDestinationTypes) {
-  return enums.$ProfileCreationModelDestinationTypesMap[
-      profileCreationModelDestinationTypes];
+String? profileCreationRequestDestinationTypesToJson(
+    enums.ProfileCreationRequestDestinationTypes?
+        profileCreationRequestDestinationTypes) {
+  return enums.$ProfileCreationRequestDestinationTypesMap[
+      profileCreationRequestDestinationTypes];
 }
 
-enums.ProfileCreationModelDestinationTypes
-    profileCreationModelDestinationTypesFromJson(
-        Object? profileCreationModelDestinationTypes) {
-  if (profileCreationModelDestinationTypes is int) {
-    return enums.$ProfileCreationModelDestinationTypesMap.entries
+enums.ProfileCreationRequestDestinationTypes
+    profileCreationRequestDestinationTypesFromJson(
+        Object? profileCreationRequestDestinationTypes) {
+  if (profileCreationRequestDestinationTypes is int) {
+    return enums.$ProfileCreationRequestDestinationTypesMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                profileCreationModelDestinationTypes.toString(),
+                profileCreationRequestDestinationTypes.toString(),
             orElse: () => const MapEntry(
-                enums.ProfileCreationModelDestinationTypes
+                enums.ProfileCreationRequestDestinationTypes
                     .swaggerGeneratedUnknown,
                 ''))
         .key;
   }
 
-  if (profileCreationModelDestinationTypes is String) {
-    return enums.$ProfileCreationModelDestinationTypesMap.entries
+  if (profileCreationRequestDestinationTypes is String) {
+    return enums.$ProfileCreationRequestDestinationTypesMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                profileCreationModelDestinationTypes.toLowerCase(),
+                profileCreationRequestDestinationTypes.toLowerCase(),
             orElse: () => const MapEntry(
-                enums.ProfileCreationModelDestinationTypes
+                enums.ProfileCreationRequestDestinationTypes
                     .swaggerGeneratedUnknown,
                 ''))
         .key;
   }
 
-  return enums.ProfileCreationModelDestinationTypes.swaggerGeneratedUnknown;
+  return enums.ProfileCreationRequestDestinationTypes.swaggerGeneratedUnknown;
 }
 
-List<String> profileCreationModelDestinationTypesListToJson(
-    List<enums.ProfileCreationModelDestinationTypes>?
-        profileCreationModelDestinationTypes) {
-  if (profileCreationModelDestinationTypes == null) {
+List<String> profileCreationRequestDestinationTypesListToJson(
+    List<enums.ProfileCreationRequestDestinationTypes>?
+        profileCreationRequestDestinationTypes) {
+  if (profileCreationRequestDestinationTypes == null) {
     return [];
   }
 
-  return profileCreationModelDestinationTypes
-      .map((e) => enums.$ProfileCreationModelDestinationTypesMap[e]!)
+  return profileCreationRequestDestinationTypes
+      .map((e) => enums.$ProfileCreationRequestDestinationTypesMap[e]!)
       .toList();
 }
 
-List<enums.ProfileCreationModelDestinationTypes>
-    profileCreationModelDestinationTypesListFromJson(
-        List? profileCreationModelDestinationTypes) {
-  if (profileCreationModelDestinationTypes == null) {
+List<enums.ProfileCreationRequestDestinationTypes>
+    profileCreationRequestDestinationTypesListFromJson(
+        List? profileCreationRequestDestinationTypes) {
+  if (profileCreationRequestDestinationTypes == null) {
     return [];
   }
 
-  return profileCreationModelDestinationTypes
-      .map((e) => profileCreationModelDestinationTypesFromJson(e.toString()))
+  return profileCreationRequestDestinationTypes
+      .map((e) => profileCreationRequestDestinationTypesFromJson(e.toString()))
       .toList();
 }
 
-String? profileCreationModelTravelWithPersonFromSameCityToJson(
-    enums.ProfileCreationModelTravelWithPersonFromSameCity?
-        profileCreationModelTravelWithPersonFromSameCity) {
-  return enums.$ProfileCreationModelTravelWithPersonFromSameCityMap[
-      profileCreationModelTravelWithPersonFromSameCity];
+String? profileCreationRequestTravelWithPersonFromSameCityToJson(
+    enums.ProfileCreationRequestTravelWithPersonFromSameCity?
+        profileCreationRequestTravelWithPersonFromSameCity) {
+  return enums.$ProfileCreationRequestTravelWithPersonFromSameCityMap[
+      profileCreationRequestTravelWithPersonFromSameCity];
 }
 
-enums.ProfileCreationModelTravelWithPersonFromSameCity
-    profileCreationModelTravelWithPersonFromSameCityFromJson(
-        Object? profileCreationModelTravelWithPersonFromSameCity) {
-  if (profileCreationModelTravelWithPersonFromSameCity is int) {
-    return enums.$ProfileCreationModelTravelWithPersonFromSameCityMap.entries
+enums.ProfileCreationRequestTravelWithPersonFromSameCity
+    profileCreationRequestTravelWithPersonFromSameCityFromJson(
+        Object? profileCreationRequestTravelWithPersonFromSameCity) {
+  if (profileCreationRequestTravelWithPersonFromSameCity is int) {
+    return enums.$ProfileCreationRequestTravelWithPersonFromSameCityMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                profileCreationModelTravelWithPersonFromSameCity.toString(),
+                profileCreationRequestTravelWithPersonFromSameCity.toString(),
             orElse: () => const MapEntry(
-                enums.ProfileCreationModelTravelWithPersonFromSameCity
+                enums.ProfileCreationRequestTravelWithPersonFromSameCity
                     .swaggerGeneratedUnknown,
                 ''))
         .key;
   }
 
-  if (profileCreationModelTravelWithPersonFromSameCity is String) {
-    return enums.$ProfileCreationModelTravelWithPersonFromSameCityMap.entries
+  if (profileCreationRequestTravelWithPersonFromSameCity is String) {
+    return enums.$ProfileCreationRequestTravelWithPersonFromSameCityMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                profileCreationModelTravelWithPersonFromSameCity.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationModelTravelWithPersonFromSameCity
-                    .swaggerGeneratedUnknown,
-                ''))
-        .key;
-  }
-
-  return enums
-      .ProfileCreationModelTravelWithPersonFromSameCity.swaggerGeneratedUnknown;
-}
-
-List<String> profileCreationModelTravelWithPersonFromSameCityListToJson(
-    List<enums.ProfileCreationModelTravelWithPersonFromSameCity>?
-        profileCreationModelTravelWithPersonFromSameCity) {
-  if (profileCreationModelTravelWithPersonFromSameCity == null) {
-    return [];
-  }
-
-  return profileCreationModelTravelWithPersonFromSameCity
-      .map(
-          (e) => enums.$ProfileCreationModelTravelWithPersonFromSameCityMap[e]!)
-      .toList();
-}
-
-List<enums.ProfileCreationModelTravelWithPersonFromSameCity>
-    profileCreationModelTravelWithPersonFromSameCityListFromJson(
-        List? profileCreationModelTravelWithPersonFromSameCity) {
-  if (profileCreationModelTravelWithPersonFromSameCity == null) {
-    return [];
-  }
-
-  return profileCreationModelTravelWithPersonFromSameCity
-      .map((e) => profileCreationModelTravelWithPersonFromSameCityFromJson(
-          e.toString()))
-      .toList();
-}
-
-String? profileCreationModelTravelWithPersonFromSameCountryToJson(
-    enums.ProfileCreationModelTravelWithPersonFromSameCountry?
-        profileCreationModelTravelWithPersonFromSameCountry) {
-  return enums.$ProfileCreationModelTravelWithPersonFromSameCountryMap[
-      profileCreationModelTravelWithPersonFromSameCountry];
-}
-
-enums.ProfileCreationModelTravelWithPersonFromSameCountry
-    profileCreationModelTravelWithPersonFromSameCountryFromJson(
-        Object? profileCreationModelTravelWithPersonFromSameCountry) {
-  if (profileCreationModelTravelWithPersonFromSameCountry is int) {
-    return enums.$ProfileCreationModelTravelWithPersonFromSameCountryMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationModelTravelWithPersonFromSameCountry.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationModelTravelWithPersonFromSameCountry
-                    .swaggerGeneratedUnknown,
-                ''))
-        .key;
-  }
-
-  if (profileCreationModelTravelWithPersonFromSameCountry is String) {
-    return enums.$ProfileCreationModelTravelWithPersonFromSameCountryMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationModelTravelWithPersonFromSameCountry
+                profileCreationRequestTravelWithPersonFromSameCity
                     .toLowerCase(),
             orElse: () => const MapEntry(
-                enums.ProfileCreationModelTravelWithPersonFromSameCountry
+                enums.ProfileCreationRequestTravelWithPersonFromSameCity
                     .swaggerGeneratedUnknown,
                 ''))
         .key;
   }
 
-  return enums.ProfileCreationModelTravelWithPersonFromSameCountry
+  return enums.ProfileCreationRequestTravelWithPersonFromSameCity
       .swaggerGeneratedUnknown;
 }
 
-List<String> profileCreationModelTravelWithPersonFromSameCountryListToJson(
-    List<enums.ProfileCreationModelTravelWithPersonFromSameCountry>?
-        profileCreationModelTravelWithPersonFromSameCountry) {
-  if (profileCreationModelTravelWithPersonFromSameCountry == null) {
+List<String> profileCreationRequestTravelWithPersonFromSameCityListToJson(
+    List<enums.ProfileCreationRequestTravelWithPersonFromSameCity>?
+        profileCreationRequestTravelWithPersonFromSameCity) {
+  if (profileCreationRequestTravelWithPersonFromSameCity == null) {
     return [];
   }
 
-  return profileCreationModelTravelWithPersonFromSameCountry
+  return profileCreationRequestTravelWithPersonFromSameCity
       .map((e) =>
-          enums.$ProfileCreationModelTravelWithPersonFromSameCountryMap[e]!)
+          enums.$ProfileCreationRequestTravelWithPersonFromSameCityMap[e]!)
       .toList();
 }
 
-List<enums.ProfileCreationModelTravelWithPersonFromSameCountry>
-    profileCreationModelTravelWithPersonFromSameCountryListFromJson(
-        List? profileCreationModelTravelWithPersonFromSameCountry) {
-  if (profileCreationModelTravelWithPersonFromSameCountry == null) {
+List<enums.ProfileCreationRequestTravelWithPersonFromSameCity>
+    profileCreationRequestTravelWithPersonFromSameCityListFromJson(
+        List? profileCreationRequestTravelWithPersonFromSameCity) {
+  if (profileCreationRequestTravelWithPersonFromSameCity == null) {
     return [];
   }
 
-  return profileCreationModelTravelWithPersonFromSameCountry
-      .map((e) => profileCreationModelTravelWithPersonFromSameCountryFromJson(
+  return profileCreationRequestTravelWithPersonFromSameCity
+      .map((e) => profileCreationRequestTravelWithPersonFromSameCityFromJson(
           e.toString()))
       .toList();
 }
 
-String? profileCreationModelTravelWithPersonSameLanguageToJson(
-    enums.ProfileCreationModelTravelWithPersonSameLanguage?
-        profileCreationModelTravelWithPersonSameLanguage) {
-  return enums.$ProfileCreationModelTravelWithPersonSameLanguageMap[
-      profileCreationModelTravelWithPersonSameLanguage];
+String? profileCreationRequestTravelWithPersonFromSameCountryToJson(
+    enums.ProfileCreationRequestTravelWithPersonFromSameCountry?
+        profileCreationRequestTravelWithPersonFromSameCountry) {
+  return enums.$ProfileCreationRequestTravelWithPersonFromSameCountryMap[
+      profileCreationRequestTravelWithPersonFromSameCountry];
 }
 
-enums.ProfileCreationModelTravelWithPersonSameLanguage
-    profileCreationModelTravelWithPersonSameLanguageFromJson(
-        Object? profileCreationModelTravelWithPersonSameLanguage) {
-  if (profileCreationModelTravelWithPersonSameLanguage is int) {
-    return enums.$ProfileCreationModelTravelWithPersonSameLanguageMap.entries
+enums.ProfileCreationRequestTravelWithPersonFromSameCountry
+    profileCreationRequestTravelWithPersonFromSameCountryFromJson(
+        Object? profileCreationRequestTravelWithPersonFromSameCountry) {
+  if (profileCreationRequestTravelWithPersonFromSameCountry is int) {
+    return enums
+        .$ProfileCreationRequestTravelWithPersonFromSameCountryMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                profileCreationModelTravelWithPersonSameLanguage.toString(),
+                profileCreationRequestTravelWithPersonFromSameCountry
+                    .toString(),
             orElse: () => const MapEntry(
-                enums.ProfileCreationModelTravelWithPersonSameLanguage
+                enums.ProfileCreationRequestTravelWithPersonFromSameCountry
                     .swaggerGeneratedUnknown,
                 ''))
         .key;
   }
 
-  if (profileCreationModelTravelWithPersonSameLanguage is String) {
-    return enums.$ProfileCreationModelTravelWithPersonSameLanguageMap.entries
+  if (profileCreationRequestTravelWithPersonFromSameCountry is String) {
+    return enums
+        .$ProfileCreationRequestTravelWithPersonFromSameCountryMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                profileCreationModelTravelWithPersonSameLanguage.toLowerCase(),
+                profileCreationRequestTravelWithPersonFromSameCountry
+                    .toLowerCase(),
             orElse: () => const MapEntry(
-                enums.ProfileCreationModelTravelWithPersonSameLanguage
+                enums.ProfileCreationRequestTravelWithPersonFromSameCountry
                     .swaggerGeneratedUnknown,
                 ''))
         .key;
   }
 
-  return enums
-      .ProfileCreationModelTravelWithPersonSameLanguage.swaggerGeneratedUnknown;
+  return enums.ProfileCreationRequestTravelWithPersonFromSameCountry
+      .swaggerGeneratedUnknown;
 }
 
-List<String> profileCreationModelTravelWithPersonSameLanguageListToJson(
-    List<enums.ProfileCreationModelTravelWithPersonSameLanguage>?
-        profileCreationModelTravelWithPersonSameLanguage) {
-  if (profileCreationModelTravelWithPersonSameLanguage == null) {
+List<String> profileCreationRequestTravelWithPersonFromSameCountryListToJson(
+    List<enums.ProfileCreationRequestTravelWithPersonFromSameCountry>?
+        profileCreationRequestTravelWithPersonFromSameCountry) {
+  if (profileCreationRequestTravelWithPersonFromSameCountry == null) {
     return [];
   }
 
-  return profileCreationModelTravelWithPersonSameLanguage
-      .map(
-          (e) => enums.$ProfileCreationModelTravelWithPersonSameLanguageMap[e]!)
+  return profileCreationRequestTravelWithPersonFromSameCountry
+      .map((e) =>
+          enums.$ProfileCreationRequestTravelWithPersonFromSameCountryMap[e]!)
       .toList();
 }
 
-List<enums.ProfileCreationModelTravelWithPersonSameLanguage>
-    profileCreationModelTravelWithPersonSameLanguageListFromJson(
-        List? profileCreationModelTravelWithPersonSameLanguage) {
-  if (profileCreationModelTravelWithPersonSameLanguage == null) {
+List<enums.ProfileCreationRequestTravelWithPersonFromSameCountry>
+    profileCreationRequestTravelWithPersonFromSameCountryListFromJson(
+        List? profileCreationRequestTravelWithPersonFromSameCountry) {
+  if (profileCreationRequestTravelWithPersonFromSameCountry == null) {
     return [];
   }
 
-  return profileCreationModelTravelWithPersonSameLanguage
-      .map((e) => profileCreationModelTravelWithPersonSameLanguageFromJson(
+  return profileCreationRequestTravelWithPersonFromSameCountry
+      .map((e) => profileCreationRequestTravelWithPersonFromSameCountryFromJson(
           e.toString()))
       .toList();
 }
 
-String? profileCreationModelGenderToJson(
-    enums.ProfileCreationModelGender? profileCreationModelGender) {
-  return enums.$ProfileCreationModelGenderMap[profileCreationModelGender];
+String? profileCreationRequestTravelWithPersonSameLanguageToJson(
+    enums.ProfileCreationRequestTravelWithPersonSameLanguage?
+        profileCreationRequestTravelWithPersonSameLanguage) {
+  return enums.$ProfileCreationRequestTravelWithPersonSameLanguageMap[
+      profileCreationRequestTravelWithPersonSameLanguage];
 }
 
-enums.ProfileCreationModelGender profileCreationModelGenderFromJson(
-    Object? profileCreationModelGender) {
-  if (profileCreationModelGender is int) {
-    return enums.$ProfileCreationModelGenderMap.entries
+enums.ProfileCreationRequestTravelWithPersonSameLanguage
+    profileCreationRequestTravelWithPersonSameLanguageFromJson(
+        Object? profileCreationRequestTravelWithPersonSameLanguage) {
+  if (profileCreationRequestTravelWithPersonSameLanguage is int) {
+    return enums.$ProfileCreationRequestTravelWithPersonSameLanguageMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                profileCreationModelGender.toString(),
+                profileCreationRequestTravelWithPersonSameLanguage.toString(),
             orElse: () => const MapEntry(
-                enums.ProfileCreationModelGender.swaggerGeneratedUnknown, ''))
+                enums.ProfileCreationRequestTravelWithPersonSameLanguage
+                    .swaggerGeneratedUnknown,
+                ''))
         .key;
   }
 
-  if (profileCreationModelGender is String) {
-    return enums.$ProfileCreationModelGenderMap.entries
+  if (profileCreationRequestTravelWithPersonSameLanguage is String) {
+    return enums.$ProfileCreationRequestTravelWithPersonSameLanguageMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                profileCreationModelGender.toLowerCase(),
+                profileCreationRequestTravelWithPersonSameLanguage
+                    .toLowerCase(),
             orElse: () => const MapEntry(
-                enums.ProfileCreationModelGender.swaggerGeneratedUnknown, ''))
+                enums.ProfileCreationRequestTravelWithPersonSameLanguage
+                    .swaggerGeneratedUnknown,
+                ''))
         .key;
   }
 
-  return enums.ProfileCreationModelGender.swaggerGeneratedUnknown;
+  return enums.ProfileCreationRequestTravelWithPersonSameLanguage
+      .swaggerGeneratedUnknown;
 }
 
-List<String> profileCreationModelGenderListToJson(
-    List<enums.ProfileCreationModelGender>? profileCreationModelGender) {
-  if (profileCreationModelGender == null) {
+List<String> profileCreationRequestTravelWithPersonSameLanguageListToJson(
+    List<enums.ProfileCreationRequestTravelWithPersonSameLanguage>?
+        profileCreationRequestTravelWithPersonSameLanguage) {
+  if (profileCreationRequestTravelWithPersonSameLanguage == null) {
     return [];
   }
 
-  return profileCreationModelGender
-      .map((e) => enums.$ProfileCreationModelGenderMap[e]!)
+  return profileCreationRequestTravelWithPersonSameLanguage
+      .map((e) =>
+          enums.$ProfileCreationRequestTravelWithPersonSameLanguageMap[e]!)
       .toList();
 }
 
-List<enums.ProfileCreationModelGender> profileCreationModelGenderListFromJson(
-    List? profileCreationModelGender) {
-  if (profileCreationModelGender == null) {
+List<enums.ProfileCreationRequestTravelWithPersonSameLanguage>
+    profileCreationRequestTravelWithPersonSameLanguageListFromJson(
+        List? profileCreationRequestTravelWithPersonSameLanguage) {
+  if (profileCreationRequestTravelWithPersonSameLanguage == null) {
     return [];
   }
 
-  return profileCreationModelGender
-      .map((e) => profileCreationModelGenderFromJson(e.toString()))
+  return profileCreationRequestTravelWithPersonSameLanguage
+      .map((e) => profileCreationRequestTravelWithPersonSameLanguageFromJson(
+          e.toString()))
       .toList();
 }
 
-String? profileCreationModelChillOrVisitToJson(
-    enums.ProfileCreationModelChillOrVisit? profileCreationModelChillOrVisit) {
+String? profileCreationRequestGenderToJson(
+    enums.ProfileCreationRequestGender? profileCreationRequestGender) {
+  return enums.$ProfileCreationRequestGenderMap[profileCreationRequestGender];
+}
+
+enums.ProfileCreationRequestGender profileCreationRequestGenderFromJson(
+    Object? profileCreationRequestGender) {
+  if (profileCreationRequestGender is int) {
+    return enums.$ProfileCreationRequestGenderMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileCreationRequestGender.toString(),
+            orElse: () => const MapEntry(
+                enums.ProfileCreationRequestGender.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (profileCreationRequestGender is String) {
+    return enums.$ProfileCreationRequestGenderMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileCreationRequestGender.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.ProfileCreationRequestGender.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.ProfileCreationRequestGender.swaggerGeneratedUnknown;
+}
+
+List<String> profileCreationRequestGenderListToJson(
+    List<enums.ProfileCreationRequestGender>? profileCreationRequestGender) {
+  if (profileCreationRequestGender == null) {
+    return [];
+  }
+
+  return profileCreationRequestGender
+      .map((e) => enums.$ProfileCreationRequestGenderMap[e]!)
+      .toList();
+}
+
+List<enums.ProfileCreationRequestGender>
+    profileCreationRequestGenderListFromJson(
+        List? profileCreationRequestGender) {
+  if (profileCreationRequestGender == null) {
+    return [];
+  }
+
+  return profileCreationRequestGender
+      .map((e) => profileCreationRequestGenderFromJson(e.toString()))
+      .toList();
+}
+
+String? profileCreationRequestChillOrVisitToJson(
+    enums.ProfileCreationRequestChillOrVisit?
+        profileCreationRequestChillOrVisit) {
+  return enums.$ProfileCreationRequestChillOrVisitMap[
+      profileCreationRequestChillOrVisit];
+}
+
+enums.ProfileCreationRequestChillOrVisit
+    profileCreationRequestChillOrVisitFromJson(
+        Object? profileCreationRequestChillOrVisit) {
+  if (profileCreationRequestChillOrVisit is int) {
+    return enums.$ProfileCreationRequestChillOrVisitMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileCreationRequestChillOrVisit.toString(),
+            orElse: () => const MapEntry(
+                enums
+                    .ProfileCreationRequestChillOrVisit.swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  if (profileCreationRequestChillOrVisit is String) {
+    return enums.$ProfileCreationRequestChillOrVisitMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileCreationRequestChillOrVisit.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums
+                    .ProfileCreationRequestChillOrVisit.swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  return enums.ProfileCreationRequestChillOrVisit.swaggerGeneratedUnknown;
+}
+
+List<String> profileCreationRequestChillOrVisitListToJson(
+    List<enums.ProfileCreationRequestChillOrVisit>?
+        profileCreationRequestChillOrVisit) {
+  if (profileCreationRequestChillOrVisit == null) {
+    return [];
+  }
+
+  return profileCreationRequestChillOrVisit
+      .map((e) => enums.$ProfileCreationRequestChillOrVisitMap[e]!)
+      .toList();
+}
+
+List<enums.ProfileCreationRequestChillOrVisit>
+    profileCreationRequestChillOrVisitListFromJson(
+        List? profileCreationRequestChillOrVisit) {
+  if (profileCreationRequestChillOrVisit == null) {
+    return [];
+  }
+
+  return profileCreationRequestChillOrVisit
+      .map((e) => profileCreationRequestChillOrVisitFromJson(e.toString()))
+      .toList();
+}
+
+String? profileCreationRequestAboutFoodToJson(
+    enums.ProfileCreationRequestAboutFood? profileCreationRequestAboutFood) {
   return enums
-      .$ProfileCreationModelChillOrVisitMap[profileCreationModelChillOrVisit];
+      .$ProfileCreationRequestAboutFoodMap[profileCreationRequestAboutFood];
 }
 
-enums.ProfileCreationModelChillOrVisit profileCreationModelChillOrVisitFromJson(
-    Object? profileCreationModelChillOrVisit) {
-  if (profileCreationModelChillOrVisit is int) {
-    return enums.$ProfileCreationModelChillOrVisitMap.entries
+enums.ProfileCreationRequestAboutFood profileCreationRequestAboutFoodFromJson(
+    Object? profileCreationRequestAboutFood) {
+  if (profileCreationRequestAboutFood is int) {
+    return enums.$ProfileCreationRequestAboutFoodMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                profileCreationModelChillOrVisit.toString(),
+                profileCreationRequestAboutFood.toString(),
             orElse: () => const MapEntry(
-                enums.ProfileCreationModelChillOrVisit.swaggerGeneratedUnknown,
+                enums.ProfileCreationRequestAboutFood.swaggerGeneratedUnknown,
                 ''))
         .key;
   }
 
-  if (profileCreationModelChillOrVisit is String) {
-    return enums.$ProfileCreationModelChillOrVisitMap.entries
+  if (profileCreationRequestAboutFood is String) {
+    return enums.$ProfileCreationRequestAboutFoodMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                profileCreationModelChillOrVisit.toLowerCase(),
+                profileCreationRequestAboutFood.toLowerCase(),
             orElse: () => const MapEntry(
-                enums.ProfileCreationModelChillOrVisit.swaggerGeneratedUnknown,
+                enums.ProfileCreationRequestAboutFood.swaggerGeneratedUnknown,
                 ''))
         .key;
   }
 
-  return enums.ProfileCreationModelChillOrVisit.swaggerGeneratedUnknown;
+  return enums.ProfileCreationRequestAboutFood.swaggerGeneratedUnknown;
 }
 
-List<String> profileCreationModelChillOrVisitListToJson(
-    List<enums.ProfileCreationModelChillOrVisit>?
-        profileCreationModelChillOrVisit) {
-  if (profileCreationModelChillOrVisit == null) {
+List<String> profileCreationRequestAboutFoodListToJson(
+    List<enums.ProfileCreationRequestAboutFood>?
+        profileCreationRequestAboutFood) {
+  if (profileCreationRequestAboutFood == null) {
     return [];
   }
 
-  return profileCreationModelChillOrVisit
-      .map((e) => enums.$ProfileCreationModelChillOrVisitMap[e]!)
+  return profileCreationRequestAboutFood
+      .map((e) => enums.$ProfileCreationRequestAboutFoodMap[e]!)
       .toList();
 }
 
-List<enums.ProfileCreationModelChillOrVisit>
-    profileCreationModelChillOrVisitListFromJson(
-        List? profileCreationModelChillOrVisit) {
-  if (profileCreationModelChillOrVisit == null) {
+List<enums.ProfileCreationRequestAboutFood>
+    profileCreationRequestAboutFoodListFromJson(
+        List? profileCreationRequestAboutFood) {
+  if (profileCreationRequestAboutFood == null) {
     return [];
   }
 
-  return profileCreationModelChillOrVisit
-      .map((e) => profileCreationModelChillOrVisitFromJson(e.toString()))
+  return profileCreationRequestAboutFood
+      .map((e) => profileCreationRequestAboutFoodFromJson(e.toString()))
       .toList();
 }
 
-String? profileCreationModelAboutFoodToJson(
-    enums.ProfileCreationModelAboutFood? profileCreationModelAboutFood) {
-  return enums.$ProfileCreationModelAboutFoodMap[profileCreationModelAboutFood];
+String? profileCreationRequestGoOutAtNightToJson(
+    enums.ProfileCreationRequestGoOutAtNight?
+        profileCreationRequestGoOutAtNight) {
+  return enums.$ProfileCreationRequestGoOutAtNightMap[
+      profileCreationRequestGoOutAtNight];
 }
 
-enums.ProfileCreationModelAboutFood profileCreationModelAboutFoodFromJson(
-    Object? profileCreationModelAboutFood) {
-  if (profileCreationModelAboutFood is int) {
-    return enums.$ProfileCreationModelAboutFoodMap.entries
+enums.ProfileCreationRequestGoOutAtNight
+    profileCreationRequestGoOutAtNightFromJson(
+        Object? profileCreationRequestGoOutAtNight) {
+  if (profileCreationRequestGoOutAtNight is int) {
+    return enums.$ProfileCreationRequestGoOutAtNightMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                profileCreationModelAboutFood.toString(),
+                profileCreationRequestGoOutAtNight.toString(),
             orElse: () => const MapEntry(
-                enums.ProfileCreationModelAboutFood.swaggerGeneratedUnknown,
+                enums
+                    .ProfileCreationRequestGoOutAtNight.swaggerGeneratedUnknown,
                 ''))
         .key;
   }
 
-  if (profileCreationModelAboutFood is String) {
-    return enums.$ProfileCreationModelAboutFoodMap.entries
+  if (profileCreationRequestGoOutAtNight is String) {
+    return enums.$ProfileCreationRequestGoOutAtNightMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                profileCreationModelAboutFood.toLowerCase(),
+                profileCreationRequestGoOutAtNight.toLowerCase(),
             orElse: () => const MapEntry(
-                enums.ProfileCreationModelAboutFood.swaggerGeneratedUnknown,
+                enums
+                    .ProfileCreationRequestGoOutAtNight.swaggerGeneratedUnknown,
                 ''))
         .key;
   }
 
-  return enums.ProfileCreationModelAboutFood.swaggerGeneratedUnknown;
+  return enums.ProfileCreationRequestGoOutAtNight.swaggerGeneratedUnknown;
 }
 
-List<String> profileCreationModelAboutFoodListToJson(
-    List<enums.ProfileCreationModelAboutFood>? profileCreationModelAboutFood) {
-  if (profileCreationModelAboutFood == null) {
+List<String> profileCreationRequestGoOutAtNightListToJson(
+    List<enums.ProfileCreationRequestGoOutAtNight>?
+        profileCreationRequestGoOutAtNight) {
+  if (profileCreationRequestGoOutAtNight == null) {
     return [];
   }
 
-  return profileCreationModelAboutFood
-      .map((e) => enums.$ProfileCreationModelAboutFoodMap[e]!)
+  return profileCreationRequestGoOutAtNight
+      .map((e) => enums.$ProfileCreationRequestGoOutAtNightMap[e]!)
       .toList();
 }
 
-List<enums.ProfileCreationModelAboutFood>
-    profileCreationModelAboutFoodListFromJson(
-        List? profileCreationModelAboutFood) {
-  if (profileCreationModelAboutFood == null) {
+List<enums.ProfileCreationRequestGoOutAtNight>
+    profileCreationRequestGoOutAtNightListFromJson(
+        List? profileCreationRequestGoOutAtNight) {
+  if (profileCreationRequestGoOutAtNight == null) {
     return [];
   }
 
-  return profileCreationModelAboutFood
-      .map((e) => profileCreationModelAboutFoodFromJson(e.toString()))
+  return profileCreationRequestGoOutAtNight
+      .map((e) => profileCreationRequestGoOutAtNightFromJson(e.toString()))
       .toList();
 }
 
-String? profileCreationModelGoOutAtNightToJson(
-    enums.ProfileCreationModelGoOutAtNight? profileCreationModelGoOutAtNight) {
-  return enums
-      .$ProfileCreationModelGoOutAtNightMap[profileCreationModelGoOutAtNight];
+String? profileCreationRequestSportToJson(
+    enums.ProfileCreationRequestSport? profileCreationRequestSport) {
+  return enums.$ProfileCreationRequestSportMap[profileCreationRequestSport];
 }
 
-enums.ProfileCreationModelGoOutAtNight profileCreationModelGoOutAtNightFromJson(
-    Object? profileCreationModelGoOutAtNight) {
-  if (profileCreationModelGoOutAtNight is int) {
-    return enums.$ProfileCreationModelGoOutAtNightMap.entries
+enums.ProfileCreationRequestSport profileCreationRequestSportFromJson(
+    Object? profileCreationRequestSport) {
+  if (profileCreationRequestSport is int) {
+    return enums.$ProfileCreationRequestSportMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                profileCreationModelGoOutAtNight.toString(),
+                profileCreationRequestSport.toString(),
             orElse: () => const MapEntry(
-                enums.ProfileCreationModelGoOutAtNight.swaggerGeneratedUnknown,
-                ''))
+                enums.ProfileCreationRequestSport.swaggerGeneratedUnknown, ''))
         .key;
   }
 
-  if (profileCreationModelGoOutAtNight is String) {
-    return enums.$ProfileCreationModelGoOutAtNightMap.entries
+  if (profileCreationRequestSport is String) {
+    return enums.$ProfileCreationRequestSportMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                profileCreationModelGoOutAtNight.toLowerCase(),
+                profileCreationRequestSport.toLowerCase(),
             orElse: () => const MapEntry(
-                enums.ProfileCreationModelGoOutAtNight.swaggerGeneratedUnknown,
-                ''))
+                enums.ProfileCreationRequestSport.swaggerGeneratedUnknown, ''))
         .key;
   }
 
-  return enums.ProfileCreationModelGoOutAtNight.swaggerGeneratedUnknown;
+  return enums.ProfileCreationRequestSport.swaggerGeneratedUnknown;
 }
 
-List<String> profileCreationModelGoOutAtNightListToJson(
-    List<enums.ProfileCreationModelGoOutAtNight>?
-        profileCreationModelGoOutAtNight) {
-  if (profileCreationModelGoOutAtNight == null) {
+List<String> profileCreationRequestSportListToJson(
+    List<enums.ProfileCreationRequestSport>? profileCreationRequestSport) {
+  if (profileCreationRequestSport == null) {
     return [];
   }
 
-  return profileCreationModelGoOutAtNight
-      .map((e) => enums.$ProfileCreationModelGoOutAtNightMap[e]!)
+  return profileCreationRequestSport
+      .map((e) => enums.$ProfileCreationRequestSportMap[e]!)
       .toList();
 }
 
-List<enums.ProfileCreationModelGoOutAtNight>
-    profileCreationModelGoOutAtNightListFromJson(
-        List? profileCreationModelGoOutAtNight) {
-  if (profileCreationModelGoOutAtNight == null) {
+List<enums.ProfileCreationRequestSport> profileCreationRequestSportListFromJson(
+    List? profileCreationRequestSport) {
+  if (profileCreationRequestSport == null) {
     return [];
   }
 
-  return profileCreationModelGoOutAtNight
-      .map((e) => profileCreationModelGoOutAtNightFromJson(e.toString()))
-      .toList();
-}
-
-String? profileCreationModelSportToJson(
-    enums.ProfileCreationModelSport? profileCreationModelSport) {
-  return enums.$ProfileCreationModelSportMap[profileCreationModelSport];
-}
-
-enums.ProfileCreationModelSport profileCreationModelSportFromJson(
-    Object? profileCreationModelSport) {
-  if (profileCreationModelSport is int) {
-    return enums.$ProfileCreationModelSportMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationModelSport.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationModelSport.swaggerGeneratedUnknown, ''))
-        .key;
-  }
-
-  if (profileCreationModelSport is String) {
-    return enums.$ProfileCreationModelSportMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationModelSport.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationModelSport.swaggerGeneratedUnknown, ''))
-        .key;
-  }
-
-  return enums.ProfileCreationModelSport.swaggerGeneratedUnknown;
-}
-
-List<String> profileCreationModelSportListToJson(
-    List<enums.ProfileCreationModelSport>? profileCreationModelSport) {
-  if (profileCreationModelSport == null) {
-    return [];
-  }
-
-  return profileCreationModelSport
-      .map((e) => enums.$ProfileCreationModelSportMap[e]!)
-      .toList();
-}
-
-List<enums.ProfileCreationModelSport> profileCreationModelSportListFromJson(
-    List? profileCreationModelSport) {
-  if (profileCreationModelSport == null) {
-    return [];
-  }
-
-  return profileCreationModelSport
-      .map((e) => profileCreationModelSportFromJson(e.toString()))
+  return profileCreationRequestSport
+      .map((e) => profileCreationRequestSportFromJson(e.toString()))
       .toList();
 }
 
@@ -2691,6 +3012,551 @@ List<enums.ProfileModelSport> profileModelSportListFromJson(
 
   return profileModelSport
       .map((e) => profileModelSportFromJson(e.toString()))
+      .toList();
+}
+
+String? profileUpdateRequestDestinationTypesToJson(
+    enums.ProfileUpdateRequestDestinationTypes?
+        profileUpdateRequestDestinationTypes) {
+  return enums.$ProfileUpdateRequestDestinationTypesMap[
+      profileUpdateRequestDestinationTypes];
+}
+
+enums.ProfileUpdateRequestDestinationTypes
+    profileUpdateRequestDestinationTypesFromJson(
+        Object? profileUpdateRequestDestinationTypes) {
+  if (profileUpdateRequestDestinationTypes is int) {
+    return enums.$ProfileUpdateRequestDestinationTypesMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestDestinationTypes.toString(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestDestinationTypes
+                    .swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  if (profileUpdateRequestDestinationTypes is String) {
+    return enums.$ProfileUpdateRequestDestinationTypesMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestDestinationTypes.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestDestinationTypes
+                    .swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  return enums.ProfileUpdateRequestDestinationTypes.swaggerGeneratedUnknown;
+}
+
+List<String> profileUpdateRequestDestinationTypesListToJson(
+    List<enums.ProfileUpdateRequestDestinationTypes>?
+        profileUpdateRequestDestinationTypes) {
+  if (profileUpdateRequestDestinationTypes == null) {
+    return [];
+  }
+
+  return profileUpdateRequestDestinationTypes
+      .map((e) => enums.$ProfileUpdateRequestDestinationTypesMap[e]!)
+      .toList();
+}
+
+List<enums.ProfileUpdateRequestDestinationTypes>
+    profileUpdateRequestDestinationTypesListFromJson(
+        List? profileUpdateRequestDestinationTypes) {
+  if (profileUpdateRequestDestinationTypes == null) {
+    return [];
+  }
+
+  return profileUpdateRequestDestinationTypes
+      .map((e) => profileUpdateRequestDestinationTypesFromJson(e.toString()))
+      .toList();
+}
+
+String? profileUpdateRequestTravelWithPersonFromSameCityToJson(
+    enums.ProfileUpdateRequestTravelWithPersonFromSameCity?
+        profileUpdateRequestTravelWithPersonFromSameCity) {
+  return enums.$ProfileUpdateRequestTravelWithPersonFromSameCityMap[
+      profileUpdateRequestTravelWithPersonFromSameCity];
+}
+
+enums.ProfileUpdateRequestTravelWithPersonFromSameCity
+    profileUpdateRequestTravelWithPersonFromSameCityFromJson(
+        Object? profileUpdateRequestTravelWithPersonFromSameCity) {
+  if (profileUpdateRequestTravelWithPersonFromSameCity is int) {
+    return enums.$ProfileUpdateRequestTravelWithPersonFromSameCityMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestTravelWithPersonFromSameCity.toString(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestTravelWithPersonFromSameCity
+                    .swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  if (profileUpdateRequestTravelWithPersonFromSameCity is String) {
+    return enums.$ProfileUpdateRequestTravelWithPersonFromSameCityMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestTravelWithPersonFromSameCity.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestTravelWithPersonFromSameCity
+                    .swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  return enums
+      .ProfileUpdateRequestTravelWithPersonFromSameCity.swaggerGeneratedUnknown;
+}
+
+List<String> profileUpdateRequestTravelWithPersonFromSameCityListToJson(
+    List<enums.ProfileUpdateRequestTravelWithPersonFromSameCity>?
+        profileUpdateRequestTravelWithPersonFromSameCity) {
+  if (profileUpdateRequestTravelWithPersonFromSameCity == null) {
+    return [];
+  }
+
+  return profileUpdateRequestTravelWithPersonFromSameCity
+      .map(
+          (e) => enums.$ProfileUpdateRequestTravelWithPersonFromSameCityMap[e]!)
+      .toList();
+}
+
+List<enums.ProfileUpdateRequestTravelWithPersonFromSameCity>
+    profileUpdateRequestTravelWithPersonFromSameCityListFromJson(
+        List? profileUpdateRequestTravelWithPersonFromSameCity) {
+  if (profileUpdateRequestTravelWithPersonFromSameCity == null) {
+    return [];
+  }
+
+  return profileUpdateRequestTravelWithPersonFromSameCity
+      .map((e) => profileUpdateRequestTravelWithPersonFromSameCityFromJson(
+          e.toString()))
+      .toList();
+}
+
+String? profileUpdateRequestTravelWithPersonFromSameCountryToJson(
+    enums.ProfileUpdateRequestTravelWithPersonFromSameCountry?
+        profileUpdateRequestTravelWithPersonFromSameCountry) {
+  return enums.$ProfileUpdateRequestTravelWithPersonFromSameCountryMap[
+      profileUpdateRequestTravelWithPersonFromSameCountry];
+}
+
+enums.ProfileUpdateRequestTravelWithPersonFromSameCountry
+    profileUpdateRequestTravelWithPersonFromSameCountryFromJson(
+        Object? profileUpdateRequestTravelWithPersonFromSameCountry) {
+  if (profileUpdateRequestTravelWithPersonFromSameCountry is int) {
+    return enums.$ProfileUpdateRequestTravelWithPersonFromSameCountryMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestTravelWithPersonFromSameCountry.toString(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestTravelWithPersonFromSameCountry
+                    .swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  if (profileUpdateRequestTravelWithPersonFromSameCountry is String) {
+    return enums.$ProfileUpdateRequestTravelWithPersonFromSameCountryMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestTravelWithPersonFromSameCountry
+                    .toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestTravelWithPersonFromSameCountry
+                    .swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  return enums.ProfileUpdateRequestTravelWithPersonFromSameCountry
+      .swaggerGeneratedUnknown;
+}
+
+List<String> profileUpdateRequestTravelWithPersonFromSameCountryListToJson(
+    List<enums.ProfileUpdateRequestTravelWithPersonFromSameCountry>?
+        profileUpdateRequestTravelWithPersonFromSameCountry) {
+  if (profileUpdateRequestTravelWithPersonFromSameCountry == null) {
+    return [];
+  }
+
+  return profileUpdateRequestTravelWithPersonFromSameCountry
+      .map((e) =>
+          enums.$ProfileUpdateRequestTravelWithPersonFromSameCountryMap[e]!)
+      .toList();
+}
+
+List<enums.ProfileUpdateRequestTravelWithPersonFromSameCountry>
+    profileUpdateRequestTravelWithPersonFromSameCountryListFromJson(
+        List? profileUpdateRequestTravelWithPersonFromSameCountry) {
+  if (profileUpdateRequestTravelWithPersonFromSameCountry == null) {
+    return [];
+  }
+
+  return profileUpdateRequestTravelWithPersonFromSameCountry
+      .map((e) => profileUpdateRequestTravelWithPersonFromSameCountryFromJson(
+          e.toString()))
+      .toList();
+}
+
+String? profileUpdateRequestTravelWithPersonSameLanguageToJson(
+    enums.ProfileUpdateRequestTravelWithPersonSameLanguage?
+        profileUpdateRequestTravelWithPersonSameLanguage) {
+  return enums.$ProfileUpdateRequestTravelWithPersonSameLanguageMap[
+      profileUpdateRequestTravelWithPersonSameLanguage];
+}
+
+enums.ProfileUpdateRequestTravelWithPersonSameLanguage
+    profileUpdateRequestTravelWithPersonSameLanguageFromJson(
+        Object? profileUpdateRequestTravelWithPersonSameLanguage) {
+  if (profileUpdateRequestTravelWithPersonSameLanguage is int) {
+    return enums.$ProfileUpdateRequestTravelWithPersonSameLanguageMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestTravelWithPersonSameLanguage.toString(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestTravelWithPersonSameLanguage
+                    .swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  if (profileUpdateRequestTravelWithPersonSameLanguage is String) {
+    return enums.$ProfileUpdateRequestTravelWithPersonSameLanguageMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestTravelWithPersonSameLanguage.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestTravelWithPersonSameLanguage
+                    .swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  return enums
+      .ProfileUpdateRequestTravelWithPersonSameLanguage.swaggerGeneratedUnknown;
+}
+
+List<String> profileUpdateRequestTravelWithPersonSameLanguageListToJson(
+    List<enums.ProfileUpdateRequestTravelWithPersonSameLanguage>?
+        profileUpdateRequestTravelWithPersonSameLanguage) {
+  if (profileUpdateRequestTravelWithPersonSameLanguage == null) {
+    return [];
+  }
+
+  return profileUpdateRequestTravelWithPersonSameLanguage
+      .map(
+          (e) => enums.$ProfileUpdateRequestTravelWithPersonSameLanguageMap[e]!)
+      .toList();
+}
+
+List<enums.ProfileUpdateRequestTravelWithPersonSameLanguage>
+    profileUpdateRequestTravelWithPersonSameLanguageListFromJson(
+        List? profileUpdateRequestTravelWithPersonSameLanguage) {
+  if (profileUpdateRequestTravelWithPersonSameLanguage == null) {
+    return [];
+  }
+
+  return profileUpdateRequestTravelWithPersonSameLanguage
+      .map((e) => profileUpdateRequestTravelWithPersonSameLanguageFromJson(
+          e.toString()))
+      .toList();
+}
+
+String? profileUpdateRequestGenderToJson(
+    enums.ProfileUpdateRequestGender? profileUpdateRequestGender) {
+  return enums.$ProfileUpdateRequestGenderMap[profileUpdateRequestGender];
+}
+
+enums.ProfileUpdateRequestGender profileUpdateRequestGenderFromJson(
+    Object? profileUpdateRequestGender) {
+  if (profileUpdateRequestGender is int) {
+    return enums.$ProfileUpdateRequestGenderMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestGender.toString(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestGender.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (profileUpdateRequestGender is String) {
+    return enums.$ProfileUpdateRequestGenderMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestGender.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestGender.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.ProfileUpdateRequestGender.swaggerGeneratedUnknown;
+}
+
+List<String> profileUpdateRequestGenderListToJson(
+    List<enums.ProfileUpdateRequestGender>? profileUpdateRequestGender) {
+  if (profileUpdateRequestGender == null) {
+    return [];
+  }
+
+  return profileUpdateRequestGender
+      .map((e) => enums.$ProfileUpdateRequestGenderMap[e]!)
+      .toList();
+}
+
+List<enums.ProfileUpdateRequestGender> profileUpdateRequestGenderListFromJson(
+    List? profileUpdateRequestGender) {
+  if (profileUpdateRequestGender == null) {
+    return [];
+  }
+
+  return profileUpdateRequestGender
+      .map((e) => profileUpdateRequestGenderFromJson(e.toString()))
+      .toList();
+}
+
+String? profileUpdateRequestChillOrVisitToJson(
+    enums.ProfileUpdateRequestChillOrVisit? profileUpdateRequestChillOrVisit) {
+  return enums
+      .$ProfileUpdateRequestChillOrVisitMap[profileUpdateRequestChillOrVisit];
+}
+
+enums.ProfileUpdateRequestChillOrVisit profileUpdateRequestChillOrVisitFromJson(
+    Object? profileUpdateRequestChillOrVisit) {
+  if (profileUpdateRequestChillOrVisit is int) {
+    return enums.$ProfileUpdateRequestChillOrVisitMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestChillOrVisit.toString(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestChillOrVisit.swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  if (profileUpdateRequestChillOrVisit is String) {
+    return enums.$ProfileUpdateRequestChillOrVisitMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestChillOrVisit.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestChillOrVisit.swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  return enums.ProfileUpdateRequestChillOrVisit.swaggerGeneratedUnknown;
+}
+
+List<String> profileUpdateRequestChillOrVisitListToJson(
+    List<enums.ProfileUpdateRequestChillOrVisit>?
+        profileUpdateRequestChillOrVisit) {
+  if (profileUpdateRequestChillOrVisit == null) {
+    return [];
+  }
+
+  return profileUpdateRequestChillOrVisit
+      .map((e) => enums.$ProfileUpdateRequestChillOrVisitMap[e]!)
+      .toList();
+}
+
+List<enums.ProfileUpdateRequestChillOrVisit>
+    profileUpdateRequestChillOrVisitListFromJson(
+        List? profileUpdateRequestChillOrVisit) {
+  if (profileUpdateRequestChillOrVisit == null) {
+    return [];
+  }
+
+  return profileUpdateRequestChillOrVisit
+      .map((e) => profileUpdateRequestChillOrVisitFromJson(e.toString()))
+      .toList();
+}
+
+String? profileUpdateRequestAboutFoodToJson(
+    enums.ProfileUpdateRequestAboutFood? profileUpdateRequestAboutFood) {
+  return enums.$ProfileUpdateRequestAboutFoodMap[profileUpdateRequestAboutFood];
+}
+
+enums.ProfileUpdateRequestAboutFood profileUpdateRequestAboutFoodFromJson(
+    Object? profileUpdateRequestAboutFood) {
+  if (profileUpdateRequestAboutFood is int) {
+    return enums.$ProfileUpdateRequestAboutFoodMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestAboutFood.toString(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestAboutFood.swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  if (profileUpdateRequestAboutFood is String) {
+    return enums.$ProfileUpdateRequestAboutFoodMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestAboutFood.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestAboutFood.swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  return enums.ProfileUpdateRequestAboutFood.swaggerGeneratedUnknown;
+}
+
+List<String> profileUpdateRequestAboutFoodListToJson(
+    List<enums.ProfileUpdateRequestAboutFood>? profileUpdateRequestAboutFood) {
+  if (profileUpdateRequestAboutFood == null) {
+    return [];
+  }
+
+  return profileUpdateRequestAboutFood
+      .map((e) => enums.$ProfileUpdateRequestAboutFoodMap[e]!)
+      .toList();
+}
+
+List<enums.ProfileUpdateRequestAboutFood>
+    profileUpdateRequestAboutFoodListFromJson(
+        List? profileUpdateRequestAboutFood) {
+  if (profileUpdateRequestAboutFood == null) {
+    return [];
+  }
+
+  return profileUpdateRequestAboutFood
+      .map((e) => profileUpdateRequestAboutFoodFromJson(e.toString()))
+      .toList();
+}
+
+String? profileUpdateRequestGoOutAtNightToJson(
+    enums.ProfileUpdateRequestGoOutAtNight? profileUpdateRequestGoOutAtNight) {
+  return enums
+      .$ProfileUpdateRequestGoOutAtNightMap[profileUpdateRequestGoOutAtNight];
+}
+
+enums.ProfileUpdateRequestGoOutAtNight profileUpdateRequestGoOutAtNightFromJson(
+    Object? profileUpdateRequestGoOutAtNight) {
+  if (profileUpdateRequestGoOutAtNight is int) {
+    return enums.$ProfileUpdateRequestGoOutAtNightMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestGoOutAtNight.toString(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestGoOutAtNight.swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  if (profileUpdateRequestGoOutAtNight is String) {
+    return enums.$ProfileUpdateRequestGoOutAtNightMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestGoOutAtNight.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestGoOutAtNight.swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  return enums.ProfileUpdateRequestGoOutAtNight.swaggerGeneratedUnknown;
+}
+
+List<String> profileUpdateRequestGoOutAtNightListToJson(
+    List<enums.ProfileUpdateRequestGoOutAtNight>?
+        profileUpdateRequestGoOutAtNight) {
+  if (profileUpdateRequestGoOutAtNight == null) {
+    return [];
+  }
+
+  return profileUpdateRequestGoOutAtNight
+      .map((e) => enums.$ProfileUpdateRequestGoOutAtNightMap[e]!)
+      .toList();
+}
+
+List<enums.ProfileUpdateRequestGoOutAtNight>
+    profileUpdateRequestGoOutAtNightListFromJson(
+        List? profileUpdateRequestGoOutAtNight) {
+  if (profileUpdateRequestGoOutAtNight == null) {
+    return [];
+  }
+
+  return profileUpdateRequestGoOutAtNight
+      .map((e) => profileUpdateRequestGoOutAtNightFromJson(e.toString()))
+      .toList();
+}
+
+String? profileUpdateRequestSportToJson(
+    enums.ProfileUpdateRequestSport? profileUpdateRequestSport) {
+  return enums.$ProfileUpdateRequestSportMap[profileUpdateRequestSport];
+}
+
+enums.ProfileUpdateRequestSport profileUpdateRequestSportFromJson(
+    Object? profileUpdateRequestSport) {
+  if (profileUpdateRequestSport is int) {
+    return enums.$ProfileUpdateRequestSportMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestSport.toString(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestSport.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (profileUpdateRequestSport is String) {
+    return enums.$ProfileUpdateRequestSportMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                profileUpdateRequestSport.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.ProfileUpdateRequestSport.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.ProfileUpdateRequestSport.swaggerGeneratedUnknown;
+}
+
+List<String> profileUpdateRequestSportListToJson(
+    List<enums.ProfileUpdateRequestSport>? profileUpdateRequestSport) {
+  if (profileUpdateRequestSport == null) {
+    return [];
+  }
+
+  return profileUpdateRequestSport
+      .map((e) => enums.$ProfileUpdateRequestSportMap[e]!)
+      .toList();
+}
+
+List<enums.ProfileUpdateRequestSport> profileUpdateRequestSportListFromJson(
+    List? profileUpdateRequestSport) {
+  if (profileUpdateRequestSport == null) {
+    return [];
+  }
+
+  return profileUpdateRequestSport
+      .map((e) => profileUpdateRequestSportFromJson(e.toString()))
       .toList();
 }
 

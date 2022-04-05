@@ -24,9 +24,9 @@ Map<String, dynamic> _$AvailabilityAnswerModelToJson(
       'endDate': instance.endDate?.toIso8601String(),
     };
 
-ProfileCreationModel _$ProfileCreationModelFromJson(
+ProfileCreationRequest _$ProfileCreationRequestFromJson(
         Map<String, dynamic> json) =>
-    ProfileCreationModel(
+    ProfileCreationRequest(
       availability: json['availability'] == null
           ? null
           : AvailabilityAnswerModel.fromJson(
@@ -37,59 +37,59 @@ ProfileCreationModel _$ProfileCreationModelFromJson(
       budget: json['budget'] == null
           ? null
           : RangeAnswerModel.fromJson(json['budget'] as Map<String, dynamic>),
-      destinationTypes: profileCreationModelDestinationTypesListFromJson(
+      destinationTypes: profileCreationRequestDestinationTypesListFromJson(
           json['destinationTypes'] as List?),
       ages: json['ages'] == null
           ? null
           : RangeAnswerModel.fromJson(json['ages'] as Map<String, dynamic>),
       travelWithPersonFromSameCity:
-          profileCreationModelTravelWithPersonFromSameCityFromJson(
+          profileCreationRequestTravelWithPersonFromSameCityFromJson(
               json['travelWithPersonFromSameCity']),
       travelWithPersonFromSameCountry:
-          profileCreationModelTravelWithPersonFromSameCountryFromJson(
+          profileCreationRequestTravelWithPersonFromSameCountryFromJson(
               json['travelWithPersonFromSameCountry']),
       travelWithPersonSameLanguage:
-          profileCreationModelTravelWithPersonSameLanguageFromJson(
+          profileCreationRequestTravelWithPersonSameLanguageFromJson(
               json['travelWithPersonSameLanguage']),
-      gender: profileCreationModelGenderFromJson(json['gender']),
-      groupeSize: json['groupeSize'] == null
+      gender: profileCreationRequestGenderFromJson(json['gender']),
+      groupSize: json['groupSize'] == null
           ? null
           : RangeAnswerModel.fromJson(
-              json['groupeSize'] as Map<String, dynamic>),
+              json['groupSize'] as Map<String, dynamic>),
       chillOrVisit:
-          profileCreationModelChillOrVisitFromJson(json['chillOrVisit']),
-      aboutFood: profileCreationModelAboutFoodFromJson(json['aboutFood']),
+          profileCreationRequestChillOrVisitFromJson(json['chillOrVisit']),
+      aboutFood: profileCreationRequestAboutFoodFromJson(json['aboutFood']),
       goOutAtNight:
-          profileCreationModelGoOutAtNightFromJson(json['goOutAtNight']),
-      sport: profileCreationModelSportFromJson(json['sport']),
+          profileCreationRequestGoOutAtNightFromJson(json['goOutAtNight']),
+      sport: profileCreationRequestSportFromJson(json['sport']),
     );
 
-Map<String, dynamic> _$ProfileCreationModelToJson(
-        ProfileCreationModel instance) =>
+Map<String, dynamic> _$ProfileCreationRequestToJson(
+        ProfileCreationRequest instance) =>
     <String, dynamic>{
       'availability': instance.availability?.toJson(),
       'duration': instance.duration?.toJson(),
       'budget': instance.budget?.toJson(),
-      'destinationTypes': profileCreationModelDestinationTypesListToJson(
+      'destinationTypes': profileCreationRequestDestinationTypesListToJson(
           instance.destinationTypes),
       'ages': instance.ages?.toJson(),
       'travelWithPersonFromSameCity':
-          profileCreationModelTravelWithPersonFromSameCityToJson(
+          profileCreationRequestTravelWithPersonFromSameCityToJson(
               instance.travelWithPersonFromSameCity),
       'travelWithPersonFromSameCountry':
-          profileCreationModelTravelWithPersonFromSameCountryToJson(
+          profileCreationRequestTravelWithPersonFromSameCountryToJson(
               instance.travelWithPersonFromSameCountry),
       'travelWithPersonSameLanguage':
-          profileCreationModelTravelWithPersonSameLanguageToJson(
+          profileCreationRequestTravelWithPersonSameLanguageToJson(
               instance.travelWithPersonSameLanguage),
-      'gender': profileCreationModelGenderToJson(instance.gender),
-      'groupeSize': instance.groupeSize?.toJson(),
+      'gender': profileCreationRequestGenderToJson(instance.gender),
+      'groupSize': instance.groupSize?.toJson(),
       'chillOrVisit':
-          profileCreationModelChillOrVisitToJson(instance.chillOrVisit),
-      'aboutFood': profileCreationModelAboutFoodToJson(instance.aboutFood),
+          profileCreationRequestChillOrVisitToJson(instance.chillOrVisit),
+      'aboutFood': profileCreationRequestAboutFoodToJson(instance.aboutFood),
       'goOutAtNight':
-          profileCreationModelGoOutAtNightToJson(instance.goOutAtNight),
-      'sport': profileCreationModelSportToJson(instance.sport),
+          profileCreationRequestGoOutAtNightToJson(instance.goOutAtNight),
+      'sport': profileCreationRequestSportToJson(instance.sport),
     };
 
 RangeAnswerModel _$RangeAnswerModelFromJson(Map<String, dynamic> json) =>
@@ -249,6 +249,20 @@ Map<String, dynamic> _$GoogleRequestToJson(GoogleRequest instance) =>
       'email': instance.email,
     };
 
+GoogleAuthResponse _$GoogleAuthResponseFromJson(Map<String, dynamic> json) =>
+    GoogleAuthResponse(
+      username: json['username'] as String?,
+      token: json['token'] as String?,
+      newUser: json['newUser'] as bool?,
+    );
+
+Map<String, dynamic> _$GoogleAuthResponseToJson(GoogleAuthResponse instance) =>
+    <String, dynamic>{
+      'username': instance.username,
+      'token': instance.token,
+      'newUser': instance.newUser,
+    };
+
 ForgotPasswordRequest _$ForgotPasswordRequestFromJson(
         Map<String, dynamic> json) =>
     ForgotPasswordRequest(
@@ -259,6 +273,76 @@ Map<String, dynamic> _$ForgotPasswordRequestToJson(
         ForgotPasswordRequest instance) =>
     <String, dynamic>{
       'email': instance.email,
+    };
+
+ProfileUpdateRequest _$ProfileUpdateRequestFromJson(
+        Map<String, dynamic> json) =>
+    ProfileUpdateRequest(
+      availability: json['availability'] == null
+          ? null
+          : AvailabilityAnswerModel.fromJson(
+              json['availability'] as Map<String, dynamic>),
+      duration: json['duration'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['duration'] as Map<String, dynamic>),
+      budget: json['budget'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['budget'] as Map<String, dynamic>),
+      destinationTypes: profileUpdateRequestDestinationTypesListFromJson(
+          json['destinationTypes'] as List?),
+      ages: json['ages'] == null
+          ? null
+          : RangeAnswerModel.fromJson(json['ages'] as Map<String, dynamic>),
+      travelWithPersonFromSameCity:
+          profileUpdateRequestTravelWithPersonFromSameCityFromJson(
+              json['travelWithPersonFromSameCity']),
+      travelWithPersonFromSameCountry:
+          profileUpdateRequestTravelWithPersonFromSameCountryFromJson(
+              json['travelWithPersonFromSameCountry']),
+      travelWithPersonSameLanguage:
+          profileUpdateRequestTravelWithPersonSameLanguageFromJson(
+              json['travelWithPersonSameLanguage']),
+      gender: profileUpdateRequestGenderFromJson(json['gender']),
+      groupSize: json['groupSize'] == null
+          ? null
+          : RangeAnswerModel.fromJson(
+              json['groupSize'] as Map<String, dynamic>),
+      chillOrVisit:
+          profileUpdateRequestChillOrVisitFromJson(json['chillOrVisit']),
+      aboutFood: profileUpdateRequestAboutFoodFromJson(json['aboutFood']),
+      goOutAtNight:
+          profileUpdateRequestGoOutAtNightFromJson(json['goOutAtNight']),
+      sport: profileUpdateRequestSportFromJson(json['sport']),
+      active: json['active'] as bool?,
+    );
+
+Map<String, dynamic> _$ProfileUpdateRequestToJson(
+        ProfileUpdateRequest instance) =>
+    <String, dynamic>{
+      'availability': instance.availability?.toJson(),
+      'duration': instance.duration?.toJson(),
+      'budget': instance.budget?.toJson(),
+      'destinationTypes': profileUpdateRequestDestinationTypesListToJson(
+          instance.destinationTypes),
+      'ages': instance.ages?.toJson(),
+      'travelWithPersonFromSameCity':
+          profileUpdateRequestTravelWithPersonFromSameCityToJson(
+              instance.travelWithPersonFromSameCity),
+      'travelWithPersonFromSameCountry':
+          profileUpdateRequestTravelWithPersonFromSameCountryToJson(
+              instance.travelWithPersonFromSameCountry),
+      'travelWithPersonSameLanguage':
+          profileUpdateRequestTravelWithPersonSameLanguageToJson(
+              instance.travelWithPersonSameLanguage),
+      'gender': profileUpdateRequestGenderToJson(instance.gender),
+      'groupSize': instance.groupSize?.toJson(),
+      'chillOrVisit':
+          profileUpdateRequestChillOrVisitToJson(instance.chillOrVisit),
+      'aboutFood': profileUpdateRequestAboutFoodToJson(instance.aboutFood),
+      'goOutAtNight':
+          profileUpdateRequestGoOutAtNightToJson(instance.goOutAtNight),
+      'sport': profileUpdateRequestSportToJson(instance.sport),
+      'active': instance.active,
     };
 
 CityModel _$CityModelFromJson(Map<String, dynamic> json) => CityModel(
@@ -278,6 +362,10 @@ UserUpdateRequest _$UserUpdateRequestFromJson(Map<String, dynamic> json) =>
           ? null
           : CityModel.fromJson(json['city'] as Map<String, dynamic>),
       phoneNumber: json['phoneNumber'] as String?,
+      birthdate: json['birthdate'] == null
+          ? null
+          : DateTime.parse(json['birthdate'] as String),
+      gender: json['gender'] as String?,
     );
 
 Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
@@ -287,6 +375,8 @@ Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
       'profilePicture': instance.profilePicture,
       'city': instance.city?.toJson(),
       'phoneNumber': instance.phoneNumber,
+      'birthdate': instance.birthdate?.toIso8601String(),
+      'gender': instance.gender,
     };
 
 UpdatePasswordRequest _$UpdatePasswordRequestFromJson(

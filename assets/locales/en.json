@@ -58,7 +58,10 @@
       "code_label": "Enter the code",
       "submit": "Reset password"
     },
-    "google": "Sign in with Google"
+    "google": {
+     "login": "Sign in with Google",
+      "moreInfo": "Please enter the complementary information"
+    }
   },
   "groups": {
     "title": "Groups",

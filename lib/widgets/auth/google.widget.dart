@@ -4,6 +4,7 @@ import 'package:trip_n_joy_front/app_localizations.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/screens/auth/google_more_info.screen.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 
@@ -18,7 +19,7 @@ class GoogleSignInButton extends StatefulHookConsumerWidget {
 }
 
 class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> {
-  bool _isSigningIn = false;
+  final bool _isSigningIn = false;
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +32,13 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> {
             )
           : OutlinedButton(
               style: ButtonStyle(
-                side: MaterialStateProperty.all(BorderSide(
-                  width: 2.0,
-                  color: Theme.of(context).colorScheme.secondary,
-                  style: BorderStyle.solid,
-                ),),
+                side: MaterialStateProperty.all(
+                  BorderSide(
+                    width: 2.0,
+                    color: Theme.of(context).colorScheme.secondary,
+                    style: BorderStyle.solid,
+                  ),
+                ),
                 overlayColor: MaterialStateProperty.all(Colors.blue),
                 backgroundColor: MaterialStateProperty.all(Colors.white),
                 shape: MaterialStateProperty.all(
@@ -45,8 +48,10 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> {
                 ),
               ),
               onPressed: () async {
-                User? user = await auth.signInWithGoogle(context: context);
-
+                await auth.signInWithGoogle(context: context).then((value) => {
+                      if (value != null && value)
+                        {Navigator.push(context, MaterialPageRoute(builder: (_) => const GoogleMoreInfo()))}
+                    });
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -61,7 +66,7 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        AppLocalizations.of(context).translate("auth.google"),
+                        AppLocalizations.of(context).translate("auth.google.login"),
                         style: const TextStyle(
                           fontSize: 18,
                           color: Colors.black54,

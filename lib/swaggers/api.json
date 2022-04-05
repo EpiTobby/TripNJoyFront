@@ -64,7 +64,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProfileCreationModel"
+                "$ref": "#/components/schemas/ProfileCreationRequest"
               }
             }
           },
@@ -217,7 +217,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "$ref": "#/components/schemas/GoogleAuthResponse"
                 }
               }
             }
@@ -227,7 +227,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "$ref": "#/components/schemas/GoogleAuthResponse"
                 }
               }
             }
@@ -258,6 +258,92 @@
           },
           "200": {
             "description": "Email is sent to reset password"
+          }
+        }
+      }
+    },
+    "/{id}/profiles/{profile}/update": {
+      "patch": {
+        "tags": [
+          "profile-controller"
+        ],
+        "operationId": "updateProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "profile",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/{id}/profiles/{profile}/reuse": {
+      "patch": {
+        "tags": [
+          "profile-controller"
+        ],
+        "operationId": "reuseProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "profile",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AvailabilityAnswerModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -688,7 +774,23 @@
           }
         }
       },
-      "ProfileCreationModel": {
+      "ProfileCreationRequest": {
+        "required": [
+          "aboutFood",
+          "ages",
+          "availability",
+          "budget",
+          "chillOrVisit",
+          "destinationTypes",
+          "duration",
+          "gender",
+          "goOutAtNight",
+          "groupSize",
+          "sport",
+          "travelWithPersonFromSameCity",
+          "travelWithPersonFromSameCountry",
+          "travelWithPersonSameLanguage"
+        ],
         "type": "object",
         "properties": {
           "availability": {
@@ -719,59 +821,67 @@
             "type": "string",
             "enum": [
               "YES",
-              "NO"
+              "NO",
+              "NO_PREFERENCE"
             ]
           },
           "travelWithPersonFromSameCountry": {
             "type": "string",
             "enum": [
               "YES",
-              "NO"
+              "NO",
+              "NO_PREFERENCE"
             ]
           },
           "travelWithPersonSameLanguage": {
             "type": "string",
             "enum": [
               "YES",
-              "NO"
+              "NO",
+              "NO_PREFERENCE"
             ]
           },
           "gender": {
             "type": "string",
             "enum": [
               "MALE",
-              "FEMALE"
+              "FEMALE",
+              "MIXED"
             ]
           },
-          "groupeSize": {
+          "groupSize": {
             "$ref": "#/components/schemas/RangeAnswerModel"
           },
           "chillOrVisit": {
             "type": "string",
             "enum": [
               "CHILL",
-              "ANSWER"
+              "VISIT",
+              "NO_PREFERENCE"
             ]
           },
           "aboutFood": {
             "type": "string",
             "enum": [
               "COOKING",
-              "RESTAURANT"
+              "RESTAURANT",
+              "NO_PREFERENCE"
             ]
           },
           "goOutAtNight": {
             "type": "string",
             "enum": [
               "YES",
-              "NO"
+              "NO",
+              "NO_PREFERENCE"
             ]
           },
           "sport": {
             "type": "string",
             "enum": [
               "YES",
-              "NO"
+              "NO",
+              "NO_PREFERENCE"
             ]
           }
         }
@@ -824,28 +934,32 @@
             "type": "string",
             "enum": [
               "YES",
-              "NO"
+              "NO",
+              "NO_PREFERENCE"
             ]
           },
           "travelWithPersonFromSameCountry": {
             "type": "string",
             "enum": [
               "YES",
-              "NO"
+              "NO",
+              "NO_PREFERENCE"
             ]
           },
           "travelWithPersonSameLanguage": {
             "type": "string",
             "enum": [
               "YES",
-              "NO"
+              "NO",
+              "NO_PREFERENCE"
             ]
           },
           "gender": {
             "type": "string",
             "enum": [
               "MALE",
-              "FEMALE"
+              "FEMALE",
+              "MIXED"
             ]
           },
           "groupeSize": {
@@ -855,28 +969,32 @@
             "type": "string",
             "enum": [
               "CHILL",
-              "ANSWER"
+              "VISIT",
+              "NO_PREFERENCE"
             ]
           },
           "aboutFood": {
             "type": "string",
             "enum": [
               "COOKING",
-              "RESTAURANT"
+              "RESTAURANT",
+              "NO_PREFERENCE"
             ]
           },
           "goOutAtNight": {
             "type": "string",
             "enum": [
               "YES",
-              "NO"
+              "NO",
+              "NO_PREFERENCE"
             ]
           },
           "sport": {
             "type": "string",
             "enum": [
               "YES",
-              "NO"
+              "NO",
+              "NO_PREFERENCE"
             ]
           },
           "userId": {
@@ -969,11 +1087,124 @@
           }
         }
       },
+      "GoogleAuthResponse": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "newUser": {
+            "type": "boolean"
+          }
+        }
+      },
       "ForgotPasswordRequest": {
         "type": "object",
         "properties": {
           "email": {
             "type": "string"
+          }
+        }
+      },
+      "ProfileUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "availability": {
+            "$ref": "#/components/schemas/AvailabilityAnswerModel"
+          },
+          "duration": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "budget": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "destinationTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CITY",
+                "COUNTRYSIDE",
+                "BEACH",
+                "MOUNTAIN"
+              ]
+            }
+          },
+          "ages": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "travelWithPersonFromSameCity": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "travelWithPersonFromSameCountry": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "travelWithPersonSameLanguage": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "MIXED"
+            ]
+          },
+          "groupSize": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "chillOrVisit": {
+            "type": "string",
+            "enum": [
+              "CHILL",
+              "VISIT",
+              "NO_PREFERENCE"
+            ]
+          },
+          "aboutFood": {
+            "type": "string",
+            "enum": [
+              "COOKING",
+              "RESTAURANT",
+              "NO_PREFERENCE"
+            ]
+          },
+          "goOutAtNight": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "sport": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "active": {
+            "type": "boolean"
           }
         }
       },
@@ -1001,6 +1232,13 @@
             "$ref": "#/components/schemas/CityModel"
           },
           "phoneNumber": {
+            "type": "string"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
             "type": "string"
           }
         }

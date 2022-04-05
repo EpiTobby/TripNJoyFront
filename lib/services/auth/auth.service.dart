@@ -208,7 +208,7 @@ class AuthService extends ChangeNotifier {
     return firebaseApp;
   }
 
-  Future<User?> signInWithGoogle({required BuildContext context}) async {
+  Future<bool?> signInWithGoogle({required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
 
@@ -251,7 +251,7 @@ class AuthService extends ChangeNotifier {
             logger.d("login - success");
             loginState = const AsyncValue.data(null);
             await saveToken(sessionToken.token!);
-            return user;
+            return sessionToken.newUser;
           }
           logger.d("login - failed");
           loginState = AsyncValue.error(AppLocalizations.instance.translate("errors.login"));
@@ -277,7 +277,7 @@ class AuthService extends ChangeNotifier {
       }
     }
 
-    return user;
+    return null;
   }
 
   static Future<void> signOut({required BuildContext context}) async {
@@ -295,6 +295,7 @@ class AuthService extends ChangeNotifier {
     forgotPasswordState = const AsyncValue.data(null);
     resetPasswordState = const AsyncValue.data(null);
     updatePasswordState = const AsyncValue.data(null);
+    googleSignInUpState = const AsyncValue.data(null);
     goToLogin();
   }
 }
