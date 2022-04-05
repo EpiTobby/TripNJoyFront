@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
+import 'package:trip_n_joy_front/models/matchmaking/availability.model.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/group_found_card.widget.dart';
@@ -10,6 +11,7 @@ import 'package:trip_n_joy_front/widgets/matchmaking/cards/multiple_choice_card.
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/swipe_card.widget.dart';
 
+import '../../widgets/matchmaking/cards/availability_card.widget.dart';
 import '../../widgets/matchmaking/cards/name_profile_card.widget.dart';
 import '../../widgets/matchmaking/cards/range_card.widget.dart';
 import '../api/http.service.dart';
@@ -45,6 +47,7 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
     const DEFAULT_AVATAR_URL =
         "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png";
     state = [
+      const AvailabilityCard(),
       const GroupFoundCard(
           groupId: 1,
           groupPhotoUrl: DEFAULT_AVATAR_URL,
@@ -160,9 +163,17 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
     nextCard();
   }
 
+
   void createProfile(String token) async {
     int? id = httpService.getUserIdFromToken(token);
     await httpService.createProfile(id!, ProfileCreationRequest.fromJsonFactory({}));
+  }
+
+  void submitAvailability(String name, List<Availability> availabilities) {
+    // TODO: populate profile object
+    logger.i(
+        "Submit ${name} - availabilities: ${availabilities.map((e) => "begin: ${e.startDate} - end: ${e.endDate}").join(", ")}");
+    nextCard();
   }
 
   void joinGroup(int groupId) {

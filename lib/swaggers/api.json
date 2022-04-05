@@ -242,7 +242,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "$ref": "#/components/schemas/GoogleAuthResponse"
                 }
               }
             }
@@ -252,7 +252,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "$ref": "#/components/schemas/GoogleAuthResponse"
                 }
               }
             }
@@ -1122,15 +1122,22 @@
           "phoneNumber": {
             "type": "string"
           },
-          "birthdate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "gender": {
-            "type": "string"
-          },
           "email": {
             "type": "string"
+          }
+        }
+      },
+      "GoogleAuthResponse": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "newUser": {
+            "type": "boolean"
           }
         }
       },
@@ -1265,6 +1272,13 @@
             "$ref": "#/components/schemas/CityModel"
           },
           "phoneNumber": {
+            "type": "string"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
             "type": "string"
           }
         }

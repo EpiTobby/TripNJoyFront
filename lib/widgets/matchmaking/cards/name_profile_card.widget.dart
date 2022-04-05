@@ -21,7 +21,7 @@ class NameProfileCard extends HookConsumerWidget {
     return StandardCard(
       name: "NameProfileCard",
       title: AppLocalizations.of(context).translate("cards.name_profile.title"),
-      subtitle: AppLocalizations.of(context).translate("cards.name_profile.title"),
+      subtitle: AppLocalizations.of(context).translate("cards.name_profile.subtitle"),
       shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       isLoading: isLoading,
       child: Column(
