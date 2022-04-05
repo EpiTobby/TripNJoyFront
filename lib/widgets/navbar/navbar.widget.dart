@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:trip_n_joy_front/widgets/navbar/navbar.icons.dart';
+import 'package:trip_n_joy_front/constants/navbar/navbar.icons.dart';
 
 import '../../constants/navbar/navbar.enum.dart';
 import '../../providers/navbar/navbar.provider.dart';
@@ -35,8 +35,7 @@ class Navbar extends HookConsumerWidget {
             enableFeedback: false,
             icon: Icon(
               NavbarIcon.matchmaking,
-              color: GetNavbarIconColor(
-                  context, selectedPage, NavbarPage.MATCHMAKING),
+              color: GetNavbarIconColor(context, selectedPage, NavbarPage.MATCHMAKING),
             ),
             onPressed: () => provider.navigate(NavbarPage.MATCHMAKING),
           ),
@@ -44,8 +43,7 @@ class Navbar extends HookConsumerWidget {
             enableFeedback: false,
             icon: Icon(
               NavbarIcon.group,
-              color:
-                  GetNavbarIconColor(context, selectedPage, NavbarPage.GROUPS),
+              color: GetNavbarIconColor(context, selectedPage, NavbarPage.GROUPS),
             ),
             onPressed: () => provider.navigate(NavbarPage.GROUPS),
           ),
@@ -53,8 +51,7 @@ class Navbar extends HookConsumerWidget {
             enableFeedback: false,
             icon: Icon(
               NavbarIcon.notification,
-              color: GetNavbarIconColor(
-                  context, selectedPage, NavbarPage.NOTIFICATIONS),
+              color: GetNavbarIconColor(context, selectedPage, NavbarPage.NOTIFICATIONS),
             ),
             onPressed: () => provider.navigate(NavbarPage.NOTIFICATIONS),
           ),
@@ -62,8 +59,7 @@ class Navbar extends HookConsumerWidget {
             enableFeedback: false,
             icon: Icon(
               NavbarIcon.settings,
-              color: GetNavbarIconColor(
-                  context, selectedPage, NavbarPage.SETTINGS),
+              color: GetNavbarIconColor(context, selectedPage, NavbarPage.SETTINGS),
             ),
             onPressed: () => provider.navigate(NavbarPage.SETTINGS),
           ),
@@ -72,8 +68,7 @@ class Navbar extends HookConsumerWidget {
     );
   }
 
-  Color GetNavbarIconColor(
-      BuildContext context, NavbarPage selectedPage, NavbarPage page) {
+  Color GetNavbarIconColor(BuildContext context, NavbarPage selectedPage, NavbarPage page) {
     return selectedPage == page
         ? Theme.of(context).colorScheme.secondary
         : Theme.of(context).colorScheme.primaryContainer;

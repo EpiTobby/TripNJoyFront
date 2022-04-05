@@ -10,7 +10,10 @@
     "cancel": "Annuler",
     "save": "Sauvegarder",
     "submit": "Valider",
-    "tryAgain": "Réessayer"
+    "tryAgain": "Réessayer",
+    "validate": "Valider",
+    "next": "Suivant",
+    "start": "Démarrer"
   },
   "user": {
     "firstname": "Prénom",
@@ -57,6 +60,24 @@
       "code": "Code",
       "code_label": "Entrer le code",
       "submit": "Réinitialiser"
+    }
+  },
+  "cards": {
+    "creation_profile": {
+      "title": "Création du profil voyage",
+      "subtitle": "Cliquer pour démarrer la création du profil voyage"
+    },
+    "name_profile": {
+      "title": "Profil généré !",
+      "subtitle": "Donnez un nom au profil avant de lancer le matchmaking.",
+      "label": "Nom du profil",
+      "hint": "Ex: Profil été"
+    },
+    "group_found": {
+      "title": "Groupe trouvé !",
+      "button": "Rejoindre",
+      "retry": "Essayer un autre groupe",
+      "members": "$count Membres"
     }
   },
   "groups": {

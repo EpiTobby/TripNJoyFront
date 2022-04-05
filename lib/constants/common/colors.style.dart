@@ -14,6 +14,8 @@ abstract class CColors {
   static const onBackground = Color(0xff1E1B18);
   static const error = Color(0xffEB4040);
   static const onError = Color(0xffFAFAFF);
+  static const surface = Color(0xffEBEBFA);
+  static const onSurface = Color(0xff1E1B18);
 }
 
 abstract class CardColors {
