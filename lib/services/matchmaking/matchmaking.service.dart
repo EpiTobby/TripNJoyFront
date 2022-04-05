@@ -8,20 +8,26 @@ import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation.widget.dart';
 
 import '../api/http.service.dart';
+import '../auth/auth.service.dart';
 
 class MatchmakingService extends StateNotifier<List<Widget>> {
-  MatchmakingService(this.httpService) : super([]) {
+  MatchmakingService(this.httpService, this.authService) : super([]) {
     _init();
   }
 
+  final AuthService authService;
   final HttpService httpService;
   final List<ProfileModel> profiles = [];
 
   // we use a list instead of a stack, because we need to handle user mistakes and go back to the previous card
-  void _init() {
+  void _init() async {
     state = [
       const ProfileCreation(),
     ];
+
+    var id = httpService.getUserIdFromToken(authService.token!);
+    List<ProfileModel>? userProfiles = await httpService.getUserProfiles(id!);
+    profiles.addAll(userProfiles!);
   }
 
   void startProfileCreation() {
@@ -85,8 +91,8 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
     ];
   }
 
-  void sendProfile(String token) async {
+  void createProfile(String token) async {
     int? id = httpService.getUserIdFromToken(token);
-    await httpService.sendProfile(id!, ProfileCreationRequest.fromJsonFactory({}));
+    await httpService.createProfile(id!, ProfileCreationRequest.fromJsonFactory({}));
   }
 }
