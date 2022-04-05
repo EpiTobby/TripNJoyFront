@@ -156,7 +156,8 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
 
   void submitAvailability(String name, List<Availability> availabilities) {
     // TODO: populate profile object
-    logger.i("Submit ${name} - availabilities: ${availabilities.join(", ")}");
+    logger.i(
+        "Submit ${name} - availabilities: ${availabilities.map((e) => "begin: ${e.startDate} - end: ${e.endDate}").join(", ")}");
     nextCard();
   }
 

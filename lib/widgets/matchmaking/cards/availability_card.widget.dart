@@ -60,20 +60,37 @@ class AvailabilityCard extends HookConsumerWidget {
                           return a;
                         }).toList();
                       },
-                      onDelete: () {
-                        availabilities.value.remove(availability);
-                        scrollController.value.animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.ease);
-                      },
+                      onDelete: availabilities.value.length > 1
+                          ? () {
+                              availabilities.value =
+                                  availabilities.value.where((element) => element != availability).toList();
+                              scrollController.value
+                                  .animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                            }
+                          : null,
                     ),
-                  SizedBox(
-                    width: 20,
-                    child: PrimaryButton(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      PrimaryButton(
                         text: "+",
+                        fitContent: true,
                         onPressed: () {
-                          availabilities.value = availabilities.value
-                            ..add(Availability(startDate: DateTime.now(), endDate: DateTime.now()));
-                        }),
-                  )
+                          availabilities.value = [
+                            ...availabilities.value,
+                            Availability(startDate: DateTime.now(), endDate: DateTime.now())
+                          ];
+                          Future.delayed(
+                            const Duration(milliseconds: 100),
+                            () {
+                              scrollController.value.animateTo(scrollController.value.position.maxScrollExtent,
+                                  duration: const Duration(milliseconds: 500), curve: Curves.ease);
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -102,25 +119,54 @@ class AvailabilityInput extends HookConsumerWidget {
   final Availability availability;
   final void Function(DateTime) onStartChanged;
   final void Function(DateTime) onEndChanged;
-  final Function? onDelete;
+  final void Function()? onDelete;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        DatePicker(
-          label: AppLocalizations.of(context).translate("cards.availability.begin"),
-          minDate: DateTime.now(),
-          maxDate: DateTime(2100),
-          onChanged: onStartChanged,
-          selectedDate: availability.startDate,
+        Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: 40,
+                height: 110,
+                decoration: BoxDecoration(
+                  border: Border(
+                    left: BorderSide(color: Theme.of(context).colorScheme.primary, width: 3),
+                    top: BorderSide(color: Theme.of(context).colorScheme.primary, width: 3),
+                    bottom: BorderSide(color: Theme.of(context).colorScheme.primary, width: 3),
+                    right: BorderSide(color: Theme.of(context).colorScheme.primary.withOpacity(0), width: 3),
+                  ),
+                ),
+              ),
+              IconButton(
+                  onPressed: onDelete, icon: const Icon(Icons.delete), color: Theme.of(context).colorScheme.error),
+            ],
+          ),
         ),
-        DatePicker(
-          label: AppLocalizations.of(context).translate("cards.availability.end"),
-          minDate: availability.startDate,
-          maxDate: DateTime(2100),
-          onChanged: onEndChanged,
-          selectedDate: availability.endDate,
+        Expanded(
+          child: Column(
+            children: [
+              DatePicker(
+                label: AppLocalizations.of(context).translate("cards.availability.begin"),
+                minDate: DateTime.now(),
+                maxDate: DateTime(2100),
+                onChanged: onStartChanged,
+                selectedDate: availability.startDate,
+              ),
+              DatePicker(
+                label: AppLocalizations.of(context).translate("cards.availability.end"),
+                minDate: availability.startDate,
+                maxDate: DateTime(2100),
+                onChanged: onEndChanged,
+                selectedDate: availability.endDate,
+              ),
+            ],
+          ),
         ),
       ],
     );
