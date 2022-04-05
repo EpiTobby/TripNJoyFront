@@ -32,5 +32,13 @@ abstract class HttpService {
 
   Future<LoginResponse?> updateEmail(int id, UpdateEmailRequest updateEmailRequest);
 
-  Future<void> sendProfile(int id, ProfileCreationRequest profile);
+  Future<List<ProfileModel>?> getUserProfiles(int id);
+
+  Future<ProfileModel?> createProfile(int id, ProfileCreationRequest profile);
+
+  Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest);
+
+  Future<void> reuseProfile(int id, int profileId, AvailabilityAnswerModel profileAvailability);
+
+  Future<void> deleteProfile(int id, int profileId);
 }

@@ -58,6 +58,15 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<LoginResponse>> _authGooglePost(
+      {required GoogleRequest? body}) {
+    final $url = '/auth/google';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<LoginResponse, LoginResponse>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _authForgotPasswordPost(
       {required ForgotPasswordRequest? body}) {
     final $url = '/auth/forgot/password';
@@ -70,13 +79,10 @@ class _$Api extends Api {
   Future<Response<dynamic>> _idProfilesProfileUpdatePatch(
       {required num? id,
       required num? profile,
-      required ProfileUpdateRequest? profileUpdateRequest}) {
+      required ProfileUpdateRequest? body}) {
     final $url = '/${id}/profiles/${profile}/update';
-    final $params = <String, dynamic>{
-      'profileUpdateRequest': profileUpdateRequest
-    };
-    final $request =
-        Request('PATCH', $url, client.baseUrl, parameters: $params);
+    final $body = body;
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
   }
 
@@ -84,11 +90,10 @@ class _$Api extends Api {
   Future<Response<dynamic>> _idProfilesProfileReusePatch(
       {required num? id,
       required num? profile,
-      required AvailabilityAnswerModel? availability}) {
+      required AvailabilityAnswerModel? body}) {
     final $url = '/${id}/profiles/${profile}/reuse';
-    final $params = <String, dynamic>{'availability': availability};
-    final $request =
-        Request('PATCH', $url, client.baseUrl, parameters: $params);
+    final $body = body;
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
   }
 
@@ -145,10 +150,10 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<Object>> _usersGet() {
+  Future<Response<List<UserEntity>>> _usersGet() {
     final $url = '/users';
     final $request = Request('GET', $url, client.baseUrl);
-    return client.send<Object, Object>($request);
+    return client.send<List<UserEntity>, UserEntity>($request);
   }
 
   @override

@@ -89,7 +89,32 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<void> sendProfile(int id, ProfileCreationRequest profile) {
+  Future<ProfileModel?> createProfile(int id, ProfileCreationRequest profile) {
+    // TODO: implement createProfile
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteProfile(int id, int profileId) {
+    // TODO: implement deleteProfile
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<ProfileModel>> getUserProfiles(int id) {
+    // TODO: implement getUserProfiles
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> reuseProfile(int id, int profileId, AvailabilityAnswerModel profileAvailability) {
+    // TODO: implement reuseProfile
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest) {
+    // TODO: implement updateProfile
     throw UnimplementedError();
   }
 }

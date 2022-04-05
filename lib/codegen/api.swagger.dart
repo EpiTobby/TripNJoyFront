@@ -28,7 +28,7 @@ abstract class Api extends ChopperService {
     return _$Api(newClient);
   }
 
-  ///
+  ///Get all profiles from a user
   ///@param id
   Future<chopper.Response<List<ProfileModel>>> idProfilesGet(
       {required num? id}) {
@@ -38,13 +38,13 @@ abstract class Api extends ChopperService {
     return _idProfilesGet(id: id);
   }
 
-  ///
+  ///Get all profiles from a user
   ///@param id
   @Get(path: '/{id}/profiles')
   Future<chopper.Response<List<ProfileModel>>> _idProfilesGet(
       {@Path('id') required num? id});
 
-  ///
+  ///Create a profile
   ///@param id
   Future<chopper.Response<ProfileModel>> idProfilesPost(
       {required num? id, required ProfileCreationRequest? body}) {
@@ -54,7 +54,7 @@ abstract class Api extends ChopperService {
     return _idProfilesPost(id: id, body: body);
   }
 
-  ///
+  ///Create a profile
   ///@param id
   @Post(path: '/{id}/profiles')
   Future<chopper.Response<ProfileModel>> _idProfilesPost(
@@ -100,6 +100,20 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<LoginResponse>> _authLoginPost(
       {@Body() required LoginRequest? body});
 
+  ///Log a user, to allow authenticated endpoints
+  Future<chopper.Response<LoginResponse>> authGooglePost(
+      {required GoogleRequest? body}) {
+    generatedMapping.putIfAbsent(
+        LoginResponse, () => LoginResponse.fromJsonFactory);
+
+    return _authGooglePost(body: body);
+  }
+
+  ///Log a user, to allow authenticated endpoints
+  @Post(path: '/auth/google')
+  Future<chopper.Response<LoginResponse>> _authGooglePost(
+      {@Body() required GoogleRequest? body});
+
   ///Used to receive a confirmation to update a password
   Future<chopper.Response> authForgotPasswordPost(
       {required ForgotPasswordRequest? body}) {
@@ -111,58 +125,43 @@ abstract class Api extends ChopperService {
   Future<chopper.Response> _authForgotPasswordPost(
       {@Body() required ForgotPasswordRequest? body});
 
-  ///
+  ///Update a profile
   ///@param id
   ///@param profile
-  ///@param profileUpdateRequest
   Future<chopper.Response> idProfilesProfileUpdatePatch(
       {required num? id,
       required num? profile,
-      required ProfileUpdateRequest? profileUpdateRequest}) {
-    generatedMapping.putIfAbsent(
-        ProfileUpdateRequest, () => ProfileUpdateRequest.fromJsonFactory);
-
-    return _idProfilesProfileUpdatePatch(
-        id: id, profile: profile, profileUpdateRequest: profileUpdateRequest);
+      required ProfileUpdateRequest? body}) {
+    return _idProfilesProfileUpdatePatch(id: id, profile: profile, body: body);
   }
 
-  ///
+  ///Update a profile
   ///@param id
   ///@param profile
-  ///@param profileUpdateRequest
-  @Patch(path: '/{id}/profiles/{profile}/update', optionalBody: true)
+  @Patch(path: '/{id}/profiles/{profile}/update')
   Future<chopper.Response> _idProfilesProfileUpdatePatch(
-      {@Path('id')
-          required num? id,
-      @Path('profile')
-          required num? profile,
-      @Query('profileUpdateRequest')
-          required ProfileUpdateRequest? profileUpdateRequest});
+      {@Path('id') required num? id,
+      @Path('profile') required num? profile,
+      @Body() required ProfileUpdateRequest? body});
 
-  ///
+  ///Reuse a profile of the users
   ///@param id
   ///@param profile
-  ///@param availability
   Future<chopper.Response> idProfilesProfileReusePatch(
       {required num? id,
       required num? profile,
-      required AvailabilityAnswerModel? availability}) {
-    generatedMapping.putIfAbsent(
-        AvailabilityAnswerModel, () => AvailabilityAnswerModel.fromJsonFactory);
-
-    return _idProfilesProfileReusePatch(
-        id: id, profile: profile, availability: availability);
+      required AvailabilityAnswerModel? body}) {
+    return _idProfilesProfileReusePatch(id: id, profile: profile, body: body);
   }
 
-  ///
+  ///Reuse a profile of the users
   ///@param id
   ///@param profile
-  ///@param availability
-  @Patch(path: '/{id}/profiles/{profile}/reuse', optionalBody: true)
+  @Patch(path: '/{id}/profiles/{profile}/reuse')
   Future<chopper.Response> _idProfilesProfileReusePatch(
       {@Path('id') required num? id,
       @Path('profile') required num? profile,
-      @Query('availability') required AvailabilityAnswerModel? availability});
+      @Body() required AvailabilityAnswerModel? body});
 
   ///Used to update the user information
   ///@param id
@@ -249,13 +248,15 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<List<ProfileModel>>> _idProfilesActiveGet();
 
   ///
-  Future<chopper.Response<Object>> usersGet() {
+  Future<chopper.Response<List<UserEntity>>> usersGet() {
+    generatedMapping.putIfAbsent(UserEntity, () => UserEntity.fromJsonFactory);
+
     return _usersGet();
   }
 
   ///
   @Get(path: '/users')
-  Future<chopper.Response<Object>> _usersGet();
+  Future<chopper.Response<List<UserEntity>>> _usersGet();
 
   ///
   ///@param id
@@ -295,7 +296,7 @@ abstract class Api extends ChopperService {
   @Get(path: '/users/me')
   Future<chopper.Response<UserModel>> _usersMeGet();
 
-  ///
+  ///Delete the profile of a user
   ///@param id
   ///@param profile
   Future<chopper.Response> idProfilesProfileDelete(
@@ -303,7 +304,7 @@ abstract class Api extends ChopperService {
     return _idProfilesProfileDelete(id: id, profile: profile);
   }
 
-  ///
+  ///Delete the profile of a user
   ///@param id
   ///@param profile
   @Delete(path: '/{id}/profiles/{profile}')
@@ -1032,6 +1033,105 @@ extension $LoginResponseExtension on LoginResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class GoogleRequest {
+  GoogleRequest({
+    this.firstname,
+    this.lastname,
+    this.accessToken,
+    this.profilePicture,
+    this.phoneNumber,
+    this.birthdate,
+    this.gender,
+    this.email,
+  });
+
+  factory GoogleRequest.fromJson(Map<String, dynamic> json) =>
+      _$GoogleRequestFromJson(json);
+
+  @JsonKey(name: 'firstname')
+  final String? firstname;
+  @JsonKey(name: 'lastname')
+  final String? lastname;
+  @JsonKey(name: 'accessToken')
+  final String? accessToken;
+  @JsonKey(name: 'profilePicture')
+  final String? profilePicture;
+  @JsonKey(name: 'phoneNumber')
+  final String? phoneNumber;
+  @JsonKey(name: 'birthdate')
+  final DateTime? birthdate;
+  @JsonKey(name: 'gender')
+  final String? gender;
+  @JsonKey(name: 'email')
+  final String? email;
+  static const fromJsonFactory = _$GoogleRequestFromJson;
+  static const toJsonFactory = _$GoogleRequestToJson;
+  Map<String, dynamic> toJson() => _$GoogleRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is GoogleRequest &&
+            (identical(other.firstname, firstname) ||
+                const DeepCollectionEquality()
+                    .equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastname, lastname)) &&
+            (identical(other.accessToken, accessToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.accessToken, accessToken)) &&
+            (identical(other.profilePicture, profilePicture) ||
+                const DeepCollectionEquality()
+                    .equals(other.profilePicture, profilePicture)) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.birthdate, birthdate) ||
+                const DeepCollectionEquality()
+                    .equals(other.birthdate, birthdate)) &&
+            (identical(other.gender, gender) ||
+                const DeepCollectionEquality().equals(other.gender, gender)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(lastname) ^
+      const DeepCollectionEquality().hash(accessToken) ^
+      const DeepCollectionEquality().hash(profilePicture) ^
+      const DeepCollectionEquality().hash(phoneNumber) ^
+      const DeepCollectionEquality().hash(birthdate) ^
+      const DeepCollectionEquality().hash(gender) ^
+      const DeepCollectionEquality().hash(email) ^
+      runtimeType.hashCode;
+}
+
+extension $GoogleRequestExtension on GoogleRequest {
+  GoogleRequest copyWith(
+      {String? firstname,
+      String? lastname,
+      String? accessToken,
+      String? profilePicture,
+      String? phoneNumber,
+      DateTime? birthdate,
+      String? gender,
+      String? email}) {
+    return GoogleRequest(
+        firstname: firstname ?? this.firstname,
+        lastname: lastname ?? this.lastname,
+        accessToken: accessToken ?? this.accessToken,
+        profilePicture: profilePicture ?? this.profilePicture,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        birthdate: birthdate ?? this.birthdate,
+        gender: gender ?? this.gender,
+        email: email ?? this.email);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ForgotPasswordRequest {
   ForgotPasswordRequest({
     this.email,
@@ -1077,7 +1177,7 @@ class ProfileUpdateRequest {
     this.travelWithPersonFromSameCountry,
     this.travelWithPersonSameLanguage,
     this.gender,
-    this.groupeSize,
+    this.groupSize,
     this.chillOrVisit,
     this.aboutFood,
     this.goOutAtNight,
@@ -1124,8 +1224,8 @@ class ProfileUpdateRequest {
       toJson: profileUpdateRequestGenderToJson,
       fromJson: profileUpdateRequestGenderFromJson)
   final enums.ProfileUpdateRequestGender? gender;
-  @JsonKey(name: 'groupeSize')
-  final RangeAnswerModel? groupeSize;
+  @JsonKey(name: 'groupSize')
+  final RangeAnswerModel? groupSize;
   @JsonKey(
       name: 'chillOrVisit',
       toJson: profileUpdateRequestChillOrVisitToJson,
@@ -1183,9 +1283,9 @@ class ProfileUpdateRequest {
                     travelWithPersonSameLanguage)) &&
             (identical(other.gender, gender) ||
                 const DeepCollectionEquality().equals(other.gender, gender)) &&
-            (identical(other.groupeSize, groupeSize) ||
+            (identical(other.groupSize, groupSize) ||
                 const DeepCollectionEquality()
-                    .equals(other.groupeSize, groupeSize)) &&
+                    .equals(other.groupSize, groupSize)) &&
             (identical(other.chillOrVisit, chillOrVisit) ||
                 const DeepCollectionEquality()
                     .equals(other.chillOrVisit, chillOrVisit)) &&
@@ -1212,7 +1312,7 @@ class ProfileUpdateRequest {
       const DeepCollectionEquality().hash(travelWithPersonFromSameCountry) ^
       const DeepCollectionEquality().hash(travelWithPersonSameLanguage) ^
       const DeepCollectionEquality().hash(gender) ^
-      const DeepCollectionEquality().hash(groupeSize) ^
+      const DeepCollectionEquality().hash(groupSize) ^
       const DeepCollectionEquality().hash(chillOrVisit) ^
       const DeepCollectionEquality().hash(aboutFood) ^
       const DeepCollectionEquality().hash(goOutAtNight) ^
@@ -1235,7 +1335,7 @@ extension $ProfileUpdateRequestExtension on ProfileUpdateRequest {
       enums.ProfileUpdateRequestTravelWithPersonSameLanguage?
           travelWithPersonSameLanguage,
       enums.ProfileUpdateRequestGender? gender,
-      RangeAnswerModel? groupeSize,
+      RangeAnswerModel? groupSize,
       enums.ProfileUpdateRequestChillOrVisit? chillOrVisit,
       enums.ProfileUpdateRequestAboutFood? aboutFood,
       enums.ProfileUpdateRequestGoOutAtNight? goOutAtNight,
@@ -1254,7 +1354,7 @@ extension $ProfileUpdateRequestExtension on ProfileUpdateRequest {
         travelWithPersonSameLanguage:
             travelWithPersonSameLanguage ?? this.travelWithPersonSameLanguage,
         gender: gender ?? this.gender,
-        groupeSize: groupeSize ?? this.groupeSize,
+        groupSize: groupSize ?? this.groupSize,
         chillOrVisit: chillOrVisit ?? this.chillOrVisit,
         aboutFood: aboutFood ?? this.aboutFood,
         goOutAtNight: goOutAtNight ?? this.goOutAtNight,
@@ -1577,6 +1677,280 @@ class UserIdResponse {
 extension $UserIdResponseExtension on UserIdResponse {
   UserIdResponse copyWith({num? userId}) {
     return UserIdResponse(userId: userId ?? this.userId);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CityEntity {
+  CityEntity({
+    this.id,
+    this.name,
+  });
+
+  factory CityEntity.fromJson(Map<String, dynamic> json) =>
+      _$CityEntityFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'name')
+  final String? name;
+  static const fromJsonFactory = _$CityEntityFromJson;
+  static const toJsonFactory = _$CityEntityToJson;
+  Map<String, dynamic> toJson() => _$CityEntityToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is CityEntity &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      runtimeType.hashCode;
+}
+
+extension $CityEntityExtension on CityEntity {
+  CityEntity copyWith({num? id, String? name}) {
+    return CityEntity(id: id ?? this.id, name: name ?? this.name);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GenderEntity {
+  GenderEntity({
+    this.id,
+    this.value,
+  });
+
+  factory GenderEntity.fromJson(Map<String, dynamic> json) =>
+      _$GenderEntityFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'value')
+  final String? value;
+  static const fromJsonFactory = _$GenderEntityFromJson;
+  static const toJsonFactory = _$GenderEntityToJson;
+  Map<String, dynamic> toJson() => _$GenderEntityToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is GenderEntity &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(value) ^
+      runtimeType.hashCode;
+}
+
+extension $GenderEntityExtension on GenderEntity {
+  GenderEntity copyWith({num? id, String? value}) {
+    return GenderEntity(id: id ?? this.id, value: value ?? this.value);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class RoleEntity {
+  RoleEntity({
+    this.id,
+    this.name,
+    this.authority,
+  });
+
+  factory RoleEntity.fromJson(Map<String, dynamic> json) =>
+      _$RoleEntityFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'authority')
+  final String? authority;
+  static const fromJsonFactory = _$RoleEntityFromJson;
+  static const toJsonFactory = _$RoleEntityToJson;
+  Map<String, dynamic> toJson() => _$RoleEntityToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is RoleEntity &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.authority, authority) ||
+                const DeepCollectionEquality()
+                    .equals(other.authority, authority)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(authority) ^
+      runtimeType.hashCode;
+}
+
+extension $RoleEntityExtension on RoleEntity {
+  RoleEntity copyWith({num? id, String? name, String? authority}) {
+    return RoleEntity(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        authority: authority ?? this.authority);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UserEntity {
+  UserEntity({
+    this.id,
+    this.firstname,
+    this.lastname,
+    this.password,
+    this.email,
+    this.birthDate,
+    this.gender,
+    this.profilePicture,
+    this.city,
+    this.createdDate,
+    this.phoneNumber,
+    this.confirmed,
+    this.roles,
+  });
+
+  factory UserEntity.fromJson(Map<String, dynamic> json) =>
+      _$UserEntityFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'firstname')
+  final String? firstname;
+  @JsonKey(name: 'lastname')
+  final String? lastname;
+  @JsonKey(name: 'password')
+  final String? password;
+  @JsonKey(name: 'email')
+  final String? email;
+  @JsonKey(name: 'birthDate')
+  final DateTime? birthDate;
+  @JsonKey(name: 'gender')
+  final GenderEntity? gender;
+  @JsonKey(name: 'profilePicture')
+  final String? profilePicture;
+  @JsonKey(name: 'city')
+  final CityEntity? city;
+  @JsonKey(name: 'createdDate')
+  final DateTime? createdDate;
+  @JsonKey(name: 'phoneNumber')
+  final String? phoneNumber;
+  @JsonKey(name: 'confirmed')
+  final bool? confirmed;
+  @JsonKey(name: 'roles', defaultValue: <RoleEntity>[])
+  final List<RoleEntity>? roles;
+  static const fromJsonFactory = _$UserEntityFromJson;
+  static const toJsonFactory = _$UserEntityToJson;
+  Map<String, dynamic> toJson() => _$UserEntityToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UserEntity &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.firstname, firstname) ||
+                const DeepCollectionEquality()
+                    .equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastname, lastname)) &&
+            (identical(other.password, password) ||
+                const DeepCollectionEquality()
+                    .equals(other.password, password)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.birthDate, birthDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.birthDate, birthDate)) &&
+            (identical(other.gender, gender) ||
+                const DeepCollectionEquality().equals(other.gender, gender)) &&
+            (identical(other.profilePicture, profilePicture) ||
+                const DeepCollectionEquality()
+                    .equals(other.profilePicture, profilePicture)) &&
+            (identical(other.city, city) ||
+                const DeepCollectionEquality().equals(other.city, city)) &&
+            (identical(other.createdDate, createdDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdDate, createdDate)) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.confirmed, confirmed) ||
+                const DeepCollectionEquality()
+                    .equals(other.confirmed, confirmed)) &&
+            (identical(other.roles, roles) ||
+                const DeepCollectionEquality().equals(other.roles, roles)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(lastname) ^
+      const DeepCollectionEquality().hash(password) ^
+      const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(birthDate) ^
+      const DeepCollectionEquality().hash(gender) ^
+      const DeepCollectionEquality().hash(profilePicture) ^
+      const DeepCollectionEquality().hash(city) ^
+      const DeepCollectionEquality().hash(createdDate) ^
+      const DeepCollectionEquality().hash(phoneNumber) ^
+      const DeepCollectionEquality().hash(confirmed) ^
+      const DeepCollectionEquality().hash(roles) ^
+      runtimeType.hashCode;
+}
+
+extension $UserEntityExtension on UserEntity {
+  UserEntity copyWith(
+      {num? id,
+      String? firstname,
+      String? lastname,
+      String? password,
+      String? email,
+      DateTime? birthDate,
+      GenderEntity? gender,
+      String? profilePicture,
+      CityEntity? city,
+      DateTime? createdDate,
+      String? phoneNumber,
+      bool? confirmed,
+      List<RoleEntity>? roles}) {
+    return UserEntity(
+        id: id ?? this.id,
+        firstname: firstname ?? this.firstname,
+        lastname: lastname ?? this.lastname,
+        password: password ?? this.password,
+        email: email ?? this.email,
+        birthDate: birthDate ?? this.birthDate,
+        gender: gender ?? this.gender,
+        profilePicture: profilePicture ?? this.profilePicture,
+        city: city ?? this.city,
+        createdDate: createdDate ?? this.createdDate,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        confirmed: confirmed ?? this.confirmed,
+        roles: roles ?? this.roles);
   }
 }
 

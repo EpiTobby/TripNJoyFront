@@ -229,6 +229,32 @@ Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
       'token': instance.token,
     };
 
+GoogleRequest _$GoogleRequestFromJson(Map<String, dynamic> json) =>
+    GoogleRequest(
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
+      accessToken: json['accessToken'] as String?,
+      profilePicture: json['profilePicture'] as String?,
+      phoneNumber: json['phoneNumber'] as String?,
+      birthdate: json['birthdate'] == null
+          ? null
+          : DateTime.parse(json['birthdate'] as String),
+      gender: json['gender'] as String?,
+      email: json['email'] as String?,
+    );
+
+Map<String, dynamic> _$GoogleRequestToJson(GoogleRequest instance) =>
+    <String, dynamic>{
+      'firstname': instance.firstname,
+      'lastname': instance.lastname,
+      'accessToken': instance.accessToken,
+      'profilePicture': instance.profilePicture,
+      'phoneNumber': instance.phoneNumber,
+      'birthdate': instance.birthdate?.toIso8601String(),
+      'gender': instance.gender,
+      'email': instance.email,
+    };
+
 ForgotPasswordRequest _$ForgotPasswordRequestFromJson(
         Map<String, dynamic> json) =>
     ForgotPasswordRequest(
@@ -269,10 +295,10 @@ ProfileUpdateRequest _$ProfileUpdateRequestFromJson(
           profileUpdateRequestTravelWithPersonSameLanguageFromJson(
               json['travelWithPersonSameLanguage']),
       gender: profileUpdateRequestGenderFromJson(json['gender']),
-      groupeSize: json['groupeSize'] == null
+      groupSize: json['groupSize'] == null
           ? null
           : RangeAnswerModel.fromJson(
-              json['groupeSize'] as Map<String, dynamic>),
+              json['groupSize'] as Map<String, dynamic>),
       chillOrVisit:
           profileUpdateRequestChillOrVisitFromJson(json['chillOrVisit']),
       aboutFood: profileUpdateRequestAboutFoodFromJson(json['aboutFood']),
@@ -301,7 +327,7 @@ Map<String, dynamic> _$ProfileUpdateRequestToJson(
           profileUpdateRequestTravelWithPersonSameLanguageToJson(
               instance.travelWithPersonSameLanguage),
       'gender': profileUpdateRequestGenderToJson(instance.gender),
-      'groupeSize': instance.groupeSize?.toJson(),
+      'groupSize': instance.groupSize?.toJson(),
       'chillOrVisit':
           profileUpdateRequestChillOrVisitToJson(instance.chillOrVisit),
       'aboutFood': profileUpdateRequestAboutFoodToJson(instance.aboutFood),
@@ -401,6 +427,85 @@ UserIdResponse _$UserIdResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$UserIdResponseToJson(UserIdResponse instance) =>
     <String, dynamic>{
       'userId': instance.userId,
+    };
+
+CityEntity _$CityEntityFromJson(Map<String, dynamic> json) => CityEntity(
+      id: json['id'] as num?,
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$CityEntityToJson(CityEntity instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+    };
+
+GenderEntity _$GenderEntityFromJson(Map<String, dynamic> json) => GenderEntity(
+      id: json['id'] as num?,
+      value: json['value'] as String?,
+    );
+
+Map<String, dynamic> _$GenderEntityToJson(GenderEntity instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'value': instance.value,
+    };
+
+RoleEntity _$RoleEntityFromJson(Map<String, dynamic> json) => RoleEntity(
+      id: json['id'] as num?,
+      name: json['name'] as String?,
+      authority: json['authority'] as String?,
+    );
+
+Map<String, dynamic> _$RoleEntityToJson(RoleEntity instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'authority': instance.authority,
+    };
+
+UserEntity _$UserEntityFromJson(Map<String, dynamic> json) => UserEntity(
+      id: json['id'] as num?,
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
+      password: json['password'] as String?,
+      email: json['email'] as String?,
+      birthDate: json['birthDate'] == null
+          ? null
+          : DateTime.parse(json['birthDate'] as String),
+      gender: json['gender'] == null
+          ? null
+          : GenderEntity.fromJson(json['gender'] as Map<String, dynamic>),
+      profilePicture: json['profilePicture'] as String?,
+      city: json['city'] == null
+          ? null
+          : CityEntity.fromJson(json['city'] as Map<String, dynamic>),
+      createdDate: json['createdDate'] == null
+          ? null
+          : DateTime.parse(json['createdDate'] as String),
+      phoneNumber: json['phoneNumber'] as String?,
+      confirmed: json['confirmed'] as bool?,
+      roles: (json['roles'] as List<dynamic>?)
+              ?.map((e) => RoleEntity.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$UserEntityToJson(UserEntity instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'firstname': instance.firstname,
+      'lastname': instance.lastname,
+      'password': instance.password,
+      'email': instance.email,
+      'birthDate': instance.birthDate?.toIso8601String(),
+      'gender': instance.gender?.toJson(),
+      'profilePicture': instance.profilePicture,
+      'city': instance.city?.toJson(),
+      'createdDate': instance.createdDate?.toIso8601String(),
+      'phoneNumber': instance.phoneNumber,
+      'confirmed': instance.confirmed,
+      'roles': instance.roles?.map((e) => e.toJson()).toList(),
     };
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
