@@ -1,0 +1,72 @@
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/profile_detail.widget.dart';
+
+import '../../codegen/api.swagger.dart';
+
+class ProfileMenu extends ConsumerWidget {
+  const ProfileMenu({Key? key, required this.value, this.customColor, required this.profileModel}) : super(key: key);
+
+  final String value;
+  final Color? customColor;
+  
+  final ProfileModel profileModel;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    
+    final matchmakingService = ref.watch(matchmakingProvider.notifier);
+    
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            softWrap: false,
+            style: TextStyle(color: customColor ?? Theme.of(context).colorScheme.primary, fontSize: 24)),
+        PopupMenuButton(
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              child: Row(
+                children: <Widget>[
+                  Text(AppLocalizations.of(context).translate('profile.defineActive')),
+                ],
+              ),
+              onTap: () {
+                matchmakingService.updateProfile(profileModel.id!.toInt());
+              },
+            ),
+            PopupMenuItem(
+              child: Row(
+                children: <Widget>[
+                  Text(AppLocalizations.of(context).translate('profile.edit')),
+                ],
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileDetail(profileModel: profileModel)));
+              },
+            ),
+            PopupMenuItem(
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    AppLocalizations.of(context).translate('profile.delete'),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ],
+              ),
+              onTap: () {
+                matchmakingService.deleteProfile(profileModel.id!.toInt());
+              },
+            ),
+          ],
+        )
+      ],
+    );
+  }
+}

@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
         scrollbarTheme: ScrollbarThemeData(
           thumbColor: MaterialStateProperty.all(CColors.secondary),
         ),
-        sliderTheme: SliderThemeData(
+        sliderTheme: const SliderThemeData(
           thumbColor: CColors.secondary,
           activeTickMarkColor: CColors.secondary,
           activeTrackColor: CColors.secondary,
@@ -127,7 +127,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     final step = ref.watch(authStepProvider) as AuthStep;
 
     if (!authService.isAuthenticated) {
-      return Auth();
+      return const Auth();
     }
 
     useEffect(() {
@@ -165,7 +165,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
               body: Container(
                 child: getPageWidget(selectedPage),
               ),
-              bottomNavigationBar: Navbar(),
+              bottomNavigationBar: const Navbar(),
               resizeToAvoidBottomInset: false,
             ),
         error: (error, r) {

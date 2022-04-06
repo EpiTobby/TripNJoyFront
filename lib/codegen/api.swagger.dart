@@ -354,6 +354,7 @@ extension $AvailabilityAnswerModelExtension on AvailabilityAnswerModel {
 @JsonSerializable(explicitToJson: true)
 class ProfileCreationRequest {
   ProfileCreationRequest({
+    this.name,
     this.availabilities,
     this.duration,
     this.budget,
@@ -373,6 +374,8 @@ class ProfileCreationRequest {
   factory ProfileCreationRequest.fromJson(Map<String, dynamic> json) =>
       _$ProfileCreationRequestFromJson(json);
 
+  @JsonKey(name: 'name')
+  final String? name;
   @JsonKey(name: 'availabilities', defaultValue: <AvailabilityAnswerModel>[])
   final List<AvailabilityAnswerModel>? availabilities;
   @JsonKey(name: 'duration')
@@ -439,6 +442,8 @@ class ProfileCreationRequest {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ProfileCreationRequest &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.availabilities, availabilities) ||
                 const DeepCollectionEquality()
                     .equals(other.availabilities, availabilities)) &&
@@ -485,6 +490,7 @@ class ProfileCreationRequest {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(availabilities) ^
       const DeepCollectionEquality().hash(duration) ^
       const DeepCollectionEquality().hash(budget) ^
@@ -504,7 +510,8 @@ class ProfileCreationRequest {
 
 extension $ProfileCreationRequestExtension on ProfileCreationRequest {
   ProfileCreationRequest copyWith(
-      {List<AvailabilityAnswerModel>? availabilities,
+      {String? name,
+      List<AvailabilityAnswerModel>? availabilities,
       RangeAnswerModel? duration,
       RangeAnswerModel? budget,
       List<enums.ProfileCreationRequestDestinationTypes>? destinationTypes,
@@ -522,6 +529,7 @@ extension $ProfileCreationRequestExtension on ProfileCreationRequest {
       enums.ProfileCreationRequestGoOutAtNight? goOutAtNight,
       enums.ProfileCreationRequestSport? sport}) {
     return ProfileCreationRequest(
+        name: name ?? this.name,
         availabilities: availabilities ?? this.availabilities,
         duration: duration ?? this.duration,
         budget: budget ?? this.budget,
@@ -591,6 +599,7 @@ extension $RangeAnswerModelExtension on RangeAnswerModel {
 class ProfileModel {
   ProfileModel({
     this.id,
+    this.name,
     this.availabilities,
     this.duration,
     this.budget,
@@ -614,6 +623,8 @@ class ProfileModel {
 
   @JsonKey(name: 'id')
   final num? id;
+  @JsonKey(name: 'name')
+  final String? name;
   @JsonKey(name: 'availabilities', defaultValue: <AvailabilityAnswerModel>[])
   final List<AvailabilityAnswerModel>? availabilities;
   @JsonKey(name: 'duration')
@@ -686,6 +697,8 @@ class ProfileModel {
         (other is ProfileModel &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.availabilities, availabilities) ||
                 const DeepCollectionEquality()
                     .equals(other.availabilities, availabilities)) &&
@@ -736,6 +749,7 @@ class ProfileModel {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(availabilities) ^
       const DeepCollectionEquality().hash(duration) ^
       const DeepCollectionEquality().hash(budget) ^
@@ -758,6 +772,7 @@ class ProfileModel {
 extension $ProfileModelExtension on ProfileModel {
   ProfileModel copyWith(
       {num? id,
+      String? name,
       List<AvailabilityAnswerModel>? availabilities,
       RangeAnswerModel? duration,
       RangeAnswerModel? budget,
@@ -779,6 +794,7 @@ extension $ProfileModelExtension on ProfileModel {
       bool? active}) {
     return ProfileModel(
         id: id ?? this.id,
+        name: name ?? this.name,
         availabilities: availabilities ?? this.availabilities,
         duration: duration ?? this.duration,
         budget: budget ?? this.budget,
@@ -1184,6 +1200,7 @@ extension $ForgotPasswordRequestExtension on ForgotPasswordRequest {
 @JsonSerializable(explicitToJson: true)
 class ProfileUpdateRequest {
   ProfileUpdateRequest({
+    this.name,
     this.availabilities,
     this.duration,
     this.budget,
@@ -1204,6 +1221,8 @@ class ProfileUpdateRequest {
   factory ProfileUpdateRequest.fromJson(Map<String, dynamic> json) =>
       _$ProfileUpdateRequestFromJson(json);
 
+  @JsonKey(name: 'name')
+  final String? name;
   @JsonKey(name: 'availabilities', defaultValue: <AvailabilityAnswerModel>[])
   final List<AvailabilityAnswerModel>? availabilities;
   @JsonKey(name: 'duration')
@@ -1272,6 +1291,8 @@ class ProfileUpdateRequest {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ProfileUpdateRequest &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.availabilities, availabilities) ||
                 const DeepCollectionEquality()
                     .equals(other.availabilities, availabilities)) &&
@@ -1319,6 +1340,7 @@ class ProfileUpdateRequest {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(availabilities) ^
       const DeepCollectionEquality().hash(duration) ^
       const DeepCollectionEquality().hash(budget) ^
@@ -1339,7 +1361,8 @@ class ProfileUpdateRequest {
 
 extension $ProfileUpdateRequestExtension on ProfileUpdateRequest {
   ProfileUpdateRequest copyWith(
-      {List<AvailabilityAnswerModel>? availabilities,
+      {String? name,
+      List<AvailabilityAnswerModel>? availabilities,
       RangeAnswerModel? duration,
       RangeAnswerModel? budget,
       List<enums.ProfileUpdateRequestDestinationTypes>? destinationTypes,
@@ -1358,6 +1381,7 @@ extension $ProfileUpdateRequestExtension on ProfileUpdateRequest {
       enums.ProfileUpdateRequestSport? sport,
       bool? active}) {
     return ProfileUpdateRequest(
+        name: name ?? this.name,
         availabilities: availabilities ?? this.availabilities,
         duration: duration ?? this.duration,
         budget: budget ?? this.budget,

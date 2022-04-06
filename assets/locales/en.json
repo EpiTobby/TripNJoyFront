@@ -86,6 +86,17 @@
       "end": "End"
     }
   },
+  "profile": {
+    "title": "Profile",
+    "active": "Active profile",
+    "other": "Other profiles",
+    "information": "Information",
+    "name": "Profile name",
+    "answers": "Answers",
+    "defineActive": "Define as active profile",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
   "groups": {
     "title": "Groups",
     "members": "Members",

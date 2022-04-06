@@ -27,6 +27,7 @@ Map<String, dynamic> _$AvailabilityAnswerModelToJson(
 ProfileCreationRequest _$ProfileCreationRequestFromJson(
         Map<String, dynamic> json) =>
     ProfileCreationRequest(
+      name: json['name'] as String?,
       availabilities: (json['availabilities'] as List<dynamic>?)
               ?.map((e) =>
                   AvailabilityAnswerModel.fromJson(e as Map<String, dynamic>))
@@ -68,6 +69,7 @@ ProfileCreationRequest _$ProfileCreationRequestFromJson(
 Map<String, dynamic> _$ProfileCreationRequestToJson(
         ProfileCreationRequest instance) =>
     <String, dynamic>{
+      'name': instance.name,
       'availabilities':
           instance.availabilities?.map((e) => e.toJson()).toList(),
       'duration': instance.duration?.toJson(),
@@ -108,6 +110,7 @@ Map<String, dynamic> _$RangeAnswerModelToJson(RangeAnswerModel instance) =>
 
 ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
       id: json['id'] as num?,
+      name: json['name'] as String?,
       availabilities: (json['availabilities'] as List<dynamic>?)
               ?.map((e) =>
                   AvailabilityAnswerModel.fromJson(e as Map<String, dynamic>))
@@ -149,6 +152,7 @@ ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
 Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'name': instance.name,
       'availabilities':
           instance.availabilities?.map((e) => e.toJson()).toList(),
       'duration': instance.duration?.toJson(),
@@ -282,6 +286,7 @@ Map<String, dynamic> _$ForgotPasswordRequestToJson(
 ProfileUpdateRequest _$ProfileUpdateRequestFromJson(
         Map<String, dynamic> json) =>
     ProfileUpdateRequest(
+      name: json['name'] as String?,
       availabilities: (json['availabilities'] as List<dynamic>?)
               ?.map((e) =>
                   AvailabilityAnswerModel.fromJson(e as Map<String, dynamic>))
@@ -324,6 +329,7 @@ ProfileUpdateRequest _$ProfileUpdateRequestFromJson(
 Map<String, dynamic> _$ProfileUpdateRequestToJson(
         ProfileUpdateRequest instance) =>
     <String, dynamic>{
+      'name': instance.name,
       'availabilities':
           instance.availabilities?.map((e) => e.toJson()).toList(),
       'duration': instance.duration?.toJson(),

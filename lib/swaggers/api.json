@@ -779,6 +779,7 @@
           "gender",
           "goOutAtNight",
           "groupSize",
+          "name",
           "sport",
           "travelWithPersonFromSameCity",
           "travelWithPersonFromSameCountry",
@@ -786,6 +787,9 @@
         ],
         "type": "object",
         "properties": {
+          "name": {
+            "type": "string"
+          },
           "availabilities": {
             "type": "array",
             "items": {
@@ -901,6 +905,9 @@
           "id": {
             "type": "integer",
             "format": "int64"
+          },
+          "name": {
+            "type": "string"
           },
           "availabilities": {
             "type": "array",
@@ -1111,6 +1118,9 @@
       "ProfileUpdateRequest": {
         "type": "object",
         "properties": {
+          "name": {
+            "type": "string"
+          },
           "availabilities": {
             "type": "array",
             "items": {
