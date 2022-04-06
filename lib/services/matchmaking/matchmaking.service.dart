@@ -166,9 +166,8 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
   void submitAvailability(String name, List<Availability> availabilities) {
     logger.i(
         "Submit ${name} - availabilities: ${availabilities.map((e) => "begin: ${e.startDate} - end: ${e.endDate}").join(", ")}");
-    profileCreationRequest[name] = availabilities
-        .map((e) => {"startDate": e.startDate.toIso8601String(), "endDate": e.endDate.toIso8601String()})
-        .first;
+    profileCreationRequest[name] =
+        availabilities.map((e) => {"startDate": e.startDate.toIso8601String(), "endDate": e.endDate.toIso8601String()});
     nextCard();
   }
 
@@ -208,12 +207,6 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
     int? id = httpService.getUserIdFromToken(authService.token!);
 
     await httpService.deleteProfile(id!, profileId);
-  }
-
-  void reuseProfile(int profileId) async {
-    int? id = httpService.getUserIdFromToken(authService.token!);
-
-    await httpService.reuseProfile(id!, profileId, AvailabilityAnswerModel.fromJsonFactory({}));
   }
 
   void mockProfileData() {

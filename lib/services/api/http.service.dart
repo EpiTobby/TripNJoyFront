@@ -38,7 +38,5 @@ abstract class HttpService {
 
   Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest);
 
-  Future<void> reuseProfile(int id, int profileId, AvailabilityAnswerModel profileAvailability);
-
   Future<void> deleteProfile(int id, int profileId);
 }

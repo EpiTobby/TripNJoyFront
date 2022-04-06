@@ -150,11 +150,6 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<void> reuseProfile(int id, int profileId, AvailabilityAnswerModel profileAvailability) async {
-    await api.idProfilesProfileReusePatch(id: id, profile: profileId, body: profileAvailability);
-  }
-
-  @override
   Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest) async {
     await api.idProfilesProfileUpdatePatch(id: id, profile: profileId, body: profileUpdateRequest);
   }
