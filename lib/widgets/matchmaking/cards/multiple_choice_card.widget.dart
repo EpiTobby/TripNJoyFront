@@ -32,55 +32,66 @@ class MultipleChoiceCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final animation = useAnimationController(
+      duration: const Duration(milliseconds: 500),
+    );
+    final offset = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, -2))
+        .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
     final selectedValues = useState<List<String>>([]);
     final matchmakingService = ref.watch(matchmakingProvider.notifier);
     final scrollController = useState(ScrollController());
-    return StandardCard(
-      name: name,
-      title: title,
-      subtitle: subtitle,
-      color: color,
-      backgroundColor: backgroundColor,
-      shadowColor: shadowColor,
-      isLoading: isLoading,
-      child: Column(
-        children: [
-          Expanded(
-            child: Scrollbar(
-              isAlwaysShown: true,
-              interactive: false,
-              controller: scrollController.value,
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 60),
+    return SlideTransition(
+      position: offset,
+      child: StandardCard(
+        name: name,
+        title: title,
+        subtitle: subtitle,
+        color: color,
+        backgroundColor: backgroundColor,
+        shadowColor: shadowColor,
+        isLoading: isLoading,
+        child: Column(
+          children: [
+            Expanded(
+              child: Scrollbar(
+                isAlwaysShown: true,
+                interactive: false,
                 controller: scrollController.value,
-                children: <Widget>[
-                  for (final value in values)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: StandardCheckbox(
-                        value: value,
-                        onTap: () {
-                          if (selectedValues.value.contains(value)) {
-                            selectedValues.value = selectedValues.value.where((element) => element != value).toList();
-                          } else {
-                            selectedValues.value = [...selectedValues.value, value];
-                          }
-                        },
-                        checked: selectedValues.value.contains(value),
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 60),
+                  controller: scrollController.value,
+                  children: <Widget>[
+                    for (final value in values)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: StandardCheckbox(
+                          value: value,
+                          onTap: () {
+                            if (selectedValues.value.contains(value)) {
+                              selectedValues.value = selectedValues.value.where((element) => element != value).toList();
+                            } else {
+                              selectedValues.value = [...selectedValues.value, value];
+                            }
+                          },
+                          checked: selectedValues.value.contains(value),
+                        ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          PrimaryButton(
-            text: AppLocalizations.of(context).translate('common.validate'),
-            onPressed: () {
-              matchmakingService.submitMultipleChoiceCard(name, selectedValues.value);
-              selectedValues.value = [];
-            },
-          ),
-        ],
+            PrimaryButton(
+              text: AppLocalizations.of(context).translate('common.validate'),
+              onPressed: () {
+                animation.forward();
+                Future.delayed(const Duration(milliseconds: 500), () {
+                  matchmakingService.submitMultipleChoiceCard(name, selectedValues.value);
+                  selectedValues.value = [];
+                });
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

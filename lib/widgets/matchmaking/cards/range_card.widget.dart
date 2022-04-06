@@ -33,39 +33,51 @@ class RangeCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final animation = useAnimationController(
+      duration: const Duration(milliseconds: 500),
+    );
+    final offset = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, -2))
+        .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
+
     final selectedRange = useState(RangeValues(min, max));
     final matchmakingService = ref.watch(matchmakingProvider.notifier);
-    return StandardCard(
-      name: name,
-      title: title,
-      subtitle: subtitle,
-      color: color,
-      backgroundColor: backgroundColor,
-      shadowColor: shadowColor,
-      isLoading: isLoading,
-      child: Column(
-        children: [
-          Expanded(
-            child: RangeSlider(
-              values: selectedRange.value,
-              onChanged: (RangeValues value) {
-                selectedRange.value = value;
-              },
-              min: min,
-              max: max,
-              activeColor: Theme.of(context).sliderTheme.activeTrackColor,
-              labels:
-                  RangeLabels(selectedRange.value.start.round().toString(), selectedRange.value.end.round().toString()),
-              divisions: (max - min).toInt(),
+    return SlideTransition(
+      position: offset,
+      child: StandardCard(
+        name: name,
+        title: title,
+        subtitle: subtitle,
+        color: color,
+        backgroundColor: backgroundColor,
+        shadowColor: shadowColor,
+        isLoading: isLoading,
+        child: Column(
+          children: [
+            Expanded(
+              child: RangeSlider(
+                values: selectedRange.value,
+                onChanged: (RangeValues value) {
+                  selectedRange.value = value;
+                },
+                min: min,
+                max: max,
+                activeColor: Theme.of(context).sliderTheme.activeTrackColor,
+                labels: RangeLabels(
+                    selectedRange.value.start.round().toString(), selectedRange.value.end.round().toString()),
+                divisions: (max - min).toInt(),
+              ),
             ),
-          ),
-          PrimaryButton(
-            text: AppLocalizations.of(context).translate('common.validate'),
-            onPressed: () {
-              matchmakingService.submitRangeValue(name, selectedRange.value);
-            },
-          ),
-        ],
+            PrimaryButton(
+              text: AppLocalizations.of(context).translate('common.validate'),
+              onPressed: () {
+                animation.forward();
+                Future.delayed(const Duration(milliseconds: 500), () {
+                  matchmakingService.submitRangeValue(name, selectedRange.value);
+                });
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

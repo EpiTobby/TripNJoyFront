@@ -17,92 +17,103 @@ class AvailabilityCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final animation = useAnimationController(
+      duration: const Duration(milliseconds: 500),
+    );
+    final offset = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, -2))
+        .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
     final availabilities =
         useState<List<Availability>>([Availability(startDate: DateTime.now(), endDate: DateTime.now())]);
     final scrollController = useState(ScrollController());
     final matchmakingService = ref.watch(matchmakingProvider.notifier);
-    return StandardCard(
-      name: "NameProfileCard",
-      title: AppLocalizations.of(context).translate("cards.availability.title"),
-      subtitle: AppLocalizations.of(context).translate("cards.availability.subtitle"),
-      shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-      isLoading: isLoading,
-      child: Column(
-        children: [
-          Expanded(
-            child: Scrollbar(
-              isAlwaysShown: true,
-              interactive: false,
-              controller: scrollController.value,
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+    return SlideTransition(
+      position: offset,
+      child: StandardCard(
+        name: "NameProfileCard",
+        title: AppLocalizations.of(context).translate("cards.availability.title"),
+        subtitle: AppLocalizations.of(context).translate("cards.availability.subtitle"),
+        shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+        isLoading: isLoading,
+        child: Column(
+          children: [
+            Expanded(
+              child: Scrollbar(
+                isAlwaysShown: true,
+                interactive: false,
                 controller: scrollController.value,
-                children: <Widget>[
-                  for (final availability in availabilities.value)
-                    AvailabilityInput(
-                      availability: availability,
-                      onStartChanged: (value) {
-                        availabilities.value = availabilities.value.map((a) {
-                          if (a == availability) {
-                            a.startDate = value;
-                            if (a.endDate.isBefore(value)) {
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  controller: scrollController.value,
+                  children: <Widget>[
+                    for (final availability in availabilities.value)
+                      AvailabilityInput(
+                        availability: availability,
+                        onStartChanged: (value) {
+                          availabilities.value = availabilities.value.map((a) {
+                            if (a == availability) {
+                              a.startDate = value;
+                              if (a.endDate.isBefore(value)) {
+                                a.endDate = value;
+                              }
+                            }
+                            return a;
+                          }).toList();
+                        },
+                        onEndChanged: (value) {
+                          availabilities.value = availabilities.value.map((a) {
+                            if (a == availability) {
                               a.endDate = value;
                             }
-                          }
-                          return a;
-                        }).toList();
-                      },
-                      onEndChanged: (value) {
-                        availabilities.value = availabilities.value.map((a) {
-                          if (a == availability) {
-                            a.endDate = value;
-                          }
-                          return a;
-                        }).toList();
-                      },
-                      onDelete: availabilities.value.length > 1
-                          ? () {
-                              availabilities.value =
-                                  availabilities.value.where((element) => element != availability).toList();
-                              scrollController.value
-                                  .animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.ease);
-                            }
-                          : null,
-                    ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      PrimaryButton(
-                        text: "+",
-                        fitContent: true,
-                        onPressed: () {
-                          availabilities.value = [
-                            ...availabilities.value,
-                            Availability(startDate: DateTime.now(), endDate: DateTime.now())
-                          ];
-                          Future.delayed(
-                            const Duration(milliseconds: 100),
-                            () {
-                              scrollController.value.animateTo(scrollController.value.position.maxScrollExtent,
-                                  duration: const Duration(milliseconds: 500), curve: Curves.ease);
-                            },
-                          );
+                            return a;
+                          }).toList();
                         },
+                        onDelete: availabilities.value.length > 1
+                            ? () {
+                                availabilities.value =
+                                    availabilities.value.where((element) => element != availability).toList();
+                                scrollController.value
+                                    .animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                              }
+                            : null,
                       ),
-                    ],
-                  ),
-                ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        PrimaryButton(
+                          text: "+",
+                          fitContent: true,
+                          onPressed: () {
+                            availabilities.value = [
+                              ...availabilities.value,
+                              Availability(startDate: DateTime.now(), endDate: DateTime.now())
+                            ];
+                            Future.delayed(
+                              const Duration(milliseconds: 100),
+                              () {
+                                scrollController.value.animateTo(scrollController.value.position.maxScrollExtent,
+                                    duration: const Duration(milliseconds: 500), curve: Curves.ease);
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          PrimaryButton(
-            text: AppLocalizations.of(context).translate('common.validate'),
-            isDisabled: availabilities.value.isEmpty,
-            onPressed: () {
-              matchmakingService.submitAvailability(name, availabilities.value);
-            },
-          ),
-        ],
+            PrimaryButton(
+              text: AppLocalizations.of(context).translate('common.validate'),
+              isDisabled: availabilities.value.isEmpty,
+              onPressed: () {
+                animation.forward();
+                Future.delayed(const Duration(milliseconds: 500), () {
+                  matchmakingService.submitAvailability(name, availabilities.value);
+                });
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
