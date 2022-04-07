@@ -127,11 +127,11 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
                   nextCard();
                 }),
           )),
-    ].reversed.toList();
+    ].toList();
   }
 
   void nextCard() {
-    final newState = state.sublist(0, state.length - 1);
+    final newState = state.sublist(1);
     state = newState;
   }
 

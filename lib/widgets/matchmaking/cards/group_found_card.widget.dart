@@ -92,8 +92,7 @@ class GroupFoundCard extends HookConsumerWidget {
                 PrimaryButton(
                     text: AppLocalizations.of(context).translate('cards.group_found.button'),
                     onPressed: () {
-                      animation.forward();
-                      Future.delayed(const Duration(milliseconds: 500), () {
+                      animation.forward().whenComplete(() {
                         matchmakingService.joinGroup(groupId);
                       });
                     }),

@@ -48,8 +48,7 @@ class NameProfileCard extends HookConsumerWidget {
               text: AppLocalizations.of(context).translate('common.validate'),
               isDisabled: profileName.value.isEmpty,
               onPressed: () {
-                animation.forward();
-                Future.delayed(const Duration(milliseconds: 500), () {
+                animation.forward().whenComplete(() {
                   matchmakingService.submitCard(name, profileName.value);
                 });
               },

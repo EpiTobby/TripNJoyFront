@@ -106,8 +106,7 @@ class AvailabilityCard extends HookConsumerWidget {
               text: AppLocalizations.of(context).translate('common.validate'),
               isDisabled: availabilities.value.isEmpty,
               onPressed: () {
-                animation.forward();
-                Future.delayed(const Duration(milliseconds: 500), () {
+                animation.forward().whenComplete(() {
                   matchmakingService.submitAvailability(name, availabilities.value);
                 });
               },

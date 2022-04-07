@@ -70,8 +70,7 @@ class RangeCard extends HookConsumerWidget {
             PrimaryButton(
               text: AppLocalizations.of(context).translate('common.validate'),
               onPressed: () {
-                animation.forward();
-                Future.delayed(const Duration(milliseconds: 500), () {
+                animation.forward().whenComplete(() {
                   matchmakingService.submitRangeValue(name, selectedRange.value);
                 });
               },
