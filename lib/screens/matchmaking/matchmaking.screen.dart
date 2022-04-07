@@ -24,40 +24,45 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
     if (swipeService.screenSize == Size.zero) {
       swipeService.setScreenSize(MediaQuery.of(context).size);
     }
-    return Container(
-      child: cards.isEmpty
-          ? Column(
-              children: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => ProfileSettings(profileModels: matchmakingService.profiles)));
-                    },
-                    icon: const Icon(Icons.settings)),
-                const ProfileCreationCard()
-              ],
-            )
-          : Stack(
-              alignment: Alignment.topCenter,
-              children: cards
-                  .asMap()
-                  .map((index, card) {
-                    if (index == cards.length - 1) {
-                      return MapEntry(
-                          index, Positioned(width: MediaQuery.of(context).size.width, top: 20, child: card));
-                    } else if (index == cards.length - 2) {
-                      return MapEntry(
-                          index, Positioned(width: MediaQuery.of(context).size.width - 10, top: 10, child: card));
-                    } else if (index == cards.length - 3) {
-                      return MapEntry(
-                          index, Positioned(width: MediaQuery.of(context).size.width - 25, top: 0, child: card));
-                    }
-                    return MapEntry(index, Container());
-                  })
-                  .values
-                  .toList()),
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(onPressed: () => {}, icon: const Icon(Icons.arrow_back_rounded)),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.account_circle),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => ProfileSettings()));
+            },
+          ),
+        ],
+        foregroundColor: Colors.black,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+        shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+      ),
+      body: Container(
+        child: cards.isEmpty
+            ? const ProfileCreationCard()
+            : Stack(
+                alignment: Alignment.topCenter,
+                children: cards
+                    .asMap()
+                    .map((index, card) {
+                      if (index == cards.length - 1) {
+                        return MapEntry(
+                            index, Positioned(width: MediaQuery.of(context).size.width, top: 20, child: card));
+                      } else if (index == cards.length - 2) {
+                        return MapEntry(
+                            index, Positioned(width: MediaQuery.of(context).size.width - 10, top: 10, child: card));
+                      } else if (index == cards.length - 3) {
+                        return MapEntry(
+                            index, Positioned(width: MediaQuery.of(context).size.width - 25, top: 0, child: card));
+                      }
+                      return MapEntry(index, Container());
+                    })
+                    .values
+                    .toList()),
+      ),
     );
   }
 }

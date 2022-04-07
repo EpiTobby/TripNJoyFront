@@ -48,6 +48,7 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
     const DEFAULT_AVATAR_URL =
         "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png";
     state = [
+      const NameProfileCard(),
       const AvailabilityCard(),
       const GroupFoundCard(
           groupId: 1,

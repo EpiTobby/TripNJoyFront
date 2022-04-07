@@ -14,25 +14,35 @@ class ProfilesList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var activeProfile = profileModels.where((profile) => profile.active == true);
+    var inactiveProfiles = profileModels.where((profile) => profile.active == false);
 
-    var activeProfile = profileModels.where((profile) => profile.active == true).first;
-
-    return ListView(children: [
-      LayoutBox(title: AppLocalizations.of(context).translate('profile.active'), children: [
-        LayoutItem(
-          child: ProfileMenu(
-            profileModel: activeProfile,
-            value: activeProfile.name!,
-          ),
-        )
-      ]),
-      LayoutBox(title: AppLocalizations.of(context).translate('profile.other'), children: [
-        ...profileModels.where((profile) => profile.active == false).map(
-              (profile) => LayoutItem(
-                  child:
-                      LayoutItemValue(value: profile.name!, icon: const Icon(Icons.more_horiz), onPressed: () {})),
+    return profileModels.isEmpty
+        ? Center(
+            child: Text(
+            AppLocalizations.of(context).translate('profile.noProfile'),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
             ),
-      ]),
-    ]);
+            textAlign: TextAlign.center,
+          ))
+        : ListView(children: [
+            activeProfile.isEmpty
+                ? const SizedBox()
+                : LayoutBox(title: AppLocalizations.of(context).translate('profile.active'), children: [
+                    LayoutItem(
+                      child: ProfileMenu(
+                        parentContext: context,
+                        profileModel: activeProfile.first,
+                        value: activeProfile.first.name!,
+                      ),
+                    )
+                  ]),
+            LayoutBox(title: AppLocalizations.of(context).translate('profile.other'), children: [
+              ...inactiveProfiles.map(
+                (profile) => LayoutItem(child: ProfileMenu(parentContext: context,profileModel: profile, value: profile.name!)),
+              )
+            ]),
+          ]);
   }
 }

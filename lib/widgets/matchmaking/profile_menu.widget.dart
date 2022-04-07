@@ -7,18 +7,20 @@ import 'package:trip_n_joy_front/widgets/matchmaking/profile_detail.widget.dart'
 import '../../codegen/api.swagger.dart';
 
 class ProfileMenu extends ConsumerWidget {
-  const ProfileMenu({Key? key, required this.value, this.customColor, required this.profileModel}) : super(key: key);
+  const ProfileMenu(
+      {Key? key, required this.value, this.customColor, required this.profileModel, required this.parentContext})
+      : super(key: key);
 
   final String value;
   final Color? customColor;
-  
+
   final ProfileModel profileModel;
+  final BuildContext parentContext;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    
     final matchmakingService = ref.watch(matchmakingProvider.notifier);
-    
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -28,6 +30,11 @@ class ProfileMenu extends ConsumerWidget {
             softWrap: false,
             style: TextStyle(color: customColor ?? Theme.of(context).colorScheme.primary, fontSize: 24)),
         PopupMenuButton(
+          onSelected: (result) {
+            if (result == 1){
+              Navigator.push(parentContext, MaterialPageRoute(builder: (_) => ProfileDetail(profileModel: profileModel)));
+            }
+          },
           itemBuilder: (context) => [
             PopupMenuItem(
               child: Row(
@@ -40,14 +47,12 @@ class ProfileMenu extends ConsumerWidget {
               },
             ),
             PopupMenuItem(
+              value: 1,
               child: Row(
                 children: <Widget>[
                   Text(AppLocalizations.of(context).translate('profile.edit')),
                 ],
               ),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileDetail(profileModel: profileModel)));
-              },
             ),
             PopupMenuItem(
               child: Row(

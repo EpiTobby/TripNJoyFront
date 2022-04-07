@@ -12,7 +12,7 @@ class NameProfileCard extends HookConsumerWidget {
   const NameProfileCard({Key? key, this.isLoading = false}) : super(key: key);
 
   final bool isLoading;
-  final name = "name_profile";
+  final name = "name";
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

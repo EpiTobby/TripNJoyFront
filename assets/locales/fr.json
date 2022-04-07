@@ -95,7 +95,8 @@
     "answers": "Réponses",
     "defineActive": "Définir en tant que profil actif",
     "edit": "Modifier",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "noProfile": "Vous n'avez pas encore de profil, veuillez répondre aux questions pour créer votre premier profil"
   },
   "groups": {
     "title": "Groupes",

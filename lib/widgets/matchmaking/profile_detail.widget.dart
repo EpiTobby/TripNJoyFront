@@ -19,37 +19,47 @@ class ProfileDetail extends ConsumerWidget {
 
     final matchmakingService = ref.watch(matchmakingProvider.notifier);
 
-    return ListView(children: [
-      LayoutBox(title: AppLocalizations.of(context).translate('profile.information'), children: [
-        LayoutItem(
-          title: AppLocalizations.of(context).translate('profile.name'),
-          child: LayoutItemValue(
-            value: 'Profil été',
-            icon: const Icon(Icons.keyboard_arrow_right_sharp),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return InputDialog(
-                        title: AppLocalizations.of(context).translate("profile.name"),
-                        label: AppLocalizations.of(context).translate("profile.name"),
-                        initialValue: 'Profil été',
-                        onConfirm: (value) async {
-                          matchmakingService.updateProfile(1);
-                        });
-                  });
-            },
-          ),
-        )
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back_rounded)),
+        title: Text(AppLocalizations.of(context).translate('profile.title')),
+        foregroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+        shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+
+      ),
+      body: ListView(children: [
+        LayoutBox(title: AppLocalizations.of(context).translate('profile.information'), children: [
+          LayoutItem(
+            title: AppLocalizations.of(context).translate('profile.name'),
+            child: LayoutItemValue(
+              value: profileModel.name!,
+              icon: const Icon(Icons.keyboard_arrow_right_sharp),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return InputDialog(
+                          title: AppLocalizations.of(context).translate("profile.name"),
+                          label: AppLocalizations.of(context).translate("profile.name"),
+                          initialValue: profileModel.name!,
+                          onConfirm: (value) async {
+                            matchmakingService.updateProfile(1);
+                          });
+                    });
+              },
+            ),
+          )
+        ]),
+        LayoutBox(title: AppLocalizations.of(context).translate('profile.answers'), children: [
+          LayoutItem(
+              title: 'Activités',
+              child: LayoutItemValue(value: 'Sport, Musée', icon: const Icon(Icons.keyboard_arrow_right_sharp), onPressed: () {})),
+          LayoutItem(
+              title: 'Chaud ou Froid',
+              child: LayoutItemValue(value: 'Chaud', icon: const Icon(Icons.keyboard_arrow_right_sharp), onPressed: () {})),
+        ]),
       ]),
-      LayoutBox(title: AppLocalizations.of(context).translate('profile.answers'), children: [
-        LayoutItem(
-            title: 'Activités',
-            child: LayoutItemValue(value: 'Sport, Musée', icon: const Icon(Icons.keyboard_arrow_right_sharp), onPressed: () {})),
-        LayoutItem(
-            title: 'Chaud ou Froid',
-            child: LayoutItemValue(value: 'Chaud', icon: const Icon(Icons.keyboard_arrow_right_sharp), onPressed: () {})),
-      ]),
-    ]);
+    );
   }
 }

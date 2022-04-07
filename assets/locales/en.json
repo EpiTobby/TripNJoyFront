@@ -95,7 +95,8 @@
     "answers": "Answers",
     "defineActive": "Define as active profile",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "noProfile": "You do not have a profile yet, please answer the questions to create your first profile"
   },
   "groups": {
     "title": "Groups",
