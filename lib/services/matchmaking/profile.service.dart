@@ -13,9 +13,31 @@ class ProfileService extends StateNotifier<List<ProfileModel>?> {
   final HttpService httpService;
 
   void _init() async {
+    getUserProfiles();
+  }
+
+  void createProfile(ProfileCreationRequest profileCreationRequest) async {
+    int? id = httpService.getUserIdFromToken(authService.token!);
+    await httpService.createProfile(id!, profileCreationRequest);
+    getUserProfiles();
+  }
+
+  void getUserProfiles() async {
     var id = httpService.getUserIdFromToken(authService.token!);
     List<ProfileModel>? userProfiles = await httpService.getUserProfiles(id!);
-
     state = userProfiles!;
+  }
+
+  void updateProfile(int profileId, ProfileUpdateRequest profileUpdateRequest) async {
+    int? id = httpService.getUserIdFromToken(authService.token!);
+    await httpService.updateProfile(id!, profileId, profileUpdateRequest);
+    getUserProfiles();
+  }
+
+  void deleteProfile(int profileId) async {
+    int? id = httpService.getUserIdFromToken(authService.token!);
+
+    await httpService.deleteProfile(id!, profileId);
+    getUserProfiles();
   }
 }

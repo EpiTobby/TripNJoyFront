@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/models/matchmaking/availability.model.dart';
+import 'package:trip_n_joy_front/services/matchmaking/profile.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/group_found_card.widget.dart';
@@ -21,13 +22,14 @@ import '../auth/auth.service.dart';
 import '../log/logger.service.dart';
 
 class MatchmakingService extends StateNotifier<List<Widget>> {
-  MatchmakingService(this.httpService, this.authService) : super([]) {
+  MatchmakingService(this.httpService, this.authService, this.profileService) : super([]) {
     _init();
   }
 
   final AuthService authService;
   final HttpService httpService;
-  final List<ProfileModel> profiles = [];
+  final ProfileService profileService;
+
   ProfileModel? activeProfile;
   Map<String, dynamic> profileCreationRequest = {};
 
@@ -36,10 +38,6 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
     state = [
       const ProfileCreationCard(),
     ];
-
-    if (authService.token != null) {
-      getUserProfiles();
-    }
   }
 
   void startProfileCreation() {
@@ -180,34 +178,10 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
 
   void retryMatchmaking() {}
 
-  void createProfile() async {
+  void createProfile() {
     nextCard();
-
     mockProfileData();
-
-    int? id = httpService.getUserIdFromToken(authService.token!);
-    var profileModel =
-        await httpService.createProfile(id!, ProfileCreationRequest.fromJsonFactory(profileCreationRequest));
-    profiles.add(profileModel!);
-    activeProfile = profileModel;
-  }
-
-  void getUserProfiles() async {
-    var id = httpService.getUserIdFromToken(authService.token!);
-    List<ProfileModel>? userProfiles = await httpService.getUserProfiles(id!);
-    profiles.addAll(userProfiles!);
-  }
-
-  void updateProfile(int profileId) async {
-    int? id = httpService.getUserIdFromToken(authService.token!);
-
-    await httpService.updateProfile(id!, profileId, ProfileUpdateRequest.fromJsonFactory({}));
-  }
-
-  void deleteProfile(int profileId) async {
-    int? id = httpService.getUserIdFromToken(authService.token!);
-
-    await httpService.deleteProfile(id!, profileId);
+    profileService.createProfile(ProfileCreationRequest.fromJsonFactory(profileCreationRequest));
   }
 
   void mockProfileData() {

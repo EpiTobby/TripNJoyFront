@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
+import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
@@ -16,8 +17,7 @@ class ProfileDetail extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-    final matchmakingService = ref.watch(matchmakingProvider.notifier);
+    final profileService = ref.watch(profileProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -26,7 +26,6 @@ class ProfileDetail extends ConsumerWidget {
         foregroundColor: Theme.of(context).colorScheme.primary,
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-
       ),
       body: ListView(children: [
         LayoutBox(title: AppLocalizations.of(context).translate('profile.information'), children: [
@@ -44,7 +43,11 @@ class ProfileDetail extends ConsumerWidget {
                           label: AppLocalizations.of(context).translate("profile.name"),
                           initialValue: profileModel.name!,
                           onConfirm: (value) async {
-                            matchmakingService.updateProfile(1);
+                            profileService.updateProfile(
+                                profileModel.id!.toInt(),
+                                ProfileUpdateRequest.fromJsonFactory({
+                                  "name": value,
+                                }));
                           });
                     });
               },
@@ -54,10 +57,12 @@ class ProfileDetail extends ConsumerWidget {
         LayoutBox(title: AppLocalizations.of(context).translate('profile.answers'), children: [
           LayoutItem(
               title: 'Activités',
-              child: LayoutItemValue(value: 'Sport, Musée', icon: const Icon(Icons.keyboard_arrow_right_sharp), onPressed: () {})),
+              child: LayoutItemValue(
+                  value: 'Sport, Musée', icon: const Icon(Icons.keyboard_arrow_right_sharp), onPressed: () {})),
           LayoutItem(
               title: 'Chaud ou Froid',
-              child: LayoutItemValue(value: 'Chaud', icon: const Icon(Icons.keyboard_arrow_right_sharp), onPressed: () {})),
+              child: LayoutItemValue(
+                  value: 'Chaud', icon: const Icon(Icons.keyboard_arrow_right_sharp), onPressed: () {})),
         ]),
       ]),
     );

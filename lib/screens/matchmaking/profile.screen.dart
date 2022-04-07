@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
+import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/profiles.widget.dart';
 
 class ProfileSettings extends ConsumerWidget {
@@ -10,9 +11,7 @@ class ProfileSettings extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var matchmakingService = ref.watch(matchmakingProvider.notifier);
-
-    List<ProfileModel> profileModels = matchmakingService.profiles;
+    List<ProfileModel>? profileModels = ref.watch(profileProvider);
 
     return Scaffold(
         appBar: AppBar(
@@ -22,8 +21,6 @@ class ProfileSettings extends ConsumerWidget {
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
           shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
         ),
-        body: ProfilesList(
-          profileModels: profileModels,
-        ));
+        body: const ProfilesList());
   }
 }
