@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/swipe.provider.dart';
@@ -19,20 +18,21 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
   @override
   Widget build(BuildContext context) {
     final cards = ref.watch(matchmakingProvider);
-    final matchmakingService = ref.watch(matchmakingProvider.notifier);
     final swipeService = ref.watch(swipeProvider.notifier);
     if (swipeService.screenSize == Size.zero) {
       swipeService.setScreenSize(MediaQuery.of(context).size);
     }
+
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () => {}, icon: const Icon(Icons.arrow_back_rounded)),
+        leading: cards.first.runtimeType != ProfileCreationCard
+            ? IconButton(onPressed: () => {}, icon: const Icon(Icons.arrow_back_rounded))
+            : null,
         actions: [
           IconButton(
             icon: const Icon(Icons.account_circle),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => ProfileSettings()));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileSettings()));
             },
           ),
         ],

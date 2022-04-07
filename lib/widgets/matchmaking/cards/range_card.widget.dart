@@ -18,7 +18,8 @@ class RangeCard extends HookConsumerWidget {
       this.shadowColor,
       this.isLoading = false,
       required this.min,
-      required this.max})
+      required this.max,
+      required this.onPressed})
       : super(key: key);
 
   final String name;
@@ -30,11 +31,11 @@ class RangeCard extends HookConsumerWidget {
   final bool isLoading;
   final double min;
   final double max;
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedRange = useState(RangeValues(min, max));
-    final matchmakingService = ref.watch(matchmakingProvider.notifier);
     return StandardCard(
       name: name,
       title: title,
@@ -62,7 +63,7 @@ class RangeCard extends HookConsumerWidget {
           PrimaryButton(
             text: AppLocalizations.of(context).translate('common.validate'),
             onPressed: () {
-              matchmakingService.submitRangeValue(name, selectedRange.value);
+              onPressed(name, selectedRange.value);
             },
           ),
         ],

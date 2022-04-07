@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
-import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/profile_detail.widget.dart';
 
@@ -34,7 +33,7 @@ class ProfileMenu extends ConsumerWidget {
           onSelected: (result) {
             if (result == 1) {
               Navigator.push(
-                  parentContext, MaterialPageRoute(builder: (_) => ProfileDetail(profileModel: profileModel)));
+                  parentContext, MaterialPageRoute(builder: (_) => ProfileDetail(profileId: profileModel.id!.toInt())));
             }
           },
           itemBuilder: (context) => [

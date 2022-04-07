@@ -10,10 +10,11 @@ import '../../../models/matchmaking/availability.model.dart';
 import '../../common/button.widget.dart';
 
 class AvailabilityCard extends HookConsumerWidget {
-  const AvailabilityCard({Key? key, this.isLoading = false}) : super(key: key);
+  const AvailabilityCard({Key? key, this.isLoading = false, required this.onPressed}) : super(key: key);
 
   final bool isLoading;
   final name = "availability";
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -99,7 +100,7 @@ class AvailabilityCard extends HookConsumerWidget {
             text: AppLocalizations.of(context).translate('common.validate'),
             isDisabled: availabilities.value.isEmpty,
             onPressed: () {
-              matchmakingService.submitAvailability(name, availabilities.value);
+              onPressed(name, availabilities.value);
             },
           ),
         ],

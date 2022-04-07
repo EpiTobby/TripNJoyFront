@@ -18,7 +18,7 @@ class MultipleChoiceCard extends HookConsumerWidget {
       required this.backgroundColor,
       this.shadowColor,
       this.isLoading = false,
-      required this.values})
+      required this.values, required this.onPressed})
       : super(key: key);
 
   final String name;
@@ -29,11 +29,11 @@ class MultipleChoiceCard extends HookConsumerWidget {
   final Color? shadowColor;
   final bool isLoading;
   final List<String> values;
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedValues = useState<List<String>>([]);
-    final matchmakingService = ref.watch(matchmakingProvider.notifier);
     final scrollController = useState(ScrollController());
     return StandardCard(
       name: name,
@@ -76,7 +76,7 @@ class MultipleChoiceCard extends HookConsumerWidget {
           PrimaryButton(
             text: AppLocalizations.of(context).translate('common.validate'),
             onPressed: () {
-              matchmakingService.submitMultipleChoiceCard(name, selectedValues.value);
+              onPressed(name, selectedValues.value);
               selectedValues.value = [];
             },
           ),

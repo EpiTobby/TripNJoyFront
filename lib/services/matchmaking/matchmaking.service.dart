@@ -46,41 +46,29 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
     const DEFAULT_AVATAR_URL =
         "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png";
     state = [
-      const NameProfileCard(),
-      const AvailabilityCard(),
+      NameProfileCard(onPressed: submitCard),
+      AvailabilityCard(onPressed: submitAvailability),
       const GroupFoundCard(
           groupId: 1,
           groupPhotoUrl: DEFAULT_AVATAR_URL,
           membersPhotoUrls: [DEFAULT_AVATAR_URL, DEFAULT_AVATAR_URL, DEFAULT_AVATAR_URL]),
-      const RangeCard(
+      RangeCard(
           name: "groupSize",
           title: 'How many people are you looking for?',
           subtitle: "Select the range of people you are looking for",
           min: 1,
           max: 15,
           color: CColors.primary,
-          backgroundColor: CardColors.yellow),
-      const MultipleChoiceCard(
+          backgroundColor: CardColors.yellow,
+          onPressed: submitRangeValue),
+      MultipleChoiceCard(
           name: "activities",
           title: "What are your interests?",
           subtitle: "Select all that apply",
           color: CColors.primary,
-          backgroundColor: CardColors.pink,
-          values: ["sport", "culture", "food", "nature", "shopping", "sightseeing", "other"]),
-      const MultipleChoiceCard(
-          name: "activities",
-          title: "What are your interests?",
-          subtitle: "Select all that apply",
-          color: CColors.primary,
-          backgroundColor: CardColors.darkBlue,
-          values: ["sport", "culture", "food", "nature", "shopping", "sightseeing", "other"]),
-      const MultipleChoiceCard(
-          name: "activities",
-          title: "What are your interests?",
-          subtitle: "Select all that apply",
-          color: CColors.primary,
-          backgroundColor: CardColors.green,
-          values: ["sport", "culture", "food", "nature", "shopping", "sightseeing", "other"]),
+          backgroundColor: CardColors.lightBlue,
+          values: ["sport", "culture", "food", "nature", "shopping", "sightseeing", "other"],
+          onPressed: submitMultipleChoiceCard),
       StandardCard(
           title: "card 1",
           subtitle: "card 1",
@@ -90,50 +78,6 @@ class MatchmakingService extends StateNotifier<List<Widget>> {
                 text: "Pop!",
                 onPressed: () {
                   nextCard();
-                }),
-          )),
-      StandardCard(
-          title: "card 2",
-          subtitle: "card 2",
-          shadowColor: CColors.secondary.withOpacity(0.5),
-          child: Center(
-            child: PrimaryButton(
-                text: "Pop!",
-                onPressed: () {
-                  nextCard();
-                }),
-          )),
-      StandardCard(
-          title: "card 3",
-          subtitle: "card 3",
-          shadowColor: CColors.secondary.withOpacity(0.5),
-          child: Center(
-            child: PrimaryButton(
-                text: "Pop!",
-                onPressed: () {
-                  nextCard();
-                }),
-          )),
-      StandardCard(
-          title: "card 4",
-          subtitle: "card 4",
-          shadowColor: CColors.secondary.withOpacity(0.5),
-          child: Center(
-            child: PrimaryButton(
-                text: "Pop!",
-                onPressed: () {
-                  nextCard();
-                }),
-          )),
-      StandardCard(
-          title: "card 5",
-          subtitle: "card 5",
-          shadowColor: CColors.secondary.withOpacity(0.5),
-          child: Center(
-            child: PrimaryButton(
-                text: "Pop!",
-                onPressed: () {
-                  createProfile();
                 }),
           )),
     ].reversed.toList();
