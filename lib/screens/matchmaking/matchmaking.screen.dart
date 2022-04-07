@@ -14,7 +14,7 @@ class MatchmakingPage extends StatefulHookConsumerWidget {
   ConsumerState createState() => _MatchmakingPageState();
 }
 
-class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
+class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final cards = ref.watch(matchmakingProvider);
@@ -22,28 +22,60 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
     if (swipeService.screenSize == Size.zero) {
       swipeService.setScreenSize(MediaQuery.of(context).size);
     }
+
+    final animationController = useAnimationController(duration: const Duration(milliseconds: 150), vsync: this);
+    final animation = CurvedAnimation(parent: animationController, curve: Curves.easeInOut);
+    final translationAnim = Tween(begin: Offset(0.0, 0.0), end: Offset(-1000.0, 0.0)).animate(animationController)
+      ..addListener(() {
+        setState(() {});
+      });
+    final moveAnim = Tween(begin: Offset(0.0, 0.0), end: Offset(0.0, 0.5)).animate(animation);
+    final scaleAnim = Tween(begin: 0.965, end: 1.0).animate(animation);
     return Container(
       child: cards.isEmpty
           ? const ProfileCreationCard()
           : Stack(
               alignment: Alignment.topCenter,
-              children: cards
-                  .asMap()
-                  .map((index, card) {
-                    if (index == cards.length - 1) {
-                      return MapEntry(
-                          index, Positioned(width: MediaQuery.of(context).size.width, top: 20, child: card));
-                    } else if (index == cards.length - 2) {
-                      return MapEntry(
-                          index, Positioned(width: MediaQuery.of(context).size.width - 10, top: 10, child: card));
-                    } else if (index == cards.length - 3) {
-                      return MapEntry(
-                          index, Positioned(width: MediaQuery.of(context).size.width - 25, top: 0, child: card));
-                    }
-                    return MapEntry(index, Container());
-                  })
-                  .values
-                  .toList()),
+              children: cards.reversed.map((card) {
+                final index = cards.indexOf(card);
+                if (index <= 2) {
+                  return Transform.translate(
+                    offset: getCardTranslate(index, translationAnim),
+                    child: FractionalTranslation(
+                        translation: getCardTranslation(index, moveAnim),
+                        child: Transform.scale(scale: getCardScale(index, scaleAnim), child: card)),
+                  );
+                }
+                return Container();
+              }).toList()),
     );
+  }
+
+  Offset getCardTranslation(
+    int index,
+    Animation<Offset> moveAnim,
+  ) {
+    if (index == 0) {
+      return moveAnim.value;
+    } else if (index > 0 && index <= 2) {
+      return Offset(0.0, 0.05 * index);
+    }
+    return const Offset(0.0, 0.0);
+  }
+
+  double getCardScale(int index, Animation<double> scaleAnim) {
+    if (index == 0) {
+      return 1.0;
+    } else if (index == 1) {
+      return scaleAnim.value;
+    }
+    return (1 - (0.035 * index.abs()));
+  }
+
+  Offset getCardTranslate(int index, Animation<Offset> translationAnim) {
+    if (index == 0) {
+      return translationAnim.value;
+    }
+    return Offset(0.0, 0.0);
   }
 }
