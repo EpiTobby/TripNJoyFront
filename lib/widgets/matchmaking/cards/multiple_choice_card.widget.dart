@@ -58,7 +58,7 @@ class MultipleChoiceCard extends HookConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: StandardCheckbox(
-                        value: value,
+                        value: AppLocalizations.of(context).translate("cards.$name.$value"),
                         onTap: () {
                           if (selectedValues.value.contains(value)) {
                             selectedValues.value = selectedValues.value.where((element) => element != value).toList();

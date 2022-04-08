@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/models/matchmaking/availability.model.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
@@ -40,106 +41,107 @@ class MatchmakingService extends StateNotifier<List<CardModel>> {
       CardModel(
         builder: (context, onTop) => SwipeCard(
           name: "chillOrVisit",
-          title: "Vacances chill ou pour visiter ?",
-          subtitle: "Swiper pour choisir",
+          title: AppLocalizations.of(context).translate("cards.chillOrVisit.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
           backgroundColor: CardColors.red,
-          values: ["Chill", "Visite", "N'importe"],
+          values: ["chill", "visit", "any"],
         ),
       ),
       CardModel(
         builder: (context, onTop) => SwipeCard(
           name: "aboutFood",
-          title: "Plutôt restaurant ou cuisine ?",
-          subtitle: "Swiper pour choisir",
+          title: AppLocalizations.of(context).translate("cards.aboutFood.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
           backgroundColor: CardColors.yellow,
-          values: ["Restaurant", "Cuisine", "N'importe"],
+          values: ["restaurant", "cook", "any"],
         ),
       ),
       CardModel(
         builder: (context, onTop) => SwipeCard(
           name: "goOutAtNight",
-          title: "Plutôt sortir le soir, ou le matin ?",
-          subtitle: "Swiper pour choisir",
+          title: AppLocalizations.of(context).translate("cards.goOutAtNight.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
           backgroundColor: CardColors.green,
-          values: ["Soir", "Matin", "N'importe"],
+          values: ["yes", "no", "any"],
         ),
       ),
       CardModel(
         builder: (context, onTop) => SwipeCard(
           name: "sport",
-          title: "Activité sportive ?",
-          subtitle: "Swiper pour choisir",
+          title: AppLocalizations.of(context).translate("cards.sport.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
           backgroundColor: CardColors.lightBlue,
-          values: ["Oui", "Non", "N'importe"],
+          values: ["yes", "no", "any"],
         ),
       ),
       CardModel(
         builder: (context, onTop) => MultipleChoiceCard(
           name: "destinationTypes",
-          title: "Quel type de destination ?",
-          subtitle: "Veuillez choisir les types de destination que vous souhaitez visiter",
+          title: AppLocalizations.of(context).translate("cards.destinationTypes.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.destinationTypes.subtitle"),
           color: Theme.of(context).colorScheme.primary,
           backgroundColor: CardColors.darkBlue,
-          values: ["Montagne", "Plage", "Ville", "Campagne", "Îles", "Espace naturel"],
+          values: ["mountain", "beach", "city", "countrySide", "naturalArea", "island"],
         ),
       ),
       CardModel(
         builder: (context, onTop) => SwipeCard(
           name: "travelWithPersonFromSameCity",
-          title: "Partir avec des gens de la même ville ?",
-          subtitle: "Swiper pour choisir",
+          title: AppLocalizations.of(context).translate("cards.travelWithPersonFromSameCity.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
           backgroundColor: CardColors.purple,
-          values: ["Oui", "Non", "N'importe"],
+          values: ["yes", "no", "any"],
         ),
       ),
       CardModel(
         builder: (context, onTop) => SwipeCard(
           name: "travelWithPersonFromSameCountry",
-          title: "Partir avec des gens du même pays ?",
-          subtitle: "Swiper pour choisir",
+          title: AppLocalizations.of(context).translate("cards.travelWithPersonFromSameCountry.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
           backgroundColor: CardColors.pink,
-          values: ["Oui", "Non", "N'importe"],
+          values: ["yes", "no", "any"],
         ),
       ),
       CardModel(
         builder: (context, onTop) => SwipeCard(
           name: "travelWithPersonSameLanguage",
-          title: "Personnes parlant la même langue que soi ?",
-          subtitle: "Swiper pour choisir",
+          title: AppLocalizations.of(context).translate("cards.travelWithPersonSameLanguage.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
           backgroundColor: CardColors.white,
-          values: ["Oui", "Non", "N'importe"],
+          shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+          values: ["yes", "no", "any"],
         ),
       ),
       CardModel(
         builder: (context, onTop) => SwipeCard(
           name: "gender",
-          title: "Sexe des personnes avec qui voyager ?",
-          subtitle: "Swiper pour choisir",
+          title: AppLocalizations.of(context).translate("cards.gender.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
           backgroundColor: CardColors.orange,
-          values: ["Homme", "Femme", "Mixte"],
+          values: ["men", "women", "any"],
         ),
       ),
       CardModel(
         builder: (context, onTop) => RangeCard(
           name: "groupSize",
-          title: "Combien de personnes voulez-vous partir avec ?",
-          subtitle: "Saississez un nombre entre 2 et 10+",
+          title: AppLocalizations.of(context).translate("cards.groupSize.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.groupSize.subtitle"),
           color: Theme.of(context).colorScheme.primary,
           backgroundColor: CardColors.purple,
           min: 2,
@@ -149,8 +151,8 @@ class MatchmakingService extends StateNotifier<List<CardModel>> {
       CardModel(
         builder: (context, onTop) => RangeCard(
           name: "ages",
-          title: "Age des personnes avec qui voyager ?",
-          subtitle: "Saississez un intervalle entre 18 et 100+ ans",
+          title: AppLocalizations.of(context).translate("cards.ages.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.ages.subtitle"),
           color: Theme.of(context).colorScheme.primary,
           backgroundColor: CardColors.red,
           min: 18,
@@ -160,8 +162,8 @@ class MatchmakingService extends StateNotifier<List<CardModel>> {
       CardModel(
         builder: (context, onTop) => RangeCard(
           name: "budget",
-          title: "Quel est votre budget ?",
-          subtitle: "Saississez un intervalle entre 100€ et 2000+€",
+          title: AppLocalizations.of(context).translate("cards.budget.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.budget.subtitle"),
           color: Theme.of(context).colorScheme.primary,
           backgroundColor: CardColors.yellow,
           min: 100,
@@ -171,8 +173,8 @@ class MatchmakingService extends StateNotifier<List<CardModel>> {
       CardModel(
         builder: (context, onTop) => RangeCard(
           name: "duration",
-          title: "Combien de temps voulez-vous partir ?",
-          subtitle: "Saississez un intervalle entre 1 et 30+ jours",
+          title: AppLocalizations.of(context).translate("cards.duration.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.duration.subtitle"),
           color: Theme.of(context).colorScheme.primary,
           backgroundColor: CardColors.green,
           min: 1,
