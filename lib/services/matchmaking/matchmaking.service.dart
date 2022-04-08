@@ -120,7 +120,7 @@ class MatchmakingService extends StateNotifier<List<CardModel>> {
           subtitle: "Swiper pour choisir",
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
-          backgroundColor: CardColors.pink,
+          backgroundColor: CardColors.white,
           values: ["Oui", "Non", "N'importe"],
         ),
       ),
