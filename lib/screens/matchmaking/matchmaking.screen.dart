@@ -32,13 +32,23 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
                   .map((index, card) {
                     if (index == cards.length - 1) {
                       return MapEntry(
-                          index, Positioned(width: MediaQuery.of(context).size.width, top: 20, child: card));
+                          index,
+                          Positioned(
+                              width: MediaQuery.of(context).size.width, top: 20, child: card.build(context, true)));
                     } else if (index == cards.length - 2) {
                       return MapEntry(
-                          index, Positioned(width: MediaQuery.of(context).size.width - 10, top: 10, child: card));
+                          index,
+                          Positioned(
+                              width: MediaQuery.of(context).size.width - 10,
+                              top: 10,
+                              child: card.build(context, false)));
                     } else if (index == cards.length - 3) {
                       return MapEntry(
-                          index, Positioned(width: MediaQuery.of(context).size.width - 25, top: 0, child: card));
+                          index,
+                          Positioned(
+                              width: MediaQuery.of(context).size.width - 25,
+                              top: 0,
+                              child: card.build(context, false)));
                     }
                     return MapEntry(index, Container());
                   })
