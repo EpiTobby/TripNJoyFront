@@ -40,7 +40,7 @@ class MatchmakingService extends StateNotifier<List<CardModel>> {
       CardModel(
         builder: (context, onTop) => SwipeCard(
           name: "chillOrVisit",
-          title: "Plutôt vacances chill ou vacances pour visiter ?",
+          title: "Vacances chill ou pour visiter ?",
           subtitle: "Swiper pour choisir",
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
@@ -116,7 +116,7 @@ class MatchmakingService extends StateNotifier<List<CardModel>> {
       CardModel(
         builder: (context, onTop) => SwipeCard(
           name: "travelWithPersonSameLanguage",
-          title: "Partir avec des personnes parlant la même langue que soi ?",
+          title: "Personnes parlant la même langue que soi ?",
           subtitle: "Swiper pour choisir",
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
