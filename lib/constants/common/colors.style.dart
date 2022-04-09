@@ -21,6 +21,7 @@ abstract class CColors {
 abstract class CardColors {
   static const white = Color(0xffFAFAFF);
   static const red = Color(0xffFAD2D2);
+  static const orange = Color(0xfffae0d2);
   static const yellow = Color(0xffFAF1D2);
   static const green = Color(0xffDAFAD2);
   static const lightBlue = Color(0xffD2F8FA);

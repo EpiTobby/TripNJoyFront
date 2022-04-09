@@ -84,7 +84,75 @@
       "subtitle": "Choose your availability",
       "begin": "Begin",
       "end": "End"
-    }
+    },
+    "chillOrVisit": {
+      "title": "Chill or visit ?",
+      "chill": "Chill",
+      "visit": "Visit"
+    },
+    "aboutFood": {
+      "title": "Rather eat at restaurants or cook ?",
+      "restaurant": "Restaurant",
+      "cook": "Cook"
+    },
+    "goOutAtNight": {
+      "title": "Go out at night ?",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "sport": {
+      "title": "Sport ?",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "travelWithPersonFromSameCity": {
+      "title": "Travel with person from same city ?",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "travelWithPersonFromSameCountry": {
+      "title": "Travel with person from same country ?",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "travelWithPersonSameLanguage": {
+      "title": "Travel with person talking the same language ?",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "gender": {
+      "title": "Gender of the members ?",
+      "men": "Men",
+      "women": "women"
+    },
+    "destinationTypes": {
+      "title": "Destination Type ?",
+      "subtitle": "Please select the types of destinations you wish to visit.",
+      "mountain": "Mountain",
+      "beach": "Beach",
+      "city": "City",
+      "countrySide": "Countryside",
+      "naturalArea": "Natural Area",
+      "island": "Island"
+    },
+    "groupSize": {
+      "title": "How many people do you want to go with?",
+      "subtitle": "Please select a range between 2 and 10+."
+    },
+    "ages": {
+      "title": "Age of the members ?",
+      "subtitle": "Please select a range between 18 and 100+."
+    },
+    "budget": {
+      "title": "What is your budget ?",
+      "subtitle": "Please select a range between 100$ and 2000$+."
+    },
+    "duration": {
+      "title": "How long do you want to go ?",
+      "subtitle": "Please select a range between 1 and 30 days+."
+    },
+    "swipeToChoose": "Swipe to choose your preference",
+    "any": "Any"
   },
   "groups": {
     "title": "Groups",

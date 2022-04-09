@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/swipe.provider.dart';
 import 'package:trip_n_joy_front/services/matchmaking/swipe.service.dart';
@@ -100,7 +101,7 @@ class SwipeCard extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10.0, left: 20.0),
                       child: Text(
-                        values[0],
+                        AppLocalizations.of(context).translate("cards.$name.${values[0]}"),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.secondary,
@@ -127,7 +128,7 @@ class SwipeCard extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0, right: 20.0),
                       child: Text(
-                        values[1],
+                        AppLocalizations.of(context).translate("cards.$name.${values[1]}"),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.tertiary,
                           fontSize: 20,
@@ -143,7 +144,7 @@ class SwipeCard extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Text(
-                values[2],
+                AppLocalizations.of(context).translate("cards.${values[2]}"),
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primaryContainer,
                   fontSize: 20,

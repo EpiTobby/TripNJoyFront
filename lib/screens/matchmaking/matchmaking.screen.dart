@@ -30,11 +30,14 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
               children: cards.reversed.map((card) {
                 final index = cards.indexOf(card);
                 if (index == 0) {
-                  return Positioned(width: MediaQuery.of(context).size.width, top: 20, child: card);
+                  return Positioned(
+                      width: MediaQuery.of(context).size.width, top: 20, child: card.build(context, true));
                 } else if (index == 1) {
-                  return Positioned(width: MediaQuery.of(context).size.width - 10, top: 10, child: card);
+                  return Positioned(
+                      width: MediaQuery.of(context).size.width - 10, top: 10, child: card.build(context, false));
                 } else if (index == 2) {
-                  return Positioned(width: MediaQuery.of(context).size.width - 25, top: 0, child: card);
+                  return Positioned(
+                      width: MediaQuery.of(context).size.width - 25, top: 0, child: card.build(context, false));
                 }
                 return Container();
               }).toList()),

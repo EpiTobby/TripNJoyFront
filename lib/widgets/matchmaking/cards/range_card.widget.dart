@@ -7,7 +7,7 @@ import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
 
 import '../../common/button.widget.dart';
 
-class RangeCard extends HookConsumerWidget {
+class RangeCard extends StatefulHookConsumerWidget {
   const RangeCard(
       {Key? key,
       required this.name,
@@ -32,47 +32,55 @@ class RangeCard extends HookConsumerWidget {
   final double max;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RangeCard> createState() => _RangeCardState();
+}
+
+class _RangeCardState extends ConsumerState<RangeCard> {
+  RangeValues? values;
+
+  @override
+  Widget build(BuildContext context) {
     final animation = useAnimationController(
       duration: const Duration(milliseconds: 500),
     );
     final offset = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, -2))
         .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
 
-    final selectedRange = useState(RangeValues(min, max));
+    if (values == null || values!.start < widget.min || values!.end > widget.max) {
+      values = RangeValues(widget.min, widget.max);
+    }
     final matchmakingService = ref.watch(matchmakingProvider.notifier);
     return SlideTransition(
       position: offset,
       child: StandardCard(
-        name: name,
-        title: title,
-        subtitle: subtitle,
-        color: color,
-        backgroundColor: backgroundColor,
-        shadowColor: shadowColor,
-        isLoading: isLoading,
+        name: widget.name,
+        title: widget.title,
+        subtitle: widget.subtitle,
+        color: widget.color,
+        backgroundColor: widget.backgroundColor,
+        shadowColor: widget.shadowColor,
+        isLoading: widget.isLoading,
         child: Column(
           children: [
             Expanded(
               child: RangeSlider(
-                values: selectedRange.value,
+                values: values!,
                 onChanged: (RangeValues value) {
-                  selectedRange.value = value;
+                  setState(() {
+                    values = value;
+                  });
                 },
-                min: min,
-                max: max,
+                min: widget.min,
+                max: widget.max,
                 activeColor: Theme.of(context).sliderTheme.activeTrackColor,
-                labels: RangeLabels(
-                    selectedRange.value.start.round().toString(), selectedRange.value.end.round().toString()),
-                divisions: (max - min).toInt(),
+                labels: RangeLabels(values!.start.round().toString(), values!.end.round().toString()),
+                divisions: (widget.max - widget.min).toInt(),
               ),
             ),
             PrimaryButton(
               text: AppLocalizations.of(context).translate('common.validate'),
               onPressed: () {
-                animation.forward().whenComplete(() {
-                  matchmakingService.submitRangeValue(name, selectedRange.value);
-                });
+                matchmakingService.submitRangeValue(widget.name, values!);
               },
             ),
           ],
