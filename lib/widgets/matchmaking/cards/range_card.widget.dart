@@ -36,44 +36,55 @@ class RangeCard extends StatefulHookConsumerWidget {
 }
 
 class _RangeCardState extends ConsumerState<RangeCard> {
+  RangeValues? values;
+
   @override
   Widget build(BuildContext context) {
-    double start = widget.min;
-    double end = widget.max;
+    final animation = useAnimationController(
+      duration: const Duration(milliseconds: 500),
+    );
+    final offset = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, -2))
+        .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
+
+    if (values == null || values!.start < widget.min || values!.end > widget.max) {
+      values = RangeValues(widget.min, widget.max);
+    }
     final matchmakingService = ref.watch(matchmakingProvider.notifier);
-    return StandardCard(
-      name: widget.name,
-      title: widget.title,
-      subtitle: widget.subtitle,
-      color: widget.color,
-      backgroundColor: widget.backgroundColor,
-      shadowColor: widget.shadowColor,
-      isLoading: widget.isLoading,
-      child: Column(
-        children: [
-          Expanded(
-            child: RangeSlider(
-              values: RangeValues(start, end),
-              onChanged: (RangeValues value) {
-                setState(() {
-                  start = value.start;
-                  end = value.end;
-                });
-              },
-              min: widget.min,
-              max: widget.max,
-              activeColor: Theme.of(context).sliderTheme.activeTrackColor,
-              labels: RangeLabels(start.round().toString(), end.round().toString()),
-              divisions: (widget.max - widget.min).toInt(),
+    return SlideTransition(
+      position: offset,
+      child: StandardCard(
+        name: widget.name,
+        title: widget.title,
+        subtitle: widget.subtitle,
+        color: widget.color,
+        backgroundColor: widget.backgroundColor,
+        shadowColor: widget.shadowColor,
+        isLoading: widget.isLoading,
+        child: Column(
+          children: [
+            Expanded(
+              child: RangeSlider(
+                values: values!,
+                onChanged: (RangeValues value) {
+                  setState(() {
+                    values = value;
+                  });
+                },
+                min: widget.min,
+                max: widget.max,
+                activeColor: Theme.of(context).sliderTheme.activeTrackColor,
+                labels: RangeLabels(values!.start.round().toString(), values!.end.round().toString()),
+                divisions: (widget.max - widget.min).toInt(),
+              ),
             ),
-          ),
-          PrimaryButton(
-            text: AppLocalizations.of(context).translate('common.validate'),
-            onPressed: () {
-              matchmakingService.submitRangeValue(widget.name, RangeValues(start, end));
-            },
-          ),
-        ],
+            PrimaryButton(
+              text: AppLocalizations.of(context).translate('common.validate'),
+              onPressed: () {
+                matchmakingService.submitRangeValue(widget.name, values!);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

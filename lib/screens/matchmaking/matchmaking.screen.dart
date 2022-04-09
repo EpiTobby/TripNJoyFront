@@ -27,33 +27,20 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
           ? const ProfileCreationCard()
           : Stack(
               alignment: Alignment.topCenter,
-              children: cards
-                  .asMap()
-                  .map((index, card) {
-                    if (index == cards.length - 1) {
-                      return MapEntry(
-                          index,
-                          Positioned(
-                              width: MediaQuery.of(context).size.width, top: 20, child: card.build(context, true)));
-                    } else if (index == cards.length - 2) {
-                      return MapEntry(
-                          index,
-                          Positioned(
-                              width: MediaQuery.of(context).size.width - 10,
-                              top: 10,
-                              child: card.build(context, false)));
-                    } else if (index == cards.length - 3) {
-                      return MapEntry(
-                          index,
-                          Positioned(
-                              width: MediaQuery.of(context).size.width - 25,
-                              top: 0,
-                              child: card.build(context, false)));
-                    }
-                    return MapEntry(index, Container());
-                  })
-                  .values
-                  .toList()),
+              children: cards.reversed.map((card) {
+                final index = cards.indexOf(card);
+                if (index == 0) {
+                  return Positioned(
+                      width: MediaQuery.of(context).size.width, top: 20, child: card.build(context, true));
+                } else if (index == 1) {
+                  return Positioned(
+                      width: MediaQuery.of(context).size.width - 10, top: 10, child: card.build(context, false));
+                } else if (index == 2) {
+                  return Positioned(
+                      width: MediaQuery.of(context).size.width - 25, top: 0, child: card.build(context, false));
+                }
+                return Container();
+              }).toList()),
     );
   }
 }

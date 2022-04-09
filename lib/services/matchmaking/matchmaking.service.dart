@@ -183,11 +183,11 @@ class MatchmakingService extends StateNotifier<List<CardModel>> {
       ),
       CardModel(builder: (context, onTop) => AvailabilityCard()),
       CardModel(builder: (context, onTop) => NameProfileCard()),
-    ].reversed.toList();
+    ].toList();
   }
 
   void nextCard() {
-    final newState = state.sublist(0, state.length - 1);
+    final newState = state.sublist(1);
     state = newState;
   }
 

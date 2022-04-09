@@ -16,35 +16,45 @@ class NameProfileCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final animation = useAnimationController(
+      duration: const Duration(milliseconds: 500),
+    );
+    final offset = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, -2))
+        .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
     final profileName = useState("");
     final matchmakingService = ref.watch(matchmakingProvider.notifier);
-    return StandardCard(
-      name: "NameProfileCard",
-      title: AppLocalizations.of(context).translate("cards.name_profile.title"),
-      subtitle: AppLocalizations.of(context).translate("cards.name_profile.subtitle"),
-      shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-      isLoading: isLoading,
-      child: Column(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Center(
-                child: InputField(
-                  label: AppLocalizations.of(context).translate("cards.name_profile.label"),
-                  onChanged: (value) => profileName.value = value,
+    return SlideTransition(
+      position: offset,
+      child: StandardCard(
+        name: "NameProfileCard",
+        title: AppLocalizations.of(context).translate("cards.name_profile.title"),
+        subtitle: AppLocalizations.of(context).translate("cards.name_profile.subtitle"),
+        shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+        isLoading: isLoading,
+        child: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: Center(
+                  child: InputField(
+                    label: AppLocalizations.of(context).translate("cards.name_profile.label"),
+                    onChanged: (value) => profileName.value = value,
+                  ),
                 ),
               ),
             ),
-          ),
-          PrimaryButton(
-            text: AppLocalizations.of(context).translate('common.validate'),
-            isDisabled: profileName.value.isEmpty,
-            onPressed: () {
-              matchmakingService.submitCard(name, profileName.value);
-            },
-          ),
-        ],
+            PrimaryButton(
+              text: AppLocalizations.of(context).translate('common.validate'),
+              isDisabled: profileName.value.isEmpty,
+              onPressed: () {
+                animation.forward().whenComplete(() {
+                  matchmakingService.submitCard(name, profileName.value);
+                });
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
