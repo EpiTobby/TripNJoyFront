@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
+import 'package:trip_n_joy_front/constants/navbar/navbar.const.dart';
 
 class StandardCard extends StatelessWidget {
   const StandardCard(
@@ -29,7 +30,7 @@ class StandardCard extends StatelessWidget {
       padding: const EdgeInsets.all(10.0),
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: 480,
+        height: MediaQuery.of(context).size.height * 0.7 - NavbarConstant.NAVBAR_HEIGHT,
         child: Container(
           decoration: BoxDecoration(
             color: backgroundColor,
