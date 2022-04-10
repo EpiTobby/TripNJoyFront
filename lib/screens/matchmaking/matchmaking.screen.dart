@@ -24,45 +24,42 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        leading: cards.first.runtimeType != ProfileCreationCard
-            ? IconButton(onPressed: () => {}, icon: const Icon(Icons.arrow_back_rounded))
-            : null,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.account_circle),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileSettings()));
-            },
-          ),
-        ],
-        foregroundColor: Colors.black,
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
-        shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-      ),
-      body: Container(
-        child: cards.isEmpty
-            ? const ProfileCreationCard()
-            : Stack(
-                alignment: Alignment.topCenter,
-                children: cards
-                    .asMap()
-                    .map((index, card) {
-                      if (index == cards.length - 1) {
-                        return MapEntry(
-                            index, Positioned(width: MediaQuery.of(context).size.width, top: 20, child: card));
-                      } else if (index == cards.length - 2) {
-                        return MapEntry(
-                            index, Positioned(width: MediaQuery.of(context).size.width - 10, top: 10, child: card));
-                      } else if (index == cards.length - 3) {
-                        return MapEntry(
-                            index, Positioned(width: MediaQuery.of(context).size.width - 25, top: 0, child: card));
-                      }
-                      return MapEntry(index, Container());
-                    })
-                    .values
-                    .toList()),
-      ),
+        appBar: AppBar(
+          leading: cards.isNotEmpty && cards.first.runtimeType != ProfileCreationCard
+              ? IconButton(onPressed: () => {}, icon: const Icon(Icons.arrow_back_rounded))
+              : null ,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.account_circle),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileSettings()));
+              },
+            ),
+          ],
+          foregroundColor: Colors.black,
+          backgroundColor: Theme.of(context).colorScheme.onPrimary,
+          shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+        ),
+        body: Container(
+          child: cards.isEmpty
+              ? const ProfileCreationCard()
+              : Stack(
+                  alignment: Alignment.topCenter,
+                  children: cards.reversed.map((card) {
+                    final index = cards.indexOf(card);
+                    if (index == 0) {
+                      return Positioned(
+                          width: MediaQuery.of(context).size.width, top: 20, child: card.build(context, true));
+                    } else if (index == 1) {
+                      return Positioned(
+                          width: MediaQuery.of(context).size.width - 10, top: 10, child: card.build(context, false));
+                    } else if (index == 2) {
+                      return Positioned(
+                          width: MediaQuery.of(context).size.width - 25, top: 0, child: card.build(context, false));
+                    }
+                    return Container();
+                  }).toList()),
+        )
     );
   }
 }

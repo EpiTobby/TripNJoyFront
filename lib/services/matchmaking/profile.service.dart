@@ -16,7 +16,7 @@ class ProfileService extends StateNotifier<List<ProfileModel>?> {
     getUserProfiles();
   }
 
-  void createProfile(ProfileCreationRequest profileCreationRequest) async {
+  Future<void> createProfile(ProfileCreationRequest profileCreationRequest) async {
     int? id = httpService.getUserIdFromToken(authService.token!);
     await httpService.createProfile(id!, profileCreationRequest);
     getUserProfiles();
@@ -28,13 +28,13 @@ class ProfileService extends StateNotifier<List<ProfileModel>?> {
     state = userProfiles!;
   }
 
-  void updateProfile(int profileId, ProfileUpdateRequest profileUpdateRequest) async {
+  Future<void> updateProfile(int profileId, ProfileUpdateRequest profileUpdateRequest) async {
     int? id = httpService.getUserIdFromToken(authService.token!);
     await httpService.updateProfile(id!, profileId, profileUpdateRequest);
     await getUserProfiles();
   }
 
-  void deleteProfile(int profileId) async {
+  Future<void> deleteProfile(int profileId) async {
     int? id = httpService.getUserIdFromToken(authService.token!);
 
     await httpService.deleteProfile(id!, profileId);

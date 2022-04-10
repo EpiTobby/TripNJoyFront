@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
@@ -25,6 +28,15 @@ class ProfileDetail extends ConsumerWidget {
     final profileModels = ref.watch(profileProvider);
     final profileModel = profileModels!.firstWhere((profile) => profile.id == profileId);
     final profileService = ref.watch(profileProvider.notifier);
+
+    final updateProfileSwap = (name, value) async {
+      await profileService.updateProfile(
+          profileModel.id!.toInt(),
+          ProfileUpdateRequest.fromJsonFactory({
+            name: value
+          }));
+      Navigator.pop(context);
+    };
 
     return Scaffold(
       appBar: AppBar(
@@ -63,13 +75,16 @@ class ProfileDetail extends ConsumerWidget {
         ]),
         LayoutBox(title: AppLocalizations.of(context).translate('profile.answers'), children: [
           LayoutItem(
-            title: 'Disponibilité',
+            title: AppLocalizations.of(context).translate("cards.availability.title"),
             child: LayoutItemValue(
               value: profileModel.availabilities!
                   .map((availability) => availability.startDate != null
-                      ? availability.startDate!.toIso8601String() + ' - ' + availability.endDate!.toIso8601String()
+                      ? DateFormat('dd/MM/yyyy', AppLocalizations.instance.locale.countryCode)
+                              .format(availability.startDate!) +
+                          ' - ' +
+                          DateFormat('dd/MM/yyyy').format(availability.endDate!)
                       : '')
-                  .join(' / '),
+                  .join(' ; '),
               icon: const Icon(Icons.keyboard_arrow_right_sharp),
               onPressed: () {
                 showDialog(
@@ -77,14 +92,14 @@ class ProfileDetail extends ConsumerWidget {
                     builder: (BuildContext context) {
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                        child: AvailabilityCard(onPressed: (name, value) {
-                          profileService.updateProfile(
+                        child: AvailabilityCard(onPressed: (name, value) async {
+                          await profileService.updateProfile(
                               profileModel.id!.toInt(),
                               ProfileUpdateRequest.fromJsonFactory({
                                 name: value.map((e) => {
                                       "startDate": e.startDate.toIso8601String(),
                                       "endDate": e.endDate.toIso8601String()
-                                    })
+                                    }).toList()
                               }));
                           Navigator.pop(context);
                         }),
@@ -96,8 +111,11 @@ class ProfileDetail extends ConsumerWidget {
           LayoutItem(
               title: AppLocalizations.of(context).translate("cards.duration.title"),
               child: LayoutItemValue(
-                  value:
-                      profileModel.duration!.minValue.toString() + ' - ' + profileModel.duration!.maxValue.toString(),
+                  value: AppLocalizations.of(context).translate('profile.rangeAnswer', {
+                    'begin': profileModel.duration!.minValue.toString(),
+                    'end': profileModel.duration!.maxValue.toString(),
+                    'val': AppLocalizations.of(context).translate('common.days')
+                  }),
                   icon: const Icon(Icons.keyboard_arrow_right_sharp),
                   onPressed: () {
                     showDialog(
@@ -130,7 +148,11 @@ class ProfileDetail extends ConsumerWidget {
           LayoutItem(
               title: AppLocalizations.of(context).translate("cards.budget.title"),
               child: LayoutItemValue(
-                  value: profileModel.budget!.minValue.toString() + ' - ' + profileModel.budget!.maxValue.toString(),
+                  value: AppLocalizations.of(context).translate('profile.rangeAnswer', {
+                    'begin': profileModel.budget!.minValue.toString(),
+                    'end': profileModel.budget!.maxValue.toString(),
+                    'val': "€"
+                  }),
                   icon: const Icon(Icons.keyboard_arrow_right_sharp),
                   onPressed: () {
                     showDialog(
@@ -164,7 +186,11 @@ class ProfileDetail extends ConsumerWidget {
           LayoutItem(
               title: AppLocalizations.of(context).translate("cards.ages.title"),
               child: LayoutItemValue(
-                  value: profileModel.ages!.minValue.toString() + ' - ' + profileModel.ages!.maxValue.toString(),
+                  value: AppLocalizations.of(context).translate('profile.rangeAnswer', {
+                    'begin': profileModel.ages!.minValue.toString(),
+                    'end': profileModel.ages!.maxValue.toString(),
+                    'val': AppLocalizations.of(context).translate('common.yearsOld')
+                  }),
                   icon: const Icon(Icons.keyboard_arrow_right_sharp),
                   onPressed: () {
                     showDialog(
@@ -198,9 +224,11 @@ class ProfileDetail extends ConsumerWidget {
           LayoutItem(
               title: AppLocalizations.of(context).translate("cards.groupSize.title"),
               child: LayoutItemValue(
-                  value: profileModel.groupeSize!.minValue.toString() +
-                      ' - ' +
-                      profileModel.groupeSize!.maxValue.toString(),
+                  value: AppLocalizations.of(context).translate('profile.rangeAnswer', {
+                    'begin': profileModel.groupeSize!.minValue.toString(),
+                    'end': profileModel.groupeSize!.maxValue.toString(),
+                    'val': AppLocalizations.of(context).translate('common.people')
+                  }),
                   icon: const Icon(Icons.keyboard_arrow_right_sharp),
                   onPressed: () {
                     showDialog(
@@ -234,7 +262,7 @@ class ProfileDetail extends ConsumerWidget {
           LayoutItem(
               title: AppLocalizations.of(context).translate("cards.gender.title"),
               child: LayoutItemValue(
-                  value: profileModel.gender.toString(),
+                  value: AppLocalizations.of(context).translate('cards.gender.${profileModel.gender!.name}'),
                   icon: const Icon(Icons.keyboard_arrow_right_sharp),
                   onPressed: () {
                     showDialog(
@@ -249,7 +277,8 @@ class ProfileDetail extends ConsumerWidget {
                               onTop: true,
                               color: Theme.of(context).colorScheme.primary,
                               backgroundColor: CardColors.green,
-                              values: const ["men", "women", "any"],
+                              values: const ["male", "female", "no_preference"],
+                              updateProfile: updateProfileSwap,
                             ),
                           );
                         });
@@ -257,7 +286,8 @@ class ProfileDetail extends ConsumerWidget {
           LayoutItem(
               title: AppLocalizations.of(context).translate("cards.travelWithPersonSameLanguage.title"),
               child: LayoutItemValue(
-                  value: profileModel.travelWithPersonSameLanguage.toString(),
+                  value: AppLocalizations.of(context).translate(
+                      "cards.travelWithPersonSameLanguage.${profileModel.travelWithPersonSameLanguage!.name}"),
                   icon: const Icon(Icons.keyboard_arrow_right_sharp),
                   onPressed: () {
                     showDialog(
@@ -272,7 +302,8 @@ class ProfileDetail extends ConsumerWidget {
                               onTop: true,
                               color: Theme.of(context).colorScheme.primary,
                               backgroundColor: CardColors.green,
-                              values: const ["yes", "no", "any"],
+                              values: const ["yes", "no", "no_preference"],
+                              updateProfile: updateProfileSwap,
                             ),
                           );
                         });
@@ -280,7 +311,8 @@ class ProfileDetail extends ConsumerWidget {
           LayoutItem(
               title: AppLocalizations.of(context).translate("cards.travelWithPersonFromSameCountry.title"),
               child: LayoutItemValue(
-                  value: profileModel.travelWithPersonFromSameCountry.toString(),
+                  value: AppLocalizations.of(context).translate(
+                      "cards.travelWithPersonFromSameCountry.${profileModel.travelWithPersonFromSameCountry!.name}"),
                   icon: const Icon(Icons.keyboard_arrow_right_sharp),
                   onPressed: () {
                     showDialog(
@@ -296,7 +328,8 @@ class ProfileDetail extends ConsumerWidget {
                               onTop: true,
                               color: Theme.of(context).colorScheme.primary,
                               backgroundColor: CardColors.green,
-                              values: const ["yes", "no", "any"],
+                              values: const ["yes", "no", "no_preference"],
+                              updateProfile: updateProfileSwap,
                             ),
                           );
                         });
@@ -304,7 +337,8 @@ class ProfileDetail extends ConsumerWidget {
           LayoutItem(
               title: AppLocalizations.of(context).translate("cards.travelWithPersonFromSameCity.title"),
               child: LayoutItemValue(
-                  value: profileModel.travelWithPersonFromSameCity.toString(),
+                  value: AppLocalizations.of(context).translate(
+                      "cards.travelWithPersonFromSameCity.${profileModel.travelWithPersonFromSameCity!.name}"),
                   icon: const Icon(Icons.keyboard_arrow_right_sharp),
                   onPressed: () {
                     showDialog(
@@ -319,7 +353,8 @@ class ProfileDetail extends ConsumerWidget {
                               onTop: true,
                               color: Theme.of(context).colorScheme.primary,
                               backgroundColor: CardColors.green,
-                              values: const ["yes", "no", "any"],
+                              values: const ["yes", "no", "no_preference"],
+                              updateProfile: updateProfileSwap,
                             ),
                           );
                         });
@@ -327,7 +362,9 @@ class ProfileDetail extends ConsumerWidget {
           LayoutItem(
               title: AppLocalizations.of(context).translate("cards.destinationTypes.title"),
               child: LayoutItemValue(
-                  value: profileModel.destinationTypes!.join(', '),
+                  value: profileModel.destinationTypes!
+                      .map((e) => AppLocalizations.of(context).translate("cards.destinationTypes.${e.name}"))
+                      .join(', '),
                   icon: const Icon(Icons.keyboard_arrow_right_sharp),
                   onPressed: () {
                     showDialog(
@@ -341,7 +378,7 @@ class ProfileDetail extends ConsumerWidget {
                               subtitle: AppLocalizations.of(context).translate("cards.destinationTypes.subtitle"),
                               color: Theme.of(context).colorScheme.primary,
                               backgroundColor: CardColors.darkBlue,
-                              values: const ["mountain", "beach", "city", "countrySide", "naturalArea", "island"],
+                              values: const ["mountain", "beach", "city", "countryside"],
                               onPressed: (name, value) {
                                 profileService.updateProfile(
                                     profileModel.id!.toInt(), ProfileUpdateRequest.fromJsonFactory({name: value}));
@@ -354,7 +391,7 @@ class ProfileDetail extends ConsumerWidget {
           LayoutItem(
             title: AppLocalizations.of(context).translate("cards.sport.title"),
             child: LayoutItemValue(
-              value: profileModel.sport.toString(),
+              value: AppLocalizations.of(context).translate("cards.sport.${profileModel.sport!.name}"),
               icon: const Icon(Icons.keyboard_arrow_right_sharp),
               onPressed: () {
                 showDialog(
@@ -369,7 +406,8 @@ class ProfileDetail extends ConsumerWidget {
                           onTop: true,
                           color: Theme.of(context).colorScheme.primary,
                           backgroundColor: CardColors.lightBlue,
-                          values: const ["yes", "no", "any"],
+                          values: const ["yes", "no", "no_preference"],
+                          updateProfile: updateProfileSwap,
                         ),
                       );
                     });
@@ -379,7 +417,7 @@ class ProfileDetail extends ConsumerWidget {
           LayoutItem(
             title: AppLocalizations.of(context).translate("cards.goOutAtNight.title"),
             child: LayoutItemValue(
-              value: profileModel.goOutAtNight.toString(),
+              value: AppLocalizations.of(context).translate("cards.goOutAtNight.${profileModel.goOutAtNight!.name}"),
               icon: const Icon(Icons.keyboard_arrow_right_sharp),
               onPressed: () {
                 showDialog(
@@ -394,7 +432,8 @@ class ProfileDetail extends ConsumerWidget {
                           onTop: true,
                           color: Theme.of(context).colorScheme.primary,
                           backgroundColor: CardColors.lightBlue,
-                          values: const ["yes", "no", "any"],
+                          values: const ["yes", "no", "no_preference"],
+                          updateProfile: updateProfileSwap,
                         ),
                       );
                     });
@@ -404,7 +443,7 @@ class ProfileDetail extends ConsumerWidget {
           LayoutItem(
             title: AppLocalizations.of(context).translate("cards.aboutFood.title"),
             child: LayoutItemValue(
-              value: profileModel.aboutFood.toString(),
+              value: AppLocalizations.of(context).translate("cards.aboutFood.${profileModel.aboutFood!.name}"),
               icon: const Icon(Icons.keyboard_arrow_right_sharp),
               onPressed: () {
                 showDialog(
@@ -419,7 +458,8 @@ class ProfileDetail extends ConsumerWidget {
                           onTop: true,
                           color: Theme.of(context).colorScheme.primary,
                           backgroundColor: CardColors.yellow,
-                          values: const ["restaurant", "cook", "any"],
+                          values: const ["restaurant", "cook", "no_preference"],
+                          updateProfile: updateProfileSwap,
                         ),
                       );
                     });
@@ -429,7 +469,7 @@ class ProfileDetail extends ConsumerWidget {
           LayoutItem(
             title: AppLocalizations.of(context).translate("cards.chillOrVisit.title"),
             child: LayoutItemValue(
-              value: profileModel.chillOrVisit.toString(),
+              value: AppLocalizations.of(context).translate("cards.chillOrVisit.${profileModel.chillOrVisit!.name}"),
               icon: const Icon(Icons.keyboard_arrow_right_sharp),
               onPressed: () {
                 showDialog(
@@ -444,7 +484,8 @@ class ProfileDetail extends ConsumerWidget {
                           onTop: true,
                           color: Theme.of(context).colorScheme.primary,
                           backgroundColor: CardColors.red,
-                          values: const ["chill", "visit", "any"],
+                          values: const ["chill", "visit", "no_preference"],
+                          updateProfile: updateProfileSwap,
                         ),
                       );
                     });

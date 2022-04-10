@@ -13,7 +13,10 @@
     "tryAgain": "Réessayer",
     "validate": "Valider",
     "next": "Suivant",
-    "start": "Démarrer"
+    "start": "Démarrer",
+    "days": "jours",
+    "yearsOld": "ans",
+    "people": "personnes"
   },
   "user": {
     "firstname": "Prénom",
@@ -84,7 +87,84 @@
       "subtitle": "Indiquez vos disponibilités",
       "begin": "Début",
       "end": "Fin"
-    }
+    },
+    "chillOrVisit": {
+      "title": "Chill ou visiter ?",
+      "chill": "Chill",
+      "visit": "Visiter",
+      "noPreference": "Aucune préférence"
+    },
+    "aboutFood": {
+      "title": "Plutôt restaurant ou cuisiner ?",
+      "restaurant": "Restaurant",
+      "cooking": "Cuisiner",
+      "noPreference": "Aucune préférence"
+    },
+    "goOutAtNight": {
+      "title": "Sortir la nuit ?",
+      "yes": "Oui",
+      "no": "Non",
+      "noPreference": "Aucune préférence"
+    },
+    "sport": {
+      "title": "Activité sportive ?",
+      "yes": "Oui",
+      "no": "Non",
+      "noPreference": "Aucune préférence"
+    },
+    "travelWithPersonFromSameCity": {
+      "title": "Voyager avec une personne de la même ville ?",
+      "yes": "Oui",
+      "no": "Non",
+      "noPreference": "Aucune préférence"
+    },
+    "travelWithPersonFromSameCountry": {
+      "title": "Voyager avec une personne du même pays ?",
+      "yes": "Oui",
+      "no": "Non",
+      "noPreference": "Aucune préférence"
+    },
+    "travelWithPersonSameLanguage": {
+      "title": "Voyager avec une personne de la même langue ?",
+      "yes": "Oui",
+      "no": "Non",
+      "noPreference": "Aucune préférence"
+    },
+    "gender": {
+      "title": "Sexe des personnes avec qui voyager ?",
+      "male": "Hommes",
+      "female": "Femmes",
+      "noPreference": "Aucune préférence"
+    },
+    "destinationTypes": {
+      "title": "Type de destination",
+      "subtitle": "Veuillez choisir les types de destination que vous souhaitez visiter",
+      "mountain": "Montagne",
+      "beach": "Plage",
+      "city": "Ville",
+      "countryside": "Campagne",
+      "naturalarea": "Espace naturel",
+      "island": "Îles",
+      "noPreference": "Aucune préférence"
+    },
+    "groupSize": {
+      "title": "Combien de personnes voulez-vous partir avec ?",
+      "subtitle": "Saississez un nombre entre 2 et 10+"
+    },
+    "ages": {
+      "title": "Âge des personnes avec qui voyager ?",
+      "subtitle": "Saississez un intervalle entre 18 et 100+ ans"
+    },
+    "budget": {
+      "title": "Quel est votre budget ?",
+      "subtitle": "Saississez un intervalle entre 100€ et 2000+€"
+    },
+    "duration": {
+      "title": "Combien de temps voulez-vous partir ?",
+      "subtitle": "Saississez un intervalle entre 1 et 30+ jours"
+    },
+    "swipeToChoose": "Swiper pour choisir votre préférence",
+    "no_preference": "N'importe"
   },
   "profile": {
     "title": "Profil",
@@ -96,7 +176,8 @@
     "defineActive": "Définir en tant que profil actif",
     "edit": "Modifier",
     "delete": "Supprimer",
-    "noProfile": "Vous n'avez pas encore de profil, veuillez répondre aux questions pour créer votre premier profil"
+    "noProfile": "Vous n'avez pas encore de profil, veuillez répondre aux questions pour créer votre premier profil",
+    "rangeAnswer": "Entre $begin et $end $val"
   },
   "groups": {
     "title": "Groupes",

@@ -13,97 +13,106 @@ class AvailabilityCard extends HookConsumerWidget {
   const AvailabilityCard({Key? key, this.isLoading = false, required this.onPressed}) : super(key: key);
 
   final bool isLoading;
-  final name = "availability";
+  final name = "availabilities";
   final Function onPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final animation = useAnimationController(
+      duration: const Duration(milliseconds: 500),
+    );
+    final offset = Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, -2))
+        .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
     final availabilities =
         useState<List<Availability>>([Availability(startDate: DateTime.now(), endDate: DateTime.now())]);
     final scrollController = useState(ScrollController());
-    final matchmakingService = ref.watch(matchmakingProvider.notifier);
-    return StandardCard(
-      name: "NameProfileCard",
-      title: AppLocalizations.of(context).translate("cards.availability.title"),
-      subtitle: AppLocalizations.of(context).translate("cards.availability.subtitle"),
-      shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-      isLoading: isLoading,
-      child: Column(
-        children: [
-          Expanded(
-            child: Scrollbar(
-              isAlwaysShown: true,
-              interactive: false,
-              controller: scrollController.value,
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+    return SlideTransition(
+      position: offset,
+      child: StandardCard(
+        name: "NameProfileCard",
+        title: AppLocalizations.of(context).translate("cards.availability.title"),
+        subtitle: AppLocalizations.of(context).translate("cards.availability.subtitle"),
+        shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+        isLoading: isLoading,
+        child: Column(
+          children: [
+            Expanded(
+              child: Scrollbar(
+                isAlwaysShown: true,
+                interactive: false,
                 controller: scrollController.value,
-                children: <Widget>[
-                  for (final availability in availabilities.value)
-                    AvailabilityInput(
-                      availability: availability,
-                      onStartChanged: (value) {
-                        availabilities.value = availabilities.value.map((a) {
-                          if (a == availability) {
-                            a.startDate = value;
-                            if (a.endDate.isBefore(value)) {
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  controller: scrollController.value,
+                  children: <Widget>[
+                    for (final availability in availabilities.value)
+                      AvailabilityInput(
+                        availability: availability,
+                        onStartChanged: (value) {
+                          availabilities.value = availabilities.value.map((a) {
+                            if (a == availability) {
+                              a.startDate = value;
+                              if (a.endDate.isBefore(value)) {
+                                a.endDate = value;
+                              }
+                            }
+                            return a;
+                          }).toList();
+                        },
+                        onEndChanged: (value) {
+                          availabilities.value = availabilities.value.map((a) {
+                            if (a == availability) {
                               a.endDate = value;
                             }
-                          }
-                          return a;
-                        }).toList();
-                      },
-                      onEndChanged: (value) {
-                        availabilities.value = availabilities.value.map((a) {
-                          if (a == availability) {
-                            a.endDate = value;
-                          }
-                          return a;
-                        }).toList();
-                      },
-                      onDelete: availabilities.value.length > 1
-                          ? () {
-                              availabilities.value =
-                                  availabilities.value.where((element) => element != availability).toList();
-                              scrollController.value
-                                  .animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.ease);
-                            }
-                          : null,
-                    ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      PrimaryButton(
-                        text: "+",
-                        fitContent: true,
-                        onPressed: () {
-                          availabilities.value = [
-                            ...availabilities.value,
-                            Availability(startDate: DateTime.now(), endDate: DateTime.now())
-                          ];
-                          Future.delayed(
-                            const Duration(milliseconds: 100),
-                            () {
-                              scrollController.value.animateTo(scrollController.value.position.maxScrollExtent,
-                                  duration: const Duration(milliseconds: 500), curve: Curves.ease);
-                            },
-                          );
+                            return a;
+                          }).toList();
                         },
+                        onDelete: availabilities.value.length > 1
+                            ? () {
+                                availabilities.value =
+                                    availabilities.value.where((element) => element != availability).toList();
+                                scrollController.value
+                                    .animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.ease);
+                              }
+                            : null,
                       ),
-                    ],
-                  ),
-                ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        PrimaryButton(
+                          text: "+",
+                          fitContent: true,
+                          onPressed: () {
+                            availabilities.value = [
+                              ...availabilities.value,
+                              Availability(startDate: DateTime.now(), endDate: DateTime.now())
+                            ];
+                            Future.delayed(
+                              const Duration(milliseconds: 100),
+                              () {
+                                scrollController.value.animateTo(scrollController.value.position.maxScrollExtent,
+                                    duration: const Duration(milliseconds: 500), curve: Curves.ease);
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          PrimaryButton(
-            text: AppLocalizations.of(context).translate('common.validate'),
-            isDisabled: availabilities.value.isEmpty,
-            onPressed: () {
-              onPressed(name, availabilities.value);
-            },
-          ),
-        ],
+            PrimaryButton(
+              text: AppLocalizations.of(context).translate('common.validate'),
+              isDisabled: availabilities.value.isEmpty,
+              onPressed: () {
+                animation.forward().whenComplete(() {
+                  onPressed(name, availabilities.value);
+                });
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

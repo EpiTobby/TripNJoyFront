@@ -111,7 +111,6 @@ class SwipeService extends ChangeNotifier {
   void nextCard(String name, String value) async {
     Future.delayed(const Duration(milliseconds: 200), () {
       matchmakingService.submitCard(name, value);
-      matchmakingService.nextCard();
       resetPosition();
     });
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/navbar/navbar.icons.dart';
 
+import '../../constants/navbar/navbar.const.dart';
 import '../../constants/navbar/navbar.enum.dart';
 import '../../providers/navbar/navbar.provider.dart';
 
@@ -13,12 +14,12 @@ class Navbar extends HookConsumerWidget {
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
     final provider = ref.watch(navbarStateProvider.notifier);
     return Container(
-      height: 80,
+      height: NavbarConstant.NAVBAR_HEIGHT,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.background,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+          topLeft: Radius.circular(NavbarConstant.NAVBAR_RADIUS),
+          topRight: Radius.circular(NavbarConstant.NAVBAR_RADIUS),
         ),
         boxShadow: [
           BoxShadow(
