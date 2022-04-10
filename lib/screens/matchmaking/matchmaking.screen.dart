@@ -14,7 +14,7 @@ class MatchmakingPage extends StatefulHookConsumerWidget {
   ConsumerState createState() => _MatchmakingPageState();
 }
 
-class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
+class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final cards = ref.watch(matchmakingProvider).cards;
@@ -23,6 +23,12 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
     if (swipeService.screenSize == Size.zero) {
       swipeService.setScreenSize(MediaQuery.of(context).size);
     }
+
+    final animationController = useAnimationController(duration: const Duration(milliseconds: 150), vsync: this);
+    final animation = CurvedAnimation(parent: animationController, curve: Curves.easeInOut);
+    final moveAnim = Tween(begin: const Offset(0.0, 0.015), end: const Offset(0.0, 0.05)).animate(animation);
+    final scaleAnim = Tween(begin: 0.965, end: 1.0).animate(animation);
+
     return Container(
       child: cards.isEmpty || currIndex >= cards.length || currIndex < 0
           ? const ProfileCreationCard()
@@ -30,18 +36,42 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
               alignment: Alignment.topCenter,
               children: cards.reversed.map((card) {
                 final index = cards.indexOf(card) - currIndex;
-                if (index == 0) {
-                  return Positioned(
-                      width: MediaQuery.of(context).size.width, top: 20, child: card.build(context, true));
-                } else if (index == 1) {
-                  return Positioned(
-                      width: MediaQuery.of(context).size.width - 10, top: 10, child: card.build(context, false));
-                } else if (index == 2) {
-                  return Positioned(
-                      width: MediaQuery.of(context).size.width - 25, top: 0, child: card.build(context, false));
+                if (index >= 0 && index <= 2) {
+                  return FractionalTranslation(
+                      translation: getCardTranslation(index, moveAnim),
+                      child: Transform.scale(
+                          scale: getCardScale(index, scaleAnim), child: card.build(context, index == 0)));
                 }
                 return Container();
               }).toList()),
     );
+  }
+
+  Offset getCardTranslation(
+    int index,
+    Animation<Offset> moveAnim,
+  ) {
+    if (index == 1) {
+      return moveAnim.value;
+    } else if (index == 2) {
+      return Offset(0.0, -0.02);
+    }
+    return const Offset(0.0, 0.05);
+  }
+
+  double getCardScale(int index, Animation<double> scaleAnim) {
+    if (index == 0) {
+      return 1.0;
+    } else if (index == 1) {
+      return scaleAnim.value;
+    }
+    return (1 - (0.035 * index.abs()));
+  }
+
+  Offset getCardTranslate(int index, Animation<Offset> translationAnim) {
+    if (index == 0) {
+      return translationAnim.value;
+    }
+    return Offset(0.0, 0.0);
   }
 }
