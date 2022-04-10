@@ -23,21 +23,24 @@ import '../auth/auth.service.dart';
 
 import '../log/logger.service.dart';
 
-class MatchmakingService extends StateNotifier<List<CardModel>> {
-  MatchmakingService(this.httpService, this.authService, this.profileService) : super([]) {
+
+class MatchmakingService extends ChangeNotifier {
+  MatchmakingService(this.httpService, this.authService, this.profileService) {
     _init();
   }
 
   final AuthService authService;
   final HttpService httpService;
   final ProfileService profileService;
+  List<CardModel> cards = [];
+  int index = 0;
 
   ProfileModel? activeProfile;
   Map<String, dynamic> profileCreationRequest = {};
 
   // we use a list instead of a stack, because we need to handle user mistakes and go back to the previous card
-  void _init() async {
-    state = [];
+  void _init() {
+    cards = [];
   }
 
   void startProfileCreation() {
@@ -45,7 +48,7 @@ class MatchmakingService extends StateNotifier<List<CardModel>> {
 
     const DEFAULT_AVATAR_URL =
         "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png";
-    state = [
+    cards = [
       CardModel(
         builder: (context, onTop) => SwipeCard(
           name: "chillOrVisit",
@@ -203,11 +206,20 @@ class MatchmakingService extends StateNotifier<List<CardModel>> {
                 onPressed: submitProfile,
               )),
     ].toList();
+    index = 0;
+    notifyListeners();
+  }
+
+  void previousCard() {
+    if (index > 0) {
+      index--;
+      notifyListeners();
+    }
   }
 
   void nextCard() {
-    final newState = state.sublist(1);
-    state = newState;
+    index++;
+    notifyListeners();
   }
 
   void submitCard(String name, String value) {
