@@ -18,18 +18,20 @@ import '../../widgets/matchmaking/cards/range_card.widget.dart';
 import '../api/http.service.dart';
 import '../log/logger.service.dart';
 
-class MatchmakingService extends StateNotifier<List<CardModel>> {
-  MatchmakingService(this.httpService) : super([]) {
+class MatchmakingService extends ChangeNotifier {
+  MatchmakingService(this.httpService) {
     _init();
   }
 
   final HttpService httpService;
+  List<CardModel> cards = [];
+  int index = 0;
 
   // TODO: create a profile state, which will contains the profile data and be sent to then backend
 
   // we use a list instead of a stack, because we need to handle user mistakes and go back to the previous card
   void _init() {
-    state = [];
+    cards = [];
   }
 
   void startProfileCreation() {
@@ -37,7 +39,7 @@ class MatchmakingService extends StateNotifier<List<CardModel>> {
 
     const DEFAULT_AVATAR_URL =
         "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png";
-    state = [
+    cards = [
       CardModel(
         builder: (context, onTop) => SwipeCard(
           name: "chillOrVisit",
@@ -184,11 +186,20 @@ class MatchmakingService extends StateNotifier<List<CardModel>> {
       CardModel(builder: (context, onTop) => AvailabilityCard()),
       CardModel(builder: (context, onTop) => NameProfileCard()),
     ].toList();
+    index = 0;
+    notifyListeners();
+  }
+
+  void previousCard() {
+    if (index > 0) {
+      index--;
+      notifyListeners();
+    }
   }
 
   void nextCard() {
-    final newState = state.sublist(1);
-    state = newState;
+    index++;
+    notifyListeners();
   }
 
   void submitCard(String name, String value) {

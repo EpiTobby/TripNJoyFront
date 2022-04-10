@@ -17,18 +17,19 @@ class MatchmakingPage extends StatefulHookConsumerWidget {
 class _MatchmakingPageState extends ConsumerState<MatchmakingPage> {
   @override
   Widget build(BuildContext context) {
-    final cards = ref.watch(matchmakingProvider);
+    final cards = ref.watch(matchmakingProvider).cards;
+    final currIndex = ref.watch(matchmakingProvider).index;
     final swipeService = ref.watch(swipeProvider.notifier);
     if (swipeService.screenSize == Size.zero) {
       swipeService.setScreenSize(MediaQuery.of(context).size);
     }
     return Container(
-      child: cards.isEmpty
+      child: cards.isEmpty || currIndex >= cards.length || currIndex < 0
           ? const ProfileCreationCard()
           : Stack(
               alignment: Alignment.topCenter,
               children: cards.reversed.map((card) {
-                final index = cards.indexOf(card);
+                final index = cards.indexOf(card) - currIndex;
                 if (index == 0) {
                   return Positioned(
                       width: MediaQuery.of(context).size.width, top: 20, child: card.build(context, true));
