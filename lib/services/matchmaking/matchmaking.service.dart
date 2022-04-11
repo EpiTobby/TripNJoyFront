@@ -23,7 +23,6 @@ import '../auth/auth.service.dart';
 
 import '../log/logger.service.dart';
 
-
 class MatchmakingService extends ChangeNotifier {
   MatchmakingService(this.httpService, this.authService, this.profileService) {
     _init();
@@ -211,7 +210,10 @@ class MatchmakingService extends ChangeNotifier {
   }
 
   void previousCard() {
-    if (index > 0) {
+    if (index >= 0) {
+      if (index == 0) {
+        cards = [];
+      }
       index--;
       notifyListeners();
     }

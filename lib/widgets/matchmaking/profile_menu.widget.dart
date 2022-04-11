@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/constants/matchmaking/popup_menu.enum.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/profile_detail.widget.dart';
 
@@ -8,12 +9,10 @@ import '../../codegen/api.swagger.dart';
 
 class ProfileMenu extends ConsumerWidget {
   const ProfileMenu(
-      {Key? key, required this.value, this.customColor, required this.profileModel, required this.parentContext})
+      {Key? key, required this.value, required this.profileModel, required this.parentContext})
       : super(key: key);
 
   final String value;
-  final Color? customColor;
-
   final ProfileModel profileModel;
   final BuildContext parentContext;
 
@@ -28,10 +27,10 @@ class ProfileMenu extends ConsumerWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             softWrap: false,
-            style: TextStyle(color: customColor ?? Theme.of(context).colorScheme.primary, fontSize: 24)),
+            style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 24)),
         PopupMenuButton(
           onSelected: (result) {
-            if (result == 1) {
+            if (result == PopupMenuItemType.EDIT) {
               Navigator.push(
                   parentContext, MaterialPageRoute(builder: (_) => ProfileDetail(profileId: profileModel.id!.toInt())));
             }
@@ -50,7 +49,7 @@ class ProfileMenu extends ConsumerWidget {
                 },
               ),
             PopupMenuItem(
-              value: 1,
+              value: PopupMenuItemType.EDIT,
               child: Row(
                 children: <Widget>[
                   Text(AppLocalizations.of(context).translate('profile.edit')),

@@ -20,6 +20,7 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
   Widget build(BuildContext context) {
     final cards = ref.watch(matchmakingProvider).cards;
     final currIndex = ref.watch(matchmakingProvider).index;
+    final matchmakingService = ref.watch(matchmakingProvider.notifier);
     final swipeService = ref.watch(swipeProvider.notifier);
     if (swipeService.screenSize == Size.zero) {
       swipeService.setScreenSize(MediaQuery.of(context).size);
@@ -33,7 +34,9 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
     return Scaffold(
         appBar: AppBar(
           leading: cards.isNotEmpty && cards.first.runtimeType != ProfileCreationCard
-              ? IconButton(onPressed: () => {}, icon: const Icon(Icons.arrow_back_rounded))
+              ? IconButton(onPressed: () => {
+                matchmakingService.previousCard()
+          }, icon: const Icon(Icons.arrow_back_rounded))
               : null ,
           actions: [
             IconButton(
@@ -43,7 +46,7 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
               },
             ),
           ],
-          foregroundColor: Colors.black,
+          foregroundColor: Theme.of(context).colorScheme.primary,
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
           shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
         ),
