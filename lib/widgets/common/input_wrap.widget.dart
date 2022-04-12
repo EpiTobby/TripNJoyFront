@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class InputWrap extends StatelessWidget {
-  const InputWrap(
-      {Key? key, required this.label, this.icon, required this.child})
-      : super(key: key);
+  const InputWrap({Key? key, required this.label, this.icon, required this.child}) : super(key: key);
   final String label;
   final Icon? icon;
   final Widget child;
@@ -43,10 +41,7 @@ class InputWrap extends StatelessWidget {
                         if (icon != null)
                           Padding(
                               padding: const EdgeInsets.only(right: 5),
-                              child: Icon(icon!.icon,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer)),
+                              child: Icon(icon!.icon, color: Theme.of(context).colorScheme.primaryContainer)),
                         Expanded(child: child),
                       ],
                     )))

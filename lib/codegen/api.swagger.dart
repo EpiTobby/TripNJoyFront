@@ -285,6 +285,7 @@ class AvailabilityAnswerModel {
   final DateTime? endDate;
   static const fromJsonFactory = _$AvailabilityAnswerModelFromJson;
   static const toJsonFactory = _$AvailabilityAnswerModelToJson;
+
   Map<String, dynamic> toJson() => _$AvailabilityAnswerModelToJson(this);
 
   @override
@@ -384,6 +385,7 @@ class ProfileCreationRequest {
   final enums.ProfileCreationRequestSport? sport;
   static const fromJsonFactory = _$ProfileCreationRequestFromJson;
   static const toJsonFactory = _$ProfileCreationRequestToJson;
+
   Map<String, dynamic> toJson() => _$ProfileCreationRequestToJson(this);
 
   @override
@@ -490,6 +492,7 @@ class RangeAnswerModel {
   final int? maxValue;
   static const fromJsonFactory = _$RangeAnswerModelFromJson;
   static const toJsonFactory = _$RangeAnswerModelToJson;
+
   Map<String, dynamic> toJson() => _$RangeAnswerModelToJson(this);
 
   @override
@@ -588,6 +591,7 @@ class ProfileModel {
   final bool? active;
   static const fromJsonFactory = _$ProfileModelFromJson;
   static const toJsonFactory = _$ProfileModelToJson;
+
   Map<String, dynamic> toJson() => _$ProfileModelToJson(this);
 
   @override
@@ -721,6 +725,7 @@ class UserCreationRequest {
   final String? email;
   static const fromJsonFactory = _$UserCreationRequestFromJson;
   static const toJsonFactory = _$UserCreationRequestToJson;
+
   Map<String, dynamic> toJson() => _$UserCreationRequestToJson(this);
 
   @override
@@ -783,6 +788,7 @@ class AuthTokenResponse {
   final String? token;
   static const fromJsonFactory = _$AuthTokenResponseFromJson;
   static const toJsonFactory = _$AuthTokenResponseToJson;
+
   Map<String, dynamic> toJson() => _$AuthTokenResponseToJson(this);
 
   @override
@@ -817,6 +823,7 @@ class LoginRequest {
   final String? username;
   static const fromJsonFactory = _$LoginRequestFromJson;
   static const toJsonFactory = _$LoginRequestToJson;
+
   Map<String, dynamic> toJson() => _$LoginRequestToJson(this);
 
   @override
@@ -855,6 +862,7 @@ class LoginResponse {
   final String? token;
   static const fromJsonFactory = _$LoginResponseFromJson;
   static const toJsonFactory = _$LoginResponseToJson;
+
   Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
 
   @override
@@ -903,6 +911,7 @@ class GoogleRequest {
   final String? email;
   static const fromJsonFactory = _$GoogleRequestFromJson;
   static const toJsonFactory = _$GoogleRequestToJson;
+
   Map<String, dynamic> toJson() => _$GoogleRequestToJson(this);
 
   @override
@@ -968,6 +977,7 @@ class GoogleAuthResponse {
   final bool? newUser;
   static const fromJsonFactory = _$GoogleAuthResponseFromJson;
   static const toJsonFactory = _$GoogleAuthResponseToJson;
+
   Map<String, dynamic> toJson() => _$GoogleAuthResponseToJson(this);
 
   @override
@@ -1006,6 +1016,7 @@ class ForgotPasswordRequest {
   final String? email;
   static const fromJsonFactory = _$ForgotPasswordRequestFromJson;
   static const toJsonFactory = _$ForgotPasswordRequestToJson;
+
   Map<String, dynamic> toJson() => _$ForgotPasswordRequestToJson(this);
 
   @override
@@ -1101,6 +1112,7 @@ class ProfileUpdateRequest {
   final bool? active;
   static const fromJsonFactory = _$ProfileUpdateRequestFromJson;
   static const toJsonFactory = _$ProfileUpdateRequestToJson;
+
   Map<String, dynamic> toJson() => _$ProfileUpdateRequestToJson(this);
 
   @override
@@ -1208,6 +1220,7 @@ class CityModel {
   final String? name;
   static const fromJsonFactory = _$CityModelFromJson;
   static const toJsonFactory = _$CityModelToJson;
+
   Map<String, dynamic> toJson() => _$CityModelToJson(this);
 
   @override
@@ -1257,6 +1270,7 @@ class UserUpdateRequest {
   final String? gender;
   static const fromJsonFactory = _$UserUpdateRequestFromJson;
   static const toJsonFactory = _$UserUpdateRequestToJson;
+
   Map<String, dynamic> toJson() => _$UserUpdateRequestToJson(this);
 
   @override
@@ -1323,6 +1337,7 @@ class UpdatePasswordRequest {
   final String? newPassword;
   static const fromJsonFactory = _$UpdatePasswordRequestFromJson;
   static const toJsonFactory = _$UpdatePasswordRequestToJson;
+
   Map<String, dynamic> toJson() => _$UpdatePasswordRequestToJson(this);
 
   @override
@@ -1364,6 +1379,7 @@ class UpdateEmailRequest {
   final String? password;
   static const fromJsonFactory = _$UpdateEmailRequestFromJson;
   static const toJsonFactory = _$UpdateEmailRequestToJson;
+
   Map<String, dynamic> toJson() => _$UpdateEmailRequestToJson(this);
 
   @override
@@ -1399,6 +1415,7 @@ class ConfirmationCodeModel {
   final String? value;
   static const fromJsonFactory = _$ConfirmationCodeModelFromJson;
   static const toJsonFactory = _$ConfirmationCodeModelToJson;
+
   Map<String, dynamic> toJson() => _$ConfirmationCodeModelToJson(this);
 
   @override
@@ -1437,6 +1454,7 @@ class ValidateCodePasswordRequest {
   final String? email;
   static const fromJsonFactory = _$ValidateCodePasswordRequestFromJson;
   static const toJsonFactory = _$ValidateCodePasswordRequestToJson;
+
   Map<String, dynamic> toJson() => _$ValidateCodePasswordRequestToJson(this);
 
   @override
@@ -1476,6 +1494,7 @@ class UserIdResponse {
   final num? userId;
   static const fromJsonFactory = _$UserIdResponseFromJson;
   static const toJsonFactory = _$UserIdResponseToJson;
+
   Map<String, dynamic> toJson() => _$UserIdResponseToJson(this);
 
   @override
@@ -1510,6 +1529,7 @@ class CityEntity {
   final String? name;
   static const fromJsonFactory = _$CityEntityFromJson;
   static const toJsonFactory = _$CityEntityToJson;
+
   Map<String, dynamic> toJson() => _$CityEntityToJson(this);
 
   @override
@@ -1546,6 +1566,7 @@ class GenderEntity {
   final String? value;
   static const fromJsonFactory = _$GenderEntityFromJson;
   static const toJsonFactory = _$GenderEntityToJson;
+
   Map<String, dynamic> toJson() => _$GenderEntityToJson(this);
 
   @override
@@ -1585,6 +1606,7 @@ class RoleEntity {
   final String? authority;
   static const fromJsonFactory = _$RoleEntityFromJson;
   static const toJsonFactory = _$RoleEntityToJson;
+
   Map<String, dynamic> toJson() => _$RoleEntityToJson(this);
 
   @override
@@ -1659,6 +1681,7 @@ class UserEntity {
   final List<RoleEntity>? roles;
   static const fromJsonFactory = _$UserEntityFromJson;
   static const toJsonFactory = _$UserEntityToJson;
+
   Map<String, dynamic> toJson() => _$UserEntityToJson(this);
 
   @override
@@ -1784,6 +1807,7 @@ class UserModel {
   final List<enums.UserModelRoles>? roles;
   static const fromJsonFactory = _$UserModelFromJson;
   static const toJsonFactory = _$UserModelToJson;
+
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 
   @override
@@ -1873,6 +1897,7 @@ class DeleteUserRequest {
   final String? password;
   static const fromJsonFactory = _$DeleteUserRequestFromJson;
   static const toJsonFactory = _$DeleteUserRequestToJson;
+
   Map<String, dynamic> toJson() => _$DeleteUserRequestToJson(this);
 
   @override
@@ -1904,6 +1929,7 @@ class DeleteUserByAdminRequest {
   final String? reason;
   static const fromJsonFactory = _$DeleteUserByAdminRequestFromJson;
   static const toJsonFactory = _$DeleteUserByAdminRequestToJson;
+
   Map<String, dynamic> toJson() => _$DeleteUserByAdminRequestToJson(this);
 
   @override

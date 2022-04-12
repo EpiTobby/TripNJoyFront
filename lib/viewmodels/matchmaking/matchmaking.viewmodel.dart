@@ -1,16 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/models/matchmaking/availability.model.dart';
 import 'package:trip_n_joy_front/viewmodels/matchmaking/profile.viewmodel.dart';
-import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
-import 'package:trip_n_joy_front/widgets/matchmaking/cards/group_found_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/multiple_choice_card.widget.dart';
-import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/swipe_card.widget.dart';
 
 import '../../models/matchmaking/card.model.dart';

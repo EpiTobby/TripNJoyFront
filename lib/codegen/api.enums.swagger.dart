@@ -34,8 +34,7 @@ enum ProfileCreationRequestTravelWithPersonFromSameCity {
 const $ProfileCreationRequestTravelWithPersonFromSameCityMap = {
   ProfileCreationRequestTravelWithPersonFromSameCity.yes: 'YES',
   ProfileCreationRequestTravelWithPersonFromSameCity.no: 'NO',
-  ProfileCreationRequestTravelWithPersonFromSameCity.noPreference:
-      'NO_PREFERENCE'
+  ProfileCreationRequestTravelWithPersonFromSameCity.noPreference: 'NO_PREFERENCE'
 };
 
 enum ProfileCreationRequestTravelWithPersonFromSameCountry {
@@ -52,8 +51,7 @@ enum ProfileCreationRequestTravelWithPersonFromSameCountry {
 const $ProfileCreationRequestTravelWithPersonFromSameCountryMap = {
   ProfileCreationRequestTravelWithPersonFromSameCountry.yes: 'YES',
   ProfileCreationRequestTravelWithPersonFromSameCountry.no: 'NO',
-  ProfileCreationRequestTravelWithPersonFromSameCountry.noPreference:
-      'NO_PREFERENCE'
+  ProfileCreationRequestTravelWithPersonFromSameCountry.noPreference: 'NO_PREFERENCE'
 };
 
 enum ProfileCreationRequestTravelWithPersonSameLanguage {
@@ -70,8 +68,7 @@ enum ProfileCreationRequestTravelWithPersonSameLanguage {
 const $ProfileCreationRequestTravelWithPersonSameLanguageMap = {
   ProfileCreationRequestTravelWithPersonSameLanguage.yes: 'YES',
   ProfileCreationRequestTravelWithPersonSameLanguage.no: 'NO',
-  ProfileCreationRequestTravelWithPersonSameLanguage.noPreference:
-      'NO_PREFERENCE'
+  ProfileCreationRequestTravelWithPersonSameLanguage.noPreference: 'NO_PREFERENCE'
 };
 
 enum ProfileCreationRequestGender {
@@ -366,8 +363,7 @@ enum ProfileUpdateRequestTravelWithPersonFromSameCountry {
 const $ProfileUpdateRequestTravelWithPersonFromSameCountryMap = {
   ProfileUpdateRequestTravelWithPersonFromSameCountry.yes: 'YES',
   ProfileUpdateRequestTravelWithPersonFromSameCountry.no: 'NO',
-  ProfileUpdateRequestTravelWithPersonFromSameCountry.noPreference:
-      'NO_PREFERENCE'
+  ProfileUpdateRequestTravelWithPersonFromSameCountry.noPreference: 'NO_PREFERENCE'
 };
 
 enum ProfileUpdateRequestTravelWithPersonSameLanguage {
@@ -498,7 +494,4 @@ enum UserModelRoles {
   admin
 }
 
-const $UserModelRolesMap = {
-  UserModelRoles.$default: 'DEFAULT',
-  UserModelRoles.admin: 'ADMIN'
-};
+const $UserModelRolesMap = {UserModelRoles.$default: 'DEFAULT', UserModelRoles.admin: 'ADMIN'};

@@ -24,8 +24,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<ProfileModel>> _idProfilesPost(
-      {required num? id, required ProfileCreationRequest? body}) {
+  Future<Response<ProfileModel>> _idProfilesPost({required num? id, required ProfileCreationRequest? body}) {
     final $url = '/${id}/profiles';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -40,8 +39,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<AuthTokenResponse>> _authRegisterPost(
-      {required UserCreationRequest? body}) {
+  Future<Response<AuthTokenResponse>> _authRegisterPost({required UserCreationRequest? body}) {
     final $url = '/auth/register';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -49,8 +47,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<LoginResponse>> _authLoginPost(
-      {required LoginRequest? body}) {
+  Future<Response<LoginResponse>> _authLoginPost({required LoginRequest? body}) {
     final $url = '/auth/login';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -58,8 +55,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<GoogleAuthResponse>> _authGooglePost(
-      {required GoogleRequest? body}) {
+  Future<Response<GoogleAuthResponse>> _authGooglePost({required GoogleRequest? body}) {
     final $url = '/auth/google';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -67,8 +63,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _authForgotPasswordPost(
-      {required ForgotPasswordRequest? body}) {
+  Future<Response<dynamic>> _authForgotPasswordPost({required ForgotPasswordRequest? body}) {
     final $url = '/auth/forgot/password';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -77,9 +72,7 @@ class _$Api extends Api {
 
   @override
   Future<Response<dynamic>> _idProfilesProfileUpdatePatch(
-      {required num? id,
-      required num? profile,
-      required ProfileUpdateRequest? body}) {
+      {required num? id, required num? profile, required ProfileUpdateRequest? body}) {
     final $url = '/${id}/profiles/${profile}/update';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -87,8 +80,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _usersIdUpdatePatch(
-      {required num? id, required UserUpdateRequest? body}) {
+  Future<Response<dynamic>> _usersIdUpdatePatch({required num? id, required UserUpdateRequest? body}) {
     final $url = '/users/${id}/update';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -96,8 +88,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _authIdPasswordPatch(
-      {required num? id, required UpdatePasswordRequest? body}) {
+  Future<Response<dynamic>> _authIdPasswordPatch({required num? id, required UpdatePasswordRequest? body}) {
     final $url = '/auth/${id}/password';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -105,8 +96,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<LoginResponse>> _authIdEmailPatch(
-      {required num? id, required UpdateEmailRequest? body}) {
+  Future<Response<LoginResponse>> _authIdEmailPatch({required num? id, required UpdateEmailRequest? body}) {
     final $url = '/auth/${id}/email';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -114,8 +104,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _authIdConfirmationPatch(
-      {required num? id, required ConfirmationCodeModel? body}) {
+  Future<Response<dynamic>> _authIdConfirmationPatch({required num? id, required ConfirmationCodeModel? body}) {
     final $url = '/auth/${id}/confirmation';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -123,8 +112,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<UserIdResponse>> _authValidationPasswordPatch(
-      {required ValidateCodePasswordRequest? body}) {
+  Future<Response<UserIdResponse>> _authValidationPasswordPatch({required ValidateCodePasswordRequest? body}) {
     final $url = '/auth/validation/password';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -153,8 +141,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _usersIdDelete(
-      {required num? id, required DeleteUserRequest? body}) {
+  Future<Response<dynamic>> _usersIdDelete({required num? id, required DeleteUserRequest? body}) {
     final $url = '/users/${id}';
     final $body = body;
     final $request = Request('DELETE', $url, client.baseUrl, body: $body);
@@ -169,16 +156,14 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _idProfilesProfileDelete(
-      {required num? id, required num? profile}) {
+  Future<Response<dynamic>> _idProfilesProfileDelete({required num? id, required num? profile}) {
     final $url = '/${id}/profiles/${profile}';
     final $request = Request('DELETE', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> _usersIdAdminDelete(
-      {required num? id, required DeleteUserByAdminRequest? body}) {
+  Future<Response<dynamic>> _usersIdAdminDelete({required num? id, required DeleteUserByAdminRequest? body}) {
     final $url = '/users/${id}/admin';
     final $body = body;
     final $request = Request('DELETE', $url, client.baseUrl, body: $body);

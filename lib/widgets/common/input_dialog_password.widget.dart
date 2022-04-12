@@ -32,22 +32,21 @@ class _InputDialogPasswordState extends State<InputDialogPassword> {
               style: TextStyle(color: Theme.of(context).colorScheme.primary))),
       content: SingleChildScrollView(
           child: ListBody(
-            children: [
-              InputField(
-                isPassword: true,
-                label: AppLocalizations.of(context).translate("settings.oldPassword"),
-                onChanged: (newValue) => value.value = newValue,
-                isError: status.value.isError,
-              ),
-              InputField(
-                isPassword: true,
-                label: AppLocalizations.of(context).translate("settings.newPassword"),
-                onChanged: (newValue) => passwordNewValue.value = newValue,
-                isError: status.value.isError,
-              ),
-          ],
-        )
-      ),
+        children: [
+          InputField(
+            isPassword: true,
+            label: AppLocalizations.of(context).translate("settings.oldPassword"),
+            onChanged: (newValue) => value.value = newValue,
+            isError: status.value.isError,
+          ),
+          InputField(
+            isPassword: true,
+            label: AppLocalizations.of(context).translate("settings.newPassword"),
+            onChanged: (newValue) => passwordNewValue.value = newValue,
+            isError: status.value.isError,
+          ),
+        ],
+      )),
       actions: <Widget>[
         Padding(
           padding: const EdgeInsets.only(bottom: 18.0),

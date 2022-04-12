@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LayoutMember extends StatelessWidget {
-  const LayoutMember({Key? key, required this.imageURL, required this.name})
-      : super(key: key);
+  const LayoutMember({Key? key, required this.imageURL, required this.name}) : super(key: key);
 
   final String imageURL;
   final String name;

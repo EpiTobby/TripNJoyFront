@@ -25,18 +25,31 @@ class SignupCredentials {
   }
 
   String get gender => _gender;
+
   set gender(String gender) => _gender = gender;
+
   String get firstname => _firstname;
+
   set firstname(String firstname) => _firstname = firstname;
+
   String get lastname => _lastname;
+
   set lastname(String lastname) => _lastname = lastname;
+
   String get birthDate => _birthDate;
+
   set birthDate(String birthDate) => _birthDate = birthDate;
+
   String get email => _email;
+
   set email(String email) => _email = email;
+
   String get password => _password;
+
   set password(String password) => _password = password;
+
   String? get phoneNumber => _phoneNumber;
+
   set phoneNumber(String? phoneNumber) => _phoneNumber = phoneNumber;
 
   SignupCredentials.fromJson(Map<String, dynamic> json) {
