@@ -13,7 +13,10 @@
     "tryAgain": "Try again",
     "validate": "Validate",
     "next": "Next",
-    "start": "Start"
+    "start": "Start",
+    "days": "days",
+    "yearsOld": "years old",
+    "people": "people"
   },
   "user": {
     "firstname": "Firstname",
@@ -88,42 +91,50 @@
     "chillOrVisit": {
       "title": "Chill or visit ?",
       "chill": "Chill",
-      "visit": "Visit"
+      "visit": "Visit",
+      "noPreference": "No preference"
     },
     "aboutFood": {
       "title": "Rather eat at restaurants or cook ?",
       "restaurant": "Restaurant",
-      "cook": "Cook"
+      "cooking": "Cook",
+      "noPreference": "No preference"
     },
     "goOutAtNight": {
       "title": "Go out at night ?",
       "yes": "Yes",
-      "no": "No"
+      "no": "No",
+      "noPreference": "No preference"
     },
     "sport": {
       "title": "Sport ?",
       "yes": "Yes",
-      "no": "No"
+      "no": "No",
+      "noPreference": "No preference"
     },
     "travelWithPersonFromSameCity": {
       "title": "Travel with person from same city ?",
       "yes": "Yes",
-      "no": "No"
+      "no": "No",
+      "noPreference": "No preference"
     },
     "travelWithPersonFromSameCountry": {
       "title": "Travel with person from same country ?",
       "yes": "Yes",
-      "no": "No"
+      "no": "No",
+      "noPreference": "No preference"
     },
     "travelWithPersonSameLanguage": {
       "title": "Travel with person talking the same language ?",
       "yes": "Yes",
-      "no": "No"
+      "no": "No",
+      "noPreference": "No preference"
     },
     "gender": {
       "title": "Gender of the members ?",
-      "men": "Men",
-      "women": "women"
+      "male": "Men",
+      "female": "women",
+      "noPreference": "No preference"
     },
     "destinationTypes": {
       "title": "Destination Type ?",
@@ -131,9 +142,10 @@
       "mountain": "Mountain",
       "beach": "Beach",
       "city": "City",
-      "countrySide": "Countryside",
-      "naturalArea": "Natural Area",
-      "island": "Island"
+      "countryside": "Countryside",
+      "naturalarea": "Natural Area",
+      "island": "Island",
+      "noPreference": "No preference"
     },
     "groupSize": {
       "title": "How many people do you want to go with?",
@@ -152,7 +164,20 @@
       "subtitle": "Please select a range between 1 and 30 days+."
     },
     "swipeToChoose": "Swipe to choose your preference",
-    "any": "Any"
+    "no_preference": "Any"
+  },
+  "profile": {
+    "title": "Profile",
+    "active": "Active profile",
+    "other": "Other profiles",
+    "information": "Information",
+    "name": "Profile name",
+    "answers": "Answers",
+    "defineActive": "Define as active profile",
+    "edit": "Edit",
+    "delete": "Delete",
+    "noProfile": "You do not have a profile yet, please answer the questions to create your first profile",
+    "rangeAnswer": "Between $begin and $end $val"
   },
   "groups": {
     "title": "Groups",

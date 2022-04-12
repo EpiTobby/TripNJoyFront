@@ -10,22 +10,22 @@ import '../../../models/matchmaking/availability.model.dart';
 import '../../common/button.widget.dart';
 
 class AvailabilityCard extends HookConsumerWidget {
-  const AvailabilityCard({Key? key, this.isLoading = false}) : super(key: key);
+  const AvailabilityCard({Key? key, this.isLoading = false, required this.onPressed}) : super(key: key);
 
   final bool isLoading;
-  final name = "availability";
+  final name = "availabilities";
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final animation = useAnimationController(
       duration: const Duration(milliseconds: 500),
     );
-    final offset = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, -2))
+    final offset = Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, -2))
         .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
     final availabilities =
         useState<List<Availability>>([Availability(startDate: DateTime.now(), endDate: DateTime.now())]);
     final scrollController = useState(ScrollController());
-    final matchmakingService = ref.watch(matchmakingProvider.notifier);
     return SlideTransition(
       position: offset,
       child: StandardCard(
@@ -72,7 +72,7 @@ class AvailabilityCard extends HookConsumerWidget {
                                 availabilities.value =
                                     availabilities.value.where((element) => element != availability).toList();
                                 scrollController.value
-                                    .animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                                    .animateTo(0, duration: const Duration(milliseconds: 500), curve: Curves.ease);
                               }
                             : null,
                       ),
@@ -107,7 +107,7 @@ class AvailabilityCard extends HookConsumerWidget {
               isDisabled: availabilities.value.isEmpty,
               onPressed: () {
                 animation.forward().whenComplete(() {
-                  matchmakingService.submitAvailability(name, availabilities.value);
+                  onPressed(name, availabilities.value);
                 });
               },
             ),

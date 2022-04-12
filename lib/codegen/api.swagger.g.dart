@@ -27,10 +27,12 @@ Map<String, dynamic> _$AvailabilityAnswerModelToJson(
 ProfileCreationRequest _$ProfileCreationRequestFromJson(
         Map<String, dynamic> json) =>
     ProfileCreationRequest(
-      availability: json['availability'] == null
-          ? null
-          : AvailabilityAnswerModel.fromJson(
-              json['availability'] as Map<String, dynamic>),
+      name: json['name'] as String?,
+      availabilities: (json['availabilities'] as List<dynamic>?)
+              ?.map((e) =>
+                  AvailabilityAnswerModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       duration: json['duration'] == null
           ? null
           : RangeAnswerModel.fromJson(json['duration'] as Map<String, dynamic>),
@@ -67,7 +69,9 @@ ProfileCreationRequest _$ProfileCreationRequestFromJson(
 Map<String, dynamic> _$ProfileCreationRequestToJson(
         ProfileCreationRequest instance) =>
     <String, dynamic>{
-      'availability': instance.availability?.toJson(),
+      'name': instance.name,
+      'availabilities':
+          instance.availabilities?.map((e) => e.toJson()).toList(),
       'duration': instance.duration?.toJson(),
       'budget': instance.budget?.toJson(),
       'destinationTypes': profileCreationRequestDestinationTypesListToJson(
@@ -106,10 +110,12 @@ Map<String, dynamic> _$RangeAnswerModelToJson(RangeAnswerModel instance) =>
 
 ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
       id: json['id'] as num?,
-      availability: json['availability'] == null
-          ? null
-          : AvailabilityAnswerModel.fromJson(
-              json['availability'] as Map<String, dynamic>),
+      name: json['name'] as String?,
+      availabilities: (json['availabilities'] as List<dynamic>?)
+              ?.map((e) =>
+                  AvailabilityAnswerModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       duration: json['duration'] == null
           ? null
           : RangeAnswerModel.fromJson(json['duration'] as Map<String, dynamic>),
@@ -146,7 +152,9 @@ ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
 Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'availability': instance.availability?.toJson(),
+      'name': instance.name,
+      'availabilities':
+          instance.availabilities?.map((e) => e.toJson()).toList(),
       'duration': instance.duration?.toJson(),
       'budget': instance.budget?.toJson(),
       'destinationTypes':
@@ -236,10 +244,6 @@ GoogleRequest _$GoogleRequestFromJson(Map<String, dynamic> json) =>
       accessToken: json['accessToken'] as String?,
       profilePicture: json['profilePicture'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
-      birthdate: json['birthdate'] == null
-          ? null
-          : DateTime.parse(json['birthdate'] as String),
-      gender: json['gender'] as String?,
       email: json['email'] as String?,
     );
 
@@ -250,9 +254,21 @@ Map<String, dynamic> _$GoogleRequestToJson(GoogleRequest instance) =>
       'accessToken': instance.accessToken,
       'profilePicture': instance.profilePicture,
       'phoneNumber': instance.phoneNumber,
-      'birthdate': instance.birthdate?.toIso8601String(),
-      'gender': instance.gender,
       'email': instance.email,
+    };
+
+GoogleAuthResponse _$GoogleAuthResponseFromJson(Map<String, dynamic> json) =>
+    GoogleAuthResponse(
+      username: json['username'] as String?,
+      token: json['token'] as String?,
+      newUser: json['newUser'] as bool?,
+    );
+
+Map<String, dynamic> _$GoogleAuthResponseToJson(GoogleAuthResponse instance) =>
+    <String, dynamic>{
+      'username': instance.username,
+      'token': instance.token,
+      'newUser': instance.newUser,
     };
 
 ForgotPasswordRequest _$ForgotPasswordRequestFromJson(
@@ -270,10 +286,12 @@ Map<String, dynamic> _$ForgotPasswordRequestToJson(
 ProfileUpdateRequest _$ProfileUpdateRequestFromJson(
         Map<String, dynamic> json) =>
     ProfileUpdateRequest(
-      availability: json['availability'] == null
-          ? null
-          : AvailabilityAnswerModel.fromJson(
-              json['availability'] as Map<String, dynamic>),
+      name: json['name'] as String?,
+      availabilities: (json['availabilities'] as List<dynamic>?)
+              ?.map((e) =>
+                  AvailabilityAnswerModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       duration: json['duration'] == null
           ? null
           : RangeAnswerModel.fromJson(json['duration'] as Map<String, dynamic>),
@@ -311,7 +329,9 @@ ProfileUpdateRequest _$ProfileUpdateRequestFromJson(
 Map<String, dynamic> _$ProfileUpdateRequestToJson(
         ProfileUpdateRequest instance) =>
     <String, dynamic>{
-      'availability': instance.availability?.toJson(),
+      'name': instance.name,
+      'availabilities':
+          instance.availabilities?.map((e) => e.toJson()).toList(),
       'duration': instance.duration?.toJson(),
       'budget': instance.budget?.toJson(),
       'destinationTypes': profileUpdateRequestDestinationTypesListToJson(
@@ -354,6 +374,10 @@ UserUpdateRequest _$UserUpdateRequestFromJson(Map<String, dynamic> json) =>
           ? null
           : CityModel.fromJson(json['city'] as Map<String, dynamic>),
       phoneNumber: json['phoneNumber'] as String?,
+      birthdate: json['birthdate'] == null
+          ? null
+          : DateTime.parse(json['birthdate'] as String),
+      gender: json['gender'] as String?,
     );
 
 Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
@@ -363,6 +387,8 @@ Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
       'profilePicture': instance.profilePicture,
       'city': instance.city?.toJson(),
       'phoneNumber': instance.phoneNumber,
+      'birthdate': instance.birthdate?.toIso8601String(),
+      'gender': instance.gender,
     };
 
 UpdatePasswordRequest _$UpdatePasswordRequestFromJson(

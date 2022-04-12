@@ -196,8 +196,8 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "Authentication Succeeded. Use the given jwt in following requests",
+          "401": {
+            "description": "Authentication failed. Wrong username or password",
             "content": {
               "*/*": {
                 "schema": {
@@ -206,8 +206,8 @@
               }
             }
           },
-          "401": {
-            "description": "Authentication failed. Wrong username or password",
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
             "content": {
               "*/*": {
                 "schema": {
@@ -237,22 +237,22 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "Authentication Succeeded. Use the given jwt in following requests",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
-                }
-              }
-            }
-          },
           "401": {
             "description": "Authentication failed. Wrong username or password",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "$ref": "#/components/schemas/GoogleAuthResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoogleAuthResponse"
                 }
               }
             }
@@ -278,11 +278,11 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "Email is sent to reset password"
-          },
           "422": {
             "description": "If the user does not exist"
+          },
+          "200": {
+            "description": "Email is sent to reset password"
           }
         }
       }
@@ -334,53 +334,6 @@
         }
       }
     },
-    "/{id}/profiles/{profile}/reuse": {
-      "patch": {
-        "tags": [
-          "profile-controller"
-        ],
-        "summary": "Reuse a profile of the users",
-        "operationId": "reuseProfile",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "profile",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AvailabilityAnswerModel"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "The profile is now active"
-          },
-          "422": {
-            "description": "The availabilities are not valid"
-          }
-        }
-      }
-    },
     "/users/{id}/update": {
       "patch": {
         "tags": [
@@ -410,11 +363,11 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "User information have been updated"
-          },
           "422": {
             "description": "If the user does not exist"
+          },
+          "200": {
+            "description": "User information have been updated"
           }
         }
       }
@@ -755,11 +708,11 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "The profile is deleted"
-          },
           "422": {
             "description": "No profile has been found"
+          },
+          "200": {
+            "description": "The profile is deleted"
           }
         }
       }
@@ -818,7 +771,7 @@
         "required": [
           "aboutFood",
           "ages",
-          "availability",
+          "availabilities",
           "budget",
           "chillOrVisit",
           "destinationTypes",
@@ -826,6 +779,7 @@
           "gender",
           "goOutAtNight",
           "groupSize",
+          "name",
           "sport",
           "travelWithPersonFromSameCity",
           "travelWithPersonFromSameCountry",
@@ -833,8 +787,14 @@
         ],
         "type": "object",
         "properties": {
-          "availability": {
-            "$ref": "#/components/schemas/AvailabilityAnswerModel"
+          "name": {
+            "type": "string"
+          },
+          "availabilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailabilityAnswerModel"
+            }
           },
           "duration": {
             "$ref": "#/components/schemas/RangeAnswerModel"
@@ -946,8 +906,14 @@
             "type": "integer",
             "format": "int64"
           },
-          "availability": {
-            "$ref": "#/components/schemas/AvailabilityAnswerModel"
+          "name": {
+            "type": "string"
+          },
+          "availabilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailabilityAnswerModel"
+            }
           },
           "duration": {
             "$ref": "#/components/schemas/RangeAnswerModel"
@@ -1122,15 +1088,22 @@
           "phoneNumber": {
             "type": "string"
           },
-          "birthdate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "gender": {
-            "type": "string"
-          },
           "email": {
             "type": "string"
+          }
+        }
+      },
+      "GoogleAuthResponse": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "newUser": {
+            "type": "boolean"
           }
         }
       },
@@ -1145,8 +1118,14 @@
       "ProfileUpdateRequest": {
         "type": "object",
         "properties": {
-          "availability": {
-            "$ref": "#/components/schemas/AvailabilityAnswerModel"
+          "name": {
+            "type": "string"
+          },
+          "availabilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailabilityAnswerModel"
+            }
           },
           "duration": {
             "$ref": "#/components/schemas/RangeAnswerModel"
@@ -1265,6 +1244,13 @@
             "$ref": "#/components/schemas/CityModel"
           },
           "phoneNumber": {
+            "type": "string"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
             "type": "string"
           }
         }

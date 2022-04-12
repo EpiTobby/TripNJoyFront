@@ -1,5 +1,3 @@
-import 'package:trip_n_joy_front/services/auth/auth.service.dart';
-
 import '../../codegen/api.swagger.dart';
 import '../../models/auth/signup.model.dart';
 
@@ -33,4 +31,12 @@ abstract class HttpService {
   Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest);
 
   Future<LoginResponse?> updateEmail(int id, UpdateEmailRequest updateEmailRequest);
+
+  Future<List<ProfileModel>?> getUserProfiles(int id);
+
+  Future<ProfileModel?> createProfile(int id, ProfileCreationRequest profile);
+
+  Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest);
+
+  Future<void> deleteProfile(int id, int profileId);
 }

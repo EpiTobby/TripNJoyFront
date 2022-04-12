@@ -58,12 +58,12 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<LoginResponse>> _authGooglePost(
+  Future<Response<GoogleAuthResponse>> _authGooglePost(
       {required GoogleRequest? body}) {
     final $url = '/auth/google';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
-    return client.send<LoginResponse, LoginResponse>($request);
+    return client.send<GoogleAuthResponse, GoogleAuthResponse>($request);
   }
 
   @override
@@ -81,17 +81,6 @@ class _$Api extends Api {
       required num? profile,
       required ProfileUpdateRequest? body}) {
     final $url = '/${id}/profiles/${profile}/update';
-    final $body = body;
-    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _idProfilesProfileReusePatch(
-      {required num? id,
-      required num? profile,
-      required AvailabilityAnswerModel? body}) {
-    final $url = '/${id}/profiles/${profile}/reuse';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);

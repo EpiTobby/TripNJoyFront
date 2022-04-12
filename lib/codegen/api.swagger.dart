@@ -101,17 +101,17 @@ abstract class Api extends ChopperService {
       {@Body() required LoginRequest? body});
 
   ///Log a user, to allow authenticated endpoints
-  Future<chopper.Response<LoginResponse>> authGooglePost(
+  Future<chopper.Response<GoogleAuthResponse>> authGooglePost(
       {required GoogleRequest? body}) {
     generatedMapping.putIfAbsent(
-        LoginResponse, () => LoginResponse.fromJsonFactory);
+        GoogleAuthResponse, () => GoogleAuthResponse.fromJsonFactory);
 
     return _authGooglePost(body: body);
   }
 
   ///Log a user, to allow authenticated endpoints
   @Post(path: '/auth/google')
-  Future<chopper.Response<LoginResponse>> _authGooglePost(
+  Future<chopper.Response<GoogleAuthResponse>> _authGooglePost(
       {@Body() required GoogleRequest? body});
 
   ///Used to receive a confirmation to update a password
@@ -143,25 +143,6 @@ abstract class Api extends ChopperService {
       {@Path('id') required num? id,
       @Path('profile') required num? profile,
       @Body() required ProfileUpdateRequest? body});
-
-  ///Reuse a profile of the users
-  ///@param id
-  ///@param profile
-  Future<chopper.Response> idProfilesProfileReusePatch(
-      {required num? id,
-      required num? profile,
-      required AvailabilityAnswerModel? body}) {
-    return _idProfilesProfileReusePatch(id: id, profile: profile, body: body);
-  }
-
-  ///Reuse a profile of the users
-  ///@param id
-  ///@param profile
-  @Patch(path: '/{id}/profiles/{profile}/reuse')
-  Future<chopper.Response> _idProfilesProfileReusePatch(
-      {@Path('id') required num? id,
-      @Path('profile') required num? profile,
-      @Body() required AvailabilityAnswerModel? body});
 
   ///Used to update the user information
   ///@param id
@@ -373,7 +354,8 @@ extension $AvailabilityAnswerModelExtension on AvailabilityAnswerModel {
 @JsonSerializable(explicitToJson: true)
 class ProfileCreationRequest {
   ProfileCreationRequest({
-    this.availability,
+    this.name,
+    this.availabilities,
     this.duration,
     this.budget,
     this.destinationTypes,
@@ -392,8 +374,10 @@ class ProfileCreationRequest {
   factory ProfileCreationRequest.fromJson(Map<String, dynamic> json) =>
       _$ProfileCreationRequestFromJson(json);
 
-  @JsonKey(name: 'availability')
-  final AvailabilityAnswerModel? availability;
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'availabilities', defaultValue: <AvailabilityAnswerModel>[])
+  final List<AvailabilityAnswerModel>? availabilities;
   @JsonKey(name: 'duration')
   final RangeAnswerModel? duration;
   @JsonKey(name: 'budget')
@@ -458,9 +442,11 @@ class ProfileCreationRequest {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ProfileCreationRequest &&
-            (identical(other.availability, availability) ||
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.availabilities, availabilities) ||
                 const DeepCollectionEquality()
-                    .equals(other.availability, availability)) &&
+                    .equals(other.availabilities, availabilities)) &&
             (identical(other.duration, duration) ||
                 const DeepCollectionEquality()
                     .equals(other.duration, duration)) &&
@@ -504,7 +490,8 @@ class ProfileCreationRequest {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(availability) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(availabilities) ^
       const DeepCollectionEquality().hash(duration) ^
       const DeepCollectionEquality().hash(budget) ^
       const DeepCollectionEquality().hash(destinationTypes) ^
@@ -523,7 +510,8 @@ class ProfileCreationRequest {
 
 extension $ProfileCreationRequestExtension on ProfileCreationRequest {
   ProfileCreationRequest copyWith(
-      {AvailabilityAnswerModel? availability,
+      {String? name,
+      List<AvailabilityAnswerModel>? availabilities,
       RangeAnswerModel? duration,
       RangeAnswerModel? budget,
       List<enums.ProfileCreationRequestDestinationTypes>? destinationTypes,
@@ -541,7 +529,8 @@ extension $ProfileCreationRequestExtension on ProfileCreationRequest {
       enums.ProfileCreationRequestGoOutAtNight? goOutAtNight,
       enums.ProfileCreationRequestSport? sport}) {
     return ProfileCreationRequest(
-        availability: availability ?? this.availability,
+        name: name ?? this.name,
+        availabilities: availabilities ?? this.availabilities,
         duration: duration ?? this.duration,
         budget: budget ?? this.budget,
         destinationTypes: destinationTypes ?? this.destinationTypes,
@@ -610,7 +599,8 @@ extension $RangeAnswerModelExtension on RangeAnswerModel {
 class ProfileModel {
   ProfileModel({
     this.id,
-    this.availability,
+    this.name,
+    this.availabilities,
     this.duration,
     this.budget,
     this.destinationTypes,
@@ -633,8 +623,10 @@ class ProfileModel {
 
   @JsonKey(name: 'id')
   final num? id;
-  @JsonKey(name: 'availability')
-  final AvailabilityAnswerModel? availability;
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'availabilities', defaultValue: <AvailabilityAnswerModel>[])
+  final List<AvailabilityAnswerModel>? availabilities;
   @JsonKey(name: 'duration')
   final RangeAnswerModel? duration;
   @JsonKey(name: 'budget')
@@ -705,9 +697,11 @@ class ProfileModel {
         (other is ProfileModel &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.availability, availability) ||
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.availabilities, availabilities) ||
                 const DeepCollectionEquality()
-                    .equals(other.availability, availability)) &&
+                    .equals(other.availabilities, availabilities)) &&
             (identical(other.duration, duration) ||
                 const DeepCollectionEquality()
                     .equals(other.duration, duration)) &&
@@ -755,7 +749,8 @@ class ProfileModel {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(availability) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(availabilities) ^
       const DeepCollectionEquality().hash(duration) ^
       const DeepCollectionEquality().hash(budget) ^
       const DeepCollectionEquality().hash(destinationTypes) ^
@@ -777,7 +772,8 @@ class ProfileModel {
 extension $ProfileModelExtension on ProfileModel {
   ProfileModel copyWith(
       {num? id,
-      AvailabilityAnswerModel? availability,
+      String? name,
+      List<AvailabilityAnswerModel>? availabilities,
       RangeAnswerModel? duration,
       RangeAnswerModel? budget,
       List<enums.ProfileModelDestinationTypes>? destinationTypes,
@@ -798,7 +794,8 @@ extension $ProfileModelExtension on ProfileModel {
       bool? active}) {
     return ProfileModel(
         id: id ?? this.id,
-        availability: availability ?? this.availability,
+        name: name ?? this.name,
+        availabilities: availabilities ?? this.availabilities,
         duration: duration ?? this.duration,
         budget: budget ?? this.budget,
         destinationTypes: destinationTypes ?? this.destinationTypes,
@@ -1040,8 +1037,6 @@ class GoogleRequest {
     this.accessToken,
     this.profilePicture,
     this.phoneNumber,
-    this.birthdate,
-    this.gender,
     this.email,
   });
 
@@ -1058,10 +1053,6 @@ class GoogleRequest {
   final String? profilePicture;
   @JsonKey(name: 'phoneNumber')
   final String? phoneNumber;
-  @JsonKey(name: 'birthdate')
-  final DateTime? birthdate;
-  @JsonKey(name: 'gender')
-  final String? gender;
   @JsonKey(name: 'email')
   final String? email;
   static const fromJsonFactory = _$GoogleRequestFromJson;
@@ -1087,11 +1078,6 @@ class GoogleRequest {
             (identical(other.phoneNumber, phoneNumber) ||
                 const DeepCollectionEquality()
                     .equals(other.phoneNumber, phoneNumber)) &&
-            (identical(other.birthdate, birthdate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthdate, birthdate)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
             (identical(other.email, email) ||
                 const DeepCollectionEquality().equals(other.email, email)));
   }
@@ -1103,8 +1089,6 @@ class GoogleRequest {
       const DeepCollectionEquality().hash(accessToken) ^
       const DeepCollectionEquality().hash(profilePicture) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
-      const DeepCollectionEquality().hash(birthdate) ^
-      const DeepCollectionEquality().hash(gender) ^
       const DeepCollectionEquality().hash(email) ^
       runtimeType.hashCode;
 }
@@ -1116,8 +1100,6 @@ extension $GoogleRequestExtension on GoogleRequest {
       String? accessToken,
       String? profilePicture,
       String? phoneNumber,
-      DateTime? birthdate,
-      String? gender,
       String? email}) {
     return GoogleRequest(
         firstname: firstname ?? this.firstname,
@@ -1125,9 +1107,59 @@ extension $GoogleRequestExtension on GoogleRequest {
         accessToken: accessToken ?? this.accessToken,
         profilePicture: profilePicture ?? this.profilePicture,
         phoneNumber: phoneNumber ?? this.phoneNumber,
-        birthdate: birthdate ?? this.birthdate,
-        gender: gender ?? this.gender,
         email: email ?? this.email);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GoogleAuthResponse {
+  GoogleAuthResponse({
+    this.username,
+    this.token,
+    this.newUser,
+  });
+
+  factory GoogleAuthResponse.fromJson(Map<String, dynamic> json) =>
+      _$GoogleAuthResponseFromJson(json);
+
+  @JsonKey(name: 'username')
+  final String? username;
+  @JsonKey(name: 'token')
+  final String? token;
+  @JsonKey(name: 'newUser')
+  final bool? newUser;
+  static const fromJsonFactory = _$GoogleAuthResponseFromJson;
+  static const toJsonFactory = _$GoogleAuthResponseToJson;
+  Map<String, dynamic> toJson() => _$GoogleAuthResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is GoogleAuthResponse &&
+            (identical(other.username, username) ||
+                const DeepCollectionEquality()
+                    .equals(other.username, username)) &&
+            (identical(other.token, token) ||
+                const DeepCollectionEquality().equals(other.token, token)) &&
+            (identical(other.newUser, newUser) ||
+                const DeepCollectionEquality().equals(other.newUser, newUser)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(username) ^
+      const DeepCollectionEquality().hash(token) ^
+      const DeepCollectionEquality().hash(newUser) ^
+      runtimeType.hashCode;
+}
+
+extension $GoogleAuthResponseExtension on GoogleAuthResponse {
+  GoogleAuthResponse copyWith(
+      {String? username, String? token, bool? newUser}) {
+    return GoogleAuthResponse(
+        username: username ?? this.username,
+        token: token ?? this.token,
+        newUser: newUser ?? this.newUser);
   }
 }
 
@@ -1168,7 +1200,8 @@ extension $ForgotPasswordRequestExtension on ForgotPasswordRequest {
 @JsonSerializable(explicitToJson: true)
 class ProfileUpdateRequest {
   ProfileUpdateRequest({
-    this.availability,
+    this.name,
+    this.availabilities,
     this.duration,
     this.budget,
     this.destinationTypes,
@@ -1188,8 +1221,10 @@ class ProfileUpdateRequest {
   factory ProfileUpdateRequest.fromJson(Map<String, dynamic> json) =>
       _$ProfileUpdateRequestFromJson(json);
 
-  @JsonKey(name: 'availability')
-  final AvailabilityAnswerModel? availability;
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'availabilities', defaultValue: <AvailabilityAnswerModel>[])
+  final List<AvailabilityAnswerModel>? availabilities;
   @JsonKey(name: 'duration')
   final RangeAnswerModel? duration;
   @JsonKey(name: 'budget')
@@ -1256,9 +1291,11 @@ class ProfileUpdateRequest {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ProfileUpdateRequest &&
-            (identical(other.availability, availability) ||
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.availabilities, availabilities) ||
                 const DeepCollectionEquality()
-                    .equals(other.availability, availability)) &&
+                    .equals(other.availabilities, availabilities)) &&
             (identical(other.duration, duration) ||
                 const DeepCollectionEquality()
                     .equals(other.duration, duration)) &&
@@ -1303,7 +1340,8 @@ class ProfileUpdateRequest {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(availability) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(availabilities) ^
       const DeepCollectionEquality().hash(duration) ^
       const DeepCollectionEquality().hash(budget) ^
       const DeepCollectionEquality().hash(destinationTypes) ^
@@ -1323,7 +1361,8 @@ class ProfileUpdateRequest {
 
 extension $ProfileUpdateRequestExtension on ProfileUpdateRequest {
   ProfileUpdateRequest copyWith(
-      {AvailabilityAnswerModel? availability,
+      {String? name,
+      List<AvailabilityAnswerModel>? availabilities,
       RangeAnswerModel? duration,
       RangeAnswerModel? budget,
       List<enums.ProfileUpdateRequestDestinationTypes>? destinationTypes,
@@ -1342,7 +1381,8 @@ extension $ProfileUpdateRequestExtension on ProfileUpdateRequest {
       enums.ProfileUpdateRequestSport? sport,
       bool? active}) {
     return ProfileUpdateRequest(
-        availability: availability ?? this.availability,
+        name: name ?? this.name,
+        availabilities: availabilities ?? this.availabilities,
         duration: duration ?? this.duration,
         budget: budget ?? this.budget,
         destinationTypes: destinationTypes ?? this.destinationTypes,
@@ -1405,6 +1445,8 @@ class UserUpdateRequest {
     this.profilePicture,
     this.city,
     this.phoneNumber,
+    this.birthdate,
+    this.gender,
   });
 
   factory UserUpdateRequest.fromJson(Map<String, dynamic> json) =>
@@ -1420,6 +1462,10 @@ class UserUpdateRequest {
   final CityModel? city;
   @JsonKey(name: 'phoneNumber')
   final String? phoneNumber;
+  @JsonKey(name: 'birthdate')
+  final DateTime? birthdate;
+  @JsonKey(name: 'gender')
+  final String? gender;
   static const fromJsonFactory = _$UserUpdateRequestFromJson;
   static const toJsonFactory = _$UserUpdateRequestToJson;
   Map<String, dynamic> toJson() => _$UserUpdateRequestToJson(this);
@@ -1441,7 +1487,12 @@ class UserUpdateRequest {
                 const DeepCollectionEquality().equals(other.city, city)) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)));
+                    .equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.birthdate, birthdate) ||
+                const DeepCollectionEquality()
+                    .equals(other.birthdate, birthdate)) &&
+            (identical(other.gender, gender) ||
+                const DeepCollectionEquality().equals(other.gender, gender)));
   }
 
   @override
@@ -1451,6 +1502,8 @@ class UserUpdateRequest {
       const DeepCollectionEquality().hash(profilePicture) ^
       const DeepCollectionEquality().hash(city) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
+      const DeepCollectionEquality().hash(birthdate) ^
+      const DeepCollectionEquality().hash(gender) ^
       runtimeType.hashCode;
 }
 
@@ -1460,13 +1513,17 @@ extension $UserUpdateRequestExtension on UserUpdateRequest {
       String? lastname,
       String? profilePicture,
       CityModel? city,
-      String? phoneNumber}) {
+      String? phoneNumber,
+      DateTime? birthdate,
+      String? gender}) {
     return UserUpdateRequest(
         firstname: firstname ?? this.firstname,
         lastname: lastname ?? this.lastname,
         profilePicture: profilePicture ?? this.profilePicture,
         city: city ?? this.city,
-        phoneNumber: phoneNumber ?? this.phoneNumber);
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        birthdate: birthdate ?? this.birthdate,
+        gender: gender ?? this.gender);
   }
 }
 

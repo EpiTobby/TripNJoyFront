@@ -129,4 +129,30 @@ class CodegenService extends HttpService {
   Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest) async {
     await api.authIdPasswordPatch(id: id, body: updatePasswordRequest);
   }
+
+  @override
+  Future<ProfileModel?> createProfile(int id, ProfileCreationRequest profile) async {
+    final response = await api.idProfilesPost(id: id, body: profile);
+
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteProfile(int id, int profileId) async {
+    await api.idProfilesProfileDelete(id: id, profile: profileId);
+  }
+
+  @override
+  Future<List<ProfileModel>?> getUserProfiles(int id) async {
+    final response = await api.idProfilesGet(id: id);
+
+    return response.body;
+  }
+
+  @override
+  Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest) async {
+    await api.idProfilesProfileUpdatePatch(id: id, profile: profileId, body: profileUpdateRequest);
+  }
+
+  
 }

@@ -1,12 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
-import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/swipe.provider.dart';
-import 'package:trip_n_joy_front/services/matchmaking/swipe.service.dart';
 import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
 
 import '../../../constants/matchmaking/swipe.icons.dart';
@@ -22,7 +19,8 @@ class SwipeCard extends ConsumerWidget {
       this.shadowColor,
       this.onTop = false,
       this.isLoading = false,
-      required this.values})
+      required this.values,
+      this.updateProfile})
       : super(key: key);
 
   final String name;
@@ -34,6 +32,7 @@ class SwipeCard extends ConsumerWidget {
   final bool onTop;
   final bool isLoading;
   final List<String> values;
+  final Function? updateProfile;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,6 +40,7 @@ class SwipeCard extends ConsumerWidget {
   }
 
   Widget buildFrontCard(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(swipeProvider);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
@@ -63,16 +63,13 @@ class SwipeCard extends ConsumerWidget {
             child: buildCard(context),
           );
         }), onPanStart: (details) {
-          final provider = ref.watch(swipeProvider);
           provider.startPosition(details);
         }, onPanUpdate: (details) {
-          final provider = ref.watch(swipeProvider);
           provider.updatePosition(details);
         }, onPanEnd: (details) {
-          final provider = ref.watch(swipeProvider);
           provider.endPosition(details, name, values);
         }),
-        SwipeButtons(name: name, values: values),
+        SwipeButtons(name: name, values: values, updateProfile: updateProfile),
       ],
     );
   }
@@ -165,14 +162,11 @@ class SwipeCard extends ConsumerWidget {
 }
 
 class SwipeButtons extends ConsumerWidget {
-  const SwipeButtons({
-    Key? key,
-    required this.name,
-    required this.values,
-  }) : super(key: key);
+  const SwipeButtons({Key? key, required this.name, required this.values, this.updateProfile}) : super(key: key);
 
   final String name;
   final List<String> values;
+  final Function? updateProfile;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -180,18 +174,45 @@ class SwipeButtons extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        SwipeButton(
-            icon: Icons.arrow_circle_left_outlined,
-            color: Theme.of(context).colorScheme.secondary,
-            onPressed: () => provider.swipeLeft(name, values[0])),
+        Transform.rotate(
+          angle: -90 * pi / 180,
+          child: SwipeButton(
+              icon: Icons.arrow_circle_up_outlined,
+              color: Theme.of(context).colorScheme.secondary,
+              onPressed: () {
+                if (updateProfile != null) {
+                  updateProfile!(name, values[0]);
+                }
+                else {
+                  provider.swipeLeft(name, values[0]);
+                }
+              }),
+        ),
         SwipeButton(
             icon: Icons.arrow_circle_down_outlined,
             color: Theme.of(context).colorScheme.primaryContainer,
-            onPressed: () => provider.swipeDown(name, values[1])),
-        SwipeButton(
-            icon: Icons.arrow_circle_right_outlined,
-            color: Theme.of(context).colorScheme.tertiary,
-            onPressed: () => provider.swipeRight(name, values[2])),
+            onPressed: () {
+              if (updateProfile != null) {
+                updateProfile!(name, values[2]);
+              }
+              else {
+                provider.swipeDown(name, values[2]);
+              }
+            }),
+        Transform.rotate(
+          angle: 90 * pi / 180,
+          child: SwipeButton(
+              icon: Icons.arrow_circle_up_outlined,
+              color: Theme.of(context).colorScheme.tertiary,
+              onPressed: () {
+                if (updateProfile != null) {
+                  updateProfile!(name, values[1]);
+                }
+                else {
+                  provider.swipeRight(name, values[1]);
+                }
+              }),
+        ),
       ],
     );
   }

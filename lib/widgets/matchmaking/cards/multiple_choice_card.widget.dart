@@ -18,7 +18,8 @@ class MultipleChoiceCard extends HookConsumerWidget {
       required this.backgroundColor,
       this.shadowColor,
       this.isLoading = false,
-      required this.values})
+      required this.values,
+      required this.onPressed})
       : super(key: key);
 
   final String name;
@@ -29,16 +30,16 @@ class MultipleChoiceCard extends HookConsumerWidget {
   final Color? shadowColor;
   final bool isLoading;
   final List<String> values;
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final animation = useAnimationController(
       duration: const Duration(milliseconds: 500),
     );
-    final offset = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, -2))
+    final offset = Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, -2))
         .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
     final selectedValues = useState<List<String>>([]);
-    final matchmakingService = ref.watch(matchmakingProvider.notifier);
     final scrollController = useState(ScrollController());
     return SlideTransition(
       position: offset,
@@ -84,7 +85,7 @@ class MultipleChoiceCard extends HookConsumerWidget {
               text: AppLocalizations.of(context).translate('common.validate'),
               onPressed: () {
                 animation.forward().whenComplete(() {
-                  matchmakingService.submitMultipleChoiceCard(name, selectedValues.value);
+                  onPressed(name, selectedValues.value);
                   selectedValues.value = [];
                 });
               },

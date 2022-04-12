@@ -9,17 +9,18 @@ import 'package:trip_n_joy_front/widgets/common/input.widget.dart';
 import '../../common/button.widget.dart';
 
 class NameProfileCard extends HookConsumerWidget {
-  const NameProfileCard({Key? key, this.isLoading = false}) : super(key: key);
+  const NameProfileCard({Key? key, this.isLoading = false, required this.onPressed}) : super(key: key);
 
   final bool isLoading;
-  final name = "name_profile";
+  final name = "name";
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final animation = useAnimationController(
       duration: const Duration(milliseconds: 500),
     );
-    final offset = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, -2))
+    final offset = Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, -2))
         .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
     final profileName = useState("");
     final matchmakingService = ref.watch(matchmakingProvider.notifier);
@@ -49,7 +50,7 @@ class NameProfileCard extends HookConsumerWidget {
               isDisabled: profileName.value.isEmpty,
               onPressed: () {
                 animation.forward().whenComplete(() {
-                  matchmakingService.submitCard(name, profileName.value);
+                  onPressed(name, profileName.value);
                 });
               },
             ),

@@ -18,7 +18,8 @@ class RangeCard extends StatefulHookConsumerWidget {
       this.shadowColor,
       this.isLoading = false,
       required this.min,
-      required this.max})
+      required this.max,
+      required this.onPressed})
       : super(key: key);
 
   final String name;
@@ -30,6 +31,7 @@ class RangeCard extends StatefulHookConsumerWidget {
   final bool isLoading;
   final double min;
   final double max;
+  final Function onPressed;
 
   @override
   ConsumerState<RangeCard> createState() => _RangeCardState();
@@ -43,13 +45,12 @@ class _RangeCardState extends ConsumerState<RangeCard> {
     final animation = useAnimationController(
       duration: const Duration(milliseconds: 500),
     );
-    final offset = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, -2))
+    final offset = Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, -2))
         .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
 
     if (values == null || values!.start < widget.min || values!.end > widget.max) {
       values = RangeValues(widget.min, widget.max);
     }
-    final matchmakingService = ref.watch(matchmakingProvider.notifier);
     return SlideTransition(
       position: offset,
       child: StandardCard(
@@ -80,7 +81,7 @@ class _RangeCardState extends ConsumerState<RangeCard> {
             PrimaryButton(
               text: AppLocalizations.of(context).translate('common.validate'),
               onPressed: () {
-                matchmakingService.submitRangeValue(widget.name, values!);
+                widget.onPressed(widget.name, values!);
               },
             ),
           ],
