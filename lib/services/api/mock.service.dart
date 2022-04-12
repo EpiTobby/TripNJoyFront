@@ -1,5 +1,4 @@
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
-import 'package:trip_n_joy_front/models/auth/session_token.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/services/auth/auth.service.dart';
