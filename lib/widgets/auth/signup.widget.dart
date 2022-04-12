@@ -26,7 +26,7 @@ class _SignUpState extends ConsumerState<SignUp> {
   @override
   Widget build(BuildContext context) {
     final stepProvider = ref.watch(authStepProvider.notifier);
-    final authService = ref.watch(authProvider);
+    final authViewModel = ref.watch(authProvider);
     final firstname = useState('');
     final lastname = useState('');
     final email = useState('');
@@ -64,13 +64,13 @@ class _SignUpState extends ConsumerState<SignUp> {
                   label: AppLocalizations.of(context).translate("user.firstname"),
                   hint: AppLocalizations.of(context).translate("auth.firstname"),
                   onChanged: (value) => firstname.value = value,
-                  isError: authService.signupState.isError,
+                  isError: authViewModel.signupState.isError,
                   icon: const Icon(Icons.person)),
               InputField(
                   label: AppLocalizations.of(context).translate("user.lastname"),
                   hint: AppLocalizations.of(context).translate("auth.lastname"),
                   onChanged: (value) => lastname.value = value,
-                  isError: authService.signupState.isError,
+                  isError: authViewModel.signupState.isError,
                   icon: const Icon(Icons.person)),
               DatePicker(
                   label: AppLocalizations.of(context).translate("user.birthDate"),
@@ -82,20 +82,20 @@ class _SignUpState extends ConsumerState<SignUp> {
                   onChanged: (value) => email.value = value,
                   keyboardType: TextInputType.emailAddress,
                   textCapitalization: TextCapitalization.none,
-                  isError: authService.signupState.isError,
+                  isError: authViewModel.signupState.isError,
                   icon: const Icon(Icons.email)),
               InputField(
                   label: AppLocalizations.of(context).translate("user.password"),
                   hint: AppLocalizations.of(context).translate("auth.password"),
                   onChanged: (value) => password.value = value,
                   icon: const Icon(Icons.lock),
-                  isError: authService.signupState.isError,
+                  isError: authViewModel.signupState.isError,
                   isPassword: true),
               InputField(
                   label: AppLocalizations.of(context).translate("user.phoneNumber"),
                   hint: AppLocalizations.of(context).translate("auth.phoneNumber"),
                   onChanged: (value) => phoneNumber.value = value,
-                  isError: authService.signupState.isError,
+                  isError: authViewModel.signupState.isError,
                   icon: const Icon(Icons.phone)),
             ],
           ),
@@ -106,8 +106,8 @@ class _SignUpState extends ConsumerState<SignUp> {
               children: [
                 PrimaryButton(
                     text: AppLocalizations.of(context).translate("auth.createAccount"),
-                    isLoading: authService.signupState.isLoading,
-                    onPressed: () => authService.signup(SignupCredentials(
+                    isLoading: authViewModel.signupState.isLoading,
+                    onPressed: () => authViewModel.signup(SignupCredentials(
                         gender: gender.value,
                         firstname: firstname.value,
                         lastname: lastname.value,

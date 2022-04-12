@@ -20,10 +20,10 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
   Widget build(BuildContext context) {
     final cards = ref.watch(matchmakingProvider).cards;
     final currIndex = ref.watch(matchmakingProvider).index;
-    final matchmakingService = ref.watch(matchmakingProvider.notifier);
-    final swipeService = ref.watch(swipeProvider.notifier);
-    if (swipeService.screenSize == Size.zero) {
-      swipeService.setScreenSize(MediaQuery.of(context).size);
+    final matchmakingViewModel = ref.watch(matchmakingProvider.notifier);
+    final swipeViewModel = ref.watch(swipeProvider.notifier);
+    if (swipeViewModel.screenSize == Size.zero) {
+      swipeViewModel.setScreenSize(MediaQuery.of(context).size);
     }
 
     final animationController = useAnimationController(duration: const Duration(milliseconds: 150), vsync: this);
@@ -32,24 +32,23 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
     final scaleAnim = Tween(begin: 0.965, end: 1.0).animate(animation);
 
     return Scaffold(
-        appBar: AppBar(
-          leading: cards.isNotEmpty && cards.first.runtimeType != ProfileCreationCard
-              ? IconButton(onPressed: () => {
-                matchmakingService.previousCard()
-          }, icon: const Icon(Icons.arrow_back_rounded))
-              : null ,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.account_circle),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileSettings()));
-              },
-            ),
-          ],
-          foregroundColor: Theme.of(context).colorScheme.primary,
-          backgroundColor: Theme.of(context).colorScheme.onPrimary,
-          shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-        ),
+      appBar: AppBar(
+        leading: cards.isNotEmpty && cards.first.runtimeType != ProfileCreationCard
+            ? IconButton(
+                onPressed: () => {matchmakingViewModel.previousCard()}, icon: const Icon(Icons.arrow_back_rounded))
+            : null,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.account_circle),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileSettings()));
+            },
+          ),
+        ],
+        foregroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+        shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+      ),
       body: Container(
         child: cards.isEmpty || currIndex >= cards.length || currIndex < 0
             ? const ProfileCreationCard()

@@ -8,8 +8,7 @@ import 'package:trip_n_joy_front/widgets/matchmaking/profile_detail.widget.dart'
 import '../../codegen/api.swagger.dart';
 
 class ProfileMenu extends ConsumerWidget {
-  const ProfileMenu(
-      {Key? key, required this.value, required this.profileModel, required this.parentContext})
+  const ProfileMenu({Key? key, required this.value, required this.profileModel, required this.parentContext})
       : super(key: key);
 
   final String value;
@@ -18,7 +17,7 @@ class ProfileMenu extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profileService = ref.watch(profileProvider.notifier);
+    final profileViewModel = ref.watch(profileProvider.notifier);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,7 +43,7 @@ class ProfileMenu extends ConsumerWidget {
                   ],
                 ),
                 onTap: () {
-                  profileService.updateProfile(
+                  profileViewModel.updateProfile(
                       profileModel.id!.toInt(), ProfileUpdateRequest.fromJsonFactory({"active": true}));
                 },
               ),
@@ -68,7 +67,7 @@ class ProfileMenu extends ConsumerWidget {
                 ],
               ),
               onTap: () {
-                profileService.deleteProfile(profileModel.id!.toInt());
+                profileViewModel.deleteProfile(profileModel.id!.toInt());
               },
             ),
           ],

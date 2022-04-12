@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
-import '../api/http.service.dart';
+import '../../services/api/http.service.dart';
 
-class SettingsService extends ChangeNotifier {
-  SettingsService(this.httpService) {
+class SettingsViewModel extends ChangeNotifier {
+  SettingsViewModel(this.httpService) {
     httpService.init();
   }
 

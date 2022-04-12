@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
-import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
@@ -34,8 +33,7 @@ class _GroupsSettingsState extends State<GroupsSettings> {
           LayoutItem(
             title: AppLocalizations.of(context).translate("common.description"),
             child: LayoutItemValue(
-              value:
-                  "Ce groupe est destiné à ...", // TODO : handle overflow of the text
+              value: "Ce groupe est destiné à ...", // TODO : handle overflow of the text
               icon: const Icon(Icons.keyboard_arrow_right_sharp),
               onPressed: () {},
             ),

@@ -13,7 +13,7 @@ class ProfileCreationCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final matchmakingService = ref.watch(matchmakingProvider.notifier);
+    final matchmakingViewModel = ref.watch(matchmakingProvider.notifier);
     return StandardCard(
       title: AppLocalizations.of(context).translate('cards.creation_profile.title'),
       subtitle: AppLocalizations.of(context).translate('cards.creation_profile.subtitle'),
@@ -23,7 +23,7 @@ class ProfileCreationCard extends ConsumerWidget {
       child: Center(
         child: PrimaryButton(
             text: AppLocalizations.of(context).translate('common.start'),
-            onPressed: () => matchmakingService.startProfileCreation()),
+            onPressed: () => matchmakingViewModel.startProfileCreation()),
       ),
     );
   }
