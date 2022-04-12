@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:minio/io.dart';
+import 'package:minio/minio.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
 import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
-import 'package:trip_n_joy_front/services/auth/auth.service.dart';
-import 'package:trip_n_joy_front/services/user/user.service.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_password.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
@@ -17,13 +18,9 @@ import 'package:trip_n_joy_front/widgets/common/snackbar.widget.dart';
 import '../../providers/auth/auth.provider.dart';
 import '../../providers/user/user.provider.dart';
 import '../../services/log/logger.service.dart';
+import '../../viewmodels/auth/auth.viewmodel.dart';
+import '../../viewmodels/user/user.viewmodel.dart';
 import '../../widgets/common/input_dialog.widget.dart';
-
-import 'package:image_picker/image_picker.dart';
-
-import 'package:minio/io.dart';
-import 'package:minio/minio.dart';
-
 import '../../widgets/common/input_dialog_email.widget.dart';
 
 const DEFAULT_AVATAR_URL = "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png";
@@ -43,7 +40,7 @@ class SettingsPage extends StatefulHookConsumerWidget {
 class _SettingsPageState extends ConsumerState<SettingsPage> {
   bool _darkMode = false;
 
-  void upload(UserService userService, AuthService authService) async {
+  void upload(UserViewModel userViewModel, AuthViewModel authViewModel) async {
     var pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
@@ -67,14 +64,13 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
 
     var imageURL = await minio.presignedGetObject(MINIO_BUCKET, pickedFile.name);
 
-    userService.updateUser(authService.token!, UserUpdateRequest(profilePicture: imageURL));
+    userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(profilePicture: imageURL));
   }
 
   @override
   Widget build(BuildContext context) {
-    var settingsService = ref.watch(settingsProvider);
-    final userService = ref.watch(userProvider.notifier);
-    final authService = ref.watch(authProvider);
+    final userViewModel = ref.watch(userProvider.notifier);
+    final authViewModel = ref.watch(authProvider);
     var user = ref.watch(userProvider).value;
 
     if (user == null) {
@@ -86,7 +82,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         LayoutHeader(
           title: "${user.firstname} ${user.lastname}",
           imageURL: user.profilePicture ?? DEFAULT_AVATAR_URL,
-          onClick: () => upload(userService, authService),
+          onClick: () => upload(userViewModel, authViewModel),
         ),
         LayoutBox(title: AppLocalizations.of(context).translate("settings.about"), children: <Widget>[
           LayoutItem(
@@ -103,7 +99,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                             label: AppLocalizations.of(context).translate("user.firstname"),
                             initialValue: user.firstname!,
                             onConfirm: (value) async {
-                              userService.updateUser(authService.token!, UserUpdateRequest(firstname: value));
+                              userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(firstname: value));
                             });
                       });
                 },
@@ -122,7 +118,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                             label: AppLocalizations.of(context).translate("user.lastname"),
                             initialValue: user.lastname!,
                             onConfirm: (value) async {
-                              userService.updateUser(authService.token!, UserUpdateRequest(lastname: value));
+                              userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(lastname: value));
                             });
                       });
                 },
@@ -137,7 +133,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialogEmail(onConfirm: (newEmail, password) async {
-                          await userService.updateEmail(
+                          await userViewModel.updateEmail(
                               user.id!.toInt(), UpdateEmailRequest(newEmail: newEmail, password: password));
                         });
                       });
@@ -153,7 +149,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialogPassword(onConfirm: (password, newPassword) async {
-                          authService
+                          authViewModel
                               .updatePassword(UpdatePasswordRequest(oldPassword: password, newPassword: newPassword));
                         });
                       });
@@ -173,7 +169,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                             label: AppLocalizations.of(context).translate("user.phoneNumber"),
                             initialValue: user.phoneNumber ?? "",
                             onConfirm: (value) async {
-                              userService.updateUser(authService.token!, UserUpdateRequest(phoneNumber: value));
+                              userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(phoneNumber: value));
                             });
                       });
                 },
@@ -206,7 +202,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             value: AppLocalizations.of(context).translate("common.logout"),
             icon: const Icon(Icons.exit_to_app),
             onPressed: () {
-              authService.logout();
+              authViewModel.logout();
             },
           )),
           LayoutItem(
@@ -225,9 +221,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         initialValue: user.lastname!,
                         onConfirm: (value) async {
                           final success =
-                              await userService.deleteUser(authService.token!, DeleteUserRequest(password: value));
+                              await userViewModel.deleteUser(authViewModel.token!, DeleteUserRequest(password: value));
                           if (success) {
-                            authService.logout();
+                            authViewModel.logout();
                           } else {
                             throw HttpException(
                                 message: AppLocalizations.of(context).translate("errors.wrongPassword"));

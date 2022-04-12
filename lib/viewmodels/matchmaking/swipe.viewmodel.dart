@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:trip_n_joy_front/services/matchmaking/matchmaking.service.dart';
 
 import '../../constants/matchmaking/card_status.enum.dart';
-import '../log/logger.service.dart';
+import '../../services/log/logger.service.dart';
+import 'matchmaking.viewmodel.dart';
 
-class SwipeService extends ChangeNotifier {
-  SwipeService(this.matchmakingService);
+class SwipeViewModel extends ChangeNotifier {
+  SwipeViewModel(this.matchmakingViewModel);
 
-  final MatchmakingService matchmakingService;
+  final MatchmakingViewModel matchmakingViewModel;
 
   bool _isDragging = false;
   double _angle = 0;
@@ -110,7 +110,7 @@ class SwipeService extends ChangeNotifier {
 
   void nextCard(String name, String value) async {
     Future.delayed(const Duration(milliseconds: 200), () {
-      matchmakingService.submitCard(name, value);
+      matchmakingViewModel.submitCard(name, value);
       resetPosition();
     });
   }

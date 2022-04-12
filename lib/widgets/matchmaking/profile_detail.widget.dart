@@ -4,13 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
-import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
-
-import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/availability_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/multiple_choice_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/range_card.widget.dart';
@@ -27,14 +25,11 @@ class ProfileDetail extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final profileModels = ref.watch(profileProvider);
     final profileModel = profileModels!.firstWhere((profile) => profile.id == profileId);
-    final profileService = ref.watch(profileProvider.notifier);
+    final profileViewModel = ref.watch(profileProvider.notifier);
 
     final updateProfileSwap = (name, value) async {
-      await profileService.updateProfile(
-          profileModel.id!.toInt(),
-          ProfileUpdateRequest.fromJsonFactory({
-            name: value
-          }));
+      await profileViewModel.updateProfile(
+          profileModel.id!.toInt(), ProfileUpdateRequest.fromJsonFactory({name: value}));
       Navigator.pop(context);
     };
 
@@ -62,7 +57,7 @@ class ProfileDetail extends ConsumerWidget {
                           label: AppLocalizations.of(context).translate("profile.name"),
                           initialValue: profileModel.name!,
                           onConfirm: (value) async {
-                            profileService.updateProfile(
+                            profileViewModel.updateProfile(
                                 profileModel.id!.toInt(),
                                 ProfileUpdateRequest.fromJsonFactory({
                                   "name": value,
@@ -93,13 +88,15 @@ class ProfileDetail extends ConsumerWidget {
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                         child: AvailabilityCard(onPressed: (name, value) async {
-                          await profileService.updateProfile(
+                          await profileViewModel.updateProfile(
                               profileModel.id!.toInt(),
                               ProfileUpdateRequest.fromJsonFactory({
-                                name: value.map((e) => {
-                                      "startDate": e.startDate.toIso8601String(),
-                                      "endDate": e.endDate.toIso8601String()
-                                    }).toList()
+                                name: value
+                                    .map((e) => {
+                                          "startDate": e.startDate.toIso8601String(),
+                                          "endDate": e.endDate.toIso8601String()
+                                        })
+                                    .toList()
                               }));
                           Navigator.pop(context);
                         }),
@@ -132,7 +129,7 @@ class ProfileDetail extends ConsumerWidget {
                                 color: CColors.primary,
                                 backgroundColor: CardColors.yellow,
                                 onPressed: (name, value) {
-                                  profileService.updateProfile(
+                                  profileViewModel.updateProfile(
                                       profileModel.id!.toInt(),
                                       ProfileUpdateRequest.fromJsonFactory({
                                         name: {
@@ -169,7 +166,7 @@ class ProfileDetail extends ConsumerWidget {
                                 color: CColors.primary,
                                 backgroundColor: CardColors.yellow,
                                 onPressed: (name, value) {
-                                  profileService.updateProfile(
+                                  profileViewModel.updateProfile(
                                       profileModel.id!.toInt(),
                                       ProfileUpdateRequest.fromJsonFactory({
                                         name: {
@@ -207,7 +204,7 @@ class ProfileDetail extends ConsumerWidget {
                                 color: CColors.primary,
                                 backgroundColor: CardColors.yellow,
                                 onPressed: (name, value) {
-                                  profileService.updateProfile(
+                                  profileViewModel.updateProfile(
                                       profileModel.id!.toInt(),
                                       ProfileUpdateRequest.fromJsonFactory({
                                         name: {
@@ -245,7 +242,7 @@ class ProfileDetail extends ConsumerWidget {
                                 color: CColors.primary,
                                 backgroundColor: CardColors.yellow,
                                 onPressed: (name, value) {
-                                  profileService.updateProfile(
+                                  profileViewModel.updateProfile(
                                       profileModel.id!.toInt(),
                                       ProfileUpdateRequest.fromJsonFactory({
                                         name: {
@@ -380,7 +377,7 @@ class ProfileDetail extends ConsumerWidget {
                               backgroundColor: CardColors.darkBlue,
                               values: const ["mountain", "beach", "city", "countryside"],
                               onPressed: (name, value) {
-                                profileService.updateProfile(
+                                profileViewModel.updateProfile(
                                     profileModel.id!.toInt(), ProfileUpdateRequest.fromJsonFactory({name: value}));
                                 Navigator.pop(context);
                               },

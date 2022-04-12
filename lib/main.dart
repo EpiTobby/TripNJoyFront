@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,9 +11,7 @@ import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
 import 'package:trip_n_joy_front/screens/auth/verification.screen.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
-import 'package:trip_n_joy_front/services/auth/auth.service.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
-import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
 
 import 'app_localizations.dart';
@@ -111,13 +108,13 @@ class TripNJoy extends StatefulHookConsumerWidget {
 class _TripNJoyState extends ConsumerState<TripNJoy> {
   @override
   Widget build(BuildContext context) {
-    final authService = ref.watch(authProvider);
-    final userService = ref.watch(userProvider.notifier);
+    final authViewModel = ref.watch(authProvider);
+    final userViewModel = ref.watch(userProvider.notifier);
     useEffect(() {
-      authService.updateTokenFromStorage().then((value) {
+      authViewModel.updateTokenFromStorage().then((value) {
         if (value != null) {
-          userService.loadUser().then((value) {
-            if (value == null) authService.logout();
+          userViewModel.loadUser().then((value) {
+            if (value == null) authViewModel.logout();
           });
         }
       });
@@ -126,13 +123,13 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
 
     final step = ref.watch(authStepProvider) as AuthStep;
 
-    if (!authService.isAuthenticated) {
+    if (!authViewModel.isAuthenticated) {
       return const Auth();
     }
 
     useEffect(() {
-      if (authService.isAuthenticated) {
-        userService.loadUser().then((value) {
+      if (authViewModel.isAuthenticated) {
+        userViewModel.loadUser().then((value) {
           if (value != null) {
             if (value.confirmed == false) {
               logger.d("user not confirmed");
@@ -147,12 +144,12 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
             }
           } else {
             logger.d("user not found");
-            authService.logout();
+            authViewModel.logout();
           }
         });
       }
       return null;
-    }, [authService]);
+    }, [authViewModel]);
 
     final user = ref.watch(userProvider);
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;

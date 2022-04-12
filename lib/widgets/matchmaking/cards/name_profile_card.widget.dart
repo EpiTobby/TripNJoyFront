@@ -23,7 +23,6 @@ class NameProfileCard extends HookConsumerWidget {
     final offset = Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, -2))
         .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
     final profileName = useState("");
-    final matchmakingService = ref.watch(matchmakingProvider.notifier);
     return SlideTransition(
       position: offset,
       child: StandardCard(

@@ -18,7 +18,7 @@ class ResetPassword extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authService = ref.watch(authProvider);
+    final authViewModel = ref.watch(authProvider);
     final code = useState('');
     final password = useState('');
 
@@ -46,7 +46,7 @@ class ResetPassword extends HookConsumerWidget {
                 label: AppLocalizations.of(context).translate('auth.reset_password.code'),
                 hint: AppLocalizations.of(context).translate('auth.reset_password.code_label'),
                 icon: const Icon(Icons.app_registration),
-                isError: authService.resetPasswordState.isError,
+                isError: authViewModel.resetPasswordState.isError,
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   code.value = value;
@@ -56,7 +56,7 @@ class ResetPassword extends HookConsumerWidget {
                 label: AppLocalizations.of(context).translate('auth.reset_password.password'),
                 hint: AppLocalizations.of(context).translate('auth.reset_password.password_label'),
                 icon: const Icon(Icons.lock),
-                isError: authService.resetPasswordState.isError,
+                isError: authViewModel.resetPasswordState.isError,
                 isPassword: true,
                 onChanged: (value) {
                   password.value = value;
@@ -66,12 +66,12 @@ class ResetPassword extends HookConsumerWidget {
               PrimaryButton(
                 text: AppLocalizations.of(context).translate('auth.reset_password.submit'),
                 onPressed: () {
-                  authService.resetPassword(email, code.value, password.value).then((value) {
+                  authViewModel.resetPassword(email, code.value, password.value).then((value) {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   });
                 },
-                isLoading: authService.resetPasswordState.isLoading,
+                isLoading: authViewModel.resetPasswordState.isLoading,
                 isDisabled: code.value.isEmpty || password.value.isEmpty,
               ),
               SecondaryButton(

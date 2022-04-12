@@ -4,7 +4,7 @@ import 'package:jwt_decode/jwt_decode.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 
 import '../../codegen/api.swagger.dart';
-import '../auth/auth.service.dart';
+import '../../viewmodels/auth/auth.viewmodel.dart';
 import 'http.service.dart';
 
 const BASE_URL = String.fromEnvironment("BASE_URL", defaultValue: "http://localhost:8080");
@@ -24,11 +24,11 @@ class CodegenService extends HttpService {
             converter: $JsonSerializableConverter(),
             interceptors: [
               (Request request) async => applyHeader(
-                  request, 'authorization', "Bearer " + (await storage.read(key: AuthService.tokenKey) ?? ""),
+                  request, 'authorization', "Bearer " + (await storage.read(key: AuthViewModel.tokenKey) ?? ""),
                   override: false),
               (Response response) async {
                 if (response.statusCode == 401) {
-                  await storage.delete(key: AuthService.tokenKey);
+                  await storage.delete(key: AuthViewModel.tokenKey);
                 }
                 return response;
               }
@@ -153,6 +153,4 @@ class CodegenService extends HttpService {
   Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest) async {
     await api.idProfilesProfileUpdatePatch(id: id, profile: profileId, body: profileUpdateRequest);
   }
-
-  
 }

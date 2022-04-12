@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/models/matchmaking/availability.model.dart';
-import 'package:trip_n_joy_front/services/matchmaking/profile.service.dart';
+import 'package:trip_n_joy_front/viewmodels/matchmaking/profile.viewmodel.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/group_found_card.widget.dart';
@@ -14,23 +14,21 @@ import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation_card
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/swipe_card.widget.dart';
 
 import '../../models/matchmaking/card.model.dart';
+import '../../services/api/http.service.dart';
+import '../../services/log/logger.service.dart';
 import '../../widgets/matchmaking/cards/availability_card.widget.dart';
 import '../../widgets/matchmaking/cards/name_profile_card.widget.dart';
 import '../../widgets/matchmaking/cards/range_card.widget.dart';
-import '../api/http.service.dart';
+import '../auth/auth.viewmodel.dart';
 
-import '../auth/auth.service.dart';
-
-import '../log/logger.service.dart';
-
-class MatchmakingService extends ChangeNotifier {
-  MatchmakingService(this.httpService, this.authService, this.profileService) {
+class MatchmakingViewModel extends ChangeNotifier {
+  MatchmakingViewModel(this.httpService, this.authViewModel, this.profileViewModel) {
     _init();
   }
 
-  final AuthService authService;
+  final AuthViewModel authViewModel;
   final HttpService httpService;
-  final ProfileService profileService;
+  final ProfileViewModel profileViewModel;
   List<CardModel> cards = [];
   int index = 0;
 
@@ -265,7 +263,7 @@ class MatchmakingService extends ChangeNotifier {
   }
 
   void createProfile() {
-    profileService.createProfile(ProfileCreationRequest.fromJsonFactory(profileCreationRequest));
+    profileViewModel.createProfile(ProfileCreationRequest.fromJsonFactory(profileCreationRequest));
   }
 
   void mockProfileData() {

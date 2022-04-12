@@ -28,7 +28,7 @@ class GroupFoundCard extends HookConsumerWidget {
     );
     final offset = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, -2))
         .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
-    final matchmakingService = ref.watch(matchmakingProvider.notifier);
+    final matchmakingViewModel = ref.watch(matchmakingProvider.notifier);
     return SlideTransition(
       position: offset,
       child: Column(
@@ -93,7 +93,7 @@ class GroupFoundCard extends HookConsumerWidget {
                     text: AppLocalizations.of(context).translate('cards.group_found.button'),
                     onPressed: () {
                       animation.forward().whenComplete(() {
-                        matchmakingService.joinGroup(groupId);
+                        matchmakingViewModel.joinGroup(groupId);
                       });
                     }),
               ],
@@ -102,7 +102,7 @@ class GroupFoundCard extends HookConsumerWidget {
           SecondaryButton(
               text: AppLocalizations.of(context).translate('cards.group_found.retry'),
               onPressed: () {
-                matchmakingService.retryMatchmaking();
+                matchmakingViewModel.retryMatchmaking();
               }),
         ],
       ),

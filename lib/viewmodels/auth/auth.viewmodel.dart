@@ -5,11 +5,11 @@ import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 
-import '../api/http.service.dart';
-import '../log/logger.service.dart';
+import '../../services/api/http.service.dart';
+import '../../services/log/logger.service.dart';
 
-class AuthService extends ChangeNotifier {
-  AuthService(this.httpService, this.storage) {
+class AuthViewModel extends ChangeNotifier {
+  AuthViewModel(this.httpService, this.storage) {
     httpService.init();
   }
 
