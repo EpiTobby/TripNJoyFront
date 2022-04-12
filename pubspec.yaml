@@ -48,6 +48,7 @@ dependencies:
   minio: ^3.5.0
   another_flushbar: ^1.10.28
   google_fonts: ^2.3.1
+  mockito: ^5.1.0
 
 dev_dependencies:
   flutter_test:
