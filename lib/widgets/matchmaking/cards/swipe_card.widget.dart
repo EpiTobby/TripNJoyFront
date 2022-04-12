@@ -182,8 +182,7 @@ class SwipeButtons extends ConsumerWidget {
               onPressed: () {
                 if (updateProfile != null) {
                   updateProfile!(name, values[0]);
-                }
-                else {
+                } else {
                   provider.swipeLeft(name, values[0]);
                 }
               }),
@@ -194,8 +193,7 @@ class SwipeButtons extends ConsumerWidget {
             onPressed: () {
               if (updateProfile != null) {
                 updateProfile!(name, values[2]);
-              }
-              else {
+              } else {
                 provider.swipeDown(name, values[2]);
               }
             }),
@@ -207,8 +205,7 @@ class SwipeButtons extends ConsumerWidget {
               onPressed: () {
                 if (updateProfile != null) {
                   updateProfile!(name, values[1]);
-                }
-                else {
+                } else {
                   provider.swipeRight(name, values[1]);
                 }
               }),

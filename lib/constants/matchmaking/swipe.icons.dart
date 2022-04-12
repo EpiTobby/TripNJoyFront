@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/SwipeCardIcon.ttf
 ///
-/// 
+///
 ///
 import 'package:flutter/widgets.dart';
 
