@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:879706606771:android:2a1b92ce4438b03571f4c6",
+        "mobilesdk_app_id": "1:879706606771:android:e3415c0c721f69a471f4c6",
         "android_client_info": {
-          "package_name": "fr.tobby.trip_n_joy"
+          "package_name": "fr.tobby.trip_n_joy_front"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "879706606771-hbhsct9f3kah78iiuesbtnufuhi7qe4d.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "fr.tobby.trip_n_joy",
-            "certificate_hash": "e241e484656223eb76e6f4fe310fb26e2c571fcc"
-          }
-        },
         {
           "client_id": "879706606771-uiq85k89qnqn2ck9ej7u65sou1r5henv.apps.googleusercontent.com",
           "client_type": 3
