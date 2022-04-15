@@ -30,19 +30,6 @@ class PushNotificationService {
 
   setNotifications() {
     FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
-    FirebaseMessaging.onMessage.listen(
-      (message) async {
-        if (message.data.containsKey('data')) {
-          logger.i('PushNotificationService: data: ${message.data['data']}');
-        }
-        if (message.data.containsKey('notification')) {
-          logger.i('PushNotificationService: notification: ${message.data['notification']}');
-        }
-        logger.i('PushNotificationService: title: ${message.notification!.title!}');
-        logger.i('PushNotificationService: body: ${message.notification!.body!}');
-      },
-    );
-    // With this token you can test it easily on your phone
     final token = _fcm.getToken().then((value) => logger.i('Firebase Messaging Token: $value'));
   }
 }

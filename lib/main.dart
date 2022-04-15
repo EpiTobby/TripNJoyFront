@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
@@ -25,7 +26,7 @@ import 'screens/settings/settings.screen.dart';
 
 void main() async {
   await initFirebase();
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: OverlaySupport.global(child: MyApp())));
 }
 
 Future initFirebase() async {
