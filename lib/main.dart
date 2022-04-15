@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
-import 'package:trip_n_joy_front/providers/auth/auth_step.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
@@ -118,19 +117,17 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
           });
         }
       });
-      return null;
+      return () {};
     }, []);
 
-    final step = ref.watch(authStepProvider) as AuthStep;
-
     if (!authViewModel.isAuthenticated) {
-      return const Auth();
+      return Auth();
     }
 
     useEffect(() {
-      if (authViewModel.isAuthenticated) {
+      if (authViewModel.isAuthenticated && mounted) {
         userViewModel.loadUser().then((value) {
-          if (value != null) {
+          if (value != null && mounted) {
             if (value.confirmed == false) {
               logger.d("user not confirmed");
               Navigator.pushReplacement(

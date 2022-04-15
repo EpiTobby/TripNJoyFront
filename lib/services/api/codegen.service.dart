@@ -1,6 +1,7 @@
 import 'package:chopper/chopper.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 
 import '../../codegen/api.swagger.dart';
@@ -152,5 +153,19 @@ class CodegenService extends HttpService {
   @override
   Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest) async {
     await api.idProfilesProfileUpdatePatch(id: id, profile: profileId, body: profileUpdateRequest);
+  }
+
+  @override
+  Future<GoogleAuthResponse?> signInUpGoogle(SignInUpGoogleCredentials data) async {
+    final response = await api.authGooglePost(
+        body: GoogleRequest(
+            email: data.email,
+            firstname: data.firstname,
+            lastname: data.lastname,
+            phoneNumber: data.phoneNumber,
+            profilePicture: data.profilePicture,
+            accessToken: data.accessToken));
+
+    return response.body;
   }
 }

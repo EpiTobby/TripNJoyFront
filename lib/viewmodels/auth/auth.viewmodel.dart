@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 
 import '../../services/api/http.service.dart';
 import '../../services/log/logger.service.dart';
+import '../../constants/auth/auth_step.enum.dart';
 
 class AuthViewModel extends ChangeNotifier {
   AuthViewModel(this.httpService, this.storage) {
@@ -17,6 +24,7 @@ class AuthViewModel extends ChangeNotifier {
   final FlutterSecureStorage storage;
   String? token;
   static const String tokenKey = 'token';
+  AuthStep step = AuthStep.LOGIN;
 
   AsyncValue<void> loginState = const AsyncValue.data(null);
   AsyncValue<void> signupState = const AsyncValue.data(null);
@@ -24,8 +32,19 @@ class AuthViewModel extends ChangeNotifier {
   AsyncValue<void> forgotPasswordState = const AsyncValue.data(null);
   AsyncValue<void> resetPasswordState = const AsyncValue.data(null);
   AsyncValue<void> updatePasswordState = const AsyncValue.data(null);
+  AsyncValue<void> googleSignInUpState = const AsyncValue.data(null);
 
   bool get isAuthenticated => token != null;
+
+  void goToSignup() {
+    step = AuthStep.SIGNUP;
+    notifyListeners();
+  }
+
+  void goToLogin() {
+    step = AuthStep.LOGIN;
+    notifyListeners();
+  }
 
   Future<String?> login(String email, String password) async {
     logger.d("login - $email, $password");
@@ -160,6 +179,7 @@ class AuthViewModel extends ChangeNotifier {
     logger.d("logout");
     await storage.delete(key: tokenKey);
     token = null;
+    clearStates();
     notifyListeners();
   }
 
@@ -177,5 +197,102 @@ class AuthViewModel extends ChangeNotifier {
     logger.d("updateTokenFromStorage - success - token: $token");
     notifyListeners();
     return token;
+  }
+
+  static Future<FirebaseApp> initializeFirebase(context) async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp();
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+    return firebaseApp;
+  }
+
+  Future<bool?> signInWithGoogle({required BuildContext context}) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+
+    final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      try {
+        final UserCredential userCredential = await auth.signInWithCredential(credential);
+
+        if (!userCredential.user!.emailVerified) {
+          return null;
+        }
+
+        SignInUpGoogleCredentials userInfo = SignInUpGoogleCredentials(
+            email: userCredential.user!.email ?? "",
+            firstname: userCredential.additionalUserInfo!.profile!["given_name"] ?? "",
+            lastname: userCredential.additionalUserInfo!.profile!["family_name"] ?? "",
+            accessToken: googleSignInAuthentication.accessToken!,
+            profilePicture: userCredential.user!.photoURL ?? "",
+            phoneNumber: userCredential.user!.phoneNumber);
+
+        user = userCredential.user;
+
+        logger.d("google auth - ${userInfo.email}");
+        googleSignInUpState = const AsyncValue.loading();
+        notifyListeners();
+        try {
+          var sessionToken = await httpService.signInUpGoogle(userInfo);
+          if (sessionToken != null) {
+            logger.d("login - success");
+            loginState = const AsyncValue.data(null);
+            await saveToken(sessionToken.token!);
+            return sessionToken.newUser;
+          }
+          logger.d("login - failed");
+          loginState = AsyncValue.error(AppLocalizations.instance.translate("errors.login"));
+        } catch (e) {
+          logger.e(e.toString(), e);
+          loginState = AsyncValue.error(AppLocalizations.instance
+              .translate("errors.login")); // not safe as instance could result to null if error on load
+        } finally {
+          notifyListeners();
+        }
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'account-exists-with-different-credential') {
+          // handle the error here
+          logger.e(e.code);
+        } else if (e.code == 'invalid-credential') {
+          // handle the error here
+          logger.e(e.code);
+        }
+      } catch (e) {
+        // handle the error here
+        logger.e(e);
+      }
+    }
+
+    return null;
+  }
+
+  static Future<void> signOut({required BuildContext context}) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  void clearStates() {
+    loginState = const AsyncValue.data(null);
+    signupState = const AsyncValue.data(null);
+    verifyAccountState = const AsyncValue.data(null);
+    forgotPasswordState = const AsyncValue.data(null);
+    resetPasswordState = const AsyncValue.data(null);
+    updatePasswordState = const AsyncValue.data(null);
+    googleSignInUpState = const AsyncValue.data(null);
+    goToLogin();
   }
 }

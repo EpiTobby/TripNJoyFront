@@ -1,4 +1,5 @@
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 
@@ -108,5 +109,12 @@ class MockService extends HttpService {
   Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest) {
     // TODO: implement updateProfile
     throw UnimplementedError();
+  }
+
+  @override
+  Future<GoogleAuthResponse?> signInUpGoogle(SignInUpGoogleCredentials data) {
+    return Future.delayed(Duration(seconds: 1), () {
+      return GoogleAuthResponse(token: "token", username: "username", newUser: true);
+    });
   }
 }

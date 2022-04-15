@@ -13,11 +13,13 @@ class LayoutItemValue extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text(value,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            softWrap: false,
-            style: TextStyle(color: customColor ?? Theme.of(context).colorScheme.primary, fontSize: 24)),
+        Expanded(
+          child: Text(value,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: false,
+              style: TextStyle(color: customColor ?? Theme.of(context).colorScheme.primary, fontSize: 24)),
+        ),
         if (icon != null)
           IconButton(
               color: customColor ?? Theme.of(context).colorScheme.primary,

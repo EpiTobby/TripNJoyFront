@@ -63,6 +63,10 @@
       "code": "Code",
       "code_label": "Enter the code",
       "submit": "Reset password"
+    },
+    "google": {
+     "login": "Sign in with Google",
+      "moreInfo": "Please enter the complementary information"
     }
   },
   "cards": {
@@ -220,6 +224,7 @@
     },
     "internet": "No internet connection",
     "wrongCodeConfirmation": "Wrong confirmation code",
+    "firebase": "Error initializing Firebase",
     "wrongPassword": "Wrong password"
   }
 }

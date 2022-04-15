@@ -63,6 +63,10 @@
       "code": "Code",
       "code_label": "Entrer le code",
       "submit": "Réinitialiser"
+    },
+    "google": {
+      "login": "Se connecter avec Google",
+      "moreInfo": "Veuillez compléter les informations complémentaires"
     }
   },
   "cards": {
@@ -220,6 +224,7 @@
     },
     "internet": "Pas de connexion internet",
     "wrongCodeConfirmation": "Code incorrect",
+    "firebase": "Erreur d'initialisation de Firebase",
     "wrongPassword": "Mot de passe incorrect"
   }
 }

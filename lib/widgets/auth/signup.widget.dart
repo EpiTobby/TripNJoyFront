@@ -4,12 +4,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/constants/user/user.gender.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
-import 'package:trip_n_joy_front/providers/auth/auth_step.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/date_picker.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/dropdown.widget.dart';
 
 import '../../models/auth/signup.model.dart';
 import '../../providers/auth/auth.provider.dart';
+import '../../providers/auth/auth_step.provider.dart';
 import '../common/button.widget.dart';
 import '../common/input.widget.dart';
 
@@ -116,7 +116,8 @@ class _SignUpState extends ConsumerState<SignUp> {
                         password: password.value,
                         phoneNumber: phoneNumber.value.isEmpty ? null : phoneNumber.value))),
                 SecondaryButton(
-                    text: AppLocalizations.of(context).translate("common.back"), onPressed: () => stepProvider.login()),
+                    text: AppLocalizations.of(context).translate("common.back"),
+                    onPressed: () => authViewModel.goToLogin()),
               ],
             )),
       ],

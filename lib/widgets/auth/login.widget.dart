@@ -4,11 +4,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 import 'package:trip_n_joy_front/screens/auth/forgot_password.screen.dart';
+import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 
 import '../../providers/auth/auth.provider.dart';
-import '../../providers/auth/auth_step.provider.dart';
 import '../common/button.widget.dart';
 import '../common/input.widget.dart';
+
+import 'google.widget.dart';
 
 class Login extends StatefulHookConsumerWidget {
   const Login({
@@ -25,7 +27,6 @@ class Login extends StatefulHookConsumerWidget {
 class _LoginState extends ConsumerState<Login> {
   @override
   Widget build(BuildContext context) {
-    final stepProvider = ref.watch(authStepProvider.notifier);
     final auth = ref.watch(authProvider);
     final email = useState('');
     final password = useState('');
@@ -61,13 +62,19 @@ class _LoginState extends ConsumerState<Login> {
             padding: const EdgeInsets.only(top: 29),
             child: Column(
               children: [
+                FutureBuilder(
+                  future: AuthViewModel.initializeFirebase(context),
+                  builder: (context, snapshot) {
+                    return const GoogleSignInButton();
+                  },
+                ),
                 PrimaryButton(
                     text: AppLocalizations.of(context).translate("common.login"),
                     isLoading: auth.loginState.isLoading,
                     onPressed: () => auth.login(email.value, password.value)),
                 SecondaryButton(
                     text: AppLocalizations.of(context).translate("auth.createAccount"),
-                    onPressed: () => stepProvider.signUp()),
+                    onPressed: () => auth.goToSignup()),
                 TertiaryButton(
                     text: AppLocalizations.of(context).translate("auth.forgotPassword"),
                     onPressed: () =>

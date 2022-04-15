@@ -5,7 +5,7 @@ import '../../codegen/api.swagger.dart';
 import '../../viewmodels/user/user.viewmodel.dart';
 import '../auth/auth.provider.dart';
 
-final userProvider = StateNotifierProvider.autoDispose<UserViewModel, AsyncValue<UserModel?>>((ref) {
+final userProvider = StateNotifierProvider<UserViewModel, AsyncValue<UserModel?>>((ref) {
   final httpService = ref.watch(codegenProvider);
   final authViewModel = ref.watch(authProvider);
   return UserViewModel(httpService, authViewModel);
