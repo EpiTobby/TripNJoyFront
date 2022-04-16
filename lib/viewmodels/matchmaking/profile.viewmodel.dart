@@ -23,6 +23,11 @@ class ProfileViewModel extends StateNotifier<List<ProfileModel>?> {
   }
 
   Future<void> getUserProfiles() async {
+
+    if (authViewModel.token == null) {
+      return;
+    }
+
     var id = httpService.getUserIdFromToken(authViewModel.token!);
     List<ProfileModel>? userProfiles = await httpService.getUserProfiles(id!);
     state = userProfiles ?? [];

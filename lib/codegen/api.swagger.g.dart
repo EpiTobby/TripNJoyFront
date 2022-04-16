@@ -9,19 +9,15 @@ part of 'api.swagger.dart';
 AvailabilityAnswerModel _$AvailabilityAnswerModelFromJson(
         Map<String, dynamic> json) =>
     AvailabilityAnswerModel(
-      startDate: json['startDate'] == null
-          ? null
-          : DateTime.parse(json['startDate'] as String),
-      endDate: json['endDate'] == null
-          ? null
-          : DateTime.parse(json['endDate'] as String),
+      startDate: json['startDate'] as String?,
+      endDate: json['endDate'] as String?,
     );
 
 Map<String, dynamic> _$AvailabilityAnswerModelToJson(
         AvailabilityAnswerModel instance) =>
     <String, dynamic>{
-      'startDate': instance.startDate?.toIso8601String(),
-      'endDate': instance.endDate?.toIso8601String(),
+      'startDate': instance.startDate,
+      'endDate': instance.endDate,
     };
 
 ProfileCreationRequest _$ProfileCreationRequestFromJson(
@@ -177,6 +173,59 @@ Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
       'sport': profileModelSportToJson(instance.sport),
       'userId': instance.userId,
       'active': instance.active,
+    };
+
+CreatePrivateGroupRequest _$CreatePrivateGroupRequestFromJson(
+        Map<String, dynamic> json) =>
+    CreatePrivateGroupRequest(
+      maxSize: json['maxSize'] as int?,
+    );
+
+Map<String, dynamic> _$CreatePrivateGroupRequestToJson(
+        CreatePrivateGroupRequest instance) =>
+    <String, dynamic>{
+      'maxSize': instance.maxSize,
+    };
+
+GroupModel _$GroupModelFromJson(Map<String, dynamic> json) => GroupModel(
+      id: json['id'] as num?,
+      name: json['name'] as String?,
+      state: groupModelStateFromJson(json['state']),
+      owner: json['owner'] as String?,
+      maxSize: json['maxSize'] as int?,
+      startOfTrip: json['startOfTrip'] == null
+          ? null
+          : DateTime.parse(json['startOfTrip'] as String),
+      endOfTrip: json['endOfTrip'] == null
+          ? null
+          : DateTime.parse(json['endOfTrip'] as String),
+      users:
+          (json['users'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              [],
+      createdDate: json['createdDate'] as String?,
+    );
+
+Map<String, dynamic> _$GroupModelToJson(GroupModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'state': groupModelStateToJson(instance.state),
+      'owner': instance.owner,
+      'maxSize': instance.maxSize,
+      'startOfTrip': instance.startOfTrip?.toIso8601String(),
+      'endOfTrip': instance.endOfTrip?.toIso8601String(),
+      'users': instance.users,
+      'createdDate': instance.createdDate,
+    };
+
+ModelWithEmail _$ModelWithEmailFromJson(Map<String, dynamic> json) =>
+    ModelWithEmail(
+      email: json['email'] as String?,
+    );
+
+Map<String, dynamic> _$ModelWithEmailToJson(ModelWithEmail instance) =>
+    <String, dynamic>{
+      'email': instance.email,
     };
 
 UserCreationRequest _$UserCreationRequestFromJson(Map<String, dynamic> json) =>
@@ -389,6 +438,30 @@ Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
       'phoneNumber': instance.phoneNumber,
       'birthdate': instance.birthdate?.toIso8601String(),
       'gender': instance.gender,
+    };
+
+UpdateGroupRequest _$UpdateGroupRequestFromJson(Map<String, dynamic> json) =>
+    UpdateGroupRequest(
+      name: json['name'] as String?,
+      state: updateGroupRequestStateFromJson(json['state']),
+      ownerId: json['ownerId'] as num?,
+      maxSize: json['maxSize'] as int?,
+      startOfTrip: json['startOfTrip'] == null
+          ? null
+          : DateTime.parse(json['startOfTrip'] as String),
+      endOfTrip: json['endOfTrip'] == null
+          ? null
+          : DateTime.parse(json['endOfTrip'] as String),
+    );
+
+Map<String, dynamic> _$UpdateGroupRequestToJson(UpdateGroupRequest instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'state': updateGroupRequestStateToJson(instance.state),
+      'ownerId': instance.ownerId,
+      'maxSize': instance.maxSize,
+      'startOfTrip': instance.startOfTrip?.toIso8601String(),
+      'endOfTrip': instance.endOfTrip?.toIso8601String(),
     };
 
 UpdatePasswordRequest _$UpdatePasswordRequestFromJson(

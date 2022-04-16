@@ -61,6 +61,44 @@ abstract class Api extends ChopperService {
       {@Path('id') required num? id,
       @Body() required ProfileCreationRequest? body});
 
+  ///Create a private group
+  ///@param id
+  ///@param createPrivateGroupRequest
+  Future<chopper.Response<GroupModel>> groupsPrivateIdPost(
+      {required num? id,
+      required CreatePrivateGroupRequest? createPrivateGroupRequest}) {
+    generatedMapping.putIfAbsent(CreatePrivateGroupRequest,
+        () => CreatePrivateGroupRequest.fromJsonFactory);
+    generatedMapping.putIfAbsent(GroupModel, () => GroupModel.fromJsonFactory);
+
+    return _groupsPrivateIdPost(
+        id: id, createPrivateGroupRequest: createPrivateGroupRequest);
+  }
+
+  ///Create a private group
+  ///@param id
+  ///@param createPrivateGroupRequest
+  @Post(path: '/groups/private/{id}', optionalBody: true)
+  Future<chopper.Response<GroupModel>> _groupsPrivateIdPost(
+      {@Path('id')
+          required num? id,
+      @Query('createPrivateGroupRequest')
+          required CreatePrivateGroupRequest? createPrivateGroupRequest});
+
+  ///Add user to private group
+  ///@param group
+  Future<chopper.Response> groupsPrivateGroupUserPost(
+      {required num? group, required ModelWithEmail? body}) {
+    return _groupsPrivateGroupUserPost(group: group, body: body);
+  }
+
+  ///Add user to private group
+  ///@param group
+  @Post(path: '/groups/private/{group}/user')
+  Future<chopper.Response> _groupsPrivateGroupUserPost(
+      {@Path('group') required num? group,
+      @Body() required ModelWithEmail? body});
+
   ///Will send a new confirmation code to the user
   ///@param id
   Future<chopper.Response> authIdResendPost({required num? id}) {
@@ -156,6 +194,20 @@ abstract class Api extends ChopperService {
   @Patch(path: '/users/{id}/update')
   Future<chopper.Response> _usersIdUpdatePatch(
       {@Path('id') required num? id, @Body() required UserUpdateRequest? body});
+
+  ///Update the private group
+  ///@param group
+  Future<chopper.Response> groupsPrivateGroupPatch(
+      {required num? group, required UpdateGroupRequest? body}) {
+    return _groupsPrivateGroupPatch(group: group, body: body);
+  }
+
+  ///Update the private group
+  ///@param group
+  @Patch(path: '/groups/private/{group}')
+  Future<chopper.Response> _groupsPrivateGroupPatch(
+      {@Path('group') required num? group,
+      @Body() required UpdateGroupRequest? body});
 
   ///Used to update the password
   ///@param id
@@ -277,6 +329,20 @@ abstract class Api extends ChopperService {
   @Get(path: '/users/me')
   Future<chopper.Response<UserModel>> _usersMeGet();
 
+  ///Get all the group of the user
+  ///@param id
+  Future<chopper.Response<List<GroupModel>>> groupsIdGet({required num? id}) {
+    generatedMapping.putIfAbsent(GroupModel, () => GroupModel.fromJsonFactory);
+
+    return _groupsIdGet(id: id);
+  }
+
+  ///Get all the group of the user
+  ///@param id
+  @Get(path: '/groups/{id}')
+  Future<chopper.Response<List<GroupModel>>> _groupsIdGet(
+      {@Path('id') required num? id});
+
   ///Delete the profile of a user
   ///@param id
   ///@param profile
@@ -305,6 +371,36 @@ abstract class Api extends ChopperService {
   Future<chopper.Response> _usersIdAdminDelete(
       {@Path('id') required num? id,
       @Body() required DeleteUserByAdminRequest? body});
+
+  ///Remove the user from a group
+  ///@param group
+  ///@param id
+  Future<chopper.Response> groupsGroupUserIdDelete(
+      {required num? group, required num? id}) {
+    return _groupsGroupUserIdDelete(group: group, id: id);
+  }
+
+  ///Remove the user from a group
+  ///@param group
+  ///@param id
+  @Delete(path: '/groups/{group}/user/{id}')
+  Future<chopper.Response> _groupsGroupUserIdDelete(
+      {@Path('group') required num? group, @Path('id') required num? id});
+
+  ///Remove user from private group
+  ///@param group
+  ///@param id
+  Future<chopper.Response> groupsPrivateGroupUserIdDelete(
+      {required num? group, required num? id}) {
+    return _groupsPrivateGroupUserIdDelete(group: group, id: id);
+  }
+
+  ///Remove user from private group
+  ///@param group
+  ///@param id
+  @Delete(path: '/groups/private/{group}/user/{id}')
+  Future<chopper.Response> _groupsPrivateGroupUserIdDelete(
+      {@Path('group') required num? group, @Path('id') required num? id});
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -318,9 +414,9 @@ class AvailabilityAnswerModel {
       _$AvailabilityAnswerModelFromJson(json);
 
   @JsonKey(name: 'startDate')
-  final DateTime? startDate;
+  final String? startDate;
   @JsonKey(name: 'endDate')
-  final DateTime? endDate;
+  final String? endDate;
   static const fromJsonFactory = _$AvailabilityAnswerModelFromJson;
   static const toJsonFactory = _$AvailabilityAnswerModelToJson;
   Map<String, dynamic> toJson() => _$AvailabilityAnswerModelToJson(this);
@@ -344,7 +440,7 @@ class AvailabilityAnswerModel {
 }
 
 extension $AvailabilityAnswerModelExtension on AvailabilityAnswerModel {
-  AvailabilityAnswerModel copyWith({DateTime? startDate, DateTime? endDate}) {
+  AvailabilityAnswerModel copyWith({String? startDate, String? endDate}) {
     return AvailabilityAnswerModel(
         startDate: startDate ?? this.startDate,
         endDate: endDate ?? this.endDate);
@@ -814,6 +910,182 @@ extension $ProfileModelExtension on ProfileModel {
         sport: sport ?? this.sport,
         userId: userId ?? this.userId,
         active: active ?? this.active);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CreatePrivateGroupRequest {
+  CreatePrivateGroupRequest({
+    this.maxSize,
+  });
+
+  factory CreatePrivateGroupRequest.fromJson(Map<String, dynamic> json) =>
+      _$CreatePrivateGroupRequestFromJson(json);
+
+  @JsonKey(name: 'maxSize')
+  final int? maxSize;
+  static const fromJsonFactory = _$CreatePrivateGroupRequestFromJson;
+  static const toJsonFactory = _$CreatePrivateGroupRequestToJson;
+  Map<String, dynamic> toJson() => _$CreatePrivateGroupRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is CreatePrivateGroupRequest &&
+            (identical(other.maxSize, maxSize) ||
+                const DeepCollectionEquality().equals(other.maxSize, maxSize)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(maxSize) ^ runtimeType.hashCode;
+}
+
+extension $CreatePrivateGroupRequestExtension on CreatePrivateGroupRequest {
+  CreatePrivateGroupRequest copyWith({int? maxSize}) {
+    return CreatePrivateGroupRequest(maxSize: maxSize ?? this.maxSize);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GroupModel {
+  GroupModel({
+    this.id,
+    this.name,
+    this.state,
+    this.owner,
+    this.maxSize,
+    this.startOfTrip,
+    this.endOfTrip,
+    this.users,
+    this.createdDate,
+  });
+
+  factory GroupModel.fromJson(Map<String, dynamic> json) =>
+      _$GroupModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(
+      name: 'state',
+      toJson: groupModelStateToJson,
+      fromJson: groupModelStateFromJson)
+  final enums.GroupModelState? state;
+  @JsonKey(name: 'owner')
+  final String? owner;
+  @JsonKey(name: 'maxSize')
+  final int? maxSize;
+  @JsonKey(name: 'startOfTrip')
+  final DateTime? startOfTrip;
+  @JsonKey(name: 'endOfTrip')
+  final DateTime? endOfTrip;
+  @JsonKey(name: 'users', defaultValue: <String>[])
+  final List<String>? users;
+  @JsonKey(name: 'createdDate')
+  final String? createdDate;
+  static const fromJsonFactory = _$GroupModelFromJson;
+  static const toJsonFactory = _$GroupModelToJson;
+  Map<String, dynamic> toJson() => _$GroupModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is GroupModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.state, state) ||
+                const DeepCollectionEquality().equals(other.state, state)) &&
+            (identical(other.owner, owner) ||
+                const DeepCollectionEquality().equals(other.owner, owner)) &&
+            (identical(other.maxSize, maxSize) ||
+                const DeepCollectionEquality()
+                    .equals(other.maxSize, maxSize)) &&
+            (identical(other.startOfTrip, startOfTrip) ||
+                const DeepCollectionEquality()
+                    .equals(other.startOfTrip, startOfTrip)) &&
+            (identical(other.endOfTrip, endOfTrip) ||
+                const DeepCollectionEquality()
+                    .equals(other.endOfTrip, endOfTrip)) &&
+            (identical(other.users, users) ||
+                const DeepCollectionEquality().equals(other.users, users)) &&
+            (identical(other.createdDate, createdDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdDate, createdDate)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(state) ^
+      const DeepCollectionEquality().hash(owner) ^
+      const DeepCollectionEquality().hash(maxSize) ^
+      const DeepCollectionEquality().hash(startOfTrip) ^
+      const DeepCollectionEquality().hash(endOfTrip) ^
+      const DeepCollectionEquality().hash(users) ^
+      const DeepCollectionEquality().hash(createdDate) ^
+      runtimeType.hashCode;
+}
+
+extension $GroupModelExtension on GroupModel {
+  GroupModel copyWith(
+      {num? id,
+      String? name,
+      enums.GroupModelState? state,
+      String? owner,
+      int? maxSize,
+      DateTime? startOfTrip,
+      DateTime? endOfTrip,
+      List<String>? users,
+      String? createdDate}) {
+    return GroupModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        state: state ?? this.state,
+        owner: owner ?? this.owner,
+        maxSize: maxSize ?? this.maxSize,
+        startOfTrip: startOfTrip ?? this.startOfTrip,
+        endOfTrip: endOfTrip ?? this.endOfTrip,
+        users: users ?? this.users,
+        createdDate: createdDate ?? this.createdDate);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ModelWithEmail {
+  ModelWithEmail({
+    this.email,
+  });
+
+  factory ModelWithEmail.fromJson(Map<String, dynamic> json) =>
+      _$ModelWithEmailFromJson(json);
+
+  @JsonKey(name: 'email')
+  final String? email;
+  static const fromJsonFactory = _$ModelWithEmailFromJson;
+  static const toJsonFactory = _$ModelWithEmailToJson;
+  Map<String, dynamic> toJson() => _$ModelWithEmailToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ModelWithEmail &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(email) ^ runtimeType.hashCode;
+}
+
+extension $ModelWithEmailExtension on ModelWithEmail {
+  ModelWithEmail copyWith({String? email}) {
+    return ModelWithEmail(email: email ?? this.email);
   }
 }
 
@@ -1524,6 +1796,90 @@ extension $UserUpdateRequestExtension on UserUpdateRequest {
         phoneNumber: phoneNumber ?? this.phoneNumber,
         birthdate: birthdate ?? this.birthdate,
         gender: gender ?? this.gender);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateGroupRequest {
+  UpdateGroupRequest({
+    this.name,
+    this.state,
+    this.ownerId,
+    this.maxSize,
+    this.startOfTrip,
+    this.endOfTrip,
+  });
+
+  factory UpdateGroupRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateGroupRequestFromJson(json);
+
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(
+      name: 'state',
+      toJson: updateGroupRequestStateToJson,
+      fromJson: updateGroupRequestStateFromJson)
+  final enums.UpdateGroupRequestState? state;
+  @JsonKey(name: 'ownerId')
+  final num? ownerId;
+  @JsonKey(name: 'maxSize')
+  final int? maxSize;
+  @JsonKey(name: 'startOfTrip')
+  final DateTime? startOfTrip;
+  @JsonKey(name: 'endOfTrip')
+  final DateTime? endOfTrip;
+  static const fromJsonFactory = _$UpdateGroupRequestFromJson;
+  static const toJsonFactory = _$UpdateGroupRequestToJson;
+  Map<String, dynamic> toJson() => _$UpdateGroupRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UpdateGroupRequest &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.state, state) ||
+                const DeepCollectionEquality().equals(other.state, state)) &&
+            (identical(other.ownerId, ownerId) ||
+                const DeepCollectionEquality()
+                    .equals(other.ownerId, ownerId)) &&
+            (identical(other.maxSize, maxSize) ||
+                const DeepCollectionEquality()
+                    .equals(other.maxSize, maxSize)) &&
+            (identical(other.startOfTrip, startOfTrip) ||
+                const DeepCollectionEquality()
+                    .equals(other.startOfTrip, startOfTrip)) &&
+            (identical(other.endOfTrip, endOfTrip) ||
+                const DeepCollectionEquality()
+                    .equals(other.endOfTrip, endOfTrip)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(state) ^
+      const DeepCollectionEquality().hash(ownerId) ^
+      const DeepCollectionEquality().hash(maxSize) ^
+      const DeepCollectionEquality().hash(startOfTrip) ^
+      const DeepCollectionEquality().hash(endOfTrip) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdateGroupRequestExtension on UpdateGroupRequest {
+  UpdateGroupRequest copyWith(
+      {String? name,
+      enums.UpdateGroupRequestState? state,
+      num? ownerId,
+      int? maxSize,
+      DateTime? startOfTrip,
+      DateTime? endOfTrip}) {
+    return UpdateGroupRequest(
+        name: name ?? this.name,
+        state: state ?? this.state,
+        ownerId: ownerId ?? this.ownerId,
+        maxSize: maxSize ?? this.maxSize,
+        startOfTrip: startOfTrip ?? this.startOfTrip,
+        endOfTrip: endOfTrip ?? this.endOfTrip);
   }
 }
 
@@ -3296,6 +3652,53 @@ List<enums.ProfileModelSport> profileModelSportListFromJson(
       .toList();
 }
 
+String? groupModelStateToJson(enums.GroupModelState? groupModelState) {
+  return enums.$GroupModelStateMap[groupModelState];
+}
+
+enums.GroupModelState groupModelStateFromJson(Object? groupModelState) {
+  if (groupModelState is int) {
+    return enums.$GroupModelStateMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == groupModelState.toString(),
+            orElse: () => const MapEntry(
+                enums.GroupModelState.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (groupModelState is String) {
+    return enums.$GroupModelStateMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == groupModelState.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.GroupModelState.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.GroupModelState.swaggerGeneratedUnknown;
+}
+
+List<String> groupModelStateListToJson(
+    List<enums.GroupModelState>? groupModelState) {
+  if (groupModelState == null) {
+    return [];
+  }
+
+  return groupModelState.map((e) => enums.$GroupModelStateMap[e]!).toList();
+}
+
+List<enums.GroupModelState> groupModelStateListFromJson(List? groupModelState) {
+  if (groupModelState == null) {
+    return [];
+  }
+
+  return groupModelState
+      .map((e) => groupModelStateFromJson(e.toString()))
+      .toList();
+}
+
 String? profileUpdateRequestDestinationTypesToJson(
     enums.ProfileUpdateRequestDestinationTypes?
         profileUpdateRequestDestinationTypes) {
@@ -3838,6 +4241,60 @@ List<enums.ProfileUpdateRequestSport> profileUpdateRequestSportListFromJson(
 
   return profileUpdateRequestSport
       .map((e) => profileUpdateRequestSportFromJson(e.toString()))
+      .toList();
+}
+
+String? updateGroupRequestStateToJson(
+    enums.UpdateGroupRequestState? updateGroupRequestState) {
+  return enums.$UpdateGroupRequestStateMap[updateGroupRequestState];
+}
+
+enums.UpdateGroupRequestState updateGroupRequestStateFromJson(
+    Object? updateGroupRequestState) {
+  if (updateGroupRequestState is int) {
+    return enums.$UpdateGroupRequestStateMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                updateGroupRequestState.toString(),
+            orElse: () => const MapEntry(
+                enums.UpdateGroupRequestState.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (updateGroupRequestState is String) {
+    return enums.$UpdateGroupRequestStateMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                updateGroupRequestState.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.UpdateGroupRequestState.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.UpdateGroupRequestState.swaggerGeneratedUnknown;
+}
+
+List<String> updateGroupRequestStateListToJson(
+    List<enums.UpdateGroupRequestState>? updateGroupRequestState) {
+  if (updateGroupRequestState == null) {
+    return [];
+  }
+
+  return updateGroupRequestState
+      .map((e) => enums.$UpdateGroupRequestStateMap[e]!)
+      .toList();
+}
+
+List<enums.UpdateGroupRequestState> updateGroupRequestStateListFromJson(
+    List? updateGroupRequestState) {
+  if (updateGroupRequestState == null) {
+    return [];
+  }
+
+  return updateGroupRequestState
+      .map((e) => updateGroupRequestStateFromJson(e.toString()))
       .toList();
 }
 

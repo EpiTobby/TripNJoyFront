@@ -109,6 +109,97 @@
         }
       }
     },
+    "/groups/private/{id}": {
+      "post": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Create a private group",
+        "operationId": "createPrivateGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "createPrivateGroupRequest",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/CreatePrivateGroupRequest"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "User or Group does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns the created group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/private/{group}/user": {
+      "post": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Add user to private group",
+        "operationId": "addUserToPrivateGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModelWithEmail"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "description": "Group or User does not exist"
+          },
+          "200": {
+            "description": "The user is added to the group"
+          },
+          "403": {
+            "description": "The client is not the owner of the group"
+          }
+        }
+      }
+    },
     "/auth/{id}/resend": {
       "post": {
         "tags": [
@@ -368,6 +459,47 @@
           },
           "200": {
             "description": "User information have been updated"
+          }
+        }
+      }
+    },
+    "/groups/private/{group}": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Update the private group",
+        "operationId": "UpdatePrivateGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "description": "Group or User does not exist"
+          },
+          "200": {
+            "description": "The group is updated"
+          },
+          "403": {
+            "description": "The client is not the owner of the group"
           }
         }
       }
@@ -680,6 +812,41 @@
         }
       }
     },
+    "/groups/{id}": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get all the group of the user",
+        "operationId": "getUserGroups",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the list of groups the user is in",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/{id}/profiles/{profile}": {
       "delete": {
         "tags": [
@@ -750,6 +917,83 @@
           }
         }
       }
+    },
+    "/groups/{group}/user/{id}": {
+      "delete": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Remove the user from a group",
+        "operationId": "leaveGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Group or User does not exist"
+          },
+          "200": {
+            "description": "The user has left the group"
+          }
+        }
+      }
+    },
+    "/groups/private/{group}/user/{id}": {
+      "delete": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Remove user from private group",
+        "operationId": "RemoveUserFromPrivateGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Group or User does not exist"
+          },
+          "403": {
+            "description": "The client is not the owner of the group"
+          },
+          "200": {
+            "description": "The user is removed"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -758,12 +1002,10 @@
         "type": "object",
         "properties": {
           "startDate": {
-            "type": "string",
-            "format": "date-time"
+            "type": "string"
           },
           "endDate": {
-            "type": "string",
-            "format": "date-time"
+            "type": "string"
           }
         }
       },
@@ -1012,6 +1254,67 @@
           }
         }
       },
+      "CreatePrivateGroupRequest": {
+        "type": "object",
+        "properties": {
+          "maxSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "GroupModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "CLOSED",
+              "ARCHIVED"
+            ]
+          },
+          "owner": {
+            "type": "string"
+          },
+          "maxSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "createdDate": {
+            "type": "string"
+          }
+        }
+      },
+      "ModelWithEmail": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        }
+      },
       "UserCreationRequest": {
         "type": "object",
         "properties": {
@@ -1252,6 +1555,38 @@
           },
           "gender": {
             "type": "string"
+          }
+        }
+      },
+      "UpdateGroupRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "CLOSED",
+              "ARCHIVED"
+            ]
+          },
+          "ownerId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "maxSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endOfTrip": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },

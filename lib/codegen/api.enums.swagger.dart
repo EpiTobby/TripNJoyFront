@@ -315,6 +315,23 @@ const $ProfileModelSportMap = {
   ProfileModelSport.noPreference: 'NO_PREFERENCE'
 };
 
+enum GroupModelState {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('OPEN')
+  open,
+  @JsonValue('CLOSED')
+  closed,
+  @JsonValue('ARCHIVED')
+  archived
+}
+
+const $GroupModelStateMap = {
+  GroupModelState.open: 'OPEN',
+  GroupModelState.closed: 'CLOSED',
+  GroupModelState.archived: 'ARCHIVED'
+};
+
 enum ProfileUpdateRequestDestinationTypes {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
@@ -470,6 +487,23 @@ const $ProfileUpdateRequestSportMap = {
   ProfileUpdateRequestSport.yes: 'YES',
   ProfileUpdateRequestSport.no: 'NO',
   ProfileUpdateRequestSport.noPreference: 'NO_PREFERENCE'
+};
+
+enum UpdateGroupRequestState {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('OPEN')
+  open,
+  @JsonValue('CLOSED')
+  closed,
+  @JsonValue('ARCHIVED')
+  archived
+}
+
+const $UpdateGroupRequestStateMap = {
+  UpdateGroupRequestState.open: 'OPEN',
+  UpdateGroupRequestState.closed: 'CLOSED',
+  UpdateGroupRequestState.archived: 'ARCHIVED'
 };
 
 enum UserModelGender {

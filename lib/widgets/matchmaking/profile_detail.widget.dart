@@ -75,9 +75,9 @@ class ProfileDetail extends ConsumerWidget {
               value: profileModel.availabilities!
                   .map((availability) => availability.startDate != null
                       ? DateFormat('dd/MM/yyyy', AppLocalizations.instance.locale.countryCode)
-                              .format(availability.startDate!) +
+                              .format(DateTime.parse(availability.startDate!)) +
                           ' - ' +
-                          DateFormat('dd/MM/yyyy').format(availability.endDate!)
+                          DateFormat('dd/MM/yyyy').format(DateTime.parse(availability.endDate!))
                       : '')
                   .join(' ; '),
               icon: const Icon(Icons.keyboard_arrow_right_sharp),

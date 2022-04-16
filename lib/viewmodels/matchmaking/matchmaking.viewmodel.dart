@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
@@ -239,7 +240,10 @@ class MatchmakingViewModel extends ChangeNotifier {
     logger.i(
         "Submit $name - availabilities: ${availabilities.map((e) => "begin: ${e.startDate} - end: ${e.endDate}").join(", ")}");
     profileCreationRequest[name] = availabilities
-        .map((e) => {"startDate": e.startDate.toIso8601String(), "endDate": e.endDate.toIso8601String()})
+        .map((e) => {
+              "startDate": DateFormat('yyyy-MM-dd').format(e.startDate),
+              "endDate": DateFormat('yyyy-MM-dd').format(e.endDate)
+            })
         .toList();
     nextCard();
   }
