@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/swipe.provider.dart';
 import 'package:trip_n_joy_front/screens/matchmaking/profile.screen.dart';
@@ -37,6 +38,8 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
             ? IconButton(
                 onPressed: () => {matchmakingViewModel.previousCard()}, icon: const Icon(Icons.arrow_back_rounded))
             : null,
+        title: Text(AppLocalizations.of(context).translate("matchmaking.title"),
+            style: TextStyle(color: Theme.of(context).colorScheme.primary)),
         actions: [
           IconButton(
             icon: const Icon(Icons.account_circle),
