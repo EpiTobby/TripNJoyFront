@@ -6,7 +6,7 @@ import '../../viewmodels/user/user.viewmodel.dart';
 import '../auth/auth.provider.dart';
 
 final userProvider = StateNotifierProvider<UserViewModel, AsyncValue<UserModel?>>((ref) {
-  final httpService = ref.watch(codegenProvider);
+  final httpService = ref.watch(apiProvider);
   final authViewModel = ref.watch(authProvider);
   return UserViewModel(httpService, authViewModel);
 });
