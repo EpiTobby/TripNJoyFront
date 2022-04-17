@@ -1,6 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:trip_n_joy_front/constants/navbar/navbar.icons.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 import '../../constants/navbar/navbar.const.dart';
 import '../../constants/navbar/navbar.enum.dart';
@@ -13,6 +17,31 @@ class Navbar extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
     final provider = ref.watch(navbarStateProvider.notifier);
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) async {
+      logger.i("onMessageOpenedApp");
+      await Firebase.initializeApp();
+      if (message.notification!.title!.contains('matchmaking') || message.data.containsKey('matchmaking')) {
+        logger.i('Opened matchmaking notification');
+        provider.navigate(NavbarPage.MATCHMAKING);
+      }
+    });
+
+    FirebaseMessaging.onMessage.listen(
+      (message) async {
+        logger.i('onMessage: title: ${message.notification!.title!}');
+        logger.i('onMessage: body: ${message.notification!.body!}');
+        showSimpleNotification(
+          Text(message.notification!.title!), // use translation
+          subtitle: Text(message.notification!.body!),
+          foreground: Theme.of(context).colorScheme.onBackground,
+          background: Theme.of(context).colorScheme.background,
+          position: NotificationPosition.top,
+          context: context,
+        );
+      },
+    );
+
     return Container(
       height: NavbarConstant.NAVBAR_HEIGHT,
       decoration: BoxDecoration(
