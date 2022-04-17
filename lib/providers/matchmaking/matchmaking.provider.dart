@@ -6,7 +6,7 @@ import '../../viewmodels/matchmaking/matchmaking.viewmodel.dart';
 import '../api/api.provider.dart';
 
 final matchmakingProvider = ChangeNotifierProvider<MatchmakingViewModel>((ref) {
-  final httpService = ref.watch(codegenProvider);
+  final httpService = ref.watch(apiProvider);
   final authViewModel = ref.watch(authProvider);
   final profileViewModel = ref.watch(profileProvider.notifier);
   return MatchmakingViewModel(httpService, authViewModel, profileViewModel);

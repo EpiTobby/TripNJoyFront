@@ -4,6 +4,6 @@ import 'package:trip_n_joy_front/providers/api/api.provider.dart';
 import '../../viewmodels/settings/settings.viewmodel.dart';
 
 final settingsProvider = ChangeNotifierProvider((ref) {
-  final httpService = ref.watch(codegenProvider);
+  final httpService = ref.watch(apiProvider);
   return SettingsViewModel(httpService);
 });
