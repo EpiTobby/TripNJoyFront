@@ -18,14 +18,14 @@ class Navbar extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
     final provider = ref.watch(navbarStateProvider.notifier);
-    final matchmakingService = ref.watch(matchmakingProvider.notifier);
+    final matchmakingViewModel = ref.watch(matchmakingProvider.notifier);
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) async {
       logger.i("onMessageOpenedApp");
       await Firebase.initializeApp();
       if (message.notification!.title!.contains('matchmaking') || message.data.containsKey('matchmaking')) {
         logger.i('Opened matchmaking notification');
-        matchmakingService.receiveGroupMatch();
+        matchmakingViewModel.receiveGroupMatch();
         provider.navigate(NavbarPage.MATCHMAKING);
       }
     });
@@ -34,6 +34,11 @@ class Navbar extends HookConsumerWidget {
       (message) async {
         logger.i('onMessage: title: ${message.notification!.title!}');
         logger.i('onMessage: body: ${message.notification!.body!}');
+
+        if (message.notification!.title!.contains('matchmaking') || message.data.containsKey('matchmaking')) {
+          matchmakingViewModel.receiveGroupMatch();
+        }
+
         showSimpleNotification(
           Text(message.notification!.title!), // use translation
           subtitle: Text(message.notification!.body!),

@@ -20,7 +20,7 @@ class ProfileMenu extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileViewModel = ref.watch(profileProvider.notifier);
-    final matchmakingService = ref.watch(matchmakingProvider.notifier);
+    final matchmakingViewModel = ref.watch(matchmakingProvider.notifier);
     final matchmakingStatus = ref.watch(matchmakingProvider).status;
 
     return Row(
@@ -61,7 +61,7 @@ class ProfileMenu extends ConsumerWidget {
                     await profileViewModel.updateProfile(
                         profileModel.id!.toInt(), ProfileUpdateRequest.fromJsonFactory({"active": true}));
                   }
-                  matchmakingService.retryMatchmaking();
+                  matchmakingViewModel.retryMatchmaking();
                 }),
             PopupMenuItem(
               value: PopupMenuItemType.EDIT,
