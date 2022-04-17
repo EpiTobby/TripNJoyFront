@@ -152,9 +152,11 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
     return user.when(
         data: (data) => Scaffold(
-              appBar: AppBar(
-                title: Text(widget.title),
-              ),
+              appBar: selectedPage != NavbarPage.MATCHMAKING
+                  ? AppBar(
+                      title: Text(widget.title),
+                    )
+                  : null,
               extendBody: true,
               body: Container(
                 child: getPageWidget(selectedPage),

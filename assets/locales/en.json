@@ -65,7 +65,7 @@
       "submit": "Reset password"
     },
     "google": {
-     "login": "Sign in with Google",
+      "login": "Sign in with Google",
       "moreInfo": "Please enter the complementary information"
     }
   },
@@ -169,6 +169,9 @@
     },
     "swipeToChoose": "Swipe to choose your preference",
     "no_preference": "Any"
+  },
+  "matchmaking": {
+    "title": "Matchmaking"
   },
   "profile": {
     "title": "Profile",
