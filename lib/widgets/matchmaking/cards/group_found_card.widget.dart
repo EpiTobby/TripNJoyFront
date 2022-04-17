@@ -41,6 +41,8 @@ class GroupFoundCard extends HookConsumerWidget {
             backgroundColor: Theme.of(context).colorScheme.onPrimary,
             shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
             isLoading: isLoading,
+            loadingTitle: AppLocalizations.of(context).translate('cards.group_found.loading.title'),
+            loadingSubtitle: AppLocalizations.of(context).translate('cards.group_found.loading.subtitle'),
             child: Column(
               children: [
                 Expanded(
@@ -99,11 +101,12 @@ class GroupFoundCard extends HookConsumerWidget {
               ],
             ),
           ),
-          SecondaryButton(
-              text: AppLocalizations.of(context).translate('cards.group_found.retry'),
-              onPressed: () {
-                matchmakingViewModel.retryMatchmaking();
-              }),
+          if (!isLoading)
+            SecondaryButton(
+                text: AppLocalizations.of(context).translate('cards.group_found.retry'),
+                onPressed: () {
+                  matchmakingViewModel.retryMatchmaking();
+                }),
         ],
       ),
     );

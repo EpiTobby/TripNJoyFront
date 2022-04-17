@@ -84,7 +84,11 @@
       "title": "Groupe trouvé !",
       "button": "Rejoindre",
       "retry": "Essayer un autre groupe",
-      "members": "$count Membres"
+      "members": "$count Membres",
+      "loading": {
+        "title": "Matchmaking...",
+        "subtitle": "Nous cherchons un groupe, vous serez notifié lorsqu'un groupe sera trouvé."
+      }
     },
     "availability": {
       "title": "Disponibilité",
