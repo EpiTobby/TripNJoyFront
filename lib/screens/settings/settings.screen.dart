@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:minio/minio.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_password.widget.dart';
@@ -18,13 +19,6 @@ import '../../viewmodels/auth/auth.viewmodel.dart';
 import '../../viewmodels/user/user.viewmodel.dart';
 import '../../widgets/common/input_dialog.widget.dart';
 import '../../widgets/common/input_dialog_email.widget.dart';
-
-const DEFAULT_AVATAR_URL = "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png";
-const MINIO_ENDPOINT = "127.0.0.1";
-const MINIO_ACCESS_KEY = "minioadmin";
-const MINIO_SECRET_KEY = "minioadmin";
-const MINIO_PORT = 9000;
-const MINIO_BUCKET = "tripnjoy";
 
 class SettingsPage extends StatefulHookConsumerWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -85,7 +79,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               title: AppLocalizations.of(context).translate("user.firstname"),
               child: LayoutItemValue(
                 value: user.firstname!,
-                icon: const Icon(Icons.keyboard_arrow_right_sharp),
                 onPressed: () {
                   showDialog(
                       context: context,
@@ -104,7 +97,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               title: AppLocalizations.of(context).translate("user.lastname"),
               child: LayoutItemValue(
                 value: user.lastname!,
-                icon: const Icon(Icons.keyboard_arrow_right_sharp),
                 onPressed: () {
                   showDialog(
                       context: context,
@@ -123,7 +115,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               title: AppLocalizations.of(context).translate("user.email"),
               child: LayoutItemValue(
                 value: user.email!,
-                icon: const Icon(Icons.keyboard_arrow_right_sharp),
                 onPressed: () {
                   showDialog(
                       context: context,
@@ -139,7 +130,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               title: AppLocalizations.of(context).translate("user.password"),
               child: LayoutItemValue(
                 value: "•••••••••",
-                icon: const Icon(Icons.keyboard_arrow_right_sharp),
                 onPressed: () {
                   showDialog(
                       context: context,
@@ -155,7 +145,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               title: AppLocalizations.of(context).translate("user.phoneNumber"),
               child: LayoutItemValue(
                 value: user.phoneNumber ?? AppLocalizations.of(context).translate("settings.noPhoneNumber"),
-                icon: const Icon(Icons.keyboard_arrow_right_sharp),
                 onPressed: () {
                   showDialog(
                       context: context,
@@ -196,7 +185,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           LayoutItem(
               child: LayoutItemValue(
             value: AppLocalizations.of(context).translate("common.logout"),
-            icon: const Icon(Icons.exit_to_app),
+            icon: Icons.exit_to_app,
             onPressed: () {
               authViewModel.logout();
             },
@@ -204,7 +193,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           LayoutItem(
               child: LayoutItemValue(
             value: AppLocalizations.of(context).translate("settings.deleteAccount"),
-            icon: const Icon(Icons.close),
+            icon: Icons.close,
             customColor: Theme.of(context).colorScheme.error,
             onPressed: () async {
               showDialog(

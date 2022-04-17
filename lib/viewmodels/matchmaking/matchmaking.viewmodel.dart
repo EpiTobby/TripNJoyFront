@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
+import 'package:trip_n_joy_front/constants/matchmaking/matchmaking_status.enum.dart';
 import 'package:trip_n_joy_front/models/matchmaking/availability.model.dart';
 import 'package:trip_n_joy_front/viewmodels/matchmaking/profile.viewmodel.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/group_found_card.widget.dart';
@@ -28,6 +29,7 @@ class MatchmakingViewModel extends ChangeNotifier {
   final ProfileViewModel profileViewModel;
   List<CardModel> cards = [];
   int index = 0;
+  MatchmakingStatus status = MatchmakingStatus.CREATE_PROFILE;
 
   ProfileModel? activeProfile;
   Map<String, dynamic> profileCreationRequest = {};
@@ -38,10 +40,6 @@ class MatchmakingViewModel extends ChangeNotifier {
   }
 
   void startProfileCreation() {
-    // TODO: add all question cards
-
-    const DEFAULT_AVATAR_URL =
-        "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png";
     cards = [
       CardModel(
         builder: (context, onTop, isLoading) => SwipeCard(
@@ -267,20 +265,44 @@ class MatchmakingViewModel extends ChangeNotifier {
   }
 
   void joinGroup(int groupId) {
-    nextCard();
+    status = MatchmakingStatus.CREATE_PROFILE;
+    cards = [];
+    index = 0;
+    notifyListeners();
   }
 
   void matchmaking() {}
 
-  void retryMatchmaking() {}
+  void retryMatchmaking() async {
+    status = MatchmakingStatus.WAITING_MATCHMAKING;
+    notifyListeners();
 
-  void submitProfile(String name, String value) {
-    submitCard(name, value);
-    createProfile();
+    // TODO : remove this call as this function should be called after a notification is sent
+    await mockMatchmaking();
   }
 
-  void createProfile() {
-    profileViewModel.createProfile(ProfileCreationRequest.fromJsonFactory(profileCreationRequest));
+  void submitProfile(String name, String value) async {
+    status = MatchmakingStatus.WAITING_MATCHMAKING;
+    submitCard(name, value);
+    await createProfile();
+
+    // TODO : remove this call as this function should be called after a notification is sent
+    await mockMatchmaking();
+  }
+
+  Future<void> mockMatchmaking() async {
+    await Future.delayed(const Duration(seconds: 2));
+    receiveGroupMatch();
+  }
+
+  Future<void> createProfile() async {
+    await profileViewModel.createProfile(ProfileCreationRequest.fromJsonFactory(profileCreationRequest));
+    profileCreationRequest = {};
+  }
+
+  void receiveGroupMatch() async {
+    status = MatchmakingStatus.JOIN_GROUP;
+    notifyListeners();
   }
 
   void mockProfileData() {

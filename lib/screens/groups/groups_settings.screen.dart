@@ -26,7 +26,6 @@ class _GroupsSettingsState extends State<GroupsSettings> {
             title: AppLocalizations.of(context).translate("groups.settings.groupName"),
             child: LayoutItemValue(
               value: "Direction Marseille!",
-              icon: const Icon(Icons.keyboard_arrow_right_sharp),
               onPressed: () {},
             ),
           ),
@@ -34,7 +33,6 @@ class _GroupsSettingsState extends State<GroupsSettings> {
             title: AppLocalizations.of(context).translate("common.description"),
             child: LayoutItemValue(
               value: "Ce groupe est destiné à ...", // TODO : handle overflow of the text
-              icon: const Icon(Icons.keyboard_arrow_right_sharp),
               onPressed: () {},
             ),
           ),
@@ -58,19 +56,19 @@ class _GroupsSettingsState extends State<GroupsSettings> {
           LayoutItem(
               child: LayoutItemValue(
             value: AppLocalizations.of(context).translate("groups.settings.close"),
-            icon: const Icon(Icons.lock_outline),
+            icon: Icons.lock_outline,
             onPressed: () {},
           )),
           LayoutItem(
               child: LayoutItemValue(
             value: AppLocalizations.of(context).translate("groups.settings.archive"),
-            icon: const Icon(Icons.archive_outlined),
+            icon: Icons.archive_outlined,
             onPressed: () {},
           )),
           LayoutItem(
               child: LayoutItemValue(
             value: AppLocalizations.of(context).translate("groups.settings.quit"),
-            icon: const Icon(Icons.exit_to_app),
+            icon: Icons.exit_to_app,
             customColor: Theme.of(context).colorScheme.error,
             onPressed: () {},
           )),

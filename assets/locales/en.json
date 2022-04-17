@@ -175,7 +175,8 @@
     "no_preference": "Any"
   },
   "matchmaking": {
-    "title": "Matchmaking"
+    "title": "Matchmaking",
+    "retryProfile": "Retry a matchmaking with this profile"
   },
   "profile": {
     "title": "Profile",

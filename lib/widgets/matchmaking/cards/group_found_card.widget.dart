@@ -26,7 +26,7 @@ class GroupFoundCard extends HookConsumerWidget {
     final animation = useAnimationController(
       duration: const Duration(milliseconds: 500),
     );
-    final offset = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, -2))
+    final offset = Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, -2))
         .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
     final matchmakingViewModel = ref.watch(matchmakingProvider.notifier);
     return SlideTransition(

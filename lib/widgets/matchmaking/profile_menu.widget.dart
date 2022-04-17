@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/constants/matchmaking/matchmaking_status.enum.dart';
 import 'package:trip_n_joy_front/constants/matchmaking/popup_menu.enum.dart';
+import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/profile_detail.widget.dart';
 
@@ -18,6 +20,8 @@ class ProfileMenu extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileViewModel = ref.watch(profileProvider.notifier);
+    final matchmakingService = ref.watch(matchmakingProvider.notifier);
+    final matchmakingStatus = ref.watch(matchmakingProvider).status;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,7 +39,7 @@ class ProfileMenu extends ConsumerWidget {
             }
           },
           itemBuilder: (context) => [
-            if (!profileModel.active!)
+            if (matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING && !profileModel.active!)
               PopupMenuItem(
                 child: Row(
                   children: <Widget>[
@@ -47,6 +51,18 @@ class ProfileMenu extends ConsumerWidget {
                       profileModel.id!.toInt(), ProfileUpdateRequest.fromJsonFactory({"active": true}));
                 },
               ),
+              PopupMenuItem(child: Row(
+                children: <Widget>[
+                  Flexible(child: Text(AppLocalizations.of(context).translate('matchmaking.retryProfile'))),
+                ],
+              ),
+                onTap: () async {
+                  if (!profileModel.active!) {
+                    await profileViewModel.updateProfile(
+                        profileModel.id!.toInt(), ProfileUpdateRequest.fromJsonFactory({"active": true}));
+                  }
+                  matchmakingService.retryMatchmaking();
+                }),
             PopupMenuItem(
               value: PopupMenuItemType.EDIT,
               child: Row(
@@ -55,21 +71,22 @@ class ProfileMenu extends ConsumerWidget {
                 ],
               ),
             ),
-            PopupMenuItem(
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    AppLocalizations.of(context).translate('profile.delete'),
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.error,
+            if (matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING || !profileModel.active!)
+              PopupMenuItem(
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      AppLocalizations.of(context).translate('profile.delete'),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                onTap: () {
+                  profileViewModel.deleteProfile(profileModel.id!.toInt());
+                },
               ),
-              onTap: () {
-                profileViewModel.deleteProfile(profileModel.id!.toInt());
-              },
-            ),
           ],
         )
       ],

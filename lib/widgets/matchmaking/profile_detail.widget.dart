@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
+import 'package:trip_n_joy_front/constants/matchmaking/matchmaking_status.enum.dart';
+import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
@@ -26,6 +28,7 @@ class ProfileDetail extends ConsumerWidget {
     final profileModels = ref.watch(profileProvider);
     final profileModel = profileModels!.firstWhere((profile) => profile.id == profileId);
     final profileViewModel = ref.watch(profileProvider.notifier);
+    final matchmakingStatus = ref.watch(matchmakingProvider).status;
 
     final updateProfileSwap = (name, value) async {
       await profileViewModel.updateProfile(
@@ -47,7 +50,7 @@ class ProfileDetail extends ConsumerWidget {
             title: AppLocalizations.of(context).translate('profile.name'),
             child: LayoutItemValue(
               value: profileModel.name!,
-              icon: const Icon(Icons.keyboard_arrow_right_sharp),
+              editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
               onPressed: () {
                 showDialog(
                     context: context,
@@ -80,7 +83,7 @@ class ProfileDetail extends ConsumerWidget {
                           DateFormat('dd/MM/yyyy').format(DateTime.parse(availability.endDate!))
                       : '')
                   .join(' ; '),
-              icon: const Icon(Icons.keyboard_arrow_right_sharp),
+              editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
               onPressed: () {
                 showDialog(
                     context: context,
@@ -113,7 +116,7 @@ class ProfileDetail extends ConsumerWidget {
                     'end': profileModel.duration!.maxValue.toString(),
                     'val': AppLocalizations.of(context).translate('common.days')
                   }),
-                  icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                  editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -150,7 +153,7 @@ class ProfileDetail extends ConsumerWidget {
                     'end': profileModel.budget!.maxValue.toString(),
                     'val': "€"
                   }),
-                  icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                  editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -188,7 +191,7 @@ class ProfileDetail extends ConsumerWidget {
                     'end': profileModel.ages!.maxValue.toString(),
                     'val': AppLocalizations.of(context).translate('common.yearsOld')
                   }),
-                  icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                  editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -226,7 +229,7 @@ class ProfileDetail extends ConsumerWidget {
                     'end': profileModel.groupeSize!.maxValue.toString(),
                     'val': AppLocalizations.of(context).translate('common.people')
                   }),
-                  icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                  editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -260,7 +263,7 @@ class ProfileDetail extends ConsumerWidget {
               title: AppLocalizations.of(context).translate("cards.gender.title"),
               child: LayoutItemValue(
                   value: AppLocalizations.of(context).translate('cards.gender.${profileModel.gender!.name}'),
-                  icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                  editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -285,7 +288,7 @@ class ProfileDetail extends ConsumerWidget {
               child: LayoutItemValue(
                   value: AppLocalizations.of(context).translate(
                       "cards.travelWithPersonSameLanguage.${profileModel.travelWithPersonSameLanguage!.name}"),
-                  icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                  editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -310,7 +313,7 @@ class ProfileDetail extends ConsumerWidget {
               child: LayoutItemValue(
                   value: AppLocalizations.of(context).translate(
                       "cards.travelWithPersonFromSameCountry.${profileModel.travelWithPersonFromSameCountry!.name}"),
-                  icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                  editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -336,7 +339,7 @@ class ProfileDetail extends ConsumerWidget {
               child: LayoutItemValue(
                   value: AppLocalizations.of(context).translate(
                       "cards.travelWithPersonFromSameCity.${profileModel.travelWithPersonFromSameCity!.name}"),
-                  icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                  editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -362,7 +365,7 @@ class ProfileDetail extends ConsumerWidget {
                   value: profileModel.destinationTypes!
                       .map((e) => AppLocalizations.of(context).translate("cards.destinationTypes.${e.name}"))
                       .join(', '),
-                  icon: const Icon(Icons.keyboard_arrow_right_sharp),
+                  editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -389,7 +392,7 @@ class ProfileDetail extends ConsumerWidget {
             title: AppLocalizations.of(context).translate("cards.sport.title"),
             child: LayoutItemValue(
               value: AppLocalizations.of(context).translate("cards.sport.${profileModel.sport!.name}"),
-              icon: const Icon(Icons.keyboard_arrow_right_sharp),
+              editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
               onPressed: () {
                 showDialog(
                     context: context,
@@ -415,7 +418,7 @@ class ProfileDetail extends ConsumerWidget {
             title: AppLocalizations.of(context).translate("cards.goOutAtNight.title"),
             child: LayoutItemValue(
               value: AppLocalizations.of(context).translate("cards.goOutAtNight.${profileModel.goOutAtNight!.name}"),
-              icon: const Icon(Icons.keyboard_arrow_right_sharp),
+              editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
               onPressed: () {
                 showDialog(
                     context: context,
@@ -441,7 +444,7 @@ class ProfileDetail extends ConsumerWidget {
             title: AppLocalizations.of(context).translate("cards.aboutFood.title"),
             child: LayoutItemValue(
               value: AppLocalizations.of(context).translate("cards.aboutFood.${profileModel.aboutFood!.name}"),
-              icon: const Icon(Icons.keyboard_arrow_right_sharp),
+              editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
               onPressed: () {
                 showDialog(
                     context: context,
@@ -467,7 +470,7 @@ class ProfileDetail extends ConsumerWidget {
             title: AppLocalizations.of(context).translate("cards.chillOrVisit.title"),
             child: LayoutItemValue(
               value: AppLocalizations.of(context).translate("cards.chillOrVisit.${profileModel.chillOrVisit!.name}"),
-              icon: const Icon(Icons.keyboard_arrow_right_sharp),
+              editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
               onPressed: () {
                 showDialog(
                     context: context,

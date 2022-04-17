@@ -175,8 +175,9 @@
     "no_preference": "N'importe"
   },
   "matchmaking": {
-    "title": "Matchmaking"
-  },,
+    "title": "Matchmaking",
+    "retryProfile": "Relancer un matchmaking avec ce profil"
+  },
   "profile": {
     "title": "Profil",
     "active": "Profil actif",

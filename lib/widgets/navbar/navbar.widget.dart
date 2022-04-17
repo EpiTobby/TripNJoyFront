@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:trip_n_joy_front/constants/navbar/navbar.icons.dart';
+import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 import '../../constants/navbar/navbar.const.dart';
@@ -17,12 +18,14 @@ class Navbar extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
     final provider = ref.watch(navbarStateProvider.notifier);
+    final matchmakingService = ref.watch(matchmakingProvider.notifier);
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) async {
       logger.i("onMessageOpenedApp");
       await Firebase.initializeApp();
       if (message.notification!.title!.contains('matchmaking') || message.data.containsKey('matchmaking')) {
         logger.i('Opened matchmaking notification');
+        matchmakingService.receiveGroupMatch();
         provider.navigate(NavbarPage.MATCHMAKING);
       }
     });
