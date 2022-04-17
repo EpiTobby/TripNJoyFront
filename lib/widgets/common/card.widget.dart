@@ -13,6 +13,8 @@ class StandardCard extends StatelessWidget {
       this.backgroundColor = CardColors.white,
       this.shadowColor,
       this.isLoading = false,
+      this.loadingTitle,
+      this.loadingSubtitle,
       required this.child})
       : super(key: key);
   final String? name;
@@ -23,6 +25,8 @@ class StandardCard extends StatelessWidget {
   final Color backgroundColor;
   final Color? shadowColor;
   final bool isLoading;
+  final String? loadingTitle;
+  final String? loadingSubtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +49,42 @@ class StandardCard extends StatelessWidget {
             ],
           ),
           child: isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 40.0, bottom: 20.0, left: 10.0, right: 10.0),
+                  child: Column(children: [
+                    if (loadingTitle != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                        child: Text(
+                          loadingTitle!.toUpperCase(),
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.raleway(
+                            fontSize: 34,
+                            height: 0.8,
+                            fontWeight: FontWeight.w800,
+                            color: color,
+                          ),
+                        ),
+                      ),
+                    if (loadingSubtitle != null)
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          loadingSubtitle!,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: color,
+                          ),
+                        ),
+                      ),
+                    const Expanded(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  ]),
+                )
               : Padding(
                   padding: const EdgeInsets.only(top: 40.0, bottom: 20.0, left: 10.0, right: 10.0),
                   child: Column(children: [

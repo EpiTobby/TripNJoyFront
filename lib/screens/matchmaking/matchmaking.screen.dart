@@ -50,7 +50,9 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
       body: Container(
-        child: cards.isEmpty || currIndex >= cards.length || currIndex < 0
+        child: cards.isEmpty ||
+                currIndex >= cards.length ||
+                currIndex < 0 // TODO: if group found is loading or found, display groupFoundCard
             ? const ProfileCreationCard()
             : Stack(
                 alignment: Alignment.topCenter,
@@ -60,7 +62,7 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
                     return FractionalTranslation(
                         translation: getCardTranslation(index, moveAnim),
                         child: Transform.scale(
-                            scale: getCardScale(index, scaleAnim), child: card.build(context, index == 0)));
+                            scale: getCardScale(index, scaleAnim), child: card.build(context, index == 0, false)));
                   }
                   return Container();
                 }).toList()),

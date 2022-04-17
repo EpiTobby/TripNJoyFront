@@ -65,7 +65,7 @@
       "submit": "Reset password"
     },
     "google": {
-     "login": "Sign in with Google",
+      "login": "Sign in with Google",
       "moreInfo": "Please enter the complementary information"
     }
   },
@@ -84,7 +84,11 @@
       "title": "Group found!",
       "button": "Join",
       "retry": "Try another group",
-      "members": "$count Members"
+      "members": "$count Members",
+      "loading": {
+        "title": "Matchmaking...",
+        "subtitle": "We are searching for a group, you will be notified when we find one."
+      }
     },
     "availability": {
       "title": "Availability",
