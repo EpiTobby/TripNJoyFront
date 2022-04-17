@@ -137,7 +137,7 @@ class SwipeCard extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 80),
+            const SizedBox(height: 60),
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Text(
