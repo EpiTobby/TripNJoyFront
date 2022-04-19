@@ -1,9 +1,8 @@
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
-import 'package:trip_n_joy_front/models/auth/session_token.model.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
-import 'package:trip_n_joy_front/services/auth/auth.service.dart';
 
 class MockService extends HttpService {
   @override
@@ -16,7 +15,7 @@ class MockService extends HttpService {
 
   @override
   Future<UserModel?> loadUser() async {
-    return Future.delayed(Duration(seconds: 1), () {
+    return Future.delayed(const Duration(seconds: 1), () {
       return UserModel(
           firstname: "Tony",
           lastname: "Heng",
@@ -28,7 +27,7 @@ class MockService extends HttpService {
 
   @override
   Future<LoginResponse?> login(String email, String password) {
-    return Future.delayed(Duration(seconds: 1), () {
+    return Future.delayed(const Duration(seconds: 1), () {
       return LoginResponse(token: "token", username: "username");
     });
   }
@@ -61,7 +60,7 @@ class MockService extends HttpService {
 
   @override
   Future<void> forgotPassword(String email) async {
-    return Future.delayed(Duration(seconds: 1), () {});
+    return Future.delayed(const Duration(seconds: 1), () {});
   }
 
   @override
@@ -71,7 +70,7 @@ class MockService extends HttpService {
 
   @override
   Future<void> resendVerificationCode(int id) {
-    return Future.delayed(Duration(seconds: 1), () {});
+    return Future.delayed(const Duration(seconds: 1), () {});
   }
 
   @override
@@ -90,8 +89,32 @@ class MockService extends HttpService {
   }
 
   @override
+  Future<ProfileModel?> createProfile(int id, ProfileCreationRequest profile) {
+    return Future.delayed(const Duration(seconds: 2), () {
+      return ProfileModel();
+    });
+  }
+
+  @override
+  Future<void> deleteProfile(int id, int profileId) {
+    return Future.delayed(const Duration(seconds: 1));
+  }
+
+  @override
+  Future<List<ProfileModel>> getUserProfiles(int id) {
+    return Future.delayed(const Duration(seconds: 2), () {
+      return [];
+    });
+  }
+
+  @override
+  Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest) {
+    return Future.delayed(const Duration(seconds: 2));
+  }
+
+  @override
   Future<GoogleAuthResponse?> signInUpGoogle(SignInUpGoogleCredentials data) {
-    return Future.delayed(Duration(seconds: 1), () {
+    return Future.delayed(const Duration(seconds: 1), () {
       return GoogleAuthResponse(token: "token", username: "username", newUser: true);
     });
   }

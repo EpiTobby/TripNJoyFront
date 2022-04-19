@@ -5,7 +5,7 @@ import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 
 import '../../codegen/api.swagger.dart';
-import '../auth/auth.service.dart';
+import '../../viewmodels/auth/auth.viewmodel.dart';
 import 'http.service.dart';
 
 const BASE_URL = String.fromEnvironment("BASE_URL", defaultValue: "http://localhost:8080");
@@ -25,11 +25,11 @@ class CodegenService extends HttpService {
             converter: $JsonSerializableConverter(),
             interceptors: [
               (Request request) async => applyHeader(
-                  request, 'authorization', "Bearer " + (await storage.read(key: AuthService.tokenKey) ?? ""),
+                  request, 'authorization', "Bearer " + (await storage.read(key: AuthViewModel.tokenKey) ?? ""),
                   override: false),
               (Response response) async {
                 if (response.statusCode == 401) {
-                  await storage.delete(key: AuthService.tokenKey);
+                  await storage.delete(key: AuthViewModel.tokenKey);
                 }
                 return response;
               }
@@ -132,15 +132,39 @@ class CodegenService extends HttpService {
   }
 
   @override
+  Future<ProfileModel?> createProfile(int id, ProfileCreationRequest profile) async {
+    final response = await api.idProfilesPost(id: id, body: profile);
+
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteProfile(int id, int profileId) async {
+    await api.idProfilesProfileDelete(id: id, profile: profileId);
+  }
+
+  @override
+  Future<List<ProfileModel>?> getUserProfiles(int id) async {
+    final response = await api.idProfilesGet(id: id);
+
+    return response.body;
+  }
+
+  @override
+  Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest) async {
+    await api.idProfilesProfileUpdatePatch(id: id, profile: profileId, body: profileUpdateRequest);
+  }
+
+  @override
   Future<GoogleAuthResponse?> signInUpGoogle(SignInUpGoogleCredentials data) async {
-    final response = await api.authGooglePost(body: GoogleRequest(
-      email: data.email,
-      firstname: data.firstname,
-      lastname: data.lastname,
-      phoneNumber: data.phoneNumber,
-      profilePicture: data.profilePicture,
-      accessToken: data.accessToken
-    ));
+    final response = await api.authGooglePost(
+        body: GoogleRequest(
+            email: data.email,
+            firstname: data.firstname,
+            lastname: data.lastname,
+            phoneNumber: data.phoneNumber,
+            profilePicture: data.profilePicture,
+            accessToken: data.accessToken));
 
     return response.body;
   }

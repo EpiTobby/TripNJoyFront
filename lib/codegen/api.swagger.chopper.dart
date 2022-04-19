@@ -33,6 +33,27 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<GroupModel>> _groupsPrivateIdPost(
+      {required num? id,
+      required CreatePrivateGroupRequest? createPrivateGroupRequest}) {
+    final $url = '/groups/private/${id}';
+    final $params = <String, dynamic>{
+      'createPrivateGroupRequest': createPrivateGroupRequest
+    };
+    final $request = Request('POST', $url, client.baseUrl, parameters: $params);
+    return client.send<GroupModel, GroupModel>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _groupsPrivateGroupUserPost(
+      {required num? group, required ModelWithEmail? body}) {
+    final $url = '/groups/private/${group}/user';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _authIdResendPost({required num? id}) {
     final $url = '/auth/${id}/resend';
     final $request = Request('POST', $url, client.baseUrl);
@@ -87,20 +108,18 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _idProfilesProfileReusePatch(
-      {required num? id,
-      required num? profile,
-      required AvailabilityAnswerModel? body}) {
-    final $url = '/${id}/profiles/${profile}/reuse';
+  Future<Response<dynamic>> _usersIdUpdatePatch(
+      {required num? id, required UserUpdateRequest? body}) {
+    final $url = '/users/${id}/update';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> _usersIdUpdatePatch(
-      {required num? id, required UserUpdateRequest? body}) {
-    final $url = '/users/${id}/update';
+  Future<Response<dynamic>> _groupsPrivateGroupPatch(
+      {required num? group, required UpdateGroupRequest? body}) {
+    final $url = '/groups/private/${group}';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
@@ -150,10 +169,10 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<Object>> _usersGet() {
+  Future<Response<List<UserEntity>>> _usersGet() {
     final $url = '/users';
     final $request = Request('GET', $url, client.baseUrl);
-    return client.send<Object, Object>($request);
+    return client.send<List<UserEntity>, UserEntity>($request);
   }
 
   @override
@@ -180,6 +199,13 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<List<GroupModel>>> _groupsIdGet({required num? id}) {
+    final $url = '/groups/${id}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<List<GroupModel>, GroupModel>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _idProfilesProfileDelete(
       {required num? id, required num? profile}) {
     final $url = '/${id}/profiles/${profile}';
@@ -193,6 +219,22 @@ class _$Api extends Api {
     final $url = '/users/${id}/admin';
     final $body = body;
     final $request = Request('DELETE', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _groupsGroupUserIdDelete(
+      {required num? group, required num? id}) {
+    final $url = '/groups/${group}/user/${id}';
+    final $request = Request('DELETE', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _groupsPrivateGroupUserIdDelete(
+      {required num? group, required num? id}) {
+    final $url = '/groups/private/${group}/user/${id}';
+    final $request = Request('DELETE', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 }

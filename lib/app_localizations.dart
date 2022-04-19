@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -6,14 +5,14 @@ import 'package:flutter/services.dart';
 
 class AppLocalizations {
   AppLocalizations(this.locale);
+
   final Locale fallbackLocale = const Locale('en');
 
   static AppLocalizations of(BuildContext context) {
     return Localizations.of(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   static AppLocalizations get instance => _AppLocalizationsDelegate.instance!;
 
@@ -35,8 +34,7 @@ class AppLocalizations {
     Map localizedStrings = {};
 
     try {
-      jsonString = await rootBundle
-          .loadString('assets/locales/${localeToBeLoaded.languageCode}.json');
+      jsonString = await rootBundle.loadString('assets/locales/${localeToBeLoaded.languageCode}.json');
     } catch (exception) {
       return localizedStrings;
     }
@@ -65,11 +63,10 @@ class AppLocalizations {
   String translate(String key, [Map<String, String>? arguments]) {
     List<String> keys = key.split('.');
 
-    dynamic foldedTranslation = foldNestedJson(keys, _localizedStrings) ??
-        foldNestedJson(keys, _fallbackLocalizedStrings);
+    dynamic foldedTranslation =
+        foldNestedJson(keys, _localizedStrings) ?? foldNestedJson(keys, _fallbackLocalizedStrings);
 
-    String translation =
-        foldedTranslation != null ? foldedTranslation.toString() : "";
+    String translation = foldedTranslation != null ? foldedTranslation.toString() : "";
 
     if (arguments == null || arguments.isEmpty) {
       return translation;
@@ -83,8 +80,7 @@ class AppLocalizations {
   }
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   static AppLocalizations? instance;

@@ -10,7 +10,13 @@
     "cancel": "Cancel",
     "save": "Save",
     "submit": "Submit",
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "validate": "Validate",
+    "next": "Next",
+    "start": "Start",
+    "days": "days",
+    "yearsOld": "years old",
+    "people": "people"
   },
   "user": {
     "firstname": "Firstname",
@@ -59,9 +65,131 @@
       "submit": "Reset password"
     },
     "google": {
-     "login": "Sign in with Google",
+      "login": "Sign in with Google",
       "moreInfo": "Please enter the complementary information"
     }
+  },
+  "cards": {
+    "creation_profile": {
+      "title": "Create your travel profile",
+      "subtitle": "Press the button to start the profile creation"
+    },
+    "name_profile": {
+      "title": "Profile generated!",
+      "subtitle": "Give a name to your profile before the matchmaking process.",
+      "label": "Name of the profile",
+      "hint": "Ex: Summer profile"
+    },
+    "group_found": {
+      "title": "Group found!",
+      "button": "Join",
+      "retry": "Try another group",
+      "members": "$count Members",
+      "loading": {
+        "title": "Matchmaking...",
+        "subtitle": "We are searching for a group, you will be notified when we find one."
+      }
+    },
+    "availability": {
+      "title": "Availability",
+      "subtitle": "Choose your availability",
+      "begin": "Begin",
+      "end": "End"
+    },
+    "chillOrVisit": {
+      "title": "Chill or visit ?",
+      "chill": "Chill",
+      "visit": "Visit",
+      "noPreference": "No preference"
+    },
+    "aboutFood": {
+      "title": "Rather eat at restaurants or cook ?",
+      "restaurant": "Restaurant",
+      "cooking": "Cook",
+      "noPreference": "No preference"
+    },
+    "goOutAtNight": {
+      "title": "Go out at night ?",
+      "yes": "Yes",
+      "no": "No",
+      "noPreference": "No preference"
+    },
+    "sport": {
+      "title": "Sport ?",
+      "yes": "Yes",
+      "no": "No",
+      "noPreference": "No preference"
+    },
+    "travelWithPersonFromSameCity": {
+      "title": "Travel with person from same city ?",
+      "yes": "Yes",
+      "no": "No",
+      "noPreference": "No preference"
+    },
+    "travelWithPersonFromSameCountry": {
+      "title": "Travel with person from same country ?",
+      "yes": "Yes",
+      "no": "No",
+      "noPreference": "No preference"
+    },
+    "travelWithPersonSameLanguage": {
+      "title": "Travel with person talking the same language ?",
+      "yes": "Yes",
+      "no": "No",
+      "noPreference": "No preference"
+    },
+    "gender": {
+      "title": "Gender of the members ?",
+      "male": "Men",
+      "female": "women",
+      "noPreference": "No preference"
+    },
+    "destinationTypes": {
+      "title": "Destination Type ?",
+      "subtitle": "Please select the types of destinations you wish to visit.",
+      "mountain": "Mountain",
+      "beach": "Beach",
+      "city": "City",
+      "countryside": "Countryside",
+      "naturalarea": "Natural Area",
+      "island": "Island",
+      "noPreference": "No preference"
+    },
+    "groupSize": {
+      "title": "How many people do you want to go with?",
+      "subtitle": "Please select a range between 2 and 10+."
+    },
+    "ages": {
+      "title": "Age of the members ?",
+      "subtitle": "Please select a range between 18 and 100+."
+    },
+    "budget": {
+      "title": "What is your budget ?",
+      "subtitle": "Please select a range between 100$ and 2000$+."
+    },
+    "duration": {
+      "title": "How long do you want to go ?",
+      "subtitle": "Please select a range between 1 and 30 days+."
+    },
+    "swipeToChoose": "Swipe to choose your preference",
+    "no_preference": "Any"
+  },
+  "matchmaking": {
+    "title": "Matchmaking",
+    "retryProfile": "Retry a matchmaking with this profile"
+  },
+  "profile": {
+    "title": "Profile",
+    "active": "Active profile",
+    "other": "Other profiles",
+    "information": "Information",
+    "name": "Profile name",
+    "answers": "Answers",
+    "defineActive": "Define as active profile",
+    "edit": "Edit",
+    "delete": "Delete",
+    "noProfile": "You do not have a profile yet, please answer the questions to create your first profile",
+    "rangeAnswer": "Between $begin and $end $val"
   },
   "groups": {
     "title": "Groups",

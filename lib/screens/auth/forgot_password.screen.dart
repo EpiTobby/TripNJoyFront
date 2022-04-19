@@ -16,7 +16,7 @@ class ForgotPassword extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authService = ref.watch(authProvider);
+    final authViewModel = ref.watch(authProvider);
     final email = useState('');
 
     ref.listen<AsyncValue<void>>(authForgotPasswordStateProvider, (_, state) => state.showSnackBarOnError(context));
@@ -46,7 +46,7 @@ class ForgotPassword extends HookConsumerWidget {
                 icon: const Icon(Icons.email),
                 keyboardType: TextInputType.emailAddress,
                 textCapitalization: TextCapitalization.none,
-                isError: authService.forgotPasswordState.isError,
+                isError: authViewModel.forgotPasswordState.isError,
                 onChanged: (value) {
                   email.value = value;
                 },
@@ -55,10 +55,10 @@ class ForgotPassword extends HookConsumerWidget {
               PrimaryButton(
                 text: AppLocalizations.of(context).translate('auth.forgot_password.submit'),
                 onPressed: () {
-                  authService.forgotPassword(email.value).then((value) =>
+                  authViewModel.forgotPassword(email.value).then((value) =>
                       Navigator.push(context, MaterialPageRoute(builder: (_) => ResetPassword(email: email.value))));
                 },
-                isLoading: authService.forgotPasswordState.isLoading,
+                isLoading: authViewModel.forgotPasswordState.isLoading,
                 isDisabled: email.value.isEmpty,
               ),
               SecondaryButton(

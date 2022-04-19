@@ -21,36 +21,35 @@ class LayoutHeader extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Center(
-                child: Stack(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(imageURL),
-                      radius: 70,
-                    ),
-                    Positioned(
-                        bottom: 0,
-                        right: -15,
-                        child: RawMaterialButton(
-                          onPressed: () {
-                            if (onClick != null) {
-                              onClick!();
-                            }
-                          },
-                          elevation: 0.5,
-                          fillColor: Theme.of(context).colorScheme.secondary,
-                          child: const Icon(
-                            Icons.edit_outlined,
-                            color: Colors.white,
-                          ),
-                          padding: const EdgeInsets.all(15.0),
-                          shape: const CircleBorder(),
-                        )),
-                  ],
-                ),
-              )
-            ),
+                padding: const EdgeInsets.only(top: 16),
+                child: Center(
+                  child: Stack(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(imageURL),
+                        radius: 70,
+                      ),
+                      Positioned(
+                          bottom: 0,
+                          right: -15,
+                          child: RawMaterialButton(
+                            onPressed: () {
+                              if (onClick != null) {
+                                onClick!();
+                              }
+                            },
+                            elevation: 0.5,
+                            fillColor: Theme.of(context).colorScheme.secondary,
+                            child: const Icon(
+                              Icons.edit_outlined,
+                              color: Colors.white,
+                            ),
+                            padding: const EdgeInsets.all(15.0),
+                            shape: const CircleBorder(),
+                          )),
+                    ],
+                  ),
+                )),
           ],
         ),
         if (title != null)

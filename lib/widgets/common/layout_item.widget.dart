@@ -18,10 +18,7 @@ class LayoutItem extends StatelessWidget {
         if (title != null)
           Text(
             title!,
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 18,
-                fontWeight: FontWeight.w300),
+            style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 18, fontWeight: FontWeight.w300),
           ),
         child,
       ]),

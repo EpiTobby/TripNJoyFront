@@ -1,8 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
@@ -10,21 +13,32 @@ import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
 import 'package:trip_n_joy_front/screens/auth/verification.screen.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
-import 'package:trip_n_joy_front/services/auth/auth.service.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
-import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
+import 'package:trip_n_joy_front/services/notification/push_notification.service.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
 
 import 'app_localizations.dart';
-import 'constants/auth/auth_step.enum.dart';
 import 'constants/navbar/navbar.enum.dart';
 import 'screens/groups/groups.screen.dart';
 import 'screens/matchmaking/matchmaking.screen.dart';
 import 'screens/notification/notification.screen.dart';
 import 'screens/settings/settings.screen.dart';
 
-void main() {
-  runApp(const ProviderScope(child: MyApp()));
+void main() async {
+  await initFirebase();
+  runApp(const ProviderScope(child: OverlaySupport.global(child: MyApp())));
+}
+
+Future initFirebase() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await initNotifications();
+}
+
+Future initNotifications() async {
+  final pushNotificationService = PushNotificationService(FirebaseMessaging.instance);
+  pushNotificationService.init();
+  pushNotificationService.setNotifications();
 }
 
 class MyApp extends StatelessWidget {
@@ -46,6 +60,7 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
 
+        fontFamily: GoogleFonts.roboto().fontFamily,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(
           background: CColors.background,
           primary: CColors.primary,
@@ -58,6 +73,19 @@ class MyApp extends StatelessWidget {
           primaryContainer: CColors.variant,
           error: CColors.error,
           onError: CColors.onError,
+          surface: CColors.surface,
+          onSurface: CColors.onSurface,
+        ),
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: MaterialStateProperty.all(CColors.secondary),
+        ),
+        sliderTheme: const SliderThemeData(
+          thumbColor: CColors.secondary,
+          activeTickMarkColor: CColors.secondary,
+          activeTrackColor: CColors.secondary,
+          showValueIndicator: ShowValueIndicator.always,
+          overlayColor: CColors.secondary,
+          valueIndicatorColor: CColors.secondary,
         ),
       ),
       supportedLocales: const [
@@ -95,26 +123,26 @@ class TripNJoy extends StatefulHookConsumerWidget {
 class _TripNJoyState extends ConsumerState<TripNJoy> {
   @override
   Widget build(BuildContext context) {
-    final authService = ref.watch(authProvider);
-    final userService = ref.watch(userProvider.notifier);
+    final authViewModel = ref.watch(authProvider);
+    final userViewModel = ref.watch(userProvider.notifier);
     useEffect(() {
-      authService.updateTokenFromStorage().then((value) {
+      authViewModel.updateTokenFromStorage().then((value) {
         if (value != null) {
-          ref.watch(userProvider.notifier).loadUser().then((value) {
-            if (value == null) authService.logout();
+          userViewModel.loadUser().then((value) {
+            if (value == null) authViewModel.logout();
           });
         }
       });
       return () {};
     }, []);
 
-    if (!authService.isAuthenticated) {
+    if (!authViewModel.isAuthenticated) {
       return Auth();
     }
 
     useEffect(() {
-      if (authService.isAuthenticated && mounted) {
-        userService.loadUser().then((value) {
+      if (authViewModel.isAuthenticated && mounted) {
+        userViewModel.loadUser().then((value) {
           if (value != null && mounted) {
             if (value.confirmed == false) {
               logger.d("user not confirmed");
@@ -129,25 +157,27 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
             }
           } else {
             logger.d("user not found");
-            authService.logout();
+            authViewModel.logout();
           }
         });
       }
       return null;
-    }, [authService]);
+    }, [authViewModel]);
 
     final user = ref.watch(userProvider);
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
     return user.when(
         data: (data) => Scaffold(
-              appBar: AppBar(
-                title: Text(widget.title),
-              ),
+              appBar: selectedPage != NavbarPage.MATCHMAKING
+                  ? AppBar(
+                      title: Text(widget.title),
+                    )
+                  : null,
               extendBody: true,
-              body: Center(
+              body: Container(
                 child: getPageWidget(selectedPage),
               ),
-              bottomNavigationBar: Navbar(),
+              bottomNavigationBar: const Navbar(),
               resizeToAvoidBottomInset: false,
             ),
         error: (error, r) {

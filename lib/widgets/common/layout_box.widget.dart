@@ -9,6 +9,7 @@ class LayoutBox extends StatelessWidget {
 
   final String title;
   final List<Widget> children;
+
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
-import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
@@ -27,16 +26,13 @@ class _GroupsSettingsState extends State<GroupsSettings> {
             title: AppLocalizations.of(context).translate("groups.settings.groupName"),
             child: LayoutItemValue(
               value: "Direction Marseille!",
-              icon: const Icon(Icons.keyboard_arrow_right_sharp),
               onPressed: () {},
             ),
           ),
           LayoutItem(
             title: AppLocalizations.of(context).translate("common.description"),
             child: LayoutItemValue(
-              value:
-                  "Ce groupe est destiné à ...", // TODO : handle overflow of the text
-              icon: const Icon(Icons.keyboard_arrow_right_sharp),
+              value: "Ce groupe est destiné à ...", // TODO : handle overflow of the text
               onPressed: () {},
             ),
           ),
@@ -60,19 +56,19 @@ class _GroupsSettingsState extends State<GroupsSettings> {
           LayoutItem(
               child: LayoutItemValue(
             value: AppLocalizations.of(context).translate("groups.settings.close"),
-            icon: const Icon(Icons.lock_outline),
+            icon: Icons.lock_outline,
             onPressed: () {},
           )),
           LayoutItem(
               child: LayoutItemValue(
             value: AppLocalizations.of(context).translate("groups.settings.archive"),
-            icon: const Icon(Icons.archive_outlined),
+            icon: Icons.archive_outlined,
             onPressed: () {},
           )),
           LayoutItem(
               child: LayoutItemValue(
             value: AppLocalizations.of(context).translate("groups.settings.quit"),
-            icon: const Icon(Icons.exit_to_app),
+            icon: Icons.exit_to_app,
             customColor: Theme.of(context).colorScheme.error,
             onPressed: () {},
           )),

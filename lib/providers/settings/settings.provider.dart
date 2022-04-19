@@ -1,10 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:trip_n_joy_front/providers/api/codegen.provider.dart';
+import 'package:trip_n_joy_front/providers/api/api.provider.dart';
 
-import '../../services/settings/settings.service.dart';
-import '../user/user.provider.dart';
+import '../../viewmodels/settings/settings.viewmodel.dart';
 
 final settingsProvider = ChangeNotifierProvider((ref) {
-  final httpService = ref.watch(codegenProvider);
-  return SettingsService(httpService);
+  final httpService = ref.watch(apiProvider);
+  return SettingsViewModel(httpService);
 });
