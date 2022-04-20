@@ -43,4 +43,20 @@ abstract class HttpService {
   Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest);
 
   Future<void> deleteProfile(int id, int profileId);
+
+  Future<List<GroupModel>?> getGroups(int id);
+
+  Future<GroupModel?> createPrivateGroup(int id, CreatePrivateGroupRequest createPrivateGroupRequest);
+
+  Future<void> addUserToPrivateGroup(int groupId, String email);
+
+  Future<void> joinPrivateGroup(int groupId, String token);
+
+  Future<void> deletePrivateGroup(int groupId);
+
+  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest);
+
+  Future<void> removeUserFromPrivateGroup(int groupId, int userId);
+
+  Future<void> leaveGroup(int groupId, int userId);
 }

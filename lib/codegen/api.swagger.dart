@@ -63,27 +63,19 @@ abstract class Api extends ChopperService {
 
   ///Create a private group
   ///@param id
-  ///@param createPrivateGroupRequest
   Future<chopper.Response<GroupModel>> groupsPrivateIdPost(
-      {required num? id,
-      required CreatePrivateGroupRequest? createPrivateGroupRequest}) {
-    generatedMapping.putIfAbsent(CreatePrivateGroupRequest,
-        () => CreatePrivateGroupRequest.fromJsonFactory);
+      {required num? id, required CreatePrivateGroupRequest? body}) {
     generatedMapping.putIfAbsent(GroupModel, () => GroupModel.fromJsonFactory);
 
-    return _groupsPrivateIdPost(
-        id: id, createPrivateGroupRequest: createPrivateGroupRequest);
+    return _groupsPrivateIdPost(id: id, body: body);
   }
 
   ///Create a private group
   ///@param id
-  ///@param createPrivateGroupRequest
-  @Post(path: '/groups/private/{id}', optionalBody: true)
+  @Post(path: '/groups/private/{id}')
   Future<chopper.Response<GroupModel>> _groupsPrivateIdPost(
-      {@Path('id')
-          required num? id,
-      @Query('createPrivateGroupRequest')
-          required CreatePrivateGroupRequest? createPrivateGroupRequest});
+      {@Path('id') required num? id,
+      @Body() required CreatePrivateGroupRequest? body});
 
   ///Add user to private group
   ///@param group
@@ -194,6 +186,18 @@ abstract class Api extends ChopperService {
   @Patch(path: '/users/{id}/update')
   Future<chopper.Response> _usersIdUpdatePatch(
       {@Path('id') required num? id, @Body() required UserUpdateRequest? body});
+
+  ///Delete the private group
+  ///@param group
+  Future<chopper.Response> groupsPrivateGroupDelete({required num? group}) {
+    return _groupsPrivateGroupDelete(group: group);
+  }
+
+  ///Delete the private group
+  ///@param group
+  @Delete(path: '/groups/private/{group}')
+  Future<chopper.Response> _groupsPrivateGroupDelete(
+      {@Path('group') required num? group});
 
   ///Update the private group
   ///@param group
@@ -916,12 +920,15 @@ extension $ProfileModelExtension on ProfileModel {
 @JsonSerializable(explicitToJson: true)
 class CreatePrivateGroupRequest {
   CreatePrivateGroupRequest({
+    this.name,
     this.maxSize,
   });
 
   factory CreatePrivateGroupRequest.fromJson(Map<String, dynamic> json) =>
       _$CreatePrivateGroupRequestFromJson(json);
 
+  @JsonKey(name: 'name')
+  final String? name;
   @JsonKey(name: 'maxSize')
   final int? maxSize;
   static const fromJsonFactory = _$CreatePrivateGroupRequestFromJson;
@@ -932,18 +939,57 @@ class CreatePrivateGroupRequest {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is CreatePrivateGroupRequest &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.maxSize, maxSize) ||
                 const DeepCollectionEquality().equals(other.maxSize, maxSize)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(maxSize) ^ runtimeType.hashCode;
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(maxSize) ^
+      runtimeType.hashCode;
 }
 
 extension $CreatePrivateGroupRequestExtension on CreatePrivateGroupRequest {
-  CreatePrivateGroupRequest copyWith({int? maxSize}) {
-    return CreatePrivateGroupRequest(maxSize: maxSize ?? this.maxSize);
+  CreatePrivateGroupRequest copyWith({String? name, int? maxSize}) {
+    return CreatePrivateGroupRequest(
+        name: name ?? this.name, maxSize: maxSize ?? this.maxSize);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CityModel {
+  CityModel({
+    this.name,
+  });
+
+  factory CityModel.fromJson(Map<String, dynamic> json) =>
+      _$CityModelFromJson(json);
+
+  @JsonKey(name: 'name')
+  final String? name;
+  static const fromJsonFactory = _$CityModelFromJson;
+  static const toJsonFactory = _$CityModelToJson;
+  Map<String, dynamic> toJson() => _$CityModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is CityModel &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
+}
+
+extension $CityModelExtension on CityModel {
+  CityModel copyWith({String? name}) {
+    return CityModel(name: name ?? this.name);
   }
 }
 
@@ -957,7 +1003,7 @@ class GroupModel {
     this.maxSize,
     this.startOfTrip,
     this.endOfTrip,
-    this.users,
+    this.members,
     this.createdDate,
   });
 
@@ -981,8 +1027,8 @@ class GroupModel {
   final DateTime? startOfTrip;
   @JsonKey(name: 'endOfTrip')
   final DateTime? endOfTrip;
-  @JsonKey(name: 'users', defaultValue: <String>[])
-  final List<String>? users;
+  @JsonKey(name: 'members', defaultValue: <MemberModel>[])
+  final List<MemberModel>? members;
   @JsonKey(name: 'createdDate')
   final String? createdDate;
   static const fromJsonFactory = _$GroupModelFromJson;
@@ -1010,8 +1056,9 @@ class GroupModel {
             (identical(other.endOfTrip, endOfTrip) ||
                 const DeepCollectionEquality()
                     .equals(other.endOfTrip, endOfTrip)) &&
-            (identical(other.users, users) ||
-                const DeepCollectionEquality().equals(other.users, users)) &&
+            (identical(other.members, members) ||
+                const DeepCollectionEquality()
+                    .equals(other.members, members)) &&
             (identical(other.createdDate, createdDate) ||
                 const DeepCollectionEquality()
                     .equals(other.createdDate, createdDate)));
@@ -1026,7 +1073,7 @@ class GroupModel {
       const DeepCollectionEquality().hash(maxSize) ^
       const DeepCollectionEquality().hash(startOfTrip) ^
       const DeepCollectionEquality().hash(endOfTrip) ^
-      const DeepCollectionEquality().hash(users) ^
+      const DeepCollectionEquality().hash(members) ^
       const DeepCollectionEquality().hash(createdDate) ^
       runtimeType.hashCode;
 }
@@ -1040,7 +1087,7 @@ extension $GroupModelExtension on GroupModel {
       int? maxSize,
       DateTime? startOfTrip,
       DateTime? endOfTrip,
-      List<String>? users,
+      List<MemberModel>? members,
       String? createdDate}) {
     return GroupModel(
         id: id ?? this.id,
@@ -1050,8 +1097,135 @@ extension $GroupModelExtension on GroupModel {
         maxSize: maxSize ?? this.maxSize,
         startOfTrip: startOfTrip ?? this.startOfTrip,
         endOfTrip: endOfTrip ?? this.endOfTrip,
-        users: users ?? this.users,
+        members: members ?? this.members,
         createdDate: createdDate ?? this.createdDate);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class MemberModel {
+  MemberModel({
+    this.id,
+    this.firstname,
+    this.lastname,
+    this.email,
+    this.birthDate,
+    this.gender,
+    this.profilePicture,
+    this.city,
+    this.createdDate,
+    this.phoneNumber,
+    this.confirmed,
+  });
+
+  factory MemberModel.fromJson(Map<String, dynamic> json) =>
+      _$MemberModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'firstname')
+  final String? firstname;
+  @JsonKey(name: 'lastname')
+  final String? lastname;
+  @JsonKey(name: 'email')
+  final String? email;
+  @JsonKey(name: 'birthDate')
+  final DateTime? birthDate;
+  @JsonKey(
+      name: 'gender',
+      toJson: memberModelGenderToJson,
+      fromJson: memberModelGenderFromJson)
+  final enums.MemberModelGender? gender;
+  @JsonKey(name: 'profilePicture')
+  final String? profilePicture;
+  @JsonKey(name: 'city')
+  final CityModel? city;
+  @JsonKey(name: 'createdDate')
+  final DateTime? createdDate;
+  @JsonKey(name: 'phoneNumber')
+  final String? phoneNumber;
+  @JsonKey(name: 'confirmed')
+  final bool? confirmed;
+  static const fromJsonFactory = _$MemberModelFromJson;
+  static const toJsonFactory = _$MemberModelToJson;
+  Map<String, dynamic> toJson() => _$MemberModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is MemberModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.firstname, firstname) ||
+                const DeepCollectionEquality()
+                    .equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastname, lastname)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.birthDate, birthDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.birthDate, birthDate)) &&
+            (identical(other.gender, gender) ||
+                const DeepCollectionEquality().equals(other.gender, gender)) &&
+            (identical(other.profilePicture, profilePicture) ||
+                const DeepCollectionEquality()
+                    .equals(other.profilePicture, profilePicture)) &&
+            (identical(other.city, city) ||
+                const DeepCollectionEquality().equals(other.city, city)) &&
+            (identical(other.createdDate, createdDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdDate, createdDate)) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.confirmed, confirmed) ||
+                const DeepCollectionEquality()
+                    .equals(other.confirmed, confirmed)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(lastname) ^
+      const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(birthDate) ^
+      const DeepCollectionEquality().hash(gender) ^
+      const DeepCollectionEquality().hash(profilePicture) ^
+      const DeepCollectionEquality().hash(city) ^
+      const DeepCollectionEquality().hash(createdDate) ^
+      const DeepCollectionEquality().hash(phoneNumber) ^
+      const DeepCollectionEquality().hash(confirmed) ^
+      runtimeType.hashCode;
+}
+
+extension $MemberModelExtension on MemberModel {
+  MemberModel copyWith(
+      {num? id,
+      String? firstname,
+      String? lastname,
+      String? email,
+      DateTime? birthDate,
+      enums.MemberModelGender? gender,
+      String? profilePicture,
+      CityModel? city,
+      DateTime? createdDate,
+      String? phoneNumber,
+      bool? confirmed}) {
+    return MemberModel(
+        id: id ?? this.id,
+        firstname: firstname ?? this.firstname,
+        lastname: lastname ?? this.lastname,
+        email: email ?? this.email,
+        birthDate: birthDate ?? this.birthDate,
+        gender: gender ?? this.gender,
+        profilePicture: profilePicture ?? this.profilePicture,
+        city: city ?? this.city,
+        createdDate: createdDate ?? this.createdDate,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        confirmed: confirmed ?? this.confirmed);
   }
 }
 
@@ -1672,40 +1846,6 @@ extension $ProfileUpdateRequestExtension on ProfileUpdateRequest {
         goOutAtNight: goOutAtNight ?? this.goOutAtNight,
         sport: sport ?? this.sport,
         active: active ?? this.active);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class CityModel {
-  CityModel({
-    this.name,
-  });
-
-  factory CityModel.fromJson(Map<String, dynamic> json) =>
-      _$CityModelFromJson(json);
-
-  @JsonKey(name: 'name')
-  final String? name;
-  static const fromJsonFactory = _$CityModelFromJson;
-  static const toJsonFactory = _$CityModelToJson;
-  Map<String, dynamic> toJson() => _$CityModelToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is CityModel &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
-}
-
-extension $CityModelExtension on CityModel {
-  CityModel copyWith({String? name}) {
-    return CityModel(name: name ?? this.name);
   }
 }
 
@@ -3696,6 +3836,54 @@ List<enums.GroupModelState> groupModelStateListFromJson(List? groupModelState) {
 
   return groupModelState
       .map((e) => groupModelStateFromJson(e.toString()))
+      .toList();
+}
+
+String? memberModelGenderToJson(enums.MemberModelGender? memberModelGender) {
+  return enums.$MemberModelGenderMap[memberModelGender];
+}
+
+enums.MemberModelGender memberModelGenderFromJson(Object? memberModelGender) {
+  if (memberModelGender is int) {
+    return enums.$MemberModelGenderMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == memberModelGender.toString(),
+            orElse: () => const MapEntry(
+                enums.MemberModelGender.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (memberModelGender is String) {
+    return enums.$MemberModelGenderMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == memberModelGender.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.MemberModelGender.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.MemberModelGender.swaggerGeneratedUnknown;
+}
+
+List<String> memberModelGenderListToJson(
+    List<enums.MemberModelGender>? memberModelGender) {
+  if (memberModelGender == null) {
+    return [];
+  }
+
+  return memberModelGender.map((e) => enums.$MemberModelGenderMap[e]!).toList();
+}
+
+List<enums.MemberModelGender> memberModelGenderListFromJson(
+    List? memberModelGender) {
+  if (memberModelGender == null) {
+    return [];
+  }
+
+  return memberModelGender
+      .map((e) => memberModelGenderFromJson(e.toString()))
       .toList();
 }
 

@@ -178,13 +178,23 @@ Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
 CreatePrivateGroupRequest _$CreatePrivateGroupRequestFromJson(
         Map<String, dynamic> json) =>
     CreatePrivateGroupRequest(
+      name: json['name'] as String?,
       maxSize: json['maxSize'] as int?,
     );
 
 Map<String, dynamic> _$CreatePrivateGroupRequestToJson(
         CreatePrivateGroupRequest instance) =>
     <String, dynamic>{
+      'name': instance.name,
       'maxSize': instance.maxSize,
+    };
+
+CityModel _$CityModelFromJson(Map<String, dynamic> json) => CityModel(
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$CityModelToJson(CityModel instance) => <String, dynamic>{
+      'name': instance.name,
     };
 
 GroupModel _$GroupModelFromJson(Map<String, dynamic> json) => GroupModel(
@@ -199,9 +209,10 @@ GroupModel _$GroupModelFromJson(Map<String, dynamic> json) => GroupModel(
       endOfTrip: json['endOfTrip'] == null
           ? null
           : DateTime.parse(json['endOfTrip'] as String),
-      users:
-          (json['users'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-              [],
+      members: (json['members'] as List<dynamic>?)
+              ?.map((e) => MemberModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       createdDate: json['createdDate'] as String?,
     );
 
@@ -214,8 +225,43 @@ Map<String, dynamic> _$GroupModelToJson(GroupModel instance) =>
       'maxSize': instance.maxSize,
       'startOfTrip': instance.startOfTrip?.toIso8601String(),
       'endOfTrip': instance.endOfTrip?.toIso8601String(),
-      'users': instance.users,
+      'members': instance.members?.map((e) => e.toJson()).toList(),
       'createdDate': instance.createdDate,
+    };
+
+MemberModel _$MemberModelFromJson(Map<String, dynamic> json) => MemberModel(
+      id: json['id'] as num?,
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
+      email: json['email'] as String?,
+      birthDate: json['birthDate'] == null
+          ? null
+          : DateTime.parse(json['birthDate'] as String),
+      gender: memberModelGenderFromJson(json['gender']),
+      profilePicture: json['profilePicture'] as String?,
+      city: json['city'] == null
+          ? null
+          : CityModel.fromJson(json['city'] as Map<String, dynamic>),
+      createdDate: json['createdDate'] == null
+          ? null
+          : DateTime.parse(json['createdDate'] as String),
+      phoneNumber: json['phoneNumber'] as String?,
+      confirmed: json['confirmed'] as bool?,
+    );
+
+Map<String, dynamic> _$MemberModelToJson(MemberModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'firstname': instance.firstname,
+      'lastname': instance.lastname,
+      'email': instance.email,
+      'birthDate': instance.birthDate?.toIso8601String(),
+      'gender': memberModelGenderToJson(instance.gender),
+      'profilePicture': instance.profilePicture,
+      'city': instance.city?.toJson(),
+      'createdDate': instance.createdDate?.toIso8601String(),
+      'phoneNumber': instance.phoneNumber,
+      'confirmed': instance.confirmed,
     };
 
 ModelWithEmail _$ModelWithEmailFromJson(Map<String, dynamic> json) =>
@@ -404,14 +450,6 @@ Map<String, dynamic> _$ProfileUpdateRequestToJson(
           profileUpdateRequestGoOutAtNightToJson(instance.goOutAtNight),
       'sport': profileUpdateRequestSportToJson(instance.sport),
       'active': instance.active,
-    };
-
-CityModel _$CityModelFromJson(Map<String, dynamic> json) => CityModel(
-      name: json['name'] as String?,
-    );
-
-Map<String, dynamic> _$CityModelToJson(CityModel instance) => <String, dynamic>{
-      'name': instance.name,
     };
 
 UserUpdateRequest _$UserUpdateRequestFromJson(Map<String, dynamic> json) =>

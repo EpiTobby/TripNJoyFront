@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
 
-class GroupsPage extends StatefulWidget {
+class GroupsPage extends StatefulHookConsumerWidget {
   const GroupsPage({Key? key}) : super(key: key);
 
   @override
-  _GroupsPageState createState() => _GroupsPageState();
+  ConsumerState createState() => _GroupsPageState();
 }
 
-class _GroupsPageState extends State<GroupsPage> {
+class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GroupsSettings(),
+    final groupViewModel = ref.watch(groupProvider);
+
+
+    return Column(
+      children: [
+
+      ]
     );
   }
 }
