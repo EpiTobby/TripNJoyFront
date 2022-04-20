@@ -141,7 +141,7 @@
     "gender": {
       "title": "Gender of the members ?",
       "male": "Men",
-      "female": "women",
+      "female": "Women",
       "noPreference": "No preference"
     },
     "destinationTypes": {
