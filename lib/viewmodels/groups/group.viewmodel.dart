@@ -33,12 +33,29 @@ class GroupViewModel extends ChangeNotifier {
 
   Future<void> joinPrivateGroup() async {}
 
-  Future<void> deletePrivateGroup() async {}
+  Future<void> addUserToPrivateGroup(String email) async {
+    final id = httpService.getUserIdFromToken(authViewModel.token!);
+    await httpService.addUserToPrivateGroup(id!, email);
+  }
 
-  Future<void> updatePrivateGroup() async {}
+  Future<void> deletePrivateGroup() async {
+    final id = httpService.getUserIdFromToken(authViewModel.token!);
+    await httpService.deletePrivateGroup(id!);
+  }
 
-  Future<void> removeUserFromGroup() async {}
+  Future<void> updatePrivateGroup(UpdateGroupRequest updateGroupRequest) async {
+    final id = httpService.getUserIdFromToken(authViewModel.token!);
+    await httpService.updatePrivateGroup(id!, updateGroupRequest);
+  }
 
-  Future<void> leaveGroup() async {}
+  Future<void> removeUserFromGroup(int groupId) async {
+    final id = httpService.getUserIdFromToken(authViewModel.token!);
+    await httpService.removeUserFromPrivateGroup(groupId, id!);
+  }
+
+  Future<void> leaveGroup(int groupId) async {
+    final id = httpService.getUserIdFromToken(authViewModel.token!);
+    await httpService.leaveGroup(groupId, id!);
+  }
 
 }
