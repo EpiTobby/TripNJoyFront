@@ -13,7 +13,9 @@ class GroupViewModel extends ChangeNotifier {
 
   List<GroupModel> groups = [];
 
-  void _init() {}
+  void _init() {
+    getGroups();
+  }
 
   Future<void> getGroups() async {
     final id = httpService.getUserIdFromToken(authViewModel.token!);
@@ -31,7 +33,11 @@ class GroupViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> joinPrivateGroup() async {}
+  Future<void> joinPrivateGroup() async {
+    final id = httpService.getUserIdFromToken(authViewModel.token!);
+    final fakeGroupId = 1;
+    final group = await httpService.joinPrivateGroup(fakeGroupId, id!);
+  }
 
   Future<void> addUserToPrivateGroup(String email) async {
     final id = httpService.getUserIdFromToken(authViewModel.token!);

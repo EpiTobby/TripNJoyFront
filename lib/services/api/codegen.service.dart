@@ -176,8 +176,7 @@ class CodegenService extends HttpService {
 
   @override
   Future<GroupModel?> createPrivateGroup(int id, CreatePrivateGroupRequest createPrivateGroupRequest) async {
-    final response =
-        await api.groupsPrivateIdPost(id: id, body: createPrivateGroupRequest);
+    final response = await api.groupsPrivateIdPost(id: id, body: createPrivateGroupRequest);
 
     return response.body;
   }
@@ -195,8 +194,8 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<void> joinPrivateGroup(int groupId, String token) async {
-    // TODO: implement joinPrivateGroup
+  Future<void> joinPrivateGroup(int groupId, int userId) async {
+    await api.groupsGroupJoinIdPatch(group: groupId, id: userId);
   }
 
   @override

@@ -144,7 +144,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<void> joinPrivateGroup(int groupId, String token) {
+  Future<void> joinPrivateGroup(int groupId, int userId) {
     // TODO: implement joinPrivateGroup
     throw UnimplementedError();
   }

@@ -50,7 +50,7 @@ abstract class HttpService {
 
   Future<void> addUserToPrivateGroup(int groupId, String email);
 
-  Future<void> joinPrivateGroup(int groupId, String token);
+  Future<void> joinPrivateGroup(int groupId, int userId);
 
   Future<void> deletePrivateGroup(int groupId);
 

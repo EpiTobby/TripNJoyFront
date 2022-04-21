@@ -20,6 +20,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
     final groupViewModel = ref.watch(groupProvider);
 
     final openGroups = groups.where((group) => group.state! == GroupModelState.open).toList();
+    final archivedGroups = groups.where((group) => group.state! == GroupModelState.archived).toList();
 
     return Column(children: [
       Row(
@@ -27,32 +28,44 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
           Expanded(
             child: Container(
               padding: const EdgeInsets.all(10),
-              child: const TextField(
+              child: TextField(
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
                   labelText: 'Search',
                 ),
               ),
             ),
           ),
-          PopupMenuButton(itemBuilder: (context) => [
-            PopupMenuItem(child: Text('Join a group'), onTap: () {
-              groupViewModel.joinPrivateGroup();
-            },),
-            PopupMenuItem(child: Text('Create a group'), onTap: () {
-              groupViewModel.createPrivateGroup("Test", 10);
-            },),
-          ])
+          PopupMenuButton(
+              itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: Text('Join a group'),
+                      onTap: () {
+                        groupViewModel.joinPrivateGroup();
+                      },
+                    ),
+                    PopupMenuItem(
+                      child: Text('Create a group'),
+                      onTap: () {
+                        groupViewModel.createPrivateGroup("Test", 10);
+                      },
+                    ),
+                  ])
         ],
       ),
       ListView(
         shrinkWrap: true,
         children: [
-          openGroups.isNotEmpty ? GroupList(groups: openGroups) : Container(
-            padding: const EdgeInsets.all(10),
-            child: const Text('No open groups'),
-          ),
-          GroupList(groups: groups.where((group) => group.state! == GroupModelState.archived).toList()),
+          openGroups.isNotEmpty
+              ? GroupList(groups: openGroups)
+              : Container(
+                  padding: const EdgeInsets.all(10),
+                  child: const Text('No open groups'),
+                ),
+          GroupList(groups: archivedGroups),
         ],
       )
     ]);
