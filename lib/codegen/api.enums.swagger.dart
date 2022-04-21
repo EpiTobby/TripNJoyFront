@@ -332,6 +332,23 @@ const $GroupModelStateMap = {
   GroupModelState.archived: 'ARCHIVED'
 };
 
+enum MemberModelGender {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('MALE')
+  male,
+  @JsonValue('FEMALE')
+  female,
+  @JsonValue('NOT_SPECIFIED')
+  notSpecified
+}
+
+const $MemberModelGenderMap = {
+  MemberModelGender.male: 'MALE',
+  MemberModelGender.female: 'FEMALE',
+  MemberModelGender.notSpecified: 'NOT_SPECIFIED'
+};
+
 enum ProfileUpdateRequestDestinationTypes {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
