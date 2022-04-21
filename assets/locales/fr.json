@@ -201,6 +201,11 @@
       "close": "Fermer le groupe",
       "archive": "Archiver le groupe",
       "quit": "Quitter le groupe"
+    },
+    "chat": {
+      "open": "Ouvert",
+      "close": "Fermé",
+      "hint": "Écrivez un message..."
     }
   },
   "settings": {
