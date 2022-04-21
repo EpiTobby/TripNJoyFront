@@ -10,14 +10,17 @@ enum ProfileCreationRequestDestinationTypes {
   @JsonValue('BEACH')
   beach,
   @JsonValue('MOUNTAIN')
-  mountain
+  mountain,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
 const $ProfileCreationRequestDestinationTypesMap = {
   ProfileCreationRequestDestinationTypes.city: 'CITY',
   ProfileCreationRequestDestinationTypes.countryside: 'COUNTRYSIDE',
   ProfileCreationRequestDestinationTypes.beach: 'BEACH',
-  ProfileCreationRequestDestinationTypes.mountain: 'MOUNTAIN'
+  ProfileCreationRequestDestinationTypes.mountain: 'MOUNTAIN',
+  ProfileCreationRequestDestinationTypes.noPreference: 'NO_PREFERENCE'
 };
 
 enum ProfileCreationRequestTravelWithPersonFromSameCity {
@@ -169,14 +172,17 @@ enum ProfileModelDestinationTypes {
   @JsonValue('BEACH')
   beach,
   @JsonValue('MOUNTAIN')
-  mountain
+  mountain,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
 const $ProfileModelDestinationTypesMap = {
   ProfileModelDestinationTypes.city: 'CITY',
   ProfileModelDestinationTypes.countryside: 'COUNTRYSIDE',
   ProfileModelDestinationTypes.beach: 'BEACH',
-  ProfileModelDestinationTypes.mountain: 'MOUNTAIN'
+  ProfileModelDestinationTypes.mountain: 'MOUNTAIN',
+  ProfileModelDestinationTypes.noPreference: 'NO_PREFERENCE'
 };
 
 enum ProfileModelTravelWithPersonFromSameCity {
@@ -349,6 +355,37 @@ const $MemberModelGenderMap = {
   MemberModelGender.notSpecified: 'NOT_SPECIFIED'
 };
 
+enum UserModelGender {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('MALE')
+  male,
+  @JsonValue('FEMALE')
+  female,
+  @JsonValue('NOT_SPECIFIED')
+  notSpecified
+}
+
+const $UserModelGenderMap = {
+  UserModelGender.male: 'MALE',
+  UserModelGender.female: 'FEMALE',
+  UserModelGender.notSpecified: 'NOT_SPECIFIED'
+};
+
+enum UserModelRoles {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('DEFAULT')
+  $default,
+  @JsonValue('ADMIN')
+  admin
+}
+
+const $UserModelRolesMap = {
+  UserModelRoles.$default: 'DEFAULT',
+  UserModelRoles.admin: 'ADMIN'
+};
+
 enum ProfileUpdateRequestDestinationTypes {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
@@ -359,14 +396,17 @@ enum ProfileUpdateRequestDestinationTypes {
   @JsonValue('BEACH')
   beach,
   @JsonValue('MOUNTAIN')
-  mountain
+  mountain,
+  @JsonValue('NO_PREFERENCE')
+  noPreference
 }
 
 const $ProfileUpdateRequestDestinationTypesMap = {
   ProfileUpdateRequestDestinationTypes.city: 'CITY',
   ProfileUpdateRequestDestinationTypes.countryside: 'COUNTRYSIDE',
   ProfileUpdateRequestDestinationTypes.beach: 'BEACH',
-  ProfileUpdateRequestDestinationTypes.mountain: 'MOUNTAIN'
+  ProfileUpdateRequestDestinationTypes.mountain: 'MOUNTAIN',
+  ProfileUpdateRequestDestinationTypes.noPreference: 'NO_PREFERENCE'
 };
 
 enum ProfileUpdateRequestTravelWithPersonFromSameCity {
@@ -521,35 +561,4 @@ const $UpdateGroupRequestStateMap = {
   UpdateGroupRequestState.open: 'OPEN',
   UpdateGroupRequestState.closed: 'CLOSED',
   UpdateGroupRequestState.archived: 'ARCHIVED'
-};
-
-enum UserModelGender {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('MALE')
-  male,
-  @JsonValue('FEMALE')
-  female,
-  @JsonValue('NOT_SPECIFIED')
-  notSpecified
-}
-
-const $UserModelGenderMap = {
-  UserModelGender.male: 'MALE',
-  UserModelGender.female: 'FEMALE',
-  UserModelGender.notSpecified: 'NOT_SPECIFIED'
-};
-
-enum UserModelRoles {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('DEFAULT')
-  $default,
-  @JsonValue('ADMIN')
-  admin
-}
-
-const $UserModelRolesMap = {
-  UserModelRoles.$default: 'DEFAULT',
-  UserModelRoles.admin: 'ADMIN'
 };

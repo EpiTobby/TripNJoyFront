@@ -225,8 +225,8 @@ class ProfileDetail extends ConsumerWidget {
               title: AppLocalizations.of(context).translate("cards.groupSize.title"),
               child: LayoutItemValue(
                   value: AppLocalizations.of(context).translate('profile.rangeAnswer', {
-                    'begin': profileModel.groupeSize!.minValue.toString(),
-                    'end': profileModel.groupeSize!.maxValue.toString(),
+                    'begin': profileModel.groupSize!.minValue.toString(),
+                    'end': profileModel.groupSize!.maxValue.toString(),
                     'val': AppLocalizations.of(context).translate('common.people')
                   }),
                   editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
