@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_input.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/chat_message.widget.dart';
 
 class GroupChat extends HookConsumerWidget {
   const GroupChat({
@@ -66,7 +67,30 @@ class GroupChat extends HookConsumerWidget {
           children: [
             Expanded(
                 child: ListView(
-              children: [],
+              children: [
+                ChatMessage(
+                  message: "testMesssage",
+                  username: "Tony",
+                  isUser: true,
+                  time: DateTime.now().subtract(const Duration(days: 1)),
+                  userAvatar:
+                      "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+                ),
+                ChatMessage(
+                  message: "Test",
+                  username: "Yakoi",
+                  isUser: false,
+                  time: DateTime.now(),
+                ),
+                ChatMessage(
+                  message: "Test for a long messsage that can be send by the user, it should not overflow the screen",
+                  username: "Tony",
+                  isUser: true,
+                  time: DateTime.now(),
+                  userAvatar:
+                      "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+                ),
+              ],
             )),
             ChatInput()
           ],
