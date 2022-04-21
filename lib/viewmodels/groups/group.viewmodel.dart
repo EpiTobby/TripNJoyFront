@@ -37,31 +37,41 @@ class GroupViewModel extends ChangeNotifier {
     final id = httpService.getUserIdFromToken(authViewModel.token!);
     final fakeGroupId = 1;
     final group = await httpService.joinPrivateGroup(fakeGroupId, id!);
+
+    await getGroups();// TODO: add the group
+    //groups.add(group!);
+    //notifyListeners();
   }
 
-  Future<void> addUserToPrivateGroup(String email) async {
-    final id = httpService.getUserIdFromToken(authViewModel.token!);
-    await httpService.addUserToPrivateGroup(id!, email);
+  Future<void> addUserToPrivateGroup(int groupId, String email) async {
+    await httpService.addUserToPrivateGroup(groupId, email);
+    await getGroups(); // TODO: update only the group
   }
 
-  Future<void> deletePrivateGroup() async {
-    final id = httpService.getUserIdFromToken(authViewModel.token!);
-    await httpService.deletePrivateGroup(id!);
+  Future<void> deletePrivateGroup(int groupId) async {
+    await httpService.deletePrivateGroup(groupId);
+    groups.removeWhere((group) => group.id == groupId);
+    notifyListeners();
   }
 
-  Future<void> updatePrivateGroup(UpdateGroupRequest updateGroupRequest) async {
-    final id = httpService.getUserIdFromToken(authViewModel.token!);
-    await httpService.updatePrivateGroup(id!, updateGroupRequest);
+  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest updateGroupRequest) async {
+    await httpService.updatePrivateGroup(groupId, updateGroupRequest);
+    await getGroups(); // TODO : update only the group
   }
 
   Future<void> removeUserFromGroup(int groupId) async {
     final id = httpService.getUserIdFromToken(authViewModel.token!);
     await httpService.removeUserFromPrivateGroup(groupId, id!);
+
+    await getGroups(); // TODO: update only the group
   }
 
   Future<void> leaveGroup(int groupId) async {
     final id = httpService.getUserIdFromToken(authViewModel.token!);
     await httpService.leaveGroup(groupId, id!);
+
+    groups.removeWhere((group) => group.id == groupId);
+    notifyListeners();
   }
 
 }

@@ -3,13 +3,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 class GroupPage extends StatefulHookConsumerWidget {
-  const GroupPage({Key? key, required this.group}) : super(key: key);
+  const GroupPage({Key? key, required this.groupId}) : super(key: key);
 
-  final GroupModel group;
+  final int groupId;
 
   @override
   ConsumerState createState() => _GroupPageState();
@@ -18,21 +19,24 @@ class GroupPage extends StatefulHookConsumerWidget {
 class _GroupPageState extends ConsumerState<GroupPage> {
   @override
   Widget build(BuildContext context) {
+    final groupViewModel = ref.watch(groupProvider);
+    final group = groupViewModel.groups.firstWhere((group) => group.id == widget.groupId);
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
           children: [
             CircleAvatar(
                 backgroundColor: Theme.of(context).colorScheme.background,
-                backgroundImage: NetworkImage(widget.group.picture ?? DEFAULT_GROUP_AVATAR_URL)),
-            Text(widget.group.name!, style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+                backgroundImage: NetworkImage(group.picture ?? DEFAULT_GROUP_AVATAR_URL)),
+            Text(group.name!, style: TextStyle(color: Theme.of(context).colorScheme.primary)),
           ],
         ),
         actions: [
           PopupMenuButton(
             onSelected: (value) {
               if (value == 1) {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => GroupsSettings(group: widget.group)));
+                Navigator.push(context, MaterialPageRoute(builder: (_) => GroupsSettings(groupId: group.id!.toInt())));
               }
             },
             itemBuilder: (ctx) => [

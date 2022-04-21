@@ -30,7 +30,7 @@ class GroupListItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => GroupPage(group: group),
+            builder: (_) => GroupPage(groupId: group.id!.toInt()),
           ),
         );
       },
