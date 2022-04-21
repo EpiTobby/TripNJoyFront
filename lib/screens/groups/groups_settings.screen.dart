@@ -35,63 +35,68 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
           LayoutHeader(
             imageURL: group.picture ?? DEFAULT_GROUP_AVATAR_URL,
           ),
-          ListView(
-            shrinkWrap: true,
-            children: [
-              LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.about"), children: [
-                LayoutItem(
-                  title: AppLocalizations.of(context).translate("groups.settings.groupName"),
-                  child: LayoutItemValue(
-                    value: group.name!,
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return InputDialog(
-                                title: AppLocalizations.of(context).translate("groups.settings.groupName"),
-                                label: AppLocalizations.of(context).translate("groups.settings.groupName"),
-                                initialValue: group.name!,
-                                onConfirm: (value) async {
-                                  await groupViewModel.updatePrivateGroup(
-                                      group.id!.toInt(), UpdateGroupRequest(name: value));
-                                });
-                          });
-                    },
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.about"), children: [
+                  LayoutItem(
+                    title: AppLocalizations.of(context).translate("groups.settings.groupName"),
+                    child: LayoutItemValue(
+                      value: group.name!,
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return InputDialog(
+                                  title: AppLocalizations.of(context).translate("groups.settings.groupName"),
+                                  label: AppLocalizations.of(context).translate("groups.settings.groupName"),
+                                  initialValue: group.name!,
+                                  onConfirm: (value) async {
+                                    await groupViewModel.updatePrivateGroup(
+                                        group.id!.toInt(), UpdateGroupRequest(name: value));
+                                  });
+                            });
+                      },
+                    ),
                   ),
-                ),
-                LayoutItem(
-                    title: AppLocalizations.of(context).translate("groups.members"),
-                    child: Column(
-                      children: group.members!.map((member) {
-                        return LayoutMember(
-                          name: member.firstname! + " " + member.lastname!,
-                          imageURL: member.profilePicture ?? DEFAULT_AVATAR_URL,
-                        );
-                      }).toList(),
-                    )),
-              ]),
-              LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.groupSettings"), children: [
-                LayoutItem(
-                    child: LayoutItemValue(
-                  value: AppLocalizations.of(context).translate("groups.settings.close"),
-                  icon: Icons.lock_outline,
-                  onPressed: () {},
-                )),
-                LayoutItem(
-                    child: LayoutItemValue(
-                  value: AppLocalizations.of(context).translate("groups.settings.archive"),
-                  icon: Icons.archive_outlined,
-                  onPressed: () {},
-                )),
-                LayoutItem(
-                    child: LayoutItemValue(
-                  value: AppLocalizations.of(context).translate("groups.settings.quit"),
-                  icon: Icons.exit_to_app,
-                  customColor: Theme.of(context).colorScheme.error,
-                  onPressed: () {},
-                )),
-              ])
-            ],
+                  LayoutItem(
+                      title: AppLocalizations.of(context).translate("groups.members"),
+                      child: Column(
+                        children: group.members!.map((member) {
+                          return LayoutMember(
+                            name: member.firstname! + " " + member.lastname!,
+                            imageURL: member.profilePicture ?? DEFAULT_AVATAR_URL,
+                            onDelete: member.id == group.owner!.id ? null : () async {
+                              await groupViewModel.removeUserFromGroup(group.id!.toInt(), member.id!.toInt());
+                            },
+                          );
+                        }).toList(),
+                      )),
+                ]),
+                LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.groupSettings"), children: [
+                  LayoutItem(
+                      child: LayoutItemValue(
+                    value: AppLocalizations.of(context).translate("groups.settings.close"),
+                    icon: Icons.lock_outline,
+                    onPressed: () {},
+                  )),
+                  LayoutItem(
+                      child: LayoutItemValue(
+                    value: AppLocalizations.of(context).translate("groups.settings.archive"),
+                    icon: Icons.archive_outlined,
+                    onPressed: () {},
+                  )),
+                  LayoutItem(
+                      child: LayoutItemValue(
+                    value: AppLocalizations.of(context).translate("groups.settings.quit"),
+                    icon: Icons.exit_to_app,
+                    customColor: Theme.of(context).colorScheme.error,
+                    onPressed: () {},
+                  )),
+                ])
+              ],
+            ),
           ),
         ],
       ),

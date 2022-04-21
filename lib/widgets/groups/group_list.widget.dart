@@ -35,28 +35,31 @@ class GroupListItem extends StatelessWidget {
         );
       },
       title: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: Theme.of(context).secondaryHeaderColor,
+        ),
         padding: const EdgeInsets.all(8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(radius: 40, backgroundColor: Theme.of(context).colorScheme.background, backgroundImage: NetworkImage(group.picture ?? DEFAULT_GROUP_AVATAR_URL)),
+            CircleAvatar(
+                radius: 40,
+                backgroundColor: Theme.of(context).colorScheme.background,
+                backgroundImage: NetworkImage(group.picture ?? DEFAULT_GROUP_AVATAR_URL)),
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(group.name!,
-                        style: GoogleFonts.raleway(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                        )),
-                    const SizedBox(height: 5),
-                    const Text(
-                      "Dernier message sur le groupe. Le dernier message du groupe n’apparait pas en entier et est terminé par trois poin... ",
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    )
+                    Text(
+                      group.name!,
+                      style: GoogleFonts.raleway(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -59,9 +59,8 @@ class GroupViewModel extends ChangeNotifier {
     await getGroups(); // TODO : update only the group
   }
 
-  Future<void> removeUserFromGroup(int groupId) async {
-    final id = httpService.getUserIdFromToken(authViewModel.token!);
-    await httpService.removeUserFromPrivateGroup(groupId, id!);
+  Future<void> removeUserFromGroup(int userId, int groupId) async {
+    await httpService.removeUserFromPrivateGroup(groupId, userId);
 
     await getGroups(); // TODO: update only the group
   }

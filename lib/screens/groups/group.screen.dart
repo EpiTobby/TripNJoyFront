@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
-import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
-import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 class GroupPage extends StatefulHookConsumerWidget {
   const GroupPage({Key? key, required this.groupId}) : super(key: key);

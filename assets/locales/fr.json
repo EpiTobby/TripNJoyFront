@@ -16,7 +16,8 @@
     "start": "Démarrer",
     "days": "jours",
     "yearsOld": "ans",
-    "people": "personnes"
+    "people": "personnes",
+    "search": "Rechercher"
   },
   "user": {
     "firstname": "Prénom",
@@ -189,7 +190,8 @@
     "edit": "Modifier",
     "delete": "Supprimer",
     "noProfile": "Vous n'avez pas encore de profil, veuillez répondre aux questions pour créer votre premier profil",
-    "rangeAnswer": "Entre $begin et $end $val"
+    "rangeAnswer": "Entre $begin et $end $val",
+    "create": "Créer un profil"
   },
   "groups": {
     "title": "Groupes",
@@ -201,7 +203,10 @@
       "close": "Fermer le groupe",
       "archive": "Archiver le groupe",
       "quit": "Quitter le groupe"
-    }
+    },
+    "create": "Créer un groupe",
+    "join": "Rejoindre un groupe",
+    "noOpenGroup": "Pas de groupes ouverts"
   },
   "settings": {
     "title": "Paramètres",
