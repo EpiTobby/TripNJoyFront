@@ -20,6 +20,8 @@ class ChatInput extends HookConsumerWidget {
           Expanded(
             child: ChatTextField(
               controller: controller,
+              onAttachFile: () {},
+              onAttachImage: () {},
             ),
           ),
           ChatSendButton(onPressed: () {

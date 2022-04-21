@@ -3,8 +3,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/navbar/navbar.icons.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
+import 'package:trip_n_joy_front/screens/groups/group_chat.screen.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 import '../../constants/navbar/navbar.const.dart';
@@ -83,7 +85,21 @@ class Navbar extends HookConsumerWidget {
               NavbarIcon.group,
               color: GetNavbarIconColor(context, selectedPage, NavbarPage.GROUPS),
             ),
-            onPressed: () => provider.navigate(NavbarPage.GROUPS),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => GroupChat(
+                  group: GroupModel(
+                      state: GroupModelState.closed,
+                      name: "A very long title that should be truncated in the appbar",
+                      members: [
+                        MemberModel(firstname: "tony", lastname: "stark"),
+                        MemberModel(firstname: "steve", lastname: "rogers")
+                      ],
+                      picture:
+                          "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png"),
+                ),
+              ),
+            ),
           ),
           IconButton(
             enableFeedback: false,
