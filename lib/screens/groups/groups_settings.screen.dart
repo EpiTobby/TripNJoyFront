@@ -4,6 +4,8 @@ import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
+import 'package:trip_n_joy_front/providers/user/user.provider.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
@@ -25,6 +27,8 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
   Widget build(BuildContext context) {
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups.firstWhere((group) => group.id == widget.groupId);
+
+    final user = ref.watch(userProvider).value;
 
     return Scaffold(
       appBar: AppBar(
@@ -61,32 +65,55 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                     ),
                   ),
                   LayoutItem(
-                      title: AppLocalizations.of(context).translate("groups.members"),
-                      child: Column(
-                        children: group.members!.map((member) {
+                    title: AppLocalizations.of(context).translate("groups.members"),
+                    child: Column(
+                      children: [
+                        ...group.members!.map((member) {
                           return LayoutMember(
                             name: member.firstname! + " " + member.lastname!,
                             imageURL: member.profilePicture ?? DEFAULT_AVATAR_URL,
-                            onDelete: member.id == group.owner!.id ? null : () async {
-                              await groupViewModel.removeUserFromGroup(group.id!.toInt(), member.id!.toInt());
-                            },
+                            onDelete: member.id == group.owner!.id
+                                ? null
+                                : () async {
+                                    await groupViewModel.removeUserFromGroup(group.id!.toInt(), member.id!.toInt());
+                                  },
                           );
                         }).toList(),
-                      )),
+                        PrimaryButton(
+                            text: '+',
+                            fitContent: true,
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return InputDialog(
+                                        title: AppLocalizations.of(context).translate("groups.addMember"),
+                                        label: AppLocalizations.of(context).translate("groups.email"),
+                                        initialValue: '',
+                                        onConfirm: (value) async {
+                                          await groupViewModel.addUserToPrivateGroup(group.id!.toInt(), value);
+                                        });
+                                  });
+                            })
+                      ],
+                    ),
+                  ),
                 ]),
                 LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.groupSettings"), children: [
-                  LayoutItem(
-                      child: LayoutItemValue(
-                    value: AppLocalizations.of(context).translate("groups.settings.close"),
-                    icon: Icons.lock_outline,
-                    onPressed: () {},
-                  )),
-                  LayoutItem(
-                      child: LayoutItemValue(
-                    value: AppLocalizations.of(context).translate("groups.settings.archive"),
-                    icon: Icons.archive_outlined,
-                    onPressed: () {},
-                  )),
+                  if (user != null && group.owner!.id == user.id)
+                    LayoutItem(
+                        child: LayoutItemValue(
+                      value: AppLocalizations.of(context).translate("groups.settings.close"),
+                      icon: Icons.lock_outline,
+                      onPressed: () {},
+                    )),
+                  if (user != null && group.owner!.id == user.id)
+                    LayoutItem(
+                        child: LayoutItemValue(
+                      value: AppLocalizations.of(context).translate("groups.settings.archive"),
+                      icon: Icons.archive_outlined,
+                      onPressed: () {},
+                    )),
                   LayoutItem(
                       child: LayoutItemValue(
                     value: AppLocalizations.of(context).translate("groups.settings.quit"),

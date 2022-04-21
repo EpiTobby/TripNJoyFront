@@ -18,6 +18,10 @@ class GroupViewModel extends ChangeNotifier {
   }
 
   Future<void> getGroups() async {
+    if (authViewModel.token == null) {
+      return;
+    }
+
     final id = httpService.getUserIdFromToken(authViewModel.token!);
 
     final userGroups = await httpService.getGroups(id!);

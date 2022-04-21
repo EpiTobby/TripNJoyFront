@@ -206,7 +206,12 @@
     },
     "create": "Créer un groupe",
     "join": "Rejoindre un groupe",
-    "noOpenGroup": "Pas de groupes ouverts"
+    "noOpenGroup": "Pas de groupes ouverts",
+    "addMember": "Ajouter un membre",
+    "email": "Entrez l'adresse email du membre",
+    "open": "Groupes ouverts",
+    "closed": "Groupes fermés",
+    "archived": "Groupes archivés"
   },
   "settings": {
     "title": "Paramètres",

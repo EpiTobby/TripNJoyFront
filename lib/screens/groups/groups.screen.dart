@@ -5,7 +5,6 @@ import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_list.widget.dart';
 
@@ -81,10 +80,13 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
           shrinkWrap: true,
           children: [
             openGroups.isNotEmpty
-                ? GroupList(groups: openGroups)
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: GroupList(groups: openGroups, title: AppLocalizations.of(context).translate('groups.open')),
+                  )
                 : Center(
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
                       child: Column(
                         children: [
                           Text(
@@ -101,7 +103,12 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
                       ),
                     ),
                   ),
-            GroupList(groups: archivedGroups),
+            ...(archivedGroups.isNotEmpty
+                ? [
+                    const Divider(height: 40),
+                    GroupList(title: AppLocalizations.of(context).translate('groups.archived'), groups: archivedGroups)
+                  ]
+                : [const SizedBox()]),
           ],
         ),
       )
