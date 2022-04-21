@@ -85,21 +85,7 @@ class Navbar extends HookConsumerWidget {
               NavbarIcon.group,
               color: GetNavbarIconColor(context, selectedPage, NavbarPage.GROUPS),
             ),
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => GroupChat(
-                  group: GroupModel(
-                      state: GroupModelState.closed,
-                      name: "A very long title that should be truncated in the appbar",
-                      members: [
-                        MemberModel(firstname: "tony", lastname: "stark"),
-                        MemberModel(firstname: "steve", lastname: "rogers")
-                      ],
-                      picture:
-                          "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png"),
-                ),
-              ),
-            ),
+            onPressed: () => provider.navigate(NavbarPage.GROUPS),
           ),
           IconButton(
             enableFeedback: false,
