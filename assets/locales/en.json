@@ -30,7 +30,9 @@
       "man": "Man",
       "woman": "Woman",
       "other": "Other"
-    }
+    },
+    "noPhoneNumber": "No phone number",
+    "noCity": "No city"
   },
   "auth": {
     "firstname": "Your firstname",

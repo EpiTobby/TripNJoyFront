@@ -6,6 +6,7 @@ import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
+import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_password.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
@@ -30,38 +31,13 @@ class SettingsPage extends StatefulHookConsumerWidget {
 class _SettingsPageState extends ConsumerState<SettingsPage> {
   bool _darkMode = false;
 
-  void upload(UserViewModel userViewModel, AuthViewModel authViewModel) async {
-    var pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
-    );
-
-    if (pickedFile == null) {
-      return;
-    }
-
-    var imageBytes = pickedFile.readAsBytes().asStream();
-
-    final minio = Minio(
-        endPoint: MINIO_ENDPOINT,
-        accessKey: MINIO_ACCESS_KEY,
-        secretKey: MINIO_SECRET_KEY,
-        useSSL: false,
-        port: MINIO_PORT);
-
-    await minio.putObject(MINIO_BUCKET, pickedFile.name, imageBytes);
-
-    var imageURL = await minio.presignedGetObject(MINIO_BUCKET, pickedFile.name);
-
-    userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(profilePicture: imageURL));
-  }
-
   @override
   Widget build(BuildContext context) {
     final userViewModel = ref.watch(userProvider.notifier);
     final authViewModel = ref.watch(authProvider);
     var user = ref.watch(userProvider).value;
+
+    final minioService = ref.watch(minioProvider);
 
     if (user == null) {
       return const ErrorScreen();
@@ -72,7 +48,13 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         LayoutHeader(
           title: "${user.firstname} ${user.lastname}",
           imageURL: user.profilePicture ?? DEFAULT_AVATAR_URL,
-          onClick: () => upload(userViewModel, authViewModel),
+          onClick: () async {
+            final imageURL = await minioService.upload();
+
+            if (imageURL != null) {
+              userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(profilePicture: imageURL));
+            }
+          },
         ),
         LayoutBox(title: AppLocalizations.of(context).translate("settings.about"), children: <Widget>[
           LayoutItem(

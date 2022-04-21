@@ -4,6 +4,7 @@ import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
+import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
@@ -12,6 +13,7 @@ import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_member.widget.dart';
+import 'package:trip_n_joy_front/widgets/user/user.widget.dart';
 
 class GroupsSettings extends StatefulHookConsumerWidget {
   const GroupsSettings({Key? key, required this.groupId}) : super(key: key);
@@ -30,6 +32,8 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
 
     final user = ref.watch(userProvider).value;
 
+    final minioService = ref.watch(minioProvider);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.secondary,
@@ -38,91 +42,112 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
         children: [
           LayoutHeader(
             imageURL: group.picture ?? DEFAULT_GROUP_AVATAR_URL,
+            onClick: () async {
+              final imageURL = minioService.upload();
+
+              if (imageURL != null) {
+                // await groupViewModel.updatePrivateGroup(group.id!.toInt(), UpdateGroupRequest(picture: imageURL));
+              }
+            },
           ),
           Expanded(
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.about"), children: [
-                  LayoutItem(
-                    title: AppLocalizations.of(context).translate("groups.settings.groupName"),
-                    child: LayoutItemValue(
-                      value: group.name!,
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return InputDialog(
-                                  title: AppLocalizations.of(context).translate("groups.settings.groupName"),
-                                  label: AppLocalizations.of(context).translate("groups.settings.groupName"),
-                                  initialValue: group.name!,
-                                  onConfirm: (value) async {
-                                    await groupViewModel.updatePrivateGroup(
-                                        group.id!.toInt(), UpdateGroupRequest(name: value));
-                                  });
-                            });
-                      },
-                    ),
-                  ),
-                  LayoutItem(
-                    title: AppLocalizations.of(context).translate("groups.members"),
-                    child: Column(
-                      children: [
-                        ...group.members!.map((member) {
-                          return LayoutMember(
-                            name: member.firstname! + " " + member.lastname!,
-                            imageURL: member.profilePicture ?? DEFAULT_AVATAR_URL,
-                            onDelete: member.id == group.owner!.id
-                                ? null
-                                : () async {
-                                    await groupViewModel.removeUserFromGroup(group.id!.toInt(), member.id!.toInt());
-                                  },
-                          );
-                        }).toList(),
-                        PrimaryButton(
-                            text: '+',
-                            fitContent: true,
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return InputDialog(
-                                        title: AppLocalizations.of(context).translate("groups.addMember"),
-                                        label: AppLocalizations.of(context).translate("groups.email"),
-                                        initialValue: '',
-                                        onConfirm: (value) async {
-                                          await groupViewModel.addUserToPrivateGroup(group.id!.toInt(), value);
-                                        });
-                                  });
-                            })
-                      ],
-                    ),
-                  ),
-                ]),
-                LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.groupSettings"), children: [
-                  if (user != null && group.owner!.id == user.id)
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 32.0),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.about"), children: [
                     LayoutItem(
-                        child: LayoutItemValue(
-                      value: AppLocalizations.of(context).translate("groups.settings.close"),
-                      icon: Icons.lock_outline,
-                      onPressed: () {},
-                    )),
-                  if (user != null && group.owner!.id == user.id)
-                    LayoutItem(
-                        child: LayoutItemValue(
-                      value: AppLocalizations.of(context).translate("groups.settings.archive"),
-                      icon: Icons.archive_outlined,
-                      onPressed: () {},
-                    )),
-                  LayoutItem(
+                      title: AppLocalizations.of(context).translate("groups.settings.groupName"),
                       child: LayoutItemValue(
-                    value: AppLocalizations.of(context).translate("groups.settings.quit"),
-                    icon: Icons.exit_to_app,
-                    customColor: Theme.of(context).colorScheme.error,
-                    onPressed: () {},
-                  )),
-                ])
-              ],
+                        value: group.name!,
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return InputDialog(
+                                    title: AppLocalizations.of(context).translate("groups.settings.groupName"),
+                                    label: AppLocalizations.of(context).translate("groups.settings.groupName"),
+                                    initialValue: group.name!,
+                                    onConfirm: (value) async {
+                                      await groupViewModel.updatePrivateGroup(
+                                          group.id!.toInt(), UpdateGroupRequest(name: value));
+                                    });
+                              });
+                        },
+                      ),
+                    ),
+                    LayoutItem(
+                      title: AppLocalizations.of(context).translate("groups.members"),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Column(
+                          children: [
+                            ...group.members!.map((member) {
+                              return LayoutMember(
+                                name: member.firstname! + " " + member.lastname!,
+                                imageURL: member.profilePicture ?? DEFAULT_AVATAR_URL,
+                                onClick: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return UserDialog(user: member);
+                                    }
+                                  );
+                                },
+                                onDelete: member.id == group.owner!.id
+                                    ? null
+                                    : () async {
+                                        await groupViewModel.removeUserFromGroup(group.id!.toInt(), member.id!.toInt());
+                                      },
+                              );
+                            }).toList(),
+                            PrimaryButton(
+                                text: '+',
+                                fitContent: true,
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return InputDialog(
+                                            title: AppLocalizations.of(context).translate("groups.addMember"),
+                                            label: AppLocalizations.of(context).translate("groups.email"),
+                                            initialValue: '',
+                                            onConfirm: (value) async {
+                                              await groupViewModel.addUserToPrivateGroup(group.id!.toInt(), value);
+                                            });
+                                      });
+                                })
+                          ],
+                        ),
+                      ),
+                    ),
+                  ]),
+                  LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.groupSettings"), children: [
+                    if (user != null && group.owner!.id == user.id)
+                      LayoutItem(
+                          child: LayoutItemValue(
+                        value: AppLocalizations.of(context).translate("groups.settings.close"),
+                        icon: Icons.lock_outline,
+                        onPressed: () {},
+                      )),
+                    if (user != null && group.owner!.id == user.id)
+                      LayoutItem(
+                          child: LayoutItemValue(
+                        value: AppLocalizations.of(context).translate("groups.settings.archive"),
+                        icon: Icons.archive_outlined,
+                        onPressed: () {},
+                      )),
+                    LayoutItem(
+                        child: LayoutItemValue(
+                      value: AppLocalizations.of(context).translate("groups.settings.quit"),
+                      icon: Icons.exit_to_app,
+                      customColor: Theme.of(context).colorScheme.error,
+                      onPressed: () {},
+                    )),
+                  ])
+                ],
+              ),
             ),
           ),
         ],
