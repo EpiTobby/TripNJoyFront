@@ -16,6 +16,7 @@ class GroupChat extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final channel = useState('General');
+    final scrollController = useScrollController();
     return Scaffold(
         appBar: AppBar(
             leading: IconButton(
@@ -66,32 +67,107 @@ class GroupChat extends HookConsumerWidget {
         body: Column(
           children: [
             Expanded(
-                child: ListView(
-              children: [
-                ChatMessage(
-                  message: "testMesssage",
-                  username: "Tony",
-                  isUser: true,
-                  time: DateTime.now().subtract(const Duration(days: 1)),
-                  userAvatar:
-                      "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-                ),
-                ChatMessage(
-                  message: "Test",
-                  username: "Yakoi",
-                  isUser: false,
-                  time: DateTime.now(),
-                ),
-                ChatMessage(
-                  message: "Test for a long messsage that can be send by the user, it should not overflow the screen",
-                  username: "Tony",
-                  isUser: true,
-                  time: DateTime.now(),
-                  userAvatar:
-                      "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-                ),
-              ],
-            )),
+              child: ListView(
+                controller: scrollController,
+                children: [
+                  ChatMessage(
+                    message: "testMesssage",
+                    username: "Tony",
+                    isUser: true,
+                    isFirst: true,
+                    time: DateTime.now().subtract(const Duration(days: 1)),
+                    userAvatar:
+                        "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+                  ),
+                  ChatMessage(
+                    message: "Test",
+                    username: "Yakoi",
+                    isUser: false,
+                    isFirst: true,
+                    time: DateTime.now(),
+                  ),
+                  ChatMessage(
+                    message: "Hello world",
+                    username: "Yakoi",
+                    isUser: false,
+                    isFirst: false,
+                    time: DateTime.now(),
+                  ),
+                  ChatMessage(
+                    message: "Test for a short messsage",
+                    username: "Tony",
+                    isUser: true,
+                    isFirst: true,
+                    time: DateTime.now(),
+                    userAvatar:
+                        "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+                  ),
+                  ChatMessage(
+                    message: "Test for a medium messsage that can be send by the user",
+                    username: "Tony",
+                    isUser: true,
+                    isFirst: false,
+                    time: DateTime.now(),
+                    userAvatar:
+                        "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+                  ),
+                  ChatMessage(
+                    message: "Test for a long messsage that can be send by the user, it should not overflow the screen",
+                    username: "Tony",
+                    isUser: true,
+                    isFirst: false,
+                    time: DateTime.now(),
+                    userAvatar:
+                        "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+                  ),
+                  ChatMessage(
+                    message: "Test for a long messsage that can be send by the user, it should not overflow the screen",
+                    username: "Tony",
+                    isUser: true,
+                    isFirst: false,
+                    time: DateTime.now(),
+                    userAvatar:
+                        "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+                  ),
+                  ChatMessage(
+                    message: "Test for a long messsage that can be send by the user, it should not overflow the screen",
+                    username: "Tony",
+                    isUser: true,
+                    isFirst: false,
+                    time: DateTime.now(),
+                    userAvatar:
+                        "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+                  ),
+                  ChatMessage(
+                    message: "Test for a long messsage that can be send by the user, it should not overflow the screen",
+                    username: "Tony",
+                    isUser: true,
+                    isFirst: false,
+                    time: DateTime.now(),
+                    userAvatar:
+                        "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+                  ),
+                  ChatMessage(
+                    message: "Test for a long messsage that can be send by the user, it should not overflow the screen",
+                    username: "Tony",
+                    isUser: true,
+                    isFirst: false,
+                    time: DateTime.now(),
+                    userAvatar:
+                        "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+                  ),
+                  ChatMessage(
+                    message: "Test for a long messsage that can be send by the user, it should not overflow the screen",
+                    username: "Tony",
+                    isUser: true,
+                    isFirst: false,
+                    time: DateTime.now(),
+                    userAvatar:
+                        "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+                  ),
+                ],
+              ),
+            ),
             ChatInput()
           ],
         ));
