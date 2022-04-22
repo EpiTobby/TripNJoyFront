@@ -213,7 +213,12 @@
     "email": "Entrez l'adresse email du membre",
     "open": "Groupes ouverts",
     "closed": "Groupes fermés",
-    "archived": "Groupes archivés"
+    "archived": "Groupes archivés",
+    "chat": {
+      "open": "Ouvert",
+      "close": "Fermé",
+      "hint": "Écrivez un message..."
+    }
   },
   "settings": {
     "title": "Paramètres",

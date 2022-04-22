@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
-import 'package:trip_n_joy_front/screens/groups/group.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/group_chat.screen.dart';
 
 class GroupList extends StatelessWidget {
   const GroupList({Key? key, required this.groups, required this.title}) : super(key: key);
@@ -36,7 +36,7 @@ class GroupListItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => GroupPage(groupId: group.id!.toInt()),
+            builder: (_) => GroupChat(groupId: group.id!.toInt()),
           ),
         );
       },

@@ -144,7 +144,7 @@
     "gender": {
       "title": "Gender of the members ?",
       "male": "Men",
-      "female": "women",
+      "female": "Women",
       "noPreference": "No preference"
     },
     "destinationTypes": {
@@ -213,7 +213,12 @@
     "email": "Enter the email of the member you want to add",
     "open": "Open groups",
     "closed": "Closed groups",
-    "archived": "Archived groups"
+    "archived": "Archived groups",
+    "chat": {
+      "open": "Opened",
+      "close": "Closed",
+      "hint": "Type a message..."
+    }
   },
   "settings": {
     "title": "Settings",
