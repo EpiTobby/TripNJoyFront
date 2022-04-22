@@ -33,14 +33,22 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<dynamic>> _matchmakingPost(
+      {required num? userId, required ProfileCreationRequest? body}) {
+    final $url = '/matchmaking';
+    final $params = <String, dynamic>{'user_id': userId};
+    final $body = body;
+    final $request =
+        Request('POST', $url, client.baseUrl, body: $body, parameters: $params);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<GroupModel>> _groupsPrivateIdPost(
-      {required num? id,
-      required CreatePrivateGroupRequest? createPrivateGroupRequest}) {
+      {required num? id, required CreatePrivateGroupRequest? body}) {
     final $url = '/groups/private/${id}';
-    final $params = <String, dynamic>{
-      'createPrivateGroupRequest': createPrivateGroupRequest
-    };
-    final $request = Request('POST', $url, client.baseUrl, parameters: $params);
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<GroupModel, GroupModel>($request);
   }
 
@@ -113,6 +121,21 @@ class _$Api extends Api {
     final $url = '/users/${id}/update';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _groupsGroupJoinIdPatch(
+      {required num? group, required num? id}) {
+    final $url = '/groups/${group}/join/${id}';
+    final $request = Request('PATCH', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _groupsPrivateGroupDelete({required num? group}) {
+    final $url = '/groups/private/${group}';
+    final $request = Request('DELETE', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 

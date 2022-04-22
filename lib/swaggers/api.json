@@ -109,6 +109,48 @@
         }
       }
     },
+    "/matchmaking": {
+      "post": {
+        "tags": [
+          "match-making-controller"
+        ],
+        "summary": "Create a profile and start the matchmaking",
+        "operationId": "match",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Matchmaking started",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchMakingResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/groups/private/{id}": {
       "post": {
         "tags": [
@@ -125,16 +167,18 @@
               "type": "integer",
               "format": "int64"
             }
-          },
-          {
-            "name": "createPrivateGroupRequest",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/CreatePrivateGroupRequest"
-            }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePrivateGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "422": {
             "description": "User or Group does not exist",
@@ -165,7 +209,7 @@
           "group-controller"
         ],
         "summary": "Add user to private group",
-        "operationId": "addUserToPrivateGroup",
+        "operationId": "inviteUserInPrivateGroup",
         "parameters": [
           {
             "name": "group",
@@ -463,13 +507,79 @@
         }
       }
     },
+    "/groups/{group}/join/{id}": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Accept the invitation to the group",
+        "operationId": "joinGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Group or User does not exist"
+          },
+          "200": {
+            "description": "The user has joined the group"
+          }
+        }
+      }
+    },
     "/groups/private/{group}": {
+      "delete": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Delete the private group",
+        "operationId": "deletePrivateGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Group or User does not exist"
+          },
+          "200": {
+            "description": "The group is deleted"
+          },
+          "403": {
+            "description": "The client is not the owner of the group"
+          }
+        }
+      },
       "patch": {
         "tags": [
           "group-controller"
         ],
         "summary": "Update the private group",
-        "operationId": "UpdatePrivateGroup",
+        "operationId": "updatePrivateGroup",
         "parameters": [
           {
             "name": "group",
@@ -1032,12 +1142,6 @@
           "name": {
             "type": "string"
           },
-          "availabilities": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AvailabilityAnswerModel"
-            }
-          },
           "duration": {
             "$ref": "#/components/schemas/RangeAnswerModel"
           },
@@ -1052,7 +1156,8 @@
                 "CITY",
                 "COUNTRYSIDE",
                 "BEACH",
-                "MOUNTAIN"
+                "MOUNTAIN",
+                "NO_PREFERENCE"
               ]
             }
           },
@@ -1125,6 +1230,12 @@
               "NO",
               "NO_PREFERENCE"
             ]
+          },
+          "availabilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailabilityAnswerModel"
+            }
           }
         }
       },
@@ -1171,7 +1282,8 @@
                 "CITY",
                 "COUNTRYSIDE",
                 "BEACH",
-                "MOUNTAIN"
+                "MOUNTAIN",
+                "NO_PREFERENCE"
               ]
             }
           },
@@ -1210,7 +1322,7 @@
               "MIXED"
             ]
           },
-          "groupeSize": {
+          "groupSize": {
             "$ref": "#/components/schemas/RangeAnswerModel"
           },
           "chillOrVisit": {
@@ -1245,21 +1357,40 @@
               "NO_PREFERENCE"
             ]
           },
-          "userId": {
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MatchMakingResponse": {
+        "type": "object",
+        "properties": {
+          "taskId": {
             "type": "integer",
             "format": "int64"
           },
-          "active": {
-            "type": "boolean"
+          "errorMessage": {
+            "type": "string"
           }
         }
       },
       "CreatePrivateGroupRequest": {
         "type": "object",
         "properties": {
+          "name": {
+            "type": "string"
+          },
           "maxSize": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "CityModel": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
           }
         }
       },
@@ -1282,7 +1413,7 @@
             ]
           },
           "owner": {
-            "type": "string"
+            "$ref": "#/components/schemas/UserModel"
           },
           "maxSize": {
             "type": "integer",
@@ -1296,14 +1427,122 @@
             "type": "string",
             "format": "date-time"
           },
-          "users": {
+          "picture": {
+            "type": "string"
+          },
+          "members": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/MemberModel"
             }
           },
           "createdDate": {
             "type": "string"
+          }
+        }
+      },
+      "MemberModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "NOT_SPECIFIED"
+            ]
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "city": {
+            "$ref": "#/components/schemas/CityModel"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UserModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "NOT_SPECIFIED"
+            ]
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "city": {
+            "$ref": "#/components/schemas/CityModel"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "DEFAULT",
+                "ADMIN"
+              ]
+            }
           }
         }
       },
@@ -1444,7 +1683,8 @@
                 "CITY",
                 "COUNTRYSIDE",
                 "BEACH",
-                "MOUNTAIN"
+                "MOUNTAIN",
+                "NO_PREFERENCE"
               ]
             }
           },
@@ -1520,14 +1760,6 @@
           },
           "active": {
             "type": "boolean"
-          }
-        }
-      },
-      "CityModel": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
           }
         }
       },
@@ -1667,6 +1899,21 @@
           }
         }
       },
+      "ProfileEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
       "RoleEntity": {
         "type": "object",
         "properties": {
@@ -1729,65 +1976,15 @@
             "items": {
               "$ref": "#/components/schemas/RoleEntity"
             }
-          }
-        }
-      },
-      "UserModel": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
           },
-          "firstname": {
-            "type": "string"
-          },
-          "lastname": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "birthDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "gender": {
-            "type": "string",
-            "enum": [
-              "MALE",
-              "FEMALE",
-              "NOT_SPECIFIED"
-            ]
-          },
-          "profilePicture": {
-            "type": "string"
-          },
-          "city": {
-            "$ref": "#/components/schemas/CityModel"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "confirmed": {
-            "type": "boolean"
-          },
-          "roles": {
+          "profiles": {
             "type": "array",
             "items": {
-              "type": "string",
-              "enum": [
-                "DEFAULT",
-                "ADMIN"
-              ]
+              "$ref": "#/components/schemas/ProfileEntity"
             }
+          },
+          "waitingForGroup": {
+            "type": "boolean"
           }
         }
       },

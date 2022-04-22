@@ -24,11 +24,6 @@ ProfileCreationRequest _$ProfileCreationRequestFromJson(
         Map<String, dynamic> json) =>
     ProfileCreationRequest(
       name: json['name'] as String?,
-      availabilities: (json['availabilities'] as List<dynamic>?)
-              ?.map((e) =>
-                  AvailabilityAnswerModel.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
       duration: json['duration'] == null
           ? null
           : RangeAnswerModel.fromJson(json['duration'] as Map<String, dynamic>),
@@ -60,14 +55,17 @@ ProfileCreationRequest _$ProfileCreationRequestFromJson(
       goOutAtNight:
           profileCreationRequestGoOutAtNightFromJson(json['goOutAtNight']),
       sport: profileCreationRequestSportFromJson(json['sport']),
+      availabilities: (json['availabilities'] as List<dynamic>?)
+              ?.map((e) =>
+                  AvailabilityAnswerModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$ProfileCreationRequestToJson(
         ProfileCreationRequest instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'availabilities':
-          instance.availabilities?.map((e) => e.toJson()).toList(),
       'duration': instance.duration?.toJson(),
       'budget': instance.budget?.toJson(),
       'destinationTypes': profileCreationRequestDestinationTypesListToJson(
@@ -90,6 +88,8 @@ Map<String, dynamic> _$ProfileCreationRequestToJson(
       'goOutAtNight':
           profileCreationRequestGoOutAtNightToJson(instance.goOutAtNight),
       'sport': profileCreationRequestSportToJson(instance.sport),
+      'availabilities':
+          instance.availabilities?.map((e) => e.toJson()).toList(),
     };
 
 RangeAnswerModel _$RangeAnswerModelFromJson(Map<String, dynamic> json) =>
@@ -133,15 +133,14 @@ ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
           profileModelTravelWithPersonSameLanguageFromJson(
               json['travelWithPersonSameLanguage']),
       gender: profileModelGenderFromJson(json['gender']),
-      groupeSize: json['groupeSize'] == null
+      groupSize: json['groupSize'] == null
           ? null
           : RangeAnswerModel.fromJson(
-              json['groupeSize'] as Map<String, dynamic>),
+              json['groupSize'] as Map<String, dynamic>),
       chillOrVisit: profileModelChillOrVisitFromJson(json['chillOrVisit']),
       aboutFood: profileModelAboutFoodFromJson(json['aboutFood']),
       goOutAtNight: profileModelGoOutAtNightFromJson(json['goOutAtNight']),
       sport: profileModelSportFromJson(json['sport']),
-      userId: json['userId'] as num?,
       active: json['active'] as bool?,
     );
 
@@ -166,32 +165,56 @@ Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
           profileModelTravelWithPersonSameLanguageToJson(
               instance.travelWithPersonSameLanguage),
       'gender': profileModelGenderToJson(instance.gender),
-      'groupeSize': instance.groupeSize?.toJson(),
+      'groupSize': instance.groupSize?.toJson(),
       'chillOrVisit': profileModelChillOrVisitToJson(instance.chillOrVisit),
       'aboutFood': profileModelAboutFoodToJson(instance.aboutFood),
       'goOutAtNight': profileModelGoOutAtNightToJson(instance.goOutAtNight),
       'sport': profileModelSportToJson(instance.sport),
-      'userId': instance.userId,
       'active': instance.active,
+    };
+
+MatchMakingResponse _$MatchMakingResponseFromJson(Map<String, dynamic> json) =>
+    MatchMakingResponse(
+      taskId: json['taskId'] as num?,
+      errorMessage: json['errorMessage'] as String?,
+    );
+
+Map<String, dynamic> _$MatchMakingResponseToJson(
+        MatchMakingResponse instance) =>
+    <String, dynamic>{
+      'taskId': instance.taskId,
+      'errorMessage': instance.errorMessage,
     };
 
 CreatePrivateGroupRequest _$CreatePrivateGroupRequestFromJson(
         Map<String, dynamic> json) =>
     CreatePrivateGroupRequest(
+      name: json['name'] as String?,
       maxSize: json['maxSize'] as int?,
     );
 
 Map<String, dynamic> _$CreatePrivateGroupRequestToJson(
         CreatePrivateGroupRequest instance) =>
     <String, dynamic>{
+      'name': instance.name,
       'maxSize': instance.maxSize,
+    };
+
+CityModel _$CityModelFromJson(Map<String, dynamic> json) => CityModel(
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$CityModelToJson(CityModel instance) => <String, dynamic>{
+      'name': instance.name,
     };
 
 GroupModel _$GroupModelFromJson(Map<String, dynamic> json) => GroupModel(
       id: json['id'] as num?,
       name: json['name'] as String?,
       state: groupModelStateFromJson(json['state']),
-      owner: json['owner'] as String?,
+      owner: json['owner'] == null
+          ? null
+          : UserModel.fromJson(json['owner'] as Map<String, dynamic>),
       maxSize: json['maxSize'] as int?,
       startOfTrip: json['startOfTrip'] == null
           ? null
@@ -199,9 +222,11 @@ GroupModel _$GroupModelFromJson(Map<String, dynamic> json) => GroupModel(
       endOfTrip: json['endOfTrip'] == null
           ? null
           : DateTime.parse(json['endOfTrip'] as String),
-      users:
-          (json['users'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-              [],
+      picture: json['picture'] as String?,
+      members: (json['members'] as List<dynamic>?)
+              ?.map((e) => MemberModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       createdDate: json['createdDate'] as String?,
     );
 
@@ -210,12 +235,86 @@ Map<String, dynamic> _$GroupModelToJson(GroupModel instance) =>
       'id': instance.id,
       'name': instance.name,
       'state': groupModelStateToJson(instance.state),
-      'owner': instance.owner,
+      'owner': instance.owner?.toJson(),
       'maxSize': instance.maxSize,
       'startOfTrip': instance.startOfTrip?.toIso8601String(),
       'endOfTrip': instance.endOfTrip?.toIso8601String(),
-      'users': instance.users,
+      'picture': instance.picture,
+      'members': instance.members?.map((e) => e.toJson()).toList(),
       'createdDate': instance.createdDate,
+    };
+
+MemberModel _$MemberModelFromJson(Map<String, dynamic> json) => MemberModel(
+      id: json['id'] as num?,
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
+      email: json['email'] as String?,
+      birthDate: json['birthDate'] == null
+          ? null
+          : DateTime.parse(json['birthDate'] as String),
+      gender: memberModelGenderFromJson(json['gender']),
+      profilePicture: json['profilePicture'] as String?,
+      city: json['city'] == null
+          ? null
+          : CityModel.fromJson(json['city'] as Map<String, dynamic>),
+      createdDate: json['createdDate'] == null
+          ? null
+          : DateTime.parse(json['createdDate'] as String),
+      phoneNumber: json['phoneNumber'] as String?,
+      confirmed: json['confirmed'] as bool?,
+    );
+
+Map<String, dynamic> _$MemberModelToJson(MemberModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'firstname': instance.firstname,
+      'lastname': instance.lastname,
+      'email': instance.email,
+      'birthDate': instance.birthDate?.toIso8601String(),
+      'gender': memberModelGenderToJson(instance.gender),
+      'profilePicture': instance.profilePicture,
+      'city': instance.city?.toJson(),
+      'createdDate': instance.createdDate?.toIso8601String(),
+      'phoneNumber': instance.phoneNumber,
+      'confirmed': instance.confirmed,
+    };
+
+UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
+      id: json['id'] as num?,
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
+      password: json['password'] as String?,
+      email: json['email'] as String?,
+      birthDate: json['birthDate'] == null
+          ? null
+          : DateTime.parse(json['birthDate'] as String),
+      gender: userModelGenderFromJson(json['gender']),
+      profilePicture: json['profilePicture'] as String?,
+      city: json['city'] == null
+          ? null
+          : CityModel.fromJson(json['city'] as Map<String, dynamic>),
+      createdDate: json['createdDate'] == null
+          ? null
+          : DateTime.parse(json['createdDate'] as String),
+      phoneNumber: json['phoneNumber'] as String?,
+      confirmed: json['confirmed'] as bool?,
+      roles: userModelRolesListFromJson(json['roles'] as List?),
+    );
+
+Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
+      'id': instance.id,
+      'firstname': instance.firstname,
+      'lastname': instance.lastname,
+      'password': instance.password,
+      'email': instance.email,
+      'birthDate': instance.birthDate?.toIso8601String(),
+      'gender': userModelGenderToJson(instance.gender),
+      'profilePicture': instance.profilePicture,
+      'city': instance.city?.toJson(),
+      'createdDate': instance.createdDate?.toIso8601String(),
+      'phoneNumber': instance.phoneNumber,
+      'confirmed': instance.confirmed,
+      'roles': userModelRolesListToJson(instance.roles),
     };
 
 ModelWithEmail _$ModelWithEmailFromJson(Map<String, dynamic> json) =>
@@ -406,14 +505,6 @@ Map<String, dynamic> _$ProfileUpdateRequestToJson(
       'active': instance.active,
     };
 
-CityModel _$CityModelFromJson(Map<String, dynamic> json) => CityModel(
-      name: json['name'] as String?,
-    );
-
-Map<String, dynamic> _$CityModelToJson(CityModel instance) => <String, dynamic>{
-      'name': instance.name,
-    };
-
 UserUpdateRequest _$UserUpdateRequestFromJson(Map<String, dynamic> json) =>
     UserUpdateRequest(
       firstname: json['firstname'] as String?,
@@ -550,6 +641,20 @@ Map<String, dynamic> _$GenderEntityToJson(GenderEntity instance) =>
       'value': instance.value,
     };
 
+ProfileEntity _$ProfileEntityFromJson(Map<String, dynamic> json) =>
+    ProfileEntity(
+      id: json['id'] as num?,
+      name: json['name'] as String?,
+      active: json['active'] as bool?,
+    );
+
+Map<String, dynamic> _$ProfileEntityToJson(ProfileEntity instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'active': instance.active,
+    };
+
 RoleEntity _$RoleEntityFromJson(Map<String, dynamic> json) => RoleEntity(
       id: json['id'] as num?,
       name: json['name'] as String?,
@@ -588,6 +693,11 @@ UserEntity _$UserEntityFromJson(Map<String, dynamic> json) => UserEntity(
               ?.map((e) => RoleEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
+      profiles: (json['profiles'] as List<dynamic>?)
+              ?.map((e) => ProfileEntity.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      waitingForGroup: json['waitingForGroup'] as bool?,
     );
 
 Map<String, dynamic> _$UserEntityToJson(UserEntity instance) =>
@@ -605,44 +715,8 @@ Map<String, dynamic> _$UserEntityToJson(UserEntity instance) =>
       'phoneNumber': instance.phoneNumber,
       'confirmed': instance.confirmed,
       'roles': instance.roles?.map((e) => e.toJson()).toList(),
-    };
-
-UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
-      id: json['id'] as num?,
-      firstname: json['firstname'] as String?,
-      lastname: json['lastname'] as String?,
-      password: json['password'] as String?,
-      email: json['email'] as String?,
-      birthDate: json['birthDate'] == null
-          ? null
-          : DateTime.parse(json['birthDate'] as String),
-      gender: userModelGenderFromJson(json['gender']),
-      profilePicture: json['profilePicture'] as String?,
-      city: json['city'] == null
-          ? null
-          : CityModel.fromJson(json['city'] as Map<String, dynamic>),
-      createdDate: json['createdDate'] == null
-          ? null
-          : DateTime.parse(json['createdDate'] as String),
-      phoneNumber: json['phoneNumber'] as String?,
-      confirmed: json['confirmed'] as bool?,
-      roles: userModelRolesListFromJson(json['roles'] as List?),
-    );
-
-Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
-      'id': instance.id,
-      'firstname': instance.firstname,
-      'lastname': instance.lastname,
-      'password': instance.password,
-      'email': instance.email,
-      'birthDate': instance.birthDate?.toIso8601String(),
-      'gender': userModelGenderToJson(instance.gender),
-      'profilePicture': instance.profilePicture,
-      'city': instance.city?.toJson(),
-      'createdDate': instance.createdDate?.toIso8601String(),
-      'phoneNumber': instance.phoneNumber,
-      'confirmed': instance.confirmed,
-      'roles': userModelRolesListToJson(instance.roles),
+      'profiles': instance.profiles?.map((e) => e.toJson()).toList(),
+      'waitingForGroup': instance.waitingForGroup,
     };
 
 DeleteUserRequest _$DeleteUserRequestFromJson(Map<String, dynamic> json) =>
