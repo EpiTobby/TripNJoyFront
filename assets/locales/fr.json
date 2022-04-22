@@ -218,6 +218,9 @@
       "open": "Ouvert",
       "close": "Fermé",
       "hint": "Écrivez un message..."
+    },
+    "channel": {
+      "title": "Channels"
     }
   },
   "settings": {

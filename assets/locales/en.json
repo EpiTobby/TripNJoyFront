@@ -218,6 +218,9 @@
       "open": "Opened",
       "close": "Closed",
       "hint": "Type a message..."
+    },
+    "channel": {
+      "title": "Cannaux"
     }
   },
   "settings": {
