@@ -12,7 +12,7 @@ class ChatInput extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = TextEditingController();
+    final controller = useTextEditingController();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
