@@ -54,6 +54,7 @@ dependencies:
   google_sign_in: ^5.2.4
   firebase_messaging: ^11.2.13
   overlay_support: ^1.2.1
+  overlapping_panels: ^0.0.2
 
 dev_dependencies:
   flutter_test:
