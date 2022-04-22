@@ -44,6 +44,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     }
 
     return ListView(
+      physics: const ClampingScrollPhysics(),
       children: <Widget>[
         LayoutHeader(
           title: "${user.firstname} ${user.lastname}",

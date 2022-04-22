@@ -40,22 +40,23 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
       ),
       body: Column(
         children: [
-          LayoutHeader(
-            imageURL: group.picture ?? DEFAULT_GROUP_AVATAR_URL,
-            onClick: () async {
-              final imageURL = await minioService.upload();
-
-              if (imageURL != null) {
-                await groupViewModel.updatePrivateGroup(group.id!.toInt(), UpdateGroupRequest(picture: imageURL));
-              }
-            },
-          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 32.0),
               child: ListView(
+                physics: const ClampingScrollPhysics(),
                 shrinkWrap: true,
                 children: [
+                  LayoutHeader(
+                    imageURL: group.picture ?? DEFAULT_GROUP_AVATAR_URL,
+                    onClick: () async {
+                      final imageURL = await minioService.upload();
+
+                      if (imageURL != null) {
+                        await groupViewModel.updatePrivateGroup(group.id!.toInt(), UpdateGroupRequest(picture: imageURL));
+                      }
+                    },
+                  ),
                   LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.about"), children: [
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.settings.groupName"),
