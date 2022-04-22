@@ -376,6 +376,21 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<List<GroupModel>>> _groupsIdGet(
       {@Path('id') required num? id});
 
+  ///Get all the group invitation of the user
+  ///@param id
+  Future<chopper.Response<List<GroupModel>>> groupsInvitesIdGet(
+      {required num? id}) {
+    generatedMapping.putIfAbsent(GroupModel, () => GroupModel.fromJsonFactory);
+
+    return _groupsInvitesIdGet(id: id);
+  }
+
+  ///Get all the group invitation of the user
+  ///@param id
+  @Get(path: '/groups/invites/{id}')
+  Future<chopper.Response<List<GroupModel>>> _groupsInvitesIdGet(
+      {@Path('id') required num? id});
+
   ///Delete the profile of a user
   ///@param id
   ///@param profile
@@ -2168,6 +2183,7 @@ class UpdateGroupRequest {
     this.maxSize,
     this.startOfTrip,
     this.endOfTrip,
+    this.picture,
   });
 
   factory UpdateGroupRequest.fromJson(Map<String, dynamic> json) =>
@@ -2188,6 +2204,8 @@ class UpdateGroupRequest {
   final DateTime? startOfTrip;
   @JsonKey(name: 'endOfTrip')
   final DateTime? endOfTrip;
+  @JsonKey(name: 'picture')
+  final String? picture;
   static const fromJsonFactory = _$UpdateGroupRequestFromJson;
   static const toJsonFactory = _$UpdateGroupRequestToJson;
   Map<String, dynamic> toJson() => _$UpdateGroupRequestToJson(this);
@@ -2211,7 +2229,9 @@ class UpdateGroupRequest {
                     .equals(other.startOfTrip, startOfTrip)) &&
             (identical(other.endOfTrip, endOfTrip) ||
                 const DeepCollectionEquality()
-                    .equals(other.endOfTrip, endOfTrip)));
+                    .equals(other.endOfTrip, endOfTrip)) &&
+            (identical(other.picture, picture) ||
+                const DeepCollectionEquality().equals(other.picture, picture)));
   }
 
   @override
@@ -2222,6 +2242,7 @@ class UpdateGroupRequest {
       const DeepCollectionEquality().hash(maxSize) ^
       const DeepCollectionEquality().hash(startOfTrip) ^
       const DeepCollectionEquality().hash(endOfTrip) ^
+      const DeepCollectionEquality().hash(picture) ^
       runtimeType.hashCode;
 }
 
@@ -2232,14 +2253,16 @@ extension $UpdateGroupRequestExtension on UpdateGroupRequest {
       num? ownerId,
       int? maxSize,
       DateTime? startOfTrip,
-      DateTime? endOfTrip}) {
+      DateTime? endOfTrip,
+      String? picture}) {
     return UpdateGroupRequest(
         name: name ?? this.name,
         state: state ?? this.state,
         ownerId: ownerId ?? this.ownerId,
         maxSize: maxSize ?? this.maxSize,
         startOfTrip: startOfTrip ?? this.startOfTrip,
-        endOfTrip: endOfTrip ?? this.endOfTrip);
+        endOfTrip: endOfTrip ?? this.endOfTrip,
+        picture: picture ?? this.picture);
   }
 }
 

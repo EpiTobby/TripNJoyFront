@@ -118,4 +118,52 @@ class MockService extends HttpService {
       return GoogleAuthResponse(token: "token", username: "username", newUser: true);
     });
   }
+
+  @override
+  Future<void> addUserToPrivateGroup(int groupId, String email) {
+    // TODO: implement addUserToPrivateGroup
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<GroupModel> createPrivateGroup(int id, CreatePrivateGroupRequest createPrivateGroupRequest) {
+    // TODO: implement createPrivateGroup
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deletePrivateGroup(int groupId) {
+    // TODO: implement deletePrivateGroup
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<GroupModel>?> getGroups(int id) {
+    // TODO: implement getGroups
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> joinPrivateGroup(int groupId, int userId) {
+    // TODO: implement joinPrivateGroup
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> leaveGroup(int groupId, int userId) {
+    // TODO: implement leaveGroup
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> removeUserFromPrivateGroup(int groupId, int userId) {
+    // TODO: implement removeUserFromGroup
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest) {
+    // TODO: implement updatePrivateGroup
+    throw UnimplementedError();
+  }
 }

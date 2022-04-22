@@ -543,6 +543,7 @@ UpdateGroupRequest _$UpdateGroupRequestFromJson(Map<String, dynamic> json) =>
       endOfTrip: json['endOfTrip'] == null
           ? null
           : DateTime.parse(json['endOfTrip'] as String),
+      picture: json['picture'] as String?,
     );
 
 Map<String, dynamic> _$UpdateGroupRequestToJson(UpdateGroupRequest instance) =>
@@ -553,6 +554,7 @@ Map<String, dynamic> _$UpdateGroupRequestToJson(UpdateGroupRequest instance) =>
       'maxSize': instance.maxSize,
       'startOfTrip': instance.startOfTrip?.toIso8601String(),
       'endOfTrip': instance.endOfTrip?.toIso8601String(),
+      'picture': instance.picture,
     };
 
 UpdatePasswordRequest _$UpdatePasswordRequestFromJson(

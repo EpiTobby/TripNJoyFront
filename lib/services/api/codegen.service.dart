@@ -168,4 +168,48 @@ class CodegenService extends HttpService {
 
     return response.body;
   }
+
+  @override
+  Future<void> addUserToPrivateGroup(int groupId, String email) async {
+    await api.groupsPrivateGroupUserPost(group: groupId, body: ModelWithEmail(email: email));
+  }
+
+  @override
+  Future<GroupModel?> createPrivateGroup(int id, CreatePrivateGroupRequest createPrivateGroupRequest) async {
+    final response = await api.groupsPrivateIdPost(id: id, body: createPrivateGroupRequest);
+
+    return response.body;
+  }
+
+  @override
+  Future<void> deletePrivateGroup(int groupId) async {
+    await api.groupsPrivateGroupDelete(group: groupId);
+  }
+
+  @override
+  Future<List<GroupModel>?> getGroups(int id) async {
+    final response = await api.groupsIdGet(id: id);
+
+    return response.body;
+  }
+
+  @override
+  Future<void> joinPrivateGroup(int groupId, int userId) async {
+    await api.groupsGroupJoinIdPatch(group: groupId, id: userId);
+  }
+
+  @override
+  Future<void> leaveGroup(int groupId, int userId) async {
+    await api.groupsGroupUserIdDelete(group: groupId, id: userId);
+  }
+
+  @override
+  Future<void> removeUserFromPrivateGroup(int groupId, int userId) async {
+    await api.groupsPrivateGroupUserIdDelete(group: groupId, id: userId);
+  }
+
+  @override
+  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest) async {
+    await api.groupsPrivateGroupPatch(group: groupId, body: groupUpdateRequest);
+  }
 }

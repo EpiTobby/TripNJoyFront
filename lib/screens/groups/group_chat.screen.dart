@@ -3,18 +3,23 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
+import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_input.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_message.widget.dart';
 
 class GroupChat extends HookConsumerWidget {
   const GroupChat({
     Key? key,
-    required this.group,
+    required this.groupId,
   }) : super(key: key);
-  final GroupModel group;
+  final int groupId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final groupViewModel = ref.watch(groupProvider);
+    final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
+
     final channel = useState('General');
     final scrollController = useScrollController();
     return Scaffold(
@@ -55,11 +60,19 @@ class GroupChat extends HookConsumerWidget {
                   ),
                 ],
               ),
-              IconButton(
-                icon: const Icon(Icons.settings),
-                splashRadius: 16.0,
-                onPressed: () => {},
-              ),
+              PopupMenuButton(
+                onSelected: (value) {
+                  if (value == 1) {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => GroupsSettings(groupId: group.id!.toInt())));
+                  }
+                },
+                itemBuilder: (ctx) => [
+                  PopupMenuItem(
+                    child: Text(AppLocalizations.of(context).translate('settings.title')),
+                    value: 1,
+                  ),
+                ],
+              )
             ],
             foregroundColor: Theme.of(context).colorScheme.primary,
             backgroundColor: Theme.of(context).colorScheme.onPrimary,

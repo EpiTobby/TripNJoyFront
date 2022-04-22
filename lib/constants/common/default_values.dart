@@ -1,6 +1,7 @@
 /// COMMON CONSTANTS
 
 const DEFAULT_AVATAR_URL = "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png";
+const DEFAULT_GROUP_AVATAR_URL = "https://cdn0.iconfinder.com/data/icons/admin-panel-glyph-black/2048/599_-_Subscribers-512.png";
 
 /// MINIO CONSTANTS
 

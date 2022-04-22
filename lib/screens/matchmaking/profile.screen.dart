@@ -10,7 +10,6 @@ class ProfileSettings extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         appBar: AppBar(
-          leading: IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back_rounded)),
           title: Text(AppLocalizations.of(context).translate('profile.title')),
           foregroundColor: Theme.of(context).colorScheme.primary,
           backgroundColor: Theme.of(context).colorScheme.onPrimary,

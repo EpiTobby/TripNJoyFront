@@ -16,7 +16,8 @@
     "start": "Démarrer",
     "days": "jours",
     "yearsOld": "ans",
-    "people": "personnes"
+    "people": "personnes",
+    "search": "Rechercher"
   },
   "user": {
     "firstname": "Prénom",
@@ -29,7 +30,9 @@
       "man": "Homme",
       "woman": "Femme",
       "other": "Autre"
-    }
+    },
+    "noPhoneNumber": "Pas de numéro de téléphone",
+    "noCity": "Pas de ville"
   },
   "auth": {
     "firstname": "Votre prénom",
@@ -189,7 +192,8 @@
     "edit": "Modifier",
     "delete": "Supprimer",
     "noProfile": "Vous n'avez pas encore de profil, veuillez répondre aux questions pour créer votre premier profil",
-    "rangeAnswer": "Entre $begin et $end $val"
+    "rangeAnswer": "Entre $begin et $end $val",
+    "create": "Créer un profil"
   },
   "groups": {
     "title": "Groupes",
@@ -202,6 +206,14 @@
       "archive": "Archiver le groupe",
       "quit": "Quitter le groupe"
     },
+    "create": "Créer un groupe",
+    "join": "Rejoindre un groupe",
+    "noOpenGroup": "Pas de groupes ouverts",
+    "addMember": "Ajouter un membre",
+    "email": "Entrez l'adresse email du membre",
+    "open": "Groupes ouverts",
+    "closed": "Groupes fermés",
+    "archived": "Groupes archivés",
     "chat": {
       "open": "Ouvert",
       "close": "Fermé",

@@ -957,6 +957,41 @@
         }
       }
     },
+    "/groups/invites/{id}": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get all the group invitation of the user",
+        "operationId": "getUserInvites",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the list of groups the user is invited to",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/{id}/profiles/{profile}": {
       "delete": {
         "tags": [
@@ -1071,7 +1106,7 @@
           "group-controller"
         ],
         "summary": "Remove user from private group",
-        "operationId": "RemoveUserFromPrivateGroup",
+        "operationId": "removeUserFromPrivateGroup",
         "parameters": [
           {
             "name": "group",
@@ -1819,6 +1854,9 @@
           "endOfTrip": {
             "type": "string",
             "format": "date-time"
+          },
+          "picture": {
+            "type": "string"
           }
         }
       },
