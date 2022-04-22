@@ -76,41 +76,45 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
         ],
       ),
       Expanded(
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            openGroups.isNotEmpty
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: GroupList(groups: openGroups, title: AppLocalizations.of(context).translate('groups.open')),
-                  )
-                : Center(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
-                      child: Column(
-                        children: [
-                          Text(
-                            AppLocalizations.of(context).translate('groups.noOpenGroup'),
-                            style: const TextStyle(fontSize: 20),
+        child: groupViewModel.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : ListView(
+                shrinkWrap: true,
+                children: [
+                  openGroups.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: GroupList(
+                              groups: openGroups, title: AppLocalizations.of(context).translate('groups.open')),
+                        )
+                      : Center(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
+                            child: Column(
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context).translate('groups.noOpenGroup'),
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(height: 20),
+                                PrimaryButton(
+                                    text: AppLocalizations.of(context).translate('profile.create'),
+                                    onPressed: () {
+                                      navbarProvider.navigate(NavbarPage.MATCHMAKING);
+                                    })
+                              ],
+                            ),
                           ),
-                          const SizedBox(height: 20),
-                          PrimaryButton(
-                              text: AppLocalizations.of(context).translate('profile.create'),
-                              onPressed: () {
-                                navbarProvider.navigate(NavbarPage.MATCHMAKING);
-                              })
-                        ],
-                      ),
-                    ),
-                  ),
-            ...(archivedGroups.isNotEmpty
-                ? [
-                    const Divider(height: 40),
-                    GroupList(title: AppLocalizations.of(context).translate('groups.archived'), groups: archivedGroups)
-                  ]
-                : [const SizedBox()]),
-          ],
-        ),
+                        ),
+                  ...(archivedGroups.isNotEmpty
+                      ? [
+                          const Divider(height: 40),
+                          GroupList(
+                              title: AppLocalizations.of(context).translate('groups.archived'), groups: archivedGroups)
+                        ]
+                      : [const SizedBox()]),
+                ],
+              ),
       )
     ]);
   }
