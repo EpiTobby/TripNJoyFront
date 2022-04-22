@@ -27,7 +27,10 @@ class _GroupPageState extends ConsumerState<GroupPage> {
             CircleAvatar(
                 backgroundColor: Theme.of(context).colorScheme.background,
                 backgroundImage: NetworkImage(group.picture ?? DEFAULT_GROUP_AVATAR_URL)),
-            Text(group.name!, style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(group.name!, style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+            ),
           ],
         ),
         actions: [

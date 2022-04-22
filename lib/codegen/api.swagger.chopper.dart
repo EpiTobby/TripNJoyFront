@@ -229,6 +229,13 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<List<GroupModel>>> _groupsInvitesIdGet({required num? id}) {
+    final $url = '/groups/invites/${id}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<List<GroupModel>, GroupModel>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _idProfilesProfileDelete(
       {required num? id, required num? profile}) {
     final $url = '/${id}/profiles/${profile}';

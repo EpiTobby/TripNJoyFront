@@ -1,8 +1,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:minio/minio.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
-import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
-import 'package:trip_n_joy_front/viewmodels/user/user.viewmodel.dart';
 
 class MinioService {
 
