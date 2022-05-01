@@ -220,7 +220,17 @@
       "hint": "Écrivez un message..."
     },
     "channel": {
-      "title": "Channels"
+      "title": "Cannaux",
+      "rename": {
+        "title": "Renommer le canal",
+        "label": "Nom du canal"
+      },
+      "delete": {
+        "title": "Supprimer le canal",
+        "content": "Êtes-vous sûr de vouloir supprimer ce canal ?",
+        "cancel": "Annuler",
+        "confirm": "Supprimer"
+      }
     }
   },
   "settings": {

@@ -220,7 +220,17 @@
       "hint": "Type a message..."
     },
     "channel": {
-      "title": "Cannaux"
+      "title": "Channel",
+      "rename": {
+        "title": "Rename the channel",
+        "label": "New name"
+      },
+      "delete": {
+        "title": "Delete the channel",
+        "content": "Are you sure you want to delete the channel ?",
+        "cancel": "Cancel",
+        "confirm": "Delete"
+      }
     }
   },
   "settings": {

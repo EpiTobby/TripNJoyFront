@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 
 class GroupChannels extends HookConsumerWidget {
   const GroupChannels({
@@ -16,54 +19,115 @@ class GroupChannels extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isEditMode = useState(false);
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.05),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(child: Text(AppLocalizations.of(context).translate('groups.channel.title'))),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.all(4),
-                      primary: Theme.of(context).colorScheme.secondary,
-                      textStyle: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSecondary),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                  child: Icon(Icons.edit, color: Theme.of(context).colorScheme.onSecondary),
-                ),
-              ],
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(
+          AppLocalizations.of(context).translate('groups.channel.title'),
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.15),
+            child: IconButton(
+              icon:
+                  Icon(isEditMode.value ? Icons.check : Icons.edit, color: Theme.of(context).colorScheme.onBackground),
+              onPressed: () {
+                isEditMode.value = !isEditMode.value;
+              },
+              splashRadius: 16,
             ),
-            for (final channel in channels)
-              ElevatedButton(
-                onPressed: () => onPressed(channel),
-                style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-                    primary: channel == selectedChannel
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).colorScheme.surface,
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        color: channel == selectedChannel
-                            ? Theme.of(context).colorScheme.onSecondary
-                            : Theme.of(context).colorScheme.onSurface),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                    )),
-                child: Text(
-                  channel,
-                  style: TextStyle(
-                      color: channel == selectedChannel
-                          ? Theme.of(context).colorScheme.onSecondary
-                          : Theme.of(context).colorScheme.primary),
+          ),
+        ],
+        backgroundColor: Theme.of(context).colorScheme.background,
+        foregroundColor: Theme.of(context).colorScheme.onBackground,
+        shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+      ),
+      body: Container(
+        color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (final channel in channels)
+                Row(
+                  children: [
+                    if (isEditMode.value)
+                      IconButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return InputDialog(
+                                    title: AppLocalizations.of(context).translate("groups.channel.rename.title"),
+                                    label: AppLocalizations.of(context).translate("groups.channel.rename.label"),
+                                    initialValue: channel,
+                                    onConfirm: (value) async {});
+                              });
+                        },
+                        icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.secondary),
+                        splashRadius: 16,
+                      ),
+                    if (isEditMode.value)
+                      IconButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text(AppLocalizations.of(context).translate("groups.channel.delete.title")),
+                                  content:
+                                      Text(AppLocalizations.of(context).translate("groups.channel.delete.content")),
+                                  actions: [
+                                    TertiaryButton(
+                                      text: AppLocalizations.of(context).translate("groups.channel.delete.cancel"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    PrimaryButton(
+                                      text: AppLocalizations.of(context).translate("groups.channel.delete.confirm"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
+                        icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.tertiary),
+                        splashRadius: 16,
+                      ),
+                    ElevatedButton(
+                      onPressed: () => onPressed(channel),
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                          primary: channel == selectedChannel
+                              ? Theme.of(context).colorScheme.secondary
+                              : Theme.of(context).colorScheme.surface,
+                          textStyle: TextStyle(
+                              fontSize: 16,
+                              color: channel == selectedChannel
+                                  ? Theme.of(context).colorScheme.onSecondary
+                                  : Theme.of(context).colorScheme.onSurface),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                          )),
+                      child: Text(
+                        channel,
+                        style: TextStyle(
+                            color: channel == selectedChannel
+                                ? Theme.of(context).colorScheme.onSecondary
+                                : Theme.of(context).colorScheme.primary),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );
