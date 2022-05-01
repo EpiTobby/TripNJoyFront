@@ -28,7 +28,7 @@ class GroupChannels extends HookConsumerWidget {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.15),
+            padding: const EdgeInsets.only(right: 40),
             child: IconButton(
               icon:
                   Icon(isEditMode.value ? Icons.check : Icons.edit, color: Theme.of(context).colorScheme.onBackground),

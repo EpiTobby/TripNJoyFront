@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:overlapping_panels/overlapping_panels.dart';
+import 'package:trip_n_joy_front/screens/groups/group_budget.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/group_channel.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/group_chat.screen.dart';
 
@@ -30,7 +31,7 @@ class GroupChatContainer extends HookConsumerWidget {
           return GroupChat(groupId: groupId);
         }),
         right: Builder(builder: (context) {
-          return Container();
+          return GroupBudget();
         }),
       )
     ]);

@@ -231,6 +231,9 @@
         "cancel": "Cancel",
         "confirm": "Delete"
       }
+    },
+    "budget": {
+      "title": "Budget"
     }
   },
   "settings": {
