@@ -221,6 +221,10 @@
     },
     "channel": {
       "title": "Cannaux",
+      "add": {
+        "title": "Ajouter un canal",
+        "label": "Nom du canal"
+      },
       "rename": {
         "title": "Renommer le canal",
         "label": "Nom du canal"

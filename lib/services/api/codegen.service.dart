@@ -227,13 +227,13 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<ChannelModel?> updateChannel(int channelId, UpdateChannelRequest updateChannelRequest) async {
+  Future<ChannelModel?> updateChannel(num channelId, UpdateChannelRequest updateChannelRequest) async {
     final response = await api.channelsIdPatch(id: channelId, body: updateChannelRequest);
     return response.body;
   }
 
   @override
-  Future<void> deleteChannel(int channelId) async {
+  Future<void> deleteChannel(num channelId) async {
     await api.channelsIdDelete(id: channelId);
   }
 }

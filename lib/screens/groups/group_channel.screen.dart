@@ -3,17 +3,21 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
+import 'package:trip_n_joy_front/providers/groups/channel.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 
 class GroupChannels extends HookConsumerWidget {
   const GroupChannels({
     Key? key,
+    required this.groupId,
     required this.channels,
     required this.selectedChannel,
     required this.onPressed,
   }) : super(key: key);
 
+  final int groupId;
   final List<ChannelModel> channels;
   final ChannelModel? selectedChannel;
   final void Function(ChannelModel) onPressed;
@@ -21,6 +25,7 @@ class GroupChannels extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isEditMode = useState(false);
+    final channelViewModel = ref.watch(channelProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -28,6 +33,24 @@ class GroupChannels extends HookConsumerWidget {
           AppLocalizations.of(context).translate('groups.channel.title'),
         ),
         actions: [
+          if (isEditMode.value)
+            IconButton(
+              icon: const Icon(Icons.add),
+              splashRadius: 16,
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return InputDialog(
+                          title: AppLocalizations.of(context).translate("groups.channel.add.title"),
+                          label: AppLocalizations.of(context).translate("groups.channel.add.label"),
+                          initialValue: '',
+                          onConfirm: (value) async {
+                            await channelViewModel.createChannel(groupId, CreateChannelRequest(name: value));
+                          });
+                    });
+              },
+            ),
           Padding(
             padding: const EdgeInsets.only(right: 40),
             child: IconButton(
@@ -66,7 +89,10 @@ class GroupChannels extends HookConsumerWidget {
                                     title: AppLocalizations.of(context).translate("groups.channel.rename.title"),
                                     label: AppLocalizations.of(context).translate("groups.channel.rename.label"),
                                     initialValue: channel.name ?? '',
-                                    onConfirm: (value) async {});
+                                    onConfirm: (value) async {
+                                      await channelViewModel.updateChannel(
+                                          groupId, channel.id!, UpdateChannelRequest(name: value));
+                                    });
                               });
                         },
                         icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.secondary),
@@ -91,7 +117,8 @@ class GroupChannels extends HookConsumerWidget {
                                     ),
                                     PrimaryButton(
                                       text: AppLocalizations.of(context).translate("groups.channel.delete.confirm"),
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        await channelViewModel.deleteChannel(groupId, channel.id!);
                                         Navigator.of(context).pop();
                                       },
                                     ),

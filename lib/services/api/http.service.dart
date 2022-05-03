@@ -64,7 +64,7 @@ abstract class HttpService {
 
   Future<ChannelModel?> createChannel(int groupId, CreateChannelRequest createChannelRequest);
 
-  Future<ChannelModel?> updateChannel(int channelId, UpdateChannelRequest updateChannelRequest);
+  Future<ChannelModel?> updateChannel(num channelId, UpdateChannelRequest updateChannelRequest);
 
-  Future<void> deleteChannel(int channelId);
+  Future<void> deleteChannel(num channelId);
 }

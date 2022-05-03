@@ -17,12 +17,12 @@ class ChannelViewModel extends StateNotifier<List<ChannelModel>> {
     await fetchChannels(groupId);
   }
 
-  Future<void> deleteChannel(int groupId, int channelId) async {
+  Future<void> deleteChannel(int groupId, num channelId) async {
     await httpService.deleteChannel(channelId);
     await fetchChannels(groupId);
   }
 
-  Future<void> updateChannel(int groupId, int channelId, UpdateChannelRequest request) async {
+  Future<void> updateChannel(int groupId, num channelId, UpdateChannelRequest request) async {
     await httpService.updateChannel(channelId, request);
     await fetchChannels(groupId);
   }

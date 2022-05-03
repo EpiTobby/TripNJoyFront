@@ -221,6 +221,10 @@
     },
     "channel": {
       "title": "Channel",
+      "add": {
+        "title": "Create new channel",
+        "label": "Name"
+      },
       "rename": {
         "title": "Rename the channel",
         "label": "New name"

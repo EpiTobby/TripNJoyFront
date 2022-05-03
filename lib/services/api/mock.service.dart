@@ -184,7 +184,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<void> deleteChannel(int channelId) {
+  Future<void> deleteChannel(num channelId) {
     return Future.delayed(const Duration(seconds: 1));
   }
 
@@ -200,7 +200,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<ChannelModel?> updateChannel(int channelId, UpdateChannelRequest updateChannelRequest) {
+  Future<ChannelModel?> updateChannel(num channelId, UpdateChannelRequest updateChannelRequest) {
     return Future.value(ChannelModel(id: channelId, name: "Channel 2", index: 1));
   }
 }
