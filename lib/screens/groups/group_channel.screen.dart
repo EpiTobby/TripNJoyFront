@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 
@@ -13,9 +14,9 @@ class GroupChannels extends HookConsumerWidget {
     required this.onPressed,
   }) : super(key: key);
 
-  final List<String> channels;
-  final String selectedChannel;
-  final void Function(String) onPressed;
+  final List<ChannelModel> channels;
+  final ChannelModel? selectedChannel;
+  final void Function(ChannelModel) onPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -64,7 +65,7 @@ class GroupChannels extends HookConsumerWidget {
                                 return InputDialog(
                                     title: AppLocalizations.of(context).translate("groups.channel.rename.title"),
                                     label: AppLocalizations.of(context).translate("groups.channel.rename.label"),
-                                    initialValue: channel,
+                                    initialValue: channel.name ?? '',
                                     onConfirm: (value) async {});
                               });
                         },
@@ -117,7 +118,7 @@ class GroupChannels extends HookConsumerWidget {
                             borderRadius: BorderRadius.circular(6),
                           )),
                       child: Text(
-                        channel,
+                        channel.name ?? '',
                         style: TextStyle(
                             color: channel == selectedChannel
                                 ? Theme.of(context).colorScheme.onSecondary

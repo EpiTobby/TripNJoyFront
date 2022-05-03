@@ -59,4 +59,12 @@ abstract class HttpService {
   Future<void> removeUserFromPrivateGroup(int groupId, int userId);
 
   Future<void> leaveGroup(int groupId, int userId);
+
+  Future<List<ChannelModel>> getChannels(int groupId);
+
+  Future<ChannelModel?> createChannel(int groupId, CreateChannelRequest createChannelRequest);
+
+  Future<ChannelModel?> updateChannel(int channelId, UpdateChannelRequest updateChannelRequest);
+
+  Future<void> deleteChannel(int channelId);
 }

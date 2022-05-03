@@ -562,3 +562,23 @@ const $UpdateGroupRequestStateMap = {
   UpdateGroupRequestState.closed: 'CLOSED',
   UpdateGroupRequestState.archived: 'ARCHIVED'
 };
+
+enum MatchMakingResultType$ {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('CREATED')
+  created,
+  @JsonValue('JOINED')
+  joined,
+  @JsonValue('WAITING')
+  waiting,
+  @JsonValue('SEARCHING')
+  searching
+}
+
+const $MatchMakingResultType$Map = {
+  MatchMakingResultType$.created: 'CREATED',
+  MatchMakingResultType$.joined: 'JOINED',
+  MatchMakingResultType$.waiting: 'WAITING',
+  MatchMakingResultType$.searching: 'SEARCHING'
+};

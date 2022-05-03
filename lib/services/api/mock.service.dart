@@ -177,4 +177,30 @@ class MockService extends HttpService {
     // TODO: implement updatePrivateGroup
     throw UnimplementedError();
   }
+
+  @override
+  Future<ChannelModel?> createChannel(int groupId, CreateChannelRequest createChannelRequest) {
+    return Future.value(ChannelModel(id: 1, name: "Channel 1", index: 1));
+  }
+
+  @override
+  Future<void> deleteChannel(int channelId) {
+    return Future.delayed(const Duration(seconds: 1));
+  }
+
+  @override
+  Future<List<ChannelModel>> getChannels(int groupId) {
+    return Future.delayed(const Duration(seconds: 1), () {
+      return [
+        ChannelModel(id: 1, name: "Channel 1", index: 1),
+        ChannelModel(id: 2, name: "Channel 2", index: 2),
+        ChannelModel(id: 3, name: "Channel 3", index: 3)
+      ];
+    });
+  }
+
+  @override
+  Future<ChannelModel?> updateChannel(int channelId, UpdateChannelRequest updateChannelRequest) {
+    return Future.value(ChannelModel(id: channelId, name: "Channel 2", index: 1));
+  }
 }

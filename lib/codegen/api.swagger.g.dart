@@ -327,6 +327,31 @@ Map<String, dynamic> _$ModelWithEmailToJson(ModelWithEmail instance) =>
       'email': instance.email,
     };
 
+CreateChannelRequest _$CreateChannelRequestFromJson(
+        Map<String, dynamic> json) =>
+    CreateChannelRequest(
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$CreateChannelRequestToJson(
+        CreateChannelRequest instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
+
+ChannelModel _$ChannelModelFromJson(Map<String, dynamic> json) => ChannelModel(
+      id: json['id'] as num?,
+      name: json['name'] as String?,
+      index: json['index'] as int?,
+    );
+
+Map<String, dynamic> _$ChannelModelToJson(ChannelModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'index': instance.index,
+    };
+
 UserCreationRequest _$UserCreationRequestFromJson(Map<String, dynamic> json) =>
     UserCreationRequest(
       firstname: json['firstname'] as String?,
@@ -557,6 +582,46 @@ Map<String, dynamic> _$UpdateGroupRequestToJson(UpdateGroupRequest instance) =>
       'picture': instance.picture,
     };
 
+MessageResponse _$MessageResponseFromJson(Map<String, dynamic> json) =>
+    MessageResponse(
+      id: json['id'] as num?,
+      channelId: json['channelId'] as num?,
+      userId: json['userId'] as num?,
+      content: json['content'] as String?,
+      sentDate: json['sentDate'] == null
+          ? null
+          : DateTime.parse(json['sentDate'] as String),
+      modifiedDate: json['modifiedDate'] == null
+          ? null
+          : DateTime.parse(json['modifiedDate'] as String),
+      pinned: json['pinned'] as bool?,
+    );
+
+Map<String, dynamic> _$MessageResponseToJson(MessageResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'channelId': instance.channelId,
+      'userId': instance.userId,
+      'content': instance.content,
+      'sentDate': instance.sentDate?.toIso8601String(),
+      'modifiedDate': instance.modifiedDate?.toIso8601String(),
+      'pinned': instance.pinned,
+    };
+
+UpdateChannelRequest _$UpdateChannelRequestFromJson(
+        Map<String, dynamic> json) =>
+    UpdateChannelRequest(
+      name: json['name'] as String?,
+      index: json['index'] as int?,
+    );
+
+Map<String, dynamic> _$UpdateChannelRequestToJson(
+        UpdateChannelRequest instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'index': instance.index,
+    };
+
 UpdatePasswordRequest _$UpdatePasswordRequestFromJson(
         Map<String, dynamic> json) =>
     UpdatePasswordRequest(
@@ -719,6 +784,18 @@ Map<String, dynamic> _$UserEntityToJson(UserEntity instance) =>
       'roles': instance.roles?.map((e) => e.toJson()).toList(),
       'profiles': instance.profiles?.map((e) => e.toJson()).toList(),
       'waitingForGroup': instance.waitingForGroup,
+    };
+
+MatchMakingResult _$MatchMakingResultFromJson(Map<String, dynamic> json) =>
+    MatchMakingResult(
+      type: matchMakingResultType$FromJson(json['type']),
+      groupId: json['groupId'] as num?,
+    );
+
+Map<String, dynamic> _$MatchMakingResultToJson(MatchMakingResult instance) =>
+    <String, dynamic>{
+      'type': matchMakingResultType$ToJson(instance.type),
+      'groupId': instance.groupId,
     };
 
 DeleteUserRequest _$DeleteUserRequestFromJson(Map<String, dynamic> json) =>
