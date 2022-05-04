@@ -139,8 +139,19 @@ class MockService extends HttpService {
 
   @override
   Future<List<GroupModel>?> getGroups(int id) {
-    // TODO: implement getGroups
-    throw UnimplementedError();
+    return Future.delayed(const Duration(seconds: 1), () {
+      return [
+        GroupModel(
+            id: 1,
+            state: GroupModelState.closed,
+            name: "A very long title that should be truncated in the appbar",
+            members: [
+              MemberModel(firstname: "tony", lastname: "stark"),
+              MemberModel(firstname: "steve", lastname: "rogers")
+            ],
+            picture: "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png"),
+      ];
+    });
   }
 
   @override
@@ -165,5 +176,31 @@ class MockService extends HttpService {
   Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest) {
     // TODO: implement updatePrivateGroup
     throw UnimplementedError();
+  }
+
+  @override
+  Future<ChannelModel?> createChannel(int groupId, CreateChannelRequest createChannelRequest) {
+    return Future.value(ChannelModel(id: 1, name: "Channel 1", index: 1));
+  }
+
+  @override
+  Future<void> deleteChannel(num channelId) {
+    return Future.delayed(const Duration(seconds: 1));
+  }
+
+  @override
+  Future<List<ChannelModel>> getChannels(int groupId) {
+    return Future.delayed(const Duration(seconds: 1), () {
+      return [
+        ChannelModel(id: 1, name: "Channel 1", index: 1),
+        ChannelModel(id: 2, name: "Channel 2", index: 2),
+        ChannelModel(id: 3, name: "Channel 3", index: 3)
+      ];
+    });
+  }
+
+  @override
+  Future<ChannelModel?> updateChannel(num channelId, UpdateChannelRequest updateChannelRequest) {
+    return Future.value(ChannelModel(id: channelId, name: "Channel 2", index: 1));
   }
 }

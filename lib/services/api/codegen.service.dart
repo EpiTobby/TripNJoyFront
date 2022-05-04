@@ -212,4 +212,28 @@ class CodegenService extends HttpService {
   Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest) async {
     await api.groupsPrivateGroupPatch(group: groupId, body: groupUpdateRequest);
   }
+
+  @override
+  Future<List<ChannelModel>> getChannels(int groupId) async {
+    final response = await api.channelsGroupGet(group: groupId);
+
+    return response.body != null ? response.body! : [];
+  }
+
+  @override
+  Future<ChannelModel?> createChannel(int groupId, CreateChannelRequest createChannelRequest) async {
+    final response = await api.channelsGroupPost(group: groupId, body: createChannelRequest);
+    return response.body;
+  }
+
+  @override
+  Future<ChannelModel?> updateChannel(num channelId, UpdateChannelRequest updateChannelRequest) async {
+    final response = await api.channelsIdPatch(id: channelId, body: updateChannelRequest);
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteChannel(num channelId) async {
+    await api.channelsIdDelete(id: channelId);
+  }
 }
