@@ -13,7 +13,10 @@ import 'package:trip_n_joy_front/widgets/groups/chat_text_field.widget.dart';
 class ChatInput extends HookConsumerWidget {
   const ChatInput({
     Key? key,
+    required this.onSend,
   }) : super(key: key);
+
+  final void Function(String) onSend;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -53,7 +56,7 @@ class ChatInput extends HookConsumerWidget {
           ChatSendButton(onPressed: () {
             if (controller.text.isNotEmpty) {
               logger.d('send button pressed - message: ${controller.text}');
-              chatService.sendMessage(controller.text);
+              onSend(controller.text);
               controller.clear();
             }
           }),

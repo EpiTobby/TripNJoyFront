@@ -8,6 +8,6 @@ class PostMessageRequest {
   });
 
   String toJsonString() {
-    return "{\"userId\":$userId,\"content\":\"$content\"}";
+    return "{\"userId\":$userId, \"content\":\"$content\"}";
   }
 }

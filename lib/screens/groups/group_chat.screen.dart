@@ -26,15 +26,15 @@ class GroupChat extends StatefulHookConsumerWidget {
 class _GroupChatState extends ConsumerState<GroupChat> {
   @override
   void initState() {
-    super.initState();
     ref.read(chatProvider).loadWebSocketChannel();
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     ref.read(chatProvider).closeWebSocketChannel();
     ref.read(chatProvider).clear();
+    super.dispose();
   }
 
   @override
@@ -42,14 +42,14 @@ class _GroupChatState extends ConsumerState<GroupChat> {
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups.firstWhere((group) => group.id == widget.groupId);
 
-    final messages = ref.watch(chatProvider).messages;
-    final client = ref.watch(chatProvider).client;
+    final chatViewModel = ref.watch(chatProvider);
+    final messages = chatViewModel.messages;
+    final client = chatViewModel.client;
 
     final scrollController = useScrollController();
     useEffect(() {
       if (widget.channel != null) {
-        ref.read(chatProvider).setChannelId(widget.channel!.id);
-        ref.read(chatProvider).getMessages();
+        ref.read(chatProvider).getMessages(widget.channel!.id);
         logger.i("listening to channel ${widget.channel!.id}");
         client?.subscribe(
           destination: '/topic/response/${widget.channel!.id!}',
@@ -60,7 +60,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
         );
       }
       return () {
-        ref.read(chatProvider).clear();
+        ref.watch(chatProvider).clear();
       };
     }, [widget.channel]);
 
@@ -124,24 +124,6 @@ class _GroupChatState extends ConsumerState<GroupChat> {
           children: [
             widget.channel == null
                 ? const Expanded(child: Center(child: CircularProgressIndicator()))
-                // : Expanded(
-                //     child: StreamBuilder(
-                //         stream: channelStream.stream,
-                //         builder: (context, snapshot) {
-                //           if (snapshot.hasData) {
-                //             return ChatMessage(
-                //               message: "${snapshot.data}",
-                //               username: "Tony",
-                //               isUser: true,
-                //               isFirst: true,
-                //               time: DateTime.now().subtract(const Duration(days: 1)),
-                //               userAvatar:
-                //                   "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-                //             );
-                //           }
-                //           return Container();
-                //         }),
-                //   ),
                 : Expanded(
                     child: ListView.builder(
                       controller: scrollController,
@@ -164,7 +146,11 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                       },
                     ),
                   ),
-            ChatInput()
+            ChatInput(
+              onSend: (text) {
+                chatViewModel.sendMessage(widget.channel?.id, text);
+              },
+            )
           ],
         ));
   }

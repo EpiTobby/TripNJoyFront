@@ -20,11 +20,9 @@ class ChatViewModel extends ChangeNotifier {
 
   List<MessageResponse> messages = [];
   StompClient? client;
-  num? channelId;
 
   void _init() {
     loadWebSocketChannel();
-    getMessages();
   }
 
   void loadWebSocketChannel() async {
@@ -37,12 +35,13 @@ class ChatViewModel extends ChangeNotifier {
   void closeWebSocketChannel() {
     logger.d('Closing WebSocketChannel');
     client?.deactivate();
+    client = null;
     notifyListeners();
   }
 
-  void getMessages() async {
+  void getMessages(num? channelId) async {
     if (channelId != null) {
-      var msgs = await httpService.getChannelMessages(channelId!, 0);
+      var msgs = await httpService.getChannelMessages(channelId, 0);
       for (var element in msgs) {
         if (element.content != null) {
           messages.add(element);
@@ -93,29 +92,25 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void sendMessage(String message) async {
-    if (message.isNotEmpty) {
+  void sendMessage(num? channelId, String message) async {
+    if (message.isNotEmpty && channelId != null) {
       var body = PostMessageRequest(userId: httpService.getUserIdFromToken(authViewModel.token)!, content: message)
           .toJsonString();
-      logger.i(body);
+      logger.i("/app/chat/$channelId - $body");
       client?.send(destination: '/app/chat/$channelId', body: body, headers: {});
     }
   }
 
-  void setChannelId(num? id) {
-    channelId = id;
-  }
-
   void clear() {
     messages.clear();
-    channelId = null;
     notifyListeners();
   }
 
   void addMessage(String? body) {
     if (body != null) {
       var message = MessageResponse.fromJson(jsonDecode(body));
-      messages.add(message);
+      messages.insert(0, message);
+      notifyListeners();
     }
   }
 }
