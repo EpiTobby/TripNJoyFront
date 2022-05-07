@@ -10,7 +10,7 @@ import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_input.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_message.widget.dart';
 
-class GroupChat extends HookConsumerWidget {
+class GroupChat extends StatefulHookConsumerWidget {
   const GroupChat({
     Key? key,
     required this.groupId,
@@ -20,30 +20,49 @@ class GroupChat extends HookConsumerWidget {
   final ChannelModel? channel;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<GroupChat> createState() => _GroupChatState();
+}
+
+class _GroupChatState extends ConsumerState<GroupChat> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(chatProvider).loadWebSocketChannel();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    ref.read(chatProvider).closeWebSocketChannel();
+    ref.read(chatProvider).clear();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final groupViewModel = ref.watch(groupProvider);
-    final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
+    final group = groupViewModel.groups.firstWhere((group) => group.id == widget.groupId);
 
     final messages = ref.watch(chatProvider).messages;
     final client = ref.watch(chatProvider).client;
 
     final scrollController = useScrollController();
     useEffect(() {
-      if (channel != null) {
-        ref.read(chatProvider).setChannelId(channel!.id);
+      if (widget.channel != null) {
+        ref.read(chatProvider).setChannelId(widget.channel!.id);
         ref.read(chatProvider).getMessages();
-        ref.read(chatProvider).loadWebSocketChannel();
+        logger.i("listening to channel ${widget.channel!.id}");
         client?.subscribe(
-          destination: '/topic/response/${channel!.id!}',
+          destination: '/topic/response/${widget.channel!.id!}',
           callback: (frame) {
-            logger.d(frame.body);
+            logger.i('Received message: ${frame.body}');
+            ref.read(chatProvider).addMessage(frame.body);
           },
         );
       }
-      // return () {
-      //   ref.read(chatProvider).closeWebSocketChannel();
-      // };
-    }, [channel]);
+      return () {
+        ref.read(chatProvider).clear();
+      };
+    }, [widget.channel]);
 
     return Scaffold(
         appBar: AppBar(
@@ -61,7 +80,7 @@ class GroupChat extends HookConsumerWidget {
                   style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
                 ),
                 Text(
-                  channel?.name ?? '',
+                  widget.channel?.name ?? '',
                   style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary),
                 ),
               ],
@@ -103,7 +122,7 @@ class GroupChat extends HookConsumerWidget {
             shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5)),
         body: Column(
           children: [
-            channel == null
+            widget.channel == null
                 ? const Expanded(child: Center(child: CircularProgressIndicator()))
                 // : Expanded(
                 //     child: StreamBuilder(
@@ -124,9 +143,25 @@ class GroupChat extends HookConsumerWidget {
                 //         }),
                 //   ),
                 : Expanded(
-                    child: ListView(
+                    child: ListView.builder(
                       controller: scrollController,
-                      children: messages,
+                      reverse: true,
+                      itemCount: messages.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (messages.isEmpty) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        final element = messages[index];
+                        return ChatMessage(
+                          message: element.content!,
+                          username: element.userId!.toString(),
+                          isUser: true,
+                          isFirst: true,
+                          time: element.sentDate!,
+                        );
+                      },
                     ),
                   ),
             ChatInput()
