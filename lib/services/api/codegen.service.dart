@@ -1,8 +1,12 @@
 import 'package:chopper/chopper.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:stomp_dart_client/stomp.dart';
+import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../codegen/api.swagger.dart';
 import '../../viewmodels/auth/auth.viewmodel.dart';
@@ -237,5 +241,38 @@ class CodegenService extends HttpService {
     await api.channelsIdDelete(id: channelId);
   }
 
-  Future<void> loadMessages(num channelId) async {}
+  @override
+  Future<StompClient> loadWebSocketChannel() async {
+    final requestUrl = api.client.baseUrl + '/wbsocket';
+    StompClient stompClient = StompClient(
+        config: StompConfig.SockJS(
+            url: requestUrl,
+            onConnect: (frame) {
+              print('Connected to $requestUrl');
+            },
+            onDisconnect: (frame) {
+              print('Disconnected from $requestUrl');
+            },
+            onStompError: (frame) {
+              print('Error from $requestUrl');
+            }));
+
+    stompClient.activate();
+    return stompClient;
+  }
+
+  @override
+  Future<WebSocketChannel> loadReadWebSocketChannel(num channelId) async {
+    final channel = WebSocketChannel.connect(
+      Uri.parse('wss://${api.client.baseUrl.replaceAll("http://", "")}/wbsocket/app/chat/$channelId'),
+    );
+
+    return channel;
+  }
+
+  @override
+  Future<List<MessageResponse>> getChannelMessages(num channelId, int page) async {
+    final response = await api.chatChannelIdGet(channelId: channelId, page: page);
+    return response.body!;
+  }
 }

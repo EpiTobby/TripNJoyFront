@@ -25,7 +25,9 @@ class GroupChatContainer extends HookConsumerWidget {
     final channels = ref.watch(channelProvider);
     final selectedChannel = useState<ChannelModel?>(null);
     ref.listen<List<ChannelModel>>(channelProvider, (previous, next) {
-      selectedChannel.value ??= next[0];
+      if (next.isNotEmpty) {
+        selectedChannel.value ??= next[0];
+      }
     });
 
     return Stack(children: [

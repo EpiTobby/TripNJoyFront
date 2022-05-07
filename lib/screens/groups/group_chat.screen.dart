@@ -25,13 +25,24 @@ class GroupChat extends HookConsumerWidget {
     final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
 
     final messages = ref.watch(chatProvider).messages;
+    final client = ref.watch(chatProvider).client;
 
     final scrollController = useScrollController();
     useEffect(() {
       if (channel != null) {
-        ref.read(chatProvider).loadMessages(channel!.id!);
+        ref.read(chatProvider).setChannelId(channel!.id);
+        ref.read(chatProvider).getMessages();
+        ref.read(chatProvider).loadWebSocketChannel();
+        client?.subscribe(
+          destination: '/topic/response/${channel!.id!}',
+          callback: (frame) {
+            logger.d(frame.body);
+          },
+        );
       }
-      return null;
+      // return () {
+      //   ref.read(chatProvider).closeWebSocketChannel();
+      // };
     }, [channel]);
 
     return Scaffold(
@@ -94,6 +105,24 @@ class GroupChat extends HookConsumerWidget {
           children: [
             channel == null
                 ? const Expanded(child: Center(child: CircularProgressIndicator()))
+                // : Expanded(
+                //     child: StreamBuilder(
+                //         stream: channelStream.stream,
+                //         builder: (context, snapshot) {
+                //           if (snapshot.hasData) {
+                //             return ChatMessage(
+                //               message: "${snapshot.data}",
+                //               username: "Tony",
+                //               isUser: true,
+                //               isFirst: true,
+                //               time: DateTime.now().subtract(const Duration(days: 1)),
+                //               userAvatar:
+                //                   "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+                //             );
+                //           }
+                //           return Container();
+                //         }),
+                //   ),
                 : Expanded(
                     child: ListView(
                       controller: scrollController,

@@ -56,6 +56,8 @@ dependencies:
   overlay_support: ^1.2.1
   file_picker: ^4.5.1
   overlapping_panels: ^0.0.2
+  web_socket_channel: ^2.2.0
+  stomp_dart_client: ^0.4.4
 
 dev_dependencies:
   flutter_test:

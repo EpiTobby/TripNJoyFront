@@ -1,4 +1,6 @@
+import 'package:stomp_dart_client/stomp.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../codegen/api.swagger.dart';
 import '../../models/auth/signup.model.dart';
@@ -67,4 +69,10 @@ abstract class HttpService {
   Future<ChannelModel?> updateChannel(num channelId, UpdateChannelRequest updateChannelRequest);
 
   Future<void> deleteChannel(num channelId);
+
+  Future<StompClient> loadWebSocketChannel();
+
+  Future<WebSocketChannel> loadReadWebSocketChannel(num channelId);
+
+  Future<List<MessageResponse>> getChannelMessages(num channelId, int page);
 }
