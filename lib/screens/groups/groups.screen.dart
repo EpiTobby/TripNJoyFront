@@ -25,7 +25,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
     final groups = ref.watch(groupProvider).groups;
     final groupViewModel = ref.watch(groupProvider);
 
-    final openGroups = groups.where((group) => group.state! == GroupModelState.open).toList();
+    final openGroups = groups.where((group) => group.state! != GroupModelState.archived).toList();
     final archivedGroups = groups.where((group) => group.state! == GroupModelState.archived).toList();
 
     return Column(children: [

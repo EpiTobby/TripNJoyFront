@@ -18,6 +18,13 @@ class ChatViewModel extends ChangeNotifier {
     getMessages();
   }
 
+  void loadMessages(num channelId) async {
+    messages = [];
+    notifyListeners();
+
+    notifyListeners();
+  }
+
   void getMessages() {
     messages = [
       ChatMessage(
@@ -126,7 +133,6 @@ class ChatViewModel extends ChangeNotifier {
           InkWell(
             onTap: () {
               print("Tapped");
-
             },
             child: Container(
               alignment: Alignment.center,

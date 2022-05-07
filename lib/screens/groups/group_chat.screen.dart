@@ -6,6 +6,7 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/providers/groups/chat.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_input.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_message.widget.dart';
 
@@ -13,8 +14,10 @@ class GroupChat extends HookConsumerWidget {
   const GroupChat({
     Key? key,
     required this.groupId,
+    required this.channel,
   }) : super(key: key);
   final int groupId;
+  final ChannelModel? channel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,8 +26,13 @@ class GroupChat extends HookConsumerWidget {
 
     final messages = ref.watch(chatProvider).messages;
 
-    final channel = useState('General');
     final scrollController = useScrollController();
+    useEffect(() {
+      if (channel != null) {
+        ref.read(chatProvider).loadMessages(channel!.id!);
+      }
+      return null;
+    }, [channel]);
 
     return Scaffold(
         appBar: AppBar(
@@ -42,7 +50,7 @@ class GroupChat extends HookConsumerWidget {
                   style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
                 ),
                 Text(
-                  channel.value,
+                  channel?.name ?? '',
                   style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary),
                 ),
               ],
@@ -67,7 +75,8 @@ class GroupChat extends HookConsumerWidget {
               PopupMenuButton(
                 onSelected: (value) {
                   if (value == 1) {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => GroupsSettings(groupId: group.id!.toInt())));
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => GroupsSettings(groupId: group.id!.toInt())));
                   }
                 },
                 itemBuilder: (ctx) => [
@@ -83,12 +92,14 @@ class GroupChat extends HookConsumerWidget {
             shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5)),
         body: Column(
           children: [
-            Expanded(
-              child: ListView(
-                controller: scrollController,
-                children: messages,
-              ),
-            ),
+            channel == null
+                ? const Expanded(child: Center(child: CircularProgressIndicator()))
+                : Expanded(
+                    child: ListView(
+                      controller: scrollController,
+                      children: messages,
+                    ),
+                  ),
             ChatInput()
           ],
         ));

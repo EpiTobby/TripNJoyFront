@@ -105,6 +105,39 @@ abstract class Api extends ChopperService {
       {@Path('group') required num? group,
       @Body() required ModelWithEmail? body});
 
+  ///Get all the channels from a group
+  ///@param group
+  Future<chopper.Response<List<ChannelModel>>> channelsGroupGet(
+      {required num? group}) {
+    generatedMapping.putIfAbsent(
+        ChannelModel, () => ChannelModel.fromJsonFactory);
+
+    return _channelsGroupGet(group: group);
+  }
+
+  ///Get all the channels from a group
+  ///@param group
+  @Get(path: '/channels/{group}')
+  Future<chopper.Response<List<ChannelModel>>> _channelsGroupGet(
+      {@Path('group') required num? group});
+
+  ///Create a channel
+  ///@param group
+  Future<chopper.Response<ChannelModel>> channelsGroupPost(
+      {required num? group, required CreateChannelRequest? body}) {
+    generatedMapping.putIfAbsent(
+        ChannelModel, () => ChannelModel.fromJsonFactory);
+
+    return _channelsGroupPost(group: group, body: body);
+  }
+
+  ///Create a channel
+  ///@param group
+  @Post(path: '/channels/{group}')
+  Future<chopper.Response<ChannelModel>> _channelsGroupPost(
+      {@Path('group') required num? group,
+      @Body() required CreateChannelRequest? body});
+
   ///Will send a new confirmation code to the user
   ///@param id
   Future<chopper.Response> authIdResendPost({required num? id}) {
@@ -242,6 +275,49 @@ abstract class Api extends ChopperService {
       {@Path('group') required num? group,
       @Body() required UpdateGroupRequest? body});
 
+  ///Pin a message
+  ///@param message_id
+  ///@param pin
+  Future<chopper.Response<MessageResponse>> chatMessageIdPinnedPatch(
+      {required num? messageId, bool? pin}) {
+    generatedMapping.putIfAbsent(
+        MessageResponse, () => MessageResponse.fromJsonFactory);
+
+    return _chatMessageIdPinnedPatch(messageId: messageId, pin: pin);
+  }
+
+  ///Pin a message
+  ///@param message_id
+  ///@param pin
+  @Patch(path: '/chat/{message_id}/pinned', optionalBody: true)
+  Future<chopper.Response<MessageResponse>> _chatMessageIdPinnedPatch(
+      {@Path('message_id') required num? messageId, @Query('pin') bool? pin});
+
+  ///Delete a channel
+  ///@param id
+  Future<chopper.Response> channelsIdDelete({required num? id}) {
+    return _channelsIdDelete(id: id);
+  }
+
+  ///Delete a channel
+  ///@param id
+  @Delete(path: '/channels/{id}')
+  Future<chopper.Response> _channelsIdDelete({@Path('id') required num? id});
+
+  ///Update a channel
+  ///@param id
+  Future<chopper.Response> channelsIdPatch(
+      {required num? id, required UpdateChannelRequest? body}) {
+    return _channelsIdPatch(id: id, body: body);
+  }
+
+  ///Update a channel
+  ///@param id
+  @Patch(path: '/channels/{id}')
+  Future<chopper.Response> _channelsIdPatch(
+      {@Path('id') required num? id,
+      @Body() required UpdateChannelRequest? body});
+
   ///Used to update the password
   ///@param id
   Future<chopper.Response> authIdPasswordPatch(
@@ -362,6 +438,22 @@ abstract class Api extends ChopperService {
   @Get(path: '/users/me')
   Future<chopper.Response<UserModel>> _usersMeGet();
 
+  ///Get the state of a match making task
+  ///@param taskId
+  Future<chopper.Response<MatchMakingResult>> matchmakingTaskIdGet(
+      {required num? taskId}) {
+    generatedMapping.putIfAbsent(
+        MatchMakingResult, () => MatchMakingResult.fromJsonFactory);
+
+    return _matchmakingTaskIdGet(taskId: taskId);
+  }
+
+  ///Get the state of a match making task
+  ///@param taskId
+  @Get(path: '/matchmaking/{taskId}')
+  Future<chopper.Response<MatchMakingResult>> _matchmakingTaskIdGet(
+      {@Path('taskId') required num? taskId});
+
   ///Get all the group of the user
   ///@param id
   Future<chopper.Response<List<GroupModel>>> groupsIdGet({required num? id}) {
@@ -390,6 +482,37 @@ abstract class Api extends ChopperService {
   @Get(path: '/groups/invites/{id}')
   Future<chopper.Response<List<GroupModel>>> _groupsInvitesIdGet(
       {@Path('id') required num? id});
+
+  ///Get the most recent channel's messages, by pages of size 50
+  ///@param channel_id
+  ///@param page
+  Future<chopper.Response> chatChannelIdGet(
+      {required num? channelId, int? page}) {
+    return _chatChannelIdGet(channelId: channelId, page: page);
+  }
+
+  ///Get the most recent channel's messages, by pages of size 50
+  ///@param channel_id
+  ///@param page
+  @Get(path: '/chat/{channel_id}')
+  Future<chopper.Response> _chatChannelIdGet(
+      {@Path('channel_id') required num? channelId, @Query('page') int? page});
+
+  ///Get all pinned messages
+  ///@param channel_id
+  Future<chopper.Response<List<MessageResponse>>> chatChannelIdPinnedGet(
+      {required num? channelId}) {
+    generatedMapping.putIfAbsent(
+        MessageResponse, () => MessageResponse.fromJsonFactory);
+
+    return _chatChannelIdPinnedGet(channelId: channelId);
+  }
+
+  ///Get all pinned messages
+  ///@param channel_id
+  @Get(path: '/chat/{channel_id}/pinned')
+  Future<chopper.Response<List<MessageResponse>>> _chatChannelIdPinnedGet(
+      {@Path('channel_id') required num? channelId});
 
   ///Delete the profile of a user
   ///@param id
@@ -1499,6 +1622,88 @@ extension $ModelWithEmailExtension on ModelWithEmail {
 }
 
 @JsonSerializable(explicitToJson: true)
+class CreateChannelRequest {
+  CreateChannelRequest({
+    this.name,
+  });
+
+  factory CreateChannelRequest.fromJson(Map<String, dynamic> json) =>
+      _$CreateChannelRequestFromJson(json);
+
+  @JsonKey(name: 'name')
+  final String? name;
+  static const fromJsonFactory = _$CreateChannelRequestFromJson;
+  static const toJsonFactory = _$CreateChannelRequestToJson;
+  Map<String, dynamic> toJson() => _$CreateChannelRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is CreateChannelRequest &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
+}
+
+extension $CreateChannelRequestExtension on CreateChannelRequest {
+  CreateChannelRequest copyWith({String? name}) {
+    return CreateChannelRequest(name: name ?? this.name);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ChannelModel {
+  ChannelModel({
+    this.id,
+    this.name,
+    this.index,
+  });
+
+  factory ChannelModel.fromJson(Map<String, dynamic> json) =>
+      _$ChannelModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'index')
+  final int? index;
+  static const fromJsonFactory = _$ChannelModelFromJson;
+  static const toJsonFactory = _$ChannelModelToJson;
+  Map<String, dynamic> toJson() => _$ChannelModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ChannelModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.index, index) ||
+                const DeepCollectionEquality().equals(other.index, index)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(index) ^
+      runtimeType.hashCode;
+}
+
+extension $ChannelModelExtension on ChannelModel {
+  ChannelModel copyWith({num? id, String? name, int? index}) {
+    return ChannelModel(
+        id: id ?? this.id, name: name ?? this.name, index: index ?? this.index);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class UserCreationRequest {
   UserCreationRequest({
     this.firstname,
@@ -2267,6 +2472,137 @@ extension $UpdateGroupRequestExtension on UpdateGroupRequest {
 }
 
 @JsonSerializable(explicitToJson: true)
+class MessageResponse {
+  MessageResponse({
+    this.id,
+    this.channelId,
+    this.userId,
+    this.content,
+    this.sentDate,
+    this.modifiedDate,
+    this.pinned,
+  });
+
+  factory MessageResponse.fromJson(Map<String, dynamic> json) =>
+      _$MessageResponseFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'channelId')
+  final num? channelId;
+  @JsonKey(name: 'userId')
+  final num? userId;
+  @JsonKey(name: 'content')
+  final String? content;
+  @JsonKey(name: 'sentDate')
+  final DateTime? sentDate;
+  @JsonKey(name: 'modifiedDate')
+  final DateTime? modifiedDate;
+  @JsonKey(name: 'pinned')
+  final bool? pinned;
+  static const fromJsonFactory = _$MessageResponseFromJson;
+  static const toJsonFactory = _$MessageResponseToJson;
+  Map<String, dynamic> toJson() => _$MessageResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is MessageResponse &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.channelId, channelId) ||
+                const DeepCollectionEquality()
+                    .equals(other.channelId, channelId)) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.content, content) ||
+                const DeepCollectionEquality()
+                    .equals(other.content, content)) &&
+            (identical(other.sentDate, sentDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.sentDate, sentDate)) &&
+            (identical(other.modifiedDate, modifiedDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.modifiedDate, modifiedDate)) &&
+            (identical(other.pinned, pinned) ||
+                const DeepCollectionEquality().equals(other.pinned, pinned)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(channelId) ^
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(content) ^
+      const DeepCollectionEquality().hash(sentDate) ^
+      const DeepCollectionEquality().hash(modifiedDate) ^
+      const DeepCollectionEquality().hash(pinned) ^
+      runtimeType.hashCode;
+}
+
+extension $MessageResponseExtension on MessageResponse {
+  MessageResponse copyWith(
+      {num? id,
+      num? channelId,
+      num? userId,
+      String? content,
+      DateTime? sentDate,
+      DateTime? modifiedDate,
+      bool? pinned}) {
+    return MessageResponse(
+        id: id ?? this.id,
+        channelId: channelId ?? this.channelId,
+        userId: userId ?? this.userId,
+        content: content ?? this.content,
+        sentDate: sentDate ?? this.sentDate,
+        modifiedDate: modifiedDate ?? this.modifiedDate,
+        pinned: pinned ?? this.pinned);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateChannelRequest {
+  UpdateChannelRequest({
+    this.name,
+    this.index,
+  });
+
+  factory UpdateChannelRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateChannelRequestFromJson(json);
+
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'index')
+  final int? index;
+  static const fromJsonFactory = _$UpdateChannelRequestFromJson;
+  static const toJsonFactory = _$UpdateChannelRequestToJson;
+  Map<String, dynamic> toJson() => _$UpdateChannelRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UpdateChannelRequest &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.index, index) ||
+                const DeepCollectionEquality().equals(other.index, index)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(index) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdateChannelRequestExtension on UpdateChannelRequest {
+  UpdateChannelRequest copyWith({String? name, int? index}) {
+    return UpdateChannelRequest(
+        name: name ?? this.name, index: index ?? this.index);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class UpdatePasswordRequest {
   UpdatePasswordRequest({
     this.oldPassword,
@@ -2815,6 +3151,52 @@ extension $UserEntityExtension on UserEntity {
         roles: roles ?? this.roles,
         profiles: profiles ?? this.profiles,
         waitingForGroup: waitingForGroup ?? this.waitingForGroup);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class MatchMakingResult {
+  MatchMakingResult({
+    this.type,
+    this.groupId,
+  });
+
+  factory MatchMakingResult.fromJson(Map<String, dynamic> json) =>
+      _$MatchMakingResultFromJson(json);
+
+  @JsonKey(
+      name: 'type',
+      toJson: matchMakingResultType$ToJson,
+      fromJson: matchMakingResultType$FromJson)
+  final enums.MatchMakingResultType$? type;
+  @JsonKey(name: 'groupId')
+  final num? groupId;
+  static const fromJsonFactory = _$MatchMakingResultFromJson;
+  static const toJsonFactory = _$MatchMakingResultToJson;
+  Map<String, dynamic> toJson() => _$MatchMakingResultToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is MatchMakingResult &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.groupId, groupId) ||
+                const DeepCollectionEquality().equals(other.groupId, groupId)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(groupId) ^
+      runtimeType.hashCode;
+}
+
+extension $MatchMakingResultExtension on MatchMakingResult {
+  MatchMakingResult copyWith(
+      {enums.MatchMakingResultType$? type, num? groupId}) {
+    return MatchMakingResult(
+        type: type ?? this.type, groupId: groupId ?? this.groupId);
   }
 }
 
@@ -4741,6 +5123,60 @@ List<enums.UpdateGroupRequestState> updateGroupRequestStateListFromJson(
 
   return updateGroupRequestState
       .map((e) => updateGroupRequestStateFromJson(e.toString()))
+      .toList();
+}
+
+String? matchMakingResultType$ToJson(
+    enums.MatchMakingResultType$? matchMakingResultType$) {
+  return enums.$MatchMakingResultType$Map[matchMakingResultType$];
+}
+
+enums.MatchMakingResultType$ matchMakingResultType$FromJson(
+    Object? matchMakingResultType$) {
+  if (matchMakingResultType$ is int) {
+    return enums.$MatchMakingResultType$Map.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                matchMakingResultType$.toString(),
+            orElse: () => const MapEntry(
+                enums.MatchMakingResultType$.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (matchMakingResultType$ is String) {
+    return enums.$MatchMakingResultType$Map.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                matchMakingResultType$.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.MatchMakingResultType$.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.MatchMakingResultType$.swaggerGeneratedUnknown;
+}
+
+List<String> matchMakingResultType$ListToJson(
+    List<enums.MatchMakingResultType$>? matchMakingResultType$) {
+  if (matchMakingResultType$ == null) {
+    return [];
+  }
+
+  return matchMakingResultType$
+      .map((e) => enums.$MatchMakingResultType$Map[e]!)
+      .toList();
+}
+
+List<enums.MatchMakingResultType$> matchMakingResultType$ListFromJson(
+    List? matchMakingResultType$) {
+  if (matchMakingResultType$ == null) {
+    return [];
+  }
+
+  return matchMakingResultType$
+      .map((e) => matchMakingResultType$FromJson(e.toString()))
       .toList();
 }
 

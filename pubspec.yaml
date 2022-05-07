@@ -55,6 +55,7 @@ dependencies:
   firebase_messaging: ^11.2.13
   overlay_support: ^1.2.1
   file_picker: ^4.5.1
+  overlapping_panels: ^0.0.2
 
 dev_dependencies:
   flutter_test:
