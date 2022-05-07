@@ -4,6 +4,7 @@ import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
+import 'package:trip_n_joy_front/screens/groups/groups_invitations.screen.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_list.widget.dart';
@@ -46,19 +47,21 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
             ),
           ),
           PopupMenuButton(
-            onSelected: (selected) => {
-              if (selected == 1)
-                {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return GroupDialog(
-                          onConfirm: (name, maxSize) {
-                            groupViewModel.createPrivateGroup(name, maxSize);
-                          },
-                        );
-                      })
-                }
+            onSelected: (selected) async {
+              if (selected == 1) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return GroupDialog(
+                        onConfirm: (name, maxSize) {
+                          groupViewModel.createPrivateGroup(name, maxSize);
+                        },
+                      );
+                    });
+              } else if (selected == 2) {
+                final groupInvitations = await groupViewModel.getUserInvitesGroups();
+                Navigator.push(context, MaterialPageRoute(builder: (_) => GroupsInvitations(groups: groupInvitations)));
+              }
             },
             itemBuilder: (context) => [
               PopupMenuItem(
@@ -67,9 +70,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
               ),
               PopupMenuItem(
                 child: Text(AppLocalizations.of(context).translate('groups.join')),
-                onTap: () {
-                  groupViewModel.joinPrivateGroup();
-                },
+                value: 2,
               ),
             ],
           )

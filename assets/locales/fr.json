@@ -17,7 +17,9 @@
     "days": "jours",
     "yearsOld": "ans",
     "people": "personnes",
-    "search": "Rechercher"
+    "search": "Rechercher",
+    "accept": "Accepter",
+    "decline": "Refuser"
   },
   "user": {
     "firstname": "Prénom",
@@ -204,10 +206,13 @@
       "groupSettings": "Paramètres du groupe",
       "close": "Fermer le groupe",
       "archive": "Archiver le groupe",
-      "quit": "Quitter le groupe"
+      "quit": "Quitter le groupe",
+      "maxSize": "Nombre de membres maximum"
     },
     "create": "Créer un groupe",
     "join": "Rejoindre un groupe",
+    "joinGroupChoice": "Voulez-vous rejoindre ce groupe ?",
+    "invitations": "Invitations",
     "noOpenGroup": "Pas de groupes ouverts",
     "addMember": "Ajouter un membre",
     "email": "Entrez l'adresse email du membre",

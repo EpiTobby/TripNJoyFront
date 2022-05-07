@@ -155,6 +155,23 @@ class MockService extends HttpService {
   }
 
   @override
+  Future<List<GroupModel>?> getUserInvitesGroups(int id) async {
+    return Future.delayed(const Duration(seconds: 1), () {
+      return [
+        GroupModel(
+            id: 1,
+            state: GroupModelState.closed,
+            name: "A very long title that should be truncated in the appbar",
+            members: [
+              MemberModel(firstname: "tony", lastname: "stark"),
+              MemberModel(firstname: "steve", lastname: "rogers")
+            ],
+            picture: "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png"),
+      ];
+    });
+  }
+
+  @override
   Future<void> joinPrivateGroup(int groupId, int userId) {
     // TODO: implement joinPrivateGroup
     throw UnimplementedError();
@@ -202,5 +219,15 @@ class MockService extends HttpService {
   @override
   Future<ChannelModel?> updateChannel(num channelId, UpdateChannelRequest updateChannelRequest) {
     return Future.value(ChannelModel(id: channelId, name: "Channel 2", index: 1));
+  }
+
+  @override
+  Future<MatchMakingResult?> getMatchmakingResult(int taskId) {
+    return Future.value(MatchMakingResult(groupId: 1, type: MatchMakingResultType$.joined));
+  }
+
+  @override
+  Future<MatchMakingResponse?> startMatchmaking(int userId, ProfileCreationRequest profile) {
+    return Future.value(MatchMakingResponse(taskId: 1));
   }
 }

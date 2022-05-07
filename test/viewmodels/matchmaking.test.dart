@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:trip_n_joy_front/models/matchmaking/availability.model.dart';
@@ -17,14 +18,16 @@ void main() {
   MockHttpService mockHttpService = MockHttpService();
   MockAuthViewModel mockAuthViewModel = MockAuthViewModel();
   MockProfileViewModel mockProfileViewModel = MockProfileViewModel();
+  FlutterSecureStorage flutterSecureStorage = const FlutterSecureStorage();
   MatchmakingViewModel matchmakingViewModel =
-      MatchmakingViewModel(mockHttpService, mockAuthViewModel, mockProfileViewModel);
+      MatchmakingViewModel(mockHttpService, mockAuthViewModel, mockProfileViewModel, flutterSecureStorage);
 
   setUp(() {
     mockHttpService = MockHttpService();
     mockAuthViewModel = MockAuthViewModel();
     mockProfileViewModel = MockProfileViewModel();
-    matchmakingViewModel = MatchmakingViewModel(mockHttpService, mockAuthViewModel, mockProfileViewModel);
+    matchmakingViewModel =
+        MatchmakingViewModel(mockHttpService, mockAuthViewModel, mockProfileViewModel, flutterSecureStorage);
   });
 
   test('should init cards state to empty array when init matchmaking ViewModel', () {

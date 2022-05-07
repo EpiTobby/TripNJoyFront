@@ -44,7 +44,13 @@ abstract class HttpService {
 
   Future<void> deleteProfile(int id, int profileId);
 
+  Future<MatchMakingResponse?> startMatchmaking(int userId, ProfileCreationRequest profile);
+
+  Future<MatchMakingResult?> getMatchmakingResult(int taskId);
+
   Future<List<GroupModel>?> getGroups(int id);
+
+  Future<List<GroupModel>?> getUserInvitesGroups(int id);
 
   Future<GroupModel?> createPrivateGroup(int id, CreatePrivateGroupRequest createPrivateGroupRequest);
 

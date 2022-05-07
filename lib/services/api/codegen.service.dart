@@ -194,6 +194,12 @@ class CodegenService extends HttpService {
   }
 
   @override
+  Future<List<GroupModel>?> getUserInvitesGroups(int id) async {
+    final response = await api.groupsInvitesIdGet(id: id);
+    return response.body;
+  }
+
+  @override
   Future<void> joinPrivateGroup(int groupId, int userId) async {
     await api.groupsGroupJoinIdPatch(group: groupId, id: userId);
   }
@@ -235,5 +241,19 @@ class CodegenService extends HttpService {
   @override
   Future<void> deleteChannel(num channelId) async {
     await api.channelsIdDelete(id: channelId);
+  }
+
+  @override
+  Future<MatchMakingResult?> getMatchmakingResult(int taskId) async {
+    final response = await api.matchmakingTaskIdGet(taskId: taskId);
+
+    return response.body;
+  }
+
+  @override
+  Future<MatchMakingResponse?> startMatchmaking(int userId, ProfileCreationRequest profile) async {
+    final response = await api.matchmakingPost(userId: userId, body: profile);
+
+    return response.body;
   }
 }
