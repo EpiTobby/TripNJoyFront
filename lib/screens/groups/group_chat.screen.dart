@@ -3,12 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
-import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/chat.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
-import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_input.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_message.widget.dart';
 
@@ -35,19 +33,6 @@ class _GroupChatState extends ConsumerState<GroupChat> {
     _ref = ref;
     super.didChangeDependencies();
   }
-
-  // @override
-  // void initState() {
-  //   ref.read(chatProvider).loadWebSocketChannel();
-  //   super.initState();
-  // }
-
-  // @override
-  // void dispose() {
-  //   logger.i('disposing group chat screen');
-  //   _ref.read(chatProvider).closeWebSocketChannel();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
