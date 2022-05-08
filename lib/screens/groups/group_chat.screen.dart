@@ -3,8 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/chat.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
+import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_input.widget.dart';
@@ -51,6 +53,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
   Widget build(BuildContext context) {
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups.firstWhere((group) => group.id == widget.groupId);
+    final userId = ref.read(userProvider).value?.id;
 
     final chatViewModel = ref.watch(chatProvider);
     final messages = chatViewModel.messages;
@@ -139,8 +142,8 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                         return ChatMessage(
                           message: element.content!,
                           username: element.userId!.toString(),
-                          isUser: true,
-                          isFirst: true,
+                          isUser: element.userId == userId,
+                          isFirst: isFirst(element, messages, index),
                           time: element.sentDate!,
                         );
                       },
@@ -153,5 +156,12 @@ class _GroupChatState extends ConsumerState<GroupChat> {
             )
           ],
         ));
+  }
+
+  bool isFirst(MessageResponse element, List<MessageResponse> messages, int index) {
+    final isNotFirst = index != messages.length - 1 &&
+        messages[index + 1].userId == element.userId &&
+        element.sentDate!.difference(messages[index + 1].sentDate!).inHours < 1;
+    return !isNotFirst;
   }
 }
