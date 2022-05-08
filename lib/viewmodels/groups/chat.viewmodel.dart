@@ -7,7 +7,6 @@ import 'package:trip_n_joy_front/models/group/post_message_request.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
-import 'package:trip_n_joy_front/widgets/groups/chat_message.widget.dart';
 import 'package:stomp_dart_client/stomp.dart';
 
 class ChatViewModel extends ChangeNotifier {
@@ -19,16 +18,35 @@ class ChatViewModel extends ChangeNotifier {
   final AuthViewModel authViewModel;
 
   List<MessageResponse> messages = [];
+  bool isConnectedToSocket = false;
+  List<num> listeningChannels = [];
   StompClient? client;
+  bool isLoadingMessages = true;
+  bool mounted = true;
 
   void _init() {
     loadWebSocketChannel();
   }
 
+  @override
+  void dispose() {
+    closeWebSocketChannel();
+    mounted = false;
+    super.dispose();
+  }
+
   void loadWebSocketChannel() async {
-    logger.d('opening channel');
-    client ??= await httpService.loadWebSocketChannel();
-    logger.d(client);
+    logger.d('Load WebSocketChannel');
+    client = await httpService.loadWebSocketChannel((isConnected) {
+      if (mounted) {
+        isConnectedToSocket = isConnected;
+        if (!isConnectedToSocket) {
+          logger.d('WebSocketChannel is not connected');
+          listeningChannels.clear();
+        }
+        notifyListeners();
+      }
+    });
     notifyListeners();
   }
 
@@ -36,17 +54,22 @@ class ChatViewModel extends ChangeNotifier {
     logger.d('Closing WebSocketChannel');
     client?.deactivate();
     client = null;
+    isConnectedToSocket = false;
+    listeningChannels.clear();
     notifyListeners();
   }
 
   void getMessages(num? channelId) async {
     if (channelId != null) {
-      var msgs = await httpService.getChannelMessages(channelId, 0);
-      for (var element in msgs) {
-        if (element.content != null) {
-          messages.add(element);
+      isLoadingMessages = true;
+      clearMessages();
+      var channelMessages = await httpService.getChannelMessages(channelId, 0);
+      for (var msg in channelMessages) {
+        if (msg.content != null) {
+          messages.add(msg);
         }
       }
+      isLoadingMessages = false;
     }
     notifyListeners();
   }
@@ -101,16 +124,34 @@ class ChatViewModel extends ChangeNotifier {
     }
   }
 
-  void clear() {
+  void clearMessages() {
     messages.clear();
     notifyListeners();
   }
 
-  void addMessage(String? body) {
+  void addMessage(num? channelId, String? body) {
     if (body != null) {
       var message = MessageResponse.fromJson(jsonDecode(body));
-      messages.insert(0, message);
-      notifyListeners();
+      if (message.channelId == channelId) {
+        messages.insert(0, message);
+        notifyListeners();
+      }
+    }
+  }
+
+  void listenToChannel(num? channelId) {
+    if (channelId != null && !listeningChannels.contains(channelId)) {
+      listeningChannels.add(channelId);
+      logger.i("listening to channel $channelId - listened channels: ${listeningChannels.toString()}");
+      client?.subscribe(
+        destination: '/topic/response/$channelId',
+        callback: (frame) {
+          logger.i('Received message: ${frame.body}');
+          WidgetsBinding.instance?.addPostFrameCallback((_) {
+            addMessage(channelId, frame.body);
+          });
+        },
+      );
     }
   }
 }

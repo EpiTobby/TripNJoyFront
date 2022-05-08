@@ -24,18 +24,28 @@ class GroupChat extends StatefulHookConsumerWidget {
 }
 
 class _GroupChatState extends ConsumerState<GroupChat> {
-  @override
-  void initState() {
-    ref.read(chatProvider).loadWebSocketChannel();
-    super.initState();
-  }
+  late NavigatorState _navigator;
+  late WidgetRef _ref;
 
   @override
-  void dispose() {
-    ref.read(chatProvider).closeWebSocketChannel();
-    ref.read(chatProvider).clear();
-    super.dispose();
+  void didChangeDependencies() {
+    _navigator = Navigator.of(context);
+    _ref = ref;
+    super.didChangeDependencies();
   }
+
+  // @override
+  // void initState() {
+  //   ref.read(chatProvider).loadWebSocketChannel();
+  //   super.initState();
+  // }
+
+  // @override
+  // void dispose() {
+  //   logger.i('disposing group chat screen');
+  //   _ref.read(chatProvider).closeWebSocketChannel();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -44,32 +54,25 @@ class _GroupChatState extends ConsumerState<GroupChat> {
 
     final chatViewModel = ref.watch(chatProvider);
     final messages = chatViewModel.messages;
-    final client = chatViewModel.client;
+    final isConnected = chatViewModel.isConnectedToSocket;
+    final isLoadingMessages = chatViewModel.isLoadingMessages;
 
     final scrollController = useScrollController();
     useEffect(() {
-      if (widget.channel != null) {
-        ref.read(chatProvider).getMessages(widget.channel!.id);
-        logger.i("listening to channel ${widget.channel!.id}");
-        client?.subscribe(
-          destination: '/topic/response/${widget.channel!.id!}',
-          callback: (frame) {
-            logger.i('Received message: ${frame.body}');
-            ref.read(chatProvider).addMessage(frame.body);
-          },
-        );
+      if (widget.channel != null && isConnected) {
+        Future.microtask(() {
+          _ref.read(chatProvider).getMessages(widget.channel!.id);
+          _ref.read(chatProvider).listenToChannel(widget.channel!.id);
+        });
       }
-      return () {
-        ref.watch(chatProvider).clear();
-      };
-    }, [widget.channel]);
+    }, [widget.channel, isConnected]);
 
     return Scaffold(
         appBar: AppBar(
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_rounded),
               splashRadius: 16.0,
-              onPressed: () => {Navigator.pop(context)},
+              onPressed: () => {_navigator.pop()},
             ),
             title: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -105,8 +108,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
               PopupMenuButton(
                 onSelected: (value) {
                   if (value == 1) {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => GroupsSettings(groupId: group.id!.toInt())));
+                    _navigator.push(MaterialPageRoute(builder: (_) => GroupsSettings(groupId: group.id!.toInt())));
                   }
                 },
                 itemBuilder: (ctx) => [
@@ -122,7 +124,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
             shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5)),
         body: Column(
           children: [
-            widget.channel == null
+            widget.channel == null || isLoadingMessages
                 ? const Expanded(child: Center(child: CircularProgressIndicator()))
                 : Expanded(
                     child: ListView.builder(
@@ -131,9 +133,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                       itemCount: messages.length,
                       itemBuilder: (BuildContext context, int index) {
                         if (messages.isEmpty) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
+                          return Container();
                         }
                         final element = messages[index];
                         return ChatMessage(
@@ -148,7 +148,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                   ),
             ChatInput(
               onSend: (text) {
-                chatViewModel.sendMessage(widget.channel?.id, text);
+                ref.read(chatProvider).sendMessage(widget.channel?.id, text);
               },
             )
           ],

@@ -242,19 +242,22 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<StompClient> loadWebSocketChannel() async {
+  Future<StompClient> loadWebSocketChannel(void Function(bool) onConnection) async {
     final requestUrl = api.client.baseUrl + '/wbsocket';
     StompClient stompClient = StompClient(
         config: StompConfig.SockJS(
             url: requestUrl,
             onConnect: (frame) {
               print('Connected to $requestUrl');
+              onConnection(true);
             },
             onDisconnect: (frame) {
               print('Disconnected from $requestUrl');
+              onConnection(false);
             },
             onStompError: (frame) {
               print('Error from $requestUrl');
+              onConnection(false);
             }));
 
     stompClient.activate();

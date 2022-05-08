@@ -207,7 +207,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<StompClient> loadWebSocketChannel() {
+  Future<StompClient> loadWebSocketChannel(void Function(bool) onConnection) {
     // TODO: implement loadWebSocketChannel
     throw UnimplementedError();
   }
