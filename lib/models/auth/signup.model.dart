@@ -6,7 +6,7 @@ class SignupCredentials {
   String _email = "";
   String _password = "";
   String? _phoneNumber;
-  String _country = "";
+  //String _country = "";
   String _city = "";
 
   SignupCredentials(
@@ -16,7 +16,7 @@ class SignupCredentials {
       required String birthDate,
       required String email,
       required String password,
-        required country,
+        //required country,
         required city,
       String? phoneNumber}) {
     this.gender = gender;
@@ -26,7 +26,7 @@ class SignupCredentials {
     this.email = email;
     this.password = password;
     this.phoneNumber = phoneNumber;
-    this.country = country;
+    //this.country = country;
     this.city = city;
   }
 
@@ -45,8 +45,8 @@ class SignupCredentials {
   String? get phoneNumber => _phoneNumber;
   set phoneNumber(String? phoneNumber) => _phoneNumber = phoneNumber;
 
-  String get country => _country;
-  set country(String country) => _country = country;
+  //String get country => _country;
+  //set country(String country) => _country = country;
 
   String get city => _city;
   set city(String city) => _city = city;
@@ -59,7 +59,7 @@ class SignupCredentials {
     _email = json['email'];
     _password = json['password'];
     _phoneNumber = json['phoneNumber'];
-    _country = json['country'];
+    //_country = json['country'];
     _city = json['city'];
   }
 
@@ -72,7 +72,7 @@ class SignupCredentials {
     data['email'] = this._email;
     data['password'] = this._password;
     data['phoneNumber'] = this._phoneNumber;
-    data['country'] = this._country;
+    //data['country'] = this._country;
     data['city'] = this._city;
     return data;
   }

@@ -98,6 +98,10 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     final authService = ref.watch(authProvider);
     final userService = ref.watch(userProvider.notifier);
     useEffect(() {
+
+      logger.i('languagecode: ${AppLocalizations.of(context).locale.languageCode}');
+      logger.i('countrycode: ${AppLocalizations.of(context).locale.countryCode}');
+
       authService.updateTokenFromStorage().then((value) {
         if (value != null) {
           ref.watch(userProvider.notifier).loadUser().then((value) {

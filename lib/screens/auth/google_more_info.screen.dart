@@ -9,6 +9,7 @@ import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/date_picker.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/dropdown.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input.widget.dart';
 
 import '../../models/auth/signup.model.dart';
 import '../../providers/auth/auth.provider.dart';
@@ -28,6 +29,8 @@ class _GoogleMoreInfo extends ConsumerState<GoogleMoreInfo> {
     final authService = ref.watch(authProvider);
     final birthDate = useState(DateTime.now());
     final gender = useState(Gender.male.name);
+    final country = useState('');
+    final city = useState('');
 
     return Scaffold(
         body: Column(
@@ -56,6 +59,11 @@ class _GoogleMoreInfo extends ConsumerState<GoogleMoreInfo> {
                 label: AppLocalizations.of(context).translate("user.birthDate"),
                 selectedDate: birthDate.value,
                 onChanged: (value) => birthDate.value = value),
+            InputField(
+                label: AppLocalizations.of(context).translate("user.city"),
+                hint: AppLocalizations.of(context).translate("auth.city"),
+                onChanged: (value) => city.value = value,
+                icon: const Icon(Icons.apartment)),
           ],
         ),
         Padding(
@@ -66,7 +74,9 @@ class _GoogleMoreInfo extends ConsumerState<GoogleMoreInfo> {
                     text: AppLocalizations.of(context).translate("common.submit"),
                     onPressed: () => userService
                         .updateUser(
-                            authService.token!, UserUpdateRequest(gender: gender.value, birthdate: birthDate.value))
+                            authService.token!,
+                            UserUpdateRequest(
+                                gender: gender.value, birthdate: birthDate.value, city: CityModel(name: city.value)))
                         .then((value) => Navigator.pop(context))),
               ],
             )),

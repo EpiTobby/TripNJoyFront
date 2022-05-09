@@ -231,6 +231,9 @@ class AuthService extends ChangeNotifier {
           return null;
         }
 
+        final language = AppLocalizations.of(context).locale.languageCode == "en" ? "ENGLISH" : "FRENCH";
+
+
         SignInUpGoogleCredentials userInfo = SignInUpGoogleCredentials(
           email: userCredential.user!.email ?? "",
           firstname: userCredential.additionalUserInfo!.profile!["given_name"] ?? "",

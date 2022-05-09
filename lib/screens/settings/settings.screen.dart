@@ -179,26 +179,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 },
               )),
           LayoutItem(
-              title: AppLocalizations.of(context).translate("user.country"),
-              child: LayoutItemValue(
-                value: user.city!.name!, // TODO : should be country
-                icon: const Icon(Icons.keyboard_arrow_right_sharp),
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return InputDialog(
-                            title: AppLocalizations.of(context).translate("settings.country"),
-                            label: AppLocalizations.of(context).translate("user.country"),
-                            initialValue: user.city!.name ?? "", // TODO : should be country
-                            onConfirm: (value) async {
-                              userService.updateUser(
-                                  authService.token!, UserUpdateRequest(city: value)); // TODO : should be country
-                            });
-                      });
-                },
-              )),
-          LayoutItem(
               title: AppLocalizations.of(context).translate("user.city"),
               child: LayoutItemValue(
                 value: user.city!.name!,
@@ -212,7 +192,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                             label: AppLocalizations.of(context).translate("user.city"),
                             initialValue: user.city!.name ?? "",
                             onConfirm: (value) async {
-                              userService.updateUser(authService.token!, UserUpdateRequest(city: value));
+                              userService.updateUser(authService.token!, UserUpdateRequest(city: CityModel(name: value)));
                             });
                       });
                 },
