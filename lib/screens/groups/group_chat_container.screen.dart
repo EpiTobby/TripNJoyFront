@@ -7,7 +7,6 @@ import 'package:trip_n_joy_front/providers/groups/channel.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/group_budget.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/group_channel.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/group_chat.screen.dart';
-import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 class GroupChatContainer extends HookConsumerWidget {
   const GroupChatContainer({
@@ -26,7 +25,9 @@ class GroupChatContainer extends HookConsumerWidget {
     final channels = ref.watch(channelProvider);
     final selectedChannel = useState<ChannelModel?>(null);
     ref.listen<List<ChannelModel>>(channelProvider, (previous, next) {
-      selectedChannel.value ??= next[0];
+      if (next.isNotEmpty) {
+        selectedChannel.value ??= next[0];
+      }
     });
 
     return Stack(children: [

@@ -370,6 +370,7 @@ UserCreationRequest _$UserCreationRequestFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['birthDate'] as String),
       phoneNumber: json['phoneNumber'] as String?,
       language: json['language'] as String?,
+      city: json['city'] as String?,
       email: json['email'] as String?,
     );
 
@@ -383,6 +384,7 @@ Map<String, dynamic> _$UserCreationRequestToJson(
       'birthDate': instance.birthDate?.toIso8601String(),
       'phoneNumber': instance.phoneNumber,
       'language': instance.language,
+      'city': instance.city,
       'email': instance.email,
     };
 
@@ -552,6 +554,7 @@ UserUpdateRequest _$UserUpdateRequestFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['birthdate'] as String),
       gender: json['gender'] as String?,
+      language: json['language'] as String?,
     );
 
 Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
@@ -563,6 +566,7 @@ Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
       'phoneNumber': instance.phoneNumber,
       'birthdate': instance.birthdate?.toIso8601String(),
       'gender': instance.gender,
+      'language': instance.language,
     };
 
 UpdateGroupRequest _$UpdateGroupRequestFromJson(Map<String, dynamic> json) =>
@@ -823,6 +827,22 @@ Map<String, dynamic> _$MatchMakingResultToJson(MatchMakingResult instance) =>
     <String, dynamic>{
       'type': matchMakingResultType$ToJson(instance.type),
       'groupId': instance.groupId,
+    };
+
+GroupMemberModel _$GroupMemberModelFromJson(Map<String, dynamic> json) =>
+    GroupMemberModel(
+      userId: json['userId'] as num?,
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
+      profilePicture: json['profilePicture'] as String?,
+    );
+
+Map<String, dynamic> _$GroupMemberModelToJson(GroupMemberModel instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'firstname': instance.firstname,
+      'lastname': instance.lastname,
+      'profilePicture': instance.profilePicture,
     };
 
 DeleteUserRequest _$DeleteUserRequestFromJson(Map<String, dynamic> json) =>

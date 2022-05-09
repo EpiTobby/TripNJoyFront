@@ -1242,6 +1242,67 @@
         }
       }
     },
+    "/groups/{groupId}/users/{userId}": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get the information related to the member",
+        "operationId": "getMember",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User information",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemberModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not allowed to view members of this group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemberModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "User or group not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemberModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/groups/invites/{id}": {
       "get": {
         "tags": [
@@ -2012,6 +2073,9 @@
           "language": {
             "type": "string"
           },
+          "city": {
+            "type": "string"
+          },
           "email": {
             "type": "string"
           }
@@ -2222,6 +2286,9 @@
             "format": "date-time"
           },
           "gender": {
+            "type": "string"
+          },
+          "language": {
             "type": "string"
           }
         }
@@ -2508,6 +2575,24 @@
           "groupId": {
             "type": "integer",
             "format": "int64"
+          }
+        }
+      },
+      "GroupMemberModel": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "profilePicture": {
+            "type": "string"
           }
         }
       },

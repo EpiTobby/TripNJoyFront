@@ -50,7 +50,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           title: "${user.firstname} ${user.lastname}",
           imageURL: user.profilePicture ?? DEFAULT_AVATAR_URL,
           onClick: () async {
-            final imageURL = await minioService.upload();
+            final imageURL = await minioService.uploadImage();
 
             if (imageURL != null) {
               userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(profilePicture: imageURL));
@@ -138,6 +138,25 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                             initialValue: user.phoneNumber ?? "",
                             onConfirm: (value) async {
                               userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(phoneNumber: value));
+                            });
+                      });
+                },
+              )),
+          LayoutItem(
+              title: AppLocalizations.of(context).translate("user.city"),
+              child: LayoutItemValue(
+                value: user.city!.name!,
+                icon: Icons.keyboard_arrow_right_sharp,
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialog(
+                            title: AppLocalizations.of(context).translate("settings.city"),
+                            label: AppLocalizations.of(context).translate("user.city"),
+                            initialValue: user.city!.name ?? "",
+                            onConfirm: (value) async {
+                              userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(city: CityModel(name: value)));
                             });
                       });
                 },

@@ -33,6 +33,8 @@
       "woman": "Femme",
       "other": "Autre"
     },
+    "country": "Pays",
+    "city": "Ville",
     "noPhoneNumber": "Pas de numéro de téléphone",
     "noCity": "Pas de ville"
   },
@@ -42,6 +44,8 @@
     "email": "Votre adresse email",
     "password": "Votre mot de passe",
     "phoneNumber": "Votre numéro de téléphone",
+    "country": "Votre pays",
+    "city": "Votre ville",
     "createAccount": "Créer son compte",
     "forgotPassword": "Mot de passe oublié ?",
     "verification": {
@@ -261,7 +265,9 @@
     "password": "Changer de mot de passe",
     "oldPassword": "Ancien mot de passe",
     "newPassword": "Nouveau mot de passe",
-    "confirmDeleteAccount": "Confirmer le mot de passe pour supprimer votre compte"
+    "confirmDeleteAccount": "Confirmer le mot de passe pour supprimer votre compte",
+    "country": "Changer de pays",
+    "city": "Changer de ville"
   },
   "errors": {
     "login": "Identifiants incorrects",

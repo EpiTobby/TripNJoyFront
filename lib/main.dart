@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +17,8 @@ import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/services/notification/push_notification.service.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'app_localizations.dart';
 import 'constants/navbar/navbar.enum.dart';
@@ -25,7 +28,13 @@ import 'screens/notification/notification.screen.dart';
 import 'screens/settings/settings.screen.dart';
 
 void main() async {
-  await initFirebase();
+
+  if (!Platform.isIOS && !Platform.isMacOS) {
+    await initFirebase();
+    WidgetsFlutterBinding.ensureInitialized();
+    await FlutterDownloader.initialize();
+  }
+
   runApp(const ProviderScope(child: OverlaySupport.global(child: MyApp())));
 }
 
@@ -126,6 +135,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     final authViewModel = ref.watch(authProvider);
     final userViewModel = ref.watch(userProvider.notifier);
     useEffect(() {
+
       authViewModel.updateTokenFromStorage().then((value) {
         if (value != null) {
           userViewModel.loadUser().then((value) {

@@ -50,7 +50,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                   LayoutHeader(
                     imageURL: group.picture ?? DEFAULT_GROUP_AVATAR_URL,
                     onClick: () async {
-                      final imageURL = await minioService.upload();
+                      final imageURL = await minioService.uploadImage();
 
                       if (imageURL != null) {
                         await groupViewModel.updatePrivateGroup(group.id!.toInt(), UpdateGroupRequest(picture: imageURL));

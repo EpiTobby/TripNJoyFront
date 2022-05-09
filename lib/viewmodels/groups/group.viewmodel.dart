@@ -12,9 +12,12 @@ class GroupViewModel extends ChangeNotifier {
   final AuthViewModel authViewModel;
 
   List<GroupModel> groups = [];
+  bool isLoading = false;
 
-  void _init() {
-    getGroups();
+  void _init() async {
+    isLoading = true;
+    await getGroups();
+    isLoading = false;
   }
 
   Future<void> getGroups() async {

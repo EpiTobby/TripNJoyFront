@@ -288,6 +288,14 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<GroupMemberModel>> _groupsGroupIdUsersUserIdGet(
+      {required num? groupId, required num? userId}) {
+    final $url = '/groups/${groupId}/users/${userId}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<GroupMemberModel, GroupMemberModel>($request);
+  }
+
+  @override
   Future<Response<List<GroupModel>>> _groupsInvitesIdGet({required num? id}) {
     final $url = '/groups/invites/${id}';
     final $request = Request('GET', $url, client.baseUrl);
