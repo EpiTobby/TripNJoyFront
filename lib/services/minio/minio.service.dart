@@ -17,7 +17,7 @@ class MinioService {
 
     await minio.putObject(MINIO_BUCKET, name, bytes);
 
-    return await minio.presignedGetObject(MINIO_BUCKET, name);
+    return (await minio.presignedGetObject(MINIO_BUCKET, name)).split('?')[0];
   }
 
   Future<String?> uploadImage() async {
