@@ -31,13 +31,10 @@
       "woman": "Woman",
       "other": "Other"
     },
-<<<<<<< HEAD
     "country": "Country",
-    "city": "City"
-=======
+    "city": "City",
     "noPhoneNumber": "No phone number",
     "noCity": "No city"
->>>>>>> develop
   },
   "auth": {
     "firstname": "Your firstname",
