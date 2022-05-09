@@ -55,6 +55,7 @@ class _InputDialogChoiceState extends State<InputDialogChoice> {
                 text: widget.cancelChoice,
                 isLoading: status.value.isLoading,
                 onPressed: () async {
+                  value.value = false;
                   pressButton(status, value, context);
                 },
               ),
@@ -62,6 +63,7 @@ class _InputDialogChoiceState extends State<InputDialogChoice> {
                 text: widget.confirmChoice,
                 isLoading: status.value.isLoading,
                 onPressed: () async {
+                  value.value = true;
                   pressButton(status, value, context);
                 },
                 fitContent: true,
