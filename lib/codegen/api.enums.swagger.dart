@@ -563,6 +563,23 @@ const $UpdateGroupRequestStateMap = {
   UpdateGroupRequestState.archived: 'ARCHIVED'
 };
 
+enum MessageResponseType$ {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('TEXT')
+  text,
+  @JsonValue('IMAGE')
+  image,
+  @JsonValue('FILE')
+  file
+}
+
+const $MessageResponseType$Map = {
+  MessageResponseType$.text: 'TEXT',
+  MessageResponseType$.image: 'IMAGE',
+  MessageResponseType$.file: 'FILE'
+};
+
 enum MatchMakingResultType$ {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,

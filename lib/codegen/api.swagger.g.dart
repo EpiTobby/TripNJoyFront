@@ -200,6 +200,19 @@ Map<String, dynamic> _$CreatePrivateGroupRequestToJson(
       'maxSize': instance.maxSize,
     };
 
+ChannelModel _$ChannelModelFromJson(Map<String, dynamic> json) => ChannelModel(
+      id: json['id'] as num?,
+      name: json['name'] as String?,
+      index: json['index'] as int?,
+    );
+
+Map<String, dynamic> _$ChannelModelToJson(ChannelModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'index': instance.index,
+    };
+
 CityModel _$CityModelFromJson(Map<String, dynamic> json) => CityModel(
       name: json['name'] as String?,
     );
@@ -227,6 +240,10 @@ GroupModel _$GroupModelFromJson(Map<String, dynamic> json) => GroupModel(
               ?.map((e) => MemberModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
+      channels: (json['channels'] as List<dynamic>?)
+              ?.map((e) => ChannelModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       createdDate: json['createdDate'] as String?,
     );
 
@@ -241,6 +258,7 @@ Map<String, dynamic> _$GroupModelToJson(GroupModel instance) =>
       'endOfTrip': instance.endOfTrip?.toIso8601String(),
       'picture': instance.picture,
       'members': instance.members?.map((e) => e.toJson()).toList(),
+      'channels': instance.channels?.map((e) => e.toJson()).toList(),
       'createdDate': instance.createdDate,
     };
 
@@ -298,6 +316,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
           : DateTime.parse(json['createdDate'] as String),
       phoneNumber: json['phoneNumber'] as String?,
       confirmed: json['confirmed'] as bool?,
+      language: json['language'] as String?,
       roles: userModelRolesListFromJson(json['roles'] as List?),
     );
 
@@ -314,6 +333,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'createdDate': instance.createdDate?.toIso8601String(),
       'phoneNumber': instance.phoneNumber,
       'confirmed': instance.confirmed,
+      'language': instance.language,
       'roles': userModelRolesListToJson(instance.roles),
     };
 
@@ -339,19 +359,6 @@ Map<String, dynamic> _$CreateChannelRequestToJson(
       'name': instance.name,
     };
 
-ChannelModel _$ChannelModelFromJson(Map<String, dynamic> json) => ChannelModel(
-      id: json['id'] as num?,
-      name: json['name'] as String?,
-      index: json['index'] as int?,
-    );
-
-Map<String, dynamic> _$ChannelModelToJson(ChannelModel instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'index': instance.index,
-    };
-
 UserCreationRequest _$UserCreationRequestFromJson(Map<String, dynamic> json) =>
     UserCreationRequest(
       firstname: json['firstname'] as String?,
@@ -362,6 +369,7 @@ UserCreationRequest _$UserCreationRequestFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['birthDate'] as String),
       phoneNumber: json['phoneNumber'] as String?,
+      language: json['language'] as String?,
       email: json['email'] as String?,
     );
 
@@ -374,6 +382,7 @@ Map<String, dynamic> _$UserCreationRequestToJson(
       'gender': instance.gender,
       'birthDate': instance.birthDate?.toIso8601String(),
       'phoneNumber': instance.phoneNumber,
+      'language': instance.language,
       'email': instance.email,
     };
 
@@ -595,6 +604,7 @@ MessageResponse _$MessageResponseFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['modifiedDate'] as String),
       pinned: json['pinned'] as bool?,
+      type: messageResponseType$FromJson(json['type']),
     );
 
 Map<String, dynamic> _$MessageResponseToJson(MessageResponse instance) =>
@@ -606,6 +616,7 @@ Map<String, dynamic> _$MessageResponseToJson(MessageResponse instance) =>
       'sentDate': instance.sentDate?.toIso8601String(),
       'modifiedDate': instance.modifiedDate?.toIso8601String(),
       'pinned': instance.pinned,
+      'type': messageResponseType$ToJson(instance.type),
     };
 
 UpdateChannelRequest _$UpdateChannelRequestFromJson(
@@ -708,6 +719,18 @@ Map<String, dynamic> _$GenderEntityToJson(GenderEntity instance) =>
       'value': instance.value,
     };
 
+LanguageEntity _$LanguageEntityFromJson(Map<String, dynamic> json) =>
+    LanguageEntity(
+      id: json['id'] as num?,
+      value: json['value'] as String?,
+    );
+
+Map<String, dynamic> _$LanguageEntityToJson(LanguageEntity instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'value': instance.value,
+    };
+
 ProfileEntity _$ProfileEntityFromJson(Map<String, dynamic> json) =>
     ProfileEntity(
       id: json['id'] as num?,
@@ -756,6 +779,9 @@ UserEntity _$UserEntityFromJson(Map<String, dynamic> json) => UserEntity(
           : DateTime.parse(json['createdDate'] as String),
       phoneNumber: json['phoneNumber'] as String?,
       confirmed: json['confirmed'] as bool?,
+      language: json['language'] == null
+          ? null
+          : LanguageEntity.fromJson(json['language'] as Map<String, dynamic>),
       roles: (json['roles'] as List<dynamic>?)
               ?.map((e) => RoleEntity.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -781,6 +807,7 @@ Map<String, dynamic> _$UserEntityToJson(UserEntity instance) =>
       'createdDate': instance.createdDate?.toIso8601String(),
       'phoneNumber': instance.phoneNumber,
       'confirmed': instance.confirmed,
+      'language': instance.language?.toJson(),
       'roles': instance.roles?.map((e) => e.toJson()).toList(),
       'profiles': instance.profiles?.map((e) => e.toJson()).toList(),
       'waitingForGroup': instance.waitingForGroup,

@@ -200,6 +200,11 @@ class CodegenService extends HttpService {
   }
 
   @override
+  Future<void> declineGroupInvitation(int groupId, int userId) async {
+    await api.groupsGroupDeclineIdPatch(group: groupId, id: userId);
+  }
+
+  @override
   Future<void> joinPrivateGroup(int groupId, int userId) async {
     await api.groupsGroupJoinIdPatch(group: groupId, id: userId);
   }

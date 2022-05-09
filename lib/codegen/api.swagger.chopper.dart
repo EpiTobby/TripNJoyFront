@@ -150,6 +150,14 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<dynamic>> _groupsGroupDeclineIdPatch(
+      {required num? group, required num? id}) {
+    final $url = '/groups/${group}/decline/${id}';
+    final $request = Request('PATCH', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _groupsPrivateGroupDelete({required num? group}) {
     final $url = '/groups/private/${group}';
     final $request = Request('DELETE', $url, client.baseUrl);
@@ -287,12 +295,12 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _chatChannelIdGet(
+  Future<Response<List<MessageResponse>>> _chatChannelIdGet(
       {required num? channelId, int? page}) {
     final $url = '/chat/${channelId}';
     final $params = <String, dynamic>{'page': page};
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
-    return client.send<dynamic, dynamic>($request);
+    return client.send<List<MessageResponse>, MessageResponse>($request);
   }
 
   @override

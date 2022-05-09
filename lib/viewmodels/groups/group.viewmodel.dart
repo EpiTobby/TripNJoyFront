@@ -53,7 +53,10 @@ class GroupViewModel extends ChangeNotifier {
     await getGroups();
   }
 
-  Future<void> declineGroupInvitation(int groupId) async {}
+  Future<void> declineGroupInvitation(int groupId) async {
+    final id = httpService.getUserIdFromToken(authViewModel.token!);
+    await httpService.declineGroupInvitation(groupId, id!);
+  }
 
   Future<void> addUserToPrivateGroup(int groupId, String email) async {
     await httpService.addUserToPrivateGroup(groupId, email);

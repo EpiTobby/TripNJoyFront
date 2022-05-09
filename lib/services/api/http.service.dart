@@ -52,6 +52,8 @@ abstract class HttpService {
 
   Future<List<GroupModel>?> getUserInvitesGroups(int id);
 
+  Future<void> declineGroupInvitation(int groupId, int userId);
+
   Future<GroupModel?> createPrivateGroup(int id, CreatePrivateGroupRequest createPrivateGroupRequest);
 
   Future<void> addUserToPrivateGroup(int groupId, String email);
