@@ -185,7 +185,9 @@
   },
   "matchmaking": {
     "title": "Matchmaking",
-    "retryProfile": "Retry a matchmaking with this profile"
+    "retryProfile": "Retry a matchmaking with this profile",
+    "noGroup": "No group found, wait for another user to match with you or try with another profile.",
+    "newProfile": "New profile"
   },
   "profile": {
     "title": "Profile",

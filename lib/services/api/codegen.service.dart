@@ -265,7 +265,11 @@ class CodegenService extends HttpService {
   Future<MatchMakingResponse?> startMatchmaking(int userId, ProfileCreationRequest profile) async {
     final response = await api.matchmakingPost(userId: userId, body: profile);
 
-    return response.body;
+    try {
+      return MatchMakingResponse(taskId: response.body!['taskId'], errorMessage: response.body!['errorMessage']);
+    } catch (e) {
+      return null;
+    }
   }
 
   @override

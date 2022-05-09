@@ -303,12 +303,12 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<List<MessageResponse>>> _chatChannelIdGet(
+  Future<Response<dynamic>> _chatChannelIdGet(
       {required num? channelId, int? page}) {
     final $url = '/chat/${channelId}';
     final $params = <String, dynamic>{'page': page};
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
-    return client.send<List<MessageResponse>, MessageResponse>($request);
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override

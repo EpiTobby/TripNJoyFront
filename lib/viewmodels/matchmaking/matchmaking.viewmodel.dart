@@ -47,8 +47,13 @@ class MatchmakingViewModel extends ChangeNotifier {
       final taskValue = int.tryParse(taskStorage, radix: 10);
       if (taskValue != null && taskValue >= 0) {
         final matchmakingResult = await httpService.getMatchmakingResult(taskValue);
+        if (matchmakingResult == null) {
+          await storage.delete(key: taskKey);
+          status = MatchmakingStatus.CREATE_PROFILE;
+          return;
+        }
 
-        updateMatchmakingStatus(matchmakingResult!.type!);
+        updateMatchmakingStatus(matchmakingResult.type!);
       }
     }
   }
@@ -361,15 +366,25 @@ class MatchmakingViewModel extends ChangeNotifier {
 
     final matchmakingResponse = await httpService.startMatchmaking(
         id!, ProfileCreationRequest.fromJsonFactory(profileCreationRequest));
-
-    final taskResponse = matchmakingResponse!.taskId;
+    if (matchmakingResponse == null) {
+      status = MatchmakingStatus.CREATE_PROFILE;
+      notifyListeners();
+      return;
+    }
+    
+    final taskResponse = matchmakingResponse.taskId;
 
     await storage.delete(key: taskKey);
     await storage.write(key: taskKey, value: taskResponse.toString());
 
     final matchmakingResult = await httpService.getMatchmakingResult(taskResponse!.toInt());
+    if (matchmakingResult == null) {
+      status = MatchmakingStatus.CREATE_PROFILE;
+      notifyListeners();
+      return;
+    }
 
-    updateMatchmakingStatus(matchmakingResult!.type!);
+    updateMatchmakingStatus(matchmakingResult.type!);
 
     /* TODO : remove this call as this function should be called after a notification is sent
     await createProfile();
@@ -387,6 +402,13 @@ class MatchmakingViewModel extends ChangeNotifier {
     profileCreationRequest = {};
   }
 
+  void restartProfileCreation() async {
+    status = MatchmakingStatus.CREATE_PROFILE;
+    cards = [];
+    index = 0;
+    notifyListeners();
+  }
+
   void receiveGroupMatch() async {
     status = MatchmakingStatus.JOIN_GROUP;
     notifyListeners();
@@ -401,7 +423,7 @@ class MatchmakingViewModel extends ChangeNotifier {
         status = MatchmakingStatus.JOIN_GROUP;
         break;
       case MatchMakingResultType$.waiting:
-        status = MatchmakingStatus.JOIN_GROUP;
+        status = MatchmakingStatus.NO_GROUP;
         break;
       case MatchMakingResultType$.searching:
         status = MatchmakingStatus.WAITING_MATCHMAKING;
