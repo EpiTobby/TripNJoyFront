@@ -223,4 +223,10 @@ class MockService extends HttpService {
     // TODO: implement getChannelMessages
     throw UnimplementedError();
   }
+
+  @override
+  Future<List<MessageResponse>> getPinnedMessages(num channelId) {
+    // TODO: implement getPinnedMessages
+    throw UnimplementedError();
+  }
 }

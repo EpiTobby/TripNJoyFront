@@ -278,4 +278,10 @@ class CodegenService extends HttpService {
     final response = await api.chatChannelIdGet(channelId: channelId, page: page);
     return response.body!;
   }
+
+  @override
+  Future<List<MessageResponse>> getPinnedMessages(num channelId) async {
+    final response = await api.chatChannelIdPinnedGet(channelId: channelId);
+    return response.body!;
+  }
 }

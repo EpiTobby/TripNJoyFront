@@ -75,4 +75,6 @@ abstract class HttpService {
   Future<WebSocketChannel> loadReadWebSocketChannel(num channelId);
 
   Future<List<MessageResponse>> getChannelMessages(num channelId, int page);
+
+  Future<List<MessageResponse>> getPinnedMessages(num channelId);
 }
