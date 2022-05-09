@@ -98,10 +98,10 @@ class SwipeCard extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10.0, left: 20.0),
                       child: Text(
-                        AppLocalizations.of(context).translate("cards.$name.${values[0]}"),
+                        AppLocalizations.of(context).translate("cards.$name.${values[1]}"),
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: Theme.of(context).colorScheme.tertiary,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -109,7 +109,7 @@ class SwipeCard extends ConsumerWidget {
                     ),
                     Icon(
                       SwipeCardIcon.left_arrow,
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.tertiary,
                       size: 36,
                     ),
                   ],
@@ -119,15 +119,15 @@ class SwipeCard extends ConsumerWidget {
                   children: [
                     Icon(
                       SwipeCardIcon.right_arrow,
-                      color: Theme.of(context).colorScheme.tertiary,
+                      color: Theme.of(context).colorScheme.secondary,
                       size: 36,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0, right: 20.0),
                       child: Text(
-                        AppLocalizations.of(context).translate("cards.$name.${values[1]}"),
+                        AppLocalizations.of(context).translate("cards.$name.${values[0]}"),
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.tertiary,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -178,12 +178,12 @@ class SwipeButtons extends ConsumerWidget {
           angle: -90 * pi / 180,
           child: SwipeButton(
               icon: Icons.arrow_circle_up_outlined,
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.tertiary,
               onPressed: () {
                 if (updateProfile != null) {
-                  updateProfile!(name, values[0]);
+                  updateProfile!(name, values[1]);
                 } else {
-                  provider.swipeLeft(name, values[0]);
+                  provider.swipeLeft(name, values[1]);
                 }
               }),
         ),
@@ -201,12 +201,12 @@ class SwipeButtons extends ConsumerWidget {
           angle: 90 * pi / 180,
           child: SwipeButton(
               icon: Icons.arrow_circle_up_outlined,
-              color: Theme.of(context).colorScheme.tertiary,
+              color: Theme.of(context).colorScheme.secondary,
               onPressed: () {
                 if (updateProfile != null) {
-                  updateProfile!(name, values[1]);
+                  updateProfile!(name, values[0]);
                 } else {
-                  provider.swipeRight(name, values[1]);
+                  provider.swipeRight(name, values[0]);
                 }
               }),
         ),
