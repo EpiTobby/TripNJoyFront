@@ -4,13 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 import 'package:trip_n_joy_front/screens/auth/forgot_password.screen.dart';
-import 'package:trip_n_joy_front/services/auth/auth.service.dart';
+import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 
 import '../../providers/auth/auth.provider.dart';
 import '../common/button.widget.dart';
 import '../common/input.widget.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'google.widget.dart';
 
@@ -65,7 +63,7 @@ class _LoginState extends ConsumerState<Login> {
             child: Column(
               children: [
                 FutureBuilder(
-                  future: AuthService.initializeFirebase(context),
+                  future: AuthViewModel.initializeFirebase(context),
                   builder: (context, snapshot) {
                     return const GoogleSignInButton();
                   },
@@ -83,7 +81,6 @@ class _LoginState extends ConsumerState<Login> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassword()))),
               ],
             )),
-
       ],
     ));
   }

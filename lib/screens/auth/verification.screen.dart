@@ -17,7 +17,7 @@ class AccountVerification extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authService = ref.watch(authProvider);
+    final authViewModel = ref.watch(authProvider);
     final code = useState('');
     final resendCountdown = useState(0);
 
@@ -56,7 +56,7 @@ class AccountVerification extends HookConsumerWidget {
                 hint: AppLocalizations.of(context).translate('auth.verification.label'),
                 icon: const Icon(Icons.app_registration),
                 keyboardType: TextInputType.number,
-                isError: authService.verifyAccountState.isError,
+                isError: authViewModel.verifyAccountState.isError,
                 onChanged: (value) {
                   code.value = value;
                 },
@@ -65,12 +65,12 @@ class AccountVerification extends HookConsumerWidget {
               PrimaryButton(
                 text: AppLocalizations.of(context).translate('auth.verification.submit'),
                 onPressed: () {
-                  authService.verifyAccount(code.value).then((value) => {
+                  authViewModel.verifyAccount(code.value).then((value) => {
                         if (value != null && value)
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyApp()))
                       });
                 },
-                isLoading: authService.verifyAccountState.isLoading,
+                isLoading: authViewModel.verifyAccountState.isLoading,
                 isDisabled: code.value.isEmpty,
               ),
               SecondaryButton(
@@ -80,13 +80,13 @@ class AccountVerification extends HookConsumerWidget {
                           .translate('auth.verification.resendCountdown', {'time': resendCountdown.value.toString()}),
                   onPressed: () {
                     resendCountdown.value = 30;
-                    authService.resendVerificationCode(userId);
+                    authViewModel.resendVerificationCode(userId);
                   },
                   isDisabled: resendCountdown.value != 0),
               TertiaryButton(
                 text: AppLocalizations.of(context).translate('common.back'),
                 onPressed: () {
-                  authService.logout().then((value) {
+                  authViewModel.logout().then((value) {
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyApp()));
                   });
                 },

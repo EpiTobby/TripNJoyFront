@@ -1,15 +1,15 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
-import 'package:trip_n_joy_front/services/auth/auth.service.dart';
 
 import '../../app_localizations.dart';
 import '../../codegen/api.swagger.dart';
-import '../api/http.service.dart';
+import '../../services/api/http.service.dart';
+import '../auth/auth.viewmodel.dart';
 
-class UserService extends StateNotifier<AsyncValue<UserModel?>> {
-  UserService(this.httpService, this.authService) : super(const AsyncValue.loading());
+class UserViewModel extends StateNotifier<AsyncValue<UserModel?>> {
+  UserViewModel(this.httpService, this.authViewModel) : super(const AsyncValue.loading());
   final HttpService httpService;
-  final AuthService authService;
+  final AuthViewModel authViewModel;
   UserModel? user;
 
   Future<UserModel?> loadUser() async {
@@ -53,7 +53,7 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
       state = const AsyncLoading();
       final loginResponse = await httpService.updateEmail(id, updateEmailRequest);
       if (loginResponse != null && loginResponse.token != null) {
-        await authService.logout();
+        await authViewModel.logout();
       } else {
         state = AsyncError(Exception(AppLocalizations.instance.translate("errors.unexpected")));
       }
@@ -61,4 +61,6 @@ class UserService extends StateNotifier<AsyncValue<UserModel?>> {
       state = AsyncError(e);
     }
   }
+
+  num? get userId => user?.id;
 }

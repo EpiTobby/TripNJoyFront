@@ -6,6 +6,8 @@
 	<string>Allow</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Please allow access to photo library so you can easily upload your photos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow</string>
 	<key>CFBundleDevelopmentRegion</key>

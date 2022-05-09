@@ -47,9 +47,20 @@ dependencies:
   image_picker: ^0.8.4+11
   minio: ^3.5.0
   another_flushbar: ^1.10.28
+  google_fonts: ^2.3.1
+  mockito: ^5.1.0
   firebase_core: ^1.13.1
   firebase_auth: ^3.3.11
   google_sign_in: ^5.2.4
+  firebase_messaging: ^11.2.13
+  overlay_support: ^1.2.1
+  file_picker: ^4.5.1
+  overlapping_panels: ^0.0.2
+  web_socket_channel: ^2.2.0
+  stomp_dart_client: ^0.4.4
+  flutter_downloader: ^1.7.3
+  permission_handler: ^9.2.0
+  path_provider: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -118,3 +129,6 @@ flutter:
     - family: NavbarIcon
       fonts:
         - asset: fonts/NavbarIcon.ttf
+    - family: SwipeCardIcon
+      fonts:
+        - asset: fonts/SwipeCardIcon.ttf

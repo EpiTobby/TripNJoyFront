@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,15 +10,13 @@ import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-import 'package:trip_n_joy_front/screens/matchmaking/matchmaking.screen.dart';
-import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
 
+import '../../services/api/http.service.dart';
+import '../../services/log/logger.service.dart';
 import '../../constants/auth/auth_step.enum.dart';
-import '../api/http.service.dart';
-import '../log/logger.service.dart';
 
-class AuthService extends ChangeNotifier {
-  AuthService(this.httpService, this.storage) {
+class AuthViewModel extends ChangeNotifier {
+  AuthViewModel(this.httpService, this.storage) {
     httpService.init();
   }
 
@@ -235,13 +234,12 @@ class AuthService extends ChangeNotifier {
 
 
         SignInUpGoogleCredentials userInfo = SignInUpGoogleCredentials(
-          email: userCredential.user!.email ?? "",
-          firstname: userCredential.additionalUserInfo!.profile!["given_name"] ?? "",
-          lastname: userCredential.additionalUserInfo!.profile!["family_name"] ?? "",
-          accessToken: googleSignInAuthentication.accessToken!,
-          profilePicture: userCredential.user!.photoURL ?? "",
-          phoneNumber: userCredential.user!.phoneNumber
-        );
+            email: userCredential.user!.email ?? "",
+            firstname: userCredential.additionalUserInfo!.profile!["given_name"] ?? "",
+            lastname: userCredential.additionalUserInfo!.profile!["family_name"] ?? "",
+            accessToken: googleSignInAuthentication.accessToken!,
+            profilePicture: userCredential.user!.photoURL ?? "",
+            phoneNumber: userCredential.user!.phoneNumber);
 
         user = userCredential.user;
 
@@ -265,7 +263,6 @@ class AuthService extends ChangeNotifier {
         } finally {
           notifyListeners();
         }
-
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           // handle the error here
@@ -290,7 +287,7 @@ class AuthService extends ChangeNotifier {
       logger.e(e);
     }
   }
-  
+
   void clearStates() {
     loginState = const AsyncValue.data(null);
     signupState = const AsyncValue.data(null);

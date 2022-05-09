@@ -3,7 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 
 import '../../app_localizations.dart';
-import '../../services/auth/auth.service.dart';
 import '../../widgets/common/button.widget.dart';
 
 class ErrorScreen extends ConsumerWidget {
@@ -13,7 +12,7 @@ class ErrorScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authService = ref.watch(authProvider);
+    final authViewModel = ref.watch(authProvider);
     return Container(
       color: Theme.of(context).colorScheme.background,
       child:
@@ -32,7 +31,7 @@ class ErrorScreen extends ConsumerWidget {
         PrimaryButton(
             text: AppLocalizations.of(context).translate('common.reconnect'),
             onPressed: () {
-              authService.logout();
+              authViewModel.logout();
             })
       ]),
     );

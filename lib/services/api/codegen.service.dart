@@ -1,11 +1,15 @@
 import 'package:chopper/chopper.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:stomp_dart_client/stomp.dart';
+import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../codegen/api.swagger.dart';
-import '../auth/auth.service.dart';
+import '../../viewmodels/auth/auth.viewmodel.dart';
 import 'http.service.dart';
 
 const BASE_URL = String.fromEnvironment("BASE_URL", defaultValue: "http://localhost:8080");
@@ -25,11 +29,11 @@ class CodegenService extends HttpService {
             converter: $JsonSerializableConverter(),
             interceptors: [
               (Request request) async => applyHeader(
-                  request, 'authorization', "Bearer " + (await storage.read(key: AuthService.tokenKey) ?? ""),
+                  request, 'authorization', "Bearer " + (await storage.read(key: AuthViewModel.tokenKey) ?? ""),
                   override: false),
               (Response response) async {
                 if (response.statusCode == 401) {
-                  await storage.delete(key: AuthService.tokenKey);
+                  await storage.delete(key: AuthViewModel.tokenKey);
                 }
                 return response;
               }
@@ -134,6 +138,30 @@ class CodegenService extends HttpService {
   }
 
   @override
+  Future<ProfileModel?> createProfile(int id, ProfileCreationRequest profile) async {
+    final response = await api.idProfilesPost(id: id, body: profile);
+
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteProfile(int id, int profileId) async {
+    await api.idProfilesProfileDelete(id: id, profile: profileId);
+  }
+
+  @override
+  Future<List<ProfileModel>?> getUserProfiles(int id) async {
+    final response = await api.idProfilesGet(id: id);
+
+    return response.body;
+  }
+
+  @override
+  Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest) async {
+    await api.idProfilesProfileUpdatePatch(id: id, profile: profileId, body: profileUpdateRequest);
+  }
+
+  @override
   Future<GoogleAuthResponse?> signInUpGoogle(SignInUpGoogleCredentials data) async {
     final response = await api.authGooglePost(
         body: GoogleRequest(
@@ -144,6 +172,118 @@ class CodegenService extends HttpService {
             profilePicture: data.profilePicture,
             accessToken: data.accessToken));
 
+    return response.body;
+  }
+
+  @override
+  Future<void> addUserToPrivateGroup(int groupId, String email) async {
+    await api.groupsPrivateGroupUserPost(group: groupId, body: ModelWithEmail(email: email));
+  }
+
+  @override
+  Future<GroupModel?> createPrivateGroup(int id, CreatePrivateGroupRequest createPrivateGroupRequest) async {
+    final response = await api.groupsPrivateIdPost(id: id, body: createPrivateGroupRequest);
+
+    return response.body;
+  }
+
+  @override
+  Future<void> deletePrivateGroup(int groupId) async {
+    await api.groupsPrivateGroupDelete(group: groupId);
+  }
+
+  @override
+  Future<List<GroupModel>?> getGroups(int id) async {
+    final response = await api.groupsIdGet(id: id);
+
+    return response.body;
+  }
+
+  @override
+  Future<void> joinPrivateGroup(int groupId, int userId) async {
+    await api.groupsGroupJoinIdPatch(group: groupId, id: userId);
+  }
+
+  @override
+  Future<void> leaveGroup(int groupId, int userId) async {
+    await api.groupsGroupUserIdDelete(group: groupId, id: userId);
+  }
+
+  @override
+  Future<void> removeUserFromPrivateGroup(int groupId, int userId) async {
+    await api.groupsPrivateGroupUserIdDelete(group: groupId, id: userId);
+  }
+
+  @override
+  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest) async {
+    await api.groupsPrivateGroupPatch(group: groupId, body: groupUpdateRequest);
+  }
+
+  @override
+  Future<List<ChannelModel>> getChannels(int groupId) async {
+    final response = await api.channelsGroupGet(group: groupId);
+
+    return response.body != null ? response.body! : [];
+  }
+
+  @override
+  Future<ChannelModel?> createChannel(int groupId, CreateChannelRequest createChannelRequest) async {
+    final response = await api.channelsGroupPost(group: groupId, body: createChannelRequest);
+    return response.body;
+  }
+
+  @override
+  Future<ChannelModel?> updateChannel(num channelId, UpdateChannelRequest updateChannelRequest) async {
+    final response = await api.channelsIdPatch(id: channelId, body: updateChannelRequest);
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteChannel(num channelId) async {
+    await api.channelsIdDelete(id: channelId);
+  }
+
+  @override
+  Future<StompClient> loadWebSocketChannel(void Function(bool) onConnection) async {
+    final requestUrl = api.client.baseUrl + '/wbsocket';
+    StompClient stompClient = StompClient(
+        config: StompConfig.SockJS(
+            url: requestUrl,
+            onConnect: (frame) {
+              print('Connected to $requestUrl');
+              onConnection(true);
+            },
+            onDisconnect: (frame) {
+              print('Disconnected from $requestUrl');
+              onConnection(false);
+            },
+            onStompError: (frame) {
+              print('Error from $requestUrl');
+              onConnection(false);
+            }));
+
+    stompClient.activate();
+    return stompClient;
+  }
+
+  @override
+  Future<WebSocketChannel> loadReadWebSocketChannel(num channelId) async {
+    final channel = WebSocketChannel.connect(
+      Uri.parse('wss://${api.client.baseUrl.replaceAll("http://", "")}/wbsocket/app/chat/$channelId'),
+    );
+
+    return channel;
+  }
+
+  @override
+  Future<List<MessageResponse>> getChannelMessages(num channelId, int page) async {
+    final response = await api.chatChannelIdGet(channelId: channelId, page: page);
+    return response.body!;
+  }
+
+  @override
+  Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId) async {
+    final response = await api.groupsGroupIdUsersUserIdGet(groupId: groupId, userId: userId);
     return response.body;
   }
 }
