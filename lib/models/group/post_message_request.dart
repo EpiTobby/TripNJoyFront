@@ -12,6 +12,6 @@ class PostMessageRequest {
   });
 
   String toJsonString() {
-    return "{\"userId\":$userId, \"content\":\"$content\", \"type\":\"$type\"}";
+    return "{\"userId\":$userId, \"content\":\"$content\", \"type\":\"${type.name.toUpperCase()}\"}";
   }
 }

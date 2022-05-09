@@ -44,7 +44,7 @@ class ChatInput extends HookConsumerWidget {
                     paths.add(path);
                   }
                   for (var path in paths) {
-                    onSend(path, MessageResponseType$.file);
+                    onSend(path.split("?").first, MessageResponseType$.file);
                   }
                 }
               },

@@ -8,6 +8,7 @@ import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_file.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/chat_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_image.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_input.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_message.widget.dart';
@@ -135,7 +136,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
         ));
   }
 
-  bool isFirst(MessageResponse element, List<MessageResponse> messages, int index) {
+  bool shouldDisplayHeader(MessageResponse element, List<MessageResponse> messages, int index) {
     final isNotFirst = index != messages.length - 1 &&
         messages[index + 1].userId == element.userId &&
         element.sentDate!.difference(messages[index + 1].sentDate!).inHours < 1;
@@ -147,19 +148,29 @@ class _GroupChatState extends ConsumerState<GroupChat> {
       return Container();
     }
     final element = messages[index];
+    final isFirst = shouldDisplayHeader(element, messages, index);
+    final isUser = element.userId == userId;
+    return Column(crossAxisAlignment: isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start, children: [
+      if (isFirst)
+        ChatHeader(username: element.userId.toString(), isUser: isUser, isFirst: isFirst, time: element.sentDate!),
+      getChatElement(element, isUser)
+    ]);
+  }
+
+  Widget getChatElement(MessageResponse element, bool isUser) {
     switch (element.type) {
       case MessageResponseType$.text:
         return ChatMessage(
           message: element.content!,
-          username: element.userId!.toString(),
-          isUser: element.userId == userId,
-          isFirst: isFirst(element, messages, index),
-          time: element.sentDate!,
+          isUser: isUser,
         );
       case MessageResponseType$.image:
         return ChatImage(url: element.content!);
       case MessageResponseType$.file:
-        return ChatFile(path: element.content!);
+        return ChatFile(
+          path: element.content!,
+          isUser: isUser,
+        );
       default:
         return Container();
     }
