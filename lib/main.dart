@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +27,8 @@ import 'screens/settings/settings.screen.dart';
 
 void main() async {
   await initFirebase();
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterDownloader.initialize();
   runApp(const ProviderScope(child: OverlaySupport.global(child: MyApp())));
 }
 
