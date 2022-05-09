@@ -1,9 +1,12 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/models/group/chat_member.dart';
 import 'package:trip_n_joy_front/models/group/post_message_request.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
@@ -23,6 +26,8 @@ class ChatViewModel extends ChangeNotifier {
   StompClient? client;
   bool isLoadingMessages = true;
   bool mounted = true;
+  HashMap<num, ChatMember> chatMembers = HashMap<num, ChatMember>();
+  final NetworkImage defaultProfileImage = const NetworkImage(DEFAULT_AVATAR_URL);
 
   void _init() {
     loadWebSocketChannel();
@@ -59,12 +64,15 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getMessages(num? channelId) async {
+  void getMessages(int groupId, num? channelId) async {
     if (channelId != null) {
       isLoadingMessages = true;
       clearMessages();
       var channelMessages = await httpService.getChannelMessages(channelId, 0);
       for (var msg in channelMessages) {
+        if (msg.userId != null && !chatMembers.containsKey(msg.userId)) {
+          loadUserMember(groupId, msg.userId!);
+        }
         if (msg.content != null) {
           messages.add(msg);
         }
@@ -89,9 +97,24 @@ class ChatViewModel extends ChangeNotifier {
     }
   }
 
-  void addMessage(num? channelId, String? body) {
+  void loadUserMember(int groupId, num userId) async {
+    final user = await httpService.getUserPublicInfo(groupId, userId);
+    if (user != null && user.userId != null) {
+      chatMembers[user.userId!] = ChatMember(
+        id: user.userId!,
+        name: "${user.firstname} ${user.lastname}",
+        avatar: user.profilePicture != null ? NetworkImage(user.profilePicture!) : defaultProfileImage,
+      );
+      notifyListeners();
+    }
+  }
+
+  void addMessage(int groupId, num? channelId, String? body) {
     if (body != null) {
       var message = MessageResponse.fromJson(jsonDecode(body));
+      if (message.userId != null && !chatMembers.containsKey(message.userId)) {
+        loadUserMember(groupId, message.userId!);
+      }
       if (message.channelId == channelId) {
         messages.insert(0, message);
         notifyListeners();
@@ -99,7 +122,7 @@ class ChatViewModel extends ChangeNotifier {
     }
   }
 
-  void listenToChannel(num? channelId) {
+  void listenToChannel(int groupId, num? channelId) {
     if (channelId != null && !listeningChannels.contains(channelId)) {
       listeningChannels.add(channelId);
       logger.i("listening to channel $channelId - listened channels: ${listeningChannels.toString()}");
@@ -108,7 +131,7 @@ class ChatViewModel extends ChangeNotifier {
         callback: (frame) {
           logger.i('Received message: ${frame.body}');
           WidgetsBinding.instance?.addPostFrameCallback((_) {
-            addMessage(channelId, frame.body);
+            addMessage(groupId, channelId, frame.body);
           });
         },
       );

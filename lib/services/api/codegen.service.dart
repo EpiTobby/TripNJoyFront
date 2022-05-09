@@ -278,4 +278,10 @@ class CodegenService extends HttpService {
     final response = await api.chatChannelIdGet(channelId: channelId, page: page);
     return response.body!;
   }
+
+  @override
+  Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId) async {
+    final response = await api.groupsGroupIdUsersUserIdGet(groupId: groupId, userId: userId);
+    return response.body;
+  }
 }
