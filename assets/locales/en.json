@@ -31,6 +31,8 @@
       "woman": "Woman",
       "other": "Other"
     },
+    "country": "Country",
+    "city": "City",
     "noPhoneNumber": "No phone number",
     "noCity": "No city"
   },
@@ -40,6 +42,8 @@
     "email": "Your email",
     "password": "Your password",
     "phoneNumber": "Your phone number",
+    "country": "Your country",
+    "city": "Your city",
     "createAccount": "Create an account",
     "forgotPassword": "Forgot your password?",
     "verification": {
@@ -256,7 +260,9 @@
     "password": "Change the password",
     "oldPassword": "Old password",
     "newPassword": "New password",
-    "confirmDeleteAccount": "Confirm password to delete your account"
+    "confirmDeleteAccount": "Confirm password to delete your account",
+    "country": "Change your country",
+    "city": "Change your city"
   },
   "errors": {
     "login": "Wrong email or password",

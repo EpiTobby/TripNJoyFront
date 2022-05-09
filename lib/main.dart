@@ -129,6 +129,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     final authViewModel = ref.watch(authProvider);
     final userViewModel = ref.watch(userProvider.notifier);
     useEffect(() {
+
       authViewModel.updateTokenFromStorage().then((value) {
         if (value != null) {
           userViewModel.loadUser().then((value) {

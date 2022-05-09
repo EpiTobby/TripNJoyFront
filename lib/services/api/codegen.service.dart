@@ -70,6 +70,8 @@ class CodegenService extends HttpService {
       firstname: data.firstname,
       lastname: data.lastname,
       phoneNumber: data.phoneNumber,
+      city: data.city,
+      language: data.language,
     ));
     return response.body;
   }

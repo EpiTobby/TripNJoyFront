@@ -34,6 +34,7 @@ class _SignUpState extends ConsumerState<SignUp> {
     final phoneNumber = useState('');
     final birthDate = useState(DateTime.now());
     final gender = useState(Gender.male.name);
+    final city = useState('');
 
     ref.listen<AsyncValue<void>>(
         authSignupStateProvider, (_, state) => state.showSnackBarOnError(widget.parentContext));
@@ -51,7 +52,7 @@ class _SignUpState extends ConsumerState<SignUp> {
             children: [
               Dropdown(
                   label: AppLocalizations.of(context).translate("common.gender"),
-                  icon: Icon(Icons.person),
+                  icon: const Icon(Icons.person),
                   selectedValue: gender.value,
                   listValue: [Gender.male.name, Gender.female.name, Gender.other.name],
                   listLabel: [
@@ -97,6 +98,12 @@ class _SignUpState extends ConsumerState<SignUp> {
                   onChanged: (value) => phoneNumber.value = value,
                   isError: authViewModel.signupState.isError,
                   icon: const Icon(Icons.phone)),
+              InputField(
+                  label: AppLocalizations.of(context).translate("user.city"),
+                  hint: AppLocalizations.of(context).translate("auth.city"),
+                  onChanged: (value) => city.value = value,
+                  isError: authViewModel.signupState.isError,
+                  icon: const Icon(Icons.apartment)),
             ],
           ),
         ),
@@ -114,7 +121,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                         birthDate: birthDate.value.toString(),
                         email: email.value,
                         password: password.value,
-                        phoneNumber: phoneNumber.value.isEmpty ? null : phoneNumber.value))),
+                        phoneNumber: phoneNumber.value.isEmpty ? null : phoneNumber.value,
+                        language: AppLocalizations.of(context).locale.languageCode == "en" ? "ENGLISH" : "FRENCH",
+                        city: city.value))),
                 SecondaryButton(
                     text: AppLocalizations.of(context).translate("common.back"),
                     onPressed: () => authViewModel.goToLogin()),

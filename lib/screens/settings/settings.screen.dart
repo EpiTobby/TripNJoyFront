@@ -142,6 +142,25 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       });
                 },
               )),
+          LayoutItem(
+              title: AppLocalizations.of(context).translate("user.city"),
+              child: LayoutItemValue(
+                value: user.city!.name!,
+                icon: Icons.keyboard_arrow_right_sharp,
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialog(
+                            title: AppLocalizations.of(context).translate("settings.city"),
+                            label: AppLocalizations.of(context).translate("user.city"),
+                            initialValue: user.city!.name ?? "",
+                            onConfirm: (value) async {
+                              userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(city: CityModel(name: value)));
+                            });
+                      });
+                },
+              )),
         ]),
         LayoutBox(
           title: AppLocalizations.of(context).translate("settings.theme"),
