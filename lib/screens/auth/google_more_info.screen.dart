@@ -76,7 +76,11 @@ class _GoogleMoreInfo extends ConsumerState<GoogleMoreInfo> {
                         .updateUser(
                             authService.token!,
                             UserUpdateRequest(
-                                gender: gender.value, birthdate: birthDate.value, city: CityModel(name: city.value)))
+                                gender: gender.value,
+                                birthdate: birthDate.value,
+                                city: CityModel(name: city.value),
+                                language:
+                                    AppLocalizations.of(context).locale.languageCode == "en" ? "ENGLISH" : "FRENCH"))
                         .then((value) => Navigator.pop(context))),
               ],
             )),

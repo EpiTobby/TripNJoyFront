@@ -6,7 +6,7 @@ class SignupCredentials {
   String _email = "";
   String _password = "";
   String? _phoneNumber;
-  //String _country = "";
+  String _language = "";
   String _city = "";
 
   SignupCredentials(
@@ -16,8 +16,8 @@ class SignupCredentials {
       required String birthDate,
       required String email,
       required String password,
-        //required country,
-        required city,
+      required String language,
+      required String city,
       String? phoneNumber}) {
     this.gender = gender;
     this.firstname = firstname;
@@ -26,29 +26,44 @@ class SignupCredentials {
     this.email = email;
     this.password = password;
     this.phoneNumber = phoneNumber;
-    //this.country = country;
+    this.language = language;
     this.city = city;
   }
 
   String get gender => _gender;
+
   set gender(String gender) => _gender = gender;
+
   String get firstname => _firstname;
+
   set firstname(String firstname) => _firstname = firstname;
+
   String get lastname => _lastname;
+
   set lastname(String lastname) => _lastname = lastname;
+
   String get birthDate => _birthDate;
+
   set birthDate(String birthDate) => _birthDate = birthDate;
+
   String get email => _email;
+
   set email(String email) => _email = email;
+
   String get password => _password;
+
   set password(String password) => _password = password;
+
   String? get phoneNumber => _phoneNumber;
+
   set phoneNumber(String? phoneNumber) => _phoneNumber = phoneNumber;
 
-  //String get country => _country;
-  //set country(String country) => _country = country;
+  String get language => _language;
+
+  set language(String language) => _language = language;
 
   String get city => _city;
+
   set city(String city) => _city = city;
 
   SignupCredentials.fromJson(Map<String, dynamic> json) {

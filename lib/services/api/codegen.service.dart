@@ -66,7 +66,8 @@ class CodegenService extends HttpService {
       firstname: data.firstname,
       lastname: data.lastname,
       phoneNumber: data.phoneNumber,
-
+      city: data.city,
+      language: data.language,
     ));
     return response.body;
   }
@@ -134,14 +135,14 @@ class CodegenService extends HttpService {
 
   @override
   Future<GoogleAuthResponse?> signInUpGoogle(SignInUpGoogleCredentials data) async {
-    final response = await api.authGooglePost(body: GoogleRequest(
-      email: data.email,
-      firstname: data.firstname,
-      lastname: data.lastname,
-      phoneNumber: data.phoneNumber,
-      profilePicture: data.profilePicture,
-      accessToken: data.accessToken
-    ));
+    final response = await api.authGooglePost(
+        body: GoogleRequest(
+            email: data.email,
+            firstname: data.firstname,
+            lastname: data.lastname,
+            phoneNumber: data.phoneNumber,
+            profilePicture: data.profilePicture,
+            accessToken: data.accessToken));
 
     return response.body;
   }

@@ -32,7 +32,6 @@ class _SignUpState extends ConsumerState<SignUp> {
     final phoneNumber = useState('');
     final birthDate = useState(DateTime.now());
     final gender = useState(Gender.male.name);
-    final country = useState('');
     final city = useState('');
 
     ref.listen<AsyncValue<void>>(
@@ -97,13 +96,6 @@ class _SignUpState extends ConsumerState<SignUp> {
                   onChanged: (value) => phoneNumber.value = value,
                   isError: authService.signupState.isError,
                   icon: const Icon(Icons.phone)),
-              /*InputField(
-                  label: AppLocalizations.of(context).translate("user.country"),
-                  hint: AppLocalizations.of(context).translate("auth.country"),
-                  onChanged: (value) => country.value = value,
-                  isError: authService.signupState.isError,
-                  icon: const Icon(Icons.flag)),
-               */
               InputField(
                   label: AppLocalizations.of(context).translate("user.city"),
                   hint: AppLocalizations.of(context).translate("auth.city"),
@@ -128,8 +120,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                         email: email.value,
                         password: password.value,
                         phoneNumber: phoneNumber.value.isEmpty ? null : phoneNumber.value,
-                        //country: country.value,
-                        // language: AppLocalizations.of(context).locale.languageCode == "en" ? "ENGLISH" : "FRENCH",
+                        language: AppLocalizations.of(context).locale.languageCode == "en" ? "ENGLISH" : "FRENCH",
                         city: city.value))),
                 SecondaryButton(
                     text: AppLocalizations.of(context).translate("common.back"),
