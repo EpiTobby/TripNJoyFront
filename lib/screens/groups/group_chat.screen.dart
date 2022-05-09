@@ -165,7 +165,10 @@ class _GroupChatState extends ConsumerState<GroupChat> {
           isUser: isUser,
         );
       case MessageResponseType$.image:
-        return ChatImage(url: element.content!);
+        return ChatImage(
+          url: element.content!,
+          isUser: isUser,
+        );
       case MessageResponseType$.file:
         return ChatFile(
           path: element.content!,
