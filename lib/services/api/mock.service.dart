@@ -229,4 +229,10 @@ class MockService extends HttpService {
     // TODO: implement getPinnedMessages
     throw UnimplementedError();
   }
+
+  @override
+  Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId) {
+    // TODO: implement getUserPublicInfo
+    throw UnimplementedError();
+  }
 }

@@ -642,6 +642,43 @@
         }
       }
     },
+    "/groups/{group}/decline/{id}": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Decline the invitation to the group",
+        "operationId": "declineGroupInvite",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user has declined the invite"
+          },
+          "422": {
+            "description": "Group or User does not exist"
+          }
+        }
+      }
+    },
     "/groups/private/{group}": {
       "delete": {
         "tags": [
@@ -1205,6 +1242,67 @@
         }
       }
     },
+    "/groups/{groupId}/users/{userId}": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get the information related to the member",
+        "operationId": "getMember",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User information",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemberModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not allowed to view members of this group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemberModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "User or group not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemberModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/groups/invites/{id}": {
       "get": {
         "tags": [
@@ -1749,6 +1847,22 @@
           }
         }
       },
+      "ChannelModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "CityModel": {
         "type": "object",
         "properties": {
@@ -1797,6 +1911,12 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/MemberModel"
+            }
+          },
+          "channels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChannelModel"
             }
           },
           "createdDate": {
@@ -1928,22 +2048,6 @@
           }
         }
       },
-      "ChannelModel": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "index": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
       "UserCreationRequest": {
         "type": "object",
         "properties": {
@@ -1967,6 +2071,9 @@
             "type": "string"
           },
           "language": {
+            "type": "string"
+          },
+          "city": {
             "type": "string"
           },
           "email": {
@@ -2179,6 +2286,9 @@
             "format": "date-time"
           },
           "gender": {
+            "type": "string"
+          },
+          "language": {
             "type": "string"
           }
         }
@@ -2465,6 +2575,24 @@
           "groupId": {
             "type": "integer",
             "format": "int64"
+          }
+        }
+      },
+      "GroupMemberModel": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "profilePicture": {
+            "type": "string"
           }
         }
       },
