@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
@@ -29,6 +31,10 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
     final openGroups = groups.where((group) => group.state! != GroupModelState.archived).toList();
     final archivedGroups = groups.where((group) => group.state! == GroupModelState.archived).toList();
 
+    final searchText = useState('');
+    final searchedOpenGroups = useState<List<GroupModel>>([]);
+    final searchedArchivedGroups = useState<List<GroupModel>>([]);
+
     return Column(children: [
       Row(
         children: [
@@ -36,6 +42,26 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
             child: Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                textInputAction: TextInputAction.search,
+                onChanged: (text) {
+                  searchText.value = text;
+                },
+                onEditingComplete: () {
+                  if (searchText.value.isEmpty) {
+                    searchedOpenGroups.value.clear();
+                    searchedArchivedGroups.value.clear();
+                    return;
+                  }
+
+                  searchedOpenGroups.value = openGroups.where((group) {
+                    var keywords = searchText.value.split(' ');
+                    return keywords.any((element) => group.name!.toLowerCase().contains(element.toLowerCase()));
+                  }).toList();
+                  searchedArchivedGroups.value = archivedGroups.where((group) {
+                    var keywords = searchText.value.split(' ');
+                    return keywords.any((element) => group.name!.toLowerCase().contains(element.toLowerCase()));
+                  }).toList();
+                },
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
@@ -82,11 +108,12 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
             : ListView(
                 shrinkWrap: true,
                 children: [
-                  openGroups.isNotEmpty
+                  openGroups.isNotEmpty || searchText.value.isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: GroupList(
-                              groups: openGroups, title: AppLocalizations.of(context).translate('groups.open')),
+                              groups: searchText.value.isNotEmpty ? searchedOpenGroups.value : openGroups,
+                              title: AppLocalizations.of(context).translate('groups.open')),
                         )
                       : Center(
                           child: Container(
@@ -107,11 +134,12 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
                             ),
                           ),
                         ),
-                  ...(archivedGroups.isNotEmpty
+                  ...(archivedGroups.isNotEmpty || searchText.value.isNotEmpty
                       ? [
                           const Divider(height: 40),
                           GroupList(
-                              title: AppLocalizations.of(context).translate('groups.archived'), groups: archivedGroups)
+                              title: AppLocalizations.of(context).translate('groups.archived'),
+                              groups: searchText.value.isNotEmpty ? searchedArchivedGroups.value : archivedGroups)
                         ]
                       : [const SizedBox()]),
                 ],
