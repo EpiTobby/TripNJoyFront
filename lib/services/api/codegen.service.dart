@@ -280,7 +280,8 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<UserModel?> getUserPublicInfo(num userId) async {
-    return null;
+  Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId) async {
+    final response = await api.groupsGroupIdUsersUserIdGet(groupId: groupId, userId: userId);
+    return response.body;
   }
 }

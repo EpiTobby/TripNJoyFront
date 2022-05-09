@@ -52,8 +52,8 @@ class _GroupChatState extends ConsumerState<GroupChat> {
     useEffect(() {
       if (widget.channel != null && isConnected) {
         Future.microtask(() {
-          _ref.read(chatProvider).getMessages(widget.channel!.id);
-          _ref.read(chatProvider).listenToChannel(widget.channel!.id);
+          _ref.read(chatProvider).getMessages(widget.groupId, widget.channel!.id);
+          _ref.read(chatProvider).listenToChannel(widget.groupId, widget.channel!.id);
         });
       }
     }, [widget.channel, isConnected]);

@@ -225,7 +225,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<UserModel?> getUserPublicInfo(num userId) {
+  Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId) {
     // TODO: implement getUserPublicInfo
     throw UnimplementedError();
   }

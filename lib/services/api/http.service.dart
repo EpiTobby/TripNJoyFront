@@ -76,5 +76,5 @@ abstract class HttpService {
 
   Future<List<MessageResponse>> getChannelMessages(num channelId, int page);
 
-  Future<UserModel?> getUserPublicInfo(num userId);
+  Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId);
 }

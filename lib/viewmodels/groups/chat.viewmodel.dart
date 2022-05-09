@@ -64,12 +64,15 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getMessages(num? channelId) async {
+  void getMessages(int groupId, num? channelId) async {
     if (channelId != null) {
       isLoadingMessages = true;
       clearMessages();
       var channelMessages = await httpService.getChannelMessages(channelId, 0);
       for (var msg in channelMessages) {
+        if (msg.userId != null && !chatMembers.containsKey(msg.userId)) {
+          loadUserMember(groupId, msg.userId!);
+        }
         if (msg.content != null) {
           messages.add(msg);
         }
@@ -94,21 +97,23 @@ class ChatViewModel extends ChangeNotifier {
     }
   }
 
-  void addMessage(num? channelId, String? body) {
+  void loadUserMember(int groupId, num userId) async {
+    final user = await httpService.getUserPublicInfo(groupId, userId);
+    if (user != null && user.userId != null) {
+      chatMembers[user.userId!] = ChatMember(
+        id: user.userId!,
+        name: "${user.firstname} ${user.lastname}",
+        avatar: user.profilePicture != null ? NetworkImage(user.profilePicture!) : defaultProfileImage,
+      );
+      notifyListeners();
+    }
+  }
+
+  void addMessage(int groupId, num? channelId, String? body) {
     if (body != null) {
       var message = MessageResponse.fromJson(jsonDecode(body));
       if (message.userId != null && !chatMembers.containsKey(message.userId)) {
-        Future(() async {
-          final user = await httpService.getUserPublicInfo(message.userId!);
-          if (user != null) {
-            chatMembers[message.userId!] = ChatMember(
-              id: user.id!,
-              name: "${user.firstname} ${user.lastname}",
-              avatar: user.profilePicture != null ? NetworkImage(user.profilePicture!) : defaultProfileImage,
-            );
-            notifyListeners();
-          }
-        });
+        loadUserMember(groupId, message.userId!);
       }
       if (message.channelId == channelId) {
         messages.insert(0, message);
@@ -117,7 +122,7 @@ class ChatViewModel extends ChangeNotifier {
     }
   }
 
-  void listenToChannel(num? channelId) {
+  void listenToChannel(int groupId, num? channelId) {
     if (channelId != null && !listeningChannels.contains(channelId)) {
       listeningChannels.add(channelId);
       logger.i("listening to channel $channelId - listened channels: ${listeningChannels.toString()}");
@@ -126,7 +131,7 @@ class ChatViewModel extends ChangeNotifier {
         callback: (frame) {
           logger.i('Received message: ${frame.body}');
           WidgetsBinding.instance?.addPostFrameCallback((_) {
-            addMessage(channelId, frame.body);
+            addMessage(groupId, channelId, frame.body);
           });
         },
       );
