@@ -218,6 +218,26 @@
       "open": "Ouvert",
       "close": "Fermé",
       "hint": "Écrivez un message..."
+    },
+    "channel": {
+      "title": "Cannaux",
+      "add": {
+        "title": "Ajouter un canal",
+        "label": "Nom du canal"
+      },
+      "rename": {
+        "title": "Renommer le canal",
+        "label": "Nom du canal"
+      },
+      "delete": {
+        "title": "Supprimer le canal",
+        "content": "Êtes-vous sûr de vouloir supprimer ce canal ?",
+        "cancel": "Annuler",
+        "confirm": "Supprimer"
+      }
+    },
+    "budget": {
+      "title": "Budget"
     }
   },
   "settings": {

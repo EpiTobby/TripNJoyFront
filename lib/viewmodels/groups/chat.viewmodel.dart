@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:stomp_dart_client/stomp.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/models/group/post_message_request.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
-import 'package:trip_n_joy_front/widgets/groups/chat_message.widget.dart';
 
 class ChatViewModel extends ChangeNotifier {
   ChatViewModel(this.httpService, this.authViewModel) {
@@ -12,167 +17,101 @@ class ChatViewModel extends ChangeNotifier {
   final HttpService httpService;
   final AuthViewModel authViewModel;
 
-  List<Widget> messages = [];
+  List<MessageResponse> messages = [];
+  bool isConnectedToSocket = false;
+  List<num> listeningChannels = [];
+  StompClient? client;
+  bool isLoadingMessages = true;
+  bool mounted = true;
 
   void _init() {
-    getMessages();
+    loadWebSocketChannel();
   }
 
-  void getMessages() {
-    messages = [
-      ChatMessage(
-        message: "testMesssage",
-        username: "Tony",
-        isUser: true,
-        isFirst: true,
-        time: DateTime.now().subtract(const Duration(days: 1)),
-        userAvatar:
-            "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-      ),
-      ChatMessage(
-        message: "Test",
-        username: "Yakoi",
-        isUser: false,
-        isFirst: true,
-        time: DateTime.now(),
-      ),
-      ChatMessage(
-        message: "Hello world",
-        username: "Yakoi",
-        isUser: false,
-        isFirst: false,
-        time: DateTime.now(),
-      ),
-      ChatMessage(
-        message: "Test for a short messsage",
-        username: "Tony",
-        isUser: true,
-        isFirst: true,
-        time: DateTime.now(),
-        userAvatar:
-            "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-      ),
-      ChatMessage(
-        message: "Test for a medium messsage that can be send by the user",
-        username: "Tony",
-        isUser: true,
-        isFirst: false,
-        time: DateTime.now(),
-        userAvatar:
-            "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-      ),
-      ChatMessage(
-        message: "Test for a long messsage that can be send by the user, it should not overflow the screen",
-        username: "Tony",
-        isUser: true,
-        isFirst: false,
-        time: DateTime.now(),
-        userAvatar:
-            "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-      ),
-      ChatMessage(
-        message: "Test for a long messsage that can be send by the user, it should not overflow the screen",
-        username: "Tony",
-        isUser: true,
-        isFirst: false,
-        time: DateTime.now(),
-        userAvatar:
-            "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-      ),
-      ChatMessage(
-        message: "Test for a long messsage that can be send by the user, it should not overflow the screen",
-        username: "Tony",
-        isUser: true,
-        isFirst: false,
-        time: DateTime.now(),
-        userAvatar:
-            "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-      ),
-      ChatMessage(
-        message: "Test for a long messsage that can be send by the user, it should not overflow the screen",
-        username: "Tony",
-        isUser: true,
-        isFirst: false,
-        time: DateTime.now(),
-        userAvatar:
-            "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-      ),
-      ChatMessage(
-        message: "Test for a long messsage that can be send by the user, it should not overflow the screen",
-        username: "Tony",
-        isUser: true,
-        isFirst: false,
-        time: DateTime.now(),
-        userAvatar:
-            "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-      ),
-      ChatMessage(
-        message: "Test for a long messsage that can be send by the user, it should not overflow the screen",
-        username: "Tony",
-        isUser: true,
-        isFirst: false,
-        time: DateTime.now(),
-        userAvatar:
-            "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-      ),
-    ];
+  @override
+  void dispose() {
+    closeWebSocketChannel();
+    mounted = false;
+    super.dispose();
+  }
+
+  void loadWebSocketChannel() async {
+    logger.d('Load WebSocketChannel');
+    client = await httpService.loadWebSocketChannel((isConnected) {
+      if (mounted) {
+        isConnectedToSocket = isConnected;
+        if (!isConnectedToSocket) {
+          logger.d('WebSocketChannel is not connected');
+          listeningChannels.clear();
+        }
+        notifyListeners();
+      }
+    });
     notifyListeners();
   }
 
-  void addAttachFile(String path) async {
-    messages.add(
-      Column(
-        children: [
-          InkWell(
-            onTap: () {
-              print("Tapped");
-
-            },
-            child: Container(
-              alignment: Alignment.center,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                color: Colors.grey[200],
-              ),
-              child: Text(
-                path.split("?").first,
-                style: TextStyle(
-                  fontSize: 12.0,
-                  color: Colors.grey[600],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+  void closeWebSocketChannel() {
+    logger.d('Closing WebSocketChannel');
+    client?.deactivate();
+    client = null;
+    isConnectedToSocket = false;
+    listeningChannels.clear();
     notifyListeners();
   }
 
-  void addImage(String url) async {
-    messages.add(
-      Column(
-        children: [
-          Image(image: NetworkImage(url), width: 200, height: 200),
-        ],
-      ),
-    );
+  void getMessages(num? channelId) async {
+    if (channelId != null) {
+      isLoadingMessages = true;
+      clearMessages();
+      var channelMessages = await httpService.getChannelMessages(channelId, 0);
+      for (var msg in channelMessages) {
+        if (msg.content != null) {
+          messages.add(msg);
+        }
+      }
+      isLoadingMessages = false;
+    }
     notifyListeners();
   }
 
-  void sendMessage(String message) async {
-    if (message.isNotEmpty) {
-      messages.add(ChatMessage(
-        message: message,
-        username: "Tony",
-        isUser: true,
-        isFirst: true,
-        time: DateTime.now(),
-        userAvatar:
-            "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-      ));
-      notifyListeners();
+  void clearMessages() {
+    messages.clear();
+    notifyListeners();
+  }
+
+  void sendMessage(num? channelId, String message, MessageResponseType$ type) async {
+    if (message.isNotEmpty && channelId != null) {
+      var body =
+          PostMessageRequest(userId: httpService.getUserIdFromToken(authViewModel.token)!, content: message, type: type)
+              .toJsonString();
+      logger.i("/app/chat/$channelId - $body");
+      client?.send(destination: '/app/chat/$channelId', body: body, headers: {});
+    }
+  }
+
+  void addMessage(num? channelId, String? body) {
+    if (body != null) {
+      var message = MessageResponse.fromJson(jsonDecode(body));
+      if (message.channelId == channelId) {
+        messages.insert(0, message);
+        notifyListeners();
+      }
+    }
+  }
+
+  void listenToChannel(num? channelId) {
+    if (channelId != null && !listeningChannels.contains(channelId)) {
+      listeningChannels.add(channelId);
+      logger.i("listening to channel $channelId - listened channels: ${listeningChannels.toString()}");
+      client?.subscribe(
+        destination: '/topic/response/$channelId',
+        callback: (frame) {
+          logger.i('Received message: ${frame.body}');
+          WidgetsBinding.instance?.addPostFrameCallback((_) {
+            addMessage(channelId, frame.body);
+          });
+        },
+      );
     }
   }
 }

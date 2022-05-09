@@ -1,8 +1,12 @@
 import 'package:chopper/chopper.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:stomp_dart_client/stomp.dart';
+import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../codegen/api.swagger.dart';
 import '../../viewmodels/auth/auth.viewmodel.dart';
@@ -211,5 +215,67 @@ class CodegenService extends HttpService {
   @override
   Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest) async {
     await api.groupsPrivateGroupPatch(group: groupId, body: groupUpdateRequest);
+  }
+
+  @override
+  Future<List<ChannelModel>> getChannels(int groupId) async {
+    final response = await api.channelsGroupGet(group: groupId);
+
+    return response.body != null ? response.body! : [];
+  }
+
+  @override
+  Future<ChannelModel?> createChannel(int groupId, CreateChannelRequest createChannelRequest) async {
+    final response = await api.channelsGroupPost(group: groupId, body: createChannelRequest);
+    return response.body;
+  }
+
+  @override
+  Future<ChannelModel?> updateChannel(num channelId, UpdateChannelRequest updateChannelRequest) async {
+    final response = await api.channelsIdPatch(id: channelId, body: updateChannelRequest);
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteChannel(num channelId) async {
+    await api.channelsIdDelete(id: channelId);
+  }
+
+  @override
+  Future<StompClient> loadWebSocketChannel(void Function(bool) onConnection) async {
+    final requestUrl = api.client.baseUrl + '/wbsocket';
+    StompClient stompClient = StompClient(
+        config: StompConfig.SockJS(
+            url: requestUrl,
+            onConnect: (frame) {
+              print('Connected to $requestUrl');
+              onConnection(true);
+            },
+            onDisconnect: (frame) {
+              print('Disconnected from $requestUrl');
+              onConnection(false);
+            },
+            onStompError: (frame) {
+              print('Error from $requestUrl');
+              onConnection(false);
+            }));
+
+    stompClient.activate();
+    return stompClient;
+  }
+
+  @override
+  Future<WebSocketChannel> loadReadWebSocketChannel(num channelId) async {
+    final channel = WebSocketChannel.connect(
+      Uri.parse('wss://${api.client.baseUrl.replaceAll("http://", "")}/wbsocket/app/chat/$channelId'),
+    );
+
+    return channel;
+  }
+
+  @override
+  Future<List<MessageResponse>> getChannelMessages(num channelId, int page) async {
+    final response = await api.chatChannelIdGet(channelId: channelId, page: page);
+    return response.body!;
   }
 }

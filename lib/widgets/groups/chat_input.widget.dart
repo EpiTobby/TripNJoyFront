@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/codegen/api.enums.swagger.dart';
 import 'package:trip_n_joy_front/providers/groups/chat.provider.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
@@ -13,7 +14,10 @@ import 'package:trip_n_joy_front/widgets/groups/chat_text_field.widget.dart';
 class ChatInput extends HookConsumerWidget {
   const ChatInput({
     Key? key,
+    required this.onSend,
   }) : super(key: key);
+
+  final void Function(String, MessageResponseType$) onSend;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,20 +44,20 @@ class ChatInput extends HookConsumerWidget {
                     paths.add(path);
                   }
                   for (var path in paths) {
-                    chatService.addAttachFile(path);
+                    onSend(path.split("?").first, MessageResponseType$.file);
                   }
                 }
               },
               onAttachImage: () async {
                 final imageURL = await minioService.uploadImage();
-                chatService.addImage(imageURL!);
+                onSend(imageURL!, MessageResponseType$.image);
               },
             ),
           ),
           ChatSendButton(onPressed: () {
             if (controller.text.isNotEmpty) {
               logger.d('send button pressed - message: ${controller.text}');
-              chatService.sendMessage(controller.text);
+              onSend(controller.text, MessageResponseType$.text);
               controller.clear();
             }
           }),

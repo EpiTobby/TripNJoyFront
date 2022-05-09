@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/screens/groups/group_chat.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/group_chat_container.screen.dart';
 
 class GroupList extends StatelessWidget {
   const GroupList({Key? key, required this.groups, required this.title}) : super(key: key);
@@ -17,9 +18,12 @@ class GroupList extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 16),
-          child: Text(title, style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.bold, decoration: TextDecoration.underline)),
+          child: Text(title,
+              style:
+                  GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.bold, decoration: TextDecoration.underline)),
         ),
-        ...groups.map((group) => GroupListItem(group: group)).toList()],
+        ...groups.map((group) => GroupListItem(group: group)).toList()
+      ],
     );
   }
 }
@@ -36,14 +40,16 @@ class GroupListItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => GroupChat(groupId: group.id!.toInt()),
+            builder: (_) => GroupChatContainer(groupId: group.id!.toInt()),
           ),
         );
       },
       title: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: group.state! == GroupModelState.open ? Theme.of(context).secondaryHeaderColor : Theme.of(context).disabledColor,
+          color: group.state! != GroupModelState.archived
+              ? Theme.of(context).secondaryHeaderColor
+              : Theme.of(context).disabledColor,
         ),
         padding: const EdgeInsets.all(8),
         child: Row(

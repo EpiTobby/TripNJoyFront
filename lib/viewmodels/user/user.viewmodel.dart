@@ -61,4 +61,6 @@ class UserViewModel extends StateNotifier<AsyncValue<UserModel?>> {
       state = AsyncError(e);
     }
   }
+
+  num? get userId => user?.id;
 }
