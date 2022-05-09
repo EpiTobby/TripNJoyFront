@@ -75,4 +75,6 @@ abstract class HttpService {
   Future<WebSocketChannel> loadReadWebSocketChannel(num channelId);
 
   Future<List<MessageResponse>> getChannelMessages(num channelId, int page);
+
+  Future<UserModel?> getUserPublicInfo(num userId);
 }

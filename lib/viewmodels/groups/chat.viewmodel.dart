@@ -1,9 +1,12 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/models/group/chat_member.dart';
 import 'package:trip_n_joy_front/models/group/post_message_request.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
@@ -23,6 +26,8 @@ class ChatViewModel extends ChangeNotifier {
   StompClient? client;
   bool isLoadingMessages = true;
   bool mounted = true;
+  HashMap<num, ChatMember> chatMembers = HashMap<num, ChatMember>();
+  final NetworkImage defaultProfileImage = const NetworkImage(DEFAULT_AVATAR_URL);
 
   void _init() {
     loadWebSocketChannel();
@@ -92,6 +97,19 @@ class ChatViewModel extends ChangeNotifier {
   void addMessage(num? channelId, String? body) {
     if (body != null) {
       var message = MessageResponse.fromJson(jsonDecode(body));
+      if (message.userId != null && !chatMembers.containsKey(message.userId)) {
+        Future(() async {
+          final user = await httpService.getUserPublicInfo(message.userId!);
+          if (user != null) {
+            chatMembers[message.userId!] = ChatMember(
+              id: user.id!,
+              name: "${user.firstname} ${user.lastname}",
+              avatar: user.profilePicture != null ? NetworkImage(user.profilePicture!) : defaultProfileImage,
+            );
+            notifyListeners();
+          }
+        });
+      }
       if (message.channelId == channelId) {
         messages.insert(0, message);
         notifyListeners();

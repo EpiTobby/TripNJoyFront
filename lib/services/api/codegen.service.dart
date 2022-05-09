@@ -278,4 +278,9 @@ class CodegenService extends HttpService {
     final response = await api.chatChannelIdGet(channelId: channelId, page: page);
     return response.body!;
   }
+
+  @override
+  Future<UserModel?> getUserPublicInfo(num userId) async {
+    return null;
+  }
 }

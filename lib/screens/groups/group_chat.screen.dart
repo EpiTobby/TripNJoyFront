@@ -151,8 +151,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
     final isFirst = shouldDisplayHeader(element, messages, index);
     final isUser = element.userId == userId;
     return Column(crossAxisAlignment: isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start, children: [
-      if (isFirst)
-        ChatHeader(username: element.userId.toString(), isUser: isUser, isFirst: isFirst, time: element.sentDate!),
+      if (isFirst) ChatHeader(userId: element.userId!, isUser: isUser, isFirst: isFirst, time: element.sentDate!),
       getChatElement(element, isUser)
     ]);
   }

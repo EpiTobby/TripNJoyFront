@@ -223,4 +223,10 @@ class MockService extends HttpService {
     // TODO: implement getChannelMessages
     throw UnimplementedError();
   }
+
+  @override
+  Future<UserModel?> getUserPublicInfo(num userId) {
+    // TODO: implement getUserPublicInfo
+    throw UnimplementedError();
+  }
 }
