@@ -74,59 +74,19 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addAttachFile(String path) async {
-    // messages.add(
-    //   Column(
-    //     children: [
-    //       InkWell(
-    //         onTap: () {
-    //           print("Tapped");
-    //         },
-    //         child: Container(
-    //           alignment: Alignment.center,
-    //           width: double.infinity,
-    //           decoration: BoxDecoration(
-    //             borderRadius: BorderRadius.circular(8.0),
-    //             color: Colors.grey[200],
-    //           ),
-    //           child: Text(
-    //             path.split("?").first,
-    //             style: TextStyle(
-    //               fontSize: 12.0,
-    //               color: Colors.grey[600],
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
-    notifyListeners();
-  }
-
-  void addImage(String url) async {
-    // messages.add(
-    //   Column(
-    //     children: [
-    //       Image(image: NetworkImage(url), width: 200, height: 200),
-    //     ],
-    //   ),
-    // );
-    notifyListeners();
-  }
-
-  void sendMessage(num? channelId, String message) async {
-    if (message.isNotEmpty && channelId != null) {
-      var body = PostMessageRequest(userId: httpService.getUserIdFromToken(authViewModel.token)!, content: message)
-          .toJsonString();
-      logger.i("/app/chat/$channelId - $body");
-      client?.send(destination: '/app/chat/$channelId', body: body, headers: {});
-    }
-  }
-
   void clearMessages() {
     messages.clear();
     notifyListeners();
+  }
+
+  void sendMessage(num? channelId, String message, MessageResponseType$ type) async {
+    if (message.isNotEmpty && channelId != null) {
+      var body =
+          PostMessageRequest(userId: httpService.getUserIdFromToken(authViewModel.token)!, content: message, type: type)
+              .toJsonString();
+      logger.i("/app/chat/$channelId - $body");
+      client?.send(destination: '/app/chat/$channelId', body: body, headers: {});
+    }
   }
 
   void addMessage(num? channelId, String? body) {

@@ -7,6 +7,8 @@ import 'package:trip_n_joy_front/providers/groups/chat.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
+import 'package:trip_n_joy_front/widgets/groups/chat_file.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/chat_image.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_input.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_message.widget.dart';
 
@@ -120,23 +122,13 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                       reverse: true,
                       itemCount: messages.length,
                       itemBuilder: (BuildContext context, int index) {
-                        if (messages.isEmpty) {
-                          return Container();
-                        }
-                        final element = messages[index];
-                        return ChatMessage(
-                          message: element.content!,
-                          username: element.userId!.toString(),
-                          isUser: element.userId == userId,
-                          isFirst: isFirst(element, messages, index),
-                          time: element.sentDate!,
-                        );
+                        return buildChatElement(messages, index, userId);
                       },
                     ),
                   ),
             ChatInput(
-              onSend: (text) {
-                ref.read(chatProvider).sendMessage(widget.channel?.id, text);
+              onSend: (content, type) {
+                ref.read(chatProvider).sendMessage(widget.channel?.id, content, type);
               },
             )
           ],
@@ -148,5 +140,28 @@ class _GroupChatState extends ConsumerState<GroupChat> {
         messages[index + 1].userId == element.userId &&
         element.sentDate!.difference(messages[index + 1].sentDate!).inHours < 1;
     return !isNotFirst;
+  }
+
+  Widget buildChatElement(List<MessageResponse> messages, int index, num? userId) {
+    if (messages.isEmpty) {
+      return Container();
+    }
+    final element = messages[index];
+    switch (element.type) {
+      case MessageResponseType$.text:
+        return ChatMessage(
+          message: element.content!,
+          username: element.userId!.toString(),
+          isUser: element.userId == userId,
+          isFirst: isFirst(element, messages, index),
+          time: element.sentDate!,
+        );
+      case MessageResponseType$.image:
+        return ChatImage(url: element.content!);
+      case MessageResponseType$.file:
+        return ChatFile(path: element.content!);
+      default:
+        return Container();
+    }
   }
 }
