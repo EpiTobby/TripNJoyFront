@@ -217,7 +217,11 @@
     "chat": {
       "open": "Opened",
       "close": "Closed",
-      "hint": "Type a message..."
+      "hint": "Type a message...",
+      "pinned_messages": {
+        "title": "Pinned messages",
+        "empty": "No pinned messages"
+      }
     },
     "channel": {
       "title": "Channel",

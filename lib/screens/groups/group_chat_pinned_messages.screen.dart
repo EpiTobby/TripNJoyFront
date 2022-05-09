@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/providers/groups/pinned_messages.provider.dart';
 
 class PinnedMessages extends HookConsumerWidget {
@@ -24,16 +27,18 @@ class PinnedMessages extends HookConsumerWidget {
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: pinnedMessages.length,
-              itemBuilder: (context, index) {
-                final message = pinnedMessages[index];
-                return ListTile(
-                  title: Text(message.content ?? ''),
-                  trailing: Text(message.sentDate.toString()),
-                );
-              },
-            ),
+          : pinnedMessages.isEmpty
+              ? Center(child: Text(AppLocalizations.of(context).translate('groups.chat.pinned_messages.empty')))
+              : ListView.builder(
+                  itemCount: pinnedMessages.length,
+                  itemBuilder: (context, index) {
+                    final message = pinnedMessages[index];
+                    return ListTile(
+                      title: Text(message.content ?? ''),
+                      trailing: Text(message.sentDate.toString()),
+                    );
+                  },
+                ),
     );
   }
 }
