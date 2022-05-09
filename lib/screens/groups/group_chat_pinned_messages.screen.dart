@@ -1,9 +1,18 @@
-import 'dart:math';
+import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/models/group/chat_member.dart';
+import 'package:trip_n_joy_front/providers/groups/chat.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/pinned_messages.provider.dart';
+import 'package:trip_n_joy_front/widgets/groups/chat_file.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/chat_header.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/chat_image.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/chat_message.widget.dart';
 
 class PinnedMessages extends HookConsumerWidget {
   const PinnedMessages({
@@ -15,9 +24,17 @@ class PinnedMessages extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    useEffect(() {
+      Future.microtask(() => ref.read(pinnedMessagesProvider).fetchPinnedMessages(channelId));
+      return () {};
+    }, [channelId]);
+
     final pinnedMessagesViewModel = ref.watch(pinnedMessagesProvider);
     final pinnedMessages = pinnedMessagesViewModel.pinnedMessages;
     final isLoading = pinnedMessagesViewModel.isLoadingMessages;
+
+    final chatMembers = ref.watch(chatProvider).chatMembers;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pinned Messages'),
@@ -32,13 +49,37 @@ class PinnedMessages extends HookConsumerWidget {
               : ListView.builder(
                   itemCount: pinnedMessages.length,
                   itemBuilder: (context, index) {
-                    final message = pinnedMessages[index];
-                    return ListTile(
-                      title: Text(message.content ?? ''),
-                      trailing: Text(message.sentDate.toString()),
-                    );
+                    return buildMessageTile(pinnedMessages[index], chatMembers);
                   },
                 ),
+    );
+  }
+
+  Widget buildMessageTile(MessageResponse message, HashMap<num, ChatMember> chatMembers) {
+    if (message.content == null) {
+      return Container();
+    }
+
+    Widget child = Container();
+    switch (message.type) {
+      case MessageResponseType$.text:
+        child = ChatMessage(message: message.content!, isUser: false);
+        break;
+      case MessageResponseType$.image:
+        child = ChatImage(url: message.content!, isUser: false);
+        break;
+      case MessageResponseType$.file:
+        child = ChatFile(path: message.content!, isUser: false);
+        break;
+      default:
+        return Container();
+    }
+
+    final chatMember = chatMembers[message.userId];
+    return ListTile(
+      title: child,
+      subtitle: Text(chatMember?.name ?? ''),
+      trailing: Text(formatTimeToMessage(message.sentDate!)),
     );
   }
 }

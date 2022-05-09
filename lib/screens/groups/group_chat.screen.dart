@@ -8,6 +8,7 @@ import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/group_chat_pinned_messages.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
+import 'package:trip_n_joy_front/widgets/groups/chat_element.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_file.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_image.widget.dart';
@@ -167,7 +168,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
     final isUser = element.userId == userId;
     return Column(crossAxisAlignment: isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start, children: [
       if (isFirst) ChatHeader(userId: element.userId!, isUser: isUser, isFirst: isFirst, time: element.sentDate!),
-      getChatElement(element, isUser)
+      ChatElement(message: element, isUser: isUser, isPinned: element.pinned!, child: getChatElement(element, isUser))
     ]);
   }
 

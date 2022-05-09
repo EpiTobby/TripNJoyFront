@@ -290,4 +290,10 @@ class CodegenService extends HttpService {
     final response = await api.groupsGroupIdUsersUserIdGet(groupId: groupId, userId: userId);
     return response.body;
   }
+
+  @override
+  Future<MessageResponse?> togglePinnedMessage(num messageId, bool pinned) async {
+    final response = await api.chatMessageIdPinnedPatch(messageId: messageId, pin: pinned);
+    return response.body;
+  }
 }

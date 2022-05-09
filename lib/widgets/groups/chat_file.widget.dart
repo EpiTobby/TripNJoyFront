@@ -76,55 +76,50 @@ class _ChatFileState extends State<ChatFile> {
       onTap: () {
         _requestDownload(widget.path);
       },
-      child: Padding(
-        padding:
-            widget.isUser ? const EdgeInsets.only(right: 32, bottom: 4) : const EdgeInsets.only(left: 32, bottom: 4),
-        child: Container(
-          constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.8,
-          ),
-          decoration: BoxDecoration(
-            color: widget.isUser ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: [
-              BoxShadow(
-                color: widget.isUser
-                    ? Theme.of(context).colorScheme.secondary.withOpacity(0.4)
-                    : Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
-                offset: const Offset(0, 8),
-                blurRadius: 14,
-                spreadRadius: -6,
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.8,
+        ),
+        decoration: BoxDecoration(
+          color: widget.isUser ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: widget.isUser
+                  ? Theme.of(context).colorScheme.secondary.withOpacity(0.4)
+                  : Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+              offset: const Offset(0, 8),
+              blurRadius: 14,
+              spreadRadius: -6,
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.file_present,
+                color:
+                    widget.isUser ? Theme.of(context).colorScheme.onSecondary : Theme.of(context).colorScheme.onSurface,
               ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Padding(
+            ),
+            Flexible(
+              child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.file_present,
-                  color: widget.isUser
-                      ? Theme.of(context).colorScheme.onSecondary
-                      : Theme.of(context).colorScheme.onSurface,
-                ),
-              ),
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    widget.path.split("$MINIO_BUCKET/").last,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: widget.isUser
-                          ? Theme.of(context).colorScheme.onSecondary
-                          : Theme.of(context).colorScheme.onSurface,
-                    ),
+                child: Text(
+                  widget.path.split("$MINIO_BUCKET/").last,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: widget.isUser
+                        ? Theme.of(context).colorScheme.onSecondary
+                        : Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

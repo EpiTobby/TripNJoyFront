@@ -235,4 +235,10 @@ class MockService extends HttpService {
     // TODO: implement getUserPublicInfo
     throw UnimplementedError();
   }
+
+  @override
+  Future<MessageResponse?> togglePinnedMessage(num messageId, bool pinned) {
+    // TODO: implement togglePinnedMessage
+    throw UnimplementedError();
+  }
 }
