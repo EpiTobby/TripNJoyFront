@@ -1,8 +1,10 @@
+import 'package:stomp_dart_client/stomp.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:web_socket_channel/src/channel.dart';
 
 class MockService extends HttpService {
   @override
@@ -202,5 +204,23 @@ class MockService extends HttpService {
   @override
   Future<ChannelModel?> updateChannel(num channelId, UpdateChannelRequest updateChannelRequest) {
     return Future.value(ChannelModel(id: channelId, name: "Channel 2", index: 1));
+  }
+
+  @override
+  Future<StompClient> loadWebSocketChannel(void Function(bool) onConnection) {
+    // TODO: implement loadWebSocketChannel
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<WebSocketChannel> loadReadWebSocketChannel(num channelId) {
+    // TODO: implement loadReadWebSocketChannel
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<MessageResponse>> getChannelMessages(num channelId, int page) {
+    // TODO: implement getChannelMessages
+    throw UnimplementedError();
   }
 }

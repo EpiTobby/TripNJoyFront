@@ -486,8 +486,11 @@ abstract class Api extends ChopperService {
   ///Get the most recent channel's messages, by pages of size 50
   ///@param channel_id
   ///@param page
-  Future<chopper.Response> chatChannelIdGet(
+  Future<chopper.Response<List<MessageResponse>>> chatChannelIdGet(
       {required num? channelId, int? page}) {
+    generatedMapping.putIfAbsent(
+        MessageResponse, () => MessageResponse.fromJsonFactory);
+
     return _chatChannelIdGet(channelId: channelId, page: page);
   }
 
@@ -495,7 +498,7 @@ abstract class Api extends ChopperService {
   ///@param channel_id
   ///@param page
   @Get(path: '/chat/{channel_id}')
-  Future<chopper.Response> _chatChannelIdGet(
+  Future<chopper.Response<List<MessageResponse>>> _chatChannelIdGet(
       {@Path('channel_id') required num? channelId, @Query('page') int? page});
 
   ///Get all pinned messages
@@ -1455,6 +1458,7 @@ class UserModel {
     this.createdDate,
     this.phoneNumber,
     this.confirmed,
+    this.language,
     this.roles,
   });
 
@@ -1488,6 +1492,8 @@ class UserModel {
   final String? phoneNumber;
   @JsonKey(name: 'confirmed')
   final bool? confirmed;
+  @JsonKey(name: 'language')
+  final String? language;
   @JsonKey(
       name: 'roles',
       toJson: userModelRolesListToJson,
@@ -1533,6 +1539,9 @@ class UserModel {
             (identical(other.confirmed, confirmed) ||
                 const DeepCollectionEquality()
                     .equals(other.confirmed, confirmed)) &&
+            (identical(other.language, language) ||
+                const DeepCollectionEquality()
+                    .equals(other.language, language)) &&
             (identical(other.roles, roles) ||
                 const DeepCollectionEquality().equals(other.roles, roles)));
   }
@@ -1551,6 +1560,7 @@ class UserModel {
       const DeepCollectionEquality().hash(createdDate) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
       const DeepCollectionEquality().hash(confirmed) ^
+      const DeepCollectionEquality().hash(language) ^
       const DeepCollectionEquality().hash(roles) ^
       runtimeType.hashCode;
 }
@@ -1569,6 +1579,7 @@ extension $UserModelExtension on UserModel {
       DateTime? createdDate,
       String? phoneNumber,
       bool? confirmed,
+      String? language,
       List<enums.UserModelRoles>? roles}) {
     return UserModel(
         id: id ?? this.id,
@@ -1583,6 +1594,7 @@ extension $UserModelExtension on UserModel {
         createdDate: createdDate ?? this.createdDate,
         phoneNumber: phoneNumber ?? this.phoneNumber,
         confirmed: confirmed ?? this.confirmed,
+        language: language ?? this.language,
         roles: roles ?? this.roles);
   }
 }
@@ -1712,6 +1724,7 @@ class UserCreationRequest {
     this.gender,
     this.birthDate,
     this.phoneNumber,
+    this.language,
     this.email,
   });
 
@@ -1730,6 +1743,8 @@ class UserCreationRequest {
   final DateTime? birthDate;
   @JsonKey(name: 'phoneNumber')
   final String? phoneNumber;
+  @JsonKey(name: 'language')
+  final String? language;
   @JsonKey(name: 'email')
   final String? email;
   static const fromJsonFactory = _$UserCreationRequestFromJson;
@@ -1757,6 +1772,9 @@ class UserCreationRequest {
             (identical(other.phoneNumber, phoneNumber) ||
                 const DeepCollectionEquality()
                     .equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.language, language) ||
+                const DeepCollectionEquality()
+                    .equals(other.language, language)) &&
             (identical(other.email, email) ||
                 const DeepCollectionEquality().equals(other.email, email)));
   }
@@ -1769,6 +1787,7 @@ class UserCreationRequest {
       const DeepCollectionEquality().hash(gender) ^
       const DeepCollectionEquality().hash(birthDate) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
+      const DeepCollectionEquality().hash(language) ^
       const DeepCollectionEquality().hash(email) ^
       runtimeType.hashCode;
 }
@@ -1781,6 +1800,7 @@ extension $UserCreationRequestExtension on UserCreationRequest {
       String? gender,
       DateTime? birthDate,
       String? phoneNumber,
+      String? language,
       String? email}) {
     return UserCreationRequest(
         firstname: firstname ?? this.firstname,
@@ -1789,6 +1809,7 @@ extension $UserCreationRequestExtension on UserCreationRequest {
         gender: gender ?? this.gender,
         birthDate: birthDate ?? this.birthDate,
         phoneNumber: phoneNumber ?? this.phoneNumber,
+        language: language ?? this.language,
         email: email ?? this.email);
   }
 }
@@ -2481,6 +2502,7 @@ class MessageResponse {
     this.sentDate,
     this.modifiedDate,
     this.pinned,
+    this.type,
   });
 
   factory MessageResponse.fromJson(Map<String, dynamic> json) =>
@@ -2500,6 +2522,11 @@ class MessageResponse {
   final DateTime? modifiedDate;
   @JsonKey(name: 'pinned')
   final bool? pinned;
+  @JsonKey(
+      name: 'type',
+      toJson: messageResponseType$ToJson,
+      fromJson: messageResponseType$FromJson)
+  final enums.MessageResponseType$? type;
   static const fromJsonFactory = _$MessageResponseFromJson;
   static const toJsonFactory = _$MessageResponseToJson;
   Map<String, dynamic> toJson() => _$MessageResponseToJson(this);
@@ -2525,7 +2552,9 @@ class MessageResponse {
                 const DeepCollectionEquality()
                     .equals(other.modifiedDate, modifiedDate)) &&
             (identical(other.pinned, pinned) ||
-                const DeepCollectionEquality().equals(other.pinned, pinned)));
+                const DeepCollectionEquality().equals(other.pinned, pinned)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)));
   }
 
   @override
@@ -2537,6 +2566,7 @@ class MessageResponse {
       const DeepCollectionEquality().hash(sentDate) ^
       const DeepCollectionEquality().hash(modifiedDate) ^
       const DeepCollectionEquality().hash(pinned) ^
+      const DeepCollectionEquality().hash(type) ^
       runtimeType.hashCode;
 }
 
@@ -2548,7 +2578,8 @@ extension $MessageResponseExtension on MessageResponse {
       String? content,
       DateTime? sentDate,
       DateTime? modifiedDate,
-      bool? pinned}) {
+      bool? pinned,
+      enums.MessageResponseType$? type}) {
     return MessageResponse(
         id: id ?? this.id,
         channelId: channelId ?? this.channelId,
@@ -2556,7 +2587,8 @@ extension $MessageResponseExtension on MessageResponse {
         content: content ?? this.content,
         sentDate: sentDate ?? this.sentDate,
         modifiedDate: modifiedDate ?? this.modifiedDate,
-        pinned: pinned ?? this.pinned);
+        pinned: pinned ?? this.pinned,
+        type: type ?? this.type);
   }
 }
 
@@ -2895,6 +2927,47 @@ extension $GenderEntityExtension on GenderEntity {
 }
 
 @JsonSerializable(explicitToJson: true)
+class LanguageEntity {
+  LanguageEntity({
+    this.id,
+    this.value,
+  });
+
+  factory LanguageEntity.fromJson(Map<String, dynamic> json) =>
+      _$LanguageEntityFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'value')
+  final String? value;
+  static const fromJsonFactory = _$LanguageEntityFromJson;
+  static const toJsonFactory = _$LanguageEntityToJson;
+  Map<String, dynamic> toJson() => _$LanguageEntityToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is LanguageEntity &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(value) ^
+      runtimeType.hashCode;
+}
+
+extension $LanguageEntityExtension on LanguageEntity {
+  LanguageEntity copyWith({num? id, String? value}) {
+    return LanguageEntity(id: id ?? this.id, value: value ?? this.value);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ProfileEntity {
   ProfileEntity({
     this.id,
@@ -3010,6 +3083,7 @@ class UserEntity {
     this.createdDate,
     this.phoneNumber,
     this.confirmed,
+    this.language,
     this.roles,
     this.profiles,
     this.waitingForGroup,
@@ -3042,6 +3116,8 @@ class UserEntity {
   final String? phoneNumber;
   @JsonKey(name: 'confirmed')
   final bool? confirmed;
+  @JsonKey(name: 'language')
+  final LanguageEntity? language;
   @JsonKey(name: 'roles', defaultValue: <RoleEntity>[])
   final List<RoleEntity>? roles;
   @JsonKey(name: 'profiles', defaultValue: <ProfileEntity>[])
@@ -3088,6 +3164,9 @@ class UserEntity {
             (identical(other.confirmed, confirmed) ||
                 const DeepCollectionEquality()
                     .equals(other.confirmed, confirmed)) &&
+            (identical(other.language, language) ||
+                const DeepCollectionEquality()
+                    .equals(other.language, language)) &&
             (identical(other.roles, roles) ||
                 const DeepCollectionEquality().equals(other.roles, roles)) &&
             (identical(other.profiles, profiles) ||
@@ -3112,6 +3191,7 @@ class UserEntity {
       const DeepCollectionEquality().hash(createdDate) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
       const DeepCollectionEquality().hash(confirmed) ^
+      const DeepCollectionEquality().hash(language) ^
       const DeepCollectionEquality().hash(roles) ^
       const DeepCollectionEquality().hash(profiles) ^
       const DeepCollectionEquality().hash(waitingForGroup) ^
@@ -3132,6 +3212,7 @@ extension $UserEntityExtension on UserEntity {
       DateTime? createdDate,
       String? phoneNumber,
       bool? confirmed,
+      LanguageEntity? language,
       List<RoleEntity>? roles,
       List<ProfileEntity>? profiles,
       bool? waitingForGroup}) {
@@ -3148,6 +3229,7 @@ extension $UserEntityExtension on UserEntity {
         createdDate: createdDate ?? this.createdDate,
         phoneNumber: phoneNumber ?? this.phoneNumber,
         confirmed: confirmed ?? this.confirmed,
+        language: language ?? this.language,
         roles: roles ?? this.roles,
         profiles: profiles ?? this.profiles,
         waitingForGroup: waitingForGroup ?? this.waitingForGroup);
@@ -5123,6 +5205,59 @@ List<enums.UpdateGroupRequestState> updateGroupRequestStateListFromJson(
 
   return updateGroupRequestState
       .map((e) => updateGroupRequestStateFromJson(e.toString()))
+      .toList();
+}
+
+String? messageResponseType$ToJson(
+    enums.MessageResponseType$? messageResponseType$) {
+  return enums.$MessageResponseType$Map[messageResponseType$];
+}
+
+enums.MessageResponseType$ messageResponseType$FromJson(
+    Object? messageResponseType$) {
+  if (messageResponseType$ is int) {
+    return enums.$MessageResponseType$Map.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == messageResponseType$.toString(),
+            orElse: () => const MapEntry(
+                enums.MessageResponseType$.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (messageResponseType$ is String) {
+    return enums.$MessageResponseType$Map.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                messageResponseType$.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.MessageResponseType$.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.MessageResponseType$.swaggerGeneratedUnknown;
+}
+
+List<String> messageResponseType$ListToJson(
+    List<enums.MessageResponseType$>? messageResponseType$) {
+  if (messageResponseType$ == null) {
+    return [];
+  }
+
+  return messageResponseType$
+      .map((e) => enums.$MessageResponseType$Map[e]!)
+      .toList();
+}
+
+List<enums.MessageResponseType$> messageResponseType$ListFromJson(
+    List? messageResponseType$) {
+  if (messageResponseType$ == null) {
+    return [];
+  }
+
+  return messageResponseType$
+      .map((e) => messageResponseType$FromJson(e.toString()))
       .toList();
 }
 

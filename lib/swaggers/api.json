@@ -1269,8 +1269,8 @@
           }
         ],
         "responses": {
-          "206": {
-            "description": "Partial Content",
+          "200": {
+            "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
@@ -1897,6 +1897,9 @@
           "confirmed": {
             "type": "boolean"
           },
+          "language": {
+            "type": "string"
+          },
           "roles": {
             "type": "array",
             "items": {
@@ -1961,6 +1964,9 @@
             "format": "date-time"
           },
           "phoneNumber": {
+            "type": "string"
+          },
+          "language": {
             "type": "string"
           },
           "email": {
@@ -2240,6 +2246,14 @@
           },
           "pinned": {
             "type": "boolean"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "TEXT",
+              "IMAGE",
+              "FILE"
+            ]
           }
         }
       },
@@ -2332,6 +2346,18 @@
           }
         }
       },
+      "LanguageEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
       "ProfileEntity": {
         "type": "object",
         "properties": {
@@ -2403,6 +2429,9 @@
           },
           "confirmed": {
             "type": "boolean"
+          },
+          "language": {
+            "$ref": "#/components/schemas/LanguageEntity"
           },
           "roles": {
             "type": "array",

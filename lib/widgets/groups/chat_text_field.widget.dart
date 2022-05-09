@@ -20,7 +20,9 @@ class ChatTextField extends StatelessWidget {
             color: Theme.of(context).colorScheme.secondary,
           ),
           splashRadius: 16,
-          onPressed: () {},
+          onPressed: () {
+            onAttachFile();
+          },
         ),
         prefixIconColor: Theme.of(context).colorScheme.secondary,
         suffixIcon: IconButton(
@@ -29,7 +31,9 @@ class ChatTextField extends StatelessWidget {
             color: Theme.of(context).colorScheme.secondary,
           ),
           splashRadius: 16,
-          onPressed: () {},
+          onPressed: () {
+            onAttachImage();
+          },
         ),
         suffixIconColor: Theme.of(context).colorScheme.secondary,
         hintText: AppLocalizations.of(context).translate('groups.chat.hint'),

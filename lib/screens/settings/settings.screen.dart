@@ -50,7 +50,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           title: "${user.firstname} ${user.lastname}",
           imageURL: user.profilePicture ?? DEFAULT_AVATAR_URL,
           onClick: () async {
-            final imageURL = await minioService.upload();
+            final imageURL = await minioService.uploadImage();
 
             if (imageURL != null) {
               userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(profilePicture: imageURL));
