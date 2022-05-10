@@ -136,4 +136,12 @@ class ChatViewModel extends ChangeNotifier {
       );
     }
   }
+
+  void updateMessage(MessageResponse messageResponse) {
+    final index = messages.indexWhere((e) => e.id == messageResponse.id);
+    if (index != -1) {
+      messages[index] = messageResponse;
+      notifyListeners();
+    }
+  }
 }

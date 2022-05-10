@@ -77,8 +77,8 @@ class PinnedMessages extends HookConsumerWidget {
 
     final chatMember = chatMembers[message.userId];
     return ListTile(
-      title: child,
-      subtitle: Text(chatMember?.name ?? ''),
+      title: Text(chatMember?.name ?? ''),
+      subtitle: child,
       trailing: Text(formatTimeToMessage(message.sentDate!)),
     );
   }
