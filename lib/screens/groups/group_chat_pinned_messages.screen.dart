@@ -49,7 +49,18 @@ class PinnedMessages extends HookConsumerWidget {
               : ListView.builder(
                   itemCount: pinnedMessages.length,
                   itemBuilder: (context, index) {
-                    return buildMessageTile(pinnedMessages[index], chatMembers);
+                    return InkWell(
+                        onLongPress: () async {
+                          final updatedMessage = await ref
+                              .read(pinnedMessagesProvider)
+                              .togglePinnedMessage(pinnedMessages[index].id!, false);
+                          if (updatedMessage != null) {
+                            ref.read(pinnedMessagesProvider).removePinnedMessage(updatedMessage);
+                            ref.read(chatProvider).updateMessage(updatedMessage);
+                          }
+                        },
+                        splashColor: Theme.of(context).colorScheme.background,
+                        child: buildMessageTile(pinnedMessages[index], chatMembers));
                   },
                 ),
     );

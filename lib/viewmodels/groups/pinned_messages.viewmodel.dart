@@ -29,4 +29,9 @@ class PinnedMessagesViewModel extends ChangeNotifier {
     }
     return message;
   }
+
+  void removePinnedMessage(MessageResponse updatedMessage) {
+    pinnedMessages.removeWhere((e) => e.id == updatedMessage.id);
+    notifyListeners();
+  }
 }
