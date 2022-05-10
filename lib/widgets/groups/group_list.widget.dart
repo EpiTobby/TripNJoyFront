@@ -18,9 +18,14 @@ class GroupList extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 16),
-          child: Text(title,
-              style:
-                  GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.bold, decoration: TextDecoration.underline)),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+          ),
         ),
         ...groups.map((group) => GroupListItem(group: group)).toList()
       ],
@@ -46,18 +51,28 @@ class GroupListItem extends StatelessWidget {
       },
       title: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: group.state! != GroupModelState.archived
-              ? Theme.of(context).secondaryHeaderColor
-              : Theme.of(context).disabledColor,
-        ),
-        padding: const EdgeInsets.all(8),
+            borderRadius: BorderRadius.circular(10),
+            color: group.state! != GroupModelState.archived
+                ? Theme.of(context).colorScheme.background
+                : Theme.of(context).disabledColor.withOpacity(0.1),
+            boxShadow: [
+              if (group.state != GroupModelState.archived)
+                BoxShadow(
+                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.25),
+                  offset: const Offset(0, 10),
+                  blurRadius: 14,
+                  spreadRadius: -6,
+                ),
+            ]),
+        padding: const EdgeInsets.all(10),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CircleAvatar(
                 radius: 40,
-                backgroundColor: Theme.of(context).colorScheme.background,
+                backgroundColor: group.state! != GroupModelState.archived
+                    ? Theme.of(context).colorScheme.surface
+                    : Theme.of(context).disabledColor.withOpacity(0.1),
                 backgroundImage: NetworkImage(group.picture ?? DEFAULT_GROUP_AVATAR_URL)),
             Flexible(
               child: Padding(

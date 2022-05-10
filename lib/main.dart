@@ -28,7 +28,6 @@ import 'screens/notification/notification.screen.dart';
 import 'screens/settings/settings.screen.dart';
 
 void main() async {
-
   if (!Platform.isIOS && !Platform.isMacOS) {
     await initFirebase();
     WidgetsFlutterBinding.ensureInitialized();
@@ -135,7 +134,6 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     final authViewModel = ref.watch(authProvider);
     final userViewModel = ref.watch(userProvider.notifier);
     useEffect(() {
-
       authViewModel.updateTokenFromStorage().then((value) {
         if (value != null) {
           userViewModel.loadUser().then((value) {
@@ -181,6 +179,9 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
               appBar: selectedPage != NavbarPage.MATCHMAKING
                   ? AppBar(
                       title: Text(widget.title),
+                      backgroundColor: Theme.of(context).colorScheme.background,
+                      foregroundColor: Theme.of(context).colorScheme.onBackground,
+                      shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
                     )
                   : null,
               extendBody: true,
