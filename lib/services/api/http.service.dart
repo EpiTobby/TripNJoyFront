@@ -76,5 +76,9 @@ abstract class HttpService {
 
   Future<List<MessageResponse>> getChannelMessages(num channelId, int page);
 
+  Future<List<MessageResponse>> getPinnedMessages(num channelId);
+
   Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId);
+
+  Future<MessageResponse?> togglePinnedMessage(num messageId, bool pinned);
 }

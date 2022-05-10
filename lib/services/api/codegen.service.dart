@@ -282,8 +282,20 @@ class CodegenService extends HttpService {
   }
 
   @override
+  Future<List<MessageResponse>> getPinnedMessages(num channelId) async {
+    final response = await api.chatChannelIdPinnedGet(channelId: channelId);
+    return response.body!;
+  }
+
+  @override
   Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId) async {
     final response = await api.groupsGroupIdUsersUserIdGet(groupId: groupId, userId: userId);
+    return response.body;
+  }
+
+  @override
+  Future<MessageResponse?> togglePinnedMessage(num messageId, bool pinned) async {
+    final response = await api.chatMessageIdPinnedPatch(messageId: messageId, pin: pinned);
     return response.body;
   }
 }

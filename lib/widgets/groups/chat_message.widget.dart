@@ -8,33 +8,30 @@ class ChatMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: isUser ? const EdgeInsets.only(right: 32, bottom: 4) : const EdgeInsets.only(left: 32, bottom: 4),
-      child: Container(
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.6,
-        ),
-        decoration: BoxDecoration(
-            color: isUser ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: [
-              BoxShadow(
-                color: isUser
-                    ? Theme.of(context).colorScheme.secondary.withOpacity(0.4)
-                    : Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
-                offset: const Offset(0, 8),
-                blurRadius: 14,
-                spreadRadius: -6,
-              ),
-            ]),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            message,
-            style: TextStyle(
-              fontSize: 16,
-              color: isUser ? Theme.of(context).colorScheme.onSecondary : Theme.of(context).colorScheme.onSurface,
+    return Container(
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * 0.6,
+      ),
+      decoration: BoxDecoration(
+          color: isUser ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: isUser
+                  ? Theme.of(context).colorScheme.secondary.withOpacity(0.4)
+                  : Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+              offset: const Offset(0, 8),
+              blurRadius: 14,
+              spreadRadius: -6,
             ),
+          ]),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          message,
+          style: TextStyle(
+            fontSize: 16,
+            color: isUser ? Theme.of(context).colorScheme.onSecondary : Theme.of(context).colorScheme.onSurface,
           ),
         ),
       ),

@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
@@ -135,6 +134,14 @@ class ChatViewModel extends ChangeNotifier {
           });
         },
       );
+    }
+  }
+
+  void updateMessage(MessageResponse messageResponse) {
+    final index = messages.indexWhere((e) => e.id == messageResponse.id);
+    if (index != -1) {
+      messages[index] = messageResponse;
+      notifyListeners();
     }
   }
 }

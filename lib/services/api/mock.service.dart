@@ -225,8 +225,20 @@ class MockService extends HttpService {
   }
 
   @override
+  Future<List<MessageResponse>> getPinnedMessages(num channelId) {
+    // TODO: implement getPinnedMessages
+    throw UnimplementedError();
+  }
+
+  @override
   Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId) {
     // TODO: implement getUserPublicInfo
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<MessageResponse?> togglePinnedMessage(num messageId, bool pinned) {
+    // TODO: implement togglePinnedMessage
     throw UnimplementedError();
   }
 }

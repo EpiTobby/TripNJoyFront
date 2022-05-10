@@ -221,7 +221,11 @@
     "chat": {
       "open": "Ouvert",
       "close": "Fermé",
-      "hint": "Écrivez un message..."
+      "hint": "Écrivez un message...",
+      "pinned_messages": {
+        "title": "Messages épinglés",
+        "empty": "Aucun message épinglé"
+      }
     },
     "channel": {
       "title": "Cannaux",

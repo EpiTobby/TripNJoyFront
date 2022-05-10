@@ -55,12 +55,12 @@ class ChatHeader extends ConsumerWidget {
       children: isUser ? header.reversed.toList() : header,
     );
   }
+}
 
-  String formatTimeToMessage(DateTime time) {
-    var str = time.hour.toString().padLeft(2, '0') + ':' + time.minute.toString().padLeft(2, '0');
-    if (time.day != DateTime.now().day) {
-      str += ' - ' + time.day.toString() + '/' + time.month.toString().padLeft(2, '0');
-    }
-    return str;
+String formatTimeToMessage(DateTime time) {
+  var str = time.hour.toString().padLeft(2, '0') + ':' + time.minute.toString().padLeft(2, '0');
+  if (time.day != DateTime.now().day) {
+    str += ' - ' + time.day.toString() + '/' + time.month.toString().padLeft(2, '0');
   }
+  return str;
 }
