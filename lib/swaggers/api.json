@@ -149,6 +149,55 @@
             }
           }
         }
+      },
+      "patch": {
+        "tags": [
+          "match-making-controller"
+        ],
+        "summary": "Start the matchmaking with an existing profile",
+        "operationId": "match_1",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "profile_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Profile or user not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchMakingResponse"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Matchmaking started",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchMakingResponse"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/groups/private/{id}": {
@@ -1367,8 +1416,8 @@
           }
         ],
         "responses": {
-          "206": {
-            "description": "Partial Content",
+          "200": {
+            "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
