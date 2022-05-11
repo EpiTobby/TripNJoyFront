@@ -44,6 +44,19 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<dynamic>> _matchmakingPatch(
+      {required num? userId, required num? profileId}) {
+    final $url = '/matchmaking';
+    final $params = <String, dynamic>{
+      'user_id': userId,
+      'profile_id': profileId
+    };
+    final $request =
+        Request('PATCH', $url, client.baseUrl, parameters: $params);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<GroupModel>> _groupsPrivateIdPost(
       {required num? id, required CreatePrivateGroupRequest? body}) {
     final $url = '/groups/private/${id}';

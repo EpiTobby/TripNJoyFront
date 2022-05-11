@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
@@ -20,23 +21,40 @@ import '../../widgets/matchmaking/cards/range_card.widget.dart';
 import '../auth/auth.viewmodel.dart';
 
 class MatchmakingViewModel extends ChangeNotifier {
-  MatchmakingViewModel(this.httpService, this.authViewModel, this.profileViewModel) {
+  MatchmakingViewModel(this.httpService, this.authViewModel, this.profileViewModel, this.storage) {
     _init();
   }
 
   final AuthViewModel authViewModel;
   final HttpService httpService;
   final ProfileViewModel profileViewModel;
+
+  final FlutterSecureStorage storage;
+  static const String taskKey = 'taskId';
+
   List<CardModel> cards = [];
   int index = 0;
   MatchmakingStatus status = MatchmakingStatus.CREATE_PROFILE;
 
-  ProfileModel? activeProfile;
   Map<String, dynamic> profileCreationRequest = {};
 
   // we use a list instead of a stack, because we need to handle user mistakes and go back to the previous card
-  void _init() {
+  void _init() async {
     cards = [];
+    final taskStorage = await storage.read(key: taskKey);
+    if (taskStorage != null) {
+      final taskValue = int.tryParse(taskStorage, radix: 10);
+      if (taskValue != null && taskValue >= 0) {
+        final matchmakingResult = await httpService.getMatchmakingResult(taskValue);
+        if (matchmakingResult == null) {
+          await storage.delete(key: taskKey);
+          status = MatchmakingStatus.CREATE_PROFILE;
+          return;
+        }
+
+        updateMatchmakingStatus(matchmakingResult.type!);
+      }
+    }
   }
 
   void startProfileCreation() {
@@ -271,23 +289,46 @@ class MatchmakingViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void matchmaking() {}
+  Future<void> handleMatchmakingResponse(MatchMakingResponse? matchmakingResponse) async {
+    if (matchmakingResponse == null) {
+      status = MatchmakingStatus.CREATE_PROFILE;
+      notifyListeners();
+      return;
+    }
 
-  void retryMatchmaking() async {
-    status = MatchmakingStatus.WAITING_MATCHMAKING;
-    notifyListeners();
+    final taskResponse = matchmakingResponse.taskId;
 
-    // TODO : remove this call as this function should be called after a notification is sent
-    await mockMatchmaking();
+    await storage.delete(key: taskKey);
+    await storage.write(key: taskKey, value: taskResponse.toString());
+
+    final matchmakingResult = await httpService.getMatchmakingResult(taskResponse!.toInt());
+    if (matchmakingResult == null) {
+      status = MatchmakingStatus.CREATE_PROFILE;
+      notifyListeners();
+      return;
+    }
+
+    updateMatchmakingStatus(matchmakingResult.type!);
+  }
+
+  Future<void> retryMatchmaking(int profileId) async {
+    int? id = httpService.getUserIdFromToken(authViewModel.token!);
+
+    final matchmakingResponse = await httpService.retryMatchmaking(id!.toInt(), profileId);
+    await handleMatchmakingResponse(matchmakingResponse);
   }
 
   void submitProfile(String name, String value) async {
     status = MatchmakingStatus.WAITING_MATCHMAKING;
     submitCard(name, value);
-    await createProfile();
 
-    // TODO : remove this call as this function should be called after a notification is sent
-    await mockMatchmaking();
+    int? id = httpService.getUserIdFromToken(authViewModel.token!);
+
+    final matchmakingResponse =
+        await httpService.startMatchmaking(id!, ProfileCreationRequest.fromJsonFactory(profileCreationRequest));
+    profileCreationRequest = {};
+
+    await handleMatchmakingResponse(matchmakingResponse);
   }
 
   Future<void> mockMatchmaking() async {
@@ -297,11 +338,39 @@ class MatchmakingViewModel extends ChangeNotifier {
 
   Future<void> createProfile() async {
     await profileViewModel.createProfile(ProfileCreationRequest.fromJsonFactory(profileCreationRequest));
-    profileCreationRequest = {};
+  }
+
+  void restartProfileCreation() async {
+    status = MatchmakingStatus.CREATE_PROFILE;
+    cards = [];
+    index = 0;
+    notifyListeners();
   }
 
   void receiveGroupMatch() async {
     status = MatchmakingStatus.JOIN_GROUP;
+    notifyListeners();
+  }
+
+  void updateMatchmakingStatus(MatchMakingResultType$ matchMakingResultType) async {
+    switch (matchMakingResultType) {
+      case MatchMakingResultType$.created:
+        status = MatchmakingStatus.JOIN_GROUP;
+        break;
+      case MatchMakingResultType$.joined:
+        status = MatchmakingStatus.JOIN_GROUP;
+        break;
+      case MatchMakingResultType$.waiting:
+        status = MatchmakingStatus.NO_GROUP;
+        break;
+      case MatchMakingResultType$.searching:
+        status = MatchmakingStatus.WAITING_MATCHMAKING;
+        break;
+      default:
+        status = MatchmakingStatus.CREATE_PROFILE;
+        await storage.delete(key: taskKey);
+        break;
+    }
     notifyListeners();
   }
 

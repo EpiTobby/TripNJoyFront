@@ -27,27 +27,35 @@ class GroupList extends StatelessWidget {
             ),
           ),
         ),
-        ...groups.map((group) => GroupListItem(group: group)).toList()
+        ...groups
+            .map((group) => GroupListItem(
+                  group: group,
+                  onClick: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => GroupChatContainer(groupId: group.id!.toInt()),
+                      ),
+                    );
+                  },
+                ))
+            .toList()
       ],
     );
   }
 }
 
 class GroupListItem extends StatelessWidget {
-  const GroupListItem({Key? key, required this.group}) : super(key: key);
+  const GroupListItem({Key? key, required this.group, required this.onClick}) : super(key: key);
 
   final GroupModel group;
+  final Function onClick;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => GroupChatContainer(groupId: group.id!.toInt()),
-          ),
-        );
+        onClick();
       },
       title: Container(
         decoration: BoxDecoration(

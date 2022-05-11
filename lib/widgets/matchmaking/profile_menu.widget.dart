@@ -57,11 +57,8 @@ class ProfileMenu extends ConsumerWidget {
                 ],
               ),
                 onTap: () async {
-                  if (!profileModel.active!) {
-                    await profileViewModel.updateProfile(
-                        profileModel.id!.toInt(), ProfileUpdateRequest.fromJsonFactory({"active": true}));
-                  }
-                  matchmakingViewModel.retryMatchmaking();
+                  await matchmakingViewModel.retryMatchmaking(profileModel.id!.toInt());
+                  profileViewModel.getUserProfiles();
                 }),
             PopupMenuItem(
               value: PopupMenuItemType.EDIT,

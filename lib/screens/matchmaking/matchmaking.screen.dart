@@ -7,6 +7,7 @@ import 'package:trip_n_joy_front/constants/matchmaking/matchmaking_status.enum.d
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/swipe.provider.dart';
 import 'package:trip_n_joy_front/screens/matchmaking/profile.screen.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation_card.widget.dart';
 
 import '../../widgets/matchmaking/cards/group_found_card.widget.dart';
@@ -61,12 +62,37 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
       ),
       body: Container(
         child: matchmakingStatus != MatchmakingStatus.CREATE_PROFILE
-            ? GroupFoundCard(
-                groupId: 1,
-                isLoading: matchmakingStatus == MatchmakingStatus.WAITING_MATCHMAKING,
-                groupPhotoUrl: DEFAULT_AVATAR_URL,
-                membersPhotoUrls: const [],
-              )
+            ? matchmakingStatus != MatchmakingStatus.NO_GROUP
+                ? GroupFoundCard(
+                    groupId: 1,
+                    isLoading: matchmakingStatus == MatchmakingStatus.WAITING_MATCHMAKING,
+                    groupPhotoUrl: DEFAULT_AVATAR_URL,
+                    membersPhotoUrls: const [],
+                  )
+                :  Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            AppLocalizations.of(context).translate("matchmaking.noGroup"),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: 16,
+                            ),
+                            textAlign:TextAlign.center,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: PrimaryButton(
+                              text: AppLocalizations.of(context).translate('matchmaking.newProfile'),
+                              onPressed: () {
+                                matchmakingViewModel.restartProfileCreation();
+                              }),
+                        ),
+                      ],
+                    )
             : cards.isEmpty || currIndex >= cards.length || currIndex < 0
                 ? const ProfileCreationCard()
                 : Stack(

@@ -200,6 +200,17 @@ class CodegenService extends HttpService {
   }
 
   @override
+  Future<List<GroupModel>?> getUserInvitesGroups(int id) async {
+    final response = await api.groupsInvitesIdGet(id: id);
+    return response.body;
+  }
+
+  @override
+  Future<void> declineGroupInvitation(int groupId, int userId) async {
+    await api.groupsGroupDeclineIdPatch(group: groupId, id: userId);
+  }
+
+  @override
   Future<void> joinPrivateGroup(int groupId, int userId) async {
     await api.groupsGroupJoinIdPatch(group: groupId, id: userId);
   }
@@ -242,6 +253,36 @@ class CodegenService extends HttpService {
   Future<void> deleteChannel(num channelId) async {
     await api.channelsIdDelete(id: channelId);
   }
+
+  @override
+  Future<MatchMakingResult?> getMatchmakingResult(int taskId) async {
+    final response = await api.matchmakingTaskIdGet(taskId: taskId);
+
+    return response.body;
+  }
+
+  @override
+  Future<MatchMakingResponse?> startMatchmaking(int userId, ProfileCreationRequest profile) async {
+    final response = await api.matchmakingPost(userId: userId, body: profile);
+
+    try {
+      return MatchMakingResponse(taskId: response.body!['taskId'], errorMessage: response.body!['errorMessage']);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<MatchMakingResponse?> retryMatchmaking(int userId, int profileId) async {
+    final response = await api.matchmakingPatch(userId: userId, profileId: profileId);
+
+    try {
+      return MatchMakingResponse(taskId: response.body!['taskId'], errorMessage: response.body!['errorMessage']);
+    } catch (e) {
+      return null;
+    }
+  }
+
 
   @override
   Future<StompClient> loadWebSocketChannel(void Function(bool) onConnection) async {
@@ -290,6 +331,7 @@ class CodegenService extends HttpService {
   @override
   Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId) async {
     final response = await api.groupsGroupIdUsersUserIdGet(groupId: groupId, userId: userId);
+
     return response.body;
   }
 

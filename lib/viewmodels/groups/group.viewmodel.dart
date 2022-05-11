@@ -32,6 +32,15 @@ class GroupViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<List<GroupModel>> getUserInvitesGroups() async {
+    if (authViewModel.token == null) {
+      return [];
+    }
+
+    final id = httpService.getUserIdFromToken(authViewModel.token!);
+    return (await httpService.getUserInvitesGroups(id!)) ?? [];
+  }
+
   Future<void> createPrivateGroup(String name, int maxSize) async {
     final id = httpService.getUserIdFromToken(authViewModel.token!);
 
@@ -40,14 +49,18 @@ class GroupViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> joinPrivateGroup() async {
+  Future<void> joinPrivateGroup(int groupId) async {
     final id = httpService.getUserIdFromToken(authViewModel.token!);
-    final fakeGroupId = 1;
-    final group = await httpService.joinPrivateGroup(fakeGroupId, id!);
+    final group = await httpService.joinPrivateGroup(groupId, id!);
 
-    await getGroups();// TODO: add the group
-    //groups.add(group!);
-    //notifyListeners();
+    await getGroups();
+  }
+
+  Future<void> declineGroupInvitation(int groupId) async {
+    final id = httpService.getUserIdFromToken(authViewModel.token!);
+    await httpService.declineGroupInvitation(groupId, id!);
+
+    await getGroups();
   }
 
   Future<void> addUserToPrivateGroup(int groupId, String email) async {
@@ -79,5 +92,4 @@ class GroupViewModel extends ChangeNotifier {
     groups.removeWhere((group) => group.id == groupId);
     notifyListeners();
   }
-
 }

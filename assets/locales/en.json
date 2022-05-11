@@ -17,7 +17,9 @@
     "days": "days",
     "yearsOld": "years old",
     "people": "people",
-    "search": "Search"
+    "search": "Search",
+    "accept": "Accept",
+    "decline": "Decline"
   },
   "user": {
     "firstname": "Firstname",
@@ -183,7 +185,9 @@
   },
   "matchmaking": {
     "title": "Matchmaking",
-    "retryProfile": "Retry a matchmaking with this profile"
+    "retryProfile": "Retry a matchmaking with this profile",
+    "noGroup": "No group found, wait for another user to match with you or try with another profile.",
+    "newProfile": "New profile"
   },
   "profile": {
     "title": "Profile",
@@ -208,10 +212,13 @@
       "groupSettings": "Settings for the group",
       "close": "Close the group",
       "archive": "Archive the group",
-      "quit": "Quit the group"
+      "quit": "Quit the group",
+      "maxSize": "Maximum number of members"
     },
     "create": "Create a group",
     "join": "Join a group",
+    "joinGroupChoice": "Do you want to join the group ?",
+    "invitations": "Invitations",
     "noOpenGroup": "No open groups",
     "addMember": "Add a member",
     "email": "Enter the email of the member you want to add",

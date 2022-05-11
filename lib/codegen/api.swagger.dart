@@ -75,6 +75,22 @@ abstract class Api extends ChopperService {
       {@Query('user_id') required num? userId,
       @Body() required ProfileCreationRequest? body});
 
+  ///Start the matchmaking with an existing profile
+  ///@param user_id
+  ///@param profile_id
+  Future<chopper.Response> matchmakingPatch(
+      {required num? userId, required num? profileId}) {
+    return _matchmakingPatch(userId: userId, profileId: profileId);
+  }
+
+  ///Start the matchmaking with an existing profile
+  ///@param user_id
+  ///@param profile_id
+  @Patch(path: '/matchmaking', optionalBody: true)
+  Future<chopper.Response> _matchmakingPatch(
+      {@Query('user_id') required num? userId,
+      @Query('profile_id') required num? profileId});
+
   ///Create a private group
   ///@param id
   Future<chopper.Response<GroupModel>> groupsPrivateIdPost(
