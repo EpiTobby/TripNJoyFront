@@ -130,21 +130,27 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                           child: LayoutItemValue(
                         value: AppLocalizations.of(context).translate("groups.settings.close"),
                         icon: Icons.lock_outline,
-                        onPressed: () {},
+                        onPressed: () {
+                          groupViewModel.updatePrivateGroup(group.id!.toInt(), UpdateGroupRequest(state: UpdateGroupRequestState.closed));
+                        },
                       )),
                     if (user != null && group.owner!.id == user.id)
                       LayoutItem(
                           child: LayoutItemValue(
                         value: AppLocalizations.of(context).translate("groups.settings.archive"),
                         icon: Icons.archive_outlined,
-                        onPressed: () {},
+                        onPressed: () {
+                          groupViewModel.updatePrivateGroup(group.id!.toInt(), UpdateGroupRequest(state: UpdateGroupRequestState.archived));
+                        },
                       )),
                     LayoutItem(
                         child: LayoutItemValue(
                       value: AppLocalizations.of(context).translate("groups.settings.quit"),
                       icon: Icons.exit_to_app,
                       customColor: Theme.of(context).colorScheme.error,
-                      onPressed: () {},
+                      onPressed: () {
+                        groupViewModel.leaveGroup(group.id!.toInt());
+                      },
                     )),
                   ])
                 ],
