@@ -49,13 +49,18 @@ class _GroupChatState extends ConsumerState<GroupChat> {
     final messages = chatViewModel.messages;
     final isConnected = chatViewModel.isConnectedToSocket;
     final isLoadingMessages = chatViewModel.isLoadingMessages;
-
     final scrollController = useScrollController();
+
     useEffect(() {
       if (widget.channel != null && isConnected) {
         Future.microtask(() {
-          _ref.read(chatProvider).getMessages(widget.groupId, widget.channel!.id);
-          _ref.read(chatProvider).listenToChannel(widget.groupId, widget.channel!.id);
+          scrollController.addListener(() {
+            if (widget.channel != null &&
+                scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+              chatViewModel.getMessages(widget.groupId, widget.channel!.id);
+            }
+          });
+          _ref.read(chatProvider).changeChannel(widget.groupId, widget.channel!.id);
         });
       }
     }, [widget.channel, isConnected]);

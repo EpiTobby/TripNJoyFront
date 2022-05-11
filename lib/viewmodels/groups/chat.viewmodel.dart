@@ -27,6 +27,9 @@ class ChatViewModel extends ChangeNotifier {
   bool mounted = true;
   HashMap<num, ChatMember> chatMembers = HashMap<num, ChatMember>();
   final NetworkImage defaultProfileImage = const NetworkImage(DEFAULT_AVATAR_URL);
+  int page = 0;
+  static const int LAST_PAGE = -1;
+  static const int START_PAGE = 0;
 
   void _init() {
     loadWebSocketChannel();
@@ -64,10 +67,17 @@ class ChatViewModel extends ChangeNotifier {
   }
 
   void getMessages(int groupId, num? channelId) async {
-    if (channelId != null) {
-      isLoadingMessages = true;
-      clearMessages();
-      var channelMessages = await httpService.getChannelMessages(channelId, 0);
+    if (channelId != null && page != LAST_PAGE) {
+      if (page == START_PAGE) {
+        isLoadingMessages = true;
+        clearMessages();
+      }
+      var channelMessages = await httpService.getChannelMessages(channelId, page);
+      if (channelMessages.isNotEmpty) {
+        page += 1;
+      } else {
+        page = LAST_PAGE;
+      }
       for (var msg in channelMessages) {
         if (msg.userId != null && !chatMembers.containsKey(msg.userId)) {
           loadUserMember(groupId, msg.userId!);
@@ -143,5 +153,16 @@ class ChatViewModel extends ChangeNotifier {
       messages[index] = messageResponse;
       notifyListeners();
     }
+  }
+
+  void resetPage() {
+    page = START_PAGE;
+    notifyListeners();
+  }
+
+  void changeChannel(int groupId, num? channelId) {
+    resetPage();
+    getMessages(groupId, channelId);
+    listenToChannel(groupId, channelId);
   }
 }
