@@ -1,0 +1,2666 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/{id}/profiles": {
+      "get": {
+        "tags": [
+          "profile-controller"
+        ],
+        "summary": "Get all profiles from a user",
+        "operationId": "getUserProfiles",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns list of profiles",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProfileModel"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "If the answers are not valid",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProfileModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "profile-controller"
+        ],
+        "summary": "Create a profile",
+        "operationId": "createProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the profile",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/matchmaking": {
+      "post": {
+        "tags": [
+          "match-making-controller"
+        ],
+        "summary": "Create a profile and start the matchmaking",
+        "operationId": "match",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Matchmaking started",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchMakingResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "match-making-controller"
+        ],
+        "summary": "Start the matchmaking with an existing profile",
+        "operationId": "match_1",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "profile_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Profile or user not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchMakingResponse"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Matchmaking started",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchMakingResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/private/{id}": {
+      "post": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Create a private group",
+        "operationId": "createPrivateGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePrivateGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "description": "User or Group does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns the created group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/private/{group}/user": {
+      "post": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Add user to private group",
+        "operationId": "inviteUserInPrivateGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModelWithEmail"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "description": "Group or User does not exist"
+          },
+          "200": {
+            "description": "The user is added to the group"
+          },
+          "403": {
+            "description": "The client is not the owner of the group"
+          }
+        }
+      }
+    },
+    "/channels/{group}": {
+      "get": {
+        "tags": [
+          "channel-controller"
+        ],
+        "summary": "Get all the channels from a group",
+        "operationId": "getGroupChannels",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "The group does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ChannelModel"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Return the list of channels of a group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ChannelModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "channel-controller"
+        ],
+        "summary": "Create a channel",
+        "operationId": "createChannel",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateChannelRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Return the created channel",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChannelModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The group id does not correspond to an existing group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChannelModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/{id}/resend": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Will send a new confirmation code to the user",
+        "operationId": "resendConfirmationCode",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A new confirmation code has been sent"
+          },
+          "401": {
+            "description": "The user is already confirmed"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Create a new account. Will send a confirmation mail to the given address",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User is created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "If the email is already in use by another user",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Log a user, to allow authenticated endpoints",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Authentication failed. Wrong username or password",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/google": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Log a user, to allow authenticated endpoints",
+        "operationId": "signInUpGoogle",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoogleRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Authentication failed. Wrong username or password",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoogleAuthResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoogleAuthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/forgot/password": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Used to receive a confirmation to update a password",
+        "operationId": "forgotPassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "description": "If the user does not exist"
+          },
+          "200": {
+            "description": "Email is sent to reset password"
+          }
+        }
+      }
+    },
+    "/{id}/profiles/{profile}/update": {
+      "patch": {
+        "tags": [
+          "profile-controller"
+        ],
+        "summary": "Update a profile",
+        "operationId": "updateProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "profile",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The profile is updated"
+          },
+          "422": {
+            "description": "The answers are not valid"
+          }
+        }
+      }
+    },
+    "/users/{id}/update": {
+      "patch": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "Used to update the user information",
+        "operationId": "updateUserInfo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "description": "If the user does not exist"
+          },
+          "200": {
+            "description": "User information have been updated"
+          }
+        }
+      }
+    },
+    "/groups/{group}/join/{id}": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Accept the invitation to the group",
+        "operationId": "joinGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Group or User does not exist"
+          },
+          "200": {
+            "description": "The user has joined the group"
+          }
+        }
+      }
+    },
+    "/groups/{group}/decline/{id}": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Decline the invitation to the group",
+        "operationId": "declineGroupInvite",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Group or User does not exist"
+          },
+          "200": {
+            "description": "The user has declined the invite"
+          }
+        }
+      }
+    },
+    "/groups/private/{group}": {
+      "delete": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Delete the private group",
+        "operationId": "deletePrivateGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Group or User does not exist"
+          },
+          "200": {
+            "description": "The group is deleted"
+          },
+          "403": {
+            "description": "The client is not the owner of the group"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Update the private group",
+        "operationId": "updatePrivateGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "description": "Group or User does not exist"
+          },
+          "200": {
+            "description": "The group is updated"
+          },
+          "403": {
+            "description": "The client is not the owner of the group"
+          }
+        }
+      }
+    },
+    "/chat/{message_id}/pinned": {
+      "patch": {
+        "tags": [
+          "messaging-controller"
+        ],
+        "summary": "Pin a message",
+        "operationId": "pinMessage",
+        "parameters": [
+          {
+            "name": "message_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pin",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/channels/{id}": {
+      "delete": {
+        "tags": [
+          "channel-controller"
+        ],
+        "summary": "Delete a channel",
+        "operationId": "deleteChannel",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The channel has been deleted"
+          },
+          "422": {
+            "description": "The channel does not exist"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "channel-controller"
+        ],
+        "summary": "Update a channel",
+        "operationId": "updateChannel",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateChannelRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The channel has been updated"
+          },
+          "422": {
+            "description": "The channel does not exist"
+          },
+          "403": {
+            "description": "The client  don't have access to this channel"
+          }
+        }
+      }
+    },
+    "/auth/{id}/password": {
+      "patch": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Used to update the password",
+        "operationId": "updatePassword",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "If the password has been updated"
+          },
+          "403": {
+            "description": "If the old password is not valid"
+          }
+        }
+      }
+    },
+    "/auth/{id}/email": {
+      "patch": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Used to ask update the user email. Returns a new jwt",
+        "operationId": "updateEmail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEmailRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "If the email has been updated",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "If the given password is not valid",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "If the new email does not exist or is already in use",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/{id}/confirmation": {
+      "patch": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Confirm a user's email",
+        "operationId": "confirmUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmationCodeModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User is now confirmed"
+          },
+          "403": {
+            "description": "Invalid or expired confirmation code"
+          }
+        }
+      }
+    },
+    "/auth/validation/password": {
+      "patch": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Used to update the password with a confirmation code",
+        "operationId": "validateCodePassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateCodePasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The password has been updated",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserIdResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Invalid or expired confirmation code",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserIdResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{id}/profiles/active": {
+      "get": {
+        "tags": [
+          "profile-controller"
+        ],
+        "operationId": "getActiveProfiles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProfileModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "getAll",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserEntity"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "deleteUserAccount",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/me": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "getCurrentUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/matchmaking/{taskId}": {
+      "get": {
+        "tags": [
+          "match-making-controller"
+        ],
+        "summary": "Get the state of a match making task",
+        "operationId": "getResult",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "State",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchMakingResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Task not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchMakingResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get all the group of the user",
+        "operationId": "getUserGroups",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the list of groups the user is in",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{groupId}/users/{userId}": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get the information related to the member",
+        "operationId": "getMember",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User information",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemberModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not allowed to view members of this group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemberModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "User or group not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemberModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/invites/{id}": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get all the group invitation of the user",
+        "operationId": "getUserInvites",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the list of groups the user is invited to",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chat/{channel_id}": {
+      "get": {
+        "tags": [
+          "messaging-controller"
+        ],
+        "summary": "Get the most recent channel's messages, by pages of size 50",
+        "operationId": "getMessages",
+        "parameters": [
+          {
+            "name": "channel_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MessageResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chat/{channel_id}/pinned": {
+      "get": {
+        "tags": [
+          "messaging-controller"
+        ],
+        "summary": "Get all pinned messages",
+        "operationId": "getPinnedMessages",
+        "parameters": [
+          {
+            "name": "channel_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MessageResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{id}/profiles/{profile}": {
+      "delete": {
+        "tags": [
+          "profile-controller"
+        ],
+        "summary": "Delete the profile of a user",
+        "operationId": "deleteProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "profile",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "No profile has been found"
+          },
+          "200": {
+            "description": "The profile is deleted"
+          }
+        }
+      }
+    },
+    "/users/{id}/admin": {
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "deleteUserByAdmin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteUserByAdminRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/groups/{group}/user/{id}": {
+      "delete": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Remove the user from a group",
+        "operationId": "leaveGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Group or User does not exist"
+          },
+          "200": {
+            "description": "The user has left the group"
+          }
+        }
+      }
+    },
+    "/groups/private/{group}/user/{id}": {
+      "delete": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Remove user from private group",
+        "operationId": "removeUserFromPrivateGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Group or User does not exist"
+          },
+          "403": {
+            "description": "The client is not the owner of the group"
+          },
+          "200": {
+            "description": "The user is removed"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AvailabilityAnswerModel": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          }
+        }
+      },
+      "ProfileCreationRequest": {
+        "required": [
+          "aboutFood",
+          "ages",
+          "availabilities",
+          "budget",
+          "chillOrVisit",
+          "destinationTypes",
+          "duration",
+          "gender",
+          "goOutAtNight",
+          "groupSize",
+          "name",
+          "sport",
+          "travelWithPersonFromSameCity",
+          "travelWithPersonFromSameCountry",
+          "travelWithPersonSameLanguage"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "duration": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "budget": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "destinationTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CITY",
+                "COUNTRYSIDE",
+                "BEACH",
+                "MOUNTAIN",
+                "NO_PREFERENCE"
+              ]
+            }
+          },
+          "ages": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "travelWithPersonFromSameCity": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "travelWithPersonFromSameCountry": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "travelWithPersonSameLanguage": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "MIXED"
+            ]
+          },
+          "groupSize": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "chillOrVisit": {
+            "type": "string",
+            "enum": [
+              "CHILL",
+              "VISIT",
+              "NO_PREFERENCE"
+            ]
+          },
+          "aboutFood": {
+            "type": "string",
+            "enum": [
+              "COOKING",
+              "RESTAURANT",
+              "NO_PREFERENCE"
+            ]
+          },
+          "goOutAtNight": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "sport": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "availabilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailabilityAnswerModel"
+            }
+          }
+        }
+      },
+      "RangeAnswerModel": {
+        "type": "object",
+        "properties": {
+          "minValue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxValue": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ProfileModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "availabilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailabilityAnswerModel"
+            }
+          },
+          "duration": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "budget": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "destinationTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CITY",
+                "COUNTRYSIDE",
+                "BEACH",
+                "MOUNTAIN",
+                "NO_PREFERENCE"
+              ]
+            }
+          },
+          "ages": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "travelWithPersonFromSameCity": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "travelWithPersonFromSameCountry": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "travelWithPersonSameLanguage": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "MIXED"
+            ]
+          },
+          "groupSize": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "chillOrVisit": {
+            "type": "string",
+            "enum": [
+              "CHILL",
+              "VISIT",
+              "NO_PREFERENCE"
+            ]
+          },
+          "aboutFood": {
+            "type": "string",
+            "enum": [
+              "COOKING",
+              "RESTAURANT",
+              "NO_PREFERENCE"
+            ]
+          },
+          "goOutAtNight": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "sport": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MatchMakingResponse": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreatePrivateGroupRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "maxSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ChannelModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CityModel": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "GroupModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "CLOSED",
+              "ARCHIVED"
+            ]
+          },
+          "owner": {
+            "$ref": "#/components/schemas/UserModel"
+          },
+          "maxSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "picture": {
+            "type": "string"
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberModel"
+            }
+          },
+          "channels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChannelModel"
+            }
+          },
+          "createdDate": {
+            "type": "string"
+          }
+        }
+      },
+      "MemberModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "NOT_SPECIFIED"
+            ]
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "city": {
+            "$ref": "#/components/schemas/CityModel"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UserModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "NOT_SPECIFIED"
+            ]
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "city": {
+            "$ref": "#/components/schemas/CityModel"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          },
+          "language": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "DEFAULT",
+                "ADMIN"
+              ]
+            }
+          }
+        }
+      },
+      "ModelWithEmail": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateChannelRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "UserCreationRequest": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthTokenResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string",
+            "description": "Aka email"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "GoogleRequest": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "accessToken": {
+            "type": "string"
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "GoogleAuthResponse": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "newUser": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ForgotPasswordRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "ProfileUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "availabilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailabilityAnswerModel"
+            }
+          },
+          "duration": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "budget": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "destinationTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CITY",
+                "COUNTRYSIDE",
+                "BEACH",
+                "MOUNTAIN",
+                "NO_PREFERENCE"
+              ]
+            }
+          },
+          "ages": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "travelWithPersonFromSameCity": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "travelWithPersonFromSameCountry": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "travelWithPersonSameLanguage": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "MIXED"
+            ]
+          },
+          "groupSize": {
+            "$ref": "#/components/schemas/RangeAnswerModel"
+          },
+          "chillOrVisit": {
+            "type": "string",
+            "enum": [
+              "CHILL",
+              "VISIT",
+              "NO_PREFERENCE"
+            ]
+          },
+          "aboutFood": {
+            "type": "string",
+            "enum": [
+              "COOKING",
+              "RESTAURANT",
+              "NO_PREFERENCE"
+            ]
+          },
+          "goOutAtNight": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "sport": {
+            "type": "string",
+            "enum": [
+              "YES",
+              "NO",
+              "NO_PREFERENCE"
+            ]
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UserUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "city": {
+            "$ref": "#/components/schemas/CityModel"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateGroupRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "CLOSED",
+              "ARCHIVED"
+            ]
+          },
+          "ownerId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "maxSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "picture": {
+            "type": "string"
+          }
+        }
+      },
+      "MessageResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "channelId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "content": {
+            "type": "string"
+          },
+          "sentDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "pinned": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "TEXT",
+              "IMAGE",
+              "FILE"
+            ]
+          }
+        }
+      },
+      "UpdateChannelRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UpdatePasswordRequest": {
+        "type": "object",
+        "properties": {
+          "oldPassword": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateEmailRequest": {
+        "type": "object",
+        "properties": {
+          "newEmail": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "ConfirmationCodeModel": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "ValidateCodePasswordRequest": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "UserIdResponse": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "CityEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "GenderEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "LanguageEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "ProfileEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RoleEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "authority": {
+            "type": "string"
+          }
+        }
+      },
+      "UserEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/GenderEntity"
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "city": {
+            "$ref": "#/components/schemas/CityEntity"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          },
+          "language": {
+            "$ref": "#/components/schemas/LanguageEntity"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoleEntity"
+            }
+          },
+          "profiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProfileEntity"
+            }
+          },
+          "waitingForGroup": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MatchMakingResult": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "CREATED",
+              "JOINED",
+              "WAITING",
+              "SEARCHING"
+            ]
+          },
+          "groupId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "GroupMemberModel": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "profilePicture": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteUserRequest": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteUserByAdminRequest": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

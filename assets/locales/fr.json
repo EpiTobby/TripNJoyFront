@@ -1,0 +1,292 @@
+{
+  "common": {
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "reconnect": "Se reconnecter",
+    "description": "Description",
+    "account": "Compte",
+    "gender": "Genre",
+    "back": "Retour",
+    "cancel": "Annuler",
+    "save": "Sauvegarder",
+    "submit": "Valider",
+    "tryAgain": "Réessayer",
+    "validate": "Valider",
+    "next": "Suivant",
+    "start": "Démarrer",
+    "days": "jours",
+    "yearsOld": "ans",
+    "people": "personnes",
+    "search": "Rechercher",
+    "accept": "Accepter",
+    "decline": "Refuser"
+  },
+  "user": {
+    "firstname": "Prénom",
+    "lastname": "Nom",
+    "email": "Email",
+    "password": "Mot de passe",
+    "phoneNumber": "Numéro de téléphone",
+    "birthDate": "Date de naissance",
+    "gender": {
+      "man": "Homme",
+      "woman": "Femme",
+      "other": "Autre"
+    },
+    "country": "Pays",
+    "city": "Ville",
+    "noPhoneNumber": "Pas de numéro de téléphone",
+    "noCity": "Pas de ville"
+  },
+  "auth": {
+    "firstname": "Votre prénom",
+    "lastname": "Votre nom",
+    "email": "Votre adresse email",
+    "password": "Votre mot de passe",
+    "phoneNumber": "Votre numéro de téléphone",
+    "country": "Votre pays",
+    "city": "Votre ville",
+    "createAccount": "Créer son compte",
+    "forgotPassword": "Mot de passe oublié ?",
+    "verification": {
+      "title": "Vérification du compte",
+      "description": "Veuillez entrer le code envoyé à votre adresse e-mail pour activer votre compte.",
+      "code": "Code",
+      "label": "Entrer le code",
+      "submit": "Vérifier",
+      "sendBack": "Renvoyer un code",
+      "resendCountdown": "Vous pouvez renvoyer le code dans $time secondes."
+    },
+    "forgot_password": {
+      "title": "Mot de passe oublié ?",
+      "description": "Veuillez entrer votre adresse e-mail pour recevoir un code de réinitialisation.",
+      "email": "Email",
+      "label": "Entrer votre email",
+      "submit": "Envoyer le code"
+    },
+    "reset_password": {
+      "title": "Réinitialiser le mot de passe",
+      "description": "Veuillez entrer le code envoyé par mail ainsi que votre nouveau mot de passe.",
+      "password": "Mot de passe",
+      "password_label": "Entrer votre mot de passe",
+      "code": "Code",
+      "code_label": "Entrer le code",
+      "submit": "Réinitialiser"
+    },
+    "google": {
+      "login": "Se connecter avec Google",
+      "moreInfo": "Veuillez compléter les informations complémentaires"
+    }
+  },
+  "cards": {
+    "creation_profile": {
+      "title": "Création du profil voyage",
+      "subtitle": "Cliquer pour démarrer la création du profil voyage"
+    },
+    "name_profile": {
+      "title": "Profil généré !",
+      "subtitle": "Donnez un nom au profil avant de lancer le matchmaking.",
+      "label": "Nom du profil",
+      "hint": "Ex: Profil été"
+    },
+    "group_found": {
+      "title": "Groupe trouvé !",
+      "button": "Rejoindre",
+      "retry": "Essayer un autre groupe",
+      "members": "$count Membres",
+      "loading": {
+        "title": "Matchmaking...",
+        "subtitle": "Nous cherchons un groupe, vous serez notifié lorsqu'un groupe sera trouvé."
+      }
+    },
+    "availability": {
+      "title": "Disponibilité",
+      "subtitle": "Indiquez vos disponibilités",
+      "begin": "Début",
+      "end": "Fin"
+    },
+    "chillOrVisit": {
+      "title": "Chill ou visiter ?",
+      "chill": "Chill",
+      "visit": "Visiter",
+      "noPreference": "Aucune préférence"
+    },
+    "aboutFood": {
+      "title": "Plutôt restaurant ou cuisiner ?",
+      "restaurant": "Restaurant",
+      "cooking": "Cuisiner",
+      "noPreference": "Aucune préférence"
+    },
+    "goOutAtNight": {
+      "title": "Sortir la nuit ?",
+      "yes": "Oui",
+      "no": "Non",
+      "noPreference": "Aucune préférence"
+    },
+    "sport": {
+      "title": "Activité sportive ?",
+      "yes": "Oui",
+      "no": "Non",
+      "noPreference": "Aucune préférence"
+    },
+    "travelWithPersonFromSameCity": {
+      "title": "Voyager avec une personne de la même ville ?",
+      "yes": "Oui",
+      "no": "Non",
+      "noPreference": "Aucune préférence"
+    },
+    "travelWithPersonFromSameCountry": {
+      "title": "Voyager avec une personne du même pays ?",
+      "yes": "Oui",
+      "no": "Non",
+      "noPreference": "Aucune préférence"
+    },
+    "travelWithPersonSameLanguage": {
+      "title": "Voyager avec une personne de la même langue ?",
+      "yes": "Oui",
+      "no": "Non",
+      "noPreference": "Aucune préférence"
+    },
+    "gender": {
+      "title": "Sexe des personnes avec qui voyager ?",
+      "male": "Hommes",
+      "female": "Femmes",
+      "noPreference": "Aucune préférence"
+    },
+    "destinationTypes": {
+      "title": "Type de destination",
+      "subtitle": "Veuillez choisir les types de destination que vous souhaitez visiter",
+      "mountain": "Montagne",
+      "beach": "Plage",
+      "city": "Ville",
+      "countryside": "Campagne",
+      "naturalarea": "Espace naturel",
+      "island": "Îles",
+      "noPreference": "Aucune préférence"
+    },
+    "groupSize": {
+      "title": "Combien de personnes voulez-vous partir avec ?",
+      "subtitle": "Saississez un nombre entre 2 et 10+"
+    },
+    "ages": {
+      "title": "Âge des personnes avec qui voyager ?",
+      "subtitle": "Saississez un intervalle entre 18 et 100+ ans"
+    },
+    "budget": {
+      "title": "Quel est votre budget ?",
+      "subtitle": "Saississez un intervalle entre 100€ et 2000+€"
+    },
+    "duration": {
+      "title": "Combien de temps voulez-vous partir ?",
+      "subtitle": "Saississez un intervalle entre 1 et 30+ jours"
+    },
+    "swipeToChoose": "Swiper pour choisir votre préférence",
+    "no_preference": "N'importe"
+  },
+  "matchmaking": {
+    "title": "Matchmaking",
+    "retryProfile": "Relancer un matchmaking avec ce profil",
+    "noGroup": "Aucun groupe trouvé. Attendez qu'un autre utilisateur match avec vous ou relancez le matchmaking avec un autre profil.",
+    "newProfile": "Nouveau profil"
+  },
+  "profile": {
+    "title": "Profil",
+    "active": "Profil actif",
+    "other": "Autres profils",
+    "information": "Informations",
+    "name": "Nom du profil",
+    "answers": "Réponses",
+    "defineActive": "Définir en tant que profil actif",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "noProfile": "Vous n'avez pas encore de profil, veuillez répondre aux questions pour créer votre premier profil",
+    "rangeAnswer": "Entre $begin et $end $val",
+    "create": "Créer un profil"
+  },
+  "groups": {
+    "title": "Groupes",
+    "members": "Membres",
+    "settings": {
+      "about": "Information sur le groupe",
+      "groupName": "Nom du groupe",
+      "groupSettings": "Paramètres du groupe",
+      "close": "Fermer le groupe",
+      "archive": "Archiver le groupe",
+      "quit": "Quitter le groupe",
+      "maxSize": "Nombre de membres maximum"
+    },
+    "create": "Créer un groupe",
+    "join": "Rejoindre un groupe",
+    "joinGroupChoice": "Voulez-vous rejoindre ce groupe ?",
+    "invitations": "Invitations",
+    "noOpenGroup": "Pas de groupes ouverts",
+    "addMember": "Ajouter un membre",
+    "email": "Entrez l'adresse email du membre",
+    "open": "Groupes ouverts",
+    "closed": "Groupes fermés",
+    "archived": "Groupes archivés",
+    "chat": {
+      "open": "Ouvert",
+      "close": "Fermé",
+      "hint": "Écrivez un message...",
+      "pinned_messages": {
+        "title": "Messages épinglés",
+        "empty": "Aucun message épinglé"
+      }
+    },
+    "channel": {
+      "title": "Cannaux",
+      "add": {
+        "title": "Ajouter un canal",
+        "label": "Nom du canal"
+      },
+      "rename": {
+        "title": "Renommer le canal",
+        "label": "Nom du canal"
+      },
+      "delete": {
+        "title": "Supprimer le canal",
+        "content": "Êtes-vous sûr de vouloir supprimer ce canal ?",
+        "cancel": "Annuler",
+        "confirm": "Supprimer"
+      }
+    },
+    "budget": {
+      "title": "Budget"
+    }
+  },
+  "settings": {
+    "title": "Paramètres",
+    "about": "Informations personnelles",
+    "firstname": "Changer de prénom",
+    "lastname": "Changer de nom",
+    "noPhoneNumber": "Aucun numéro",
+    "phoneNumber": "Changer de numéro",
+    "email": "Changer d'email",
+    "newEmail": "Nouveau email",
+    "theme": "Thème",
+    "darkMode": "Mode sombre",
+    "lightMode": "Mode clair",
+    "deleteAccount": "Supprimer mon compte",
+    "password": "Changer de mot de passe",
+    "oldPassword": "Ancien mot de passe",
+    "newPassword": "Nouveau mot de passe",
+    "confirmDeleteAccount": "Confirmer le mot de passe pour supprimer votre compte",
+    "country": "Changer de pays",
+    "city": "Changer de ville"
+  },
+  "errors": {
+    "login": "Identifiants incorrects",
+    "unexpected": "Une erreur est survenue, veuillez vous reconnectez.",
+    "exceptions": {
+      "unauthorized": "Non autorisé",
+      "serverError": "Erreur de serveur",
+      "unexpected": "Une erreur est survenue",
+      "responseFormat": "Mauvais format de réponse"
+    },
+    "internet": "Pas de connexion internet",
+    "wrongCodeConfirmation": "Code incorrect",
+    "firebase": "Erreur d'initialisation de Firebase",
+    "wrongPassword": "Mot de passe incorrect"
+  }
+}

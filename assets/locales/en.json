@@ -1,0 +1,292 @@
+{
+  "common": {
+    "login": "Connect",
+    "logout": "Disconnect",
+    "reconnect": "Reconnect",
+    "description": "Description",
+    "account": "Account",
+    "gender": "Gender",
+    "back": "Back",
+    "cancel": "Cancel",
+    "save": "Save",
+    "submit": "Submit",
+    "tryAgain": "Try again",
+    "validate": "Validate",
+    "next": "Next",
+    "start": "Start",
+    "days": "days",
+    "yearsOld": "years old",
+    "people": "people",
+    "search": "Search",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "user": {
+    "firstname": "Firstname",
+    "lastname": "Lastname",
+    "email": "Email",
+    "password": "Password",
+    "phoneNumber": "Phone number",
+    "birthDate": "Birth date",
+    "gender": {
+      "man": "Man",
+      "woman": "Woman",
+      "other": "Other"
+    },
+    "country": "Country",
+    "city": "City",
+    "noPhoneNumber": "No phone number",
+    "noCity": "No city"
+  },
+  "auth": {
+    "firstname": "Your firstname",
+    "lastname": "Your lastname",
+    "email": "Your email",
+    "password": "Your password",
+    "phoneNumber": "Your phone number",
+    "country": "Your country",
+    "city": "Your city",
+    "createAccount": "Create an account",
+    "forgotPassword": "Forgot your password?",
+    "verification": {
+      "title": "Account Verification",
+      "description": "Please enter the code sent to your email address to activate your account.",
+      "code": "Code",
+      "label": "Enter the code",
+      "submit": "Verify",
+      "sendBack": "Send a new code",
+      "resendCountdown": "Resend in $time seconds"
+    },
+    "forgot_password": {
+      "title": "Forgot your password?",
+      "description": "Please enter your email address and we will send you a code to reset your password.",
+      "email": "Email",
+      "label": "Enter your email",
+      "submit": "Send code"
+    },
+    "reset_password": {
+      "title": "Reset your password",
+      "description": "Please enter the code sent by email and your new password.",
+      "password": "Password",
+      "password_label": "Enter your password",
+      "code": "Code",
+      "code_label": "Enter the code",
+      "submit": "Reset password"
+    },
+    "google": {
+      "login": "Sign in with Google",
+      "moreInfo": "Please enter the complementary information"
+    }
+  },
+  "cards": {
+    "creation_profile": {
+      "title": "Create your travel profile",
+      "subtitle": "Press the button to start the profile creation"
+    },
+    "name_profile": {
+      "title": "Profile generated!",
+      "subtitle": "Give a name to your profile before the matchmaking process.",
+      "label": "Name of the profile",
+      "hint": "Ex: Summer profile"
+    },
+    "group_found": {
+      "title": "Group found!",
+      "button": "Join",
+      "retry": "Try another group",
+      "members": "$count Members",
+      "loading": {
+        "title": "Matchmaking...",
+        "subtitle": "We are searching for a group, you will be notified when we find one."
+      }
+    },
+    "availability": {
+      "title": "Availability",
+      "subtitle": "Choose your availability",
+      "begin": "Begin",
+      "end": "End"
+    },
+    "chillOrVisit": {
+      "title": "Chill or visit ?",
+      "chill": "Chill",
+      "visit": "Visit",
+      "noPreference": "No preference"
+    },
+    "aboutFood": {
+      "title": "Rather eat at restaurants or cook ?",
+      "restaurant": "Restaurant",
+      "cooking": "Cook",
+      "noPreference": "No preference"
+    },
+    "goOutAtNight": {
+      "title": "Go out at night ?",
+      "yes": "Yes",
+      "no": "No",
+      "noPreference": "No preference"
+    },
+    "sport": {
+      "title": "Sport ?",
+      "yes": "Yes",
+      "no": "No",
+      "noPreference": "No preference"
+    },
+    "travelWithPersonFromSameCity": {
+      "title": "Travel with person from same city ?",
+      "yes": "Yes",
+      "no": "No",
+      "noPreference": "No preference"
+    },
+    "travelWithPersonFromSameCountry": {
+      "title": "Travel with person from same country ?",
+      "yes": "Yes",
+      "no": "No",
+      "noPreference": "No preference"
+    },
+    "travelWithPersonSameLanguage": {
+      "title": "Travel with person talking the same language ?",
+      "yes": "Yes",
+      "no": "No",
+      "noPreference": "No preference"
+    },
+    "gender": {
+      "title": "Gender of the members ?",
+      "male": "Men",
+      "female": "Women",
+      "noPreference": "No preference"
+    },
+    "destinationTypes": {
+      "title": "Destination Type ?",
+      "subtitle": "Please select the types of destinations you wish to visit.",
+      "mountain": "Mountain",
+      "beach": "Beach",
+      "city": "City",
+      "countryside": "Countryside",
+      "naturalarea": "Natural Area",
+      "island": "Island",
+      "noPreference": "No preference"
+    },
+    "groupSize": {
+      "title": "How many people do you want to go with?",
+      "subtitle": "Please select a range between 2 and 10+."
+    },
+    "ages": {
+      "title": "Age of the members ?",
+      "subtitle": "Please select a range between 18 and 100+."
+    },
+    "budget": {
+      "title": "What is your budget ?",
+      "subtitle": "Please select a range between 100$ and 2000$+."
+    },
+    "duration": {
+      "title": "How long do you want to go ?",
+      "subtitle": "Please select a range between 1 and 30 days+."
+    },
+    "swipeToChoose": "Swipe to choose your preference",
+    "no_preference": "Any"
+  },
+  "matchmaking": {
+    "title": "Matchmaking",
+    "retryProfile": "Retry a matchmaking with this profile",
+    "noGroup": "No group found, wait for another user to match with you or try with another profile.",
+    "newProfile": "New profile"
+  },
+  "profile": {
+    "title": "Profile",
+    "active": "Active profile",
+    "other": "Other profiles",
+    "information": "Information",
+    "name": "Profile name",
+    "answers": "Answers",
+    "defineActive": "Define as active profile",
+    "edit": "Edit",
+    "delete": "Delete",
+    "noProfile": "You do not have a profile yet, please answer the questions to create your first profile",
+    "rangeAnswer": "Between $begin and $end $val",
+    "create": "Create a profile"
+  },
+  "groups": {
+    "title": "Groups",
+    "members": "Members",
+    "settings": {
+      "about": "About the group",
+      "groupName": "Name of the group",
+      "groupSettings": "Settings for the group",
+      "close": "Close the group",
+      "archive": "Archive the group",
+      "quit": "Quit the group",
+      "maxSize": "Maximum number of members"
+    },
+    "create": "Create a group",
+    "join": "Join a group",
+    "joinGroupChoice": "Do you want to join the group ?",
+    "invitations": "Invitations",
+    "noOpenGroup": "No open groups",
+    "addMember": "Add a member",
+    "email": "Enter the email of the member you want to add",
+    "open": "Open groups",
+    "closed": "Closed groups",
+    "archived": "Archived groups",
+    "chat": {
+      "open": "Opened",
+      "close": "Closed",
+      "hint": "Type a message...",
+      "pinned_messages": {
+        "title": "Pinned messages",
+        "empty": "No pinned messages"
+      }
+    },
+    "channel": {
+      "title": "Channel",
+      "add": {
+        "title": "Create new channel",
+        "label": "Name"
+      },
+      "rename": {
+        "title": "Rename the channel",
+        "label": "New name"
+      },
+      "delete": {
+        "title": "Delete the channel",
+        "content": "Are you sure you want to delete the channel ?",
+        "cancel": "Cancel",
+        "confirm": "Delete"
+      }
+    },
+    "budget": {
+      "title": "Budget"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "about": "About me",
+    "firstname": "Change the firstname",
+    "lastname": "Change the lastname",
+    "noPhoneNumber": "No phone number",
+    "phoneNumber": "Change the phone number",
+    "email": "Change the email",
+    "newEmail": "New email",
+    "theme": "Theme",
+    "darkMode": "Dark mode",
+    "lightMode": "Light mode",
+    "deleteAccount": "Delete my account",
+    "password": "Change the password",
+    "oldPassword": "Old password",
+    "newPassword": "New password",
+    "confirmDeleteAccount": "Confirm password to delete your account",
+    "country": "Change your country",
+    "city": "Change your city"
+  },
+  "errors": {
+    "login": "Wrong email or password",
+    "unexpected": "An error occurred, please reconnect.",
+    "exceptions": {
+      "unauthorized": "Unauthorized",
+      "serverError": "Server error",
+      "unexpected": "An error occured",
+      "responseFormat": "Bad response format"
+    },
+    "internet": "No internet connection",
+    "wrongCodeConfirmation": "Wrong confirmation code",
+    "firebase": "Error initializing Firebase",
+    "wrongPassword": "Wrong password"
+  }
+}

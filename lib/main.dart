@@ -1,7 +1,52 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:overlay_support/overlay_support.dart';
+import 'package:trip_n_joy_front/constants/common/colors.style.dart';
+import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
+import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
+import 'package:trip_n_joy_front/providers/user/user.provider.dart';
+import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
+import 'package:trip_n_joy_front/screens/auth/verification.screen.dart';
+import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
+import 'package:trip_n_joy_front/services/notification/push_notification.service.dart';
+import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
-void main() {
-  runApp(const MyApp());
+import 'app_localizations.dart';
+import 'constants/navbar/navbar.enum.dart';
+import 'screens/groups/groups.screen.dart';
+import 'screens/matchmaking/matchmaking.screen.dart';
+import 'screens/notification/notification.screen.dart';
+import 'screens/settings/settings.screen.dart';
+
+void main() async {
+  if (!Platform.isIOS && !Platform.isMacOS) {
+    await initFirebase();
+    WidgetsFlutterBinding.ensureInitialized();
+    await FlutterDownloader.initialize();
+  }
+
+  runApp(const ProviderScope(child: OverlaySupport.global(child: MyApp())));
+}
+
+Future initFirebase() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await initNotifications();
+}
+
+Future initNotifications() async {
+  final pushNotificationService = PushNotificationService(FirebaseMessaging.instance);
+  pushNotificationService.init();
+  pushNotificationService.setNotifications();
 }
 
 class MyApp extends StatelessWidget {
@@ -11,7 +56,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'TripNJoy',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -22,15 +67,51 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+
+        fontFamily: GoogleFonts.roboto().fontFamily,
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(
+          background: CColors.background,
+          primary: CColors.primary,
+          secondary: CColors.secondary,
+          tertiary: CColors.tertiary,
+          onBackground: CColors.onBackground,
+          onPrimary: CColors.onPrimary,
+          onSecondary: CColors.onSecondary,
+          onTertiary: CColors.onTertiary,
+          primaryContainer: CColors.variant,
+          error: CColors.error,
+          onError: CColors.onError,
+          surface: CColors.surface,
+          onSurface: CColors.onSurface,
+        ),
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: MaterialStateProperty.all(CColors.secondary),
+        ),
+        sliderTheme: const SliderThemeData(
+          thumbColor: CColors.secondary,
+          activeTickMarkColor: CColors.secondary,
+          activeTrackColor: CColors.secondary,
+          showValueIndicator: ShowValueIndicator.always,
+          overlayColor: CColors.secondary,
+          valueIndicatorColor: CColors.secondary,
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      supportedLocales: const [
+        Locale('fr', 'FR'),
+        Locale('en', 'en_US'),
+      ],
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      home: const TripNJoy(title: 'TripNJoy'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class TripNJoy extends StatefulHookConsumerWidget {
+  const TripNJoy({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -44,72 +125,94 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  ConsumerState<TripNJoy> createState() => _TripNJoyState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+class _TripNJoyState extends ConsumerState<TripNJoy> {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+    final authViewModel = ref.watch(authProvider);
+    final userViewModel = ref.watch(userProvider.notifier);
+    useEffect(() {
+      authViewModel.updateTokenFromStorage().then((value) {
+        if (value != null) {
+          userViewModel.loadUser().then((value) {
+            if (value == null) authViewModel.logout();
+          });
+        }
+      });
+      return () {};
+    }, []);
+
+    if (!authViewModel.isAuthenticated) {
+      return Auth();
+    }
+
+    useEffect(() {
+      if (authViewModel.isAuthenticated && mounted) {
+        userViewModel.loadUser().then((value) {
+          if (value != null && mounted) {
+            if (value.confirmed == false) {
+              logger.d("user not confirmed");
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => AccountVerification(
+                    userId: value.id!.toInt(),
+                  ),
+                ),
+              );
+            }
+          } else {
+            logger.d("user not found");
+            authViewModel.logout();
+          }
+        });
+      }
+      return null;
+    }, [authViewModel]);
+
+    final user = ref.watch(userProvider);
+    final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
+    return user.when(
+        data: (data) => Scaffold(
+              appBar: selectedPage != NavbarPage.MATCHMAKING
+                  ? AppBar(
+                      title: Text(widget.title),
+                      backgroundColor: Theme.of(context).colorScheme.background,
+                      foregroundColor: Theme.of(context).colorScheme.onBackground,
+                      shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                    )
+                  : null,
+              extendBody: true,
+              body: Container(
+                child: getPageWidget(selectedPage),
+              ),
+              bottomNavigationBar: const Navbar(),
+              resizeToAvoidBottomInset: false,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        error: (error, r) {
+          logger.e(error, r);
+          return const ErrorScreen();
+        },
+        loading: () => Scaffold(
+            body: Center(
+                child: Container(
+                    color: Theme.of(context).colorScheme.background, child: const CircularProgressIndicator()))));
+  }
+
+  getPageWidget(NavbarPage selectedPage) {
+    switch (selectedPage) {
+      case NavbarPage.MATCHMAKING:
+        return const MatchmakingPage();
+      case NavbarPage.GROUPS:
+        return const GroupsPage();
+      case NavbarPage.NOTIFICATIONS:
+        return const NotificationPage();
+      case NavbarPage.SETTINGS:
+        return const SettingsPage();
+      default:
+        return const MatchmakingPage();
+    }
   }
 }
