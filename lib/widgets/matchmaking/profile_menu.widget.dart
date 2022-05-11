@@ -57,7 +57,8 @@ class ProfileMenu extends ConsumerWidget {
                 ],
               ),
                 onTap: () async {
-                  matchmakingViewModel.retryMatchmaking(profileModel.id!.toInt());
+                  await matchmakingViewModel.retryMatchmaking(profileModel.id!.toInt());
+                  profileViewModel.getUserProfiles();
                 }),
             PopupMenuItem(
               value: PopupMenuItemType.EDIT,

@@ -311,7 +311,7 @@ class MatchmakingViewModel extends ChangeNotifier {
     updateMatchmakingStatus(matchmakingResult.type!);
   }
 
-  void retryMatchmaking(int profileId) async {
+  Future<void> retryMatchmaking(int profileId) async {
     int? id = httpService.getUserIdFromToken(authViewModel.token!);
 
     final matchmakingResponse = await httpService.retryMatchmaking(id!.toInt(), profileId);
