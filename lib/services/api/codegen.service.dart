@@ -273,6 +273,18 @@ class CodegenService extends HttpService {
   }
 
   @override
+  Future<MatchMakingResponse?> retryMatchmaking(int userId, int profileId) async {
+    final response = await api.matchmakingPatch(userId: userId, profileId: profileId);
+
+    try {
+      return MatchMakingResponse(taskId: response.body!['taskId'], errorMessage: response.body!['errorMessage']);
+    } catch (e) {
+      return null;
+    }
+  }
+
+
+  @override
   Future<StompClient> loadWebSocketChannel(void Function(bool) onConnection) async {
     final requestUrl = api.client.baseUrl + '/wbsocket';
     StompClient stompClient = StompClient(

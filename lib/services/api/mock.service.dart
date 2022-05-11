@@ -239,6 +239,11 @@ class MockService extends HttpService {
   }
 
   @override
+  Future<MatchMakingResponse?> retryMatchmaking(int userId, int profileId) async {
+    return Future.value(MatchMakingResponse(taskId: 1));
+  }
+
+  @override
   Future<StompClient> loadWebSocketChannel(void Function(bool) onConnection) {
     // TODO: implement loadWebSocketChannel
     throw UnimplementedError();

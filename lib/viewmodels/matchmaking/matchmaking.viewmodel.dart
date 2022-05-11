@@ -36,7 +36,6 @@ class MatchmakingViewModel extends ChangeNotifier {
   int index = 0;
   MatchmakingStatus status = MatchmakingStatus.CREATE_PROFILE;
 
-  ProfileModel? activeProfile;
   Map<String, dynamic> profileCreationRequest = {};
 
   // we use a list instead of a stack, because we need to handle user mistakes and go back to the previous card
@@ -61,235 +60,177 @@ class MatchmakingViewModel extends ChangeNotifier {
   void startProfileCreation() {
     cards = [
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            SwipeCard(
-              name: "chillOrVisit",
-              title: AppLocalizations.of(context).translate("cards.chillOrVisit.title"),
-              subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-              onTop: onTop,
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
-              backgroundColor: CardColors.red,
-              isLoading: isLoading,
-              values: const ["chill", "visit", "no_preference"],
-            ),
+        builder: (context, onTop, isLoading) => SwipeCard(
+          name: "chillOrVisit",
+          title: AppLocalizations.of(context).translate("cards.chillOrVisit.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+          onTop: onTop,
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: CardColors.red,
+          isLoading: isLoading,
+          values: const ["chill", "visit", "no_preference"],
+        ),
       ),
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            SwipeCard(
-              name: "aboutFood",
-              title: AppLocalizations.of(context).translate("cards.aboutFood.title"),
-              subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-              onTop: onTop,
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
-              backgroundColor: CardColors.yellow,
-              isLoading: isLoading,
-              values: const ["restaurant", "cooking", "no_preference"],
-            ),
+        builder: (context, onTop, isLoading) => SwipeCard(
+          name: "aboutFood",
+          title: AppLocalizations.of(context).translate("cards.aboutFood.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+          onTop: onTop,
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: CardColors.yellow,
+          isLoading: isLoading,
+          values: const ["restaurant", "cooking", "no_preference"],
+        ),
       ),
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            SwipeCard(
-              name: "goOutAtNight",
-              title: AppLocalizations.of(context).translate("cards.goOutAtNight.title"),
-              subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-              onTop: onTop,
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
-              backgroundColor: CardColors.green,
-              isLoading: isLoading,
-              values: const ["yes", "no", "no_preference"],
-            ),
+        builder: (context, onTop, isLoading) => SwipeCard(
+          name: "goOutAtNight",
+          title: AppLocalizations.of(context).translate("cards.goOutAtNight.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+          onTop: onTop,
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: CardColors.green,
+          isLoading: isLoading,
+          values: const ["yes", "no", "no_preference"],
+        ),
       ),
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            SwipeCard(
-              name: "sport",
-              title: AppLocalizations.of(context).translate("cards.sport.title"),
-              subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-              onTop: onTop,
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
-              backgroundColor: CardColors.lightBlue,
-              isLoading: isLoading,
-              values: const ["yes", "no", "no_preference"],
-            ),
+        builder: (context, onTop, isLoading) => SwipeCard(
+          name: "sport",
+          title: AppLocalizations.of(context).translate("cards.sport.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+          onTop: onTop,
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: CardColors.lightBlue,
+          isLoading: isLoading,
+          values: const ["yes", "no", "no_preference"],
+        ),
       ),
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            MultipleChoiceCard(
-              name: "destinationTypes",
-              title: AppLocalizations.of(context).translate("cards.destinationTypes.title"),
-              subtitle: AppLocalizations.of(context).translate("cards.destinationTypes.subtitle"),
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
-              backgroundColor: CardColors.darkBlue,
-              isLoading: isLoading,
-              values: const ["mountain", "beach", "city", "countryside"],
-              onPressed: submitMultipleChoiceCard,
-            ),
+        builder: (context, onTop, isLoading) => MultipleChoiceCard(
+          name: "destinationTypes",
+          title: AppLocalizations.of(context).translate("cards.destinationTypes.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.destinationTypes.subtitle"),
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: CardColors.darkBlue,
+          isLoading: isLoading,
+          values: const ["mountain", "beach", "city", "countryside"],
+          onPressed: submitMultipleChoiceCard,
+        ),
       ),
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            SwipeCard(
-              name: "travelWithPersonFromSameCity",
-              title: AppLocalizations.of(context).translate("cards.travelWithPersonFromSameCity.title"),
-              subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-              onTop: onTop,
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
-              backgroundColor: CardColors.purple,
-              isLoading: isLoading,
-              values: const ["yes", "no", "no_preference"],
-            ),
+        builder: (context, onTop, isLoading) => SwipeCard(
+          name: "travelWithPersonFromSameCity",
+          title: AppLocalizations.of(context).translate("cards.travelWithPersonFromSameCity.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+          onTop: onTop,
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: CardColors.purple,
+          isLoading: isLoading,
+          values: const ["yes", "no", "no_preference"],
+        ),
       ),
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            SwipeCard(
-              name: "travelWithPersonFromSameCountry",
-              title: AppLocalizations.of(context).translate("cards.travelWithPersonFromSameCountry.title"),
-              subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-              onTop: onTop,
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
-              backgroundColor: CardColors.pink,
-              isLoading: isLoading,
-              values: const ["yes", "no", "no_preference"],
-            ),
+        builder: (context, onTop, isLoading) => SwipeCard(
+          name: "travelWithPersonFromSameCountry",
+          title: AppLocalizations.of(context).translate("cards.travelWithPersonFromSameCountry.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+          onTop: onTop,
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: CardColors.pink,
+          isLoading: isLoading,
+          values: const ["yes", "no", "no_preference"],
+        ),
       ),
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            SwipeCard(
-              name: "travelWithPersonSameLanguage",
-              title: AppLocalizations.of(context).translate("cards.travelWithPersonSameLanguage.title"),
-              subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-              onTop: onTop,
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
-              backgroundColor: CardColors.white,
-              shadowColor: Theme
-                  .of(context)
-                  .colorScheme
-                  .secondary
-                  .withOpacity(0.5),
-              isLoading: isLoading,
-              values: const ["yes", "no", "no_preference"],
-            ),
+        builder: (context, onTop, isLoading) => SwipeCard(
+          name: "travelWithPersonSameLanguage",
+          title: AppLocalizations.of(context).translate("cards.travelWithPersonSameLanguage.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+          onTop: onTop,
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: CardColors.white,
+          shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+          isLoading: isLoading,
+          values: const ["yes", "no", "no_preference"],
+        ),
       ),
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            SwipeCard(
-              name: "gender",
-              title: AppLocalizations.of(context).translate("cards.gender.title"),
-              subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-              onTop: onTop,
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
-              backgroundColor: CardColors.orange,
-              isLoading: isLoading,
-              values: const ["male", "female", "no_preference"],
-            ),
+        builder: (context, onTop, isLoading) => SwipeCard(
+          name: "gender",
+          title: AppLocalizations.of(context).translate("cards.gender.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+          onTop: onTop,
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: CardColors.orange,
+          isLoading: isLoading,
+          values: const ["male", "female", "no_preference"],
+        ),
       ),
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            RangeCard(
-              name: "groupSize",
-              title: AppLocalizations.of(context).translate("cards.groupSize.title"),
-              subtitle: AppLocalizations.of(context).translate("cards.groupSize.subtitle"),
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
-              backgroundColor: CardColors.purple,
-              isLoading: isLoading,
-              min: 2,
-              max: 10,
-              onPressed: submitRangeValue,
-            ),
+        builder: (context, onTop, isLoading) => RangeCard(
+          name: "groupSize",
+          title: AppLocalizations.of(context).translate("cards.groupSize.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.groupSize.subtitle"),
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: CardColors.purple,
+          isLoading: isLoading,
+          min: 2,
+          max: 10,
+          onPressed: submitRangeValue,
+        ),
       ),
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            RangeCard(
-              name: "ages",
-              title: AppLocalizations.of(context).translate("cards.ages.title"),
-              subtitle: AppLocalizations.of(context).translate("cards.ages.subtitle"),
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
-              backgroundColor: CardColors.red,
-              isLoading: isLoading,
-              min: 18,
-              max: 100,
-              onPressed: submitRangeValue,
-            ),
+        builder: (context, onTop, isLoading) => RangeCard(
+          name: "ages",
+          title: AppLocalizations.of(context).translate("cards.ages.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.ages.subtitle"),
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: CardColors.red,
+          isLoading: isLoading,
+          min: 18,
+          max: 100,
+          onPressed: submitRangeValue,
+        ),
       ),
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            RangeCard(
-              name: "budget",
-              title: AppLocalizations.of(context).translate("cards.budget.title"),
-              subtitle: AppLocalizations.of(context).translate("cards.budget.subtitle"),
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
-              backgroundColor: CardColors.yellow,
-              isLoading: isLoading,
-              min: 100,
-              max: 2000,
-              onPressed: submitRangeValue,
-            ),
+        builder: (context, onTop, isLoading) => RangeCard(
+          name: "budget",
+          title: AppLocalizations.of(context).translate("cards.budget.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.budget.subtitle"),
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: CardColors.yellow,
+          isLoading: isLoading,
+          min: 100,
+          max: 2000,
+          onPressed: submitRangeValue,
+        ),
       ),
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            RangeCard(
-              name: "duration",
-              title: AppLocalizations.of(context).translate("cards.duration.title"),
-              subtitle: AppLocalizations.of(context).translate("cards.duration.subtitle"),
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .primary,
-              backgroundColor: CardColors.green,
-              isLoading: isLoading,
-              min: 1,
-              max: 30,
-              onPressed: submitRangeValue,
-            ),
+        builder: (context, onTop, isLoading) => RangeCard(
+          name: "duration",
+          title: AppLocalizations.of(context).translate("cards.duration.title"),
+          subtitle: AppLocalizations.of(context).translate("cards.duration.subtitle"),
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: CardColors.green,
+          isLoading: isLoading,
+          min: 1,
+          max: 30,
+          onPressed: submitRangeValue,
+        ),
       ),
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            AvailabilityCard(
-              onPressed: submitAvailability,
-              isLoading: isLoading,
-            ),
+        builder: (context, onTop, isLoading) => AvailabilityCard(
+          onPressed: submitAvailability,
+          isLoading: isLoading,
+        ),
       ),
       CardModel(
-        builder: (context, onTop, isLoading) =>
-            NameProfileCard(
-              onPressed: submitProfile,
-              isLoading: isLoading,
-            ),
+        builder: (context, onTop, isLoading) => NameProfileCard(
+          onPressed: submitProfile,
+          isLoading: isLoading,
+        ),
       ),
     ].toList();
     index = 0;
@@ -331,14 +272,12 @@ class MatchmakingViewModel extends ChangeNotifier {
 
   void submitAvailability(String name, List<Availability> availabilities) {
     logger.i(
-        "Submit $name - availabilities: ${availabilities.map((e) => "begin: ${e.startDate} - end: ${e.endDate}").join(
-            ", ")}");
+        "Submit $name - availabilities: ${availabilities.map((e) => "begin: ${e.startDate} - end: ${e.endDate}").join(", ")}");
     profileCreationRequest[name] = availabilities
-        .map((e) =>
-    {
-      "startDate": DateFormat('yyyy-MM-dd').format(e.startDate),
-      "endDate": DateFormat('yyyy-MM-dd').format(e.endDate)
-    })
+        .map((e) => {
+              "startDate": DateFormat('yyyy-MM-dd').format(e.startDate),
+              "endDate": DateFormat('yyyy-MM-dd').format(e.endDate)
+            })
         .toList();
     nextCard();
   }
@@ -350,28 +289,13 @@ class MatchmakingViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void retryMatchmaking() async {
-    status = MatchmakingStatus.WAITING_MATCHMAKING;
-    notifyListeners();
-
-    // TODO : remove this call as this function should be called after a notification is sent
-    await mockMatchmaking();
-  }
-
-  void submitProfile(String name, String value) async {
-    status = MatchmakingStatus.WAITING_MATCHMAKING;
-    submitCard(name, value);
-
-    int? id = httpService.getUserIdFromToken(authViewModel.token!);
-
-    final matchmakingResponse = await httpService.startMatchmaking(
-        id!, ProfileCreationRequest.fromJsonFactory(profileCreationRequest));
+  Future<void> handleMatchmakingResponse(MatchMakingResponse? matchmakingResponse) async {
     if (matchmakingResponse == null) {
       status = MatchmakingStatus.CREATE_PROFILE;
       notifyListeners();
       return;
     }
-    
+
     final taskResponse = matchmakingResponse.taskId;
 
     await storage.delete(key: taskKey);
@@ -385,11 +309,26 @@ class MatchmakingViewModel extends ChangeNotifier {
     }
 
     updateMatchmakingStatus(matchmakingResult.type!);
+  }
 
-    /* TODO : remove this call as this function should be called after a notification is sent
-    await createProfile();
-    await mockMatchmaking();
-     */
+  void retryMatchmaking(int profileId) async {
+    int? id = httpService.getUserIdFromToken(authViewModel.token!);
+
+    final matchmakingResponse = await httpService.retryMatchmaking(id!.toInt(), profileId);
+    await handleMatchmakingResponse(matchmakingResponse);
+  }
+
+  void submitProfile(String name, String value) async {
+    status = MatchmakingStatus.WAITING_MATCHMAKING;
+    submitCard(name, value);
+
+    int? id = httpService.getUserIdFromToken(authViewModel.token!);
+
+    final matchmakingResponse =
+        await httpService.startMatchmaking(id!, ProfileCreationRequest.fromJsonFactory(profileCreationRequest));
+    profileCreationRequest = {};
+
+    await handleMatchmakingResponse(matchmakingResponse);
   }
 
   Future<void> mockMatchmaking() async {
@@ -399,7 +338,6 @@ class MatchmakingViewModel extends ChangeNotifier {
 
   Future<void> createProfile() async {
     await profileViewModel.createProfile(ProfileCreationRequest.fromJsonFactory(profileCreationRequest));
-    profileCreationRequest = {};
   }
 
   void restartProfileCreation() async {

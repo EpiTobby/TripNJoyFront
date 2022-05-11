@@ -50,6 +50,8 @@ abstract class HttpService {
 
   Future<MatchMakingResult?> getMatchmakingResult(int taskId);
 
+  Future<MatchMakingResponse?> retryMatchmaking(int userId, int profileId);
+
   Future<List<GroupModel>?> getGroups(int id);
 
   Future<List<GroupModel>?> getUserInvitesGroups(int id);
