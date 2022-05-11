@@ -26,11 +26,10 @@ class InputDialogChoice extends StatefulHookWidget {
 }
 
 class _InputDialogChoiceState extends State<InputDialogChoice> {
-
-  void pressButton(ValueNotifier<AsyncValue<void>>status, ValueNotifier<bool> value, BuildContext ctx) async {
+  void pressButton(ValueNotifier<AsyncValue<void>> status, bool value, BuildContext ctx) async {
     status.value = AsyncLoading();
     try {
-      await widget.onConfirm(value.value);
+      await widget.onConfirm(value);
       status.value = AsyncData(null);
       Navigator.of(ctx).pop();
     } on HttpException catch (e) {
@@ -41,7 +40,6 @@ class _InputDialogChoiceState extends State<InputDialogChoice> {
 
   @override
   Widget build(BuildContext context) {
-    final value = useState(true);
     final status = useState<AsyncValue<void>>(AsyncValue.data(null));
     return AlertDialog(
       title: Center(child: Text(widget.title ?? '', style: TextStyle(color: Theme.of(context).colorScheme.primary))),
@@ -55,16 +53,14 @@ class _InputDialogChoiceState extends State<InputDialogChoice> {
                 text: widget.cancelChoice,
                 isLoading: status.value.isLoading,
                 onPressed: () async {
-                  value.value = false;
-                  pressButton(status, value, context);
+                  pressButton(status, false, context);
                 },
               ),
               PrimaryButton(
                 text: widget.confirmChoice,
                 isLoading: status.value.isLoading,
                 onPressed: () async {
-                  value.value = true;
-                  pressButton(status, value, context);
+                  pressButton(status, true, context);
                 },
                 fitContent: true,
               ),
