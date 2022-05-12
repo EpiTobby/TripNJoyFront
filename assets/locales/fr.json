@@ -251,6 +251,21 @@
         "confirm": "Supprimer"
       }
     },
+    "planning": {
+      "title": "Planning",
+      "destination": {
+        "title": "Destination",
+        "edit": "Modifier la destination"
+      },
+      "date": {
+        "title": "Date",
+        "edit": "Modifier la date"
+      },
+      "note": {
+        "title": "Note",
+        "edit": "Modifier la note"
+      }
+    },
     "budget": {
       "title": "Budget"
     }

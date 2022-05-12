@@ -7,6 +7,7 @@ import 'package:trip_n_joy_front/providers/groups/chat.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/group_chat_pinned_messages.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/group_planning.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_element.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_file.widget.dart';
@@ -67,73 +68,88 @@ class _GroupChatState extends ConsumerState<GroupChat> {
 
     return Scaffold(
         appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_rounded),
-              splashRadius: 16.0,
-              onPressed: () => {_navigator.pop()},
-            ),
-            title: Column(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_rounded),
+            splashRadius: 16.0,
+            onPressed: () => {_navigator.pop()},
+          ),
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                group.name ?? group.members!.map((e) => e.firstname).join(', '),
+                style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
+              ),
+              Text(
+                widget.channel?.name ?? '',
+                style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary),
+              ),
+            ],
+          ),
+          actions: [
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  group.name ?? group.members!.map((e) => e.firstname).join(', '),
-                  style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
-                ),
-                Text(
-                  widget.channel?.name ?? '',
-                  style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary),
+                  group.state! == GroupModelState.closed
+                      ? AppLocalizations.of(context).translate('groups.chat.close')
+                      : AppLocalizations.of(context).translate('groups.chat.open'),
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: group.state! == GroupModelState.closed
+                          ? Theme.of(context).colorScheme.tertiary
+                          : Theme.of(context).colorScheme.secondary),
                 ),
               ],
             ),
-            actions: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    group.state! == GroupModelState.closed
-                        ? AppLocalizations.of(context).translate('groups.chat.close')
-                        : AppLocalizations.of(context).translate('groups.chat.open'),
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: group.state! == GroupModelState.closed
-                            ? Theme.of(context).colorScheme.tertiary
-                            : Theme.of(context).colorScheme.secondary),
-                  ),
-                ],
-              ),
-              PopupMenuButton(
-                onSelected: (value) {
-                  if (value == 1) {
-                    _navigator.push(MaterialPageRoute(builder: (_) => GroupsSettings(groupId: group.id!.toInt())));
-                  }
-                  if (value == 2 && widget.channel?.id != null) {
-                    _navigator.push(
-                      MaterialPageRoute(
-                        builder: (_) => PinnedMessages(
-                          channelId: widget.channel!.id!,
-                        ),
+            PopupMenuButton(
+              onSelected: (value) {
+                if (value == 1) {
+                  _navigator.push(MaterialPageRoute(builder: (_) => GroupsSettings(groupId: group.id!.toInt())));
+                }
+                if (value == 2 && widget.channel?.id != null) {
+                  _navigator.push(
+                    MaterialPageRoute(
+                      builder: (_) => PinnedMessages(
+                        channelId: widget.channel!.id!,
                       ),
-                    );
-                  }
-                },
-                itemBuilder: (ctx) => [
-                  if (widget.channel != null)
-                    PopupMenuItem(
-                      child: Text(AppLocalizations.of(context).translate('groups.chat.pinned_messages.title')),
-                      value: 2,
                     ),
+                  );
+                }
+                if (value == 3) {
+                  _navigator.push(
+                    MaterialPageRoute(
+                      builder: (_) => GroupPlanning(
+                        groupId: group.id!.toInt(),
+                      ),
+                    ),
+                  );
+                }
+              },
+              itemBuilder: (ctx) => [
+                if (group.state == GroupModelState.closed)
                   PopupMenuItem(
-                    child: Text(AppLocalizations.of(context).translate('settings.title')),
-                    value: 1,
+                    child: Text(AppLocalizations.of(context).translate('groups.planning.title')),
+                    value: 3,
                   ),
-                ],
-              )
-            ],
-            foregroundColor: Theme.of(context).colorScheme.primary,
-            backgroundColor: Theme.of(context).colorScheme.onPrimary,
-            shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5)),
+                if (widget.channel != null)
+                  PopupMenuItem(
+                    child: Text(AppLocalizations.of(context).translate('groups.chat.pinned_messages.title')),
+                    value: 2,
+                  ),
+                PopupMenuItem(
+                  child: Text(AppLocalizations.of(context).translate('settings.title')),
+                  value: 1,
+                ),
+              ],
+            )
+          ],
+          foregroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: Theme.of(context).colorScheme.onPrimary,
+          shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+        ),
         body: Column(
           children: [
             widget.channel == null || isLoadingMessages

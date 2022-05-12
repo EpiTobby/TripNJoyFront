@@ -8,12 +8,14 @@ class LayoutItemValue extends StatelessWidget {
     this.icon = Icons.keyboard_arrow_right_sharp,
     this.customColor,
     this.onPressed,
+    this.fontSize = 24,
   }) : super(key: key);
 
   final String value;
   final Color? customColor;
   final bool editable;
   final IconData icon;
+  final double fontSize;
 
   final void Function()? onPressed;
 
@@ -27,7 +29,7 @@ class LayoutItemValue extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               softWrap: false,
-              style: TextStyle(color: customColor ?? Theme.of(context).colorScheme.primary, fontSize: 24)),
+              style: TextStyle(color: customColor ?? Theme.of(context).colorScheme.primary, fontSize: fontSize)),
         ),
         IconButton(
             color: customColor ??
