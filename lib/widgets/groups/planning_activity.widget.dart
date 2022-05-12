@@ -9,6 +9,7 @@ class PlanningActivity extends StatelessWidget {
     this.subtitle,
     this.subsubtitle,
     this.description,
+    this.members = const [],
     this.onTap,
     this.color = ActivityColors.blue,
   }) : super(key: key);
@@ -18,6 +19,7 @@ class PlanningActivity extends StatelessWidget {
   final String? subtitle;
   final String? subsubtitle;
   final String? description;
+  final List<String> members;
   final Color color;
   final void Function()? onTap;
 
@@ -31,6 +33,14 @@ class PlanningActivity extends StatelessWidget {
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: color,
+                blurRadius: 10,
+                spreadRadius: -5,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
           child: Row(
             children: <Widget>[
@@ -45,15 +55,54 @@ class PlanningActivity extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      if (title != null)
-                        Text(
-                          title!,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.onSecondary,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              title ?? '',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.onSecondary,
+                              ),
+                            ),
                           ),
-                        ),
+                          Row(
+                            children: [
+                              ...members.take(2).map((member) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(left: 2.0),
+                                  child: CircleAvatar(
+                                    radius: 8,
+                                    backgroundImage: NetworkImage(member),
+                                  ),
+                                );
+                              }).toList(),
+                              if (members.length > 2)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 2.0),
+                                  child: CircleAvatar(
+                                    backgroundColor: Theme.of(context).colorScheme.background,
+                                    radius: 8,
+                                    child: Center(
+                                      child: Text(
+                                        '+${members.length - 2}',
+                                        style: TextStyle(
+                                          fontSize: 8,
+                                          color: Theme.of(context).colorScheme.secondary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
                       if (subtitle != null)
                         Text(
                           subtitle!,

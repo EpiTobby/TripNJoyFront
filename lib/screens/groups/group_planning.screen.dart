@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning_activity.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning_header.widget.dart';
@@ -53,11 +54,12 @@ class GroupPlanning extends HookConsumerWidget {
               color: Theme.of(context).colorScheme.background,
               size: 64,
             ),
-            title: "Beach Time",
+            title: "Beach Time !",
             subtitle: "JFK Beach",
             subsubtitle: "13h30 - 13/12/2022",
             description: "Chill and swim at the beach",
             color: ActivityColors.turquoise,
+            members: [DEFAULT_AVATAR_URL, DEFAULT_AVATAR_URL, DEFAULT_AVATAR_URL],
           ),
           Center(
             child: Icon(
