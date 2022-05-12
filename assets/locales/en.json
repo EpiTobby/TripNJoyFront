@@ -288,7 +288,8 @@
     "newPassword": "New password",
     "confirmDeleteAccount": "Confirm password to delete your account",
     "country": "Change your country",
-    "city": "Change your city"
+    "city": "Change your city",
+    "noCity": "No city"
   },
   "errors": {
     "login": "Wrong email or password",

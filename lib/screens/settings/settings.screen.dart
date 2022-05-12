@@ -145,7 +145,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           LayoutItem(
               title: AppLocalizations.of(context).translate("user.city"),
               child: LayoutItemValue(
-                value: user.city!.name!,
+                value: user.city?.name ?? AppLocalizations.of(context).translate("settings.noCity"),
                 icon: Icons.keyboard_arrow_right_sharp,
                 onPressed: () {
                   showDialog(
@@ -154,9 +154,10 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         return InputDialog(
                             title: AppLocalizations.of(context).translate("settings.city"),
                             label: AppLocalizations.of(context).translate("user.city"),
-                            initialValue: user.city!.name ?? "",
+                            initialValue: user.city?.name ?? "",
                             onConfirm: (value) async {
-                              userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(city: CityModel(name: value)));
+                              userViewModel.updateUser(
+                                  authViewModel.token!, UserUpdateRequest(city: CityModel(name: value)));
                             });
                       });
                 },
