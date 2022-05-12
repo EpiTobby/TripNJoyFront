@@ -264,6 +264,62 @@
       "note": {
         "title": "Note",
         "edit": "Modifier la note"
+      },
+      "activity": {
+        "title": "Activité",
+        "add": "Ajouter une activité",
+        "manual": "Ajouter une activité manuellement",
+        "suggestion": "Suggestion d'activités",
+        "type": {
+          "title": "Type d'activité",
+          "sport": "Sport",
+          "restaurant": "Restaurant",
+          "shopping": "Shopping",
+          "bar": "Bar",
+          "tourism": "Tourisme",
+          "park": "Parc",
+          "club": "Club",
+          "beach": "Plage",
+          "other": "Autre"
+        },
+        "edit": {
+          "title": "Information sur l'activité",
+          "name": {
+            "title": "Nom de l'activité",
+            "edit": "Modifier le nom de l'activité"
+          },
+          "location": {
+            "title": "Lieu de l'activité",
+            "edit": "Modifier le lieu de l'activité"
+          },
+          "begin": {
+            "title": "Date de début",
+            "edit": "Modifier la date de début"
+          },
+          "end": {
+            "title": "Date de fin",
+            "edit": "Modifier la date de fin"
+          },
+          "description": {
+            "title": "Description de l'activité",
+            "edit": "Modifier la description de l'activité"
+          },
+          "icon": {
+            "title": "Icône",
+            "edit": "Modifier l'icône de l'activité"
+          },
+          "color": {
+            "title": "Couleur",
+            "edit": "Modifier la couleur de l'activité"
+          },
+          "members": {
+            "title": "Membres concernés"
+          },
+          "delete": {
+            "title": "Supprimer l'activité",
+            "content": "Êtes-vous sûr de vouloir supprimer cette activité ?"
+          }
+        }
       }
     },
     "budget": {

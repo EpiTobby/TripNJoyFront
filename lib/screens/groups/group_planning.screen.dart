@@ -4,6 +4,7 @@ import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
+import 'package:trip_n_joy_front/screens/groups/add_activity.screen.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning_activity.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning_header.widget.dart';
 
@@ -83,7 +84,9 @@ class GroupPlanning extends HookConsumerWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddActivity()));
+        },
         child: Icon(
           Icons.add,
           color: Theme.of(context).colorScheme.onSecondary,

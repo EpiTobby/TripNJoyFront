@@ -21,23 +21,26 @@ class LayoutItemValue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Expanded(
-          child: Text(value,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              softWrap: false,
-              style: TextStyle(color: customColor ?? Theme.of(context).colorScheme.primary, fontSize: fontSize)),
-        ),
-        IconButton(
-            color: customColor ??
-                (editable == false ? Theme.of(context).colorScheme.shadow : Theme.of(context).colorScheme.primary),
-            splashRadius: 20,
-            icon: Icon(icon),
-            onPressed: editable == false ? () {} : onPressed),
-      ],
+    return InkWell(
+      onTap: editable == false ? null : onPressed,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Expanded(
+            child: Text(value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,
+                style: TextStyle(color: customColor ?? Theme.of(context).colorScheme.primary, fontSize: fontSize)),
+          ),
+          IconButton(
+              color: customColor ??
+                  (editable == false ? Theme.of(context).colorScheme.shadow : Theme.of(context).colorScheme.primary),
+              splashRadius: 20,
+              icon: Icon(icon),
+              onPressed: editable == false ? () {} : onPressed),
+        ],
+      ),
     );
   }
 }

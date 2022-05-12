@@ -264,6 +264,62 @@
       "note": {
         "title": "Note",
         "edit": "Edit the note"
+      },
+      "activity": {
+        "title": "Activity",
+        "add": "Add an activity",
+        "manual": "Add an activity manually",
+        "suggestion": "Suggested activities",
+        "type": {
+          "title": "Activity type",
+          "sport": "Sport",
+          "restaurant": "Restaurant",
+          "shopping": "Shopping",
+          "bar": "Bar",
+          "tourism": "Tourism",
+          "park": "Park",
+          "club": "Club",
+          "beach": "Beach",
+          "other": "Other"
+        },
+        "edit": {
+          "title": "Information on the activity",
+          "name": {
+            "title": "Name of the activity",
+            "edit": "Edit the name of the activity"
+          },
+          "location": {
+            "title": "Location of the activity",
+            "edit": "Edit the location of the activity"
+          },
+          "begin": {
+            "title": "Begin of the activity",
+            "edit": "Edit the begin of the activity"
+          },
+          "end": {
+            "title": "End of the activity",
+            "edit": "Edit the end of the activity"
+          },
+          "description": {
+            "title": "Description of the activity",
+            "edit": "Edit the description of the activity"
+          },
+          "icon": {
+            "title": "Icon",
+            "edit": "Edit the icon of the activity"
+          },
+          "color": {
+            "title": "Color",
+            "edit": "Edit the color of the activity"
+          },
+          "members": {
+            "title": "Members"
+          },
+          "delete": {
+            "title": "Delete the activity",
+            "content": "Are you sure you want to delete the activity ?"
+          }
+        }
       }
     },
     "budget": {
