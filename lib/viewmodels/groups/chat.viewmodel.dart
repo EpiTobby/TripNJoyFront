@@ -96,16 +96,6 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void sendMessage(num? channelId, String message, MessageResponseType$ type) async {
-    if (message.isNotEmpty && channelId != null) {
-      var body =
-          PostMessageRequest(userId: httpService.getUserIdFromToken(authViewModel.token)!, content: message, type: type)
-              .toJsonString();
-      logger.i("/app/chat/$channelId - $body");
-      client?.send(destination: '/app/chat/$channelId', body: body, headers: {});
-    }
-  }
-
   void loadUserMember(int groupId, num userId) async {
     final user = await httpService.getUserPublicInfo(groupId, userId);
     if (user != null && user.userId != null) {
@@ -128,6 +118,16 @@ class ChatViewModel extends ChangeNotifier {
         messages.insert(0, message);
         notifyListeners();
       }
+    }
+  }
+
+  void sendMessage(num? channelId, String message, MessageResponseType$ type) async {
+    if (message.isNotEmpty && channelId != null) {
+      var body =
+          PostMessageRequest(userId: httpService.getUserIdFromToken(authViewModel.token)!, content: message, type: type)
+              .toJsonString();
+      logger.i("/app/chat/$channelId - $body");
+      client?.send(destination: '/app/chat/$channelId', body: body, headers: {});
     }
   }
 

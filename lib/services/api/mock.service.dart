@@ -244,38 +244,110 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<StompClient> loadWebSocketChannel(void Function(bool) onConnection) {
-    // TODO: implement loadWebSocketChannel
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<WebSocketChannel> loadReadWebSocketChannel(num channelId) {
-    // TODO: implement loadReadWebSocketChannel
-    throw UnimplementedError();
+  Future<StompClient?> loadWebSocketChannel(void Function(bool) onConnection) {
+    onConnection(true);
+    return Future.value(null);
   }
 
   @override
   Future<List<MessageResponse>> getChannelMessages(num channelId, int page) {
-    // TODO: implement getChannelMessages
-    throw UnimplementedError();
+    return Future.delayed(
+      const Duration(milliseconds: 500),
+      () => [
+        MessageResponse(
+          id: 1,
+          content: "Hello",
+          type: MessageResponseType$.text,
+          modifiedDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          sentDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          channelId: 1,
+          userId: 1,
+          pinned: true,
+        ),
+        MessageResponse(
+          id: 2,
+          content: "Hello!",
+          type: MessageResponseType$.text,
+          modifiedDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
+          sentDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
+          channelId: 1,
+          userId: 2,
+          pinned: true,
+        ),
+        MessageResponse(
+          id: 3,
+          content: "file.txt",
+          type: MessageResponseType$.file,
+          modifiedDate: DateTime.parse("2020-01-03T00:00:00.000Z"),
+          sentDate: DateTime.parse("2020-01-03T00:00:00.000Z"),
+          channelId: 1,
+          userId: 1,
+          pinned: false,
+        ),
+        MessageResponse(
+          id: 4,
+          content: "https://as2.ftcdn.net/v2/jpg/01/81/75/23/1000_F_181752325_chPCE32kZXwYmHxhwPdfaaGio7Pr3v5V.jpg",
+          type: MessageResponseType$.image,
+          modifiedDate: DateTime.parse("2020-01-04T00:00:00.000Z"),
+          sentDate: DateTime.parse("2020-01-04T00:00:00.000Z"),
+          channelId: 1,
+          userId: 2,
+          pinned: false,
+        ),
+      ].reversed.toList(),
+    );
   }
 
   @override
   Future<List<MessageResponse>> getPinnedMessages(num channelId) {
-    // TODO: implement getPinnedMessages
-    throw UnimplementedError();
+    return Future.delayed(
+      const Duration(milliseconds: 500),
+      () => [
+        MessageResponse(
+          id: 1,
+          content: "Hello",
+          type: MessageResponseType$.text,
+          modifiedDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          sentDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          channelId: 1,
+          userId: 1,
+          pinned: true,
+        ),
+        MessageResponse(
+          id: 2,
+          content: "Hello!",
+          type: MessageResponseType$.text,
+          modifiedDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
+          sentDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
+          channelId: 1,
+          userId: 2,
+          pinned: true,
+        ),
+      ].reversed.toList(),
+    );
   }
 
   @override
   Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId) {
-    // TODO: implement getUserPublicInfo
-    throw UnimplementedError();
+    return Future.value(
+      userId == 1
+          ? GroupMemberModel(
+              userId: 1,
+              firstname: "Tony",
+              lastname: "Heng",
+              profilePicture:
+                  "https://as2.ftcdn.net/v2/jpg/01/81/75/23/1000_F_181752325_chPCE32kZXwYmHxhwPdfaaGio7Pr3v5V.jpg",
+            )
+          : GroupMemberModel(
+              userId: 2,
+              firstname: "Yanis",
+              lastname: "Chaabane",
+            ),
+    );
   }
 
   @override
   Future<MessageResponse?> togglePinnedMessage(num messageId, bool pinned) {
-    // TODO: implement togglePinnedMessage
-    throw UnimplementedError();
+    return Future.value(null);
   }
 }

@@ -283,9 +283,8 @@ class CodegenService extends HttpService {
     }
   }
 
-
   @override
-  Future<StompClient> loadWebSocketChannel(void Function(bool) onConnection) async {
+  Future<StompClient?> loadWebSocketChannel(void Function(bool) onConnection) async {
     final requestUrl = api.client.baseUrl + '/wbsocket';
     StompClient stompClient = StompClient(
         config: StompConfig.SockJS(
@@ -305,15 +304,6 @@ class CodegenService extends HttpService {
 
     stompClient.activate();
     return stompClient;
-  }
-
-  @override
-  Future<WebSocketChannel> loadReadWebSocketChannel(num channelId) async {
-    final channel = WebSocketChannel.connect(
-      Uri.parse('wss://${api.client.baseUrl.replaceAll("http://", "")}/wbsocket/app/chat/$channelId'),
-    );
-
-    return channel;
   }
 
   @override

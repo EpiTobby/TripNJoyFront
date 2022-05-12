@@ -80,9 +80,7 @@ abstract class HttpService {
 
   Future<void> deleteChannel(num channelId);
 
-  Future<StompClient> loadWebSocketChannel(void Function(bool) onConnection);
-
-  Future<WebSocketChannel> loadReadWebSocketChannel(num channelId);
+  Future<StompClient?> loadWebSocketChannel(void Function(bool) onConnection);
 
   Future<List<MessageResponse>> getChannelMessages(num channelId, int page);
 
