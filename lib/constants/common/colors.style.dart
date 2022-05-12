@@ -29,3 +29,11 @@ abstract class CardColors {
   static const purple = Color(0xffD8D2FA);
   static const pink = Color(0xffFAD2E8);
 }
+
+abstract class ActivityColors {
+  static const blue = Color(0xff2F63E0);
+  static const pink = Color(0xffD8315B);
+  static const red = Color(0xffD83131);
+  static const purple = Color(0xff5231D8);
+  static const turquoise = Color(0xff3192D8);
+}
