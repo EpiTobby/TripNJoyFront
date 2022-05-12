@@ -79,6 +79,15 @@ class GroupPlanning extends HookConsumerWidget {
           ),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+      ),
     );
   }
 }
