@@ -37,7 +37,7 @@ class PinnedMessages extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pinned Messages'),
+        title: Text(AppLocalizations.of(context).translate("groups.chat.pinned_messages.title")),
         foregroundColor: Theme.of(context).colorScheme.primary,
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
