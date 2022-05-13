@@ -347,6 +347,9 @@
     "city": "Changer de ville",
     "noCity": "Aucune ville"
   },
+  "notifications": {
+    "title": "Notifications"
+  },
   "errors": {
     "login": "Identifiants incorrects",
     "unexpected": "Une erreur est survenue, veuillez vous reconnectez.",
