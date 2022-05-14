@@ -89,7 +89,7 @@ class GroupListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      group.name!,
+                      group.name ?? group.members!.map((e) => e.firstname).join(', '),
                       style: GoogleFonts.raleway(
                         fontSize: 22,
                         fontWeight: FontWeight.w800,

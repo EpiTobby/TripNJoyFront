@@ -13,6 +13,7 @@ class ChatTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         prefixIcon: IconButton(
           icon: Icon(
