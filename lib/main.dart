@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -178,7 +179,10 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
         data: (data) => Scaffold(
               appBar: selectedPage != NavbarPage.MATCHMAKING
                   ? AppBar(
-                      title: Text(widget.title),
+                      title: Text(
+                        AppLocalizations.of(context).translate("${selectedPage.name.toLowerCase()}.title"),
+                        style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
+                      ),
                       backgroundColor: Theme.of(context).colorScheme.background,
                       foregroundColor: Theme.of(context).colorScheme.onBackground,
                       shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),

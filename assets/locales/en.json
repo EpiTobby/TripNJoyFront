@@ -347,6 +347,9 @@
     "city": "Change your city",
     "noCity": "No city"
   },
+  "notifications": {
+    "title": "Notifications"
+  },
   "errors": {
     "login": "Wrong email or password",
     "unexpected": "An error occurred, please reconnect.",
