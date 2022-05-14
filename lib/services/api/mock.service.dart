@@ -1,7 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/common/colors.style.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/models/group/activity.dart';
+import 'package:trip_n_joy_front/models/group/chat_member.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:web_socket_channel/src/channel.dart';
@@ -349,5 +354,54 @@ class MockService extends HttpService {
   @override
   Future<MessageResponse?> togglePinnedMessage(num messageId, bool pinned) {
     return Future.value(null);
+  }
+
+  @override
+  Future<List<Activity>?> getActivities(int groupId) {
+    return Future.delayed(
+      const Duration(milliseconds: 500),
+      () => [
+        Activity(
+          id: 1,
+          icon: Icons.airplane_ticket,
+          title: "Flight Departure",
+          subtitle: "Airport CDG",
+          subsubtitle: "12/12/2022",
+          description: "Go to Terminal 1, take the first flight to CDG, then take the second flight to JFK",
+          members: [
+            ChatMember(id: 1, name: "Tony Heng", avatar: NetworkImage(DEFAULT_AVATAR_URL)),
+            ChatMember(id: 2, name: "Yanis Chaabane", avatar: NetworkImage(DEFAULT_AVATAR_URL)),
+            ChatMember(id: 3, name: "Yannick Baudry", avatar: NetworkImage(DEFAULT_AVATAR_URL))
+          ],
+        ),
+        Activity(
+          id: 2,
+          icon: Icons.beach_access,
+          title: "Beach Time !",
+          subtitle: "JFK Beach",
+          subsubtitle: "13h30 - 13/12/2022",
+          description: "Chill and swim at the beach",
+          color: ActivityColors.turquoise,
+          members: [
+            ChatMember(id: 1, name: "Tony Heng", avatar: NetworkImage(DEFAULT_AVATAR_URL)),
+            ChatMember(id: 2, name: "Yanis Chaabane", avatar: NetworkImage(DEFAULT_AVATAR_URL))
+          ],
+        ),
+        Activity(
+          id: 3,
+          icon: Icons.airplane_ticket,
+          title: "Flight Return",
+          subtitle: "Airport JFK",
+          subsubtitle: "14/12/2022",
+          description: "Go to Terminal 1, take the first flight to CDG, then take the second flight to JFK",
+          color: ActivityColors.pink,
+          members: [
+            ChatMember(id: 1, name: "Tony Heng", avatar: NetworkImage(DEFAULT_AVATAR_URL)),
+            ChatMember(id: 2, name: "Yanis Chaabane", avatar: NetworkImage(DEFAULT_AVATAR_URL)),
+            ChatMember(id: 3, name: "Yannick Baudry", avatar: NetworkImage(DEFAULT_AVATAR_URL))
+          ],
+        ),
+      ],
+    );
   }
 }

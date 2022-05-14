@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
+import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/add_activity.screen.dart';
+import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning_activity.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning_header.widget.dart';
+
+import '../../models/group/activity.dart';
 
 class GroupPlanning extends HookConsumerWidget {
   const GroupPlanning({
@@ -21,6 +26,10 @@ class GroupPlanning extends HookConsumerWidget {
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
     final scrollController = ScrollController();
+    final activities = ref.watch(planningProvider).activities;
+    useEffect(() {
+      Future.microtask(() => ref.read(planningProvider).getActivities(groupId));
+    }, [groupId]);
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).translate('groups.planning.title')),
@@ -32,53 +41,38 @@ class GroupPlanning extends HookConsumerWidget {
         controller: scrollController,
         children: [
           PlanningHeader(),
-          PlanningActivity(
-            prefix: Icon(
-              Icons.airplane_ticket,
-              color: Theme.of(context).colorScheme.background,
-              size: 64,
+          AsyncValueWidget<List<Activity>>(
+            value: activities,
+            data: (activities) => Column(
+              children: activities
+                  .map(
+                    (activity) => Column(
+                      children: [
+                        PlanningActivity(
+                          prefix: Icon(
+                            activity.icon,
+                            color: Theme.of(context).colorScheme.background,
+                            size: 64,
+                          ),
+                          title: activity.title,
+                          subtitle: activity.subtitle,
+                          subsubtitle: activity.subsubtitle,
+                          description: activity.description,
+                          color: activity.color,
+                          members: activity.members.map((e) => e.avatar.url).toList(),
+                        ),
+                        if (activities.last != activity)
+                          Center(
+                            child: Icon(
+                              Icons.more_vert,
+                              color: Theme.of(context).colorScheme.surface,
+                            ),
+                          ),
+                      ],
+                    ),
+                  )
+                  .toList(),
             ),
-            title: "Flight Departure",
-            subtitle: "Airport CDG",
-            subsubtitle: "12/12/2022",
-            description: "Go to Terminal 1, take the first flight to CDG, then take the second flight to JFK",
-          ),
-          Center(
-            child: Icon(
-              Icons.more_vert,
-              color: Theme.of(context).colorScheme.surface,
-            ),
-          ),
-          PlanningActivity(
-            prefix: Icon(
-              Icons.beach_access,
-              color: Theme.of(context).colorScheme.background,
-              size: 64,
-            ),
-            title: "Beach Time !",
-            subtitle: "JFK Beach",
-            subsubtitle: "13h30 - 13/12/2022",
-            description: "Chill and swim at the beach",
-            color: ActivityColors.turquoise,
-            members: [DEFAULT_AVATAR_URL, DEFAULT_AVATAR_URL, DEFAULT_AVATAR_URL],
-          ),
-          Center(
-            child: Icon(
-              Icons.more_vert,
-              color: Theme.of(context).colorScheme.surface,
-            ),
-          ),
-          PlanningActivity(
-            prefix: Icon(
-              Icons.airplane_ticket,
-              color: Theme.of(context).colorScheme.background,
-              size: 64,
-            ),
-            title: "Flight Return",
-            subtitle: "Airport JFK",
-            subsubtitle: "14/12/2022",
-            description: "Go to Terminal 1, take the first flight to CDG, then take the second flight to JFK",
-            color: ActivityColors.pink,
           ),
         ],
       ),
