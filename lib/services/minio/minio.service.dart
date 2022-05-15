@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
 import 'package:minio/minio.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 class MinioService {
   MinioService();
@@ -33,6 +34,15 @@ class MinioService {
 
     var imageBytes = pickedFile.readAsBytes().asStream();
 
-    return await upload(pickedFile.name, imageBytes);
+    var imageURL = await upload(pickedFile.name, imageBytes);
+    logger.d(imageURL.split('$MINIO_ENDPOINT:$MINIO_PORT/$MINIO_BUCKET/').last);
+    return imageURL.split('$MINIO_ENDPOINT:$MINIO_PORT/$MINIO_BUCKET/').last;
+  }
+
+  String? getImageUrl(String? name) {
+    if (name == null) {
+      return null;
+    }
+    return 'http://$MINIO_ENDPOINT:$MINIO_PORT/$MINIO_BUCKET/$name';
   }
 }

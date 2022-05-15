@@ -9,15 +9,17 @@ import 'package:trip_n_joy_front/models/group/chat_member.dart';
 import 'package:trip_n_joy_front/models/group/post_message_request.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 
 class ChatViewModel extends ChangeNotifier {
-  ChatViewModel(this.httpService, this.authViewModel) {
+  ChatViewModel(this.httpService, this.authViewModel, this.minioService) {
     _init();
   }
 
   final HttpService httpService;
   final AuthViewModel authViewModel;
+  final MinioService minioService;
 
   List<MessageResponse> messages = [];
   bool isConnectedToSocket = false;
@@ -102,7 +104,9 @@ class ChatViewModel extends ChangeNotifier {
       chatMembers[user.userId!] = ChatMember(
         id: user.userId!,
         name: "${user.firstname} ${user.lastname}",
-        avatar: user.profilePicture != null ? NetworkImage(user.profilePicture!) : defaultProfileImage,
+        avatar: user.profilePicture != null
+            ? NetworkImage(minioService.getImageUrl(user.profilePicture!)!)
+            : defaultProfileImage,
       );
       notifyListeners();
     }

@@ -48,7 +48,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       children: <Widget>[
         LayoutHeader(
           title: "${user.firstname} ${user.lastname}",
-          imageURL: user.profilePicture ?? DEFAULT_AVATAR_URL,
+          imageURL: minioService.getImageUrl(user.profilePicture) ?? DEFAULT_AVATAR_URL,
           onClick: () async {
             final imageURL = await minioService.uploadImage();
 
