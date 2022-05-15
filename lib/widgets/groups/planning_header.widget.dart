@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
@@ -7,7 +8,10 @@ import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 class PlanningHeader extends StatelessWidget {
   const PlanningHeader({
     Key? key,
+    required this.group,
   }) : super(key: key);
+
+  final GroupModel group;
 
   @override
   Widget build(BuildContext context) {

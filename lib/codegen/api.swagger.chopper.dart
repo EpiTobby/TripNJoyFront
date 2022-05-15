@@ -33,6 +33,24 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<List<PlaceResponse>>> _placesCoordinatesPost(
+      {required PlacesFromCoordinatesRequest? body}) {
+    final $url = '/places/coordinates';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<List<PlaceResponse>, PlaceResponse>($request);
+  }
+
+  @override
+  Future<Response<List<PlaceResponse>>> _placesAddressPost(
+      {required PlacesFromAddressRequest? body}) {
+    final $url = '/places/address';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<List<PlaceResponse>, PlaceResponse>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _matchmakingPost(
       {required num? userId, required ProfileCreationRequest? body}) {
     final $url = '/matchmaking';
@@ -54,6 +72,23 @@ class _$Api extends Api {
     final $request =
         Request('PATCH', $url, client.baseUrl, parameters: $params);
     return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<List<ActivityModel>>> _groupsGroupIdPlanningGet(
+      {required num? groupId}) {
+    final $url = '/groups/${groupId}/planning';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<List<ActivityModel>, ActivityModel>($request);
+  }
+
+  @override
+  Future<Response<ActivityModel>> _groupsGroupIdPlanningPost(
+      {required num? groupId, required CreateActivityRequest? body}) {
+    final $url = '/groups/${groupId}/planning';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<ActivityModel, ActivityModel>($request);
   }
 
   @override
@@ -166,6 +201,41 @@ class _$Api extends Api {
   Future<Response<dynamic>> _groupsGroupDeclineIdPatch(
       {required num? group, required num? id}) {
     final $url = '/groups/${group}/decline/${id}';
+    final $request = Request('PATCH', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _groupsGroupIdPlanningActivityIdDelete(
+      {required num? groupId, required num? activityId}) {
+    final $url = '/groups/${groupId}/planning/${activityId}';
+    final $request = Request('DELETE', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<ActivityModel>> _groupsGroupIdPlanningActivityIdPatch(
+      {required num? groupId,
+      required num? activityId,
+      required UpdateActivityRequest? body}) {
+    final $url = '/groups/${groupId}/planning/${activityId}';
+    final $body = body;
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
+    return client.send<ActivityModel, ActivityModel>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _groupsGroupIdPlanningActivityIdLeavePatch(
+      {required num? groupId, required num? activityId}) {
+    final $url = '/groups/${groupId}/planning/${activityId}/leave';
+    final $request = Request('PATCH', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _groupsGroupIdPlanningActivityIdJoinPatch(
+      {required num? groupId, required num? activityId}) {
+    final $url = '/groups/${groupId}/planning/${activityId}/join';
     final $request = Request('PATCH', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }

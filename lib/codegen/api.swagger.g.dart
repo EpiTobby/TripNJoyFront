@@ -173,6 +173,64 @@ Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
       'active': instance.active,
     };
 
+PlacesFromCoordinatesRequest _$PlacesFromCoordinatesRequestFromJson(
+        Map<String, dynamic> json) =>
+    PlacesFromCoordinatesRequest(
+      longitude: (json['longitude'] as num?)?.toDouble(),
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      categories: placesFromCoordinatesRequestCategoriesListFromJson(
+          json['categories'] as List?),
+      radiusMeter: json['radiusMeter'] as int?,
+    );
+
+Map<String, dynamic> _$PlacesFromCoordinatesRequestToJson(
+        PlacesFromCoordinatesRequest instance) =>
+    <String, dynamic>{
+      'longitude': instance.longitude,
+      'latitude': instance.latitude,
+      'categories':
+          placesFromCoordinatesRequestCategoriesListToJson(instance.categories),
+      'radiusMeter': instance.radiusMeter,
+    };
+
+PlaceResponse _$PlaceResponseFromJson(Map<String, dynamic> json) =>
+    PlaceResponse(
+      name: json['name'] as String?,
+      street: json['street'] as String?,
+      city: json['city'] as String?,
+      country: json['country'] as String?,
+    );
+
+Map<String, dynamic> _$PlaceResponseToJson(PlaceResponse instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'street': instance.street,
+      'city': instance.city,
+      'country': instance.country,
+    };
+
+PlacesFromAddressRequest _$PlacesFromAddressRequestFromJson(
+        Map<String, dynamic> json) =>
+    PlacesFromAddressRequest(
+      categories: placesFromAddressRequestCategoriesListFromJson(
+          json['categories'] as List?),
+      radiusMeter: json['radiusMeter'] as int?,
+      address: json['address'] as String?,
+      countryCode: json['countryCode'] as String?,
+      city: json['city'] as String?,
+    );
+
+Map<String, dynamic> _$PlacesFromAddressRequestToJson(
+        PlacesFromAddressRequest instance) =>
+    <String, dynamic>{
+      'categories':
+          placesFromAddressRequestCategoriesListToJson(instance.categories),
+      'radiusMeter': instance.radiusMeter,
+      'address': instance.address,
+      'countryCode': instance.countryCode,
+      'city': instance.city,
+    };
+
 MatchMakingResponse _$MatchMakingResponseFromJson(Map<String, dynamic> json) =>
     MatchMakingResponse(
       taskId: json['taskId'] as num?,
@@ -184,6 +242,92 @@ Map<String, dynamic> _$MatchMakingResponseToJson(
     <String, dynamic>{
       'taskId': instance.taskId,
       'errorMessage': instance.errorMessage,
+    };
+
+CreateActivityRequest _$CreateActivityRequestFromJson(
+        Map<String, dynamic> json) =>
+    CreateActivityRequest(
+      name: json['name'] as String?,
+      description: json['description'] as String?,
+      startDate: json['startDate'] == null
+          ? null
+          : DateTime.parse(json['startDate'] as String),
+      endDate: json['endDate'] == null
+          ? null
+          : DateTime.parse(json['endDate'] as String),
+      participantsIds: (json['participantsIds'] as List<dynamic>?)
+              ?.map((e) => e as num)
+              .toList() ??
+          [],
+      color: json['color'] as String?,
+      location: json['location'] as String?,
+      icon: json['icon'] as String?,
+    );
+
+Map<String, dynamic> _$CreateActivityRequestToJson(
+        CreateActivityRequest instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'description': instance.description,
+      'startDate': instance.startDate?.toIso8601String(),
+      'endDate': instance.endDate?.toIso8601String(),
+      'participantsIds': instance.participantsIds,
+      'color': instance.color,
+      'location': instance.location,
+      'icon': instance.icon,
+    };
+
+ActivityModel _$ActivityModelFromJson(Map<String, dynamic> json) =>
+    ActivityModel(
+      id: json['id'] as num?,
+      name: json['name'] as String?,
+      description: json['description'] as String?,
+      startDate: json['startDate'] == null
+          ? null
+          : DateTime.parse(json['startDate'] as String),
+      endDate: json['endDate'] == null
+          ? null
+          : DateTime.parse(json['endDate'] as String),
+      participants: (json['participants'] as List<dynamic>?)
+              ?.map((e) => GroupMemberModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      color: json['color'] as String?,
+      location: json['location'] as String?,
+      icon: json['icon'] as String?,
+      infos:
+          (json['infos'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              [],
+    );
+
+Map<String, dynamic> _$ActivityModelToJson(ActivityModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'description': instance.description,
+      'startDate': instance.startDate?.toIso8601String(),
+      'endDate': instance.endDate?.toIso8601String(),
+      'participants': instance.participants?.map((e) => e.toJson()).toList(),
+      'color': instance.color,
+      'location': instance.location,
+      'icon': instance.icon,
+      'infos': instance.infos,
+    };
+
+GroupMemberModel _$GroupMemberModelFromJson(Map<String, dynamic> json) =>
+    GroupMemberModel(
+      userId: json['userId'] as num?,
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
+      profilePicture: json['profilePicture'] as String?,
+    );
+
+Map<String, dynamic> _$GroupMemberModelToJson(GroupMemberModel instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'firstname': instance.firstname,
+      'lastname': instance.lastname,
+      'profilePicture': instance.profilePicture,
     };
 
 CreatePrivateGroupRequest _$CreatePrivateGroupRequestFromJson(
@@ -569,6 +713,38 @@ Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
       'language': instance.language,
     };
 
+UpdateActivityRequest _$UpdateActivityRequestFromJson(
+        Map<String, dynamic> json) =>
+    UpdateActivityRequest(
+      name: json['name'] as String?,
+      description: json['description'] as String?,
+      startDate: json['startDate'] == null
+          ? null
+          : DateTime.parse(json['startDate'] as String),
+      endDate: json['endDate'] == null
+          ? null
+          : DateTime.parse(json['endDate'] as String),
+      color: json['color'] as String?,
+      location: json['location'] as String?,
+      icon: json['icon'] as String?,
+      infos:
+          (json['infos'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              [],
+    );
+
+Map<String, dynamic> _$UpdateActivityRequestToJson(
+        UpdateActivityRequest instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'description': instance.description,
+      'startDate': instance.startDate?.toIso8601String(),
+      'endDate': instance.endDate?.toIso8601String(),
+      'color': instance.color,
+      'location': instance.location,
+      'icon': instance.icon,
+      'infos': instance.infos,
+    };
+
 UpdateGroupRequest _$UpdateGroupRequestFromJson(Map<String, dynamic> json) =>
     UpdateGroupRequest(
       name: json['name'] as String?,
@@ -827,22 +1003,6 @@ Map<String, dynamic> _$MatchMakingResultToJson(MatchMakingResult instance) =>
     <String, dynamic>{
       'type': matchMakingResultType$ToJson(instance.type),
       'groupId': instance.groupId,
-    };
-
-GroupMemberModel _$GroupMemberModelFromJson(Map<String, dynamic> json) =>
-    GroupMemberModel(
-      userId: json['userId'] as num?,
-      firstname: json['firstname'] as String?,
-      lastname: json['lastname'] as String?,
-      profilePicture: json['profilePicture'] as String?,
-    );
-
-Map<String, dynamic> _$GroupMemberModelToJson(GroupMemberModel instance) =>
-    <String, dynamic>{
-      'userId': instance.userId,
-      'firstname': instance.firstname,
-      'lastname': instance.lastname,
-      'profilePicture': instance.profilePicture,
     };
 
 DeleteUserRequest _$DeleteUserRequestFromJson(Map<String, dynamic> json) =>

@@ -61,6 +61,34 @@ abstract class Api extends ChopperService {
       {@Path('id') required num? id,
       @Body() required ProfileCreationRequest? body});
 
+  ///Retrieve 10 places around geographic coordinates
+  Future<chopper.Response<List<PlaceResponse>>> placesCoordinatesPost(
+      {required PlacesFromCoordinatesRequest? body}) {
+    generatedMapping.putIfAbsent(
+        PlaceResponse, () => PlaceResponse.fromJsonFactory);
+
+    return _placesCoordinatesPost(body: body);
+  }
+
+  ///Retrieve 10 places around geographic coordinates
+  @Post(path: '/places/coordinates')
+  Future<chopper.Response<List<PlaceResponse>>> _placesCoordinatesPost(
+      {@Body() required PlacesFromCoordinatesRequest? body});
+
+  ///Retrieve 10 places around an address
+  Future<chopper.Response<List<PlaceResponse>>> placesAddressPost(
+      {required PlacesFromAddressRequest? body}) {
+    generatedMapping.putIfAbsent(
+        PlaceResponse, () => PlaceResponse.fromJsonFactory);
+
+    return _placesAddressPost(body: body);
+  }
+
+  ///Retrieve 10 places around an address
+  @Post(path: '/places/address')
+  Future<chopper.Response<List<PlaceResponse>>> _placesAddressPost(
+      {@Body() required PlacesFromAddressRequest? body});
+
   ///Create a profile and start the matchmaking
   ///@param user_id
   Future<chopper.Response> matchmakingPost(
@@ -90,6 +118,39 @@ abstract class Api extends ChopperService {
   Future<chopper.Response> _matchmakingPatch(
       {@Query('user_id') required num? userId,
       @Query('profile_id') required num? profileId});
+
+  ///Get the group's activities
+  ///@param groupId
+  Future<chopper.Response<List<ActivityModel>>> groupsGroupIdPlanningGet(
+      {required num? groupId}) {
+    generatedMapping.putIfAbsent(
+        ActivityModel, () => ActivityModel.fromJsonFactory);
+
+    return _groupsGroupIdPlanningGet(groupId: groupId);
+  }
+
+  ///Get the group's activities
+  ///@param groupId
+  @Get(path: '/groups/{groupId}/planning')
+  Future<chopper.Response<List<ActivityModel>>> _groupsGroupIdPlanningGet(
+      {@Path('groupId') required num? groupId});
+
+  ///Add a new activity to the group's planning
+  ///@param groupId
+  Future<chopper.Response<ActivityModel>> groupsGroupIdPlanningPost(
+      {required num? groupId, required CreateActivityRequest? body}) {
+    generatedMapping.putIfAbsent(
+        ActivityModel, () => ActivityModel.fromJsonFactory);
+
+    return _groupsGroupIdPlanningPost(groupId: groupId, body: body);
+  }
+
+  ///Add a new activity to the group's planning
+  ///@param groupId
+  @Post(path: '/groups/{groupId}/planning')
+  Future<chopper.Response<ActivityModel>> _groupsGroupIdPlanningPost(
+      {@Path('groupId') required num? groupId,
+      @Body() required CreateActivityRequest? body});
 
   ///Create a private group
   ///@param id
@@ -279,6 +340,82 @@ abstract class Api extends ChopperService {
   @Patch(path: '/groups/{group}/decline/{id}', optionalBody: true)
   Future<chopper.Response> _groupsGroupDeclineIdPatch(
       {@Path('group') required num? group, @Path('id') required num? id});
+
+  ///Delete the activity
+  ///@param groupId
+  ///@param activityId
+  Future<chopper.Response> groupsGroupIdPlanningActivityIdDelete(
+      {required num? groupId, required num? activityId}) {
+    return _groupsGroupIdPlanningActivityIdDelete(
+        groupId: groupId, activityId: activityId);
+  }
+
+  ///Delete the activity
+  ///@param groupId
+  ///@param activityId
+  @Delete(path: '/groups/{groupId}/planning/{activityId}')
+  Future<chopper.Response> _groupsGroupIdPlanningActivityIdDelete(
+      {@Path('groupId') required num? groupId,
+      @Path('activityId') required num? activityId});
+
+  ///Update the activity
+  ///@param groupId
+  ///@param activityId
+  Future<chopper.Response<ActivityModel>> groupsGroupIdPlanningActivityIdPatch(
+      {required num? groupId,
+      required num? activityId,
+      required UpdateActivityRequest? body}) {
+    generatedMapping.putIfAbsent(
+        ActivityModel, () => ActivityModel.fromJsonFactory);
+
+    return _groupsGroupIdPlanningActivityIdPatch(
+        groupId: groupId, activityId: activityId, body: body);
+  }
+
+  ///Update the activity
+  ///@param groupId
+  ///@param activityId
+  @Patch(path: '/groups/{groupId}/planning/{activityId}')
+  Future<chopper.Response<ActivityModel>> _groupsGroupIdPlanningActivityIdPatch(
+      {@Path('groupId') required num? groupId,
+      @Path('activityId') required num? activityId,
+      @Body() required UpdateActivityRequest? body});
+
+  ///Remove the current user from the given activity
+  ///@param groupId
+  ///@param activityId
+  Future<chopper.Response> groupsGroupIdPlanningActivityIdLeavePatch(
+      {required num? groupId, required num? activityId}) {
+    return _groupsGroupIdPlanningActivityIdLeavePatch(
+        groupId: groupId, activityId: activityId);
+  }
+
+  ///Remove the current user from the given activity
+  ///@param groupId
+  ///@param activityId
+  @Patch(
+      path: '/groups/{groupId}/planning/{activityId}/leave', optionalBody: true)
+  Future<chopper.Response> _groupsGroupIdPlanningActivityIdLeavePatch(
+      {@Path('groupId') required num? groupId,
+      @Path('activityId') required num? activityId});
+
+  ///Add the current user to the given activity
+  ///@param groupId
+  ///@param activityId
+  Future<chopper.Response> groupsGroupIdPlanningActivityIdJoinPatch(
+      {required num? groupId, required num? activityId}) {
+    return _groupsGroupIdPlanningActivityIdJoinPatch(
+        groupId: groupId, activityId: activityId);
+  }
+
+  ///Add the current user to the given activity
+  ///@param groupId
+  ///@param activityId
+  @Patch(
+      path: '/groups/{groupId}/planning/{activityId}/join', optionalBody: true)
+  Future<chopper.Response> _groupsGroupIdPlanningActivityIdJoinPatch(
+      {@Path('groupId') required num? groupId,
+      @Path('activityId') required num? activityId});
 
   ///Delete the private group
   ///@param group
@@ -1129,6 +1266,209 @@ extension $ProfileModelExtension on ProfileModel {
 }
 
 @JsonSerializable(explicitToJson: true)
+class PlacesFromCoordinatesRequest {
+  PlacesFromCoordinatesRequest({
+    this.longitude,
+    this.latitude,
+    this.categories,
+    this.radiusMeter,
+  });
+
+  factory PlacesFromCoordinatesRequest.fromJson(Map<String, dynamic> json) =>
+      _$PlacesFromCoordinatesRequestFromJson(json);
+
+  @JsonKey(name: 'longitude')
+  final double? longitude;
+  @JsonKey(name: 'latitude')
+  final double? latitude;
+  @JsonKey(
+      name: 'categories',
+      toJson: placesFromCoordinatesRequestCategoriesListToJson,
+      fromJson: placesFromCoordinatesRequestCategoriesListFromJson)
+  final List<enums.PlacesFromCoordinatesRequestCategories>? categories;
+  @JsonKey(name: 'radiusMeter')
+  final int? radiusMeter;
+  static const fromJsonFactory = _$PlacesFromCoordinatesRequestFromJson;
+  static const toJsonFactory = _$PlacesFromCoordinatesRequestToJson;
+  Map<String, dynamic> toJson() => _$PlacesFromCoordinatesRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is PlacesFromCoordinatesRequest &&
+            (identical(other.longitude, longitude) ||
+                const DeepCollectionEquality()
+                    .equals(other.longitude, longitude)) &&
+            (identical(other.latitude, latitude) ||
+                const DeepCollectionEquality()
+                    .equals(other.latitude, latitude)) &&
+            (identical(other.categories, categories) ||
+                const DeepCollectionEquality()
+                    .equals(other.categories, categories)) &&
+            (identical(other.radiusMeter, radiusMeter) ||
+                const DeepCollectionEquality()
+                    .equals(other.radiusMeter, radiusMeter)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(longitude) ^
+      const DeepCollectionEquality().hash(latitude) ^
+      const DeepCollectionEquality().hash(categories) ^
+      const DeepCollectionEquality().hash(radiusMeter) ^
+      runtimeType.hashCode;
+}
+
+extension $PlacesFromCoordinatesRequestExtension
+    on PlacesFromCoordinatesRequest {
+  PlacesFromCoordinatesRequest copyWith(
+      {double? longitude,
+      double? latitude,
+      List<enums.PlacesFromCoordinatesRequestCategories>? categories,
+      int? radiusMeter}) {
+    return PlacesFromCoordinatesRequest(
+        longitude: longitude ?? this.longitude,
+        latitude: latitude ?? this.latitude,
+        categories: categories ?? this.categories,
+        radiusMeter: radiusMeter ?? this.radiusMeter);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PlaceResponse {
+  PlaceResponse({
+    this.name,
+    this.street,
+    this.city,
+    this.country,
+  });
+
+  factory PlaceResponse.fromJson(Map<String, dynamic> json) =>
+      _$PlaceResponseFromJson(json);
+
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'street')
+  final String? street;
+  @JsonKey(name: 'city')
+  final String? city;
+  @JsonKey(name: 'country')
+  final String? country;
+  static const fromJsonFactory = _$PlaceResponseFromJson;
+  static const toJsonFactory = _$PlaceResponseToJson;
+  Map<String, dynamic> toJson() => _$PlaceResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is PlaceResponse &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.street, street) ||
+                const DeepCollectionEquality().equals(other.street, street)) &&
+            (identical(other.city, city) ||
+                const DeepCollectionEquality().equals(other.city, city)) &&
+            (identical(other.country, country) ||
+                const DeepCollectionEquality().equals(other.country, country)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(street) ^
+      const DeepCollectionEquality().hash(city) ^
+      const DeepCollectionEquality().hash(country) ^
+      runtimeType.hashCode;
+}
+
+extension $PlaceResponseExtension on PlaceResponse {
+  PlaceResponse copyWith(
+      {String? name, String? street, String? city, String? country}) {
+    return PlaceResponse(
+        name: name ?? this.name,
+        street: street ?? this.street,
+        city: city ?? this.city,
+        country: country ?? this.country);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PlacesFromAddressRequest {
+  PlacesFromAddressRequest({
+    this.categories,
+    this.radiusMeter,
+    this.address,
+    this.countryCode,
+    this.city,
+  });
+
+  factory PlacesFromAddressRequest.fromJson(Map<String, dynamic> json) =>
+      _$PlacesFromAddressRequestFromJson(json);
+
+  @JsonKey(
+      name: 'categories',
+      toJson: placesFromAddressRequestCategoriesListToJson,
+      fromJson: placesFromAddressRequestCategoriesListFromJson)
+  final List<enums.PlacesFromAddressRequestCategories>? categories;
+  @JsonKey(name: 'radiusMeter')
+  final int? radiusMeter;
+  @JsonKey(name: 'address')
+  final String? address;
+  @JsonKey(name: 'countryCode')
+  final String? countryCode;
+  @JsonKey(name: 'city')
+  final String? city;
+  static const fromJsonFactory = _$PlacesFromAddressRequestFromJson;
+  static const toJsonFactory = _$PlacesFromAddressRequestToJson;
+  Map<String, dynamic> toJson() => _$PlacesFromAddressRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is PlacesFromAddressRequest &&
+            (identical(other.categories, categories) ||
+                const DeepCollectionEquality()
+                    .equals(other.categories, categories)) &&
+            (identical(other.radiusMeter, radiusMeter) ||
+                const DeepCollectionEquality()
+                    .equals(other.radiusMeter, radiusMeter)) &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality()
+                    .equals(other.address, address)) &&
+            (identical(other.countryCode, countryCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.countryCode, countryCode)) &&
+            (identical(other.city, city) ||
+                const DeepCollectionEquality().equals(other.city, city)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(categories) ^
+      const DeepCollectionEquality().hash(radiusMeter) ^
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(countryCode) ^
+      const DeepCollectionEquality().hash(city) ^
+      runtimeType.hashCode;
+}
+
+extension $PlacesFromAddressRequestExtension on PlacesFromAddressRequest {
+  PlacesFromAddressRequest copyWith(
+      {List<enums.PlacesFromAddressRequestCategories>? categories,
+      int? radiusMeter,
+      String? address,
+      String? countryCode,
+      String? city}) {
+    return PlacesFromAddressRequest(
+        categories: categories ?? this.categories,
+        radiusMeter: radiusMeter ?? this.radiusMeter,
+        address: address ?? this.address,
+        countryCode: countryCode ?? this.countryCode,
+        city: city ?? this.city);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class MatchMakingResponse {
   MatchMakingResponse({
     this.taskId,
@@ -1169,6 +1509,282 @@ extension $MatchMakingResponseExtension on MatchMakingResponse {
     return MatchMakingResponse(
         taskId: taskId ?? this.taskId,
         errorMessage: errorMessage ?? this.errorMessage);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CreateActivityRequest {
+  CreateActivityRequest({
+    this.name,
+    this.description,
+    this.startDate,
+    this.endDate,
+    this.participantsIds,
+    this.color,
+    this.location,
+    this.icon,
+  });
+
+  factory CreateActivityRequest.fromJson(Map<String, dynamic> json) =>
+      _$CreateActivityRequestFromJson(json);
+
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'description')
+  final String? description;
+  @JsonKey(name: 'startDate')
+  final DateTime? startDate;
+  @JsonKey(name: 'endDate')
+  final DateTime? endDate;
+  @JsonKey(name: 'participantsIds', defaultValue: <num>[])
+  final List<num>? participantsIds;
+  @JsonKey(name: 'color')
+  final String? color;
+  @JsonKey(name: 'location')
+  final String? location;
+  @JsonKey(name: 'icon')
+  final String? icon;
+  static const fromJsonFactory = _$CreateActivityRequestFromJson;
+  static const toJsonFactory = _$CreateActivityRequestToJson;
+  Map<String, dynamic> toJson() => _$CreateActivityRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is CreateActivityRequest &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
+            (identical(other.startDate, startDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.startDate, startDate)) &&
+            (identical(other.endDate, endDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.endDate, endDate)) &&
+            (identical(other.participantsIds, participantsIds) ||
+                const DeepCollectionEquality()
+                    .equals(other.participantsIds, participantsIds)) &&
+            (identical(other.color, color) ||
+                const DeepCollectionEquality().equals(other.color, color)) &&
+            (identical(other.location, location) ||
+                const DeepCollectionEquality()
+                    .equals(other.location, location)) &&
+            (identical(other.icon, icon) ||
+                const DeepCollectionEquality().equals(other.icon, icon)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(startDate) ^
+      const DeepCollectionEquality().hash(endDate) ^
+      const DeepCollectionEquality().hash(participantsIds) ^
+      const DeepCollectionEquality().hash(color) ^
+      const DeepCollectionEquality().hash(location) ^
+      const DeepCollectionEquality().hash(icon) ^
+      runtimeType.hashCode;
+}
+
+extension $CreateActivityRequestExtension on CreateActivityRequest {
+  CreateActivityRequest copyWith(
+      {String? name,
+      String? description,
+      DateTime? startDate,
+      DateTime? endDate,
+      List<num>? participantsIds,
+      String? color,
+      String? location,
+      String? icon}) {
+    return CreateActivityRequest(
+        name: name ?? this.name,
+        description: description ?? this.description,
+        startDate: startDate ?? this.startDate,
+        endDate: endDate ?? this.endDate,
+        participantsIds: participantsIds ?? this.participantsIds,
+        color: color ?? this.color,
+        location: location ?? this.location,
+        icon: icon ?? this.icon);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ActivityModel {
+  ActivityModel({
+    this.id,
+    this.name,
+    this.description,
+    this.startDate,
+    this.endDate,
+    this.participants,
+    this.color,
+    this.location,
+    this.icon,
+    this.infos,
+  });
+
+  factory ActivityModel.fromJson(Map<String, dynamic> json) =>
+      _$ActivityModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'description')
+  final String? description;
+  @JsonKey(name: 'startDate')
+  final DateTime? startDate;
+  @JsonKey(name: 'endDate')
+  final DateTime? endDate;
+  @JsonKey(name: 'participants', defaultValue: <GroupMemberModel>[])
+  final List<GroupMemberModel>? participants;
+  @JsonKey(name: 'color')
+  final String? color;
+  @JsonKey(name: 'location')
+  final String? location;
+  @JsonKey(name: 'icon')
+  final String? icon;
+  @JsonKey(name: 'infos', defaultValue: <String>[])
+  final List<String>? infos;
+  static const fromJsonFactory = _$ActivityModelFromJson;
+  static const toJsonFactory = _$ActivityModelToJson;
+  Map<String, dynamic> toJson() => _$ActivityModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ActivityModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
+            (identical(other.startDate, startDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.startDate, startDate)) &&
+            (identical(other.endDate, endDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.endDate, endDate)) &&
+            (identical(other.participants, participants) ||
+                const DeepCollectionEquality()
+                    .equals(other.participants, participants)) &&
+            (identical(other.color, color) ||
+                const DeepCollectionEquality().equals(other.color, color)) &&
+            (identical(other.location, location) ||
+                const DeepCollectionEquality()
+                    .equals(other.location, location)) &&
+            (identical(other.icon, icon) ||
+                const DeepCollectionEquality().equals(other.icon, icon)) &&
+            (identical(other.infos, infos) ||
+                const DeepCollectionEquality().equals(other.infos, infos)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(startDate) ^
+      const DeepCollectionEquality().hash(endDate) ^
+      const DeepCollectionEquality().hash(participants) ^
+      const DeepCollectionEquality().hash(color) ^
+      const DeepCollectionEquality().hash(location) ^
+      const DeepCollectionEquality().hash(icon) ^
+      const DeepCollectionEquality().hash(infos) ^
+      runtimeType.hashCode;
+}
+
+extension $ActivityModelExtension on ActivityModel {
+  ActivityModel copyWith(
+      {num? id,
+      String? name,
+      String? description,
+      DateTime? startDate,
+      DateTime? endDate,
+      List<GroupMemberModel>? participants,
+      String? color,
+      String? location,
+      String? icon,
+      List<String>? infos}) {
+    return ActivityModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        description: description ?? this.description,
+        startDate: startDate ?? this.startDate,
+        endDate: endDate ?? this.endDate,
+        participants: participants ?? this.participants,
+        color: color ?? this.color,
+        location: location ?? this.location,
+        icon: icon ?? this.icon,
+        infos: infos ?? this.infos);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GroupMemberModel {
+  GroupMemberModel({
+    this.userId,
+    this.firstname,
+    this.lastname,
+    this.profilePicture,
+  });
+
+  factory GroupMemberModel.fromJson(Map<String, dynamic> json) =>
+      _$GroupMemberModelFromJson(json);
+
+  @JsonKey(name: 'userId')
+  final num? userId;
+  @JsonKey(name: 'firstname')
+  final String? firstname;
+  @JsonKey(name: 'lastname')
+  final String? lastname;
+  @JsonKey(name: 'profilePicture')
+  final String? profilePicture;
+  static const fromJsonFactory = _$GroupMemberModelFromJson;
+  static const toJsonFactory = _$GroupMemberModelToJson;
+  Map<String, dynamic> toJson() => _$GroupMemberModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is GroupMemberModel &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.firstname, firstname) ||
+                const DeepCollectionEquality()
+                    .equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastname, lastname)) &&
+            (identical(other.profilePicture, profilePicture) ||
+                const DeepCollectionEquality()
+                    .equals(other.profilePicture, profilePicture)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(lastname) ^
+      const DeepCollectionEquality().hash(profilePicture) ^
+      runtimeType.hashCode;
+}
+
+extension $GroupMemberModelExtension on GroupMemberModel {
+  GroupMemberModel copyWith(
+      {num? userId,
+      String? firstname,
+      String? lastname,
+      String? profilePicture}) {
+    return GroupMemberModel(
+        userId: userId ?? this.userId,
+        firstname: firstname ?? this.firstname,
+        lastname: lastname ?? this.lastname,
+        profilePicture: profilePicture ?? this.profilePicture);
   }
 }
 
@@ -2477,6 +3093,103 @@ extension $UserUpdateRequestExtension on UserUpdateRequest {
 }
 
 @JsonSerializable(explicitToJson: true)
+class UpdateActivityRequest {
+  UpdateActivityRequest({
+    this.name,
+    this.description,
+    this.startDate,
+    this.endDate,
+    this.color,
+    this.location,
+    this.icon,
+    this.infos,
+  });
+
+  factory UpdateActivityRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateActivityRequestFromJson(json);
+
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'description')
+  final String? description;
+  @JsonKey(name: 'startDate')
+  final DateTime? startDate;
+  @JsonKey(name: 'endDate')
+  final DateTime? endDate;
+  @JsonKey(name: 'color')
+  final String? color;
+  @JsonKey(name: 'location')
+  final String? location;
+  @JsonKey(name: 'icon')
+  final String? icon;
+  @JsonKey(name: 'infos', defaultValue: <String>[])
+  final List<String>? infos;
+  static const fromJsonFactory = _$UpdateActivityRequestFromJson;
+  static const toJsonFactory = _$UpdateActivityRequestToJson;
+  Map<String, dynamic> toJson() => _$UpdateActivityRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UpdateActivityRequest &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
+            (identical(other.startDate, startDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.startDate, startDate)) &&
+            (identical(other.endDate, endDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.endDate, endDate)) &&
+            (identical(other.color, color) ||
+                const DeepCollectionEquality().equals(other.color, color)) &&
+            (identical(other.location, location) ||
+                const DeepCollectionEquality()
+                    .equals(other.location, location)) &&
+            (identical(other.icon, icon) ||
+                const DeepCollectionEquality().equals(other.icon, icon)) &&
+            (identical(other.infos, infos) ||
+                const DeepCollectionEquality().equals(other.infos, infos)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(startDate) ^
+      const DeepCollectionEquality().hash(endDate) ^
+      const DeepCollectionEquality().hash(color) ^
+      const DeepCollectionEquality().hash(location) ^
+      const DeepCollectionEquality().hash(icon) ^
+      const DeepCollectionEquality().hash(infos) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdateActivityRequestExtension on UpdateActivityRequest {
+  UpdateActivityRequest copyWith(
+      {String? name,
+      String? description,
+      DateTime? startDate,
+      DateTime? endDate,
+      String? color,
+      String? location,
+      String? icon,
+      List<String>? infos}) {
+    return UpdateActivityRequest(
+        name: name ?? this.name,
+        description: description ?? this.description,
+        startDate: startDate ?? this.startDate,
+        endDate: endDate ?? this.endDate,
+        color: color ?? this.color,
+        location: location ?? this.location,
+        icon: icon ?? this.icon,
+        infos: infos ?? this.infos);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class UpdateGroupRequest {
   UpdateGroupRequest({
     this.name,
@@ -3355,70 +4068,6 @@ extension $MatchMakingResultExtension on MatchMakingResult {
       {enums.MatchMakingResultType$? type, num? groupId}) {
     return MatchMakingResult(
         type: type ?? this.type, groupId: groupId ?? this.groupId);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class GroupMemberModel {
-  GroupMemberModel({
-    this.userId,
-    this.firstname,
-    this.lastname,
-    this.profilePicture,
-  });
-
-  factory GroupMemberModel.fromJson(Map<String, dynamic> json) =>
-      _$GroupMemberModelFromJson(json);
-
-  @JsonKey(name: 'userId')
-  final num? userId;
-  @JsonKey(name: 'firstname')
-  final String? firstname;
-  @JsonKey(name: 'lastname')
-  final String? lastname;
-  @JsonKey(name: 'profilePicture')
-  final String? profilePicture;
-  static const fromJsonFactory = _$GroupMemberModelFromJson;
-  static const toJsonFactory = _$GroupMemberModelToJson;
-  Map<String, dynamic> toJson() => _$GroupMemberModelToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is GroupMemberModel &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(lastname) ^
-      const DeepCollectionEquality().hash(profilePicture) ^
-      runtimeType.hashCode;
-}
-
-extension $GroupMemberModelExtension on GroupMemberModel {
-  GroupMemberModel copyWith(
-      {num? userId,
-      String? firstname,
-      String? lastname,
-      String? profilePicture}) {
-    return GroupMemberModel(
-        userId: userId ?? this.userId,
-        firstname: firstname ?? this.firstname,
-        lastname: lastname ?? this.lastname,
-        profilePicture: profilePicture ?? this.profilePicture);
   }
 }
 
@@ -4557,6 +5206,132 @@ List<enums.ProfileModelSport> profileModelSportListFromJson(
 
   return profileModelSport
       .map((e) => profileModelSportFromJson(e.toString()))
+      .toList();
+}
+
+String? placesFromCoordinatesRequestCategoriesToJson(
+    enums.PlacesFromCoordinatesRequestCategories?
+        placesFromCoordinatesRequestCategories) {
+  return enums.$PlacesFromCoordinatesRequestCategoriesMap[
+      placesFromCoordinatesRequestCategories];
+}
+
+enums.PlacesFromCoordinatesRequestCategories
+    placesFromCoordinatesRequestCategoriesFromJson(
+        Object? placesFromCoordinatesRequestCategories) {
+  if (placesFromCoordinatesRequestCategories is int) {
+    return enums.$PlacesFromCoordinatesRequestCategoriesMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                placesFromCoordinatesRequestCategories.toString(),
+            orElse: () => const MapEntry(
+                enums.PlacesFromCoordinatesRequestCategories
+                    .swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  if (placesFromCoordinatesRequestCategories is String) {
+    return enums.$PlacesFromCoordinatesRequestCategoriesMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                placesFromCoordinatesRequestCategories.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.PlacesFromCoordinatesRequestCategories
+                    .swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  return enums.PlacesFromCoordinatesRequestCategories.swaggerGeneratedUnknown;
+}
+
+List<String> placesFromCoordinatesRequestCategoriesListToJson(
+    List<enums.PlacesFromCoordinatesRequestCategories>?
+        placesFromCoordinatesRequestCategories) {
+  if (placesFromCoordinatesRequestCategories == null) {
+    return [];
+  }
+
+  return placesFromCoordinatesRequestCategories
+      .map((e) => enums.$PlacesFromCoordinatesRequestCategoriesMap[e]!)
+      .toList();
+}
+
+List<enums.PlacesFromCoordinatesRequestCategories>
+    placesFromCoordinatesRequestCategoriesListFromJson(
+        List? placesFromCoordinatesRequestCategories) {
+  if (placesFromCoordinatesRequestCategories == null) {
+    return [];
+  }
+
+  return placesFromCoordinatesRequestCategories
+      .map((e) => placesFromCoordinatesRequestCategoriesFromJson(e.toString()))
+      .toList();
+}
+
+String? placesFromAddressRequestCategoriesToJson(
+    enums.PlacesFromAddressRequestCategories?
+        placesFromAddressRequestCategories) {
+  return enums.$PlacesFromAddressRequestCategoriesMap[
+      placesFromAddressRequestCategories];
+}
+
+enums.PlacesFromAddressRequestCategories
+    placesFromAddressRequestCategoriesFromJson(
+        Object? placesFromAddressRequestCategories) {
+  if (placesFromAddressRequestCategories is int) {
+    return enums.$PlacesFromAddressRequestCategoriesMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                placesFromAddressRequestCategories.toString(),
+            orElse: () => const MapEntry(
+                enums
+                    .PlacesFromAddressRequestCategories.swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  if (placesFromAddressRequestCategories is String) {
+    return enums.$PlacesFromAddressRequestCategoriesMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                placesFromAddressRequestCategories.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums
+                    .PlacesFromAddressRequestCategories.swaggerGeneratedUnknown,
+                ''))
+        .key;
+  }
+
+  return enums.PlacesFromAddressRequestCategories.swaggerGeneratedUnknown;
+}
+
+List<String> placesFromAddressRequestCategoriesListToJson(
+    List<enums.PlacesFromAddressRequestCategories>?
+        placesFromAddressRequestCategories) {
+  if (placesFromAddressRequestCategories == null) {
+    return [];
+  }
+
+  return placesFromAddressRequestCategories
+      .map((e) => enums.$PlacesFromAddressRequestCategoriesMap[e]!)
+      .toList();
+}
+
+List<enums.PlacesFromAddressRequestCategories>
+    placesFromAddressRequestCategoriesListFromJson(
+        List? placesFromAddressRequestCategories) {
+  if (placesFromAddressRequestCategories == null) {
+    return [];
+  }
+
+  return placesFromAddressRequestCategories
+      .map((e) => placesFromAddressRequestCategoriesFromJson(e.toString()))
       .toList();
 }
 

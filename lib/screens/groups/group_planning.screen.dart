@@ -40,7 +40,7 @@ class GroupPlanning extends HookConsumerWidget {
       body: ListView(
         controller: scrollController,
         children: [
-          PlanningHeader(),
+          PlanningHeader(group: group),
           AsyncValueWidget<List<Activity>>(
             value: activities,
             data: (activities) => Column(

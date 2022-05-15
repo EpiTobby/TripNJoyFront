@@ -321,6 +321,164 @@ const $ProfileModelSportMap = {
   ProfileModelSport.noPreference: 'NO_PREFERENCE'
 };
 
+enum PlacesFromCoordinatesRequestCategories {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('ANTIQUES_SHOP')
+  antiquesShop,
+  @JsonValue('ARTS_CENTER')
+  artsCenter,
+  @JsonValue('ART_SHOP')
+  artShop,
+  @JsonValue('BAR_AND_PUB')
+  barAndPub,
+  @JsonValue('BEACH')
+  beach,
+  @JsonValue('BUS')
+  bus,
+  @JsonValue('CHANGE')
+  change,
+  @JsonValue('CHINESE_RESTAURANT')
+  chineseRestaurant,
+  @JsonValue('COFFEE_SHOP')
+  coffeeShop,
+  @JsonValue('ENTERTAINEMENT')
+  entertainement,
+  @JsonValue('FAST_FOOD')
+  fastFood,
+  @JsonValue('FISH_AND_CHIPS_RESTAURANT')
+  fishAndChipsRestaurant,
+  @JsonValue('ITALIAN_RESTAURANT')
+  italianRestaurant,
+  @JsonValue('MUSEUM')
+  museum,
+  @JsonValue('PARKING')
+  parking,
+  @JsonValue('RESTAURANT')
+  restaurant,
+  @JsonValue('SEAFOOD_RESTARANT')
+  seafoodRestarant,
+  @JsonValue('SUPERMARKET')
+  supermarket,
+  @JsonValue('SWIMMING_POOL')
+  swimmingPool,
+  @JsonValue('SUBWAY')
+  subway,
+  @JsonValue('THEATRE')
+  theatre,
+  @JsonValue('TOURISM')
+  tourism,
+  @JsonValue('TRANSPORT')
+  transport
+}
+
+const $PlacesFromCoordinatesRequestCategoriesMap = {
+  PlacesFromCoordinatesRequestCategories.antiquesShop: 'ANTIQUES_SHOP',
+  PlacesFromCoordinatesRequestCategories.artsCenter: 'ARTS_CENTER',
+  PlacesFromCoordinatesRequestCategories.artShop: 'ART_SHOP',
+  PlacesFromCoordinatesRequestCategories.barAndPub: 'BAR_AND_PUB',
+  PlacesFromCoordinatesRequestCategories.beach: 'BEACH',
+  PlacesFromCoordinatesRequestCategories.bus: 'BUS',
+  PlacesFromCoordinatesRequestCategories.change: 'CHANGE',
+  PlacesFromCoordinatesRequestCategories.chineseRestaurant:
+      'CHINESE_RESTAURANT',
+  PlacesFromCoordinatesRequestCategories.coffeeShop: 'COFFEE_SHOP',
+  PlacesFromCoordinatesRequestCategories.entertainement: 'ENTERTAINEMENT',
+  PlacesFromCoordinatesRequestCategories.fastFood: 'FAST_FOOD',
+  PlacesFromCoordinatesRequestCategories.fishAndChipsRestaurant:
+      'FISH_AND_CHIPS_RESTAURANT',
+  PlacesFromCoordinatesRequestCategories.italianRestaurant:
+      'ITALIAN_RESTAURANT',
+  PlacesFromCoordinatesRequestCategories.museum: 'MUSEUM',
+  PlacesFromCoordinatesRequestCategories.parking: 'PARKING',
+  PlacesFromCoordinatesRequestCategories.restaurant: 'RESTAURANT',
+  PlacesFromCoordinatesRequestCategories.seafoodRestarant: 'SEAFOOD_RESTARANT',
+  PlacesFromCoordinatesRequestCategories.supermarket: 'SUPERMARKET',
+  PlacesFromCoordinatesRequestCategories.swimmingPool: 'SWIMMING_POOL',
+  PlacesFromCoordinatesRequestCategories.subway: 'SUBWAY',
+  PlacesFromCoordinatesRequestCategories.theatre: 'THEATRE',
+  PlacesFromCoordinatesRequestCategories.tourism: 'TOURISM',
+  PlacesFromCoordinatesRequestCategories.transport: 'TRANSPORT'
+};
+
+enum PlacesFromAddressRequestCategories {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('ANTIQUES_SHOP')
+  antiquesShop,
+  @JsonValue('ARTS_CENTER')
+  artsCenter,
+  @JsonValue('ART_SHOP')
+  artShop,
+  @JsonValue('BAR_AND_PUB')
+  barAndPub,
+  @JsonValue('BEACH')
+  beach,
+  @JsonValue('BUS')
+  bus,
+  @JsonValue('CHANGE')
+  change,
+  @JsonValue('CHINESE_RESTAURANT')
+  chineseRestaurant,
+  @JsonValue('COFFEE_SHOP')
+  coffeeShop,
+  @JsonValue('ENTERTAINEMENT')
+  entertainement,
+  @JsonValue('FAST_FOOD')
+  fastFood,
+  @JsonValue('FISH_AND_CHIPS_RESTAURANT')
+  fishAndChipsRestaurant,
+  @JsonValue('ITALIAN_RESTAURANT')
+  italianRestaurant,
+  @JsonValue('MUSEUM')
+  museum,
+  @JsonValue('PARKING')
+  parking,
+  @JsonValue('RESTAURANT')
+  restaurant,
+  @JsonValue('SEAFOOD_RESTARANT')
+  seafoodRestarant,
+  @JsonValue('SUPERMARKET')
+  supermarket,
+  @JsonValue('SWIMMING_POOL')
+  swimmingPool,
+  @JsonValue('SUBWAY')
+  subway,
+  @JsonValue('THEATRE')
+  theatre,
+  @JsonValue('TOURISM')
+  tourism,
+  @JsonValue('TRANSPORT')
+  transport
+}
+
+const $PlacesFromAddressRequestCategoriesMap = {
+  PlacesFromAddressRequestCategories.antiquesShop: 'ANTIQUES_SHOP',
+  PlacesFromAddressRequestCategories.artsCenter: 'ARTS_CENTER',
+  PlacesFromAddressRequestCategories.artShop: 'ART_SHOP',
+  PlacesFromAddressRequestCategories.barAndPub: 'BAR_AND_PUB',
+  PlacesFromAddressRequestCategories.beach: 'BEACH',
+  PlacesFromAddressRequestCategories.bus: 'BUS',
+  PlacesFromAddressRequestCategories.change: 'CHANGE',
+  PlacesFromAddressRequestCategories.chineseRestaurant: 'CHINESE_RESTAURANT',
+  PlacesFromAddressRequestCategories.coffeeShop: 'COFFEE_SHOP',
+  PlacesFromAddressRequestCategories.entertainement: 'ENTERTAINEMENT',
+  PlacesFromAddressRequestCategories.fastFood: 'FAST_FOOD',
+  PlacesFromAddressRequestCategories.fishAndChipsRestaurant:
+      'FISH_AND_CHIPS_RESTAURANT',
+  PlacesFromAddressRequestCategories.italianRestaurant: 'ITALIAN_RESTAURANT',
+  PlacesFromAddressRequestCategories.museum: 'MUSEUM',
+  PlacesFromAddressRequestCategories.parking: 'PARKING',
+  PlacesFromAddressRequestCategories.restaurant: 'RESTAURANT',
+  PlacesFromAddressRequestCategories.seafoodRestarant: 'SEAFOOD_RESTARANT',
+  PlacesFromAddressRequestCategories.supermarket: 'SUPERMARKET',
+  PlacesFromAddressRequestCategories.swimmingPool: 'SWIMMING_POOL',
+  PlacesFromAddressRequestCategories.subway: 'SUBWAY',
+  PlacesFromAddressRequestCategories.theatre: 'THEATRE',
+  PlacesFromAddressRequestCategories.tourism: 'TOURISM',
+  PlacesFromAddressRequestCategories.transport: 'TRANSPORT'
+};
+
 enum GroupModelState {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
