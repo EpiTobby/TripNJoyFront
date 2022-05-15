@@ -420,4 +420,9 @@ class MockService extends HttpService {
   Future<void> deleteActivity(int groupId, num activityId) {
     return Future.value(null);
   }
+
+  @override
+  Future<ActivityModel?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) {
+    throw UnimplementedError();
+  }
 }

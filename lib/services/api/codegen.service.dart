@@ -347,4 +347,11 @@ class CodegenService extends HttpService {
   Future<void> deleteActivity(int groupId, num activityId) async {
     await api.groupsGroupIdPlanningActivityIdDelete(groupId: groupId, activityId: activityId);
   }
+
+  @override
+  Future<ActivityModel?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) async {
+    final response =
+        await api.groupsGroupIdPlanningActivityIdPatch(groupId: groupId, activityId: activityId, body: request);
+    return response.body;
+  }
 }

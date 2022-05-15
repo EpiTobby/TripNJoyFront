@@ -96,4 +96,6 @@ abstract class HttpService {
   Future<ActivityModel?> createActivity(int groupId, CreateActivityRequest request);
 
   Future<void> deleteActivity(int groupId, num activityId);
+
+  Future<ActivityModel?> updateActivity(int groupId, num activityId, UpdateActivityRequest request);
 }

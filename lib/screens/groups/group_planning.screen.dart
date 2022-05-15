@@ -79,7 +79,7 @@ class GroupPlanning extends HookConsumerWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          planningProvider.Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddActivity(groupId: groupId)));
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddActivity(groupId: groupId)));
         },
         child: Icon(
           Icons.add,

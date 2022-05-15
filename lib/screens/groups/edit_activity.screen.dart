@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/group/activity.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
@@ -80,7 +81,10 @@ class EditActivity extends HookConsumerWidget {
                                 label:
                                     AppLocalizations.of(context).translate("groups.planning.activity.edit.name.title"),
                                 initialValue: "",
-                                onConfirm: (value) async {},
+                                onConfirm: (value) async {
+                                  await planningViewModel.updateActivity(
+                                      groupId, activity.id, UpdateActivityRequest(name: value));
+                                },
                               );
                             },
                           );
@@ -101,7 +105,10 @@ class EditActivity extends HookConsumerWidget {
                                 label: AppLocalizations.of(context)
                                     .translate("groups.planning.activity.edit.location.title"),
                                 initialValue: "",
-                                onConfirm: (value) async {},
+                                onConfirm: (value) async {
+                                  await planningViewModel.updateActivity(
+                                      groupId, activity.id, UpdateActivityRequest(location: value));
+                                },
                               );
                             },
                           );
@@ -122,7 +129,10 @@ class EditActivity extends HookConsumerWidget {
                                 label:
                                     AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.title"),
                                 initialValue: "",
-                                onConfirm: (value) async {},
+                                onConfirm: (value) async {
+                                  await planningViewModel.updateActivity(
+                                      groupId, activity.id, UpdateActivityRequest(startDate: value));
+                                },
                               );
                             },
                           );
@@ -142,7 +152,10 @@ class EditActivity extends HookConsumerWidget {
                                 label:
                                     AppLocalizations.of(context).translate("groups.planning.activity.edit.end.title"),
                                 initialValue: "",
-                                onConfirm: (value) async {},
+                                onConfirm: (value) async {
+                                  await planningViewModel.updateActivity(
+                                      groupId, activity.id, UpdateActivityRequest(endDate: value));
+                                },
                               );
                             },
                           );
@@ -163,7 +176,10 @@ class EditActivity extends HookConsumerWidget {
                                 label: AppLocalizations.of(context)
                                     .translate("groups.planning.activity.edit.description.title"),
                                 initialValue: "",
-                                onConfirm: (value) async {},
+                                onConfirm: (value) async {
+                                  await planningViewModel.updateActivity(
+                                      groupId, activity.id, UpdateActivityRequest(description: value));
+                                },
                               );
                             },
                           );

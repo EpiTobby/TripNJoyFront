@@ -41,4 +41,9 @@ class PlanningViewModel extends ChangeNotifier {
   Future<void> deleteActivity(int groupId, num activityId) async {
     await httpService.deleteActivity(groupId, activityId);
   }
+
+  Future<Activity?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) async {
+    final updatedActivity = await httpService.updateActivity(groupId, activityId, request);
+    return updatedActivity != null ? Activity.fromActivityResponse(updatedActivity) : null;
+  }
 }
