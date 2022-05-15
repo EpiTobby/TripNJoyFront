@@ -35,6 +35,7 @@ class MatchmakingViewModel extends ChangeNotifier {
   List<CardModel> cards = [];
   int index = 0;
   MatchmakingStatus status = MatchmakingStatus.CREATE_PROFILE;
+  GroupModel? groupFound;
 
   Map<String, dynamic> profileCreationRequest = {};
 
@@ -52,6 +53,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           return;
         }
 
+        groupFound = matchmakingResult.group;
         updateMatchmakingStatus(matchmakingResult.type!);
       }
     }
@@ -282,7 +284,7 @@ class MatchmakingViewModel extends ChangeNotifier {
     nextCard();
   }
 
-  void joinGroup(int groupId) {
+  void joinGroup() {
     status = MatchmakingStatus.CREATE_PROFILE;
     cards = [];
     index = 0;
@@ -308,14 +310,25 @@ class MatchmakingViewModel extends ChangeNotifier {
       return;
     }
 
+    groupFound = matchmakingResult.group;
     updateMatchmakingStatus(matchmakingResult.type!);
   }
 
-  Future<void> retryMatchmaking(int profileId) async {
+  Future<void> retryMatchmaking(int profileId, int? groupId) async {
     int? id = httpService.getUserIdFromToken(authViewModel.token!);
+    if (groupId != null) {
+      await httpService.leaveGroup(groupId, id!);
+    }
 
-    final matchmakingResponse = await httpService.retryMatchmaking(id!.toInt(), profileId);
+    final matchmakingResponse = await httpService.retryMatchmaking(id!, profileId);
     await handleMatchmakingResponse(matchmakingResponse);
+  }
+
+  Future<void> retryMatchmakingNoProfile(int groupId) async {
+    int? id = httpService.getUserIdFromToken(authViewModel.token!);
+    await httpService.leaveGroup(groupId, id!);
+    status = MatchmakingStatus.CREATE_PROFILE;
+    notifyListeners();
   }
 
   void submitProfile(String name, String value) async {
@@ -334,10 +347,6 @@ class MatchmakingViewModel extends ChangeNotifier {
   Future<void> mockMatchmaking() async {
     await Future.delayed(const Duration(seconds: 2));
     receiveGroupMatch();
-  }
-
-  Future<void> createProfile() async {
-    await profileViewModel.createProfile(ProfileCreationRequest.fromJsonFactory(profileCreationRequest));
   }
 
   void restartProfileCreation() async {
@@ -372,20 +381,5 @@ class MatchmakingViewModel extends ChangeNotifier {
         break;
     }
     notifyListeners();
-  }
-
-  void mockProfileData() {
-    profileCreationRequest["duration"] = {"minValue": 1, "maxValue": 10};
-    profileCreationRequest["budget"] = {"minValue": 1, "maxValue": 10};
-    profileCreationRequest["destinationTypes"] = ["CITY"];
-    profileCreationRequest["ages"] = {"minValue": 18, "maxValue": 100};
-    profileCreationRequest["travelWithPersonFromSameCity"] = "YES";
-    profileCreationRequest["travelWithPersonFromSameCountry"] = "YES";
-    profileCreationRequest["travelWithPersonSameLanguage"] = "YES";
-    profileCreationRequest["gender"] = "MALE";
-    profileCreationRequest["chillOrVisit"] = "VISIT";
-    profileCreationRequest["aboutFood"] = "RESTAURANT";
-    profileCreationRequest["goOutAtNight"] = "NO_PREFERENCE";
-    profileCreationRequest["sport"] = "NO";
   }
 }

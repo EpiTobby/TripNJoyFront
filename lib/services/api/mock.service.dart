@@ -230,7 +230,17 @@ class MockService extends HttpService {
 
   @override
   Future<MatchMakingResult?> getMatchmakingResult(int taskId) {
-    return Future.value(MatchMakingResult(groupId: 1, type: MatchMakingResultType$.joined));
+    return Future.value(MatchMakingResult(
+        group: GroupModel(
+            id: 1,
+            state: GroupModelState.closed,
+            name: "A very long title that should be truncated in the appbar",
+            members: [
+              MemberModel(firstname: "tony", lastname: "stark"),
+              MemberModel(firstname: "steve", lastname: "rogers")
+            ],
+            picture: "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png"),
+        type: MatchMakingResultType$.joined));
   }
 
   @override

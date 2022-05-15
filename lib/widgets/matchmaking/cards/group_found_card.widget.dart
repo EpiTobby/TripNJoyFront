@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
+import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 
 import '../../../app_localizations.dart';
 import '../../../providers/matchmaking/matchmaking.provider.dart';
@@ -30,6 +32,8 @@ class GroupFoundCard extends HookConsumerWidget {
     final offset = Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, -2))
         .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
     final matchmakingViewModel = ref.watch(matchmakingProvider.notifier);
+
+    final navbar = ref.watch(navbarStateProvider.notifier);
 
     final profiles = ref.watch(profileProvider);
 
@@ -99,7 +103,8 @@ class GroupFoundCard extends HookConsumerWidget {
                     text: AppLocalizations.of(context).translate('cards.group_found.button'),
                     onPressed: () {
                       animation.forward().whenComplete(() {
-                        matchmakingViewModel.joinGroup(groupId);
+                        matchmakingViewModel.joinGroup();
+                        navbar.navigate(NavbarPage.GROUPS);
                       });
                     }),
               ],
@@ -108,12 +113,14 @@ class GroupFoundCard extends HookConsumerWidget {
           if (!isLoading)
             SecondaryButton(
                 text: AppLocalizations.of(context).translate('cards.group_found.retry'),
-                onPressed: () {
+                onPressed: () async {
                   if (profiles != null) {
                     final activeProfile = profiles.where((profile) => profile.active!);
                     if (activeProfile.isNotEmpty) {
-                      matchmakingViewModel.retryMatchmaking(activeProfile.first.id!.toInt());
+                      matchmakingViewModel.retryMatchmaking(activeProfile.first.id!.toInt(), groupId);
                     }
+                  } else {
+                    matchmakingViewModel.retryMatchmakingNoProfile(groupId);
                   }
                 }),
         ],
