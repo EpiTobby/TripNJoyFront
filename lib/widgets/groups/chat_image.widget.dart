@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 
-class ChatImage extends StatelessWidget {
+class ChatImage extends ConsumerWidget {
   const ChatImage({Key? key, required this.url, required this.isUser}) : super(key: key);
 
   final String url;
   final bool isUser;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final minioService = ref.watch(minioProvider);
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
@@ -20,7 +23,7 @@ class ChatImage extends StatelessWidget {
                 shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
               ),
               body: Image.network(
-                url,
+                minioService.getImageUrl(url)!,
                 fit: BoxFit.scaleDown,
                 height: double.infinity,
                 width: double.infinity,
@@ -40,7 +43,7 @@ class ChatImage extends StatelessWidget {
           fit: BoxFit.cover,
           width: 200,
           height: 200,
-          image: NetworkImage(url),
+          image: NetworkImage(minioService.getImageUrl(url)!),
         ),
       ),
     );
