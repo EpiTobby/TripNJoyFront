@@ -150,28 +150,31 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     }
 
     useEffect(() {
-      if (authViewModel.isAuthenticated && mounted) {
-        userViewModel.loadUser().then((value) {
-          if (value != null && mounted) {
-            if (value.confirmed == false) {
-              logger.d("user not confirmed");
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => AccountVerification(
-                    userId: value.id!.toInt(),
+      Future.microtask(() {
+        if (authViewModel.isAuthenticated && mounted) {
+          userViewModel.loadUser().then((value) {
+            if (value != null && mounted) {
+              if (value.confirmed == false) {
+                logger.d("user not confirmed");
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AccountVerification(
+                      userId: value.id!.toInt(),
+                    ),
                   ),
-                ),
-              );
+                );
+              }
+            } else {
+              logger.d("user not found");
+              authViewModel.logout();
             }
-          } else {
-            logger.d("user not found");
-            authViewModel.logout();
-          }
-        });
-      }
+          });
+        }
+      });
+
       return null;
-    }, [authViewModel]);
+    }, [authViewModel, userViewModel]);
 
     final user = ref.watch(userProvider);
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
