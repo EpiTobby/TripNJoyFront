@@ -332,7 +332,19 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<List<Activity>?> getActivities(int groupId) {
-    throw UnimplementedError();
+  Future<List<ActivityModel>?> getActivities(int groupId) async {
+    final response = await api.groupsGroupIdPlanningGet(groupId: groupId);
+    return response.body;
+  }
+
+  @override
+  Future<ActivityModel?> createActivity(int groupId, CreateActivityRequest request) async {
+    final response = await api.groupsGroupIdPlanningPost(groupId: groupId, body: request);
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteActivity(int groupId, num activityId) async {
+    await api.groupsGroupIdPlanningActivityIdDelete(groupId: groupId, activityId: activityId);
   }
 }

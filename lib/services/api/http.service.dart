@@ -91,5 +91,9 @@ abstract class HttpService {
 
   Future<MessageResponse?> togglePinnedMessage(num messageId, bool pinned);
 
-  Future<List<Activity>?> getActivities(int groupId);
+  Future<List<ActivityModel>?> getActivities(int groupId);
+
+  Future<ActivityModel?> createActivity(int groupId, CreateActivityRequest request);
+
+  Future<void> deleteActivity(int groupId, num activityId);
 }

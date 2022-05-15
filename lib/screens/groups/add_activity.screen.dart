@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/edit_activity.screen.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
@@ -9,10 +10,14 @@ import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 class AddActivity extends HookConsumerWidget {
   const AddActivity({
     Key? key,
+    required this.groupId,
   }) : super(key: key);
+
+  final int groupId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final planningViewModel = ref.watch(planningProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).translate('groups.planning.activity.add')),
@@ -27,8 +32,12 @@ class AddActivity extends HookConsumerWidget {
             child: LayoutItem(
               child: LayoutItemValue(
                 value: AppLocalizations.of(context).translate("groups.planning.activity.manual"),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => EditActivity()));
+                onPressed: () async {
+                  final activity = await planningViewModel.createDefaultActivity(groupId);
+                  if (activity != null) {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => EditActivity(groupId: groupId, activity: activity)));
+                  }
                 },
               ),
             ),
