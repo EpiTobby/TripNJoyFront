@@ -324,9 +324,11 @@ class MatchmakingViewModel extends ChangeNotifier {
     await handleMatchmakingResponse(matchmakingResponse);
   }
 
-  Future<void> retryMatchmakingNoProfile(int groupId) async {
+  Future<void> retryMatchmakingNoProfile(int? groupId) async {
     int? id = httpService.getUserIdFromToken(authViewModel.token!);
-    await httpService.leaveGroup(groupId, id!);
+    if (groupId != null) {
+      await httpService.leaveGroup(groupId, id!);
+    }
     status = MatchmakingStatus.CREATE_PROFILE;
     notifyListeners();
   }
@@ -342,6 +344,8 @@ class MatchmakingViewModel extends ChangeNotifier {
     profileCreationRequest = {};
 
     await handleMatchmakingResponse(matchmakingResponse);
+
+    await profileViewModel.getUserProfiles();
   }
 
   Future<void> mockMatchmaking() async {

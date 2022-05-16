@@ -65,11 +65,13 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
         child: matchmakingStatus != MatchmakingStatus.CREATE_PROFILE
             ? matchmakingStatus != MatchmakingStatus.NO_GROUP
                 ? GroupFoundCard(
-                    groupId: matchmakingGroup!.id!.toInt(),
+                    groupId: matchmakingGroup?.id!.toInt(),
                     isLoading: matchmakingStatus == MatchmakingStatus.WAITING_MATCHMAKING,
-                    groupPhotoUrl: matchmakingGroup.picture ?? DEFAULT_AVATAR_URL,
-                    membersPhotoUrls:
-                        matchmakingGroup.members!.map((member) => member.profilePicture ?? DEFAULT_AVATAR_URL).toList(),
+                    groupPhotoUrl: matchmakingGroup?.picture ?? DEFAULT_AVATAR_URL,
+                    membersPhotoUrls: matchmakingGroup?.members!
+                            .map((member) => member.profilePicture ?? DEFAULT_AVATAR_URL)
+                            .toList() ??
+                        [],
                   )
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,

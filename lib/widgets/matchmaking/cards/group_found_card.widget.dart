@@ -13,13 +13,13 @@ import '../../common/card.widget.dart';
 class GroupFoundCard extends HookConsumerWidget {
   const GroupFoundCard({
     Key? key,
-    required this.groupId,
+    this.groupId,
     required this.groupPhotoUrl,
     required this.membersPhotoUrls,
     this.isLoading = false,
   }) : super(key: key);
 
-  final int groupId;
+  final int? groupId;
   final String groupPhotoUrl;
   final List<String> membersPhotoUrls;
   final bool isLoading;
