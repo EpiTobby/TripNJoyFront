@@ -186,7 +186,10 @@
   "matchmaking": {
     "title": "Matchmaking",
     "retryProfile": "Relancer un matchmaking avec ce profil",
-    "noGroup": "Aucun groupe trouvé. Attendez qu'un autre utilisateur match avec vous ou relancez le matchmaking avec un autre profil.",
+    "noGroup": {
+      "title": "Aucun groupe trouvé",
+      "subtitle": "Aucun groupe trouvé. Attendez qu'un autre utilisateur match avec vous ou relancez le matchmaking avec un autre profil."
+    },
     "newProfile": "Nouveau profil"
   },
   "profile": {
