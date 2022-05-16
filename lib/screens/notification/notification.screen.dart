@@ -16,17 +16,32 @@ class _NotificationPageState extends State<NotificationPage> {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: ListView.separated(
-        separatorBuilder: (context, index) => Divider(
-          color: Theme.of(context).colorScheme.primary.withAlpha(0x33),
-        ),
-        itemCount: 4,
-        itemBuilder: (context, index) => NotificationItemPicture(
-          imageUrl: "https://as2.ftcdn.net/v2/jpg/01/81/75/23/1000_F_181752325_chPCE32kZXwYmHxhwPdfaaGio7Pr3v5V.jpg",
-          title: 'New Trip',
-          subtitle: 'You have a new trip request. Check it out! More information will be added soon.',
-          onTap: () {},
-        ),
-      ),
+          separatorBuilder: (context, index) => Divider(
+                color: Theme.of(context).colorScheme.primary.withAlpha(0x33),
+              ),
+          itemCount: 2,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return NotificationItemIcon(
+                icon: Icon(
+                  Icons.favorite,
+                  color: Theme.of(context).colorScheme.background,
+                ),
+                title: 'Welcome to TripNJoy',
+                subtitle: 'We hope you enjoy your trips!',
+                onTap: () {},
+              );
+            }
+            return NotificationItemIcon(
+              icon: Icon(
+                Icons.add_circle_rounded,
+                color: Theme.of(context).colorScheme.background,
+              ),
+              title: 'Create your first travel profile',
+              subtitle: 'Go to the matchmaking page and find your perfect trip!',
+              onTap: () {},
+            );
+          }),
     );
   }
 }

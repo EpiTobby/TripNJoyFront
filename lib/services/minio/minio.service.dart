@@ -36,7 +36,7 @@ class MinioService {
 
     var imageURL = await upload(pickedFile.name, imageBytes);
     logger.d(imageURL.split('$MINIO_ENDPOINT:$MINIO_PORT/$MINIO_BUCKET/').last);
-    return imageURL.split('$MINIO_ENDPOINT:$MINIO_PORT/$MINIO_BUCKET/').last;
+    return imageURL.split(':$MINIO_PORT/$MINIO_BUCKET/').last;
   }
 
   String? getImageUrl(String? name) {
