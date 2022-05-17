@@ -235,7 +235,17 @@ class MockService extends HttpService {
 
   @override
   Future<MatchMakingResult?> getMatchmakingResult(int taskId) {
-    return Future.value(MatchMakingResult(groupId: 1, type: MatchMakingResultType$.joined));
+    return Future.value(MatchMakingResult(
+        group: GroupModel(
+            id: 1,
+            state: GroupModelState.closed,
+            name: "A very long title that should be truncated in the appbar",
+            members: [
+              MemberModel(firstname: "tony", lastname: "stark"),
+              MemberModel(firstname: "steve", lastname: "rogers")
+            ],
+            picture: "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png"),
+        type: MatchMakingResultType$.joined));
   }
 
   @override
@@ -357,51 +367,72 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<List<Activity>?> getActivities(int groupId) {
+  Future<List<ActivityModel>?> getActivities(int groupId) {
     return Future.delayed(
       const Duration(milliseconds: 500),
       () => [
-        Activity(
+        ActivityModel(
           id: 1,
-          icon: Icons.airplane_ticket,
-          title: "Flight Departure",
-          subtitle: "Airport CDG",
-          subsubtitle: "12/12/2022",
+          icon: Icons.airplane_ticket.codePoint.toString(),
+          name: "Flight Departure",
+          location: "Airport CDG",
+          startDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          endDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          color: ActivityColors.blue.toString(),
           description: "Go to Terminal 1, take the first flight to CDG, then take the second flight to JFK",
-          members: [
-            ChatMember(id: 1, name: "Tony Heng", avatar: NetworkImage(DEFAULT_AVATAR_URL)),
-            ChatMember(id: 2, name: "Yanis Chaabane", avatar: NetworkImage(DEFAULT_AVATAR_URL)),
-            ChatMember(id: 3, name: "Yannick Baudry", avatar: NetworkImage(DEFAULT_AVATAR_URL))
+          participants: [
+            GroupMemberModel(userId: 1, firstname: "Tony", lastname: "Heng", profilePicture: DEFAULT_AVATAR_URL),
+            GroupMemberModel(userId: 2, firstname: "Yanis", lastname: "Chaabane", profilePicture: DEFAULT_AVATAR_URL),
+            GroupMemberModel(userId: 3, firstname: "Gabriels", lastname: "Raynik", profilePicture: DEFAULT_AVATAR_URL),
           ],
         ),
-        Activity(
+        ActivityModel(
           id: 2,
-          icon: Icons.beach_access,
-          title: "Beach Time !",
-          subtitle: "JFK Beach",
-          subsubtitle: "13h30 - 13/12/2022",
+          icon: Icons.beach_access.codePoint.toString(),
+          name: "Beach Time !",
+          location: "JFK Beach",
+          startDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          endDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          color: ActivityColors.turquoise.toString(),
           description: "Chill and swim at the beach",
-          color: ActivityColors.turquoise,
-          members: [
-            ChatMember(id: 1, name: "Tony Heng", avatar: NetworkImage(DEFAULT_AVATAR_URL)),
-            ChatMember(id: 2, name: "Yanis Chaabane", avatar: NetworkImage(DEFAULT_AVATAR_URL))
+          participants: [
+            GroupMemberModel(userId: 1, firstname: "Tony", lastname: "Heng", profilePicture: DEFAULT_AVATAR_URL),
+            GroupMemberModel(userId: 2, firstname: "Yanis", lastname: "Chaabane", profilePicture: DEFAULT_AVATAR_URL),
           ],
         ),
-        Activity(
-          id: 3,
-          icon: Icons.airplane_ticket,
-          title: "Flight Return",
-          subtitle: "Airport JFK",
-          subsubtitle: "14/12/2022",
+        ActivityModel(
+          id: 1,
+          icon: Icons.airplane_ticket.codePoint.toString(),
+          name: "Flight Return",
+          location: "Airport JFK",
+          startDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          endDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          color: ActivityColors.blue.toString(),
           description: "Go to Terminal 1, take the first flight to CDG, then take the second flight to JFK",
-          color: ActivityColors.pink,
-          members: [
-            ChatMember(id: 1, name: "Tony Heng", avatar: NetworkImage(DEFAULT_AVATAR_URL)),
-            ChatMember(id: 2, name: "Yanis Chaabane", avatar: NetworkImage(DEFAULT_AVATAR_URL)),
-            ChatMember(id: 3, name: "Yannick Baudry", avatar: NetworkImage(DEFAULT_AVATAR_URL))
+          participants: [
+            GroupMemberModel(userId: 1, firstname: "Tony", lastname: "Heng", profilePicture: DEFAULT_AVATAR_URL),
+            GroupMemberModel(userId: 2, firstname: "Yanis", lastname: "Chaabane", profilePicture: DEFAULT_AVATAR_URL),
+            GroupMemberModel(userId: 3, firstname: "Gabriels", lastname: "Raynik", profilePicture: DEFAULT_AVATAR_URL),
           ],
         ),
       ],
     );
+  }
+
+  @override
+  Future<ActivityModel?> createActivity(int groupId, CreateActivityRequest request) {
+    return Future.value(
+      ActivityModel(),
+    );
+  }
+
+  @override
+  Future<void> deleteActivity(int groupId, num activityId) {
+    return Future.value(null);
+  }
+
+  @override
+  Future<ActivityModel?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) {
+    throw UnimplementedError();
   }
 }

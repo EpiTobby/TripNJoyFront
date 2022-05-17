@@ -40,7 +40,7 @@ class GroupPlanning extends HookConsumerWidget {
       body: ListView(
         controller: scrollController,
         children: [
-          PlanningHeader(),
+          PlanningHeader(group: group),
           AsyncValueWidget<List<Activity>>(
             value: activities,
             data: (activities) => Column(
@@ -54,9 +54,9 @@ class GroupPlanning extends HookConsumerWidget {
                             color: Theme.of(context).colorScheme.background,
                             size: 64,
                           ),
-                          title: activity.title,
-                          subtitle: activity.subtitle,
-                          subsubtitle: activity.subsubtitle,
+                          title: activity.name,
+                          subtitle: activity.location,
+                          subsubtitle: "${activity.startDate.toString()} - ${activity.endDate.toString()}",
                           description: activity.description,
                           color: activity.color,
                           members: activity.members.map((e) => e.avatar.url).toList(),
@@ -79,7 +79,7 @@ class GroupPlanning extends HookConsumerWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddActivity()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddActivity(groupId: groupId)));
         },
         child: Icon(
           Icons.add,

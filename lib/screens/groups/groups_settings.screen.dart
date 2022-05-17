@@ -6,6 +6,7 @@ import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
@@ -53,7 +54,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                       final imageURL = await minioService.uploadImage();
 
                       if (imageURL != null) {
-                        await groupViewModel.updatePrivateGroup(group.id!.toInt(), UpdateGroupRequest(picture: imageURL));
+                        await groupViewModel.updateGroup(group.id!.toInt(), UpdateGroupRequest(picture: imageURL));
                       }
                     },
                   ),
@@ -61,7 +62,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.settings.groupName"),
                       child: LayoutItemValue(
-                        value: group.name!,
+                        value: group.name ?? '',
                         onPressed: () {
                           showDialog(
                               context: context,
@@ -69,7 +70,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                                 return InputDialog(
                                     title: AppLocalizations.of(context).translate("groups.settings.groupName"),
                                     label: AppLocalizations.of(context).translate("groups.settings.groupName"),
-                                    initialValue: group.name!,
+                                    initialValue: group.name ?? '',
                                     onConfirm: (value) async {
                                       await groupViewModel.updatePrivateGroup(
                                           group.id!.toInt(), UpdateGroupRequest(name: value));
@@ -87,16 +88,15 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                             ...group.members!.map((member) {
                               return LayoutMember(
                                 name: member.firstname! + " " + member.lastname!,
-                                imageURL: member.profilePicture ?? DEFAULT_AVATAR_URL,
+                                imageURL: minioService.getImageUrl(member.profilePicture) ?? DEFAULT_AVATAR_URL,
                                 onClick: () {
                                   showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return UserDialog(user: member);
-                                    }
-                                  );
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return UserDialog(user: member);
+                                      });
                                 },
-                                onDelete: member.id == group.owner!.id
+                                onDelete: member.id == group.owner?.id
                                     ? null
                                     : () async {
                                         await groupViewModel.removeUserFromGroup(group.id!.toInt(), member.id!.toInt());
@@ -125,26 +125,34 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                     ),
                   ]),
                   LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.groupSettings"), children: [
-                    if (user != null && group.owner!.id == user.id)
+                    if (user != null && group.owner?.id == user.id)
                       LayoutItem(
                           child: LayoutItemValue(
                         value: AppLocalizations.of(context).translate("groups.settings.close"),
                         icon: Icons.lock_outline,
-                        onPressed: () {},
+                        onPressed: () {
+                          groupViewModel.updateGroup(
+                              group.id!.toInt(), UpdateGroupRequest(state: UpdateGroupRequestState.closed));
+                        },
                       )),
-                    if (user != null && group.owner!.id == user.id)
+                    if (user != null && group.owner?.id == user.id)
                       LayoutItem(
                           child: LayoutItemValue(
                         value: AppLocalizations.of(context).translate("groups.settings.archive"),
                         icon: Icons.archive_outlined,
-                        onPressed: () {},
+                        onPressed: () {
+                          groupViewModel.updateGroup(
+                              group.id!.toInt(), UpdateGroupRequest(state: UpdateGroupRequestState.archived));
+                        },
                       )),
                     LayoutItem(
                         child: LayoutItemValue(
                       value: AppLocalizations.of(context).translate("groups.settings.quit"),
                       icon: Icons.exit_to_app,
                       customColor: Theme.of(context).colorScheme.error,
-                      onPressed: () {},
+                      onPressed: () {
+                        groupViewModel.leaveGroup(group.id!.toInt());
+                      },
                     )),
                   ])
                 ],

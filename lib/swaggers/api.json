@@ -109,6 +109,100 @@
         }
       }
     },
+    "/places/coordinates": {
+      "post": {
+        "tags": [
+          "places-controller"
+        ],
+        "summary": "Retrieve 10 places around geographic coordinates",
+        "operationId": "getPlacesFromCoordinates",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlacesFromCoordinatesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Return a list of places",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaceResponse"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Address not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaceResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/places/address": {
+      "post": {
+        "tags": [
+          "places-controller"
+        ],
+        "summary": "Retrieve 10 places around an address",
+        "operationId": "getPlacesFromAddress",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlacesFromAddressRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Return a list of places",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaceResponse"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Address not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaceResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/matchmaking": {
       "post": {
         "tags": [
@@ -177,6 +271,16 @@
           }
         ],
         "responses": {
+          "202": {
+            "description": "Matchmaking started",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchMakingResponse"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Profile or user not found",
             "content": {
@@ -186,13 +290,124 @@
                 }
               }
             }
-          },
-          "202": {
-            "description": "Matchmaking started",
+          }
+        }
+      }
+    },
+    "/groups/{groupId}/planning": {
+      "get": {
+        "tags": [
+          "planning-controller"
+        ],
+        "summary": "Get the group's activities",
+        "operationId": "getActivities",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/MatchMakingResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActivityModel"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User does not belong to the group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActivityModel"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The group does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActivityModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "planning-controller"
+        ],
+        "summary": "Add a new activity to the group's planning",
+        "operationId": "createActivity",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateActivityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Activity created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User does not belong to the group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The group does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityModel"
                 }
               }
             }
@@ -229,8 +444,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "User or Group does not exist",
+          "200": {
+            "description": "Returns the created group",
             "content": {
               "*/*": {
                 "schema": {
@@ -239,8 +454,8 @@
               }
             }
           },
-          "200": {
-            "description": "Returns the created group",
+          "422": {
+            "description": "User or Group does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -281,14 +496,14 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The user is added to the group"
           },
           "403": {
             "description": "The client is not the owner of the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -312,8 +527,8 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "The group does not exist",
+          "200": {
+            "description": "Return the list of channels of a group",
             "content": {
               "*/*": {
                 "schema": {
@@ -325,8 +540,8 @@
               }
             }
           },
-          "200": {
-            "description": "Return the list of channels of a group",
+          "422": {
+            "description": "The group does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -478,8 +693,8 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Authentication failed. Wrong username or password",
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
             "content": {
               "*/*": {
                 "schema": {
@@ -488,8 +703,8 @@
               }
             }
           },
-          "200": {
-            "description": "Authentication Succeeded. Use the given jwt in following requests",
+          "401": {
+            "description": "Authentication failed. Wrong username or password",
             "content": {
               "*/*": {
                 "schema": {
@@ -519,8 +734,8 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Authentication failed. Wrong username or password",
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
             "content": {
               "*/*": {
                 "schema": {
@@ -529,8 +744,8 @@
               }
             }
           },
-          "200": {
-            "description": "Authentication Succeeded. Use the given jwt in following requests",
+          "401": {
+            "description": "Authentication failed. Wrong username or password",
             "content": {
               "*/*": {
                 "schema": {
@@ -560,11 +775,11 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "If the user does not exist"
-          },
           "200": {
             "description": "Email is sent to reset password"
+          },
+          "422": {
+            "description": "If the user does not exist"
           }
         }
       }
@@ -645,11 +860,11 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "If the user does not exist"
-          },
           "200": {
             "description": "User information have been updated"
+          },
+          "422": {
+            "description": "If the user does not exist"
           }
         }
       }
@@ -682,11 +897,11 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The user has joined the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -719,11 +934,200 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The user has declined the invite"
+          },
+          "422": {
+            "description": "Group or User does not exist"
+          }
+        }
+      }
+    },
+    "/groups/{groupId}/planning/{activityId}": {
+      "delete": {
+        "tags": [
+          "planning-controller"
+        ],
+        "summary": "Delete the activity",
+        "operationId": "deleteActivity",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Activity deleted"
+          },
+          "403": {
+            "description": "User does not belong to the group"
+          },
+          "404": {
+            "description": "The activity or group does not exist"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "planning-controller"
+        ],
+        "summary": "Update the activity",
+        "operationId": "updateActivity",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateActivityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Activity updated. New activity is returned",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User does not belong to the group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The activity or group does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{groupId}/planning/{activityId}/leave": {
+      "patch": {
+        "tags": [
+          "planning-controller"
+        ],
+        "summary": "Remove the current user from the given activity",
+        "operationId": "leaveActivity",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User removed"
+          },
+          "403": {
+            "description": "User does not belong to the group"
+          },
+          "404": {
+            "description": "The activity or group does not exist"
+          }
+        }
+      }
+    },
+    "/groups/{groupId}/planning/{activityId}/join": {
+      "patch": {
+        "tags": [
+          "planning-controller"
+        ],
+        "summary": "Add the current user to the given activity",
+        "operationId": "joinActivity",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User added"
+          },
+          "403": {
+            "description": "User does not belong to the group"
+          },
+          "404": {
+            "description": "The activity or group does not exist"
           }
         }
       }
@@ -747,14 +1151,14 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The group is deleted"
           },
           "403": {
             "description": "The client is not the owner of the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       },
@@ -786,14 +1190,14 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The group is updated"
           },
           "403": {
             "description": "The client is not the owner of the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -897,11 +1301,11 @@
           "200": {
             "description": "The channel has been updated"
           },
-          "422": {
-            "description": "The channel does not exist"
-          },
           "403": {
             "description": "The client  don't have access to this channel"
+          },
+          "422": {
+            "description": "The channel does not exist"
           }
         }
       }
@@ -1214,6 +1618,54 @@
         }
       }
     },
+    "/places/categories": {
+      "get": {
+        "tags": [
+          "places-controller"
+        ],
+        "operationId": "getCategory",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "ANTIQUES_SHOP",
+                      "ARTS_CENTER",
+                      "ART_SHOP",
+                      "BAR_AND_PUB",
+                      "BEACH",
+                      "BUS",
+                      "CHANGE",
+                      "CHINESE_RESTAURANT",
+                      "COFFEE_SHOP",
+                      "ENTERTAINEMENT",
+                      "FAST_FOOD",
+                      "FISH_AND_CHIPS_RESTAURANT",
+                      "ITALIAN_RESTAURANT",
+                      "MUSEUM",
+                      "PARKING",
+                      "RESTAURANT",
+                      "SEAFOOD_RESTARANT",
+                      "SUPERMARKET",
+                      "SWIMMING_POOL",
+                      "SUBWAY",
+                      "THEATRE",
+                      "TOURISM",
+                      "TRANSPORT"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/matchmaking/{taskId}": {
       "get": {
         "tags": [
@@ -1495,11 +1947,11 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "No profile has been found"
-          },
           "200": {
             "description": "The profile is deleted"
+          },
+          "422": {
+            "description": "No profile has been found"
           }
         }
       }
@@ -1566,11 +2018,11 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The user has left the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -1603,14 +2055,14 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
+          "200": {
+            "description": "The user is removed"
           },
           "403": {
             "description": "The client is not the owner of the group"
           },
-          "200": {
-            "description": "The user is removed"
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -1872,6 +2324,120 @@
           }
         }
       },
+      "PlacesFromCoordinatesRequest": {
+        "type": "object",
+        "properties": {
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ANTIQUES_SHOP",
+                "ARTS_CENTER",
+                "ART_SHOP",
+                "BAR_AND_PUB",
+                "BEACH",
+                "BUS",
+                "CHANGE",
+                "CHINESE_RESTAURANT",
+                "COFFEE_SHOP",
+                "ENTERTAINEMENT",
+                "FAST_FOOD",
+                "FISH_AND_CHIPS_RESTAURANT",
+                "ITALIAN_RESTAURANT",
+                "MUSEUM",
+                "PARKING",
+                "RESTAURANT",
+                "SEAFOOD_RESTARANT",
+                "SUPERMARKET",
+                "SWIMMING_POOL",
+                "SUBWAY",
+                "THEATRE",
+                "TOURISM",
+                "TRANSPORT"
+              ]
+            }
+          },
+          "radiusMeter": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PlaceResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "street": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          }
+        }
+      },
+      "PlacesFromAddressRequest": {
+        "type": "object",
+        "properties": {
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ANTIQUES_SHOP",
+                "ARTS_CENTER",
+                "ART_SHOP",
+                "BAR_AND_PUB",
+                "BEACH",
+                "BUS",
+                "CHANGE",
+                "CHINESE_RESTAURANT",
+                "COFFEE_SHOP",
+                "ENTERTAINEMENT",
+                "FAST_FOOD",
+                "FISH_AND_CHIPS_RESTAURANT",
+                "ITALIAN_RESTAURANT",
+                "MUSEUM",
+                "PARKING",
+                "RESTAURANT",
+                "SEAFOOD_RESTARANT",
+                "SUPERMARKET",
+                "SWIMMING_POOL",
+                "SUBWAY",
+                "THEATRE",
+                "TOURISM",
+                "TRANSPORT"
+              ]
+            }
+          },
+          "radiusMeter": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "address": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          }
+        }
+      },
       "MatchMakingResponse": {
         "type": "object",
         "properties": {
@@ -1884,10 +2450,110 @@
           }
         }
       },
+      "CreateActivityRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "participantsIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "color": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          }
+        }
+      },
+      "ActivityModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupMemberModel"
+            }
+          },
+          "color": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "infos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "GroupMemberModel": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "profilePicture": {
+            "type": "string"
+          }
+        }
+      },
       "CreatePrivateGroupRequest": {
         "type": "object",
         "properties": {
           "name": {
+            "type": "string"
+          },
+          "description": {
             "type": "string"
           },
           "maxSize": {
@@ -1928,6 +2594,9 @@
             "format": "int64"
           },
           "name": {
+            "type": "string"
+          },
+          "description": {
             "type": "string"
           },
           "state": {
@@ -2342,10 +3011,47 @@
           }
         }
       },
+      "UpdateActivityRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "color": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "infos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "UpdateGroupRequest": {
         "type": "object",
         "properties": {
           "name": {
+            "type": "string"
+          },
+          "description": {
             "type": "string"
           },
           "state": {
@@ -2621,27 +3327,8 @@
               "SEARCHING"
             ]
           },
-          "groupId": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
-      "GroupMemberModel": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "firstname": {
-            "type": "string"
-          },
-          "lastname": {
-            "type": "string"
-          },
-          "profilePicture": {
-            "type": "string"
+          "group": {
+            "$ref": "#/components/schemas/GroupModel"
           }
         }
       },
