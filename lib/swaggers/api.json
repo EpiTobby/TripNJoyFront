@@ -1868,8 +1868,8 @@
           }
         ],
         "responses": {
-          "206": {
-            "description": "Partial Content",
+          "200": {
+            "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
