@@ -90,8 +90,8 @@ class GroupFoundCard extends HookConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10.0),
                       child: Text(
-                        AppLocalizations.of(context)
-                            .translate('cards.group_found.members', {'count': membersPhotoUrls.length.toString()}),
+                        AppLocalizations.of(context).translate('cards.group_found.members',
+                            {'count': membersPhotoUrls.isEmpty ? "1" : membersPhotoUrls.length.toString()}),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 16,
