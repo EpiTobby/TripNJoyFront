@@ -30,10 +30,27 @@ abstract class CardColors {
   static const pink = Color(0xffFAD2E8);
 }
 
-abstract class ActivityColors {
+class ActivityColors {
   static const blue = Color(0xff2F63E0);
   static const pink = Color(0xffD8315B);
   static const red = Color(0xffD83131);
   static const purple = Color(0xff5231D8);
   static const turquoise = Color(0xff3192D8);
+
+  static Color getColor(String color) {
+    switch (color) {
+      case 'blue':
+        return blue;
+      case 'pink':
+        return pink;
+      case 'red':
+        return red;
+      case 'purple':
+        return purple;
+      case 'turquoise':
+        return turquoise;
+      default:
+        return blue;
+    }
+  }
 }

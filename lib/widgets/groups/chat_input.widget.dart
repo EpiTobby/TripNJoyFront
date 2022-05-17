@@ -25,43 +25,48 @@ class ChatInput extends HookConsumerWidget {
     final chatService = ref.watch(chatProvider);
     final minioService = ref.watch(minioProvider);
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: ChatTextField(
-              controller: controller,
-              onAttachFile: () async {
-                FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Expanded(
+              child: ChatTextField(
+                controller: controller,
+                onAttachFile: () async {
+                  FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
 
-                if (result != null) {
-                  List<PlatformFile> files = result.files;
-                  List<String> paths = [];
-                  for (var file in files) {
-                    var bytes = Stream.value(File(file.path!).readAsBytesSync());
-                    final path = await minioService.upload(file.name, bytes);
-                    paths.add(path);
+                  if (result != null) {
+                    List<PlatformFile> files = result.files;
+                    List<String> paths = [];
+                    for (var file in files) {
+                      var bytes = Stream.value(File(file.path!).readAsBytesSync());
+                      final path = await minioService.upload(file.name, bytes);
+                      paths.add(path);
+                    }
+                    for (var path in paths) {
+                      onSend(path.split("?").first, MessageResponseType$.file);
+                    }
                   }
-                  for (var path in paths) {
-                    onSend(path.split("?").first, MessageResponseType$.file);
-                  }
-                }
-              },
-              onAttachImage: () async {
-                final imageURL = await minioService.uploadImage();
-                onSend(imageURL!, MessageResponseType$.image);
-              },
+                },
+                onAttachImage: () async {
+                  final imageURL = await minioService.uploadImage();
+                  onSend(imageURL!, MessageResponseType$.image);
+                },
+              ),
             ),
-          ),
-          ChatSendButton(onPressed: () {
-            if (controller.text.isNotEmpty) {
-              logger.d('send button pressed - message: ${controller.text}');
-              onSend(controller.text, MessageResponseType$.text);
-              controller.clear();
-            }
-          }),
-        ],
+            ChatSendButton(onPressed: () {
+              if (controller.text.isNotEmpty) {
+                logger.d('send button pressed - message: ${controller.text}');
+                onSend(controller.text, MessageResponseType$.text);
+                controller.clear();
+              }
+            }),
+          ],
+        ),
       ),
     );
   }
