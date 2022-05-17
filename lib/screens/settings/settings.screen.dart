@@ -5,8 +5,10 @@ import 'package:minio/minio.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
 import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
+import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_password.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
@@ -48,7 +50,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       children: <Widget>[
         LayoutHeader(
           title: "${user.firstname} ${user.lastname}",
-          imageURL: user.profilePicture ?? DEFAULT_AVATAR_URL,
+          imageURL: minioService.getImageUrl(user.profilePicture) ?? DEFAULT_AVATAR_URL,
           onClick: () async {
             final imageURL = await minioService.uploadImage();
 
@@ -145,7 +147,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           LayoutItem(
               title: AppLocalizations.of(context).translate("user.city"),
               child: LayoutItemValue(
-                value: user.city!.name!,
+                value: user.city?.name ?? AppLocalizations.of(context).translate("settings.noCity"),
                 icon: Icons.keyboard_arrow_right_sharp,
                 onPressed: () {
                   showDialog(
@@ -154,9 +156,10 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         return InputDialog(
                             title: AppLocalizations.of(context).translate("settings.city"),
                             label: AppLocalizations.of(context).translate("user.city"),
-                            initialValue: user.city!.name ?? "",
+                            initialValue: user.city?.name ?? "",
                             onConfirm: (value) async {
-                              userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(city: CityModel(name: value)));
+                              userViewModel.updateUser(
+                                  authViewModel.token!, UserUpdateRequest(city: CityModel(name: value)));
                             });
                       });
                 },
@@ -190,6 +193,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             icon: Icons.exit_to_app,
             onPressed: () {
               authViewModel.logout();
+              ref.read(navbarStateProvider.notifier).navigate(NavbarPage.MATCHMAKING);
             },
           )),
           LayoutItem(

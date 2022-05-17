@@ -5,8 +5,8 @@ import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/models/group/activity.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../codegen/api.swagger.dart';
 import '../../viewmodels/auth/auth.viewmodel.dart';
@@ -283,9 +283,8 @@ class CodegenService extends HttpService {
     }
   }
 
-
   @override
-  Future<StompClient> loadWebSocketChannel(void Function(bool) onConnection) async {
+  Future<StompClient?> loadWebSocketChannel(void Function(bool) onConnection) async {
     final requestUrl = api.client.baseUrl + '/wbsocket';
     StompClient stompClient = StompClient(
         config: StompConfig.SockJS(
@@ -305,15 +304,6 @@ class CodegenService extends HttpService {
 
     stompClient.activate();
     return stompClient;
-  }
-
-  @override
-  Future<WebSocketChannel> loadReadWebSocketChannel(num channelId) async {
-    final channel = WebSocketChannel.connect(
-      Uri.parse('wss://${api.client.baseUrl.replaceAll("http://", "")}/wbsocket/app/chat/$channelId'),
-    );
-
-    return channel;
   }
 
   @override
@@ -339,5 +329,10 @@ class CodegenService extends HttpService {
   Future<MessageResponse?> togglePinnedMessage(num messageId, bool pinned) async {
     final response = await api.chatMessageIdPinnedPatch(messageId: messageId, pin: pinned);
     return response.body;
+  }
+
+  @override
+  Future<List<Activity>?> getActivities(int groupId) {
+    throw UnimplementedError();
   }
 }
