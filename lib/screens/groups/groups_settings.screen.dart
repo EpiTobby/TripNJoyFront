@@ -54,7 +54,8 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                       final imageURL = await minioService.uploadImage();
 
                       if (imageURL != null) {
-                        await groupViewModel.updateGroup(group.id!.toInt(), UpdateGroupRequest(picture: imageURL));
+                        await groupViewModel.updatePrivateGroup(
+                            group.id!.toInt(), UpdateGroupRequest(picture: imageURL));
                       }
                     },
                   ),
@@ -131,7 +132,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                         value: AppLocalizations.of(context).translate("groups.settings.close"),
                         icon: Icons.lock_outline,
                         onPressed: () {
-                          groupViewModel.updateGroup(
+                          groupViewModel.updatePrivateGroup(
                               group.id!.toInt(), UpdateGroupRequest(state: UpdateGroupRequestState.closed));
                         },
                       )),
@@ -141,7 +142,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                         value: AppLocalizations.of(context).translate("groups.settings.archive"),
                         icon: Icons.archive_outlined,
                         onPressed: () {
-                          groupViewModel.updateGroup(
+                          groupViewModel.updatePrivateGroup(
                               group.id!.toInt(), UpdateGroupRequest(state: UpdateGroupRequestState.archived));
                         },
                       )),
