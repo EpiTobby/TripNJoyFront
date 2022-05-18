@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
@@ -24,20 +25,24 @@ class _ChatFileState extends State<ChatFile> {
   @override
   void initState() {
     super.initState();
-    IsolateNameServer.registerPortWithName(_port.sendPort, 'downloader_send_port');
-    _port.listen((dynamic data) {
-      String id = data[0];
-      DownloadTaskStatus status = data[1];
-      int progress = data[2];
-      setState(() {});
-    });
+    if (Platform.isAndroid) {
+      IsolateNameServer.registerPortWithName(_port.sendPort, 'downloader_send_port');
+      _port.listen((dynamic data) {
+        String id = data[0];
+        DownloadTaskStatus status = data[1];
+        int progress = data[2];
+        setState(() {});
+      });
 
-    FlutterDownloader.registerCallback(downloadCallback);
+      FlutterDownloader.registerCallback(downloadCallback);
+    }
   }
 
   @override
   void dispose() {
-    IsolateNameServer.removePortNameMapping('downloader_send_port');
+    if (Platform.isAndroid) {
+      IsolateNameServer.removePortNameMapping('downloader_send_port');
+    }
     super.dispose();
   }
 
@@ -52,6 +57,7 @@ class _ChatFileState extends State<ChatFile> {
   }
 
   void _requestDownload(String link) async {
+    if (Platform.isIOS) return;
     final status = await Permission.storage.request();
 
     if (status.isGranted) {
