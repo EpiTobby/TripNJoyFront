@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/add_activity.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/edit_activity.screen.dart';
 import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning_activity.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning_header.widget.dart';
@@ -56,10 +58,21 @@ class GroupPlanning extends HookConsumerWidget {
                           ),
                           title: activity.name,
                           subtitle: activity.location,
-                          subsubtitle: "${activity.startDate.toString()} - ${activity.endDate.toString()}",
+                          subsubtitle:
+                              "${DateFormat("H:m dd/MM/yyyy").format(activity.startDate)} - ${DateFormat("H:m dd/MM/yyyy").format(activity.endDate)}",
                           description: activity.description,
                           color: activity.color,
                           members: activity.members.map((e) => e.avatar.url).toList(),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => EditActivity(
+                                  activity: activity,
+                                  groupId: groupId,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         if (activities.last != activity)
                           Center(

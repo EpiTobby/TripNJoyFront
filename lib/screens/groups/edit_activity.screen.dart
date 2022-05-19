@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/group/activity.dart';
@@ -38,8 +39,11 @@ class EditActivity extends HookConsumerWidget {
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
         actions: [
           IconButton(
+            splashRadius: 16,
             icon: const Icon(Icons.check),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
         ],
       ),
@@ -51,15 +55,11 @@ class EditActivity extends HookConsumerWidget {
               color: Theme.of(context).colorScheme.background,
               size: 64,
             ),
-            title: "Flight Departure",
-            subtitle: "Airport CDG",
-            subsubtitle: "12/12/2022",
-            description: "Go to Terminal 1, take the first flight to CDG, then take the second flight to JFK",
-          ),
-          Divider(
-            height: 5,
-            thickness: 1,
-            color: Theme.of(context).colorScheme.primary.withAlpha(0x33),
+            title: activity.name ?? '',
+            subtitle: activity.location ?? '',
+            subsubtitle:
+                "${DateFormat("H:m dd/MM/yyyy").format(activity.startDate)} - ${DateFormat("H:m dd/MM/yyyy").format(activity.endDate)}",
+            description: activity.description ?? '',
           ),
           Expanded(
             child: ListView(
@@ -118,7 +118,7 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.title"),
                       child: LayoutItemValue(
-                        value: activity.startDate.toString(),
+                        value: DateFormat("H:m - dd/MM/yyyy").format(activity.startDate),
                         onPressed: () {
                           showDialog(
                             context: context,
@@ -142,7 +142,7 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.end.title"),
                       child: LayoutItemValue(
-                        value: activity.endDate.toString(),
+                        value: DateFormat("H:m - dd/MM/yyyy").format(activity.endDate),
                         onPressed: () {
                           showDialog(
                             context: context,

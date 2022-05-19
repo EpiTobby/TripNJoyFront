@@ -32,18 +32,20 @@ class PlanningViewModel extends ChangeNotifier {
           startDate: DateTime.now(),
           endDate: DateTime.now(),
           location: 'Location',
-          color: ActivityColors.blue.toString(),
+          color: '#${ActivityColors.blue.value.toRadixString(16).substring(2)}',
           icon: Icons.airplane_ticket.codePoint.toString(),
         ));
+    getActivities(groupId);
     return newActivity != null ? Activity.fromActivityResponse(newActivity) : null;
   }
 
   Future<void> deleteActivity(int groupId, num activityId) async {
     await httpService.deleteActivity(groupId, activityId);
+    getActivities(groupId);
   }
 
-  Future<Activity?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) async {
-    final updatedActivity = await httpService.updateActivity(groupId, activityId, request);
-    return updatedActivity != null ? Activity.fromActivityResponse(updatedActivity) : null;
+  Future<void> updateActivity(int groupId, num activityId, UpdateActivityRequest request) async {
+    await httpService.updateActivity(groupId, activityId, request);
+    getActivities(groupId);
   }
 }
