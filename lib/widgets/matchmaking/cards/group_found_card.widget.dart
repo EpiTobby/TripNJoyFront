@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
+import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 
 import '../../../app_localizations.dart';
@@ -38,6 +39,7 @@ class GroupFoundCard extends HookConsumerWidget {
     final navbar = ref.watch(navbarStateProvider.notifier);
 
     final profiles = ref.watch(profileProvider);
+    final minioService = ref.watch(minioProvider);
 
     return SlideTransition(
       position: offset,
@@ -81,7 +83,7 @@ class GroupFoundCard extends HookConsumerWidget {
                           Container(
                             margin: const EdgeInsets.only(right: 10),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(memberPhotoUrl),
+                              backgroundImage: NetworkImage(minioService.getImageUrl(memberPhotoUrl)!),
                               radius: 20,
                             ),
                           ),
