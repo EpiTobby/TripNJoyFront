@@ -80,7 +80,7 @@ class EditActivity extends HookConsumerWidget {
                                     AppLocalizations.of(context).translate("groups.planning.activity.edit.name.edit"),
                                 label:
                                     AppLocalizations.of(context).translate("groups.planning.activity.edit.name.title"),
-                                initialValue: "",
+                                initialValue: activity.name ?? '',
                                 onConfirm: (value) async {
                                   await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(name: value));
@@ -104,7 +104,7 @@ class EditActivity extends HookConsumerWidget {
                                     .translate("groups.planning.activity.edit.location.edit"),
                                 label: AppLocalizations.of(context)
                                     .translate("groups.planning.activity.edit.location.title"),
-                                initialValue: "",
+                                initialValue: activity.location ?? '',
                                 onConfirm: (value) async {
                                   await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(location: value));
@@ -175,7 +175,7 @@ class EditActivity extends HookConsumerWidget {
                                     .translate("groups.planning.activity.edit.description.edit"),
                                 label: AppLocalizations.of(context)
                                     .translate("groups.planning.activity.edit.description.title"),
-                                initialValue: "",
+                                initialValue: activity.description ?? '',
                                 onConfirm: (value) async {
                                   await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(description: value));

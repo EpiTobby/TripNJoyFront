@@ -32,14 +32,15 @@ class InputDialog extends StatefulHookWidget {
 class _InputDialogState extends State<InputDialog> {
   @override
   Widget build(BuildContext context) {
-    final value = useState(widget.initialValue);
+    final controller = useTextEditingController(text: widget.initialValue);
     final status = useState<AsyncValue<void>>(AsyncValue.data(null));
     return AlertDialog(
       title: Center(child: Text(widget.title ?? '', style: TextStyle(color: Theme.of(context).colorScheme.primary))),
       content: InputField(
         isPassword: widget.isPassword,
         label: widget.label,
-        onChanged: (newValue) => value.value = newValue,
+        controller: controller,
+        onChanged: (newValue) => {},
         isError: status.value.isError,
       ),
       actions: <Widget>[
@@ -60,7 +61,7 @@ class _InputDialogState extends State<InputDialog> {
                 onPressed: () async {
                   status.value = AsyncLoading();
                   try {
-                    await widget.onConfirm(value.value);
+                    await widget.onConfirm(controller.text);
                     status.value = AsyncData(null);
                     Navigator.of(context).pop();
                   } on HttpException catch (e) {
