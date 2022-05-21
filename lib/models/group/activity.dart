@@ -30,7 +30,7 @@ class Activity {
   static Activity fromActivityResponse(ActivityModel activity) {
     return Activity(
       id: activity.id!,
-      icon: IconData(int.parse(activity.icon!)),
+      icon: IconData(int.parse(activity.icon!), fontFamily: 'MaterialIcons'),
       name: activity.name,
       location: activity.location,
       startDate: activity.startDate!,

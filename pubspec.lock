@@ -328,6 +328,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.32.2"
+  flutter_iconpicker:
+    dependency: "direct main"
+    description:
+      name: flutter_iconpicker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.4+1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -406,6 +413,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  font_awesome_flutter:
+    dependency: transitive
+    description:
+      name: font_awesome_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "10.1.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -644,6 +658,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.1.0"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   overlapping_panels:
     dependency: "direct main"
     description:
@@ -791,6 +812,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
+  provider:
+    dependency: transitive
+    description:
+      name: provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.2"
   pub_semver:
     dependency: transitive
     description:

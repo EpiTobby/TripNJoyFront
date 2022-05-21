@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
@@ -51,7 +52,7 @@ class EditActivity extends HookConsumerWidget {
         children: [
           PlanningActivity(
             prefix: Icon(
-              Icons.airplane_ticket,
+              activity.icon,
               color: Theme.of(context).colorScheme.background,
               size: 64,
             ),
@@ -211,7 +212,14 @@ class EditActivity extends HookConsumerWidget {
                               activity.icon,
                               size: 48,
                             ),
-                            onTap: () {},
+                            onTap: () async {
+                              IconData? icon = await FlutterIconPicker.showIconPicker(context);
+                              if (icon != null) {
+                                activity.icon = icon;
+                              }
+                              await planningViewModel.updateActivity(
+                                  groupId, activity.id, UpdateActivityRequest(icon: icon?.codePoint.toString()));
+                            },
                           ),
                           LayoutRowItem(
                             title: AppLocalizations.of(context).translate("groups.planning.activity.edit.color.title"),
