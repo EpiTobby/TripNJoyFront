@@ -15,6 +15,7 @@ class InputField extends StatefulHookWidget {
     this.isError = false,
     this.inputFormatters,
     this.controller,
+    this.multiline = false,
   }) : super(key: key);
 
   final String label;
@@ -27,6 +28,7 @@ class InputField extends StatefulHookWidget {
   final bool isError;
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
+  final bool multiline;
 
   @override
   State<InputField> createState() => _InputFieldState();
@@ -57,9 +59,10 @@ class _InputFieldState extends State<InputField> {
               onChanged: (value) => widget.onChanged(value),
               controller: widget.controller,
               obscureText: widget.isPassword && !isVisible.value,
-              keyboardType: widget.keyboardType,
+              keyboardType: widget.multiline ? TextInputType.multiline : widget.keyboardType,
               inputFormatters: widget.inputFormatters,
               textCapitalization: widget.isPassword ? TextCapitalization.none : widget.textCapitalization,
+              maxLines: widget.multiline ? 10 : 1,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(15),
                 prefixIcon: widget.icon,

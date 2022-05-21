@@ -9,6 +9,7 @@ class LayoutItemValue extends StatelessWidget {
     this.customColor,
     this.onPressed,
     this.fontSize = 24,
+    this.multiline = false,
   }) : super(key: key);
 
   final String value;
@@ -16,6 +17,7 @@ class LayoutItemValue extends StatelessWidget {
   final bool editable;
   final IconData icon;
   final double fontSize;
+  final bool multiline;
 
   final void Function()? onPressed;
 
@@ -28,7 +30,7 @@ class LayoutItemValue extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Text(value,
-                maxLines: 1,
+                maxLines: multiline ? 10 : 1,
                 overflow: TextOverflow.ellipsis,
                 softWrap: false,
                 style: TextStyle(color: customColor ?? Theme.of(context).colorScheme.primary, fontSize: fontSize)),

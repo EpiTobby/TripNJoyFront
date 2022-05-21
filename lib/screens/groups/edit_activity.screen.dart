@@ -129,7 +129,7 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.title"),
                       child: LayoutItemValue(
-                        value: DateFormat("H:m - dd/MM/yyyy").format(activity.startDate),
+                        value: DateFormat("HH:mm - dd/MM/yyyy").format(activity.startDate),
                         onPressed: () {
                           showMaterialModalBottomSheet(
                             context: context,
@@ -156,7 +156,7 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.end.title"),
                       child: LayoutItemValue(
-                        value: DateFormat("H:m - dd/MM/yyyy").format(activity.endDate),
+                        value: DateFormat("HH:mm - dd/MM/yyyy").format(activity.endDate),
                         onPressed: () {
                           showMaterialModalBottomSheet(
                             context: context,
@@ -183,6 +183,8 @@ class EditActivity extends HookConsumerWidget {
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.description.title"),
                       child: LayoutItemValue(
                         value: activity.description ?? '',
+                        multiline: true,
+                        fontSize: 20,
                         onPressed: () {
                           showMaterialModalBottomSheet(
                             context: context,
@@ -193,6 +195,7 @@ class EditActivity extends HookConsumerWidget {
                                 label: AppLocalizations.of(context)
                                     .translate("groups.planning.activity.edit.description.title"),
                                 initialValue: activity.description ?? '',
+                                multiline: true,
                                 onConfirm: (value) async {
                                   final newActivity = await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(description: value));

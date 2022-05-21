@@ -10,20 +10,22 @@ import 'button.widget.dart';
 import 'input.widget.dart';
 
 class InputDialog extends StatefulHookWidget {
-  const InputDialog(
-      {Key? key,
-      this.title,
-      required this.label,
-      required this.initialValue,
-      required this.onConfirm,
-      this.isPassword = false})
-      : super(key: key);
+  const InputDialog({
+    Key? key,
+    this.title,
+    required this.label,
+    required this.initialValue,
+    required this.onConfirm,
+    this.isPassword = false,
+    this.multiline = false,
+  }) : super(key: key);
 
   final String? title;
   final String label;
   final String initialValue;
   final Function onConfirm;
   final bool isPassword;
+  final bool multiline;
 
   @override
   State<InputDialog> createState() => _InputDialogState();
@@ -67,6 +69,7 @@ class _InputDialogState extends State<InputDialog> {
                     controller: controller,
                     onChanged: (newValue) => {},
                     isError: status.value.isError,
+                    multiline: widget.multiline,
                   ),
                 ),
                 Padding(

@@ -75,6 +75,7 @@ class PlanningHeader extends StatelessWidget {
               title: AppLocalizations.of(context).translate("groups.planning.note.title"),
               child: LayoutItemValue(
                 value: "planning.note",
+                multiline: true,
                 fontSize: 16,
                 onPressed: () {
                   showMaterialModalBottomSheet(
@@ -84,6 +85,7 @@ class PlanningHeader extends StatelessWidget {
                         title: AppLocalizations.of(context).translate("groups.planning.note.edit"),
                         label: AppLocalizations.of(context).translate("groups.planning.note.title"),
                         initialValue: "planning.note",
+                        multiline: true,
                         onConfirm: (value) async {},
                       );
                     },
