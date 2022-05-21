@@ -19,7 +19,9 @@
     "people": "personnes",
     "search": "Rechercher",
     "accept": "Accepter",
-    "decline": "Refuser"
+    "decline": "Refuser",
+    "date": "Date",
+    "time": "Heure"
   },
   "user": {
     "firstname": "Prénom",

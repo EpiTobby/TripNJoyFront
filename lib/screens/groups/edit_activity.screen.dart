@@ -11,6 +11,7 @@ import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_choice.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input_dialog_date.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
@@ -134,12 +135,10 @@ class EditActivity extends HookConsumerWidget {
                           showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
-                              return InputDialog(
+                              return InputDialogDate(
                                 title:
                                     AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.edit"),
-                                label:
-                                    AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.title"),
-                                initialValue: "",
+                                initialValue: activity.startDate,
                                 onConfirm: (value) async {
                                   final newActivity = await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(startDate: value));
@@ -161,11 +160,9 @@ class EditActivity extends HookConsumerWidget {
                           showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
-                              return InputDialog(
+                              return InputDialogDate(
                                 title: AppLocalizations.of(context).translate("groups.planning.activity.edit.end.edit"),
-                                label:
-                                    AppLocalizations.of(context).translate("groups.planning.activity.edit.end.title"),
-                                initialValue: "",
+                                initialValue: activity.endDate,
                                 onConfirm: (value) async {
                                   final newActivity = await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(endDate: value));

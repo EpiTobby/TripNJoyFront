@@ -95,6 +95,9 @@ class MyApp extends StatelessWidget {
           overlayColor: CColors.secondary,
           valueIndicatorColor: CColors.secondary,
         ),
+        timePickerTheme: const TimePickerThemeData(
+          backgroundColor: CColors.background,
+        ),
       ),
       supportedLocales: const [
         Locale('fr', 'FR'),
