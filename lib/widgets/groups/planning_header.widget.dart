@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
@@ -36,7 +37,7 @@ class PlanningHeader extends StatelessWidget {
               child: LayoutItemValue(
                 value: "planning.destination",
                 onPressed: () {
-                  showDialog(
+                  showMaterialModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return InputDialog(
@@ -55,7 +56,7 @@ class PlanningHeader extends StatelessWidget {
               child: LayoutItemValue(
                 value: "planning.date",
                 onPressed: () {
-                  showDialog(
+                  showMaterialModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       // TODO: create edit date dialog
@@ -76,7 +77,7 @@ class PlanningHeader extends StatelessWidget {
                 value: "planning.note",
                 fontSize: 16,
                 onPressed: () {
-                  showDialog(
+                  showMaterialModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return InputDialog(

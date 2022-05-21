@@ -58,8 +58,7 @@ class GroupPlanning extends HookConsumerWidget {
                           ),
                           title: activity.name,
                           subtitle: activity.location,
-                          subsubtitle:
-                              "${DateFormat("H:m dd/MM/yyyy").format(activity.startDate)} - ${DateFormat("H:m dd/MM/yyyy").format(activity.endDate)}",
+                          subsubtitle: activity.getActivityDateFormat(),
                           description: activity.description,
                           color: activity.color,
                           members: activity.members.map((e) => e.avatar.url).toList(),

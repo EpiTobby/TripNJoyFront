@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:minio/minio.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
@@ -65,7 +66,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: user.firstname!,
                 onPressed: () {
-                  showDialog(
+                  showMaterialModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialog(
@@ -83,7 +84,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: user.lastname!,
                 onPressed: () {
-                  showDialog(
+                  showMaterialModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialog(
@@ -101,7 +102,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: user.email!,
                 onPressed: () {
-                  showDialog(
+                  showMaterialModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialogEmail(onConfirm: (newEmail, password) async {
@@ -116,7 +117,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: "•••••••••",
                 onPressed: () {
-                  showDialog(
+                  showMaterialModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialogPassword(onConfirm: (password, newPassword) async {
@@ -131,7 +132,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: user.phoneNumber ?? AppLocalizations.of(context).translate("settings.noPhoneNumber"),
                 onPressed: () {
-                  showDialog(
+                  showMaterialModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialog(
@@ -150,7 +151,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 value: user.city?.name ?? AppLocalizations.of(context).translate("settings.noCity"),
                 icon: Icons.keyboard_arrow_right_sharp,
                 onPressed: () {
-                  showDialog(
+                  showMaterialModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialog(
@@ -202,7 +203,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             icon: Icons.close,
             customColor: Theme.of(context).colorScheme.error,
             onPressed: () async {
-              showDialog(
+              showMaterialModalBottomSheet(
                   context: context,
                   builder: (BuildContext context) {
                     return InputDialog(

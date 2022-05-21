@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
@@ -46,5 +47,11 @@ class Activity {
           [],
       color: HexColor.fromHex(activity.color!),
     );
+  }
+
+  String getActivityDateFormat() {
+    return startDate.day == endDate.day && startDate.month == endDate.month && startDate.year == endDate.year
+        ? "${DateFormat("dd/MM HH:mm").format(startDate)} - ${DateFormat("HH:mm").format(endDate)}"
+        : "${DateFormat("HH:mm dd/MM/yyyy").format(startDate)} - ${DateFormat("HH:mm dd/MM/yyyy").format(endDate)}";
   }
 }

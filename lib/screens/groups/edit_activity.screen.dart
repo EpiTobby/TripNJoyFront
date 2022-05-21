@@ -3,6 +3,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/group/activity.dart';
@@ -46,7 +47,7 @@ class EditActivity extends HookConsumerWidget {
             splashRadius: 16,
             icon: const Icon(Icons.check),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).popUntil(ModalRoute.withName("/planning"));
             },
           ),
         ],
@@ -61,8 +62,7 @@ class EditActivity extends HookConsumerWidget {
             ),
             title: activity.name ?? '',
             subtitle: activity.location ?? '',
-            subsubtitle:
-                "${DateFormat("H:m dd/MM/yyyy").format(activity.startDate)} - ${DateFormat("H:m dd/MM/yyyy").format(activity.endDate)}",
+            subsubtitle: activity.getActivityDateFormat(),
             description: activity.description ?? '',
             color: activity.color,
           ),
@@ -77,7 +77,7 @@ class EditActivity extends HookConsumerWidget {
                       child: LayoutItemValue(
                         value: activity.name ?? '',
                         onPressed: () {
-                          showDialog(
+                          showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialog(
@@ -104,7 +104,7 @@ class EditActivity extends HookConsumerWidget {
                       child: LayoutItemValue(
                         value: activity.location ?? '',
                         onPressed: () {
-                          showDialog(
+                          showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialog(
@@ -131,7 +131,7 @@ class EditActivity extends HookConsumerWidget {
                       child: LayoutItemValue(
                         value: DateFormat("H:m - dd/MM/yyyy").format(activity.startDate),
                         onPressed: () {
-                          showDialog(
+                          showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialog(
@@ -158,7 +158,7 @@ class EditActivity extends HookConsumerWidget {
                       child: LayoutItemValue(
                         value: DateFormat("H:m - dd/MM/yyyy").format(activity.endDate),
                         onPressed: () {
-                          showDialog(
+                          showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialog(
@@ -184,7 +184,7 @@ class EditActivity extends HookConsumerWidget {
                       child: LayoutItemValue(
                         value: activity.description ?? '',
                         onPressed: () {
-                          showDialog(
+                          showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialog(
@@ -232,11 +232,12 @@ class EditActivity extends HookConsumerWidget {
                               radius: 24,
                             ),
                             onTap: () {
-                              showDialog(
+                              showMaterialModalBottomSheet(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    content: BlockPicker(
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: BlockPicker(
                                       pickerColor: activity.color,
                                       availableColors: const [
                                         ActivityColors.blue,
@@ -244,7 +245,7 @@ class EditActivity extends HookConsumerWidget {
                                         ActivityColors.pink,
                                         ActivityColors.red,
                                       ],
-                                      onColorChanged: (color) async {
+                                      onColorChanged: (color) {
                                         activity.color = color;
                                         planningViewModel.updateActivity(
                                           groupId,
@@ -295,7 +296,7 @@ class EditActivity extends HookConsumerWidget {
                           icon: Icons.close,
                           customColor: Theme.of(context).colorScheme.error,
                           onPressed: () {
-                            showDialog(
+                            showMaterialModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
                                 return InputDialogChoice(
@@ -304,8 +305,10 @@ class EditActivity extends HookConsumerWidget {
                                   cancelChoice: AppLocalizations.of(context).translate('common.decline'),
                                   confirmChoice: AppLocalizations.of(context).translate('common.accept'),
                                   onConfirm: (value) async {
-                                    await planningViewModel.deleteActivity(groupId, activity.id);
-                                    Navigator.of(context).pop();
+                                    if (value) {
+                                      await planningViewModel.deleteActivity(groupId, activity.id);
+                                      Navigator.of(context).pop();
+                                    }
                                   },
                                 );
                               },

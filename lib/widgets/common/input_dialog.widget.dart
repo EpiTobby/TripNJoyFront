@@ -33,48 +33,77 @@ class _InputDialogState extends State<InputDialog> {
   @override
   Widget build(BuildContext context) {
     final controller = useTextEditingController(text: widget.initialValue);
-    final status = useState<AsyncValue<void>>(AsyncValue.data(null));
-    return AlertDialog(
-      title: Center(child: Text(widget.title ?? '', style: TextStyle(color: Theme.of(context).colorScheme.primary))),
-      content: InputField(
-        isPassword: widget.isPassword,
-        label: widget.label,
-        controller: controller,
-        onChanged: (newValue) => {},
-        isError: status.value.isError,
+    final status = useState<AsyncValue<void>>(const AsyncValue.data(null));
+    return AnimatedPadding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(bottom: 18.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              TertiaryButton(
-                text: AppLocalizations.of(context).translate("common.cancel"),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              PrimaryButton(
-                text: status.value.isError
-                    ? AppLocalizations.of(context).translate("common.tryAgain")
-                    : AppLocalizations.of(context).translate("common.submit"),
-                isLoading: status.value.isLoading,
-                onPressed: () async {
-                  status.value = AsyncLoading();
-                  try {
-                    await widget.onConfirm(controller.text);
-                    status.value = AsyncData(null);
-                    Navigator.of(context).pop();
-                  } on HttpException catch (e) {
-                    showErrorSnackBar(context, e.message);
-                    status.value = AsyncError(e);
-                  }
-                },
-                fitContent: true,
-              ),
-            ],
+      curve: Curves.easeOut,
+      duration: const Duration(milliseconds: 200),
+      child: Material(
+        child: SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (widget.title != null)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      widget.title!,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InputField(
+                    isPassword: widget.isPassword,
+                    label: widget.label,
+                    controller: controller,
+                    onChanged: (newValue) => {},
+                    isError: status.value.isError,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TertiaryButton(
+                        text: AppLocalizations.of(context).translate("common.cancel"),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      PrimaryButton(
+                        text: status.value.isError
+                            ? AppLocalizations.of(context).translate("common.tryAgain")
+                            : AppLocalizations.of(context).translate("common.submit"),
+                        isLoading: status.value.isLoading,
+                        onPressed: () async {
+                          status.value = const AsyncLoading();
+                          try {
+                            await widget.onConfirm(controller.text);
+                            status.value = const AsyncData(null);
+                            Navigator.of(context).pop();
+                          } on HttpException catch (e) {
+                            showErrorSnackBar(context, e.message);
+                            status.value = AsyncError(e);
+                          }
+                        },
+                        fitContent: true,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 }

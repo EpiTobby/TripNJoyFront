@@ -121,6 +121,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                 if (value == 3) {
                   _navigator.push(
                     MaterialPageRoute(
+                      settings: const RouteSettings(name: "/planning"),
                       builder: (_) => GroupPlanning(
                         groupId: group.id!.toInt(),
                       ),
