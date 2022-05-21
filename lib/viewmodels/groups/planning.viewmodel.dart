@@ -44,8 +44,9 @@ class PlanningViewModel extends ChangeNotifier {
     getActivities(groupId);
   }
 
-  Future<void> updateActivity(int groupId, num activityId, UpdateActivityRequest request) async {
-    await httpService.updateActivity(groupId, activityId, request);
+  Future<Activity?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) async {
+    final activity = await httpService.updateActivity(groupId, activityId, request);
     getActivities(groupId);
+    return activity != null ? Activity.fromActivityResponse(activity) : null;
   }
 }

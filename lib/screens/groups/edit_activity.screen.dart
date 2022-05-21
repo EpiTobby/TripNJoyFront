@@ -82,8 +82,11 @@ class EditActivity extends HookConsumerWidget {
                                     AppLocalizations.of(context).translate("groups.planning.activity.edit.name.title"),
                                 initialValue: activity.name ?? '',
                                 onConfirm: (value) async {
-                                  await planningViewModel.updateActivity(
+                                  final newActivity = await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(name: value));
+                                  if (newActivity != null) {
+                                    activity.name = newActivity.name;
+                                  }
                                 },
                               );
                             },
@@ -106,8 +109,11 @@ class EditActivity extends HookConsumerWidget {
                                     .translate("groups.planning.activity.edit.location.title"),
                                 initialValue: activity.location ?? '',
                                 onConfirm: (value) async {
-                                  await planningViewModel.updateActivity(
+                                  final newActivity = await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(location: value));
+                                  if (newActivity != null) {
+                                    activity.location = newActivity.location;
+                                  }
                                 },
                               );
                             },
@@ -130,8 +136,11 @@ class EditActivity extends HookConsumerWidget {
                                     AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.title"),
                                 initialValue: "",
                                 onConfirm: (value) async {
-                                  await planningViewModel.updateActivity(
+                                  final newActivity = await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(startDate: value));
+                                  if (newActivity != null) {
+                                    activity.startDate = newActivity.startDate;
+                                  }
                                 },
                               );
                             },
@@ -153,8 +162,11 @@ class EditActivity extends HookConsumerWidget {
                                     AppLocalizations.of(context).translate("groups.planning.activity.edit.end.title"),
                                 initialValue: "",
                                 onConfirm: (value) async {
-                                  await planningViewModel.updateActivity(
+                                  final newActivity = await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(endDate: value));
+                                  if (newActivity != null) {
+                                    activity.endDate = newActivity.endDate;
+                                  }
                                 },
                               );
                             },
@@ -177,8 +189,11 @@ class EditActivity extends HookConsumerWidget {
                                     .translate("groups.planning.activity.edit.description.title"),
                                 initialValue: activity.description ?? '',
                                 onConfirm: (value) async {
-                                  await planningViewModel.updateActivity(
+                                  final newActivity = await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(description: value));
+                                  if (newActivity != null) {
+                                    activity.description = newActivity.description;
+                                  }
                                 },
                               );
                             },
