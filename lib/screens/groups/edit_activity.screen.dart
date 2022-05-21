@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -15,6 +16,8 @@ import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_row_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_row_item_member.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning_activity.widget.dart';
+
+import '../../constants/common/colors.style.dart';
 
 class EditActivity extends HookConsumerWidget {
   const EditActivity({
@@ -61,6 +64,7 @@ class EditActivity extends HookConsumerWidget {
             subsubtitle:
                 "${DateFormat("H:m dd/MM/yyyy").format(activity.startDate)} - ${DateFormat("H:m dd/MM/yyyy").format(activity.endDate)}",
             description: activity.description ?? '',
+            color: activity.color,
           ),
           Expanded(
             child: ListView(
@@ -217,7 +221,7 @@ class EditActivity extends HookConsumerWidget {
                               if (icon != null) {
                                 activity.icon = icon;
                               }
-                              await planningViewModel.updateActivity(
+                              planningViewModel.updateActivity(
                                   groupId, activity.id, UpdateActivityRequest(icon: icon?.codePoint.toString()));
                             },
                           ),
@@ -227,7 +231,33 @@ class EditActivity extends HookConsumerWidget {
                               backgroundColor: activity.color,
                               radius: 24,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: BlockPicker(
+                                      pickerColor: activity.color,
+                                      availableColors: const [
+                                        ActivityColors.blue,
+                                        ActivityColors.purple,
+                                        ActivityColors.pink,
+                                        ActivityColors.red,
+                                      ],
+                                      onColorChanged: (color) async {
+                                        activity.color = color;
+                                        planningViewModel.updateActivity(
+                                          groupId,
+                                          activity.id,
+                                          UpdateActivityRequest(
+                                              color: '#${color.value.toRadixString(16).substring(2)}'),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                              );
+                            },
                           ),
                         ],
                       ),

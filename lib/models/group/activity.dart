@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/extensions/HexColor.extension.dart';
 import 'package:trip_n_joy_front/models/group/chat_member.dart';
 
 class Activity {
@@ -43,7 +44,7 @@ class Activity {
                   avatar: NetworkImage(e.profilePicture ?? DEFAULT_AVATAR_URL)))
               .toList() ??
           [],
-      color: ActivityColors.getColor(activity.color!),
+      color: HexColor.fromHex(activity.color!),
     );
   }
 }
