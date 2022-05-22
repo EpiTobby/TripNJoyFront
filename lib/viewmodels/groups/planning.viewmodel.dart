@@ -18,7 +18,8 @@ class PlanningViewModel extends ChangeNotifier {
     notifyListeners();
     final newActivities = await httpService.getActivities(groupId);
     activities = newActivities != null
-        ? AsyncValue.data(newActivities.map((e) => Activity.fromActivityResponse(e)).toList())
+        ? AsyncValue.data(newActivities.map((e) => Activity.fromActivityResponse(e)).toList()
+          ..sort((a, b) => a.startDate.compareTo(b.startDate)))
         : AsyncValue.error(Exception('Failed to get activities'));
     notifyListeners();
   }

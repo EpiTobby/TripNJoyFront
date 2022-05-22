@@ -45,45 +45,48 @@ class GroupPlanning extends HookConsumerWidget {
           PlanningHeader(group: group),
           AsyncValueWidget<List<Activity>>(
             value: activities,
-            data: (activities) => Column(
-              children: activities
-                  .map(
-                    (activity) => Column(
-                      children: [
-                        PlanningActivity(
-                          prefix: Icon(
-                            activity.icon,
-                            color: Theme.of(context).colorScheme.background,
-                            size: 64,
-                          ),
-                          title: activity.name,
-                          subtitle: activity.location,
-                          subsubtitle: activity.getActivityDateFormat(),
-                          description: activity.description,
-                          color: activity.color,
-                          members: activity.members.map((e) => e.avatar.url).toList(),
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => EditActivity(
-                                  activity: activity,
-                                  groupId: groupId,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        if (activities.last != activity)
-                          Center(
-                            child: Icon(
-                              Icons.more_vert,
-                              color: Theme.of(context).colorScheme.surface,
+            data: (activities) => Padding(
+              padding: const EdgeInsets.only(bottom: 80.0),
+              child: Column(
+                children: activities
+                    .map(
+                      (activity) => Column(
+                        children: [
+                          PlanningActivity(
+                            prefix: Icon(
+                              activity.icon,
+                              color: Theme.of(context).colorScheme.background,
+                              size: 64,
                             ),
+                            title: activity.name,
+                            subtitle: activity.location,
+                            subsubtitle: activity.getActivityDateFormat(),
+                            description: activity.description,
+                            color: activity.color,
+                            members: activity.members.map((e) => e.avatar.url).toList(),
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => EditActivity(
+                                    activity: activity,
+                                    groupId: groupId,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                      ],
-                    ),
-                  )
-                  .toList(),
+                          if (activities.last != activity)
+                            Center(
+                              child: Icon(
+                                Icons.more_vert,
+                                color: Theme.of(context).colorScheme.surface,
+                              ),
+                            ),
+                        ],
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
           ),
         ],
