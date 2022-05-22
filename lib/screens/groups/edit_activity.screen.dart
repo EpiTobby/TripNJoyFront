@@ -241,12 +241,7 @@ class EditActivity extends HookConsumerWidget {
                                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                     child: BlockPicker(
                                       pickerColor: activity.color,
-                                      availableColors: const [
-                                        ActivityColors.blue,
-                                        ActivityColors.purple,
-                                        ActivityColors.pink,
-                                        ActivityColors.red,
-                                      ],
+                                      availableColors: ActivityColors.getColors(),
                                       onColorChanged: (color) {
                                         activity.color = color;
                                         planningViewModel.updateActivity(
