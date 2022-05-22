@@ -8,6 +8,7 @@ import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
@@ -90,7 +91,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                             ...group.members!.map((member) {
                               return LayoutMember(
                                 name: member.firstname! + " " + member.lastname!,
-                                imageURL: minioService.getImageUrl(member.profilePicture) ?? DEFAULT_AVATAR_URL,
+                                imageURL: MinioService.getImageUrl(member.profilePicture) ?? DEFAULT_AVATAR_URL,
                                 onClick: () {
                                   showMaterialModalBottomSheet(
                                       context: context,

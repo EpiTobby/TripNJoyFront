@@ -49,4 +49,10 @@ class PlanningViewModel extends ChangeNotifier {
     getActivities(groupId);
     return activity != null ? Activity.fromActivityResponse(activity) : null;
   }
+
+  Future<bool> toggleActivityMember(int groupId, num activityId, num userId, bool join) async {
+    final success = await httpService.toggleActivityMember(groupId, activityId, userId, join);
+    getActivities(groupId);
+    return success;
+  }
 }

@@ -5,6 +5,7 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/extensions/HexColor.extension.dart';
 import 'package:trip_n_joy_front/models/group/chat_member.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 
 class Activity {
   Activity({
@@ -42,7 +43,7 @@ class Activity {
               ?.map((e) => ChatMember(
                   id: e.userId!,
                   name: "${e.firstname} ${e.lastname}",
-                  avatar: NetworkImage(e.profilePicture ?? DEFAULT_AVATAR_URL)))
+                  avatar: NetworkImage(MinioService.getImageUrl(e.profilePicture) ?? DEFAULT_AVATAR_URL)))
               .toList() ??
           [],
       color: HexColor.fromHex(activity.color!),

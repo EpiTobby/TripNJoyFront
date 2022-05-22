@@ -7,8 +7,10 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/group/activity.dart';
+import 'package:trip_n_joy_front/models/group/chat_member.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_choice.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_date.widget.dart';
@@ -276,10 +278,21 @@ class EditActivity extends HookConsumerWidget {
                               children: group.members
                                       ?.map(
                                         (e) => LayoutRowItemMember(
-                                            name: "${e.firstname} ${e.lastname}",
-                                            isSelected:
-                                                activity.members.where((member) => member.id == e.id).isNotEmpty,
-                                            onSelected: (value) {}),
+                                          name: "${e.firstname} ${e.lastname}",
+                                          avatarUrl: MinioService.getImageUrl(e.profilePicture),
+                                          isSelected: activity.members.where((member) => member.id == e.id).isNotEmpty,
+                                          onTap: (value) {
+                                            if (value) {
+                                              activity.members.add(ChatMember(
+                                                  id: e.id!,
+                                                  name: "${e.firstname} ${e.lastname}",
+                                                  avatar: NetworkImage(e.profilePicture!)));
+                                            } else {
+                                              activity.members.removeWhere((member) => member.id == e.id);
+                                            }
+                                            planningViewModel.toggleActivityMember(groupId, activity.id, e.id!, value);
+                                          },
+                                        ),
                                       )
                                       .toList() ??
                                   [],

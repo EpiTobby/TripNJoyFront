@@ -11,6 +11,7 @@ import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_password.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
@@ -51,7 +52,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       children: <Widget>[
         LayoutHeader(
           title: "${user.firstname} ${user.lastname}",
-          imageURL: minioService.getImageUrl(user.profilePicture) ?? DEFAULT_AVATAR_URL,
+          imageURL: MinioService.getImageUrl(user.profilePicture) ?? DEFAULT_AVATAR_URL,
           onClick: () async {
             final imageURL = await minioService.uploadImage();
 
