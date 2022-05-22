@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input_dialog_date.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 
-class PlanningHeader extends StatelessWidget {
+class PlanningHeader extends ConsumerWidget {
   const PlanningHeader({
     Key? key,
     required this.group,
@@ -15,7 +19,8 @@ class PlanningHeader extends StatelessWidget {
   final GroupModel group;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final groupViewModel = ref.watch(groupProvider);
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onPrimary,
@@ -54,17 +59,21 @@ class PlanningHeader extends StatelessWidget {
             LayoutItem(
               title: AppLocalizations.of(context).translate("groups.planning.date.title"),
               child: LayoutItemValue(
-                value: "planning.date",
+                value: group.startOfTrip == null || group.endOfTrip == null
+                    ? ""
+                    : "${DateFormat("dd/MM/yyyy").format(group.startOfTrip!)} - ${DateFormat("dd/MM/yyyy").format(group.endOfTrip!)}",
                 onPressed: () {
                   showMaterialModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      // TODO: create edit date dialog
-                      return InputDialog(
+                      return InputDialogDate(
                         title: AppLocalizations.of(context).translate("groups.planning.date.edit"),
-                        label: AppLocalizations.of(context).translate("groups.planning.date.title"),
-                        initialValue: "planning.date",
-                        onConfirm: (value) async {},
+                        initialStartDate: group.startOfTrip ?? DateTime.now(),
+                        initialEndDate: group.endOfTrip ?? DateTime.now(),
+                        onConfirm: (startDate, endDate) async {
+                          groupViewModel.updatePrivateGroup(
+                              group.id!.toInt(), UpdateGroupRequest(startOfTrip: startDate, endOfTrip: endDate));
+                        },
                       );
                     },
                   );
@@ -74,7 +83,7 @@ class PlanningHeader extends StatelessWidget {
             LayoutItem(
               title: AppLocalizations.of(context).translate("groups.planning.note.title"),
               child: LayoutItemValue(
-                value: "planning.note",
+                value: group.description ?? '',
                 multiline: true,
                 fontSize: 16,
                 onPressed: () {
@@ -84,9 +93,11 @@ class PlanningHeader extends StatelessWidget {
                       return InputDialog(
                         title: AppLocalizations.of(context).translate("groups.planning.note.edit"),
                         label: AppLocalizations.of(context).translate("groups.planning.note.title"),
-                        initialValue: "planning.note",
+                        initialValue: group.description ?? '',
                         multiline: true,
-                        onConfirm: (value) async {},
+                        onConfirm: (value) async {
+                          groupViewModel.updatePrivateGroup(group.id!.toInt(), UpdateGroupRequest(description: value));
+                        },
                       );
                     },
                   );

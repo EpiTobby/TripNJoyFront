@@ -9,31 +9,27 @@ import 'package:trip_n_joy_front/widgets/common/snackbar.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/time_picker.widget.dart';
 
 import 'button.widget.dart';
-import 'input.widget.dart';
 
-class InputDialogDate extends StatefulHookWidget {
-  const InputDialogDate({
+class InputDialogDateTime extends StatefulHookWidget {
+  const InputDialogDateTime({
     Key? key,
     this.title,
-    required this.initialStartDate,
-    required this.initialEndDate,
+    required this.initialValue,
     required this.onConfirm,
   }) : super(key: key);
 
   final String? title;
-  final DateTime initialStartDate;
-  final DateTime initialEndDate;
+  final DateTime initialValue;
   final Function onConfirm;
 
   @override
-  State<InputDialogDate> createState() => _InputDialogState();
+  State<InputDialogDateTime> createState() => _InputDialogState();
 }
 
-class _InputDialogState extends State<InputDialogDate> {
+class _InputDialogState extends State<InputDialogDateTime> {
   @override
   Widget build(BuildContext context) {
-    final selectedStartDate = useState(widget.initialStartDate);
-    final selectedEndDate = useState(widget.initialEndDate);
+    final selectedDate = useState(widget.initialValue);
     final status = useState<AsyncValue<void>>(const AsyncValue.data(null));
     return AnimatedPadding(
       padding: EdgeInsets.only(
@@ -66,16 +62,23 @@ class _InputDialogState extends State<InputDialogDate> {
                     child: ListBody(
                       children: [
                         DatePicker(
-                          selectedDate: selectedStartDate.value,
+                          selectedDate: selectedDate.value,
                           maxDate: DateTime(2100),
-                          onChanged: (date) => selectedStartDate.value = date,
-                          label: AppLocalizations.of(context).translate('common.startDate'),
+                          onChanged: (date) => selectedDate.value = date,
+                          label: AppLocalizations.of(context).translate('common.date'),
                         ),
-                        DatePicker(
-                          selectedDate: selectedEndDate.value,
-                          maxDate: DateTime(2100),
-                          onChanged: (date) => selectedEndDate.value = date,
-                          label: AppLocalizations.of(context).translate('common.endDate'),
+                        TimePicker(
+                          selectedTime: TimeOfDay.fromDateTime(selectedDate.value),
+                          onChanged: (date) {
+                            selectedDate.value = DateTime(
+                              selectedDate.value.year,
+                              selectedDate.value.month,
+                              selectedDate.value.day,
+                              date.hour,
+                              date.minute,
+                            );
+                          },
+                          label: AppLocalizations.of(context).translate('common.time'),
                         ),
                       ],
                     ),
@@ -98,7 +101,7 @@ class _InputDialogState extends State<InputDialogDate> {
                         onPressed: () async {
                           status.value = const AsyncLoading();
                           try {
-                            await widget.onConfirm(selectedStartDate.value, selectedEndDate.value);
+                            await widget.onConfirm(selectedDate.value);
                             status.value = const AsyncData(null);
                             Navigator.of(context).pop();
                           } on HttpException catch (e) {

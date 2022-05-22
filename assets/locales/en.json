@@ -21,7 +21,9 @@
     "accept": "Accept",
     "decline": "Decline",
     "date": "Date",
-    "time": "Time"
+    "time": "Time",
+    "startDate": "Start date",
+    "endDate": "End date"
   },
   "user": {
     "firstname": "Firstname",

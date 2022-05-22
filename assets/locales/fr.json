@@ -21,7 +21,9 @@
     "accept": "Accepter",
     "decline": "Refuser",
     "date": "Date",
-    "time": "Heure"
+    "time": "Heure",
+    "startDate": "Date de début",
+    "endDate": "Date de fin"
   },
   "user": {
     "firstname": "Prénom",

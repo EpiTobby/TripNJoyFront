@@ -13,7 +13,7 @@ import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_choice.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/input_dialog_date.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input_dialog_datetime.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
@@ -137,7 +137,7 @@ class EditActivity extends HookConsumerWidget {
                           showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
-                              return InputDialogDate(
+                              return InputDialogDateTime(
                                 title:
                                     AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.edit"),
                                 initialValue: activity.startDate,
@@ -162,7 +162,7 @@ class EditActivity extends HookConsumerWidget {
                           showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
-                              return InputDialogDate(
+                              return InputDialogDateTime(
                                 title: AppLocalizations.of(context).translate("groups.planning.activity.edit.end.edit"),
                                 initialValue: activity.endDate,
                                 onConfirm: (value) async {
