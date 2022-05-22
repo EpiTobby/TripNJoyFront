@@ -381,41 +381,47 @@ abstract class Api extends ChopperService {
       @Path('activityId') required num? activityId,
       @Body() required UpdateActivityRequest? body});
 
-  ///Remove the current user from the given activity
+  ///Remove the user from the given activity
   ///@param groupId
   ///@param activityId
+  ///@param userId
   Future<chopper.Response> groupsGroupIdPlanningActivityIdLeavePatch(
-      {required num? groupId, required num? activityId}) {
+      {required num? groupId, required num? activityId, required num? userId}) {
     return _groupsGroupIdPlanningActivityIdLeavePatch(
-        groupId: groupId, activityId: activityId);
+        groupId: groupId, activityId: activityId, userId: userId);
   }
 
-  ///Remove the current user from the given activity
+  ///Remove the user from the given activity
   ///@param groupId
   ///@param activityId
+  ///@param userId
   @Patch(
       path: '/groups/{groupId}/planning/{activityId}/leave', optionalBody: true)
   Future<chopper.Response> _groupsGroupIdPlanningActivityIdLeavePatch(
       {@Path('groupId') required num? groupId,
-      @Path('activityId') required num? activityId});
+      @Path('activityId') required num? activityId,
+      @Query('userId') required num? userId});
 
-  ///Add the current user to the given activity
+  ///Add the user to the given activity
   ///@param groupId
   ///@param activityId
+  ///@param userId
   Future<chopper.Response> groupsGroupIdPlanningActivityIdJoinPatch(
-      {required num? groupId, required num? activityId}) {
+      {required num? groupId, required num? activityId, required num? userId}) {
     return _groupsGroupIdPlanningActivityIdJoinPatch(
-        groupId: groupId, activityId: activityId);
+        groupId: groupId, activityId: activityId, userId: userId);
   }
 
-  ///Add the current user to the given activity
+  ///Add the user to the given activity
   ///@param groupId
   ///@param activityId
+  ///@param userId
   @Patch(
       path: '/groups/{groupId}/planning/{activityId}/join', optionalBody: true)
   Future<chopper.Response> _groupsGroupIdPlanningActivityIdJoinPatch(
       {@Path('groupId') required num? groupId,
-      @Path('activityId') required num? activityId});
+      @Path('activityId') required num? activityId,
+      @Query('userId') required num? userId});
 
   ///Delete the private group
   ///@param group

@@ -226,17 +226,21 @@ class _$Api extends Api {
 
   @override
   Future<Response<dynamic>> _groupsGroupIdPlanningActivityIdLeavePatch(
-      {required num? groupId, required num? activityId}) {
+      {required num? groupId, required num? activityId, required num? userId}) {
     final $url = '/groups/${groupId}/planning/${activityId}/leave';
-    final $request = Request('PATCH', $url, client.baseUrl);
+    final $params = <String, dynamic>{'userId': userId};
+    final $request =
+        Request('PATCH', $url, client.baseUrl, parameters: $params);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
   Future<Response<dynamic>> _groupsGroupIdPlanningActivityIdJoinPatch(
-      {required num? groupId, required num? activityId}) {
+      {required num? groupId, required num? activityId, required num? userId}) {
     final $url = '/groups/${groupId}/planning/${activityId}/join';
-    final $request = Request('PATCH', $url, client.baseUrl);
+    final $params = <String, dynamic>{'userId': userId};
+    final $request =
+        Request('PATCH', $url, client.baseUrl, parameters: $params);
     return client.send<dynamic, dynamic>($request);
   }
 
