@@ -67,7 +67,9 @@ abstract class HttpService {
 
   Future<void> deletePrivateGroup(int groupId);
 
-  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest);
+  Future<void> updatePrivateGroup(int groupId, UpdatePrivateGroupRequest groupUpdateRequest);
+
+  Future<void> updatePublicGroup(int groupId, UpdatePublicGroupRequest groupUpdateRequest);
 
   Future<void> removeUserFromPrivateGroup(int groupId, int userId);
 

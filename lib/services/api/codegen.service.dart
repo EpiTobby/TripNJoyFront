@@ -226,8 +226,13 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest) async {
+  Future<void> updatePrivateGroup(int groupId, UpdatePrivateGroupRequest groupUpdateRequest) async {
     await api.groupsPrivateGroupPatch(group: groupId, body: groupUpdateRequest);
+  }
+
+  @override
+  Future<void> updatePublicGroup(int groupId, UpdatePublicGroupRequest groupUpdateRequest) async {
+    await api.groupsGroupPatch(group: groupId, body: groupUpdateRequest);
   }
 
   @override

@@ -202,8 +202,13 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest) {
+  Future<void> updatePrivateGroup(int groupId, UpdatePrivateGroupRequest groupUpdateRequest) {
     // TODO: implement updatePrivateGroup
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updatePublicGroup(int groupId, UpdatePublicGroupRequest groupUpdateRequest) {
     throw UnimplementedError();
   }
 

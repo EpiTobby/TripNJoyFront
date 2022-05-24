@@ -74,8 +74,13 @@ class GroupViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest updateGroupRequest) async {
+  Future<void> updatePrivateGroup(int groupId, UpdatePrivateGroupRequest updateGroupRequest) async {
     await httpService.updatePrivateGroup(groupId, updateGroupRequest);
+    await getGroups(); // TODO : update only the group
+  }
+
+  Future<void> updatePublicGroup(int groupId, UpdatePublicGroupRequest updateGroupRequest) async {
+    await httpService.updatePublicGroup(groupId, updateGroupRequest);
     await getGroups(); // TODO : update only the group
   }
 

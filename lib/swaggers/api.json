@@ -869,6 +869,44 @@
         }
       }
     },
+    "/groups/{group}": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Update the public group",
+        "operationId": "updatePublicGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePublicGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The group is updated"
+          },
+          "422": {
+            "description": "Group does not exist"
+          }
+        }
+      }
+    },
     "/groups/{group}/join/{id}": {
       "patch": {
         "tags": [
@@ -1057,7 +1095,7 @@
         "tags": [
           "planning-controller"
         ],
-        "summary": "Remove the current user from the given activity",
+        "summary": "Remove the user from the given activity",
         "operationId": "leaveActivity",
         "parameters": [
           {
@@ -1072,6 +1110,15 @@
           {
             "name": "activityId",
             "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1097,7 +1144,7 @@
         "tags": [
           "planning-controller"
         ],
-        "summary": "Add the current user to the given activity",
+        "summary": "Add the user to the given activity",
         "operationId": "joinActivity",
         "parameters": [
           {
@@ -1112,6 +1159,15 @@
           {
             "name": "activityId",
             "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1183,7 +1239,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateGroupRequest"
+                "$ref": "#/components/schemas/UpdatePrivateGroupRequest"
               }
             }
           },
@@ -1198,6 +1254,47 @@
           },
           "422": {
             "description": "Group or User does not exist"
+          }
+        }
+      }
+    },
+    "/groups/private/{groupId}/public": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Make a private group public",
+        "operationId": "setGroupPublic",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The group is now public"
+          },
+          "403": {
+            "description": "User is not in the group, or the group is already public"
+          },
+          "422": {
+            "description": "Group does not exist"
           }
         }
       }
@@ -1623,7 +1720,8 @@
         "tags": [
           "places-controller"
         ],
-        "operationId": "getCategory",
+        "summary": "Returns all the categories of locations",
+        "operationId": "getCategories",
         "responses": {
           "200": {
             "description": "OK",
@@ -3011,6 +3109,28 @@
           }
         }
       },
+      "UpdatePublicGroupRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "picture": {
+            "type": "string"
+          }
+        }
+      },
       "UpdateActivityRequest": {
         "type": "object",
         "properties": {
@@ -3045,7 +3165,7 @@
           }
         }
       },
-      "UpdateGroupRequest": {
+      "UpdatePrivateGroupRequest": {
         "type": "object",
         "properties": {
           "name": {

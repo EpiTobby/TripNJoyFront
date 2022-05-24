@@ -704,7 +704,7 @@ const $ProfileUpdateRequestSportMap = {
   ProfileUpdateRequestSport.noPreference: 'NO_PREFERENCE'
 };
 
-enum UpdateGroupRequestState {
+enum UpdatePrivateGroupRequestState {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
   @JsonValue('OPEN')
@@ -715,10 +715,10 @@ enum UpdateGroupRequestState {
   archived
 }
 
-const $UpdateGroupRequestStateMap = {
-  UpdateGroupRequestState.open: 'OPEN',
-  UpdateGroupRequestState.closed: 'CLOSED',
-  UpdateGroupRequestState.archived: 'ARCHIVED'
+const $UpdatePrivateGroupRequestStateMap = {
+  UpdatePrivateGroupRequestState.open: 'OPEN',
+  UpdatePrivateGroupRequestState.closed: 'CLOSED',
+  UpdatePrivateGroupRequestState.archived: 'ARCHIVED'
 };
 
 enum MessageResponseType$ {

@@ -311,6 +311,20 @@ abstract class Api extends ChopperService {
   Future<chopper.Response> _usersIdUpdatePatch(
       {@Path('id') required num? id, @Body() required UserUpdateRequest? body});
 
+  ///Update the public group
+  ///@param group
+  Future<chopper.Response> groupsGroupPatch(
+      {required num? group, required UpdatePublicGroupRequest? body}) {
+    return _groupsGroupPatch(group: group, body: body);
+  }
+
+  ///Update the public group
+  ///@param group
+  @Patch(path: '/groups/{group}')
+  Future<chopper.Response> _groupsGroupPatch(
+      {@Path('group') required num? group,
+      @Body() required UpdatePublicGroupRequest? body});
+
   ///Accept the invitation to the group
   ///@param group
   ///@param id
@@ -381,41 +395,47 @@ abstract class Api extends ChopperService {
       @Path('activityId') required num? activityId,
       @Body() required UpdateActivityRequest? body});
 
-  ///Remove the current user from the given activity
+  ///Remove the user from the given activity
   ///@param groupId
   ///@param activityId
+  ///@param userId
   Future<chopper.Response> groupsGroupIdPlanningActivityIdLeavePatch(
-      {required num? groupId, required num? activityId}) {
+      {required num? groupId, required num? activityId, required num? userId}) {
     return _groupsGroupIdPlanningActivityIdLeavePatch(
-        groupId: groupId, activityId: activityId);
+        groupId: groupId, activityId: activityId, userId: userId);
   }
 
-  ///Remove the current user from the given activity
+  ///Remove the user from the given activity
   ///@param groupId
   ///@param activityId
+  ///@param userId
   @Patch(
       path: '/groups/{groupId}/planning/{activityId}/leave', optionalBody: true)
   Future<chopper.Response> _groupsGroupIdPlanningActivityIdLeavePatch(
       {@Path('groupId') required num? groupId,
-      @Path('activityId') required num? activityId});
+      @Path('activityId') required num? activityId,
+      @Query('userId') required num? userId});
 
-  ///Add the current user to the given activity
+  ///Add the user to the given activity
   ///@param groupId
   ///@param activityId
+  ///@param userId
   Future<chopper.Response> groupsGroupIdPlanningActivityIdJoinPatch(
-      {required num? groupId, required num? activityId}) {
+      {required num? groupId, required num? activityId, required num? userId}) {
     return _groupsGroupIdPlanningActivityIdJoinPatch(
-        groupId: groupId, activityId: activityId);
+        groupId: groupId, activityId: activityId, userId: userId);
   }
 
-  ///Add the current user to the given activity
+  ///Add the user to the given activity
   ///@param groupId
   ///@param activityId
+  ///@param userId
   @Patch(
       path: '/groups/{groupId}/planning/{activityId}/join', optionalBody: true)
   Future<chopper.Response> _groupsGroupIdPlanningActivityIdJoinPatch(
       {@Path('groupId') required num? groupId,
-      @Path('activityId') required num? activityId});
+      @Path('activityId') required num? activityId,
+      @Query('userId') required num? userId});
 
   ///Delete the private group
   ///@param group
@@ -432,7 +452,7 @@ abstract class Api extends ChopperService {
   ///Update the private group
   ///@param group
   Future<chopper.Response> groupsPrivateGroupPatch(
-      {required num? group, required UpdateGroupRequest? body}) {
+      {required num? group, required UpdatePrivateGroupRequest? body}) {
     return _groupsPrivateGroupPatch(group: group, body: body);
   }
 
@@ -441,7 +461,21 @@ abstract class Api extends ChopperService {
   @Patch(path: '/groups/private/{group}')
   Future<chopper.Response> _groupsPrivateGroupPatch(
       {@Path('group') required num? group,
-      @Body() required UpdateGroupRequest? body});
+      @Body() required UpdatePrivateGroupRequest? body});
+
+  ///Make a private group public
+  ///@param groupId
+  Future<chopper.Response> groupsPrivateGroupIdPublicPatch(
+      {required num? groupId, required ProfileCreationRequest? body}) {
+    return _groupsPrivateGroupIdPublicPatch(groupId: groupId, body: body);
+  }
+
+  ///Make a private group public
+  ///@param groupId
+  @Patch(path: '/groups/private/{groupId}/public')
+  Future<chopper.Response> _groupsPrivateGroupIdPublicPatch(
+      {@Path('groupId') required num? groupId,
+      @Body() required ProfileCreationRequest? body});
 
   ///Pin a message
   ///@param message_id
@@ -606,12 +640,12 @@ abstract class Api extends ChopperService {
   @Get(path: '/users/me')
   Future<chopper.Response<UserModel>> _usersMeGet();
 
-  ///
+  ///Returns all the categories of locations
   Future<chopper.Response<List<String>>> placesCategoriesGet() {
     return _placesCategoriesGet();
   }
 
-  ///
+  ///Returns all the categories of locations
   @Get(path: '/places/categories')
   Future<chopper.Response<List<String>>> _placesCategoriesGet();
 
@@ -3121,6 +3155,78 @@ extension $UserUpdateRequestExtension on UserUpdateRequest {
 }
 
 @JsonSerializable(explicitToJson: true)
+class UpdatePublicGroupRequest {
+  UpdatePublicGroupRequest({
+    this.name,
+    this.description,
+    this.startOfTrip,
+    this.endOfTrip,
+    this.picture,
+  });
+
+  factory UpdatePublicGroupRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdatePublicGroupRequestFromJson(json);
+
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'description')
+  final String? description;
+  @JsonKey(name: 'startOfTrip')
+  final DateTime? startOfTrip;
+  @JsonKey(name: 'endOfTrip')
+  final DateTime? endOfTrip;
+  @JsonKey(name: 'picture')
+  final String? picture;
+  static const fromJsonFactory = _$UpdatePublicGroupRequestFromJson;
+  static const toJsonFactory = _$UpdatePublicGroupRequestToJson;
+  Map<String, dynamic> toJson() => _$UpdatePublicGroupRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UpdatePublicGroupRequest &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
+            (identical(other.startOfTrip, startOfTrip) ||
+                const DeepCollectionEquality()
+                    .equals(other.startOfTrip, startOfTrip)) &&
+            (identical(other.endOfTrip, endOfTrip) ||
+                const DeepCollectionEquality()
+                    .equals(other.endOfTrip, endOfTrip)) &&
+            (identical(other.picture, picture) ||
+                const DeepCollectionEquality().equals(other.picture, picture)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(startOfTrip) ^
+      const DeepCollectionEquality().hash(endOfTrip) ^
+      const DeepCollectionEquality().hash(picture) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdatePublicGroupRequestExtension on UpdatePublicGroupRequest {
+  UpdatePublicGroupRequest copyWith(
+      {String? name,
+      String? description,
+      DateTime? startOfTrip,
+      DateTime? endOfTrip,
+      String? picture}) {
+    return UpdatePublicGroupRequest(
+        name: name ?? this.name,
+        description: description ?? this.description,
+        startOfTrip: startOfTrip ?? this.startOfTrip,
+        endOfTrip: endOfTrip ?? this.endOfTrip,
+        picture: picture ?? this.picture);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class UpdateActivityRequest {
   UpdateActivityRequest({
     this.name,
@@ -3218,8 +3324,8 @@ extension $UpdateActivityRequestExtension on UpdateActivityRequest {
 }
 
 @JsonSerializable(explicitToJson: true)
-class UpdateGroupRequest {
-  UpdateGroupRequest({
+class UpdatePrivateGroupRequest {
+  UpdatePrivateGroupRequest({
     this.name,
     this.description,
     this.state,
@@ -3230,8 +3336,8 @@ class UpdateGroupRequest {
     this.picture,
   });
 
-  factory UpdateGroupRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGroupRequestFromJson(json);
+  factory UpdatePrivateGroupRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdatePrivateGroupRequestFromJson(json);
 
   @JsonKey(name: 'name')
   final String? name;
@@ -3239,9 +3345,9 @@ class UpdateGroupRequest {
   final String? description;
   @JsonKey(
       name: 'state',
-      toJson: updateGroupRequestStateToJson,
-      fromJson: updateGroupRequestStateFromJson)
-  final enums.UpdateGroupRequestState? state;
+      toJson: updatePrivateGroupRequestStateToJson,
+      fromJson: updatePrivateGroupRequestStateFromJson)
+  final enums.UpdatePrivateGroupRequestState? state;
   @JsonKey(name: 'ownerId')
   final num? ownerId;
   @JsonKey(name: 'maxSize')
@@ -3252,14 +3358,14 @@ class UpdateGroupRequest {
   final DateTime? endOfTrip;
   @JsonKey(name: 'picture')
   final String? picture;
-  static const fromJsonFactory = _$UpdateGroupRequestFromJson;
-  static const toJsonFactory = _$UpdateGroupRequestToJson;
-  Map<String, dynamic> toJson() => _$UpdateGroupRequestToJson(this);
+  static const fromJsonFactory = _$UpdatePrivateGroupRequestFromJson;
+  static const toJsonFactory = _$UpdatePrivateGroupRequestToJson;
+  Map<String, dynamic> toJson() => _$UpdatePrivateGroupRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is UpdateGroupRequest &&
+        (other is UpdatePrivateGroupRequest &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.description, description) ||
@@ -3296,17 +3402,17 @@ class UpdateGroupRequest {
       runtimeType.hashCode;
 }
 
-extension $UpdateGroupRequestExtension on UpdateGroupRequest {
-  UpdateGroupRequest copyWith(
+extension $UpdatePrivateGroupRequestExtension on UpdatePrivateGroupRequest {
+  UpdatePrivateGroupRequest copyWith(
       {String? name,
       String? description,
-      enums.UpdateGroupRequestState? state,
+      enums.UpdatePrivateGroupRequestState? state,
       num? ownerId,
       int? maxSize,
       DateTime? startOfTrip,
       DateTime? endOfTrip,
       String? picture}) {
-    return UpdateGroupRequest(
+    return UpdatePrivateGroupRequest(
         name: name ?? this.name,
         description: description ?? this.description,
         state: state ?? this.state,
@@ -6106,57 +6212,62 @@ List<enums.ProfileUpdateRequestSport> profileUpdateRequestSportListFromJson(
       .toList();
 }
 
-String? updateGroupRequestStateToJson(
-    enums.UpdateGroupRequestState? updateGroupRequestState) {
-  return enums.$UpdateGroupRequestStateMap[updateGroupRequestState];
+String? updatePrivateGroupRequestStateToJson(
+    enums.UpdatePrivateGroupRequestState? updatePrivateGroupRequestState) {
+  return enums
+      .$UpdatePrivateGroupRequestStateMap[updatePrivateGroupRequestState];
 }
 
-enums.UpdateGroupRequestState updateGroupRequestStateFromJson(
-    Object? updateGroupRequestState) {
-  if (updateGroupRequestState is int) {
-    return enums.$UpdateGroupRequestStateMap.entries
+enums.UpdatePrivateGroupRequestState updatePrivateGroupRequestStateFromJson(
+    Object? updatePrivateGroupRequestState) {
+  if (updatePrivateGroupRequestState is int) {
+    return enums.$UpdatePrivateGroupRequestStateMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                updateGroupRequestState.toString(),
+                updatePrivateGroupRequestState.toString(),
             orElse: () => const MapEntry(
-                enums.UpdateGroupRequestState.swaggerGeneratedUnknown, ''))
+                enums.UpdatePrivateGroupRequestState.swaggerGeneratedUnknown,
+                ''))
         .key;
   }
 
-  if (updateGroupRequestState is String) {
-    return enums.$UpdateGroupRequestStateMap.entries
+  if (updatePrivateGroupRequestState is String) {
+    return enums.$UpdatePrivateGroupRequestStateMap.entries
         .firstWhere(
             (element) =>
                 element.value.toLowerCase() ==
-                updateGroupRequestState.toLowerCase(),
+                updatePrivateGroupRequestState.toLowerCase(),
             orElse: () => const MapEntry(
-                enums.UpdateGroupRequestState.swaggerGeneratedUnknown, ''))
+                enums.UpdatePrivateGroupRequestState.swaggerGeneratedUnknown,
+                ''))
         .key;
   }
 
-  return enums.UpdateGroupRequestState.swaggerGeneratedUnknown;
+  return enums.UpdatePrivateGroupRequestState.swaggerGeneratedUnknown;
 }
 
-List<String> updateGroupRequestStateListToJson(
-    List<enums.UpdateGroupRequestState>? updateGroupRequestState) {
-  if (updateGroupRequestState == null) {
+List<String> updatePrivateGroupRequestStateListToJson(
+    List<enums.UpdatePrivateGroupRequestState>?
+        updatePrivateGroupRequestState) {
+  if (updatePrivateGroupRequestState == null) {
     return [];
   }
 
-  return updateGroupRequestState
-      .map((e) => enums.$UpdateGroupRequestStateMap[e]!)
+  return updatePrivateGroupRequestState
+      .map((e) => enums.$UpdatePrivateGroupRequestStateMap[e]!)
       .toList();
 }
 
-List<enums.UpdateGroupRequestState> updateGroupRequestStateListFromJson(
-    List? updateGroupRequestState) {
-  if (updateGroupRequestState == null) {
+List<enums.UpdatePrivateGroupRequestState>
+    updatePrivateGroupRequestStateListFromJson(
+        List? updatePrivateGroupRequestState) {
+  if (updatePrivateGroupRequestState == null) {
     return [];
   }
 
-  return updateGroupRequestState
-      .map((e) => updateGroupRequestStateFromJson(e.toString()))
+  return updatePrivateGroupRequestState
+      .map((e) => updatePrivateGroupRequestStateFromJson(e.toString()))
       .toList();
 }
 

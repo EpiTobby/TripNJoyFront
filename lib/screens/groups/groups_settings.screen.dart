@@ -54,8 +54,13 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                       final imageURL = await minioService.uploadImage();
 
                       if (imageURL != null) {
-                        await groupViewModel.updatePrivateGroup(
-                            group.id!.toInt(), UpdateGroupRequest(picture: imageURL));
+                        if (group.owner != null) {
+                          await groupViewModel.updatePrivateGroup(
+                              group.id!.toInt(), UpdatePrivateGroupRequest(picture: imageURL));
+                        } else {
+                          await groupViewModel.updatePublicGroup(
+                              group.id!.toInt(), UpdatePublicGroupRequest(picture: imageURL));
+                        }
                       }
                     },
                   ),
@@ -73,8 +78,13 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                                     label: AppLocalizations.of(context).translate("groups.settings.groupName"),
                                     initialValue: group.name ?? '',
                                     onConfirm: (value) async {
-                                      await groupViewModel.updatePrivateGroup(
-                                          group.id!.toInt(), UpdateGroupRequest(name: value));
+                                      if (group.owner != null) {
+                                        await groupViewModel.updatePrivateGroup(
+                                            group.id!.toInt(), UpdatePrivateGroupRequest(name: value));
+                                      } else {
+                                        await groupViewModel.updatePublicGroup(
+                                            group.id!.toInt(), UpdatePublicGroupRequest(name: value));
+                                      }
                                     });
                               });
                         },
@@ -132,8 +142,10 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                         value: AppLocalizations.of(context).translate("groups.settings.close"),
                         icon: Icons.lock_outline,
                         onPressed: () {
-                          groupViewModel.updatePrivateGroup(
-                              group.id!.toInt(), UpdateGroupRequest(state: UpdateGroupRequestState.closed));
+                          if (group.owner != null) {
+                            groupViewModel.updatePrivateGroup(group.id!.toInt(),
+                                UpdatePrivateGroupRequest(state: UpdatePrivateGroupRequestState.closed));
+                          }
                         },
                       )),
                     if (user != null && group.owner?.id == user.id)
@@ -142,8 +154,8 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                         value: AppLocalizations.of(context).translate("groups.settings.archive"),
                         icon: Icons.archive_outlined,
                         onPressed: () {
-                          groupViewModel.updatePrivateGroup(
-                              group.id!.toInt(), UpdateGroupRequest(state: UpdateGroupRequestState.archived));
+                          groupViewModel.updatePrivateGroup(group.id!.toInt(),
+                              UpdatePrivateGroupRequest(state: UpdatePrivateGroupRequestState.archived));
                         },
                       )),
                     LayoutItem(
