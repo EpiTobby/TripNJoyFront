@@ -440,4 +440,9 @@ class MockService extends HttpService {
   Future<bool> toggleActivityMember(int groupId, num activityId, num userId, bool join) {
     return Future.value(true);
   }
+
+  @override
+  Future<List<String>?> getPlacesCategories() {
+    return Future.value([]);
+  }
 }

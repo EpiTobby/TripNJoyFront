@@ -100,4 +100,6 @@ abstract class HttpService {
   Future<ActivityModel?> updateActivity(int groupId, num activityId, UpdateActivityRequest request);
 
   Future<bool> toggleActivityMember(int groupId, num activityId, num userId, bool join);
+
+  Future<List<String>?> getPlacesCategories();
 }

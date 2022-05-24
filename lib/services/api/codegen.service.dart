@@ -363,4 +363,10 @@ class CodegenService extends HttpService {
         : await api.groupsGroupIdPlanningActivityIdLeavePatch(groupId: groupId, activityId: activityId, userId: userId);
     return response.isSuccessful;
   }
+
+  @override
+  Future<List<String>?> getPlacesCategories() async {
+    final response = await api.placesCategoriesGet();
+    return response.body;
+  }
 }

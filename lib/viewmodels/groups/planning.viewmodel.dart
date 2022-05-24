@@ -12,6 +12,7 @@ class PlanningViewModel extends ChangeNotifier {
   final HttpService httpService;
 
   AsyncValue<List<Activity>> activities = const AsyncValue.loading();
+  AsyncValue<List<String>> places = const AsyncValue.loading();
 
   void getActivities(int groupId) async {
     activities = const AsyncValue.loading();
@@ -21,6 +22,14 @@ class PlanningViewModel extends ChangeNotifier {
         ? AsyncValue.data(newActivities.map((e) => Activity.fromActivityResponse(e)).toList()
           ..sort((a, b) => a.startDate.compareTo(b.startDate)))
         : AsyncValue.error(Exception('Failed to get activities'));
+    notifyListeners();
+  }
+
+  void getPlaces() async {
+    places = const AsyncValue.loading();
+    notifyListeners();
+    final newPlaces = await httpService.getPlacesCategories();
+    places = newPlaces != null ? AsyncValue.data(newPlaces) : AsyncValue.error(Exception('Failed to get places'));
     notifyListeners();
   }
 
