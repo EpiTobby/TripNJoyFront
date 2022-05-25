@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 abstract class CColors {
@@ -59,5 +60,16 @@ class ActivityColors {
       grey,
       black,
     ];
+  }
+
+  static Color getRandomColor() {
+    return getColors()[Random().nextInt(getColors().length)];
+  }
+
+  static Color getRandomColorFromString(String? name) {
+    if (name == null) {
+      return getRandomColor();
+    }
+    return getColors()[name.length % getColors().length];
   }
 }

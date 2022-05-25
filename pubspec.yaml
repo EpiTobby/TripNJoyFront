@@ -64,6 +64,8 @@ dependencies:
   flutter_iconpicker: ^3.1.4+1
   flutter_colorpicker: ^1.0.3
   modal_bottom_sheet: ^2.0.1
+  flutter_map: ^0.14.0
+  latlong2: ^0.8.1
 
 dev_dependencies:
   flutter_test:

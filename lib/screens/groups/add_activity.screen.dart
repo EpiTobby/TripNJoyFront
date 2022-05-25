@@ -53,7 +53,7 @@ class AddActivity extends HookConsumerWidget {
             ),
           ),
           LayoutBox(
-            title: AppLocalizations.of(context).translate("groups.planning.activity.suggestion"),
+            title: AppLocalizations.of(context).translate("groups.planning.activity.suggestion.title"),
             children: <Widget>[
               AsyncValueWidget<List<String>>(
                 value: places,
@@ -64,8 +64,8 @@ class AddActivity extends HookConsumerWidget {
                           child: LayoutItemValue(
                             value: place,
                             onPressed: () async {
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (_) => PlaceSuggestion(place: place)));
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (_) => PlaceSuggestion(groupId: groupId, place: place)));
                             },
                           ),
                         ),

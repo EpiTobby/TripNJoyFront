@@ -276,7 +276,13 @@
         "title": "Activité",
         "add": "Ajouter une activité",
         "manual": "Ajouter une activité manuellement",
-        "suggestion": "Suggestion d'activités",
+        "suggestion": {
+          "title": "Activités suggérées",
+          "empty": "Aucune activité suggérée",
+          "map": {
+            "title": "Vers quel endroit voulez-vous réaliser l’activité ?"
+          }
+        },
         "type": {
           "title": "Type d'activité",
           "sport": "Sport",
