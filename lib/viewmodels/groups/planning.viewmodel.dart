@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,6 +15,7 @@ class PlanningViewModel extends ChangeNotifier {
 
   AsyncValue<List<Activity>> activities = const AsyncValue.loading();
   AsyncValue<List<String>> places = const AsyncValue.loading();
+  AsyncValue<List<PlaceResponse>> suggestedActivities = const AsyncValue.loading();
 
   void getActivities(int groupId) async {
     activities = const AsyncValue.loading();
@@ -30,6 +33,21 @@ class PlanningViewModel extends ChangeNotifier {
     notifyListeners();
     final newPlaces = await httpService.getPlacesCategories();
     places = newPlaces != null ? AsyncValue.data(newPlaces) : AsyncValue.error(Exception('Failed to get places'));
+    notifyListeners();
+  }
+
+  void getSuggestedActivities(String category, Coordinates coordinates) async {
+    suggestedActivities = const AsyncValue.loading();
+    notifyListeners();
+    final placesCategory = getCategory(category);
+    final newSuggestedActivities = await httpService.getSuggestedActivities(PlacesFromCoordinatesRequest(
+        categories: [placesCategory],
+        latitude: coordinates.latitude?.toDouble(),
+        longitude: coordinates.longitude?.toDouble(),
+        radiusMeter: 10000));
+    suggestedActivities = newSuggestedActivities != null
+        ? AsyncValue.data(newSuggestedActivities)
+        : AsyncValue.error(Exception('Failed to get suggested activities'));
     notifyListeners();
   }
 
@@ -64,5 +82,58 @@ class PlanningViewModel extends ChangeNotifier {
     final success = await httpService.toggleActivityMember(groupId, activityId, userId, join);
     getActivities(groupId);
     return success;
+  }
+
+  PlacesFromCoordinatesRequestCategories getCategory(String category) {
+    switch (category) {
+      case 'ANTIQUES_SHOP':
+        return PlacesFromCoordinatesRequestCategories.antiquesShop;
+      case 'ARTS_CENTER':
+        return PlacesFromCoordinatesRequestCategories.artsCenter;
+      case 'ART_SHOP':
+        return PlacesFromCoordinatesRequestCategories.artShop;
+      case 'BAR_AND_PUB':
+        return PlacesFromCoordinatesRequestCategories.barAndPub;
+      case 'BEACH':
+        return PlacesFromCoordinatesRequestCategories.beach;
+      case 'BUS':
+        return PlacesFromCoordinatesRequestCategories.bus;
+      case 'CHANGE':
+        return PlacesFromCoordinatesRequestCategories.change;
+      case 'CHINESE_RESTAURANT':
+        return PlacesFromCoordinatesRequestCategories.chineseRestaurant;
+      case 'COFFEE_SHOP':
+        return PlacesFromCoordinatesRequestCategories.coffeeShop;
+      case 'ENTERTAINMENT':
+        return PlacesFromCoordinatesRequestCategories.entertainment;
+      case 'FAST_FOOD':
+        return PlacesFromCoordinatesRequestCategories.fastFood;
+      case 'FISH_AND_CHIPS_RESTAURANT':
+        return PlacesFromCoordinatesRequestCategories.fishAndChipsRestaurant;
+      case 'ITALIAN_RESTAURANT':
+        return PlacesFromCoordinatesRequestCategories.italianRestaurant;
+      case 'MUSEUM':
+        return PlacesFromCoordinatesRequestCategories.museum;
+      case 'PARKING':
+        return PlacesFromCoordinatesRequestCategories.parking;
+      case 'RESTAURANT':
+        return PlacesFromCoordinatesRequestCategories.restaurant;
+      case 'SEAFOOD_RESTAURANT':
+        return PlacesFromCoordinatesRequestCategories.seafoodRestaurant;
+      case 'SUPERMARKET':
+        return PlacesFromCoordinatesRequestCategories.supermarket;
+      case 'SWIMMING_POOL':
+        return PlacesFromCoordinatesRequestCategories.swimmingPool;
+      case 'SUBWAY':
+        return PlacesFromCoordinatesRequestCategories.subway;
+      case 'THEATRE':
+        return PlacesFromCoordinatesRequestCategories.theatre;
+      case 'TOURISM':
+        return PlacesFromCoordinatesRequestCategories.tourism;
+      case 'TRANSPORT':
+        return PlacesFromCoordinatesRequestCategories.transport;
+      default:
+        return PlacesFromCoordinatesRequestCategories.restaurant;
+    }
   }
 }

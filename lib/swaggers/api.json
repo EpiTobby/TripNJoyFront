@@ -869,6 +869,44 @@
         }
       }
     },
+    "/groups/{group}": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Update the public group",
+        "operationId": "updatePublicGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePublicGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The group is updated"
+          },
+          "422": {
+            "description": "Group does not exist"
+          }
+        }
+      }
+    },
     "/groups/{group}/join/{id}": {
       "patch": {
         "tags": [
@@ -1201,7 +1239,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateGroupRequest"
+                "$ref": "#/components/schemas/UpdatePrivateGroupRequest"
               }
             }
           },
@@ -1216,6 +1254,47 @@
           },
           "422": {
             "description": "Group or User does not exist"
+          }
+        }
+      }
+    },
+    "/groups/private/{groupId}/public": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Make a private group public",
+        "operationId": "setGroupPublic",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The group is now public"
+          },
+          "403": {
+            "description": "User is not in the group, or the group is already public"
+          },
+          "422": {
+            "description": "Group does not exist"
           }
         }
       }
@@ -1641,7 +1720,8 @@
         "tags": [
           "places-controller"
         ],
-        "operationId": "getCategory",
+        "summary": "Returns all the categories of locations",
+        "operationId": "getCategories",
         "responses": {
           "200": {
             "description": "OK",
@@ -1661,14 +1741,14 @@
                       "CHANGE",
                       "CHINESE_RESTAURANT",
                       "COFFEE_SHOP",
-                      "ENTERTAINEMENT",
+                      "ENTERTAINMENT",
                       "FAST_FOOD",
                       "FISH_AND_CHIPS_RESTAURANT",
                       "ITALIAN_RESTAURANT",
                       "MUSEUM",
                       "PARKING",
                       "RESTAURANT",
-                      "SEAFOOD_RESTARANT",
+                      "SEAFOOD_RESTAURANT",
                       "SUPERMARKET",
                       "SWIMMING_POOL",
                       "SUBWAY",
@@ -2367,14 +2447,14 @@
                 "CHANGE",
                 "CHINESE_RESTAURANT",
                 "COFFEE_SHOP",
-                "ENTERTAINEMENT",
+                "ENTERTAINMENT",
                 "FAST_FOOD",
                 "FISH_AND_CHIPS_RESTAURANT",
                 "ITALIAN_RESTAURANT",
                 "MUSEUM",
                 "PARKING",
                 "RESTAURANT",
-                "SEAFOOD_RESTARANT",
+                "SEAFOOD_RESTAURANT",
                 "SUPERMARKET",
                 "SWIMMING_POOL",
                 "SUBWAY",
@@ -2424,14 +2504,14 @@
                 "CHANGE",
                 "CHINESE_RESTAURANT",
                 "COFFEE_SHOP",
-                "ENTERTAINEMENT",
+                "ENTERTAINMENT",
                 "FAST_FOOD",
                 "FISH_AND_CHIPS_RESTAURANT",
                 "ITALIAN_RESTAURANT",
                 "MUSEUM",
                 "PARKING",
                 "RESTAURANT",
-                "SEAFOOD_RESTARANT",
+                "SEAFOOD_RESTAURANT",
                 "SUPERMARKET",
                 "SWIMMING_POOL",
                 "SUBWAY",
@@ -3029,6 +3109,28 @@
           }
         }
       },
+      "UpdatePublicGroupRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "picture": {
+            "type": "string"
+          }
+        }
+      },
       "UpdateActivityRequest": {
         "type": "object",
         "properties": {
@@ -3063,7 +3165,7 @@
           }
         }
       },
-      "UpdateGroupRequest": {
+      "UpdatePrivateGroupRequest": {
         "type": "object",
         "properties": {
           "name": {

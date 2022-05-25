@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
@@ -202,7 +204,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest) {
+  Future<void> updatePrivateGroup(int groupId, UpdatePrivateGroupRequest groupUpdateRequest) {
     // TODO: implement updatePrivateGroup
     throw UnimplementedError();
   }
@@ -443,6 +445,11 @@ class MockService extends HttpService {
 
   @override
   Future<List<String>?> getPlacesCategories() {
+    return Future.value([]);
+  }
+
+  @override
+  Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request) {
     return Future.value([]);
   }
 }

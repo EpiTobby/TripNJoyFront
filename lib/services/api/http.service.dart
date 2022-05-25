@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/group/activity.dart';
@@ -67,7 +69,7 @@ abstract class HttpService {
 
   Future<void> deletePrivateGroup(int groupId);
 
-  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest);
+  Future<void> updatePrivateGroup(int groupId, UpdatePrivateGroupRequest groupUpdateRequest);
 
   Future<void> removeUserFromPrivateGroup(int groupId, int userId);
 
@@ -102,4 +104,6 @@ abstract class HttpService {
   Future<bool> toggleActivityMember(int groupId, num activityId, num userId, bool join);
 
   Future<List<String>?> getPlacesCategories();
+
+  Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request);
 }

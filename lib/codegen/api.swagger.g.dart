@@ -717,6 +717,30 @@ Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
       'language': instance.language,
     };
 
+UpdatePublicGroupRequest _$UpdatePublicGroupRequestFromJson(
+        Map<String, dynamic> json) =>
+    UpdatePublicGroupRequest(
+      name: json['name'] as String?,
+      description: json['description'] as String?,
+      startOfTrip: json['startOfTrip'] == null
+          ? null
+          : DateTime.parse(json['startOfTrip'] as String),
+      endOfTrip: json['endOfTrip'] == null
+          ? null
+          : DateTime.parse(json['endOfTrip'] as String),
+      picture: json['picture'] as String?,
+    );
+
+Map<String, dynamic> _$UpdatePublicGroupRequestToJson(
+        UpdatePublicGroupRequest instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'description': instance.description,
+      'startOfTrip': instance.startOfTrip?.toIso8601String(),
+      'endOfTrip': instance.endOfTrip?.toIso8601String(),
+      'picture': instance.picture,
+    };
+
 UpdateActivityRequest _$UpdateActivityRequestFromJson(
         Map<String, dynamic> json) =>
     UpdateActivityRequest(
@@ -749,11 +773,12 @@ Map<String, dynamic> _$UpdateActivityRequestToJson(
       'infos': instance.infos,
     };
 
-UpdateGroupRequest _$UpdateGroupRequestFromJson(Map<String, dynamic> json) =>
-    UpdateGroupRequest(
+UpdatePrivateGroupRequest _$UpdatePrivateGroupRequestFromJson(
+        Map<String, dynamic> json) =>
+    UpdatePrivateGroupRequest(
       name: json['name'] as String?,
       description: json['description'] as String?,
-      state: updateGroupRequestStateFromJson(json['state']),
+      state: updatePrivateGroupRequestStateFromJson(json['state']),
       ownerId: json['ownerId'] as num?,
       maxSize: json['maxSize'] as int?,
       startOfTrip: json['startOfTrip'] == null
@@ -765,11 +790,12 @@ UpdateGroupRequest _$UpdateGroupRequestFromJson(Map<String, dynamic> json) =>
       picture: json['picture'] as String?,
     );
 
-Map<String, dynamic> _$UpdateGroupRequestToJson(UpdateGroupRequest instance) =>
+Map<String, dynamic> _$UpdatePrivateGroupRequestToJson(
+        UpdatePrivateGroupRequest instance) =>
     <String, dynamic>{
       'name': instance.name,
       'description': instance.description,
-      'state': updateGroupRequestStateToJson(instance.state),
+      'state': updatePrivateGroupRequestStateToJson(instance.state),
       'ownerId': instance.ownerId,
       'maxSize': instance.maxSize,
       'startOfTrip': instance.startOfTrip?.toIso8601String(),
