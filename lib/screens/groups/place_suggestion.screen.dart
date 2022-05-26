@@ -33,7 +33,8 @@ class PlaceSuggestion extends HookConsumerWidget {
     final isLoading = useState(false);
     return Scaffold(
       appBar: AppBar(
-        title: Text(place, style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+        title: Text(AppLocalizations.of(context).translate("groups.planning.activity.type.$place"),
+            style: TextStyle(color: Theme.of(context).colorScheme.primary)),
         foregroundColor: Theme.of(context).colorScheme.primary,
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),

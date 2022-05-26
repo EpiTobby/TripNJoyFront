@@ -62,7 +62,7 @@ class AddActivity extends HookConsumerWidget {
                       .map(
                         (place) => LayoutItem(
                           child: LayoutItemValue(
-                            value: place,
+                            value: AppLocalizations.of(context).translate("groups.planning.activity.type.$place"),
                             onPressed: () async {
                               Navigator.of(context).push(
                                   MaterialPageRoute(builder: (_) => PlaceSuggestion(groupId: groupId, place: place)));
