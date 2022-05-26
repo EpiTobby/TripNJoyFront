@@ -18,6 +18,7 @@ class PlanningViewModel extends ChangeNotifier {
   AsyncValue<List<PlaceResponse>> suggestedActivities = const AsyncValue.data([]);
 
   void getActivities(int groupId) async {
+    logger.d("Getting activities for group $groupId");
     activities = const AsyncValue.loading();
     notifyListeners();
     final newActivities = await httpService.getActivities(groupId);
@@ -29,6 +30,7 @@ class PlanningViewModel extends ChangeNotifier {
   }
 
   void getPlaces() async {
+    logger.d("Getting places");
     places = const AsyncValue.loading();
     notifyListeners();
     final newPlaces = await httpService.getPlacesCategories();

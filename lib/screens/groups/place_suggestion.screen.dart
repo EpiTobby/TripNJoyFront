@@ -8,6 +8,7 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/edit_activity.screen.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning_activity.widget.dart';
@@ -68,18 +69,44 @@ class PlaceSuggestion extends HookConsumerWidget {
                           ref.read(planningProvider).getSuggestedActivities(place, currentPosition.value);
                         },
                       ),
-                      layers: [
-                        TileLayerOptions(
-                          urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                          subdomains: ['a', 'b', 'c'],
+                      children: [
+                        TileLayerWidget(
+                          options: TileLayerOptions(
+                            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            subdomains: ['a', 'b', 'c'],
+                          ),
                         ),
+                        Positioned(
+                          bottom: 8,
+                          right: 8,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              ref.read(planningProvider).getSuggestedActivities(place, currentPosition.value);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Theme.of(context).colorScheme.secondary,
+                              textStyle: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSecondary),
+                              padding: const EdgeInsets.all(10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              minimumSize: const Size(0, 0),
+                            ),
+                            child: Icon(Icons.search, color: Theme.of(context).colorScheme.onSecondary),
+                          ),
+                        ),
+                      ],
+                      layers: [
                         MarkerLayerOptions(
                           markers: [
                             Marker(
                               width: 80.0,
                               height: 80.0,
                               point: currentPosition.value,
-                              builder: (ctx) => const Icon(Icons.location_on),
+                              builder: (ctx) => Icon(
+                                Icons.location_on,
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
                             ),
                           ],
                         ),
