@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
@@ -38,7 +39,7 @@ class _GroupsInvitationsState extends ConsumerState<GroupsInvitations> {
                     .map((group) => GroupListItem(
                         group: group,
                         onClick: () {
-                          showDialog(
+                          showMaterialModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
                                 return InputDialogChoice(

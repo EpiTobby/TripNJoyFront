@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
@@ -7,6 +8,7 @@ import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
@@ -54,6 +56,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                       final imageURL = await minioService.uploadImage();
 
                       if (imageURL != null) {
+
                         if (group.owner != null) {
                           await groupViewModel.updatePrivateGroup(
                               group.id!.toInt(), UpdatePrivateGroupRequest(picture: imageURL));
@@ -70,7 +73,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                       child: LayoutItemValue(
                         value: group.name ?? '',
                         onPressed: () {
-                          showDialog(
+                          showMaterialModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
                                 return InputDialog(
@@ -78,6 +81,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                                     label: AppLocalizations.of(context).translate("groups.settings.groupName"),
                                     initialValue: group.name ?? '',
                                     onConfirm: (value) async {
+
                                       if (group.owner != null) {
                                         await groupViewModel.updatePrivateGroup(
                                             group.id!.toInt(), UpdatePrivateGroupRequest(name: value));
@@ -99,9 +103,9 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                             ...group.members!.map((member) {
                               return LayoutMember(
                                 name: member.firstname! + " " + member.lastname!,
-                                imageURL: minioService.getImageUrl(member.profilePicture) ?? DEFAULT_AVATAR_URL,
+                                imageURL: MinioService.getImageUrl(member.profilePicture) ?? DEFAULT_AVATAR_URL,
                                 onClick: () {
-                                  showDialog(
+                                  showMaterialModalBottomSheet(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return UserDialog(user: member);
@@ -118,7 +122,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                                 text: '+',
                                 fitContent: true,
                                 onPressed: () {
-                                  showDialog(
+                                  showMaterialModalBottomSheet(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return InputDialog(

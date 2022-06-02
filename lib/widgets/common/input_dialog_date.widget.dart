@@ -4,37 +4,36 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
+import 'package:trip_n_joy_front/widgets/common/date_picker.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/snackbar.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/time_picker.widget.dart';
 
 import 'button.widget.dart';
 import 'input.widget.dart';
 
-class InputDialog extends StatefulHookWidget {
-  const InputDialog({
+class InputDialogDate extends StatefulHookWidget {
+  const InputDialogDate({
     Key? key,
     this.title,
-    required this.label,
-    required this.initialValue,
+    required this.initialStartDate,
+    required this.initialEndDate,
     required this.onConfirm,
-    this.isPassword = false,
-    this.multiline = false,
   }) : super(key: key);
 
   final String? title;
-  final String label;
-  final String initialValue;
+  final DateTime initialStartDate;
+  final DateTime initialEndDate;
   final Function onConfirm;
-  final bool isPassword;
-  final bool multiline;
 
   @override
-  State<InputDialog> createState() => _InputDialogState();
+  State<InputDialogDate> createState() => _InputDialogState();
 }
 
-class _InputDialogState extends State<InputDialog> {
+class _InputDialogState extends State<InputDialogDate> {
   @override
   Widget build(BuildContext context) {
-    final controller = useTextEditingController(text: widget.initialValue);
+    final selectedStartDate = useState(widget.initialStartDate);
+    final selectedEndDate = useState(widget.initialEndDate);
     final status = useState<AsyncValue<void>>(const AsyncValue.data(null));
     return AnimatedPadding(
       padding: EdgeInsets.only(
@@ -63,13 +62,23 @@ class _InputDialogState extends State<InputDialog> {
                   ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: InputField(
-                    isPassword: widget.isPassword,
-                    label: widget.label,
-                    controller: controller,
-                    onChanged: (newValue) => {},
-                    isError: status.value.isError,
-                    multiline: widget.multiline,
+                  child: SingleChildScrollView(
+                    child: ListBody(
+                      children: [
+                        DatePicker(
+                          selectedDate: selectedStartDate.value,
+                          maxDate: DateTime(2100),
+                          onChanged: (date) => selectedStartDate.value = date,
+                          label: AppLocalizations.of(context).translate('common.startDate'),
+                        ),
+                        DatePicker(
+                          selectedDate: selectedEndDate.value,
+                          maxDate: DateTime(2100),
+                          onChanged: (date) => selectedEndDate.value = date,
+                          label: AppLocalizations.of(context).translate('common.endDate'),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
@@ -89,7 +98,7 @@ class _InputDialogState extends State<InputDialog> {
                         onPressed: () async {
                           status.value = const AsyncLoading();
                           try {
-                            await widget.onConfirm(controller.text);
+                            await widget.onConfirm(selectedStartDate.value, selectedEndDate.value);
                             status.value = const AsyncData(null);
                             Navigator.of(context).pop();
                           } on HttpException catch (e) {

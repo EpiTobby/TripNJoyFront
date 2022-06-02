@@ -6,6 +6,7 @@ import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 import 'package:trip_n_joy_front/models/group/activity.dart';
+import 'package:trip_n_joy_front/models/group/chat_member.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 import '../../codegen/api.swagger.dart';
@@ -357,6 +358,26 @@ class CodegenService extends HttpService {
   Future<ActivityModel?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) async {
     final response =
         await api.groupsGroupIdPlanningActivityIdPatch(groupId: groupId, activityId: activityId, body: request);
+    return response.body;
+  }
+
+  @override
+  Future<bool> toggleActivityMember(int groupId, num activityId, num userId, bool join) async {
+    final response = join
+        ? await api.groupsGroupIdPlanningActivityIdJoinPatch(groupId: groupId, activityId: activityId, userId: userId)
+        : await api.groupsGroupIdPlanningActivityIdLeavePatch(groupId: groupId, activityId: activityId, userId: userId);
+    return response.isSuccessful;
+  }
+
+  @override
+  Future<List<String>?> getPlacesCategories() async {
+    final response = await api.placesCategoriesGet();
+    return response.body;
+  }
+
+  @override
+  Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request) async {
+    final response = await api.placesCoordinatesPost(body: request);
     return response.body;
   }
 }

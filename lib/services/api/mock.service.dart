@@ -440,4 +440,19 @@ class MockService extends HttpService {
   Future<ActivityModel?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> toggleActivityMember(int groupId, num activityId, num userId, bool join) {
+    return Future.value(true);
+  }
+
+  @override
+  Future<List<String>?> getPlacesCategories() {
+    return Future.value([]);
+  }
+
+  @override
+  Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request) {
+    return Future.value([]);
+  }
 }

@@ -19,7 +19,11 @@
     "people": "personnes",
     "search": "Rechercher",
     "accept": "Accepter",
-    "decline": "Refuser"
+    "decline": "Refuser",
+    "date": "Date",
+    "time": "Heure",
+    "startDate": "Date de début",
+    "endDate": "Date de fin"
   },
   "user": {
     "firstname": "Prénom",
@@ -272,18 +276,38 @@
         "title": "Activité",
         "add": "Ajouter une activité",
         "manual": "Ajouter une activité manuellement",
-        "suggestion": "Suggestion d'activités",
+        "suggestion": {
+          "title": "Activités suggérées",
+          "empty": "Aucune activité suggérée",
+          "map": {
+            "title": "Vers quel endroit voulez-vous réaliser l’activité ?"
+          }
+        },
         "type": {
           "title": "Type d'activité",
-          "sport": "Sport",
-          "restaurant": "Restaurant",
-          "shopping": "Shopping",
-          "bar": "Bar",
-          "tourism": "Tourisme",
-          "park": "Parc",
-          "club": "Club",
-          "beach": "Plage",
-          "other": "Autre"
+          "ANTIQUES_SHOP": "Boutique d'antiques",
+          "ARTS_CENTER": "Centre d'art",
+          "ART_SHOP": "Boutique d'art",
+          "BAR_AND_PUB": "Bar et pub",
+          "BEACH": "Plage",
+          "BUS": "Bus",
+          "CHANGE": "DAB",
+          "CHINESE_RESTAURANT": "Restaurant chinois",
+          "COFFEE_SHOP": "Café",
+          "ENTERTAINMENT": "Spectacle",
+          "FAST_FOOD": "Fast food",
+          "FISH_AND_CHIPS_RESTAURANT": "Restaurant Fish and Chips",
+          "ITALIAN_RESTAURANT": "Restaurant italien",
+          "MUSEUM": "Musée",
+          "PARKING": "Parking",
+          "RESTAURANT": "Restaurant",
+          "SEAFOOD_RESTAURANT": "Restaurant de fruit de mer",
+          "SUPERMARKET": "Supermarché",
+          "SWIMMING_POOL": "Piscine",
+          "SUBWAY": "Métro",
+          "THEATRE": "Théâtre",
+          "TOURISM": "Tourisme",
+          "TRANSPORT": "Transport"
         },
         "edit": {
           "title": "Information sur l'activité",

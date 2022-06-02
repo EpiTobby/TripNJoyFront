@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/group/activity.dart';
+import 'package:trip_n_joy_front/models/group/chat_member.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_choice.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input_dialog_datetime.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_row_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_row_item_member.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning_activity.widget.dart';
+
+import '../../constants/common/colors.style.dart';
 
 class EditActivity extends HookConsumerWidget {
   const EditActivity({
@@ -38,8 +47,11 @@ class EditActivity extends HookConsumerWidget {
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
         actions: [
           IconButton(
+            splashRadius: 16,
             icon: const Icon(Icons.check),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).popUntil(ModalRoute.withName("/planning"));
+            },
           ),
         ],
       ),
@@ -47,19 +59,15 @@ class EditActivity extends HookConsumerWidget {
         children: [
           PlanningActivity(
             prefix: Icon(
-              Icons.airplane_ticket,
+              activity.icon,
               color: Theme.of(context).colorScheme.background,
               size: 64,
             ),
-            title: "Flight Departure",
-            subtitle: "Airport CDG",
-            subsubtitle: "12/12/2022",
-            description: "Go to Terminal 1, take the first flight to CDG, then take the second flight to JFK",
-          ),
-          Divider(
-            height: 5,
-            thickness: 1,
-            color: Theme.of(context).colorScheme.primary.withAlpha(0x33),
+            title: activity.name ?? '',
+            subtitle: activity.location ?? '',
+            subsubtitle: activity.getActivityDateFormat(),
+            description: activity.description ?? '',
+            color: activity.color,
           ),
           Expanded(
             child: ListView(
@@ -72,7 +80,7 @@ class EditActivity extends HookConsumerWidget {
                       child: LayoutItemValue(
                         value: activity.name ?? '',
                         onPressed: () {
-                          showDialog(
+                          showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialog(
@@ -80,10 +88,13 @@ class EditActivity extends HookConsumerWidget {
                                     AppLocalizations.of(context).translate("groups.planning.activity.edit.name.edit"),
                                 label:
                                     AppLocalizations.of(context).translate("groups.planning.activity.edit.name.title"),
-                                initialValue: "",
+                                initialValue: activity.name ?? '',
                                 onConfirm: (value) async {
-                                  await planningViewModel.updateActivity(
+                                  final newActivity = await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(name: value));
+                                  if (newActivity != null) {
+                                    activity.name = newActivity.name;
+                                  }
                                 },
                               );
                             },
@@ -96,7 +107,7 @@ class EditActivity extends HookConsumerWidget {
                       child: LayoutItemValue(
                         value: activity.location ?? '',
                         onPressed: () {
-                          showDialog(
+                          showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialog(
@@ -104,10 +115,13 @@ class EditActivity extends HookConsumerWidget {
                                     .translate("groups.planning.activity.edit.location.edit"),
                                 label: AppLocalizations.of(context)
                                     .translate("groups.planning.activity.edit.location.title"),
-                                initialValue: "",
+                                initialValue: activity.location ?? '',
                                 onConfirm: (value) async {
-                                  await planningViewModel.updateActivity(
+                                  final newActivity = await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(location: value));
+                                  if (newActivity != null) {
+                                    activity.location = newActivity.location;
+                                  }
                                 },
                               );
                             },
@@ -118,20 +132,21 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.title"),
                       child: LayoutItemValue(
-                        value: activity.startDate.toString(),
+                        value: DateFormat("HH:mm - dd/MM/yyyy").format(activity.startDate),
                         onPressed: () {
-                          showDialog(
+                          showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
-                              return InputDialog(
+                              return InputDialogDateTime(
                                 title:
                                     AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.edit"),
-                                label:
-                                    AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.title"),
-                                initialValue: "",
+                                initialValue: activity.startDate,
                                 onConfirm: (value) async {
-                                  await planningViewModel.updateActivity(
+                                  final newActivity = await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(startDate: value));
+                                  if (newActivity != null) {
+                                    activity.startDate = newActivity.startDate;
+                                  }
                                 },
                               );
                             },
@@ -142,19 +157,20 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.end.title"),
                       child: LayoutItemValue(
-                        value: activity.endDate.toString(),
+                        value: DateFormat("HH:mm - dd/MM/yyyy").format(activity.endDate),
                         onPressed: () {
-                          showDialog(
+                          showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
-                              return InputDialog(
+                              return InputDialogDateTime(
                                 title: AppLocalizations.of(context).translate("groups.planning.activity.edit.end.edit"),
-                                label:
-                                    AppLocalizations.of(context).translate("groups.planning.activity.edit.end.title"),
-                                initialValue: "",
+                                initialValue: activity.endDate,
                                 onConfirm: (value) async {
-                                  await planningViewModel.updateActivity(
+                                  final newActivity = await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(endDate: value));
+                                  if (newActivity != null) {
+                                    activity.endDate = newActivity.endDate;
+                                  }
                                 },
                               );
                             },
@@ -166,8 +182,10 @@ class EditActivity extends HookConsumerWidget {
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.description.title"),
                       child: LayoutItemValue(
                         value: activity.description ?? '',
+                        multiline: true,
+                        fontSize: 20,
                         onPressed: () {
-                          showDialog(
+                          showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialog(
@@ -175,10 +193,14 @@ class EditActivity extends HookConsumerWidget {
                                     .translate("groups.planning.activity.edit.description.edit"),
                                 label: AppLocalizations.of(context)
                                     .translate("groups.planning.activity.edit.description.title"),
-                                initialValue: "",
+                                initialValue: activity.description ?? '',
+                                multiline: true,
                                 onConfirm: (value) async {
-                                  await planningViewModel.updateActivity(
+                                  final newActivity = await planningViewModel.updateActivity(
                                       groupId, activity.id, UpdateActivityRequest(description: value));
+                                  if (newActivity != null) {
+                                    activity.description = newActivity.description;
+                                  }
                                 },
                               );
                             },
@@ -196,7 +218,14 @@ class EditActivity extends HookConsumerWidget {
                               activity.icon,
                               size: 48,
                             ),
-                            onTap: () {},
+                            onTap: () async {
+                              IconData? icon = await FlutterIconPicker.showIconPicker(context);
+                              if (icon != null) {
+                                activity.icon = icon;
+                              }
+                              planningViewModel.updateActivity(
+                                  groupId, activity.id, UpdateActivityRequest(icon: icon?.codePoint.toString()));
+                            },
                           ),
                           LayoutRowItem(
                             title: AppLocalizations.of(context).translate("groups.planning.activity.edit.color.title"),
@@ -204,7 +233,29 @@ class EditActivity extends HookConsumerWidget {
                               backgroundColor: activity.color,
                               radius: 24,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              showMaterialModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: BlockPicker(
+                                      pickerColor: activity.color,
+                                      availableColors: ActivityColors.getColors(),
+                                      onColorChanged: (color) {
+                                        activity.color = color;
+                                        planningViewModel.updateActivity(
+                                          groupId,
+                                          activity.id,
+                                          UpdateActivityRequest(
+                                              color: '#${color.value.toRadixString(16).substring(2)}'),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -222,10 +273,21 @@ class EditActivity extends HookConsumerWidget {
                               children: group.members
                                       ?.map(
                                         (e) => LayoutRowItemMember(
-                                            name: "${e.firstname} ${e.lastname}",
-                                            isSelected:
-                                                activity.members.where((member) => member.id == e.id).isNotEmpty,
-                                            onSelected: (value) {}),
+                                          name: "${e.firstname} ${e.lastname}",
+                                          avatarUrl: MinioService.getImageUrl(e.profilePicture),
+                                          isSelected: activity.members.where((member) => member.id == e.id).isNotEmpty,
+                                          onTap: (value) {
+                                            if (value) {
+                                              activity.members.add(ChatMember(
+                                                  id: e.id!,
+                                                  name: "${e.firstname} ${e.lastname}",
+                                                  avatar: NetworkImage(e.profilePicture!)));
+                                            } else {
+                                              activity.members.removeWhere((member) => member.id == e.id);
+                                            }
+                                            planningViewModel.toggleActivityMember(groupId, activity.id, e.id!, value);
+                                          },
+                                        ),
                                       )
                                       .toList() ??
                                   [],
@@ -242,7 +304,7 @@ class EditActivity extends HookConsumerWidget {
                           icon: Icons.close,
                           customColor: Theme.of(context).colorScheme.error,
                           onPressed: () {
-                            showDialog(
+                            showMaterialModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
                                 return InputDialogChoice(
@@ -251,8 +313,10 @@ class EditActivity extends HookConsumerWidget {
                                   cancelChoice: AppLocalizations.of(context).translate('common.decline'),
                                   confirmChoice: AppLocalizations.of(context).translate('common.accept'),
                                   onConfirm: (value) async {
-                                    await planningViewModel.deleteActivity(groupId, activity.id);
-                                    Navigator.of(context).pop();
+                                    if (value) {
+                                      await planningViewModel.deleteActivity(groupId, activity.id);
+                                      Navigator.of(context).pop();
+                                    }
                                   },
                                 );
                               },

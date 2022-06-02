@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 import 'package:trip_n_joy_front/providers/groups/channel.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input_dialog_choice.widget.dart';
 
 class GroupChannels extends HookConsumerWidget {
   const GroupChannels({
@@ -38,7 +40,7 @@ class GroupChannels extends HookConsumerWidget {
               icon: const Icon(Icons.add),
               splashRadius: 16,
               onPressed: () {
-                showDialog(
+                showMaterialModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return InputDialog(
@@ -82,7 +84,7 @@ class GroupChannels extends HookConsumerWidget {
                     if (isEditMode.value)
                       IconButton(
                         onPressed: () {
-                          showDialog(
+                          showMaterialModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
                                 return InputDialog(
@@ -98,34 +100,31 @@ class GroupChannels extends HookConsumerWidget {
                         icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.secondary),
                         splashRadius: 16,
                       ),
-                    if (isEditMode.value)
+                    if (isEditMode.value && channels.length > 1)
                       IconButton(
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text(AppLocalizations.of(context).translate("groups.channel.delete.title")),
-                                  content:
-                                      Text(AppLocalizations.of(context).translate("groups.channel.delete.content")),
-                                  actions: [
-                                    TertiaryButton(
-                                      text: AppLocalizations.of(context).translate("groups.channel.delete.cancel"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
+                        onPressed: channels.length > 1
+                            ? () {
+                                showMaterialModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return InputDialogChoice(
+                                      title: AppLocalizations.of(context).translate("groups.channel.delete.title"),
+                                      description:
+                                          AppLocalizations.of(context).translate("groups.channel.delete.content"),
+                                      cancelChoice:
+                                          AppLocalizations.of(context).translate("groups.channel.delete.cancel"),
+                                      confirmChoice:
+                                          AppLocalizations.of(context).translate("groups.channel.delete.confirm"),
+                                      onConfirm: (value) async {
+                                        if (value) {
+                                          await channelViewModel.deleteChannel(groupId, channel.id!);
+                                        }
                                       },
-                                    ),
-                                    PrimaryButton(
-                                      text: AppLocalizations.of(context).translate("groups.channel.delete.confirm"),
-                                      onPressed: () async {
-                                        await channelViewModel.deleteChannel(groupId, channel.id!);
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
+                                    );
+                                  },
                                 );
-                              });
-                        },
+                              }
+                            : null,
                         icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.tertiary),
                         splashRadius: 16,
                       ),

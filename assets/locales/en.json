@@ -19,7 +19,11 @@
     "people": "people",
     "search": "Search",
     "accept": "Accept",
-    "decline": "Decline"
+    "decline": "Decline",
+    "date": "Date",
+    "time": "Time",
+    "startDate": "Start date",
+    "endDate": "End date"
   },
   "user": {
     "firstname": "Firstname",
@@ -272,18 +276,38 @@
         "title": "Activity",
         "add": "Add an activity",
         "manual": "Add an activity manually",
-        "suggestion": "Suggested activities",
+        "suggestion": {
+          "title": "Suggested activities",
+          "empty": "No suggested activities",
+          "map": {
+            "title": "Where would you like to do the activity?"
+          }
+        },
         "type": {
           "title": "Activity type",
-          "sport": "Sport",
-          "restaurant": "Restaurant",
-          "shopping": "Shopping",
-          "bar": "Bar",
-          "tourism": "Tourism",
-          "park": "Park",
-          "club": "Club",
-          "beach": "Beach",
-          "other": "Other"
+          "ANTIQUES_SHOP": "Antiques shop",
+          "ARTS_CENTER": "Arts center",
+          "ART_SHOP": "Art shop",
+          "BAR_AND_PUB": "Bar and pub",
+          "BEACH": "Beach",
+          "BUS": "Bus station",
+          "CHANGE": "Change",
+          "CHINESE_RESTAURANT": "Chinese restaurant",
+          "COFFEE_SHOP": "Coffee shop",
+          "ENTERTAINMENT": "Entertainment",
+          "FAST_FOOD": "Fast food",
+          "FISH_AND_CHIPS_RESTAURANT": "Fish and chips restaurant",
+          "ITALIAN_RESTAURANT": "Italian restaurant",
+          "MUSEUM": "Museum",
+          "PARKING": "Parking",
+          "RESTAURANT": "Restaurant",
+          "SEAFOOD_RESTAURANT": "Seafood restaurant",
+          "SUPERMARKET": "Supermarket",
+          "SWIMMING_POOL": "Swimming pool",
+          "SUBWAY": "Subway station",
+          "THEATRE": "Theatre",
+          "TOURISM": "Tourism",
+          "TRANSPORT": "Transport"
         },
         "edit": {
           "title": "Information on the activity",

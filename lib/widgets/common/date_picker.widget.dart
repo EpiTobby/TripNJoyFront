@@ -16,20 +16,20 @@ class DatePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InputWrap(
-        label: label,
-        icon: const Icon(Icons.date_range),
-        child: GestureDetector(
-          child:
-              Text(DateFormat("EEE d MMM yyyy", AppLocalizations.of(context).locale.countryCode).format(selectedDate)),
-          onTap: () async {
-            final DateTime? picked = await showDatePicker(
-              context: context,
-              initialDate: selectedDate,
-              firstDate: minDate == null ? DateTime(1900) : minDate!,
-              lastDate: maxDate == null ? DateTime.now() : maxDate!,
-            );
-            if (picked != null && picked != selectedDate) onChanged(picked);
-          },
-        ));
+      label: label,
+      icon: const Icon(Icons.date_range),
+      child: GestureDetector(
+        child: Text(DateFormat("EEE d MMM yyyy", AppLocalizations.of(context).locale.countryCode).format(selectedDate)),
+        onTap: () async {
+          final DateTime? picked = await showDatePicker(
+            context: context,
+            initialDate: selectedDate,
+            firstDate: minDate == null ? DateTime(1900) : minDate!,
+            lastDate: maxDate == null ? DateTime.now() : maxDate!,
+          );
+          if (picked != null && picked != selectedDate) onChanged(picked);
+        },
+      ),
+    );
   }
 }
