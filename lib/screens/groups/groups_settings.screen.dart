@@ -51,12 +51,11 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                 shrinkWrap: true,
                 children: [
                   LayoutHeader(
-                    imageURL: group.picture ?? DEFAULT_GROUP_AVATAR_URL,
+                    imageURL: MinioService.getImageUrl(group.picture) ?? DEFAULT_GROUP_AVATAR_URL,
                     onClick: () async {
                       final imageURL = await minioService.uploadImage();
 
                       if (imageURL != null) {
-
                         if (group.owner != null) {
                           await groupViewModel.updatePrivateGroup(
                               group.id!.toInt(), UpdatePrivateGroupRequest(picture: imageURL));
@@ -81,7 +80,6 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                                     label: AppLocalizations.of(context).translate("groups.settings.groupName"),
                                     initialValue: group.name ?? '',
                                     onConfirm: (value) async {
-
                                       if (group.owner != null) {
                                         await groupViewModel.updatePrivateGroup(
                                             group.id!.toInt(), UpdatePrivateGroupRequest(name: value));

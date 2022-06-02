@@ -5,6 +5,7 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/screens/groups/group_chat.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/group_chat_container.screen.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 
 class GroupList extends StatelessWidget {
   const GroupList({Key? key, required this.groups, required this.title}) : super(key: key);
@@ -81,7 +82,7 @@ class GroupListItem extends StatelessWidget {
                 backgroundColor: group.state! != GroupModelState.archived
                     ? Theme.of(context).colorScheme.surface
                     : Theme.of(context).disabledColor.withOpacity(0.1),
-                backgroundImage: NetworkImage(group.picture ?? DEFAULT_GROUP_AVATAR_URL)),
+                backgroundImage: NetworkImage(MinioService.getImageUrl(group.picture) ?? DEFAULT_GROUP_AVATAR_URL)),
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
