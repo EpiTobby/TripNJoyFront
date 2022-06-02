@@ -227,7 +227,7 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest) async {
+  Future<void> updatePrivateGroup(int groupId, UpdatePrivateGroupRequest groupUpdateRequest) async {
     await api.groupsPrivateGroupPatch(group: groupId, body: groupUpdateRequest);
   }
 
@@ -362,5 +362,17 @@ class CodegenService extends HttpService {
         ? await api.groupsGroupIdPlanningActivityIdJoinPatch(groupId: groupId, activityId: activityId, userId: userId)
         : await api.groupsGroupIdPlanningActivityIdLeavePatch(groupId: groupId, activityId: activityId, userId: userId);
     return response.isSuccessful;
+  }
+
+  @override
+  Future<List<String>?> getPlacesCategories() async {
+    final response = await api.placesCategoriesGet();
+    return response.body;
+  }
+
+  @override
+  Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request) async {
+    final response = await api.placesCoordinatesPost(body: request);
+    return response.body;
   }
 }

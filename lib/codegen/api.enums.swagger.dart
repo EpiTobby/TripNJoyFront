@@ -342,8 +342,8 @@ enum PlacesFromCoordinatesRequestCategories {
   chineseRestaurant,
   @JsonValue('COFFEE_SHOP')
   coffeeShop,
-  @JsonValue('ENTERTAINEMENT')
-  entertainement,
+  @JsonValue('ENTERTAINMENT')
+  entertainment,
   @JsonValue('FAST_FOOD')
   fastFood,
   @JsonValue('FISH_AND_CHIPS_RESTAURANT')
@@ -356,8 +356,8 @@ enum PlacesFromCoordinatesRequestCategories {
   parking,
   @JsonValue('RESTAURANT')
   restaurant,
-  @JsonValue('SEAFOOD_RESTARANT')
-  seafoodRestarant,
+  @JsonValue('SEAFOOD_RESTAURANT')
+  seafoodRestaurant,
   @JsonValue('SUPERMARKET')
   supermarket,
   @JsonValue('SWIMMING_POOL')
@@ -383,7 +383,7 @@ const $PlacesFromCoordinatesRequestCategoriesMap = {
   PlacesFromCoordinatesRequestCategories.chineseRestaurant:
       'CHINESE_RESTAURANT',
   PlacesFromCoordinatesRequestCategories.coffeeShop: 'COFFEE_SHOP',
-  PlacesFromCoordinatesRequestCategories.entertainement: 'ENTERTAINEMENT',
+  PlacesFromCoordinatesRequestCategories.entertainment: 'ENTERTAINMENT',
   PlacesFromCoordinatesRequestCategories.fastFood: 'FAST_FOOD',
   PlacesFromCoordinatesRequestCategories.fishAndChipsRestaurant:
       'FISH_AND_CHIPS_RESTAURANT',
@@ -392,7 +392,8 @@ const $PlacesFromCoordinatesRequestCategoriesMap = {
   PlacesFromCoordinatesRequestCategories.museum: 'MUSEUM',
   PlacesFromCoordinatesRequestCategories.parking: 'PARKING',
   PlacesFromCoordinatesRequestCategories.restaurant: 'RESTAURANT',
-  PlacesFromCoordinatesRequestCategories.seafoodRestarant: 'SEAFOOD_RESTARANT',
+  PlacesFromCoordinatesRequestCategories.seafoodRestaurant:
+      'SEAFOOD_RESTAURANT',
   PlacesFromCoordinatesRequestCategories.supermarket: 'SUPERMARKET',
   PlacesFromCoordinatesRequestCategories.swimmingPool: 'SWIMMING_POOL',
   PlacesFromCoordinatesRequestCategories.subway: 'SUBWAY',
@@ -422,8 +423,8 @@ enum PlacesFromAddressRequestCategories {
   chineseRestaurant,
   @JsonValue('COFFEE_SHOP')
   coffeeShop,
-  @JsonValue('ENTERTAINEMENT')
-  entertainement,
+  @JsonValue('ENTERTAINMENT')
+  entertainment,
   @JsonValue('FAST_FOOD')
   fastFood,
   @JsonValue('FISH_AND_CHIPS_RESTAURANT')
@@ -436,8 +437,8 @@ enum PlacesFromAddressRequestCategories {
   parking,
   @JsonValue('RESTAURANT')
   restaurant,
-  @JsonValue('SEAFOOD_RESTARANT')
-  seafoodRestarant,
+  @JsonValue('SEAFOOD_RESTAURANT')
+  seafoodRestaurant,
   @JsonValue('SUPERMARKET')
   supermarket,
   @JsonValue('SWIMMING_POOL')
@@ -462,7 +463,7 @@ const $PlacesFromAddressRequestCategoriesMap = {
   PlacesFromAddressRequestCategories.change: 'CHANGE',
   PlacesFromAddressRequestCategories.chineseRestaurant: 'CHINESE_RESTAURANT',
   PlacesFromAddressRequestCategories.coffeeShop: 'COFFEE_SHOP',
-  PlacesFromAddressRequestCategories.entertainement: 'ENTERTAINEMENT',
+  PlacesFromAddressRequestCategories.entertainment: 'ENTERTAINMENT',
   PlacesFromAddressRequestCategories.fastFood: 'FAST_FOOD',
   PlacesFromAddressRequestCategories.fishAndChipsRestaurant:
       'FISH_AND_CHIPS_RESTAURANT',
@@ -470,7 +471,7 @@ const $PlacesFromAddressRequestCategoriesMap = {
   PlacesFromAddressRequestCategories.museum: 'MUSEUM',
   PlacesFromAddressRequestCategories.parking: 'PARKING',
   PlacesFromAddressRequestCategories.restaurant: 'RESTAURANT',
-  PlacesFromAddressRequestCategories.seafoodRestarant: 'SEAFOOD_RESTARANT',
+  PlacesFromAddressRequestCategories.seafoodRestaurant: 'SEAFOOD_RESTAURANT',
   PlacesFromAddressRequestCategories.supermarket: 'SUPERMARKET',
   PlacesFromAddressRequestCategories.swimmingPool: 'SWIMMING_POOL',
   PlacesFromAddressRequestCategories.subway: 'SUBWAY',
@@ -704,7 +705,7 @@ const $ProfileUpdateRequestSportMap = {
   ProfileUpdateRequestSport.noPreference: 'NO_PREFERENCE'
 };
 
-enum UpdateGroupRequestState {
+enum UpdatePrivateGroupRequestState {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
   @JsonValue('OPEN')
@@ -715,10 +716,10 @@ enum UpdateGroupRequestState {
   archived
 }
 
-const $UpdateGroupRequestStateMap = {
-  UpdateGroupRequestState.open: 'OPEN',
-  UpdateGroupRequestState.closed: 'CLOSED',
-  UpdateGroupRequestState.archived: 'ARCHIVED'
+const $UpdatePrivateGroupRequestStateMap = {
+  UpdatePrivateGroupRequestState.open: 'OPEN',
+  UpdatePrivateGroupRequestState.closed: 'CLOSED',
+  UpdatePrivateGroupRequestState.archived: 'ARCHIVED'
 };
 
 enum MessageResponseType$ {

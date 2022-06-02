@@ -202,7 +202,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest) {
+  Future<void> updatePrivateGroup(int groupId, UpdatePrivateGroupRequest groupUpdateRequest) {
     // TODO: implement updatePrivateGroup
     throw UnimplementedError();
   }
@@ -439,5 +439,15 @@ class MockService extends HttpService {
   @override
   Future<bool> toggleActivityMember(int groupId, num activityId, num userId, bool join) {
     return Future.value(true);
+  }
+
+  @override
+  Future<List<String>?> getPlacesCategories() {
+    return Future.value([]);
+  }
+
+  @override
+  Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request) {
+    return Future.value([]);
   }
 }

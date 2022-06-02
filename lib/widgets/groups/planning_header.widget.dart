@@ -72,7 +72,7 @@ class PlanningHeader extends ConsumerWidget {
                         initialEndDate: group.endOfTrip ?? DateTime.now(),
                         onConfirm: (startDate, endDate) async {
                           groupViewModel.updatePrivateGroup(
-                              group.id!.toInt(), UpdateGroupRequest(startOfTrip: startDate, endOfTrip: endDate));
+                              group.id!.toInt(), UpdatePrivateGroupRequest(startOfTrip: startDate, endOfTrip: endDate));
                         },
                       );
                     },
@@ -96,7 +96,8 @@ class PlanningHeader extends ConsumerWidget {
                         initialValue: group.description ?? '',
                         multiline: true,
                         onConfirm: (value) async {
-                          groupViewModel.updatePrivateGroup(group.id!.toInt(), UpdateGroupRequest(description: value));
+                          groupViewModel.updatePrivateGroup(
+                              group.id!.toInt(), UpdatePrivateGroupRequest(description: value));
                         },
                       );
                     },

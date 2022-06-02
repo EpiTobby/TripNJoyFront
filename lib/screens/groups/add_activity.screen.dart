@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/edit_activity.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/place_suggestion.screen.dart';
+import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
@@ -18,6 +21,13 @@ class AddActivity extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final planningViewModel = ref.watch(planningProvider);
+    final places = planningViewModel.places;
+
+    useEffect(() {
+      Future.microtask(() => ref.read(planningProvider).getPlaces());
+      return null;
+    }, []);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).translate('groups.planning.activity.add')),
@@ -25,7 +35,7 @@ class AddActivity extends HookConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
-      body: Column(
+      body: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 16, left: 20, right: 16),
@@ -43,60 +53,24 @@ class AddActivity extends HookConsumerWidget {
             ),
           ),
           LayoutBox(
-            title: AppLocalizations.of(context).translate("groups.planning.activity.suggestion"),
+            title: AppLocalizations.of(context).translate("groups.planning.activity.suggestion.title"),
             children: <Widget>[
-              LayoutItem(
-                child: LayoutItemValue(
-                  value: AppLocalizations.of(context).translate("groups.planning.activity.type.sport"),
-                  onPressed: () {},
-                ),
-              ),
-              LayoutItem(
-                child: LayoutItemValue(
-                  value: AppLocalizations.of(context).translate("groups.planning.activity.type.tourism"),
-                  onPressed: () {},
-                ),
-              ),
-              LayoutItem(
-                child: LayoutItemValue(
-                  value: AppLocalizations.of(context).translate("groups.planning.activity.type.restaurant"),
-                  onPressed: () {},
-                ),
-              ),
-              LayoutItem(
-                child: LayoutItemValue(
-                  value: AppLocalizations.of(context).translate("groups.planning.activity.type.bar"),
-                  onPressed: () {},
-                ),
-              ),
-              LayoutItem(
-                child: LayoutItemValue(
-                  value: AppLocalizations.of(context).translate("groups.planning.activity.type.shopping"),
-                  onPressed: () {},
-                ),
-              ),
-              LayoutItem(
-                child: LayoutItemValue(
-                  value: AppLocalizations.of(context).translate("groups.planning.activity.type.beach"),
-                  onPressed: () {},
-                ),
-              ),
-              LayoutItem(
-                child: LayoutItemValue(
-                  value: AppLocalizations.of(context).translate("groups.planning.activity.type.park"),
-                  onPressed: () {},
-                ),
-              ),
-              LayoutItem(
-                child: LayoutItemValue(
-                  value: AppLocalizations.of(context).translate("groups.planning.activity.type.club"),
-                  onPressed: () {},
-                ),
-              ),
-              LayoutItem(
-                child: LayoutItemValue(
-                  value: AppLocalizations.of(context).translate("groups.planning.activity.type.other"),
-                  onPressed: () {},
+              AsyncValueWidget<List<String>>(
+                value: places,
+                data: (places) => Column(
+                  children: places
+                      .map(
+                        (place) => LayoutItem(
+                          child: LayoutItemValue(
+                            value: AppLocalizations.of(context).translate("groups.planning.activity.type.$place"),
+                            onPressed: () async {
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (_) => PlaceSuggestion(groupId: groupId, place: place)));
+                            },
+                          ),
+                        ),
+                      )
+                      .toList(),
                 ),
               ),
             ],

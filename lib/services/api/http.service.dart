@@ -67,7 +67,7 @@ abstract class HttpService {
 
   Future<void> deletePrivateGroup(int groupId);
 
-  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest);
+  Future<void> updatePrivateGroup(int groupId, UpdatePrivateGroupRequest groupUpdateRequest);
 
   Future<void> removeUserFromPrivateGroup(int groupId, int userId);
 
@@ -100,4 +100,8 @@ abstract class HttpService {
   Future<ActivityModel?> updateActivity(int groupId, num activityId, UpdateActivityRequest request);
 
   Future<bool> toggleActivityMember(int groupId, num activityId, num userId, bool join);
+
+  Future<List<String>?> getPlacesCategories();
+
+  Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request);
 }

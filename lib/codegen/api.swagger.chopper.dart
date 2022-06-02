@@ -190,6 +190,15 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<dynamic>> _groupsGroupPatch(
+      {required num? group, required UpdatePublicGroupRequest? body}) {
+    final $url = '/groups/${group}';
+    final $body = body;
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _groupsGroupJoinIdPatch(
       {required num? group, required num? id}) {
     final $url = '/groups/${group}/join/${id}';
@@ -253,8 +262,17 @@ class _$Api extends Api {
 
   @override
   Future<Response<dynamic>> _groupsPrivateGroupPatch(
-      {required num? group, required UpdateGroupRequest? body}) {
+      {required num? group, required UpdatePrivateGroupRequest? body}) {
     final $url = '/groups/private/${group}';
+    final $body = body;
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _groupsPrivateGroupIdPublicPatch(
+      {required num? groupId, required ProfileCreationRequest? body}) {
+    final $url = '/groups/private/${groupId}/public';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
