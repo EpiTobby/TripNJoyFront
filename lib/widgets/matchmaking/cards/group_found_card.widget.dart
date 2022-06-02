@@ -6,6 +6,7 @@ import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 
 import '../../../app_localizations.dart';
 import '../../../providers/matchmaking/matchmaking.provider.dart';
@@ -83,7 +84,7 @@ class GroupFoundCard extends HookConsumerWidget {
                           Container(
                             margin: const EdgeInsets.only(right: 10),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(minioService.getImageUrl(memberPhotoUrl)!),
+                              backgroundImage: NetworkImage(MinioService.getImageUrl(memberPhotoUrl)!),
                               radius: 20,
                             ),
                           ),

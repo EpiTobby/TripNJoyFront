@@ -1057,7 +1057,7 @@
         "tags": [
           "planning-controller"
         ],
-        "summary": "Remove the current user from the given activity",
+        "summary": "Remove the user from the given activity",
         "operationId": "leaveActivity",
         "parameters": [
           {
@@ -1072,6 +1072,15 @@
           {
             "name": "activityId",
             "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1097,7 +1106,7 @@
         "tags": [
           "planning-controller"
         ],
-        "summary": "Add the current user to the given activity",
+        "summary": "Add the user to the given activity",
         "operationId": "joinActivity",
         "parameters": [
           {
@@ -1112,6 +1121,15 @@
           {
             "name": "activityId",
             "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "integer",

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/extensions/HexColor.extension.dart';
 import 'package:trip_n_joy_front/models/group/chat_member.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 
 class Activity {
   Activity({
@@ -30,7 +33,7 @@ class Activity {
   static Activity fromActivityResponse(ActivityModel activity) {
     return Activity(
       id: activity.id!,
-      icon: IconData(int.parse(activity.icon!)),
+      icon: IconData(int.parse(activity.icon!), fontFamily: 'MaterialIcons'),
       name: activity.name,
       location: activity.location,
       startDate: activity.startDate!,
@@ -40,10 +43,16 @@ class Activity {
               ?.map((e) => ChatMember(
                   id: e.userId!,
                   name: "${e.firstname} ${e.lastname}",
-                  avatar: NetworkImage(e.profilePicture ?? DEFAULT_AVATAR_URL)))
+                  avatar: NetworkImage(MinioService.getImageUrl(e.profilePicture) ?? DEFAULT_AVATAR_URL)))
               .toList() ??
           [],
-      color: ActivityColors.getColor(activity.color!),
+      color: HexColor.fromHex(activity.color!),
     );
+  }
+
+  String getActivityDateFormat() {
+    return startDate.day == endDate.day && startDate.month == endDate.month && startDate.year == endDate.year
+        ? "${DateFormat("dd/MM HH:mm").format(startDate)} - ${DateFormat("HH:mm").format(endDate)}"
+        : "${DateFormat("HH:mm dd/MM/yyyy").format(startDate)} - ${DateFormat("HH:mm dd/MM/yyyy").format(endDate)}";
   }
 }

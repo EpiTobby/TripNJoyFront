@@ -39,7 +39,7 @@ class MinioService {
     return imageURL.split('$MINIO_ENDPOINT:$MINIO_PORT/$MINIO_BUCKET/').last;
   }
 
-  String? getImageUrl(String? name) {
+  static String? getImageUrl(String? name) {
     if (name == null) {
       return null;
     }

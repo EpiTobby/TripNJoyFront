@@ -19,7 +19,11 @@
     "people": "people",
     "search": "Search",
     "accept": "Accept",
-    "decline": "Decline"
+    "decline": "Decline",
+    "date": "Date",
+    "time": "Time",
+    "startDate": "Start date",
+    "endDate": "End date"
   },
   "user": {
     "firstname": "Firstname",

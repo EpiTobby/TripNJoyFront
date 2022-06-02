@@ -3,18 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class InputField extends StatefulHookWidget {
-  const InputField(
-      {Key? key,
-      required this.label,
-      required this.onChanged,
-      this.hint = "",
-      this.keyboardType = TextInputType.text,
-      this.textCapitalization = TextCapitalization.sentences,
-      this.icon,
-      this.isPassword = false,
-      this.isError = false,
-      this.inputFormatters})
-      : super(key: key);
+  const InputField({
+    Key? key,
+    required this.label,
+    required this.onChanged,
+    this.hint = "",
+    this.keyboardType = TextInputType.text,
+    this.textCapitalization = TextCapitalization.sentences,
+    this.icon,
+    this.isPassword = false,
+    this.isError = false,
+    this.inputFormatters,
+    this.controller,
+    this.multiline = false,
+  }) : super(key: key);
 
   final String label;
   final Function onChanged;
@@ -25,6 +27,8 @@ class InputField extends StatefulHookWidget {
   final bool isPassword;
   final bool isError;
   final List<TextInputFormatter>? inputFormatters;
+  final TextEditingController? controller;
+  final bool multiline;
 
   @override
   State<InputField> createState() => _InputFieldState();
@@ -53,10 +57,12 @@ class _InputFieldState extends State<InputField> {
                 )),
             TextField(
               onChanged: (value) => widget.onChanged(value),
+              controller: widget.controller,
               obscureText: widget.isPassword && !isVisible.value,
-              keyboardType: widget.keyboardType,
+              keyboardType: widget.multiline ? TextInputType.multiline : widget.keyboardType,
               inputFormatters: widget.inputFormatters,
               textCapitalization: widget.isPassword ? TextCapitalization.none : widget.textCapitalization,
+              maxLines: widget.multiline ? 10 : 1,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(15),
                 prefixIcon: widget.icon,

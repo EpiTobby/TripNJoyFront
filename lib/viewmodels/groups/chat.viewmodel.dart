@@ -105,7 +105,7 @@ class ChatViewModel extends ChangeNotifier {
         id: user.userId!,
         name: "${user.firstname} ${user.lastname}",
         avatar: user.profilePicture != null
-            ? NetworkImage(minioService.getImageUrl(user.profilePicture!)!)
+            ? NetworkImage(MinioService.getImageUrl(user.profilePicture!)!)
             : defaultProfileImage,
       );
       notifyListeners();

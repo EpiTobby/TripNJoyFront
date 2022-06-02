@@ -3,8 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/models/group/activity.dart';
 import 'package:trip_n_joy_front/providers/groups/chat.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
+import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/group_chat_pinned_messages.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/group_planning.screen.dart';
@@ -15,6 +17,7 @@ import 'package:trip_n_joy_front/widgets/groups/chat_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_image.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_input.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_message.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/planning_activity.widget.dart';
 
 class GroupChat extends StatefulHookConsumerWidget {
   const GroupChat({
@@ -51,6 +54,23 @@ class _GroupChatState extends ConsumerState<GroupChat> {
     final isConnected = chatViewModel.isConnectedToSocket;
     final isLoadingMessages = chatViewModel.isLoadingMessages;
     final scrollController = useScrollController();
+
+    final activities = ref.watch(planningProvider).activities;
+    final nextActivity = useState<Activity?>(null);
+    useEffect(() {
+      Future.microtask(() => ref.read(planningProvider).getActivities(widget.groupId));
+    }, [widget.groupId]);
+
+    useEffect(() {
+      if (activities.value != null) {
+        final now = DateTime.now();
+        try {
+          nextActivity.value = activities.value?.firstWhere((element) => element.startDate.isAfter(now));
+        } catch (e) {
+          nextActivity.value = null;
+        }
+      }
+    }, [activities]);
 
     useEffect(() {
       if (widget.channel != null && isConnected) {
@@ -121,6 +141,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                 if (value == 3) {
                   _navigator.push(
                     MaterialPageRoute(
+                      settings: const RouteSettings(name: "/planning"),
                       builder: (_) => GroupPlanning(
                         groupId: group.id!.toInt(),
                       ),
@@ -152,10 +173,36 @@ class _GroupChatState extends ConsumerState<GroupChat> {
         ),
         body: Column(
           children: [
+            if (nextActivity.value != null)
+              PlanningActivity(
+                prefix: Icon(
+                  nextActivity.value!.icon,
+                  color: Theme.of(context).colorScheme.background,
+                  size: 64,
+                ),
+                title: nextActivity.value!.name,
+                subtitle: nextActivity.value!.location,
+                subsubtitle: nextActivity.value!.getActivityDateFormat(),
+                description: nextActivity.value!.description,
+                color: nextActivity.value!.color,
+                members: nextActivity.value!.members.map((e) => e.avatar.url).toList(),
+                onTap: () {
+                  _navigator.push(
+                    MaterialPageRoute(
+                      settings: const RouteSettings(name: "/planning"),
+                      builder: (_) => GroupPlanning(
+                        groupId: group.id!.toInt(),
+                      ),
+                    ),
+                  );
+                },
+              ),
             widget.channel == null || isLoadingMessages
                 ? const Expanded(child: Center(child: CircularProgressIndicator()))
                 : Expanded(
                     child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
                       controller: scrollController,
                       reverse: true,
                       itemCount: messages.length,
