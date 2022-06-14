@@ -44,7 +44,7 @@ class AddActivity extends HookConsumerWidget {
                 value: AppLocalizations.of(context).translate("groups.planning.activity.manual"),
                 onPressed: () async {
                   Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => EditActivity(groupId: groupId, activity: null)));
+                      .push(MaterialPageRoute(builder: (_) => EditActivity(groupId: groupId)));
                 },
               ),
             ),

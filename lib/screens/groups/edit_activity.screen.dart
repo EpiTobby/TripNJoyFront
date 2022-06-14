@@ -7,10 +7,12 @@ import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/group/activity.dart';
 import 'package:trip_n_joy_front/models/group/chat_member.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
+import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_choice.widget.dart';
@@ -28,7 +30,7 @@ class EditActivity extends HookConsumerWidget {
   const EditActivity({
     Key? key,
     required this.groupId,
-    required this.activity,
+    this.activity,
   }) : super(key: key);
 
   final int groupId;
@@ -39,16 +41,24 @@ class EditActivity extends HookConsumerWidget {
     final planningViewModel = ref.watch(planningProvider);
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
+    final user = ref.watch(userProvider.notifier).user;
 
     final draft = activity == null;
 
-    final name = useState(!draft ? activity!.name ?? '' : 'Name');
-    final description = useState(!draft ? activity!.description ?? '' : 'Description');
-    final startDate = useState(!draft ? activity!.startDate : DateTime.now());
-    final endDate = useState(!draft ? activity!.endDate : DateTime.now());
-    final location = useState(!draft ? activity!.location ?? '' : 'Location');
-    final color = useState(!draft ? activity!.color : ActivityColors.blue);
-    final icon = useState(!draft ? activity!.icon : Icons.airplane_ticket);
+    final name = useState(activity?.name ?? 'Name');
+    final description = useState(activity?.description ?? 'Description');
+    final startDate = useState(activity?.startDate ?? DateTime.now());
+    final endDate = useState(activity?.endDate ?? DateTime.now());
+    final location = useState(activity?.location ?? 'Location');
+    final color = useState(activity?.color ?? ActivityColors.blue);
+    final icon = useState(activity?.icon ?? Icons.airplane_ticket);
+    final participants = useState(activity?.members ??
+        [
+          ChatMember(
+              id: user!.id!,
+              name: "${user.firstname} ${user.lastname}",
+              avatar: NetworkImage(user.profilePicture ?? DEFAULT_AVATAR_URL))
+        ]);
 
     return Scaffold(
       appBar: AppBar(
@@ -69,11 +79,30 @@ class EditActivity extends HookConsumerWidget {
                 'location': location.value,
                 'color': '#${color.value.value.toRadixString(16).substring(2)}',
                 'icon': icon.value.codePoint.toString(),
+                'participantsIds': participants.value.map((member) => member.id).toList(),
               };
 
               if (draft) {
-                await planningViewModel.addActivity(groupId, CreateActivityRequest.fromJson(json));
+                final createdActivity =
+                    await planningViewModel.addActivity(groupId, CreateActivityRequest.fromJson(json));
+                for (var member in participants.value) {
+                  await planningViewModel.toggleActivityMember(groupId, createdActivity!.id, member.id, true);
+                }
               } else {
+                final newMembers = participants.value
+                    .where((member) => activity!.members.where((m) => m.id == member.id).isEmpty)
+                    .toList();
+                final removedMembers = activity!.members
+                    .where((member) => participants.value.where((m) => m.id == member.id).isEmpty)
+                    .toList();
+
+                for (var member in newMembers) {
+                  await planningViewModel.toggleActivityMember(groupId, activity!.id, member.id, true);
+                }
+                for (var member in removedMembers) {
+                  await planningViewModel.toggleActivityMember(groupId, activity!.id, member.id, false);
+                }
+
                 await planningViewModel.updateActivity(groupId, activity!.id, UpdateActivityRequest.fromJson(json));
               }
               Navigator.of(context).popUntil(ModalRoute.withName("/planning"));
@@ -275,18 +304,20 @@ class EditActivity extends HookConsumerWidget {
                                             name: "${e.firstname} ${e.lastname}",
                                             avatarUrl: MinioService.getImageUrl(e.profilePicture),
                                             isSelected:
-                                                activity!.members.where((member) => member.id == e.id).isNotEmpty,
+                                                participants.value.where((member) => member.id == e.id).isNotEmpty,
                                             onTap: (value) {
                                               if (value) {
-                                                activity!.members.add(ChatMember(
-                                                    id: e.id!,
-                                                    name: "${e.firstname} ${e.lastname}",
-                                                    avatar: NetworkImage(e.profilePicture!)));
+                                                participants.value = [
+                                                  ...participants.value,
+                                                  ChatMember(
+                                                      id: e.id!,
+                                                      name: "${e.firstname} ${e.lastname}",
+                                                      avatar: NetworkImage(e.profilePicture ?? DEFAULT_AVATAR_URL))
+                                                ];
                                               } else {
-                                                activity!.members.removeWhere((member) => member.id == e.id);
+                                                participants.value =
+                                                    participants.value.where((member) => member.id != e.id).toList();
                                               }
-                                              planningViewModel.toggleActivityMember(
-                                                  groupId, activity!.id, e.id!, value);
                                             },
                                           ),
                                         )
