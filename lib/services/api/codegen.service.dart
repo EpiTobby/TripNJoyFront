@@ -380,4 +380,10 @@ class CodegenService extends HttpService {
     final response = await api.placesCoordinatesPost(body: request);
     return response.body;
   }
+
+  @override
+  Future<List<BalanceResponse>?> getBudgetBalance(int groupId) async {
+    final response = await api.expensesGroupBalancesGet(group: groupId);
+    return response.body;
+  }
 }

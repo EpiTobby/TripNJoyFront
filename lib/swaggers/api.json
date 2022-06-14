@@ -508,6 +508,56 @@
         }
       }
     },
+    "/expenses/{group}/purchaser/{user}": {
+      "post": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "createExpense",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExpenseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/channels/{group}": {
       "get": {
         "tags": [
@@ -1741,14 +1791,14 @@
                       "CHANGE",
                       "CHINESE_RESTAURANT",
                       "COFFEE_SHOP",
-                      "ENTERTAINMENT",
+                      "ENTERTAINEMENT",
                       "FAST_FOOD",
                       "FISH_AND_CHIPS_RESTAURANT",
                       "ITALIAN_RESTAURANT",
                       "MUSEUM",
                       "PARKING",
                       "RESTAURANT",
-                      "SEAFOOD_RESTAURANT",
+                      "SEAFOOD_RESTARANT",
                       "SUPERMARKET",
                       "SWIMMING_POOL",
                       "SUBWAY",
@@ -1929,6 +1979,169 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/GroupModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/{group}/user/{user}/debts": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getMoneyUserOwesToEachMemberInGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MoneyDueResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/{group}/user/{user}/debts/due": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getMoneyEachMemberOwesToUserInGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MoneyDueResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/{group}/user/{user}/debts/details": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getUserDebtsDetails",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DebtDetailsResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/{group}/balances": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "computeBalances",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BalanceResponse"
                   }
                 }
               }
@@ -2161,6 +2374,39 @@
           },
           "422": {
             "description": "Group or User does not exist"
+          }
+        }
+      }
+    },
+    "/expenses/{groupId}/{expenseId}": {
+      "delete": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "deleteExpense",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "expenseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -2447,14 +2693,14 @@
                 "CHANGE",
                 "CHINESE_RESTAURANT",
                 "COFFEE_SHOP",
-                "ENTERTAINMENT",
+                "ENTERTAINEMENT",
                 "FAST_FOOD",
                 "FISH_AND_CHIPS_RESTAURANT",
                 "ITALIAN_RESTAURANT",
                 "MUSEUM",
                 "PARKING",
                 "RESTAURANT",
-                "SEAFOOD_RESTAURANT",
+                "SEAFOOD_RESTARANT",
                 "SUPERMARKET",
                 "SWIMMING_POOL",
                 "SUBWAY",
@@ -2504,14 +2750,14 @@
                 "CHANGE",
                 "CHINESE_RESTAURANT",
                 "COFFEE_SHOP",
-                "ENTERTAINMENT",
+                "ENTERTAINEMENT",
                 "FAST_FOOD",
                 "FISH_AND_CHIPS_RESTAURANT",
                 "ITALIAN_RESTAURANT",
                 "MUSEUM",
                 "PARKING",
                 "RESTAURANT",
-                "SEAFOOD_RESTAURANT",
+                "SEAFOOD_RESTARANT",
                 "SUPERMARKET",
                 "SWIMMING_POOL",
                 "SUBWAY",
@@ -2853,6 +3099,88 @@
         "properties": {
           "email": {
             "type": "string"
+          }
+        }
+      },
+      "CreateExpenseRequest": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "moneyDueByEachUser": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MoneyDueRequest"
+            }
+          },
+          "evenlyDivided": {
+            "type": "boolean"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "MoneyDueRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "money": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ExpenseMemberModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userModel": {
+            "$ref": "#/components/schemas/UserModel"
+          },
+          "amountToPay": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ExpenseModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          },
+          "groupModel": {
+            "$ref": "#/components/schemas/GroupModel"
+          },
+          "purchaser": {
+            "$ref": "#/components/schemas/UserModel"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "indebtedUsers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExpenseMemberModel"
+            }
           }
         }
       },
@@ -3449,6 +3777,52 @@
           },
           "group": {
             "$ref": "#/components/schemas/GroupModel"
+          }
+        }
+      },
+      "MoneyDueResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "DebtDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "indebtedUser": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "purchaser": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "description": {
+            "type": "string"
+          },
+          "amountToPay": {
+            "type": "number",
+            "format": "double"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BalanceResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "money": {
+            "type": "number",
+            "format": "double"
           }
         }
       },

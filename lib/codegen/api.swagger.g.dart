@@ -495,6 +495,86 @@ Map<String, dynamic> _$ModelWithEmailToJson(ModelWithEmail instance) =>
       'email': instance.email,
     };
 
+CreateExpenseRequest _$CreateExpenseRequestFromJson(
+        Map<String, dynamic> json) =>
+    CreateExpenseRequest(
+      description: json['description'] as String?,
+      moneyDueByEachUser: (json['moneyDueByEachUser'] as List<dynamic>?)
+              ?.map((e) => MoneyDueRequest.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      evenlyDivided: json['evenlyDivided'] as bool?,
+      total: (json['total'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$CreateExpenseRequestToJson(
+        CreateExpenseRequest instance) =>
+    <String, dynamic>{
+      'description': instance.description,
+      'moneyDueByEachUser':
+          instance.moneyDueByEachUser?.map((e) => e.toJson()).toList(),
+      'evenlyDivided': instance.evenlyDivided,
+      'total': instance.total,
+    };
+
+MoneyDueRequest _$MoneyDueRequestFromJson(Map<String, dynamic> json) =>
+    MoneyDueRequest(
+      userId: json['userId'] as num?,
+      money: (json['money'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$MoneyDueRequestToJson(MoneyDueRequest instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'money': instance.money,
+    };
+
+ExpenseMemberModel _$ExpenseMemberModelFromJson(Map<String, dynamic> json) =>
+    ExpenseMemberModel(
+      id: json['id'] as num?,
+      userModel: json['userModel'] == null
+          ? null
+          : UserModel.fromJson(json['userModel'] as Map<String, dynamic>),
+      amountToPay: (json['amountToPay'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$ExpenseMemberModelToJson(ExpenseMemberModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'userModel': instance.userModel?.toJson(),
+      'amountToPay': instance.amountToPay,
+    };
+
+ExpenseModel _$ExpenseModelFromJson(Map<String, dynamic> json) => ExpenseModel(
+      id: json['id'] as num?,
+      description: json['description'] as String?,
+      total: (json['total'] as num?)?.toDouble(),
+      groupModel: json['groupModel'] == null
+          ? null
+          : GroupModel.fromJson(json['groupModel'] as Map<String, dynamic>),
+      purchaser: json['purchaser'] == null
+          ? null
+          : UserModel.fromJson(json['purchaser'] as Map<String, dynamic>),
+      date:
+          json['date'] == null ? null : DateTime.parse(json['date'] as String),
+      indebtedUsers: (json['indebtedUsers'] as List<dynamic>?)
+              ?.map(
+                  (e) => ExpenseMemberModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$ExpenseModelToJson(ExpenseModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'description': instance.description,
+      'total': instance.total,
+      'groupModel': instance.groupModel?.toJson(),
+      'purchaser': instance.purchaser?.toJson(),
+      'date': instance.date?.toIso8601String(),
+      'indebtedUsers': instance.indebtedUsers?.map((e) => e.toJson()).toList(),
+    };
+
 CreateChannelRequest _$CreateChannelRequestFromJson(
         Map<String, dynamic> json) =>
     CreateChannelRequest(
@@ -1037,6 +1117,60 @@ Map<String, dynamic> _$MatchMakingResultToJson(MatchMakingResult instance) =>
     <String, dynamic>{
       'type': matchMakingResultType$ToJson(instance.type),
       'group': instance.group?.toJson(),
+    };
+
+MoneyDueResponse _$MoneyDueResponseFromJson(Map<String, dynamic> json) =>
+    MoneyDueResponse(
+      user: json['user'] == null
+          ? null
+          : GroupMemberModel.fromJson(json['user'] as Map<String, dynamic>),
+      total: (json['total'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$MoneyDueResponseToJson(MoneyDueResponse instance) =>
+    <String, dynamic>{
+      'user': instance.user?.toJson(),
+      'total': instance.total,
+    };
+
+DebtDetailsResponse _$DebtDetailsResponseFromJson(Map<String, dynamic> json) =>
+    DebtDetailsResponse(
+      indebtedUser: json['indebtedUser'] == null
+          ? null
+          : GroupMemberModel.fromJson(
+              json['indebtedUser'] as Map<String, dynamic>),
+      purchaser: json['purchaser'] == null
+          ? null
+          : GroupMemberModel.fromJson(
+              json['purchaser'] as Map<String, dynamic>),
+      description: json['description'] as String?,
+      amountToPay: (json['amountToPay'] as num?)?.toDouble(),
+      date:
+          json['date'] == null ? null : DateTime.parse(json['date'] as String),
+    );
+
+Map<String, dynamic> _$DebtDetailsResponseToJson(
+        DebtDetailsResponse instance) =>
+    <String, dynamic>{
+      'indebtedUser': instance.indebtedUser?.toJson(),
+      'purchaser': instance.purchaser?.toJson(),
+      'description': instance.description,
+      'amountToPay': instance.amountToPay,
+      'date': instance.date?.toIso8601String(),
+    };
+
+BalanceResponse _$BalanceResponseFromJson(Map<String, dynamic> json) =>
+    BalanceResponse(
+      user: json['user'] == null
+          ? null
+          : GroupMemberModel.fromJson(json['user'] as Map<String, dynamic>),
+      money: (json['money'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$BalanceResponseToJson(BalanceResponse instance) =>
+    <String, dynamic>{
+      'user': instance.user?.toJson(),
+      'money': instance.money,
     };
 
 DeleteUserRequest _$DeleteUserRequestFromJson(Map<String, dynamic> json) =>

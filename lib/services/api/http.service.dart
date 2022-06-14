@@ -106,4 +106,6 @@ abstract class HttpService {
   Future<List<String>?> getPlacesCategories();
 
   Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request);
+
+  Future<List<BalanceResponse>?> getBudgetBalance(int groupId);
 }

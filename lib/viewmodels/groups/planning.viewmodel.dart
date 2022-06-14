@@ -129,7 +129,7 @@ class PlanningViewModel extends ChangeNotifier {
       case 'COFFEE_SHOP':
         return PlacesFromCoordinatesRequestCategories.coffeeShop;
       case 'ENTERTAINMENT':
-        return PlacesFromCoordinatesRequestCategories.entertainment;
+        return PlacesFromCoordinatesRequestCategories.entertainement;
       case 'FAST_FOOD':
         return PlacesFromCoordinatesRequestCategories.fastFood;
       case 'FISH_AND_CHIPS_RESTAURANT':
@@ -143,7 +143,7 @@ class PlanningViewModel extends ChangeNotifier {
       case 'RESTAURANT':
         return PlacesFromCoordinatesRequestCategories.restaurant;
       case 'SEAFOOD_RESTAURANT':
-        return PlacesFromCoordinatesRequestCategories.seafoodRestaurant;
+        return PlacesFromCoordinatesRequestCategories.seafoodRestarant;
       case 'SUPERMARKET':
         return PlacesFromCoordinatesRequestCategories.supermarket;
       case 'SWIMMING_POOL':
@@ -181,7 +181,7 @@ class PlanningViewModel extends ChangeNotifier {
         return Icons.restaurant;
       case PlacesFromCoordinatesRequestCategories.coffeeShop:
         return Icons.local_cafe;
-      case PlacesFromCoordinatesRequestCategories.entertainment:
+      case PlacesFromCoordinatesRequestCategories.entertainement:
         return Icons.local_movies;
       case PlacesFromCoordinatesRequestCategories.fastFood:
         return Icons.fastfood;
@@ -195,7 +195,7 @@ class PlanningViewModel extends ChangeNotifier {
         return Icons.local_parking;
       case PlacesFromCoordinatesRequestCategories.restaurant:
         return Icons.restaurant;
-      case PlacesFromCoordinatesRequestCategories.seafoodRestaurant:
+      case PlacesFromCoordinatesRequestCategories.seafoodRestarant:
         return Icons.restaurant;
       case PlacesFromCoordinatesRequestCategories.supermarket:
         return Icons.local_grocery_store;

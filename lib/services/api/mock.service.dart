@@ -455,4 +455,10 @@ class MockService extends HttpService {
   Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request) {
     return Future.value([]);
   }
+
+  @override
+  Future<List<BalanceResponse>?> getBudgetBalance(int groupId) {
+    // TODO: implement getBudgetBalance
+    throw UnimplementedError();
+  }
 }

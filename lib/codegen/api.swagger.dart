@@ -182,6 +182,29 @@ abstract class Api extends ChopperService {
       {@Path('group') required num? group,
       @Body() required ModelWithEmail? body});
 
+  ///
+  ///@param group
+  ///@param user
+  Future<chopper.Response<ExpenseModel>> expensesGroupPurchaserUserPost(
+      {required num? group,
+      required num? user,
+      required CreateExpenseRequest? body}) {
+    generatedMapping.putIfAbsent(
+        ExpenseModel, () => ExpenseModel.fromJsonFactory);
+
+    return _expensesGroupPurchaserUserPost(
+        group: group, user: user, body: body);
+  }
+
+  ///
+  ///@param group
+  ///@param user
+  @Post(path: '/expenses/{group}/purchaser/{user}')
+  Future<chopper.Response<ExpenseModel>> _expensesGroupPurchaserUserPost(
+      {@Path('group') required num? group,
+      @Path('user') required num? user,
+      @Body() required CreateExpenseRequest? body});
+
   ///Get all the channels from a group
   ///@param group
   Future<chopper.Response<List<ChannelModel>>> channelsGroupGet(
@@ -713,6 +736,84 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<List<GroupModel>>> _groupsInvitesIdGet(
       {@Path('id') required num? id});
 
+  ///
+  ///@param group
+  ///@param user
+  Future<chopper.Response<List<MoneyDueResponse>>>
+      expensesGroupUserUserDebtsGet({required num? group, required num? user}) {
+    generatedMapping.putIfAbsent(
+        MoneyDueResponse, () => MoneyDueResponse.fromJsonFactory);
+
+    return _expensesGroupUserUserDebtsGet(group: group, user: user);
+  }
+
+  ///
+  ///@param group
+  ///@param user
+  @Get(path: '/expenses/{group}/user/{user}/debts')
+  Future<chopper.Response<List<MoneyDueResponse>>>
+      _expensesGroupUserUserDebtsGet(
+          {@Path('group') required num? group,
+          @Path('user') required num? user});
+
+  ///
+  ///@param group
+  ///@param user
+  Future<chopper.Response<List<MoneyDueResponse>>>
+      expensesGroupUserUserDebtsDueGet(
+          {required num? group, required num? user}) {
+    generatedMapping.putIfAbsent(
+        MoneyDueResponse, () => MoneyDueResponse.fromJsonFactory);
+
+    return _expensesGroupUserUserDebtsDueGet(group: group, user: user);
+  }
+
+  ///
+  ///@param group
+  ///@param user
+  @Get(path: '/expenses/{group}/user/{user}/debts/due')
+  Future<chopper.Response<List<MoneyDueResponse>>>
+      _expensesGroupUserUserDebtsDueGet(
+          {@Path('group') required num? group,
+          @Path('user') required num? user});
+
+  ///
+  ///@param group
+  ///@param user
+  Future<chopper.Response<List<DebtDetailsResponse>>>
+      expensesGroupUserUserDebtsDetailsGet(
+          {required num? group, required num? user}) {
+    generatedMapping.putIfAbsent(
+        DebtDetailsResponse, () => DebtDetailsResponse.fromJsonFactory);
+
+    return _expensesGroupUserUserDebtsDetailsGet(group: group, user: user);
+  }
+
+  ///
+  ///@param group
+  ///@param user
+  @Get(path: '/expenses/{group}/user/{user}/debts/details')
+  Future<chopper.Response<List<DebtDetailsResponse>>>
+      _expensesGroupUserUserDebtsDetailsGet(
+          {@Path('group') required num? group,
+          @Path('user') required num? user});
+
+  ///
+  ///@param group
+  Future<chopper.Response<List<BalanceResponse>>> expensesGroupBalancesGet(
+      {required num? group}) {
+    generatedMapping.putIfAbsent(
+        BalanceResponse, () => BalanceResponse.fromJsonFactory);
+
+    return _expensesGroupBalancesGet(group: group);
+  }
+
+  ///
+  ///@param group
+  @Get(path: '/expenses/{group}/balances')
+  Future<chopper.Response<List<BalanceResponse>>> _expensesGroupBalancesGet(
+      {@Path('group') required num? group});
+
   ///Get the most recent channel's messages, by pages of size 50
   ///@param channel_id
   ///@param page
@@ -805,6 +906,23 @@ abstract class Api extends ChopperService {
   @Delete(path: '/groups/private/{group}/user/{id}')
   Future<chopper.Response> _groupsPrivateGroupUserIdDelete(
       {@Path('group') required num? group, @Path('id') required num? id});
+
+  ///
+  ///@param groupId
+  ///@param expenseId
+  Future<chopper.Response> expensesGroupIdExpenseIdDelete(
+      {required num? groupId, required num? expenseId}) {
+    return _expensesGroupIdExpenseIdDelete(
+        groupId: groupId, expenseId: expenseId);
+  }
+
+  ///
+  ///@param groupId
+  ///@param expenseId
+  @Delete(path: '/expenses/{groupId}/{expenseId}')
+  Future<chopper.Response> _expensesGroupIdExpenseIdDelete(
+      {@Path('groupId') required num? groupId,
+      @Path('expenseId') required num? expenseId});
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -2415,6 +2533,254 @@ class ModelWithEmail {
 extension $ModelWithEmailExtension on ModelWithEmail {
   ModelWithEmail copyWith({String? email}) {
     return ModelWithEmail(email: email ?? this.email);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CreateExpenseRequest {
+  CreateExpenseRequest({
+    this.description,
+    this.moneyDueByEachUser,
+    this.evenlyDivided,
+    this.total,
+  });
+
+  factory CreateExpenseRequest.fromJson(Map<String, dynamic> json) =>
+      _$CreateExpenseRequestFromJson(json);
+
+  @JsonKey(name: 'description')
+  final String? description;
+  @JsonKey(name: 'moneyDueByEachUser', defaultValue: <MoneyDueRequest>[])
+  final List<MoneyDueRequest>? moneyDueByEachUser;
+  @JsonKey(name: 'evenlyDivided')
+  final bool? evenlyDivided;
+  @JsonKey(name: 'total')
+  final double? total;
+  static const fromJsonFactory = _$CreateExpenseRequestFromJson;
+  static const toJsonFactory = _$CreateExpenseRequestToJson;
+  Map<String, dynamic> toJson() => _$CreateExpenseRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is CreateExpenseRequest &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
+            (identical(other.moneyDueByEachUser, moneyDueByEachUser) ||
+                const DeepCollectionEquality()
+                    .equals(other.moneyDueByEachUser, moneyDueByEachUser)) &&
+            (identical(other.evenlyDivided, evenlyDivided) ||
+                const DeepCollectionEquality()
+                    .equals(other.evenlyDivided, evenlyDivided)) &&
+            (identical(other.total, total) ||
+                const DeepCollectionEquality().equals(other.total, total)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(moneyDueByEachUser) ^
+      const DeepCollectionEquality().hash(evenlyDivided) ^
+      const DeepCollectionEquality().hash(total) ^
+      runtimeType.hashCode;
+}
+
+extension $CreateExpenseRequestExtension on CreateExpenseRequest {
+  CreateExpenseRequest copyWith(
+      {String? description,
+      List<MoneyDueRequest>? moneyDueByEachUser,
+      bool? evenlyDivided,
+      double? total}) {
+    return CreateExpenseRequest(
+        description: description ?? this.description,
+        moneyDueByEachUser: moneyDueByEachUser ?? this.moneyDueByEachUser,
+        evenlyDivided: evenlyDivided ?? this.evenlyDivided,
+        total: total ?? this.total);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class MoneyDueRequest {
+  MoneyDueRequest({
+    this.userId,
+    this.money,
+  });
+
+  factory MoneyDueRequest.fromJson(Map<String, dynamic> json) =>
+      _$MoneyDueRequestFromJson(json);
+
+  @JsonKey(name: 'userId')
+  final num? userId;
+  @JsonKey(name: 'money')
+  final double? money;
+  static const fromJsonFactory = _$MoneyDueRequestFromJson;
+  static const toJsonFactory = _$MoneyDueRequestToJson;
+  Map<String, dynamic> toJson() => _$MoneyDueRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is MoneyDueRequest &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.money, money) ||
+                const DeepCollectionEquality().equals(other.money, money)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(money) ^
+      runtimeType.hashCode;
+}
+
+extension $MoneyDueRequestExtension on MoneyDueRequest {
+  MoneyDueRequest copyWith({num? userId, double? money}) {
+    return MoneyDueRequest(
+        userId: userId ?? this.userId, money: money ?? this.money);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ExpenseMemberModel {
+  ExpenseMemberModel({
+    this.id,
+    this.userModel,
+    this.amountToPay,
+  });
+
+  factory ExpenseMemberModel.fromJson(Map<String, dynamic> json) =>
+      _$ExpenseMemberModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'userModel')
+  final UserModel? userModel;
+  @JsonKey(name: 'amountToPay')
+  final double? amountToPay;
+  static const fromJsonFactory = _$ExpenseMemberModelFromJson;
+  static const toJsonFactory = _$ExpenseMemberModelToJson;
+  Map<String, dynamic> toJson() => _$ExpenseMemberModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ExpenseMemberModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.userModel, userModel) ||
+                const DeepCollectionEquality()
+                    .equals(other.userModel, userModel)) &&
+            (identical(other.amountToPay, amountToPay) ||
+                const DeepCollectionEquality()
+                    .equals(other.amountToPay, amountToPay)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(userModel) ^
+      const DeepCollectionEquality().hash(amountToPay) ^
+      runtimeType.hashCode;
+}
+
+extension $ExpenseMemberModelExtension on ExpenseMemberModel {
+  ExpenseMemberModel copyWith(
+      {num? id, UserModel? userModel, double? amountToPay}) {
+    return ExpenseMemberModel(
+        id: id ?? this.id,
+        userModel: userModel ?? this.userModel,
+        amountToPay: amountToPay ?? this.amountToPay);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ExpenseModel {
+  ExpenseModel({
+    this.id,
+    this.description,
+    this.total,
+    this.groupModel,
+    this.purchaser,
+    this.date,
+    this.indebtedUsers,
+  });
+
+  factory ExpenseModel.fromJson(Map<String, dynamic> json) =>
+      _$ExpenseModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'description')
+  final String? description;
+  @JsonKey(name: 'total')
+  final double? total;
+  @JsonKey(name: 'groupModel')
+  final GroupModel? groupModel;
+  @JsonKey(name: 'purchaser')
+  final UserModel? purchaser;
+  @JsonKey(name: 'date')
+  final DateTime? date;
+  @JsonKey(name: 'indebtedUsers', defaultValue: <ExpenseMemberModel>[])
+  final List<ExpenseMemberModel>? indebtedUsers;
+  static const fromJsonFactory = _$ExpenseModelFromJson;
+  static const toJsonFactory = _$ExpenseModelToJson;
+  Map<String, dynamic> toJson() => _$ExpenseModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ExpenseModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
+            (identical(other.total, total) ||
+                const DeepCollectionEquality().equals(other.total, total)) &&
+            (identical(other.groupModel, groupModel) ||
+                const DeepCollectionEquality()
+                    .equals(other.groupModel, groupModel)) &&
+            (identical(other.purchaser, purchaser) ||
+                const DeepCollectionEquality()
+                    .equals(other.purchaser, purchaser)) &&
+            (identical(other.date, date) ||
+                const DeepCollectionEquality().equals(other.date, date)) &&
+            (identical(other.indebtedUsers, indebtedUsers) ||
+                const DeepCollectionEquality()
+                    .equals(other.indebtedUsers, indebtedUsers)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(total) ^
+      const DeepCollectionEquality().hash(groupModel) ^
+      const DeepCollectionEquality().hash(purchaser) ^
+      const DeepCollectionEquality().hash(date) ^
+      const DeepCollectionEquality().hash(indebtedUsers) ^
+      runtimeType.hashCode;
+}
+
+extension $ExpenseModelExtension on ExpenseModel {
+  ExpenseModel copyWith(
+      {num? id,
+      String? description,
+      double? total,
+      GroupModel? groupModel,
+      UserModel? purchaser,
+      DateTime? date,
+      List<ExpenseMemberModel>? indebtedUsers}) {
+    return ExpenseModel(
+        id: id ?? this.id,
+        description: description ?? this.description,
+        total: total ?? this.total,
+        groupModel: groupModel ?? this.groupModel,
+        purchaser: purchaser ?? this.purchaser,
+        date: date ?? this.date,
+        indebtedUsers: indebtedUsers ?? this.indebtedUsers);
   }
 }
 
@@ -4211,6 +4577,162 @@ extension $MatchMakingResultExtension on MatchMakingResult {
       {enums.MatchMakingResultType$? type, GroupModel? group}) {
     return MatchMakingResult(
         type: type ?? this.type, group: group ?? this.group);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class MoneyDueResponse {
+  MoneyDueResponse({
+    this.user,
+    this.total,
+  });
+
+  factory MoneyDueResponse.fromJson(Map<String, dynamic> json) =>
+      _$MoneyDueResponseFromJson(json);
+
+  @JsonKey(name: 'user')
+  final GroupMemberModel? user;
+  @JsonKey(name: 'total')
+  final double? total;
+  static const fromJsonFactory = _$MoneyDueResponseFromJson;
+  static const toJsonFactory = _$MoneyDueResponseToJson;
+  Map<String, dynamic> toJson() => _$MoneyDueResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is MoneyDueResponse &&
+            (identical(other.user, user) ||
+                const DeepCollectionEquality().equals(other.user, user)) &&
+            (identical(other.total, total) ||
+                const DeepCollectionEquality().equals(other.total, total)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(user) ^
+      const DeepCollectionEquality().hash(total) ^
+      runtimeType.hashCode;
+}
+
+extension $MoneyDueResponseExtension on MoneyDueResponse {
+  MoneyDueResponse copyWith({GroupMemberModel? user, double? total}) {
+    return MoneyDueResponse(
+        user: user ?? this.user, total: total ?? this.total);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class DebtDetailsResponse {
+  DebtDetailsResponse({
+    this.indebtedUser,
+    this.purchaser,
+    this.description,
+    this.amountToPay,
+    this.date,
+  });
+
+  factory DebtDetailsResponse.fromJson(Map<String, dynamic> json) =>
+      _$DebtDetailsResponseFromJson(json);
+
+  @JsonKey(name: 'indebtedUser')
+  final GroupMemberModel? indebtedUser;
+  @JsonKey(name: 'purchaser')
+  final GroupMemberModel? purchaser;
+  @JsonKey(name: 'description')
+  final String? description;
+  @JsonKey(name: 'amountToPay')
+  final double? amountToPay;
+  @JsonKey(name: 'date')
+  final DateTime? date;
+  static const fromJsonFactory = _$DebtDetailsResponseFromJson;
+  static const toJsonFactory = _$DebtDetailsResponseToJson;
+  Map<String, dynamic> toJson() => _$DebtDetailsResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is DebtDetailsResponse &&
+            (identical(other.indebtedUser, indebtedUser) ||
+                const DeepCollectionEquality()
+                    .equals(other.indebtedUser, indebtedUser)) &&
+            (identical(other.purchaser, purchaser) ||
+                const DeepCollectionEquality()
+                    .equals(other.purchaser, purchaser)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
+            (identical(other.amountToPay, amountToPay) ||
+                const DeepCollectionEquality()
+                    .equals(other.amountToPay, amountToPay)) &&
+            (identical(other.date, date) ||
+                const DeepCollectionEquality().equals(other.date, date)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(indebtedUser) ^
+      const DeepCollectionEquality().hash(purchaser) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(amountToPay) ^
+      const DeepCollectionEquality().hash(date) ^
+      runtimeType.hashCode;
+}
+
+extension $DebtDetailsResponseExtension on DebtDetailsResponse {
+  DebtDetailsResponse copyWith(
+      {GroupMemberModel? indebtedUser,
+      GroupMemberModel? purchaser,
+      String? description,
+      double? amountToPay,
+      DateTime? date}) {
+    return DebtDetailsResponse(
+        indebtedUser: indebtedUser ?? this.indebtedUser,
+        purchaser: purchaser ?? this.purchaser,
+        description: description ?? this.description,
+        amountToPay: amountToPay ?? this.amountToPay,
+        date: date ?? this.date);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BalanceResponse {
+  BalanceResponse({
+    this.user,
+    this.money,
+  });
+
+  factory BalanceResponse.fromJson(Map<String, dynamic> json) =>
+      _$BalanceResponseFromJson(json);
+
+  @JsonKey(name: 'user')
+  final GroupMemberModel? user;
+  @JsonKey(name: 'money')
+  final double? money;
+  static const fromJsonFactory = _$BalanceResponseFromJson;
+  static const toJsonFactory = _$BalanceResponseToJson;
+  Map<String, dynamic> toJson() => _$BalanceResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is BalanceResponse &&
+            (identical(other.user, user) ||
+                const DeepCollectionEquality().equals(other.user, user)) &&
+            (identical(other.money, money) ||
+                const DeepCollectionEquality().equals(other.money, money)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(user) ^
+      const DeepCollectionEquality().hash(money) ^
+      runtimeType.hashCode;
+}
+
+extension $BalanceResponseExtension on BalanceResponse {
+  BalanceResponse copyWith({GroupMemberModel? user, double? money}) {
+    return BalanceResponse(user: user ?? this.user, money: money ?? this.money);
   }
 }
 

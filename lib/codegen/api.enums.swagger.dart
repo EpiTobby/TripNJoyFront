@@ -342,8 +342,8 @@ enum PlacesFromCoordinatesRequestCategories {
   chineseRestaurant,
   @JsonValue('COFFEE_SHOP')
   coffeeShop,
-  @JsonValue('ENTERTAINMENT')
-  entertainment,
+  @JsonValue('ENTERTAINEMENT')
+  entertainement,
   @JsonValue('FAST_FOOD')
   fastFood,
   @JsonValue('FISH_AND_CHIPS_RESTAURANT')
@@ -356,8 +356,8 @@ enum PlacesFromCoordinatesRequestCategories {
   parking,
   @JsonValue('RESTAURANT')
   restaurant,
-  @JsonValue('SEAFOOD_RESTAURANT')
-  seafoodRestaurant,
+  @JsonValue('SEAFOOD_RESTARANT')
+  seafoodRestarant,
   @JsonValue('SUPERMARKET')
   supermarket,
   @JsonValue('SWIMMING_POOL')
@@ -383,7 +383,7 @@ const $PlacesFromCoordinatesRequestCategoriesMap = {
   PlacesFromCoordinatesRequestCategories.chineseRestaurant:
       'CHINESE_RESTAURANT',
   PlacesFromCoordinatesRequestCategories.coffeeShop: 'COFFEE_SHOP',
-  PlacesFromCoordinatesRequestCategories.entertainment: 'ENTERTAINMENT',
+  PlacesFromCoordinatesRequestCategories.entertainement: 'ENTERTAINEMENT',
   PlacesFromCoordinatesRequestCategories.fastFood: 'FAST_FOOD',
   PlacesFromCoordinatesRequestCategories.fishAndChipsRestaurant:
       'FISH_AND_CHIPS_RESTAURANT',
@@ -392,8 +392,7 @@ const $PlacesFromCoordinatesRequestCategoriesMap = {
   PlacesFromCoordinatesRequestCategories.museum: 'MUSEUM',
   PlacesFromCoordinatesRequestCategories.parking: 'PARKING',
   PlacesFromCoordinatesRequestCategories.restaurant: 'RESTAURANT',
-  PlacesFromCoordinatesRequestCategories.seafoodRestaurant:
-      'SEAFOOD_RESTAURANT',
+  PlacesFromCoordinatesRequestCategories.seafoodRestarant: 'SEAFOOD_RESTARANT',
   PlacesFromCoordinatesRequestCategories.supermarket: 'SUPERMARKET',
   PlacesFromCoordinatesRequestCategories.swimmingPool: 'SWIMMING_POOL',
   PlacesFromCoordinatesRequestCategories.subway: 'SUBWAY',
@@ -423,8 +422,8 @@ enum PlacesFromAddressRequestCategories {
   chineseRestaurant,
   @JsonValue('COFFEE_SHOP')
   coffeeShop,
-  @JsonValue('ENTERTAINMENT')
-  entertainment,
+  @JsonValue('ENTERTAINEMENT')
+  entertainement,
   @JsonValue('FAST_FOOD')
   fastFood,
   @JsonValue('FISH_AND_CHIPS_RESTAURANT')
@@ -437,8 +436,8 @@ enum PlacesFromAddressRequestCategories {
   parking,
   @JsonValue('RESTAURANT')
   restaurant,
-  @JsonValue('SEAFOOD_RESTAURANT')
-  seafoodRestaurant,
+  @JsonValue('SEAFOOD_RESTARANT')
+  seafoodRestarant,
   @JsonValue('SUPERMARKET')
   supermarket,
   @JsonValue('SWIMMING_POOL')
@@ -463,7 +462,7 @@ const $PlacesFromAddressRequestCategoriesMap = {
   PlacesFromAddressRequestCategories.change: 'CHANGE',
   PlacesFromAddressRequestCategories.chineseRestaurant: 'CHINESE_RESTAURANT',
   PlacesFromAddressRequestCategories.coffeeShop: 'COFFEE_SHOP',
-  PlacesFromAddressRequestCategories.entertainment: 'ENTERTAINMENT',
+  PlacesFromAddressRequestCategories.entertainement: 'ENTERTAINEMENT',
   PlacesFromAddressRequestCategories.fastFood: 'FAST_FOOD',
   PlacesFromAddressRequestCategories.fishAndChipsRestaurant:
       'FISH_AND_CHIPS_RESTAURANT',
@@ -471,7 +470,7 @@ const $PlacesFromAddressRequestCategoriesMap = {
   PlacesFromAddressRequestCategories.museum: 'MUSEUM',
   PlacesFromAddressRequestCategories.parking: 'PARKING',
   PlacesFromAddressRequestCategories.restaurant: 'RESTAURANT',
-  PlacesFromAddressRequestCategories.seafoodRestaurant: 'SEAFOOD_RESTAURANT',
+  PlacesFromAddressRequestCategories.seafoodRestarant: 'SEAFOOD_RESTARANT',
   PlacesFromAddressRequestCategories.supermarket: 'SUPERMARKET',
   PlacesFromAddressRequestCategories.swimmingPool: 'SWIMMING_POOL',
   PlacesFromAddressRequestCategories.subway: 'SUBWAY',
