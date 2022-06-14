@@ -350,7 +350,13 @@
       }
     },
     "budget": {
-      "title": "Budget"
+      "title": "Budget",
+      "add": {
+        "title": "Add new expense"
+      },
+      "edit": {
+        "title": "Edit expense"
+      }
     }
   },
   "settings": {

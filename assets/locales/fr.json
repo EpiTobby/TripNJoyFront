@@ -350,7 +350,13 @@
       }
     },
     "budget": {
-      "title": "Budget"
+      "title": "Budget",
+      "add": {
+        "title": "Ajouter une nouvelle dépense"
+      },
+      "edit": {
+        "title": "Modifier la dépense"
+      }
     }
   },
   "settings": {
