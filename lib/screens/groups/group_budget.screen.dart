@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/providers/groups/budget.provider.dart';
 
 class GroupBudget extends HookConsumerWidget {
   const GroupBudget({
@@ -9,6 +10,7 @@ class GroupBudget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final budgetViewModel = ref.watch(budgetProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
