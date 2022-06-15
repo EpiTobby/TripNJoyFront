@@ -35,6 +35,15 @@ class EditExpense extends HookConsumerWidget {
       paidFor.value = budgetViewModel.balanceExpenses(price.value, paidFor.value);
     }
 
+    bool isExpenseValid() {
+      return name.value.isNotEmpty &&
+          !price.value.isNegative &&
+          price.value != 0.0 &&
+          paidBy.value != null &&
+          paidFor.value != null &&
+          paidFor.value!.every((element) => element.amount == null || element.amount! > 0);
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)
@@ -43,13 +52,14 @@ class EditExpense extends HookConsumerWidget {
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
           shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
           actions: [
-            IconButton(
-              splashRadius: 16,
-              icon: const Icon(Icons.check),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
+            if (isExpenseValid())
+              IconButton(
+                splashRadius: 16,
+                icon: const Icon(Icons.check),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
           ],
         ),
         body: ListView(
