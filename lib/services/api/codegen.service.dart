@@ -380,4 +380,27 @@ class CodegenService extends HttpService {
     final response = await api.placesCoordinatesPost(body: request);
     return response.body;
   }
+
+  @override
+  Future<List<ReportModel>?> getReports(int submitterId) async {
+    final response = await api.reportsIdGet(id: submitterId);
+    return response.body;
+  }
+
+  @override
+  Future<ReportModel?> submitReport(SubmitReportRequest submitReportRequest) async {
+    final response = await api.reportsPost(body: submitReportRequest);
+    return response.body;
+  }
+
+  @override
+  Future<ReportModel?> updateReport(int reportId, UpdateReportRequest updateReportRequest) async {
+    final response = await api.reportsIdPatch(id: reportId, body: updateReportRequest);
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteReport(int reportId) async {
+    await api.reportsIdDelete(id: reportId);
+  }
 }

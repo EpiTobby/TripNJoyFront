@@ -106,4 +106,12 @@ abstract class HttpService {
   Future<List<String>?> getPlacesCategories();
 
   Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request);
+
+  Future<ReportModel?> submitReport(SubmitReportRequest submitReportRequest);
+
+  Future<List<ReportModel>?> getReports(int submitterId);
+
+  Future<ReportModel?> updateReport(int reportId, UpdateReportRequest updateReportRequest);
+
+  Future<void> deleteReport(int reportId);
 }

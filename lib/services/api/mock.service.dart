@@ -455,4 +455,24 @@ class MockService extends HttpService {
   Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request) {
     return Future.value([]);
   }
+
+  @override
+  Future<void> deleteReport(int reportId) {
+    return Future.value();
+  }
+
+  @override
+  Future<List<ReportModel>?> getReports(int submitterId) {
+    return Future.value([]);
+  }
+
+  @override
+  Future<ReportModel?> submitReport(SubmitReportRequest submitReportRequest) {
+    return Future.value(null);
+  }
+
+  @override
+  Future<ReportModel?> updateReport(int reportId, UpdateReportRequest updateReportRequest) {
+    return Future.value(null);
+  }
 }
