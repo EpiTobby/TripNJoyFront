@@ -386,4 +386,10 @@ class CodegenService extends HttpService {
     final response = await api.expensesGroupBalancesGet(group: groupId);
     return response.body;
   }
+
+  @override
+  Future<ExpenseModel?> createExpense(int groupId, num? userId, CreateExpenseRequest body) async {
+    final response = await api.expensesGroupPurchaserUserPost(group: groupId, user: userId, body: body);
+    return response.body;
+  }
 }

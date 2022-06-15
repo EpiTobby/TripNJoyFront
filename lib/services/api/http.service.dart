@@ -108,4 +108,6 @@ abstract class HttpService {
   Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request);
 
   Future<List<BalanceResponse>?> getBudgetBalance(int groupId);
+
+  Future<ExpenseModel?> createExpense(int groupId, num? userId, CreateExpenseRequest body);
 }

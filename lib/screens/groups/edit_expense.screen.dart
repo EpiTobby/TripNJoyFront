@@ -30,6 +30,7 @@ class EditExpense extends HookConsumerWidget {
     final price = useState(0.0);
     final paidBy = useState(group.members?.first);
     final paidFor = useState(group.members?.map((e) => MemberExpense(member: e, weight: 1)).toList());
+    final isLoading = useState(false);
 
     void balanceExpenses() {
       paidFor.value = budgetViewModel.balanceExpenses(price.value, paidFor.value);
@@ -53,13 +54,39 @@ class EditExpense extends HookConsumerWidget {
           shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
           actions: [
             if (isExpenseValid())
-              IconButton(
-                splashRadius: 16,
-                icon: const Icon(Icons.check),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
+              if (!isLoading.value)
+                IconButton(
+                  splashRadius: 16,
+                  icon: const Icon(Icons.check),
+                  onPressed: () async {
+                    isLoading.value = true;
+                    Map<String, dynamic> json = {
+                      'description': name.value,
+                      'moneyDueByEachUser': paidFor.value!
+                          .where((element) => element.selected)
+                          .map((element) => MoneyDueRequest(userId: element.member.id, money: element.amount).toJson())
+                          .toList(),
+                      'evenlyDivided': paidFor.value!.every((element) => element.weight == 1),
+                      'total': price.value,
+                    };
+                    await budgetViewModel.addExpense(groupId, paidBy.value!.id, CreateExpenseRequest.fromJson(json));
+                    isLoading.value = false;
+                    Navigator.of(context).pop();
+                  },
+                )
+              else
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Center(
+                    child: SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  ),
+                )
           ],
         ),
         body: ListView(

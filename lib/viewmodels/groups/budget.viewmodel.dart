@@ -14,7 +14,7 @@ class BudgetViewModel extends ChangeNotifier {
 
   AsyncValue<List<BalanceResponse>> budgets = const AsyncValue.loading();
 
-  void getBudgetBalance(int groupId) async {
+  Future<void> getBudgetBalance(int groupId) async {
     logger.d("Getting Budget Balance for group $groupId");
     budgets = const AsyncValue.loading();
     notifyListeners();
@@ -25,9 +25,15 @@ class BudgetViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getGroupExpenses(int groupId) async {
+  Future<void> getGroupExpenses(int groupId) async {
     logger.d("Getting Group Expenses for group $groupId");
   }
+
+  Future<void> addExpense(int groupId, num? userId, CreateExpenseRequest body) async {
+    await httpService.createExpense(groupId, userId, body);
+  }
+
+  Future<void> updateExpense(int groupId, num? userId, CreateExpenseRequest body) async {}
 
   List<MemberExpense> balanceExpenses(double amount, List<MemberExpense>? memberExpenses) {
     if (memberExpenses == null) {

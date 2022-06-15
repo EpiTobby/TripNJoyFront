@@ -461,4 +461,10 @@ class MockService extends HttpService {
     // TODO: implement getBudgetBalance
     throw UnimplementedError();
   }
+
+  @override
+  Future<ExpenseModel?> createExpense(int groupId, num? userId, CreateExpenseRequest body) {
+    // TODO: implement createExpense
+    throw UnimplementedError();
+  }
 }
