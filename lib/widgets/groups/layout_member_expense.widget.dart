@@ -21,7 +21,7 @@ class LayoutMemberExpense extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final weightController = useTextEditingController(text: expense.weight?.toString());
-    final amountController = useTextEditingController(text: expense.amount?.toString() ?? "0.00");
+    final amountController = useTextEditingController(text: expense.amount?.toString() ?? "0.0");
 
     useEffect(() {
       weightController.text = expense.weight?.toString() ?? "";
@@ -29,7 +29,7 @@ class LayoutMemberExpense extends HookConsumerWidget {
     }, [expense.weight]);
 
     useEffect(() {
-      amountController.text = expense.amount?.toString() ?? "0.00";
+      amountController.text = expense.amount?.toString() ?? "0.0";
       return null;
     }, [expense.amount]);
 
@@ -50,6 +50,7 @@ class LayoutMemberExpense extends HookConsumerWidget {
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             onSubmitted: (value) => onWeightChange(value),
+            enabled: expense.selected,
           ),
         ),
         Padding(
@@ -61,6 +62,7 @@ class LayoutMemberExpense extends HookConsumerWidget {
               textAlign: TextAlign.end,
               keyboardType: TextInputType.number,
               onSubmitted: (value) => onAmountChange(value),
+              enabled: expense.selected,
             ),
           ),
         )

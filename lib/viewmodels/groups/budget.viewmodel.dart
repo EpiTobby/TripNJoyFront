@@ -49,7 +49,7 @@ class BudgetViewModel extends ChangeNotifier {
     final amountPerWeight = amount / totalWeight;
 
     for (var memberExpense in memberExpenses) {
-      if (memberExpense.weight != null) {
+      if (memberExpense.weight != null && memberExpense.selected) {
         memberExpense.amount = memberExpense.weight! * amountPerWeight;
       }
     }
