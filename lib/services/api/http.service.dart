@@ -75,6 +75,8 @@ abstract class HttpService {
 
   Future<void> leaveGroup(int groupId, int userId);
 
+  Future<void> setGroupPublic(int groupId);
+
   Future<List<ChannelModel>> getChannels(int groupId);
 
   Future<ChannelModel?> createChannel(int groupId, CreateChannelRequest createChannelRequest);

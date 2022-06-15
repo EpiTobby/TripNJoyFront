@@ -97,4 +97,10 @@ class GroupViewModel extends ChangeNotifier {
     groups.removeWhere((group) => group.id == groupId);
     notifyListeners();
   }
+
+  Future<void> setGroupPublic(int groupId) async {
+    await httpService.setGroupPublic(groupId);
+    await getGroups(); // TODO: update only the group
+  }
+
 }

@@ -217,10 +217,16 @@
       "about": "Information sur le groupe",
       "groupName": "Nom du groupe",
       "groupSettings": "Paramètres du groupe",
+      "open": "Ouvrir le groupe",
       "close": "Fermer le groupe",
       "archive": "Archiver le groupe",
       "quit": "Quitter le groupe",
-      "maxSize": "Nombre de membres maximum"
+      "maxSize": "Nombre de membres maximum",
+      "askPublic": "Demander à passer le groupe en public",
+      "askPrivate": "Demander à passer le groupe en privé",
+      "public": "Groupe public",
+      "private": "Groupe privé",
+      "status": "Statut"
     },
     "create": "Créer un groupe",
     "join": "Rejoindre un groupe",

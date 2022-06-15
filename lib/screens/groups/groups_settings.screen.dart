@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.enums.swagger.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
@@ -34,6 +35,10 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
     final group = groupViewModel.groups.firstWhere((group) => group.id == widget.groupId);
 
     final user = ref.watch(userProvider).value;
+
+    if (user == null) {
+      return Container();
+    }
 
     final minioService = ref.watch(minioProvider);
 
@@ -92,6 +97,22 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                         },
                       ),
                     ),
+                    Column(
+                      children: [
+                        Chip(
+                          label: Text(
+                            group.owner != null
+                                ? AppLocalizations.of(context).translate("groups.settings.private")
+                                : AppLocalizations.of(context).translate("groups.settings.public"),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: group.owner != null
+                              ? Theme.of(context).colorScheme.tertiary
+                              : Theme.of(context).colorScheme.secondary,
+                          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        ),
+                      ],
+                    ),
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.members"),
                       child: Padding(
@@ -139,7 +160,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                     ),
                   ]),
                   LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.groupSettings"), children: [
-                    if (user != null && group.owner?.id == user.id)
+                    if (group.owner?.id == user.id && group.state != GroupModelState.closed)
                       LayoutItem(
                           child: LayoutItemValue(
                         value: AppLocalizations.of(context).translate("groups.settings.close"),
@@ -151,7 +172,19 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                           }
                         },
                       )),
-                    if (user != null && group.owner?.id == user.id)
+                    if (group.owner?.id == user.id && group.state == GroupModelState.closed)
+                      LayoutItem(
+                          child: LayoutItemValue(
+                        value: AppLocalizations.of(context).translate("groups.settings.open"),
+                        icon: Icons.lock_open,
+                        onPressed: () {
+                          if (group.owner != null) {
+                            groupViewModel.updatePrivateGroup(group.id!.toInt(),
+                                UpdatePrivateGroupRequest(state: UpdatePrivateGroupRequestState.open));
+                          }
+                        },
+                      )),
+                    if (group.owner?.id == user.id)
                       LayoutItem(
                           child: LayoutItemValue(
                         value: AppLocalizations.of(context).translate("groups.settings.archive"),
@@ -160,6 +193,22 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                           groupViewModel.updatePrivateGroup(group.id!.toInt(),
                               UpdatePrivateGroupRequest(state: UpdatePrivateGroupRequestState.archived));
                         },
+                      )),
+                    if (group.owner == null)
+                      LayoutItem(
+                          child: LayoutItemValue(
+                        value: AppLocalizations.of(context).translate("groups.settings.askPrivate"),
+                        multiline: true,
+                        icon: Icons.person_outlined,
+                        onPressed: () {},
+                      )),
+                    if (group.owner?.id != user.id)
+                      LayoutItem(
+                          child: LayoutItemValue(
+                        value: AppLocalizations.of(context).translate("groups.settings.askPrivate"),
+                        multiline: true,
+                        icon: Icons.group_outlined,
+                        onPressed: () {},
                       )),
                     LayoutItem(
                         child: LayoutItemValue(
