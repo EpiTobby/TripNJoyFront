@@ -30,6 +30,11 @@ class EditExpense extends HookConsumerWidget {
     final price = useState(0.0);
     final paidBy = useState(group.members?.first);
     final paidFor = useState(group.members?.map((e) => MemberExpense(member: e, weight: 1)).toList());
+
+    void balanceExpenses() {
+      paidFor.value = budgetViewModel.balanceExpenses(price.value, paidFor.value);
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)
@@ -73,7 +78,10 @@ class EditExpense extends HookConsumerWidget {
             ),
             InputField(
               label: AppLocalizations.of(context).translate("groups.budget.edit.price"),
-              onChanged: (value) => price.value = double.tryParse(value) ?? 0.0,
+              onChanged: (value) {
+                price.value = double.tryParse(value) ?? 0.0;
+                balanceExpenses();
+              },
               icon: const Icon(Icons.price_change),
               keyboardType: TextInputType.number,
             ),
@@ -126,7 +134,7 @@ class EditExpense extends HookConsumerWidget {
                                       return member;
                                     },
                                   ).toList();
-                                  paidFor.value = budgetViewModel.balanceExpenses(price.value, paidFor.value);
+                                  balanceExpenses();
                                 },
                                 onAmountChange: (value) {
                                   paidFor.value = paidFor.value?.map(
@@ -138,7 +146,20 @@ class EditExpense extends HookConsumerWidget {
                                       return member;
                                     },
                                   ).toList();
-                                  paidFor.value = budgetViewModel.balanceExpenses(price.value, paidFor.value);
+                                  balanceExpenses();
+                                },
+                                onToggleSelection: (value) {
+                                  paidFor.value = paidFor.value?.map(
+                                    (member) {
+                                      if (member.member == e.member) {
+                                        member.selected = value == true;
+                                        member.amount = null;
+                                        member.weight = value == true ? 1 : null;
+                                      }
+                                      return member;
+                                    },
+                                  ).toList();
+                                  balanceExpenses();
                                 },
                               ),
                             )

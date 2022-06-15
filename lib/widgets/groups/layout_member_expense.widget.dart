@@ -10,11 +10,13 @@ class LayoutMemberExpense extends HookConsumerWidget {
     required this.expense,
     required this.onWeightChange,
     required this.onAmountChange,
+    required this.onToggleSelection,
   }) : super(key: key);
 
   final MemberExpense expense;
   final Function(String) onWeightChange;
   final Function(String) onAmountChange;
+  final Function(bool?) onToggleSelection;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,8 +32,10 @@ class LayoutMemberExpense extends HookConsumerWidget {
       amountController.text = expense.amount?.toString() ?? "0.00";
       return null;
     }, [expense.amount]);
+
     return Row(
       children: [
+        Checkbox(value: expense.selected, onChanged: onToggleSelection),
         Expanded(
           child: Text(
             "${expense.member.firstname} ${expense.member.lastname}",
