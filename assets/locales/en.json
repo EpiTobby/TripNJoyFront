@@ -361,6 +361,10 @@
         "paid_by": "Paid by",
         "paid_for": "For whom"
       }
+    },
+    "scan": {
+      "title": "Scan",
+      "description": "Scan a sale receipt to add a new expense"
     }
   },
   "settings": {

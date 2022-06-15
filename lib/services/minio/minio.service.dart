@@ -21,9 +21,9 @@ class MinioService {
     return (await minio.presignedGetObject(MINIO_BUCKET, name)).split('?')[0];
   }
 
-  Future<String?> uploadImage() async {
+  Future<String?> uploadImage({bool gallery = true}) async {
     var pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
+      source: gallery ? ImageSource.gallery : ImageSource.camera,
       maxWidth: 1800,
       maxHeight: 1800,
     );

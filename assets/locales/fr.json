@@ -361,6 +361,10 @@
         "paid_by": "Payé par",
         "paid_for": "Membres concernés"
       }
+    },
+    "scan": {
+      "title": "Scan",
+      "description": "Scan un ticket de caisse pour ajouter une dépense"
     }
   },
   "settings": {

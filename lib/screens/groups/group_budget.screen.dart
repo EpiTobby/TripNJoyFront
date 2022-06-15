@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/providers/groups/budget.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/edit_expense.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
 
 class GroupBudget extends HookConsumerWidget {
   const GroupBudget({
@@ -28,7 +29,8 @@ class GroupBudget extends HookConsumerWidget {
           IconButton(
             icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onBackground),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) => EditExpense(groupId: groupId)));
+              //Navigator.of(context).push(MaterialPageRoute(builder: (_) => EditExpense(groupId: groupId)));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => GroupScanReceipt(groupId: groupId)));
             },
             splashRadius: 16,
           ),
