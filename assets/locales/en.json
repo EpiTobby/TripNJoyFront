@@ -355,7 +355,11 @@
         "title": "Add new expense"
       },
       "edit": {
-        "title": "Edit expense"
+        "title": "Edit expense",
+        "name": "Name of the expense",
+        "price": "Amount",
+        "paid_by": "Paid by",
+        "paid_for": "For whom"
       }
     }
   },

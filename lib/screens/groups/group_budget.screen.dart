@@ -7,7 +7,10 @@ import 'package:trip_n_joy_front/screens/groups/edit_expense.screen.dart';
 class GroupBudget extends HookConsumerWidget {
   const GroupBudget({
     Key? key,
+    required this.groupId,
   }) : super(key: key);
+
+  final int groupId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,7 +28,7 @@ class GroupBudget extends HookConsumerWidget {
           IconButton(
             icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onBackground),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) => const EditExpense()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) => EditExpense(groupId: groupId)));
             },
             splashRadius: 16,
           ),

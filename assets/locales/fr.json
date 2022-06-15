@@ -355,7 +355,11 @@
         "title": "Ajouter une nouvelle dépense"
       },
       "edit": {
-        "title": "Modifier la dépense"
+        "title": "Modifier la dépense",
+        "name": "Nom de la dépense",
+        "price": "Prix",
+        "paid_by": "Payé par",
+        "paid_for": "Membres concernés"
       }
     }
   },
