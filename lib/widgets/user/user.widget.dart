@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 
 class UserDialog extends StatelessWidget {
   const UserDialog({Key? key, required this.user}) : super(key: key);
@@ -27,7 +28,20 @@ class UserDialog extends StatelessWidget {
             Text('Phone: ' + (user.phoneNumber ?? AppLocalizations.of(context).translate('user.noPhoneNumber'))),
             Text('Gender: ' + user.gender.toString().split('.')[1]),
             Text('City: ' +
-                (user.city != null ? user.city!.name! : AppLocalizations.of(context).translate('user.noCity')))
+                (user.city != null ? user.city!.name! : AppLocalizations.of(context).translate('user.noCity'))),
+            Row(
+              children: [
+                PrimaryButton(
+                    text: AppLocalizations.of(context).translate('groups.settings.recommend'),
+                    onPressed: () {},
+                    fitContent: true),
+                PrimaryButton(
+                    text: AppLocalizations.of(context).translate('groups.settings.report'),
+                    onPressed: () {},
+                    fitContent: true,
+                    isError: true),
+              ],
+            )
           ],
         ),
       ),
