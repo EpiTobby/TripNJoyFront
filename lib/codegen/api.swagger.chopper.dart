@@ -33,6 +33,24 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<ReportModel>> _reportsPost(
+      {required SubmitReportRequest? body}) {
+    final $url = '/reports';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<ReportModel, ReportModel>($request);
+  }
+
+  @override
+  Future<Response<RecommendationModel>> _recommendationsPost(
+      {required SubmitRecommendationRequest? body}) {
+    final $url = '/recommendations';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<RecommendationModel, RecommendationModel>($request);
+  }
+
+  @override
   Future<Response<List<PlaceResponse>>> _placesCoordinatesPost(
       {required PlacesFromCoordinatesRequest? body}) {
     final $url = '/places/coordinates';
@@ -187,6 +205,29 @@ class _$Api extends Api {
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<List<ReportModel>>> _reportsIdGet({required num? id}) {
+    final $url = '/reports/${id}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<List<ReportModel>, ReportModel>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _reportsIdDelete({required num? id}) {
+    final $url = '/reports/${id}';
+    final $request = Request('DELETE', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<ReportModel>> _reportsIdPatch(
+      {required num? id, required UpdateReportRequest? body}) {
+    final $url = '/reports/${id}';
+    final $body = body;
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
+    return client.send<ReportModel, ReportModel>($request);
   }
 
   @override
@@ -378,6 +419,29 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<List<ReportModel>>> _reportsAdminIdGet({required num? id}) {
+    final $url = '/reports/admin/${id}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<List<ReportModel>, ReportModel>($request);
+  }
+
+  @override
+  Future<Response<List<RecommendationModel>>> _recommendationsIdGet(
+      {required num? id}) {
+    final $url = '/recommendations/${id}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client
+        .send<List<RecommendationModel>, RecommendationModel>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _recommendationsIdDelete({required num? id}) {
+    final $url = '/recommendations/${id}';
+    final $request = Request('DELETE', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<List<String>>> _placesCategoriesGet() {
     final $url = '/places/categories';
     final $request = Request('GET', $url, client.baseUrl);
@@ -415,12 +479,12 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<List<MessageResponse>>> _chatChannelIdGet(
+  Future<Response<dynamic>> _chatChannelIdGet(
       {required num? channelId, int? page}) {
     final $url = '/chat/${channelId}';
     final $params = <String, dynamic>{'page': page};
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
-    return client.send<List<MessageResponse>, MessageResponse>($request);
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override
