@@ -18,6 +18,7 @@ class InputDialog extends StatefulHookWidget {
     required this.onConfirm,
     this.isPassword = false,
     this.multiline = false,
+    this.textCapitalization = TextCapitalization.sentences,
   }) : super(key: key);
 
   final String? title;
@@ -26,6 +27,7 @@ class InputDialog extends StatefulHookWidget {
   final Function onConfirm;
   final bool isPassword;
   final bool multiline;
+  final TextCapitalization textCapitalization;
 
   @override
   State<InputDialog> createState() => _InputDialogState();
@@ -70,6 +72,7 @@ class _InputDialogState extends State<InputDialog> {
                     onChanged: (newValue) => {},
                     isError: status.value.isError,
                     multiline: widget.multiline,
+                    textCapitalization: widget.textCapitalization,
                   ),
                 ),
                 Padding(

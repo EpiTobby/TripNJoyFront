@@ -127,6 +127,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                                             title: AppLocalizations.of(context).translate("groups.addMember"),
                                             label: AppLocalizations.of(context).translate("groups.email"),
                                             initialValue: '',
+                                            textCapitalization: TextCapitalization.none,
                                             onConfirm: (value) async {
                                               await groupViewModel.addUserToPrivateGroup(group.id!.toInt(), value);
                                             });
