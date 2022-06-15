@@ -67,18 +67,28 @@ class EditExpense extends HookConsumerWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: LayoutRowItem(
+              child: LayoutItem(
                 title: AppLocalizations.of(context).translate("groups.planning.activity.edit.icon.title"),
-                child: Icon(
-                  icon.value,
-                  size: 48,
+                boldTitle: true,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: InkWell(
+                    onTap: () async {
+                      IconData? newIcon = await FlutterIconPicker.showIconPicker(context);
+                      if (newIcon != null) {
+                        icon.value = newIcon;
+                      }
+                    },
+                    child: SizedBox(
+                      height: 48,
+                      width: 48,
+                      child: Icon(
+                        icon.value,
+                        size: 48,
+                      ),
+                    ),
+                  ),
                 ),
-                onTap: () async {
-                  IconData? newIcon = await FlutterIconPicker.showIconPicker(context);
-                  if (newIcon != null) {
-                    icon.value = newIcon;
-                  }
-                },
               ),
             ),
             InputField(
@@ -99,6 +109,7 @@ class EditExpense extends HookConsumerWidget {
               padding: const EdgeInsets.all(16.0),
               child: LayoutItem(
                 title: AppLocalizations.of(context).translate("groups.budget.edit.paid_by"),
+                boldTitle: true,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: SizedBox(
@@ -127,6 +138,7 @@ class EditExpense extends HookConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: LayoutItem(
                 title: AppLocalizations.of(context).translate("groups.budget.edit.paid_for"),
+                boldTitle: true,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: Column(
