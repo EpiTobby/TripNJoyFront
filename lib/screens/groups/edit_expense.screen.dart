@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/group/member_expense.dart';
+import 'package:trip_n_joy_front/providers/groups/budget.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/input.widget.dart';
@@ -23,11 +24,12 @@ class EditExpense extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
+    final budgetViewModel = ref.watch(budgetProvider);
     final icon = useState(Icons.add_shopping_cart);
     final name = useState("");
-    final price = useState(0);
+    final price = useState(0.0);
     final paidBy = useState(group.members?.first);
-    final paidFor = useState(group.members?.map((e) => MemberExpense(member: e, weight: 1)));
+    final paidFor = useState(group.members?.map((e) => MemberExpense(member: e, weight: 1)).toList());
     return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)
@@ -71,7 +73,7 @@ class EditExpense extends HookConsumerWidget {
             ),
             InputField(
               label: AppLocalizations.of(context).translate("groups.budget.edit.price"),
-              onChanged: (value) => price.value = value,
+              onChanged: (value) => price.value = double.tryParse(value) ?? 0.0,
               icon: const Icon(Icons.price_change),
               keyboardType: TextInputType.number,
             ),
@@ -114,24 +116,30 @@ class EditExpense extends HookConsumerWidget {
                             ?.map(
                               (e) => LayoutMemberExpense(
                                 expense: e,
-                                onWeightChange: (value) => paidFor.value = paidFor.value?.map(
-                                  (member) {
-                                    if (member.member == e.member) {
-                                      member.weight = int.tryParse(value);
-                                      member.amount = null;
-                                    }
-                                    return member;
-                                  },
-                                ),
-                                onAmountChange: (value) => paidFor.value = paidFor.value?.map(
-                                  (member) {
-                                    if (member.member == e.member) {
-                                      member.amount = double.tryParse(value);
-                                      member.weight = null;
-                                    }
-                                    return member;
-                                  },
-                                ),
+                                onWeightChange: (value) {
+                                  paidFor.value = paidFor.value?.map(
+                                    (member) {
+                                      if (member.member == e.member) {
+                                        member.weight = int.tryParse(value);
+                                        member.amount = null;
+                                      }
+                                      return member;
+                                    },
+                                  ).toList();
+                                  paidFor.value = budgetViewModel.balanceExpenses(price.value, paidFor.value);
+                                },
+                                onAmountChange: (value) {
+                                  paidFor.value = paidFor.value?.map(
+                                    (member) {
+                                      if (member.member == e.member) {
+                                        member.amount = double.tryParse(value);
+                                        member.weight = null;
+                                      }
+                                      return member;
+                                    },
+                                  ).toList();
+                                  paidFor.value = budgetViewModel.balanceExpenses(price.value, paidFor.value);
+                                },
                               ),
                             )
                             .toList() ??

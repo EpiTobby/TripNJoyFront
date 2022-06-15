@@ -23,8 +23,13 @@ class LayoutMemberExpense extends HookConsumerWidget {
 
     useEffect(() {
       weightController.text = expense.weight?.toString() ?? "";
+      return null;
+    }, [expense.weight]);
+
+    useEffect(() {
       amountController.text = expense.amount?.toString() ?? "0.00";
-    }, [expense]);
+      return null;
+    }, [expense.amount]);
     return Row(
       children: [
         Expanded(
@@ -40,7 +45,7 @@ class LayoutMemberExpense extends HookConsumerWidget {
             textAlign: TextAlign.center,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            onEditingComplete: () => onWeightChange(weightController.value.text),
+            onSubmitted: (value) => onWeightChange(value),
           ),
         ),
         Padding(
@@ -51,7 +56,7 @@ class LayoutMemberExpense extends HookConsumerWidget {
               controller: amountController,
               textAlign: TextAlign.end,
               keyboardType: TextInputType.number,
-              onEditingComplete: () => onAmountChange(amountController.value.text),
+              onSubmitted: (value) => onAmountChange(value),
             ),
           ),
         )
