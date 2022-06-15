@@ -114,4 +114,10 @@ abstract class HttpService {
   Future<ReportModel?> updateReport(int reportId, UpdateReportRequest updateReportRequest);
 
   Future<void> deleteReport(int reportId);
+
+  Future<RecommendationModel?> submitRecommendation(SubmitRecommendationRequest request);
+
+  Future<List<RecommendationModel>?> getRecommendations(int reviewedUserId);
+
+  Future<void> deleteRecommendation(int recommendationId);
 }

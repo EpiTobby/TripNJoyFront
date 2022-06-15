@@ -403,4 +403,21 @@ class CodegenService extends HttpService {
   Future<void> deleteReport(int reportId) async {
     await api.reportsIdDelete(id: reportId);
   }
+
+  @override
+  Future<List<RecommendationModel>?> getRecommendations(int reviewedUserId) async {
+    final response = await api.recommendationsIdGet(id: reviewedUserId);
+    return response.body;
+  }
+
+  @override
+  Future<RecommendationModel?> submitRecommendation(SubmitRecommendationRequest request) async {
+    final response = await api.recommendationsPost(body: request);
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteRecommendation(int recommendationId) async {
+    await api.recommendationsIdDelete(id: recommendationId);
+  }
 }

@@ -475,4 +475,19 @@ class MockService extends HttpService {
   Future<ReportModel?> updateReport(int reportId, UpdateReportRequest updateReportRequest) {
     return Future.value(null);
   }
+
+  @override
+  Future<void> deleteRecommendation(int recommendationId) {
+    return Future.value();
+  }
+
+  @override
+  Future<List<RecommendationModel>?> getRecommendations(int reviewedUserId) {
+    return Future.value([]);
+  }
+
+  @override
+  Future<RecommendationModel?> submitRecommendation(SubmitRecommendationRequest request) {
+    return Future.value(null);
+  }
 }
