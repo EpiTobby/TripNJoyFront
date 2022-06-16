@@ -12,14 +12,14 @@ class BudgetViewModel extends ChangeNotifier {
   final HttpService httpService;
   final AuthViewModel authViewModel;
 
-  AsyncValue<List<BalanceResponse>> budgets = const AsyncValue.loading();
+  AsyncValue<List<BalanceResponse>> balances = const AsyncValue.loading();
 
   Future<void> getBudgetBalance(int groupId) async {
     logger.d("Getting Budget Balance for group $groupId");
-    budgets = const AsyncValue.loading();
+    balances = const AsyncValue.loading();
     notifyListeners();
     final newBudgets = await httpService.getBudgetBalance(groupId);
-    budgets = newBudgets != null
+    balances = newBudgets != null
         ? AsyncValue.data(newBudgets)
         : AsyncValue.error(Exception("Failed to get group budget balance"));
     notifyListeners();
