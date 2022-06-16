@@ -223,10 +223,15 @@
       "quit": "Quitter le groupe",
       "maxSize": "Nombre de membres maximum",
       "askPublic": "Demander à passer le groupe en public",
-      "askPrivate": "Demander à passer le groupe en privé",
+      "askArchive": "Demander à archiver le groupe",
       "public": "Groupe public",
       "private": "Groupe privé",
-      "status": "Statut"
+      "status": "Statut",
+      "type": {
+        "open": "Groupe ouvert",
+        "closed": "Groupe fermé",
+        "archived": "Groupe archivé"
+      }
     },
     "create": "Créer un groupe",
     "join": "Rejoindre un groupe",

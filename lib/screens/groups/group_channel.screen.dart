@@ -6,6 +6,7 @@ import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 import 'package:trip_n_joy_front/providers/groups/channel.provider.dart';
+import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_choice.widget.dart';
@@ -28,6 +29,8 @@ class GroupChannels extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isEditMode = useState(false);
     final channelViewModel = ref.watch(channelProvider.notifier);
+    final group = ref.watch(groupProvider.notifier).groups.firstWhere((g) => g.id == groupId);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -53,17 +56,18 @@ class GroupChannels extends HookConsumerWidget {
                     });
               },
             ),
-          Padding(
-            padding: const EdgeInsets.only(right: 40),
-            child: IconButton(
-              icon:
-                  Icon(isEditMode.value ? Icons.check : Icons.edit, color: Theme.of(context).colorScheme.onBackground),
-              onPressed: () {
-                isEditMode.value = !isEditMode.value;
-              },
-              splashRadius: 16,
+          if (group.state != GroupModelState.archived)
+            Padding(
+              padding: const EdgeInsets.only(right: 40),
+              child: IconButton(
+                icon:
+                    Icon(isEditMode.value ? Icons.check : Icons.edit, color: Theme.of(context).colorScheme.onBackground),
+                onPressed: () {
+                  isEditMode.value = !isEditMode.value;
+                },
+                splashRadius: 16,
+              ),
             ),
-          ),
         ],
         backgroundColor: Theme.of(context).colorScheme.background,
         foregroundColor: Theme.of(context).colorScheme.onBackground,

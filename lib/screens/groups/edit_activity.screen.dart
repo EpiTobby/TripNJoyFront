@@ -42,17 +42,28 @@ class EditActivity extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).translate('groups.planning.activity.title')),
-        foregroundColor: Theme.of(context).colorScheme.primary,
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
-        shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+        foregroundColor: Theme
+            .of(context)
+            .colorScheme
+            .primary,
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .onPrimary,
+        shadowColor: Theme
+            .of(context)
+            .colorScheme
+            .secondary
+            .withOpacity(0.5),
         actions: [
-          IconButton(
-            splashRadius: 16,
-            icon: const Icon(Icons.check),
-            onPressed: () {
-              Navigator.of(context).popUntil(ModalRoute.withName("/planning"));
-            },
-          ),
+          if (group.state != GroupModelState.archived)
+            IconButton(
+              splashRadius: 16,
+              icon: const Icon(Icons.check),
+              onPressed: () {
+                Navigator.of(context).popUntil(ModalRoute.withName("/planning"));
+              },
+            ),
         ],
       ),
       body: Column(
@@ -60,7 +71,10 @@ class EditActivity extends HookConsumerWidget {
           PlanningActivity(
             prefix: Icon(
               activity.icon,
-              color: Theme.of(context).colorScheme.background,
+              color: Theme
+                  .of(context)
+                  .colorScheme
+                  .background,
               size: 64,
             ),
             title: activity.name ?? '',
@@ -79,15 +93,16 @@ class EditActivity extends HookConsumerWidget {
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.name.title"),
                       child: LayoutItemValue(
                         value: activity.name ?? '',
+                        editable: group.state != GroupModelState.archived,
                         onPressed: () {
                           showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialog(
                                 title:
-                                    AppLocalizations.of(context).translate("groups.planning.activity.edit.name.edit"),
+                                AppLocalizations.of(context).translate("groups.planning.activity.edit.name.edit"),
                                 label:
-                                    AppLocalizations.of(context).translate("groups.planning.activity.edit.name.title"),
+                                AppLocalizations.of(context).translate("groups.planning.activity.edit.name.title"),
                                 initialValue: activity.name ?? '',
                                 onConfirm: (value) async {
                                   final newActivity = await planningViewModel.updateActivity(
@@ -106,6 +121,7 @@ class EditActivity extends HookConsumerWidget {
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.location.title"),
                       child: LayoutItemValue(
                         value: activity.location ?? '',
+                        editable: group.state != GroupModelState.archived,
                         onPressed: () {
                           showMaterialModalBottomSheet(
                             context: context,
@@ -133,13 +149,14 @@ class EditActivity extends HookConsumerWidget {
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.title"),
                       child: LayoutItemValue(
                         value: DateFormat("HH:mm - dd/MM/yyyy").format(activity.startDate),
+                        editable: group.state != GroupModelState.archived,
                         onPressed: () {
                           showMaterialModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialogDateTime(
                                 title:
-                                    AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.edit"),
+                                AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.edit"),
                                 initialValue: activity.startDate,
                                 onConfirm: (value) async {
                                   final newActivity = await planningViewModel.updateActivity(
@@ -158,6 +175,7 @@ class EditActivity extends HookConsumerWidget {
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.end.title"),
                       child: LayoutItemValue(
                         value: DateFormat("HH:mm - dd/MM/yyyy").format(activity.endDate),
+                        editable: group.state != GroupModelState.archived,
                         onPressed: () {
                           showMaterialModalBottomSheet(
                             context: context,
@@ -182,6 +200,7 @@ class EditActivity extends HookConsumerWidget {
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.description.title"),
                       child: LayoutItemValue(
                         value: activity.description ?? '',
+                        editable: group.state != GroupModelState.archived,
                         multiline: true,
                         fontSize: 20,
                         onPressed: () {
@@ -218,14 +237,14 @@ class EditActivity extends HookConsumerWidget {
                               activity.icon,
                               size: 48,
                             ),
-                            onTap: () async {
+                            onTap: group.state != GroupModelState.archived ? () async {
                               IconData? icon = await FlutterIconPicker.showIconPicker(context);
                               if (icon != null) {
                                 activity.icon = icon;
                               }
                               planningViewModel.updateActivity(
                                   groupId, activity.id, UpdateActivityRequest(icon: icon?.codePoint.toString()));
-                            },
+                            } : () {},
                           ),
                           LayoutRowItem(
                             title: AppLocalizations.of(context).translate("groups.planning.activity.edit.color.title"),
@@ -233,7 +252,7 @@ class EditActivity extends HookConsumerWidget {
                               backgroundColor: activity.color,
                               radius: 24,
                             ),
-                            onTap: () {
+                            onTap: group.state != GroupModelState.archived ? () {
                               showMaterialModalBottomSheet(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -255,7 +274,7 @@ class EditActivity extends HookConsumerWidget {
                                   );
                                 },
                               );
-                            },
+                            } : () {},
                           ),
                         ],
                       ),
@@ -271,60 +290,67 @@ class EditActivity extends HookConsumerWidget {
                             child: ListView(
                               scrollDirection: Axis.horizontal,
                               children: group.members
-                                      ?.map(
-                                        (e) => LayoutRowItemMember(
-                                          name: "${e.firstname} ${e.lastname}",
-                                          avatarUrl: MinioService.getImageUrl(e.profilePicture),
-                                          isSelected: activity.members.where((member) => member.id == e.id).isNotEmpty,
-                                          onTap: (value) {
-                                            if (value) {
-                                              activity.members.add(ChatMember(
-                                                  id: e.id!,
-                                                  name: "${e.firstname} ${e.lastname}",
-                                                  avatar: NetworkImage(e.profilePicture!)));
-                                            } else {
-                                              activity.members.removeWhere((member) => member.id == e.id);
-                                            }
-                                            planningViewModel.toggleActivityMember(groupId, activity.id, e.id!, value);
-                                          },
-                                        ),
-                                      )
-                                      .toList() ??
+                                  ?.map(
+                                    (e) =>
+                                    LayoutRowItemMember(
+                                      name: "${e.firstname} ${e.lastname}",
+                                      avatarUrl: MinioService.getImageUrl(e.profilePicture),
+                                      isSelected: activity.members
+                                          .where((member) => member.id == e.id)
+                                          .isNotEmpty,
+                                      onTap: group.state != GroupModelState.archived ? (value) {
+                                        if (value) {
+                                          activity.members.add(ChatMember(
+                                              id: e.id!,
+                                              name: "${e.firstname} ${e.lastname}",
+                                              avatar: NetworkImage(e.profilePicture!)));
+                                        } else {
+                                          activity.members.removeWhere((member) => member.id == e.id);
+                                        }
+                                        planningViewModel.toggleActivityMember(groupId, activity.id, e.id!, value);
+                                      } : (value) {},
+                                    ),
+                              )
+                                  .toList() ??
                                   [],
                             ),
                           ),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: LayoutItem(
-                        child: LayoutItemValue(
-                          value: AppLocalizations.of(context).translate("groups.planning.activity.edit.delete.title"),
-                          icon: Icons.close,
-                          customColor: Theme.of(context).colorScheme.error,
-                          onPressed: () {
-                            showMaterialModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return InputDialogChoice(
-                                  title: AppLocalizations.of(context)
-                                      .translate('groups.planning.activity.edit.delete.content'),
-                                  cancelChoice: AppLocalizations.of(context).translate('common.decline'),
-                                  confirmChoice: AppLocalizations.of(context).translate('common.accept'),
-                                  onConfirm: (value) async {
-                                    if (value) {
-                                      await planningViewModel.deleteActivity(groupId, activity.id);
-                                      Navigator.of(context).pop();
-                                    }
-                                  },
-                                );
-                              },
-                            );
-                          },
+                    if (group.state != GroupModelState.archived)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: LayoutItem(
+                          child: LayoutItemValue(
+                            value: AppLocalizations.of(context).translate("groups.planning.activity.edit.delete.title"),
+                            icon: Icons.close,
+                            customColor: Theme
+                                .of(context)
+                                .colorScheme
+                                .error,
+                            onPressed: () {
+                              showMaterialModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return InputDialogChoice(
+                                    title: AppLocalizations.of(context)
+                                        .translate('groups.planning.activity.edit.delete.content'),
+                                    cancelChoice: AppLocalizations.of(context).translate('common.decline'),
+                                    confirmChoice: AppLocalizations.of(context).translate('common.accept'),
+                                    onConfirm: (value) async {
+                                      if (value) {
+                                        await planningViewModel.deleteActivity(groupId, activity.id);
+                                        Navigator.of(context).pop();
+                                      }
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               ],
