@@ -29,11 +29,11 @@ class BudgetViewModel extends ChangeNotifier {
     logger.d("Getting Group Expenses for group $groupId");
   }
 
-  Future<void> addExpense(int groupId, num? userId, CreateExpenseRequest body) async {
+  Future<void> addExpense(int groupId, num? userId, ExpenseRequest body) async {
     await httpService.createExpense(groupId, userId, body);
   }
 
-  Future<void> updateExpense(int groupId, num? userId, CreateExpenseRequest body) async {}
+  Future<void> updateExpense(int groupId, num? userId, ExpenseRequest body) async {}
 
   List<MemberExpense> balanceExpenses(double amount, List<MemberExpense>? memberExpenses) {
     if (memberExpenses == null) {
