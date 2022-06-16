@@ -11,39 +11,58 @@ class UserDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Column(
-        children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(user.profilePicture ?? DEFAULT_AVATAR_URL),
-            radius: 30,
-          ),
-          Text(user.firstname! + ' ' + user.lastname!),
-        ],
-      ),
-      content: SingleChildScrollView(
-        child: ListBody(
-          children: <Widget>[
-            Text('Email: ' + user.email!),
-            Text('Phone: ' + (user.phoneNumber ?? AppLocalizations.of(context).translate('user.noPhoneNumber'))),
-            Text('Gender: ' + user.gender.toString().split('.')[1]),
-            Text('City: ' +
-                (user.city != null ? user.city!.name! : AppLocalizations.of(context).translate('user.noCity'))),
-            Row(
+    return Material(
+      child: SafeArea(
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 32.0),
+            child: Column(
               children: [
-                PrimaryButton(
-                    text: AppLocalizations.of(context).translate('groups.settings.recommend'),
-                    onPressed: () {},
-                    fitContent: true),
-                PrimaryButton(
-                    text: AppLocalizations.of(context).translate('groups.settings.report'),
-                    onPressed: () {},
-                    fitContent: true,
-                    isError: true),
+                CircleAvatar(
+                  backgroundImage: NetworkImage(user.profilePicture ?? DEFAULT_AVATAR_URL),
+                  radius: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(user.firstname! + ' ' + user.lastname!),
+                ),
               ],
-            )
-          ],
-        ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 32.0, right: 32.0 ,bottom: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Email: ' + user.email!),
+                      Text('Phone: ' + (user.phoneNumber ?? AppLocalizations.of(context).translate('user.noPhoneNumber'))),
+                      Text('Gender: ' + user.gender.toString().split('.')[1]),
+                      Text('City: ' +
+                          (user.city != null ? user.city!.name! : AppLocalizations.of(context).translate('user.noCity'))),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    PrimaryButton(
+                        text: AppLocalizations.of(context).translate('groups.settings.recommend'),
+                        onPressed: () {},
+                        fitContent: true),
+                    PrimaryButton(
+                        text: AppLocalizations.of(context).translate('groups.settings.report'),
+                        onPressed: () {},
+                        fitContent: true,
+                        isError: true),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ]),
       ),
     );
   }
