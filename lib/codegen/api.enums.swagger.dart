@@ -321,6 +321,46 @@ const $ProfileModelSportMap = {
   ProfileModelSport.noPreference: 'NO_PREFERENCE'
 };
 
+enum SubmitReportRequestReason {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('REIMBURSEMENT_PROBLEM')
+  reimbursementProblem,
+  @JsonValue('INNAPROPRIATE_BEHAVIOR')
+  innapropriateBehavior,
+  @JsonValue('HYGIENE_PROBLEM')
+  hygieneProblem,
+  @JsonValue('OTHER')
+  other
+}
+
+const $SubmitReportRequestReasonMap = {
+  SubmitReportRequestReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
+  SubmitReportRequestReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
+  SubmitReportRequestReason.hygieneProblem: 'HYGIENE_PROBLEM',
+  SubmitReportRequestReason.other: 'OTHER'
+};
+
+enum ReportModelReason {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('REIMBURSEMENT_PROBLEM')
+  reimbursementProblem,
+  @JsonValue('INNAPROPRIATE_BEHAVIOR')
+  innapropriateBehavior,
+  @JsonValue('HYGIENE_PROBLEM')
+  hygieneProblem,
+  @JsonValue('OTHER')
+  other
+}
+
+const $ReportModelReasonMap = {
+  ReportModelReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
+  ReportModelReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
+  ReportModelReason.hygieneProblem: 'HYGIENE_PROBLEM',
+  ReportModelReason.other: 'OTHER'
+};
+
 enum PlacesFromCoordinatesRequestCategories {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
@@ -703,6 +743,26 @@ const $ProfileUpdateRequestSportMap = {
   ProfileUpdateRequestSport.yes: 'YES',
   ProfileUpdateRequestSport.no: 'NO',
   ProfileUpdateRequestSport.noPreference: 'NO_PREFERENCE'
+};
+
+enum UpdateReportRequestReason {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('REIMBURSEMENT_PROBLEM')
+  reimbursementProblem,
+  @JsonValue('INNAPROPRIATE_BEHAVIOR')
+  innapropriateBehavior,
+  @JsonValue('HYGIENE_PROBLEM')
+  hygieneProblem,
+  @JsonValue('OTHER')
+  other
+}
+
+const $UpdateReportRequestReasonMap = {
+  UpdateReportRequestReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
+  UpdateReportRequestReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
+  UpdateReportRequestReason.hygieneProblem: 'HYGIENE_PROBLEM',
+  UpdateReportRequestReason.other: 'OTHER'
 };
 
 enum UpdatePrivateGroupRequestState {

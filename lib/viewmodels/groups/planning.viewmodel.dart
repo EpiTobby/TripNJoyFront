@@ -71,9 +71,7 @@ class PlanningViewModel extends ChangeNotifier {
   }
 
   Future<Activity?> addActivity(int groupId, CreateActivityRequest createActivityRequest) async {
-    final newActivity = await httpService.createActivity(
-        groupId,
-        createActivityRequest);
+    final newActivity = await httpService.createActivity(groupId, createActivityRequest);
     getActivities(groupId);
     return newActivity != null ? Activity.fromActivityResponse(newActivity) : null;
   }
@@ -114,6 +112,19 @@ class PlanningViewModel extends ChangeNotifier {
         ));
     getActivities(groupId);
     return newActivity != null ? Activity.fromActivityResponse(newActivity) : null;
+  }
+
+  CreateActivityRequest getSuggestedActivity(int groupId, String category, PlaceResponse activity) {
+    final newActivity = CreateActivityRequest(
+      name: activity.name,
+      description: category,
+      startDate: DateTime.now(),
+      endDate: DateTime.now(),
+      location: "${activity.street}, ${activity.city}, ${activity.country}",
+      color: '#${ActivityColors.blue.value.toRadixString(16).substring(2)}',
+      icon: getCategoryIcon(getCategory(category)).codePoint.toString(),
+    );
+    return newActivity;
   }
 
   PlacesFromCoordinatesRequestCategories getCategory(String category) {

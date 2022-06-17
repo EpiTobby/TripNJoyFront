@@ -8,6 +8,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/extensions/HexColor.extension.dart';
 import 'package:trip_n_joy_front/models/group/activity.dart';
 import 'package:trip_n_joy_front/models/group/chat_member.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
@@ -31,34 +32,33 @@ class EditActivity extends HookConsumerWidget {
     Key? key,
     required this.groupId,
     this.activity,
+    this.suggestedActivity,
   }) : super(key: key);
 
   final int groupId;
   final Activity? activity;
+  final CreateActivityRequest? suggestedActivity;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final planningViewModel = ref.watch(planningProvider);
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
-    final user = ref.watch(userProvider.notifier).user;
 
     final draft = activity == null;
 
-    final name = useState(activity?.name ?? 'Name');
-    final description = useState(activity?.description ?? 'Description');
-    final startDate = useState(activity?.startDate ?? DateTime.now());
-    final endDate = useState(activity?.endDate ?? DateTime.now());
-    final location = useState(activity?.location ?? 'Location');
-    final color = useState(activity?.color ?? ActivityColors.blue);
-    final icon = useState(activity?.icon ?? Icons.airplane_ticket);
-    final participants = useState(activity?.members ??
-        [
-          ChatMember(
-              id: user!.id!,
-              name: "${user.firstname} ${user.lastname}",
-              avatar: NetworkImage(user.profilePicture ?? DEFAULT_AVATAR_URL))
-        ]);
+    final name = useState(activity?.name ?? suggestedActivity?.name ?? 'Name');
+    final description = useState(activity?.description ?? suggestedActivity?.description ?? 'Description');
+    final startDate = useState(activity?.startDate ?? suggestedActivity?.startDate ?? DateTime.now());
+    final endDate = useState(activity?.endDate ?? suggestedActivity?.endDate ?? DateTime.now());
+    final location = useState(activity?.location ?? suggestedActivity?.location ?? 'Location');
+    final color = useState(activity?.color ??
+        (suggestedActivity?.color != null ? HexColor.fromHex(suggestedActivity!.color!) : ActivityColors.blue));
+    final icon = useState(activity?.icon ??
+        (suggestedActivity?.icon != null
+            ? IconData(int.parse(suggestedActivity!.icon!), fontFamily: 'MaterialIcons')
+            : Icons.airplane_ticket));
+    final participants = useState(activity?.members ?? []);
 
     return Scaffold(
       appBar: AppBar(
@@ -79,30 +79,12 @@ class EditActivity extends HookConsumerWidget {
                 'location': location.value,
                 'color': '#${color.value.value.toRadixString(16).substring(2)}',
                 'icon': icon.value.codePoint.toString(),
-                'participantsIds': participants.value.map((member) => member.id).toList(),
+                'participants': participants.value.map((member) => member.id).toList(),
               };
 
               if (draft) {
-                final createdActivity =
-                    await planningViewModel.addActivity(groupId, CreateActivityRequest.fromJson(json));
-                for (var member in participants.value) {
-                  await planningViewModel.toggleActivityMember(groupId, createdActivity!.id, member.id, true);
-                }
+                await planningViewModel.addActivity(groupId, suggestedActivity ?? CreateActivityRequest.fromJson(json));
               } else {
-                final newMembers = participants.value
-                    .where((member) => activity!.members.where((m) => m.id == member.id).isEmpty)
-                    .toList();
-                final removedMembers = activity!.members
-                    .where((member) => participants.value.where((m) => m.id == member.id).isEmpty)
-                    .toList();
-
-                for (var member in newMembers) {
-                  await planningViewModel.toggleActivityMember(groupId, activity!.id, member.id, true);
-                }
-                for (var member in removedMembers) {
-                  await planningViewModel.toggleActivityMember(groupId, activity!.id, member.id, false);
-                }
-
                 await planningViewModel.updateActivity(groupId, activity!.id, UpdateActivityRequest.fromJson(json));
               }
               Navigator.of(context).popUntil(ModalRoute.withName("/planning"));
