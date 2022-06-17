@@ -132,12 +132,11 @@ class PlaceSuggestion extends HookConsumerWidget {
                                 onTap: () async {
                                   isLoading.value = true;
                                   final newActivity =
-                                      await ref.read(planningProvider).addSuggestedActivity(groupId, place, activity);
+                                      ref.read(planningProvider).getSuggestedActivity(groupId, place, activity);
                                   isLoading.value = false;
-                                  if (newActivity != null) {
-                                    Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (_) => EditActivity(groupId: groupId, activity: newActivity)));
-                                  }
+
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (_) => EditActivity(groupId: groupId, suggestedActivity: newActivity)));
                                 },
                               ),
                             )

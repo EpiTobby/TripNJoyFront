@@ -55,4 +55,10 @@ class Activity {
         ? "${DateFormat("dd/MM HH:mm").format(startDate)} - ${DateFormat("HH:mm").format(endDate)}"
         : "${DateFormat("HH:mm dd/MM/yyyy").format(startDate)} - ${DateFormat("HH:mm dd/MM/yyyy").format(endDate)}";
   }
+
+  static String getStaticActivityDateFormat(DateTime startDate, DateTime endDate) {
+    return startDate.day == endDate.day && startDate.month == endDate.month && startDate.year == endDate.year
+        ? "${DateFormat("dd/MM HH:mm").format(startDate)} - ${DateFormat("HH:mm").format(endDate)}"
+        : "${DateFormat("HH:mm dd/MM/yyyy").format(startDate)} - ${DateFormat("HH:mm dd/MM/yyyy").format(endDate)}";
+  }
 }
