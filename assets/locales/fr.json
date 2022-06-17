@@ -351,6 +351,11 @@
     },
     "budget": {
       "title": "Budget",
+      "expenses": {
+        "title": "Dépenses",
+        "paid_by": "Payé par $name",
+        "paid_for": "Membres: $members"
+      },
       "add": {
         "title": "Ajouter une nouvelle dépense"
       },

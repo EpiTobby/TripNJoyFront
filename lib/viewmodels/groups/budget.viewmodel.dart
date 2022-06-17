@@ -13,6 +13,7 @@ class BudgetViewModel extends ChangeNotifier {
   final AuthViewModel authViewModel;
 
   AsyncValue<List<BalanceResponse>> balances = const AsyncValue.loading();
+  AsyncValue<List<ExpenseModel>> expenses = const AsyncValue.loading();
 
   Future<void> getBudgetBalance(int groupId) async {
     logger.d("Getting Budget Balance for group $groupId");
@@ -27,6 +28,13 @@ class BudgetViewModel extends ChangeNotifier {
 
   Future<void> getGroupExpenses(int groupId) async {
     logger.d("Getting Group Expenses for group $groupId");
+    expenses = const AsyncValue.loading();
+    notifyListeners();
+    final newExpenses = await httpService.getExpenses(groupId);
+    expenses = newExpenses != null
+        ? AsyncValue.data(newExpenses)
+        : AsyncValue.error(Exception("Failed to get group expenses"));
+    notifyListeners();
   }
 
   Future<void> addExpense(int groupId, num? userId, ExpenseRequest body) async {

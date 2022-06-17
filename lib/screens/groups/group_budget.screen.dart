@@ -5,6 +5,7 @@ import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/providers/groups/budget.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/edit_expense.screen.dart';
 import 'package:trip_n_joy_front/widgets/groups/budget_balances.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/group_expenses.widget.dart';
 
 class GroupBudget extends HookConsumerWidget {
   const GroupBudget({
@@ -48,6 +49,7 @@ class GroupBudget extends HookConsumerWidget {
           child: ListView(
             children: [
               BudgetBalances(groupId: groupId),
+              GroupExpenses(groupId: groupId),
             ],
           ),
         ),
