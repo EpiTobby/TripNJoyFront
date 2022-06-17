@@ -23,7 +23,7 @@ class UserDialog extends HookConsumerWidget {
       child: SafeArea(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 32.0),
+            padding: const EdgeInsets.only(bottom: 16.0),
             child: Column(
               children: [
                 CircleAvatar(
@@ -32,7 +32,8 @@ class UserDialog extends HookConsumerWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(user.firstname! + ' ' + user.lastname!),
+                  child:
+                      Text(user.firstname! + ' ' + user.lastname!, style: const TextStyle(fontWeight: FontWeight.bold)),
                 ),
               ],
             ),
@@ -45,14 +46,47 @@ class UserDialog extends HookConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Email: ' + user.email!),
-                      Text('Phone: ' +
-                          (user.phoneNumber ?? AppLocalizations.of(context).translate('user.noPhoneNumber'))),
-                      Text('Gender: ' + user.gender.toString().split('.')[1]),
-                      Text('City: ' +
-                          (user.city != null
-                              ? user.city!.name!
-                              : AppLocalizations.of(context).translate('user.noCity'))),
+                      RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            const TextSpan(text: 'Email : ', style: TextStyle(fontWeight: FontWeight.bold)),
+                            TextSpan(text: user.email!),
+                          ],
+                        ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            const TextSpan(text: 'Phone : ', style: TextStyle(fontWeight: FontWeight.bold)),
+                            TextSpan(
+                                text:
+                                    (user.phoneNumber ?? AppLocalizations.of(context).translate('user.noPhoneNumber'))),
+                          ],
+                        ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            const TextSpan(text: 'Gender : ', style: TextStyle(fontWeight: FontWeight.bold)),
+                            TextSpan(text: user.gender.toString().split('.')[1]),
+                          ],
+                        ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            const TextSpan(text: 'City : ', style: TextStyle(fontWeight: FontWeight.bold)),
+                            TextSpan(
+                                text: (user.city != null
+                                    ? user.city!.name!
+                                    : AppLocalizations.of(context).translate('user.noCity'))),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
