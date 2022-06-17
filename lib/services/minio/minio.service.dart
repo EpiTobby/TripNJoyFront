@@ -50,7 +50,8 @@ class MinioService {
       }
     }
 
-    if (Uri.tryParse(name) != null){
+    final uri = Uri.tryParse(name);
+    if (uri != null && uri.host.isNotEmpty && uri.origin.isNotEmpty){
       return name;
     }
 
