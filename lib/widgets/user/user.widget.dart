@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/providers/user/recommendation.provider.dart';
+import 'package:trip_n_joy_front/providers/user/report.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 
-class UserDialog extends StatelessWidget {
+class UserDialog extends HookConsumerWidget {
   const UserDialog({Key? key, required this.user}) : super(key: key);
 
   final MemberModel user;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final reportViewModel = ref.watch(reportProvider.notifier);
+    final recommendationViewModel = ref.watch(recommendationProvider.notifier);
+
     return Material(
       child: SafeArea(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -33,15 +41,18 @@ class UserDialog extends StatelessWidget {
             child: ListBody(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(left: 32.0, right: 32.0 ,bottom: 16.0),
+                  padding: const EdgeInsets.only(left: 32.0, right: 32.0, bottom: 16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Email: ' + user.email!),
-                      Text('Phone: ' + (user.phoneNumber ?? AppLocalizations.of(context).translate('user.noPhoneNumber'))),
+                      Text('Phone: ' +
+                          (user.phoneNumber ?? AppLocalizations.of(context).translate('user.noPhoneNumber'))),
                       Text('Gender: ' + user.gender.toString().split('.')[1]),
                       Text('City: ' +
-                          (user.city != null ? user.city!.name! : AppLocalizations.of(context).translate('user.noCity'))),
+                          (user.city != null
+                              ? user.city!.name!
+                              : AppLocalizations.of(context).translate('user.noCity'))),
                     ],
                   ),
                 ),
@@ -50,11 +61,41 @@ class UserDialog extends StatelessWidget {
                   children: [
                     PrimaryButton(
                         text: AppLocalizations.of(context).translate('groups.settings.recommend'),
-                        onPressed: () {},
+                        onPressed: () {
+                          showMaterialModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return InputDialog(
+                                    title: AppLocalizations.of(context).translate('groups.settings.recommendUser'),
+                                    label: AppLocalizations.of(context).translate('groups.settings.recommendation'),
+                                    initialValue: '',
+                                    multiline: true,
+                                    textCapitalization: TextCapitalization.none,
+                                    onConfirm: (value) async {
+                                      await recommendationViewModel.submitRecommendation(
+                                          SubmitRecommendationRequest(reviewedUserId: user.id, comment: value));
+                                    });
+                              });
+                        },
                         fitContent: true),
                     PrimaryButton(
                         text: AppLocalizations.of(context).translate('groups.settings.report'),
-                        onPressed: () {},
+                        onPressed: () {
+                          showMaterialModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return InputDialog(
+                                    title: AppLocalizations.of(context).translate('groups.settings.reportUser'),
+                                    label: AppLocalizations.of(context).translate('groups.settings.reportForm'),
+                                    initialValue: '',
+                                    multiline: true,
+                                    textCapitalization: TextCapitalization.none,
+                                    onConfirm: (value) async {
+                                      await reportViewModel
+                                          .submitReport(SubmitReportRequest(reportedUserId: user.id, reason: value));
+                                    });
+                              });
+                        },
                         fitContent: true,
                         isError: true),
                   ],

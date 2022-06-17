@@ -222,7 +222,11 @@
       "quit": "Quit the group",
       "maxSize": "Maximum number of members",
       "recommend": "Recommend",
-      "report": "Report"
+      "report": "Report",
+      "recommendUser": "Recommend this user",
+      "reportUser": "Report this user",
+      "recommendation": "Recommendation",
+      "reportForm": "Report form"
     },
     "create": "Create a group",
     "join": "Join a group",
