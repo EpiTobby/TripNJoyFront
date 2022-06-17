@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/group/activity.dart';
 import 'package:trip_n_joy_front/models/group/chat_member.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
@@ -274,14 +275,14 @@ class EditActivity extends HookConsumerWidget {
                                       ?.map(
                                         (e) => LayoutRowItemMember(
                                           name: "${e.firstname} ${e.lastname}",
-                                          avatarUrl: MinioService.getImageUrl(e.profilePicture),
+                                          avatarUrl: MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
                                           isSelected: activity.members.where((member) => member.id == e.id).isNotEmpty,
                                           onTap: (value) {
                                             if (value) {
                                               activity.members.add(ChatMember(
                                                   id: e.id!,
                                                   name: "${e.firstname} ${e.lastname}",
-                                                  avatar: NetworkImage(e.profilePicture!)));
+                                                  avatar: NetworkImage(MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR))));
                                             } else {
                                               activity.members.removeWhere((member) => member.id == e.id);
                                             }

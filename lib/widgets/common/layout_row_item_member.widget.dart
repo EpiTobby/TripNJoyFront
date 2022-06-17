@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 
 class LayoutRowItemMember extends StatelessWidget {
   const LayoutRowItemMember({
@@ -27,7 +28,7 @@ class LayoutRowItemMember extends StatelessWidget {
               backgroundColor: isSelected ? Theme.of(context).colorScheme.secondary : Colors.transparent,
               radius: 28,
               child: CircleAvatar(
-                backgroundImage: NetworkImage(avatarUrl ?? DEFAULT_AVATAR_URL),
+                backgroundImage: NetworkImage(MinioService.getImageUrl(avatarUrl, DEFAULT_URL.AVATAR)),
                 radius: 24,
               ),
             ),
