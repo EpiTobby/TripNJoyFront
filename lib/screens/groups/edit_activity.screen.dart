@@ -284,7 +284,7 @@ class EditActivity extends HookConsumerWidget {
                                         ?.map(
                                           (e) => LayoutRowItemMember(
                                             name: "${e.firstname} ${e.lastname}",
-                                            avatarUrl: MinioService.getImageUrl(e.profilePicture),
+                                            avatarUrl: MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
                                             isSelected:
                                                 participants.value.where((member) => member.id == e.id).isNotEmpty,
                                             onTap: (value) {
@@ -294,7 +294,7 @@ class EditActivity extends HookConsumerWidget {
                                                   ChatMember(
                                                       id: e.id!,
                                                       name: "${e.firstname} ${e.lastname}",
-                                                      avatar: NetworkImage(e.profilePicture ?? DEFAULT_AVATAR_URL))
+                                                      avatar: NetworkImage(MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR))
                                                 ];
                                               } else {
                                                 participants.value =

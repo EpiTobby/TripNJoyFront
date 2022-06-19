@@ -43,7 +43,7 @@ class Activity {
               ?.map((e) => ChatMember(
                   id: e.userId!,
                   name: "${e.firstname} ${e.lastname}",
-                  avatar: NetworkImage(MinioService.getImageUrl(e.profilePicture) ?? DEFAULT_AVATAR_URL)))
+                  avatar: NetworkImage(MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR))))
               .toList() ??
           [],
       color: HexColor.fromHex(activity.color!),

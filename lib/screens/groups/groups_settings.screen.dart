@@ -51,7 +51,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                 shrinkWrap: true,
                 children: [
                   LayoutHeader(
-                    imageURL: MinioService.getImageUrl(group.picture) ?? DEFAULT_GROUP_AVATAR_URL,
+                    imageURL: MinioService.getImageUrl(group.picture, DEFAULT_URL.GROUP),
                     onClick: () async {
                       final imageURL = await minioService.uploadImage();
 
@@ -101,7 +101,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                             ...group.members!.map((member) {
                               return LayoutMember(
                                 name: member.firstname! + " " + member.lastname!,
-                                imageURL: MinioService.getImageUrl(member.profilePicture) ?? DEFAULT_AVATAR_URL,
+                                imageURL: MinioService.getImageUrl(member.profilePicture, DEFAULT_URL.AVATAR),
                                 onClick: () {
                                   showMaterialModalBottomSheet(
                                       context: context,

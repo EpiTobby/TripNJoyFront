@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/notifications/notification_item.widget.dart';
 
 class NotificationItemPicture extends StatelessWidget {
@@ -20,9 +22,7 @@ class NotificationItemPicture extends StatelessWidget {
     return NotificationItem(
       leading: CircleAvatar(
         radius: 48.0,
-        backgroundImage: NetworkImage(
-          imageUrl,
-        ),
+        backgroundImage: NetworkImage(MinioService.getImageUrl(imageUrl, DEFAULT_URL.IMAGE)),
       ),
       title: title,
       subtitle: subtitle,

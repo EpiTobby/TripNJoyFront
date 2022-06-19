@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 
 class PlanningActivity extends StatelessWidget {
   const PlanningActivity({
@@ -77,9 +79,9 @@ class PlanningActivity extends StatelessWidget {
                                 return Padding(
                                   padding: const EdgeInsets.only(left: 2.0),
                                   child: CircleAvatar(
-                                    radius: 8,
-                                    backgroundImage: NetworkImage(member),
-                                  ),
+                                      radius: 8,
+                                      backgroundImage:
+                                          NetworkImage(member)),
                                 );
                               }).toList(),
                               if (members.length > 2)

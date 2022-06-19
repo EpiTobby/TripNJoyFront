@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 
@@ -24,7 +25,7 @@ class ChatImage extends ConsumerWidget {
                 shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
               ),
               body: Image.network(
-                MinioService.getImageUrl(url)!,
+                MinioService.getImageUrl(url, DEFAULT_URL.IMAGE),
                 fit: BoxFit.scaleDown,
                 height: double.infinity,
                 width: double.infinity,
@@ -44,7 +45,7 @@ class ChatImage extends ConsumerWidget {
           fit: BoxFit.cover,
           width: 200,
           height: 200,
-          image: NetworkImage(MinioService.getImageUrl(url)!),
+          image: NetworkImage(MinioService.getImageUrl(url, DEFAULT_URL.IMAGE)),
         ),
       ),
     );
