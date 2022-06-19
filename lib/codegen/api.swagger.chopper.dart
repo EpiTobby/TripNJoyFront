@@ -17,6 +17,25 @@ class _$Api extends Api {
   final definitionType = Api;
 
   @override
+  Future<Response<ExpenseModel>> _expensesGroupIdExpenseIdPut(
+      {required num? groupId,
+      required num? expenseId,
+      required ExpenseRequest? body}) {
+    final $url = '/expenses/${groupId}/${expenseId}';
+    final $body = body;
+    final $request = Request('PUT', $url, client.baseUrl, body: $body);
+    return client.send<ExpenseModel, ExpenseModel>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _expensesGroupIdExpenseIdDelete(
+      {required num? groupId, required num? expenseId}) {
+    final $url = '/expenses/${groupId}/${expenseId}';
+    final $request = Request('DELETE', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<List<ProfileModel>>> _idProfilesGet({required num? id}) {
     final $url = '/${id}/profiles';
     final $request = Request('GET', $url, client.baseUrl);
@@ -113,7 +132,7 @@ class _$Api extends Api {
   Future<Response<ExpenseModel>> _expensesGroupPurchaserUserPost(
       {required num? group,
       required num? user,
-      required CreateExpenseRequest? body}) {
+      required ExpenseRequest? body}) {
     final $url = '/expenses/${group}/purchaser/${user}';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -426,6 +445,14 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<List<ExpenseModel>>> _expensesGroupGet(
+      {required num? group}) {
+    final $url = '/expenses/${group}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<List<ExpenseModel>, ExpenseModel>($request);
+  }
+
+  @override
   Future<Response<List<MoneyDueResponse>>> _expensesGroupUserUserDebtsGet(
       {required num? group, required num? user}) {
     final $url = '/expenses/${group}/user/${user}/debts';
@@ -505,14 +532,6 @@ class _$Api extends Api {
   Future<Response<dynamic>> _groupsPrivateGroupUserIdDelete(
       {required num? group, required num? id}) {
     final $url = '/groups/private/${group}/user/${id}';
-    final $request = Request('DELETE', $url, client.baseUrl);
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _expensesGroupIdExpenseIdDelete(
-      {required num? groupId, required num? expenseId}) {
-    final $url = '/expenses/${groupId}/${expenseId}';
     final $request = Request('DELETE', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }

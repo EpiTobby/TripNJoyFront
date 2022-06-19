@@ -66,10 +66,11 @@ class EditExpense extends HookConsumerWidget {
                           .where((element) => element.selected)
                           .map((element) => MoneyDueRequest(userId: element.member.id, money: element.amount).toJson())
                           .toList(),
+                      'icon': icon.value,
                       'evenlyDivided': paidFor.value!.every((element) => element.weight == 1),
                       'total': price.value,
                     };
-                    await budgetViewModel.addExpense(groupId, paidBy.value!.id, CreateExpenseRequest.fromJson(json));
+                    await budgetViewModel.addExpense(groupId, paidBy.value!.id, ExpenseRequest.fromJson(json));
                     isLoading.value = false;
                     Navigator.of(context).pop();
                   },

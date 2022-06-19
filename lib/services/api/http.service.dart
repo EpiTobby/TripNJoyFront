@@ -109,5 +109,7 @@ abstract class HttpService {
 
   Future<List<BalanceResponse>?> getBudgetBalance(int groupId);
 
-  Future<ExpenseModel?> createExpense(int groupId, num? userId, CreateExpenseRequest body);
+  Future<ExpenseModel?> createExpense(int groupId, num? userId, ExpenseRequest body);
+
+  Future<List<ExpenseModel>?> getExpenses(int groupId);
 }
