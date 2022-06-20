@@ -29,7 +29,7 @@ class LayoutMemberExpense extends HookConsumerWidget {
     }, [expense.weight]);
 
     useEffect(() {
-      amountController.text = expense.amount?.toString() ?? "0.0";
+      amountController.text = expense.amount?.toStringAsFixed(2) ?? "0.0";
       return null;
     }, [expense.amount]);
 

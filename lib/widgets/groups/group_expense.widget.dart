@@ -15,21 +15,26 @@ class BudgetExpense extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iconData = IconData(int.parse(expense.icon!), fontFamily: 'MaterialIcons');
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          if (expense.icon != null) Icon(iconData, size: 16.0, color: Theme.of(context).colorScheme.primary),
-          Column(
+    return Row(
+      children: [
+        if (expense.icon != null)
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Icon(iconData, size: 48.0, color: Theme.of(context).colorScheme.primary),
+          ),
+        Expanded(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(expense.description ?? "", style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+              Text(expense.description ?? "",
+                  style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary)),
               Text(
-                  AppLocalizations.of(context).translate("groups.budget.expense.paid_by",
+                  AppLocalizations.of(context).translate("groups.budget.expenses.paid_by",
                       {"name": "${expense.purchaser?.firstname} ${expense.purchaser?.lastname}"}),
                   style: TextStyle(color: Theme.of(context).colorScheme.primary)),
               Text(
-                  AppLocalizations.of(context).translate("groups.budget.expense.paid_for", {
+                  AppLocalizations.of(context).translate("groups.budget.expenses.paid_for", {
                     "members": expense.indebtedUsers
                             ?.map((u) => "${u.userModel?.firstname} ${u.userModel?.lastname}")
                             .join(", ") ??
@@ -38,14 +43,14 @@ class BudgetExpense extends StatelessWidget {
                   style: TextStyle(color: Theme.of(context).colorScheme.primary)),
             ],
           ),
-          Text(
-            "${expense.total ?? 0.toStringAsFixed(2)}€",
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-          ),
-        ],
-      ),
+        ),
+        Text(
+          "${(expense.total ?? 0).toStringAsFixed(2)}€",
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.secondary),
+        ),
+      ],
     );
   }
 }

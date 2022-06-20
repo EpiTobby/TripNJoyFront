@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/providers/groups/budget.provider.dart';
@@ -19,10 +20,16 @@ class GroupExpenses extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final budgetViewModel = ref.watch(budgetProvider);
     final expenses = budgetViewModel.expenses;
+
+    useEffect(() {
+      Future.microtask(() => ref.read(budgetProvider).getGroupExpenses(groupId));
+      return null;
+    }, []);
+
     return Column(
       children: [
         LayoutBox(
-          title: AppLocalizations.of(context).translate("groups.budget.expenses"),
+          title: AppLocalizations.of(context).translate("groups.budget.expenses.title"),
           children: expenses.when(
             data: (data) => data.map((e) => BudgetExpense(expense: e)).toList(),
             loading: () => [const Center(child: CircularProgressIndicator())],
