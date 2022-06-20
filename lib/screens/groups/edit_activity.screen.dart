@@ -294,7 +294,8 @@ class EditActivity extends HookConsumerWidget {
                                                   ChatMember(
                                                       id: e.id!,
                                                       name: "${e.firstname} ${e.lastname}",
-                                                      avatar: NetworkImage(MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR))
+                                                      avatar: NetworkImage(MinioService.getImageUrl(
+                                                          e.profilePicture, DEFAULT_URL.AVATAR)))
                                                 ];
                                               } else {
                                                 participants.value =
