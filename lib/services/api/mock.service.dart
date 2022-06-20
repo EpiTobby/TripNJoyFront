@@ -473,4 +473,10 @@ class MockService extends HttpService {
     // TODO: implement getExpenses
     throw UnimplementedError();
   }
+
+  @override
+  Future<ExpenseModel?> updateExpense(int groupId, num? userId, num? expenseId, ExpenseRequest body) {
+    // TODO: implement updateExpense
+    throw UnimplementedError();
+  }
 }

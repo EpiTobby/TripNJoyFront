@@ -25,11 +25,19 @@ class EditExpense extends HookConsumerWidget {
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
     final budgetViewModel = ref.watch(budgetProvider);
-    final icon = useState(Icons.add_shopping_cart);
-    final name = useState("");
-    final price = useState(0.0);
-    final paidBy = useState(group.members?.first);
-    final paidFor = useState(group.members?.map((e) => MemberExpense(member: e, weight: 1)).toList());
+    final icon = useState(expense?.icon != null
+        ? IconData(int.parse(expense!.icon!), fontFamily: 'MaterialIcons')
+        : Icons.add_shopping_cart);
+    final name = useState(expense?.description ?? '');
+    final price = useState(expense?.total ?? 0.0);
+    final paidBy = useState(
+        expense != null ? group.members?.firstWhere((m) => m.id == expense?.purchaser?.userId) : group.members?.first);
+    final paidFor = useState(expense != null
+        ? expense!.indebtedUsers
+            ?.map((e) => MemberExpense(
+                member: group.members!.firstWhere((m) => m.id == e.userModel?.userId), amount: e.amountToPay))
+            .toList()
+        : group.members?.map((e) => MemberExpense(member: e, weight: 1)).toList());
     final isLoading = useState(false);
 
     void balanceExpenses() {
@@ -44,6 +52,12 @@ class EditExpense extends HookConsumerWidget {
           paidFor.value != null &&
           paidFor.value!.every((element) => element.amount == null || element.amount! > 0);
     }
+
+    final nameController = useTextEditingController(text: name.value);
+    final priceController = useTextEditingController(text: price.value.toString())
+      ..addListener(() {
+        balanceExpenses();
+      });
 
     return Scaffold(
         appBar: AppBar(
@@ -70,7 +84,12 @@ class EditExpense extends HookConsumerWidget {
                       'evenlyDivided': paidFor.value!.every((element) => element.weight == 1),
                       'total': price.value,
                     };
-                    await budgetViewModel.addExpense(groupId, paidBy.value!.id, ExpenseRequest.fromJson(json));
+                    if (expense != null) {
+                      await budgetViewModel.updateExpense(
+                          groupId, paidBy.value!.id, expense!.id, ExpenseRequest.fromJson(json));
+                    } else {
+                      await budgetViewModel.addExpense(groupId, paidBy.value!.id, ExpenseRequest.fromJson(json));
+                    }
                     isLoading.value = false;
                     Navigator.of(context).pop();
                   },
@@ -121,11 +140,13 @@ class EditExpense extends HookConsumerWidget {
             ),
             InputField(
               label: AppLocalizations.of(context).translate("groups.budget.edit.name"),
+              controller: nameController,
               onChanged: (value) => name.value = value,
               icon: const Icon(Icons.shop),
             ),
             InputField(
               label: AppLocalizations.of(context).translate("groups.budget.edit.price"),
+              controller: priceController,
               onChanged: (value) {
                 price.value = double.tryParse(value) ?? 0.0;
                 balanceExpenses();
