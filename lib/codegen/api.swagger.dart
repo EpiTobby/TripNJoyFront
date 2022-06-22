@@ -31,42 +31,31 @@ abstract class Api extends ChopperService {
   ///
   ///@param groupId
   ///@param expenseId
-  Future<chopper.Response<ExpenseModel>> expensesGroupIdExpenseIdPut(
-      {required num? groupId,
-      required num? expenseId,
-      required ExpenseRequest? body}) {
+  ///@param user
+  Future<chopper.Response<ExpenseModel>>
+      expensesGroupIdExpenseIdPurchaserUserPut(
+          {required num? groupId,
+          required num? expenseId,
+          required num? user,
+          required ExpenseRequest? body}) {
     generatedMapping.putIfAbsent(
         ExpenseModel, () => ExpenseModel.fromJsonFactory);
 
-    return _expensesGroupIdExpenseIdPut(
-        groupId: groupId, expenseId: expenseId, body: body);
+    return _expensesGroupIdExpenseIdPurchaserUserPut(
+        groupId: groupId, expenseId: expenseId, user: user, body: body);
   }
 
   ///
   ///@param groupId
   ///@param expenseId
-  @Put(path: '/expenses/{groupId}/{expenseId}')
-  Future<chopper.Response<ExpenseModel>> _expensesGroupIdExpenseIdPut(
-      {@Path('groupId') required num? groupId,
-      @Path('expenseId') required num? expenseId,
-      @Body() required ExpenseRequest? body});
-
-  ///
-  ///@param groupId
-  ///@param expenseId
-  Future<chopper.Response> expensesGroupIdExpenseIdDelete(
-      {required num? groupId, required num? expenseId}) {
-    return _expensesGroupIdExpenseIdDelete(
-        groupId: groupId, expenseId: expenseId);
-  }
-
-  ///
-  ///@param groupId
-  ///@param expenseId
-  @Delete(path: '/expenses/{groupId}/{expenseId}')
-  Future<chopper.Response> _expensesGroupIdExpenseIdDelete(
-      {@Path('groupId') required num? groupId,
-      @Path('expenseId') required num? expenseId});
+  ///@param user
+  @Put(path: '/expenses/{groupId}/{expenseId}/purchaser/{user}')
+  Future<chopper.Response<ExpenseModel>>
+      _expensesGroupIdExpenseIdPurchaserUserPut(
+          {@Path('groupId') required num? groupId,
+          @Path('expenseId') required num? expenseId,
+          @Path('user') required num? user,
+          @Body() required ExpenseRequest? body});
 
   ///Get all profiles from a user
   ///@param id
@@ -100,6 +89,34 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<ProfileModel>> _idProfilesPost(
       {@Path('id') required num? id,
       @Body() required ProfileCreationRequest? body});
+
+  ///Create a report
+  Future<chopper.Response<ReportModel>> reportsPost(
+      {required SubmitReportRequest? body}) {
+    generatedMapping.putIfAbsent(
+        ReportModel, () => ReportModel.fromJsonFactory);
+
+    return _reportsPost(body: body);
+  }
+
+  ///Create a report
+  @Post(path: '/reports')
+  Future<chopper.Response<ReportModel>> _reportsPost(
+      {@Body() required SubmitReportRequest? body});
+
+  ///Create a recommendation
+  Future<chopper.Response<RecommendationModel>> recommendationsPost(
+      {required SubmitRecommendationRequest? body}) {
+    generatedMapping.putIfAbsent(
+        RecommendationModel, () => RecommendationModel.fromJsonFactory);
+
+    return _recommendationsPost(body: body);
+  }
+
+  ///Create a recommendation
+  @Post(path: '/recommendations')
+  Future<chopper.Response<RecommendationModel>> _recommendationsPost(
+      {@Body() required SubmitRecommendationRequest? body});
 
   ///Retrieve 10 places around geographic coordinates
   Future<chopper.Response<List<PlaceResponse>>> placesCoordinatesPost(
@@ -373,6 +390,49 @@ abstract class Api extends ChopperService {
   @Patch(path: '/users/{id}/update')
   Future<chopper.Response> _usersIdUpdatePatch(
       {@Path('id') required num? id, @Body() required UserUpdateRequest? body});
+
+  ///Get all the report posted by a user
+  ///@param id
+  Future<chopper.Response<List<ReportModel>>> reportsIdGet({required num? id}) {
+    generatedMapping.putIfAbsent(
+        ReportModel, () => ReportModel.fromJsonFactory);
+
+    return _reportsIdGet(id: id);
+  }
+
+  ///Get all the report posted by a user
+  ///@param id
+  @Get(path: '/reports/{id}')
+  Future<chopper.Response<List<ReportModel>>> _reportsIdGet(
+      {@Path('id') required num? id});
+
+  ///Delete a report
+  ///@param id
+  Future<chopper.Response> reportsIdDelete({required num? id}) {
+    return _reportsIdDelete(id: id);
+  }
+
+  ///Delete a report
+  ///@param id
+  @Delete(path: '/reports/{id}')
+  Future<chopper.Response> _reportsIdDelete({@Path('id') required num? id});
+
+  ///Update a report
+  ///@param id
+  Future<chopper.Response<ReportModel>> reportsIdPatch(
+      {required num? id, required UpdateReportRequest? body}) {
+    generatedMapping.putIfAbsent(
+        ReportModel, () => ReportModel.fromJsonFactory);
+
+    return _reportsIdPatch(id: id, body: body);
+  }
+
+  ///Update a report
+  ///@param id
+  @Patch(path: '/reports/{id}')
+  Future<chopper.Response<ReportModel>> _reportsIdPatch(
+      {@Path('id') required num? id,
+      @Body() required UpdateReportRequest? body});
 
   ///Update the public group
   ///@param group
@@ -703,6 +763,50 @@ abstract class Api extends ChopperService {
   @Get(path: '/users/me')
   Future<chopper.Response<UserModel>> _usersMeGet();
 
+  ///Get all the report of a user
+  ///@param id
+  Future<chopper.Response<List<ReportModel>>> reportsAdminIdGet(
+      {required num? id}) {
+    generatedMapping.putIfAbsent(
+        ReportModel, () => ReportModel.fromJsonFactory);
+
+    return _reportsAdminIdGet(id: id);
+  }
+
+  ///Get all the report of a user
+  ///@param id
+  @Get(path: '/reports/admin/{id}')
+  Future<chopper.Response<List<ReportModel>>> _reportsAdminIdGet(
+      {@Path('id') required num? id});
+
+  ///Get all the recommendation of a user
+  ///@param id
+  Future<chopper.Response<List<RecommendationModel>>> recommendationsIdGet(
+      {required num? id}) {
+    generatedMapping.putIfAbsent(
+        RecommendationModel, () => RecommendationModel.fromJsonFactory);
+
+    return _recommendationsIdGet(id: id);
+  }
+
+  ///Get all the recommendation of a user
+  ///@param id
+  @Get(path: '/recommendations/{id}')
+  Future<chopper.Response<List<RecommendationModel>>> _recommendationsIdGet(
+      {@Path('id') required num? id});
+
+  ///Delete a recommendation
+  ///@param id
+  Future<chopper.Response> recommendationsIdDelete({required num? id}) {
+    return _recommendationsIdDelete(id: id);
+  }
+
+  ///Delete a recommendation
+  ///@param id
+  @Delete(path: '/recommendations/{id}')
+  Future<chopper.Response> _recommendationsIdDelete(
+      {@Path('id') required num? id});
+
   ///Returns all the categories of locations
   Future<chopper.Response<List<String>>> placesCategoriesGet() {
     return _placesCategoriesGet();
@@ -962,6 +1066,23 @@ abstract class Api extends ChopperService {
   @Delete(path: '/groups/private/{group}/user/{id}')
   Future<chopper.Response> _groupsPrivateGroupUserIdDelete(
       {@Path('group') required num? group, @Path('id') required num? id});
+
+  ///
+  ///@param groupId
+  ///@param expenseId
+  Future<chopper.Response> expensesGroupIdExpenseIdDelete(
+      {required num? groupId, required num? expenseId}) {
+    return _expensesGroupIdExpenseIdDelete(
+        groupId: groupId, expenseId: expenseId);
+  }
+
+  ///
+  ///@param groupId
+  ///@param expenseId
+  @Delete(path: '/expenses/{groupId}/{expenseId}')
+  Future<chopper.Response> _expensesGroupIdExpenseIdDelete(
+      {@Path('groupId') required num? groupId,
+      @Path('expenseId') required num? expenseId});
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -2295,6 +2416,245 @@ extension $ProfileModelExtension on ProfileModel {
 }
 
 @JsonSerializable(explicitToJson: true)
+class SubmitReportRequest {
+  SubmitReportRequest({
+    this.reportedUserId,
+    this.reason,
+    this.details,
+  });
+
+  factory SubmitReportRequest.fromJson(Map<String, dynamic> json) =>
+      _$SubmitReportRequestFromJson(json);
+
+  @JsonKey(name: 'reportedUserId')
+  final num? reportedUserId;
+  @JsonKey(
+      name: 'reason',
+      toJson: submitReportRequestReasonToJson,
+      fromJson: submitReportRequestReasonFromJson)
+  final enums.SubmitReportRequestReason? reason;
+  @JsonKey(name: 'details')
+  final String? details;
+  static const fromJsonFactory = _$SubmitReportRequestFromJson;
+  static const toJsonFactory = _$SubmitReportRequestToJson;
+  Map<String, dynamic> toJson() => _$SubmitReportRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is SubmitReportRequest &&
+            (identical(other.reportedUserId, reportedUserId) ||
+                const DeepCollectionEquality()
+                    .equals(other.reportedUserId, reportedUserId)) &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.details, details) ||
+                const DeepCollectionEquality().equals(other.details, details)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(reportedUserId) ^
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(details) ^
+      runtimeType.hashCode;
+}
+
+extension $SubmitReportRequestExtension on SubmitReportRequest {
+  SubmitReportRequest copyWith(
+      {num? reportedUserId,
+      enums.SubmitReportRequestReason? reason,
+      String? details}) {
+    return SubmitReportRequest(
+        reportedUserId: reportedUserId ?? this.reportedUserId,
+        reason: reason ?? this.reason,
+        details: details ?? this.details);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReportModel {
+  ReportModel({
+    this.id,
+    this.reason,
+    this.details,
+    this.reportedUser,
+    this.submitter,
+  });
+
+  factory ReportModel.fromJson(Map<String, dynamic> json) =>
+      _$ReportModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(
+      name: 'reason',
+      toJson: reportModelReasonToJson,
+      fromJson: reportModelReasonFromJson)
+  final enums.ReportModelReason? reason;
+  @JsonKey(name: 'details')
+  final String? details;
+  @JsonKey(name: 'reportedUser')
+  final GroupMemberModel? reportedUser;
+  @JsonKey(name: 'submitter')
+  final GroupMemberModel? submitter;
+  static const fromJsonFactory = _$ReportModelFromJson;
+  static const toJsonFactory = _$ReportModelToJson;
+  Map<String, dynamic> toJson() => _$ReportModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ReportModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.details, details) ||
+                const DeepCollectionEquality()
+                    .equals(other.details, details)) &&
+            (identical(other.reportedUser, reportedUser) ||
+                const DeepCollectionEquality()
+                    .equals(other.reportedUser, reportedUser)) &&
+            (identical(other.submitter, submitter) ||
+                const DeepCollectionEquality()
+                    .equals(other.submitter, submitter)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(details) ^
+      const DeepCollectionEquality().hash(reportedUser) ^
+      const DeepCollectionEquality().hash(submitter) ^
+      runtimeType.hashCode;
+}
+
+extension $ReportModelExtension on ReportModel {
+  ReportModel copyWith(
+      {num? id,
+      enums.ReportModelReason? reason,
+      String? details,
+      GroupMemberModel? reportedUser,
+      GroupMemberModel? submitter}) {
+    return ReportModel(
+        id: id ?? this.id,
+        reason: reason ?? this.reason,
+        details: details ?? this.details,
+        reportedUser: reportedUser ?? this.reportedUser,
+        submitter: submitter ?? this.submitter);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SubmitRecommendationRequest {
+  SubmitRecommendationRequest({
+    this.reviewedUserId,
+    this.comment,
+  });
+
+  factory SubmitRecommendationRequest.fromJson(Map<String, dynamic> json) =>
+      _$SubmitRecommendationRequestFromJson(json);
+
+  @JsonKey(name: 'reviewedUserId')
+  final num? reviewedUserId;
+  @JsonKey(name: 'comment')
+  final String? comment;
+  static const fromJsonFactory = _$SubmitRecommendationRequestFromJson;
+  static const toJsonFactory = _$SubmitRecommendationRequestToJson;
+  Map<String, dynamic> toJson() => _$SubmitRecommendationRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is SubmitRecommendationRequest &&
+            (identical(other.reviewedUserId, reviewedUserId) ||
+                const DeepCollectionEquality()
+                    .equals(other.reviewedUserId, reviewedUserId)) &&
+            (identical(other.comment, comment) ||
+                const DeepCollectionEquality().equals(other.comment, comment)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(reviewedUserId) ^
+      const DeepCollectionEquality().hash(comment) ^
+      runtimeType.hashCode;
+}
+
+extension $SubmitRecommendationRequestExtension on SubmitRecommendationRequest {
+  SubmitRecommendationRequest copyWith({num? reviewedUserId, String? comment}) {
+    return SubmitRecommendationRequest(
+        reviewedUserId: reviewedUserId ?? this.reviewedUserId,
+        comment: comment ?? this.comment);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class RecommendationModel {
+  RecommendationModel({
+    this.id,
+    this.reviewer,
+    this.recommendedUser,
+    this.comment,
+  });
+
+  factory RecommendationModel.fromJson(Map<String, dynamic> json) =>
+      _$RecommendationModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'reviewer')
+  final GroupMemberModel? reviewer;
+  @JsonKey(name: 'recommendedUser')
+  final GroupMemberModel? recommendedUser;
+  @JsonKey(name: 'comment')
+  final String? comment;
+  static const fromJsonFactory = _$RecommendationModelFromJson;
+  static const toJsonFactory = _$RecommendationModelToJson;
+  Map<String, dynamic> toJson() => _$RecommendationModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is RecommendationModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.reviewer, reviewer) ||
+                const DeepCollectionEquality()
+                    .equals(other.reviewer, reviewer)) &&
+            (identical(other.recommendedUser, recommendedUser) ||
+                const DeepCollectionEquality()
+                    .equals(other.recommendedUser, recommendedUser)) &&
+            (identical(other.comment, comment) ||
+                const DeepCollectionEquality().equals(other.comment, comment)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(reviewer) ^
+      const DeepCollectionEquality().hash(recommendedUser) ^
+      const DeepCollectionEquality().hash(comment) ^
+      runtimeType.hashCode;
+}
+
+extension $RecommendationModelExtension on RecommendationModel {
+  RecommendationModel copyWith(
+      {num? id,
+      GroupMemberModel? reviewer,
+      GroupMemberModel? recommendedUser,
+      String? comment}) {
+    return RecommendationModel(
+        id: id ?? this.id,
+        reviewer: reviewer ?? this.reviewer,
+        recommendedUser: recommendedUser ?? this.recommendedUser,
+        comment: comment ?? this.comment);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class PlacesFromCoordinatesRequest {
   PlacesFromCoordinatesRequest({
     this.longitude,
@@ -3576,6 +3936,52 @@ extension $UserUpdateRequestExtension on UserUpdateRequest {
 }
 
 @JsonSerializable(explicitToJson: true)
+class UpdateReportRequest {
+  UpdateReportRequest({
+    this.reason,
+    this.details,
+  });
+
+  factory UpdateReportRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateReportRequestFromJson(json);
+
+  @JsonKey(
+      name: 'reason',
+      toJson: updateReportRequestReasonToJson,
+      fromJson: updateReportRequestReasonFromJson)
+  final enums.UpdateReportRequestReason? reason;
+  @JsonKey(name: 'details')
+  final String? details;
+  static const fromJsonFactory = _$UpdateReportRequestFromJson;
+  static const toJsonFactory = _$UpdateReportRequestToJson;
+  Map<String, dynamic> toJson() => _$UpdateReportRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UpdateReportRequest &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.details, details) ||
+                const DeepCollectionEquality().equals(other.details, details)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(details) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdateReportRequestExtension on UpdateReportRequest {
+  UpdateReportRequest copyWith(
+      {enums.UpdateReportRequestReason? reason, String? details}) {
+    return UpdateReportRequest(
+        reason: reason ?? this.reason, details: details ?? this.details);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class UpdatePublicGroupRequest {
   UpdatePublicGroupRequest({
     this.name,
@@ -3658,6 +4064,7 @@ class UpdateActivityRequest {
     this.location,
     this.icon,
     this.infos,
+    this.participants,
   });
 
   factory UpdateActivityRequest.fromJson(Map<String, dynamic> json) =>
@@ -3679,6 +4086,8 @@ class UpdateActivityRequest {
   final String? icon;
   @JsonKey(name: 'infos', defaultValue: <String>[])
   final List<String>? infos;
+  @JsonKey(name: 'participants', defaultValue: <num>[])
+  final List<num>? participants;
   static const fromJsonFactory = _$UpdateActivityRequestFromJson;
   static const toJsonFactory = _$UpdateActivityRequestToJson;
   Map<String, dynamic> toJson() => _$UpdateActivityRequestToJson(this);
@@ -3706,7 +4115,10 @@ class UpdateActivityRequest {
             (identical(other.icon, icon) ||
                 const DeepCollectionEquality().equals(other.icon, icon)) &&
             (identical(other.infos, infos) ||
-                const DeepCollectionEquality().equals(other.infos, infos)));
+                const DeepCollectionEquality().equals(other.infos, infos)) &&
+            (identical(other.participants, participants) ||
+                const DeepCollectionEquality()
+                    .equals(other.participants, participants)));
   }
 
   @override
@@ -3719,6 +4131,7 @@ class UpdateActivityRequest {
       const DeepCollectionEquality().hash(location) ^
       const DeepCollectionEquality().hash(icon) ^
       const DeepCollectionEquality().hash(infos) ^
+      const DeepCollectionEquality().hash(participants) ^
       runtimeType.hashCode;
 }
 
@@ -3731,7 +4144,8 @@ extension $UpdateActivityRequestExtension on UpdateActivityRequest {
       String? color,
       String? location,
       String? icon,
-      List<String>? infos}) {
+      List<String>? infos,
+      List<num>? participants}) {
     return UpdateActivityRequest(
         name: name ?? this.name,
         description: description ?? this.description,
@@ -3740,7 +4154,8 @@ extension $UpdateActivityRequestExtension on UpdateActivityRequest {
         color: color ?? this.color,
         location: location ?? this.location,
         icon: icon ?? this.icon,
-        infos: infos ?? this.infos);
+        infos: infos ?? this.infos,
+        participants: participants ?? this.participants);
   }
 }
 
@@ -6118,6 +6533,108 @@ List<enums.ProfileModelSport> profileModelSportListFromJson(
       .toList();
 }
 
+String? submitReportRequestReasonToJson(
+    enums.SubmitReportRequestReason? submitReportRequestReason) {
+  return enums.$SubmitReportRequestReasonMap[submitReportRequestReason];
+}
+
+enums.SubmitReportRequestReason submitReportRequestReasonFromJson(
+    Object? submitReportRequestReason) {
+  if (submitReportRequestReason is int) {
+    return enums.$SubmitReportRequestReasonMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                submitReportRequestReason.toString(),
+            orElse: () => const MapEntry(
+                enums.SubmitReportRequestReason.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (submitReportRequestReason is String) {
+    return enums.$SubmitReportRequestReasonMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                submitReportRequestReason.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.SubmitReportRequestReason.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.SubmitReportRequestReason.swaggerGeneratedUnknown;
+}
+
+List<String> submitReportRequestReasonListToJson(
+    List<enums.SubmitReportRequestReason>? submitReportRequestReason) {
+  if (submitReportRequestReason == null) {
+    return [];
+  }
+
+  return submitReportRequestReason
+      .map((e) => enums.$SubmitReportRequestReasonMap[e]!)
+      .toList();
+}
+
+List<enums.SubmitReportRequestReason> submitReportRequestReasonListFromJson(
+    List? submitReportRequestReason) {
+  if (submitReportRequestReason == null) {
+    return [];
+  }
+
+  return submitReportRequestReason
+      .map((e) => submitReportRequestReasonFromJson(e.toString()))
+      .toList();
+}
+
+String? reportModelReasonToJson(enums.ReportModelReason? reportModelReason) {
+  return enums.$ReportModelReasonMap[reportModelReason];
+}
+
+enums.ReportModelReason reportModelReasonFromJson(Object? reportModelReason) {
+  if (reportModelReason is int) {
+    return enums.$ReportModelReasonMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == reportModelReason.toString(),
+            orElse: () => const MapEntry(
+                enums.ReportModelReason.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (reportModelReason is String) {
+    return enums.$ReportModelReasonMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == reportModelReason.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.ReportModelReason.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.ReportModelReason.swaggerGeneratedUnknown;
+}
+
+List<String> reportModelReasonListToJson(
+    List<enums.ReportModelReason>? reportModelReason) {
+  if (reportModelReason == null) {
+    return [];
+  }
+
+  return reportModelReason.map((e) => enums.$ReportModelReasonMap[e]!).toList();
+}
+
+List<enums.ReportModelReason> reportModelReasonListFromJson(
+    List? reportModelReason) {
+  if (reportModelReason == null) {
+    return [];
+  }
+
+  return reportModelReason
+      .map((e) => reportModelReasonFromJson(e.toString()))
+      .toList();
+}
+
 String? placesFromCoordinatesRequestCategoriesToJson(
     enums.PlacesFromCoordinatesRequestCategories?
         placesFromCoordinatesRequestCategories) {
@@ -6786,6 +7303,60 @@ List<enums.ProfileUpdateRequestSport> profileUpdateRequestSportListFromJson(
 
   return profileUpdateRequestSport
       .map((e) => profileUpdateRequestSportFromJson(e.toString()))
+      .toList();
+}
+
+String? updateReportRequestReasonToJson(
+    enums.UpdateReportRequestReason? updateReportRequestReason) {
+  return enums.$UpdateReportRequestReasonMap[updateReportRequestReason];
+}
+
+enums.UpdateReportRequestReason updateReportRequestReasonFromJson(
+    Object? updateReportRequestReason) {
+  if (updateReportRequestReason is int) {
+    return enums.$UpdateReportRequestReasonMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                updateReportRequestReason.toString(),
+            orElse: () => const MapEntry(
+                enums.UpdateReportRequestReason.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (updateReportRequestReason is String) {
+    return enums.$UpdateReportRequestReasonMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                updateReportRequestReason.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.UpdateReportRequestReason.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.UpdateReportRequestReason.swaggerGeneratedUnknown;
+}
+
+List<String> updateReportRequestReasonListToJson(
+    List<enums.UpdateReportRequestReason>? updateReportRequestReason) {
+  if (updateReportRequestReason == null) {
+    return [];
+  }
+
+  return updateReportRequestReason
+      .map((e) => enums.$UpdateReportRequestReasonMap[e]!)
+      .toList();
+}
+
+List<enums.UpdateReportRequestReason> updateReportRequestReasonListFromJson(
+    List? updateReportRequestReason) {
+  if (updateReportRequestReason == null) {
+    return [];
+  }
+
+  return updateReportRequestReason
+      .map((e) => updateReportRequestReasonFromJson(e.toString()))
       .toList();
 }
 

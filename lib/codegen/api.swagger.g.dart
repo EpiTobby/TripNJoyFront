@@ -412,6 +412,80 @@ Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
       'active': instance.active,
     };
 
+SubmitReportRequest _$SubmitReportRequestFromJson(Map<String, dynamic> json) =>
+    SubmitReportRequest(
+      reportedUserId: json['reportedUserId'] as num?,
+      reason: submitReportRequestReasonFromJson(json['reason']),
+      details: json['details'] as String?,
+    );
+
+Map<String, dynamic> _$SubmitReportRequestToJson(
+        SubmitReportRequest instance) =>
+    <String, dynamic>{
+      'reportedUserId': instance.reportedUserId,
+      'reason': submitReportRequestReasonToJson(instance.reason),
+      'details': instance.details,
+    };
+
+ReportModel _$ReportModelFromJson(Map<String, dynamic> json) => ReportModel(
+      id: json['id'] as num?,
+      reason: reportModelReasonFromJson(json['reason']),
+      details: json['details'] as String?,
+      reportedUser: json['reportedUser'] == null
+          ? null
+          : GroupMemberModel.fromJson(
+              json['reportedUser'] as Map<String, dynamic>),
+      submitter: json['submitter'] == null
+          ? null
+          : GroupMemberModel.fromJson(
+              json['submitter'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ReportModelToJson(ReportModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'reason': reportModelReasonToJson(instance.reason),
+      'details': instance.details,
+      'reportedUser': instance.reportedUser?.toJson(),
+      'submitter': instance.submitter?.toJson(),
+    };
+
+SubmitRecommendationRequest _$SubmitRecommendationRequestFromJson(
+        Map<String, dynamic> json) =>
+    SubmitRecommendationRequest(
+      reviewedUserId: json['reviewedUserId'] as num?,
+      comment: json['comment'] as String?,
+    );
+
+Map<String, dynamic> _$SubmitRecommendationRequestToJson(
+        SubmitRecommendationRequest instance) =>
+    <String, dynamic>{
+      'reviewedUserId': instance.reviewedUserId,
+      'comment': instance.comment,
+    };
+
+RecommendationModel _$RecommendationModelFromJson(Map<String, dynamic> json) =>
+    RecommendationModel(
+      id: json['id'] as num?,
+      reviewer: json['reviewer'] == null
+          ? null
+          : GroupMemberModel.fromJson(json['reviewer'] as Map<String, dynamic>),
+      recommendedUser: json['recommendedUser'] == null
+          ? null
+          : GroupMemberModel.fromJson(
+              json['recommendedUser'] as Map<String, dynamic>),
+      comment: json['comment'] as String?,
+    );
+
+Map<String, dynamic> _$RecommendationModelToJson(
+        RecommendationModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'reviewer': instance.reviewer?.toJson(),
+      'recommendedUser': instance.recommendedUser?.toJson(),
+      'comment': instance.comment,
+    };
+
 PlacesFromCoordinatesRequest _$PlacesFromCoordinatesRequestFromJson(
         Map<String, dynamic> json) =>
     PlacesFromCoordinatesRequest(
@@ -801,6 +875,19 @@ Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
       'language': instance.language,
     };
 
+UpdateReportRequest _$UpdateReportRequestFromJson(Map<String, dynamic> json) =>
+    UpdateReportRequest(
+      reason: updateReportRequestReasonFromJson(json['reason']),
+      details: json['details'] as String?,
+    );
+
+Map<String, dynamic> _$UpdateReportRequestToJson(
+        UpdateReportRequest instance) =>
+    <String, dynamic>{
+      'reason': updateReportRequestReasonToJson(instance.reason),
+      'details': instance.details,
+    };
+
 UpdatePublicGroupRequest _$UpdatePublicGroupRequestFromJson(
         Map<String, dynamic> json) =>
     UpdatePublicGroupRequest(
@@ -842,6 +929,10 @@ UpdateActivityRequest _$UpdateActivityRequestFromJson(
       infos:
           (json['infos'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               [],
+      participants: (json['participants'] as List<dynamic>?)
+              ?.map((e) => e as num)
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$UpdateActivityRequestToJson(
@@ -855,6 +946,7 @@ Map<String, dynamic> _$UpdateActivityRequestToJson(
       'location': instance.location,
       'icon': instance.icon,
       'infos': instance.infos,
+      'participants': instance.participants,
     };
 
 UpdatePrivateGroupRequest _$UpdatePrivateGroupRequestFromJson(

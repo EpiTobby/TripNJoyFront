@@ -386,6 +386,46 @@ const $ProfileModelSportMap = {
   ProfileModelSport.noPreference: 'NO_PREFERENCE'
 };
 
+enum SubmitReportRequestReason {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('REIMBURSEMENT_PROBLEM')
+  reimbursementProblem,
+  @JsonValue('INNAPROPRIATE_BEHAVIOR')
+  innapropriateBehavior,
+  @JsonValue('HYGIENE_PROBLEM')
+  hygieneProblem,
+  @JsonValue('OTHER')
+  other
+}
+
+const $SubmitReportRequestReasonMap = {
+  SubmitReportRequestReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
+  SubmitReportRequestReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
+  SubmitReportRequestReason.hygieneProblem: 'HYGIENE_PROBLEM',
+  SubmitReportRequestReason.other: 'OTHER'
+};
+
+enum ReportModelReason {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('REIMBURSEMENT_PROBLEM')
+  reimbursementProblem,
+  @JsonValue('INNAPROPRIATE_BEHAVIOR')
+  innapropriateBehavior,
+  @JsonValue('HYGIENE_PROBLEM')
+  hygieneProblem,
+  @JsonValue('OTHER')
+  other
+}
+
+const $ReportModelReasonMap = {
+  ReportModelReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
+  ReportModelReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
+  ReportModelReason.hygieneProblem: 'HYGIENE_PROBLEM',
+  ReportModelReason.other: 'OTHER'
+};
+
 enum PlacesFromCoordinatesRequestCategories {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
@@ -407,8 +447,8 @@ enum PlacesFromCoordinatesRequestCategories {
   chineseRestaurant,
   @JsonValue('COFFEE_SHOP')
   coffeeShop,
-  @JsonValue('ENTERTAINEMENT')
-  entertainement,
+  @JsonValue('ENTERTAINMENT')
+  entertainment,
   @JsonValue('FAST_FOOD')
   fastFood,
   @JsonValue('FISH_AND_CHIPS_RESTAURANT')
@@ -421,8 +461,8 @@ enum PlacesFromCoordinatesRequestCategories {
   parking,
   @JsonValue('RESTAURANT')
   restaurant,
-  @JsonValue('SEAFOOD_RESTARANT')
-  seafoodRestarant,
+  @JsonValue('SEAFOOD_RESTAURANT')
+  seafoodRestaurant,
   @JsonValue('SUPERMARKET')
   supermarket,
   @JsonValue('SWIMMING_POOL')
@@ -448,7 +488,7 @@ const $PlacesFromCoordinatesRequestCategoriesMap = {
   PlacesFromCoordinatesRequestCategories.chineseRestaurant:
       'CHINESE_RESTAURANT',
   PlacesFromCoordinatesRequestCategories.coffeeShop: 'COFFEE_SHOP',
-  PlacesFromCoordinatesRequestCategories.entertainement: 'ENTERTAINEMENT',
+  PlacesFromCoordinatesRequestCategories.entertainment: 'ENTERTAINMENT',
   PlacesFromCoordinatesRequestCategories.fastFood: 'FAST_FOOD',
   PlacesFromCoordinatesRequestCategories.fishAndChipsRestaurant:
       'FISH_AND_CHIPS_RESTAURANT',
@@ -457,7 +497,8 @@ const $PlacesFromCoordinatesRequestCategoriesMap = {
   PlacesFromCoordinatesRequestCategories.museum: 'MUSEUM',
   PlacesFromCoordinatesRequestCategories.parking: 'PARKING',
   PlacesFromCoordinatesRequestCategories.restaurant: 'RESTAURANT',
-  PlacesFromCoordinatesRequestCategories.seafoodRestarant: 'SEAFOOD_RESTARANT',
+  PlacesFromCoordinatesRequestCategories.seafoodRestaurant:
+      'SEAFOOD_RESTAURANT',
   PlacesFromCoordinatesRequestCategories.supermarket: 'SUPERMARKET',
   PlacesFromCoordinatesRequestCategories.swimmingPool: 'SWIMMING_POOL',
   PlacesFromCoordinatesRequestCategories.subway: 'SUBWAY',
@@ -487,8 +528,8 @@ enum PlacesFromAddressRequestCategories {
   chineseRestaurant,
   @JsonValue('COFFEE_SHOP')
   coffeeShop,
-  @JsonValue('ENTERTAINEMENT')
-  entertainement,
+  @JsonValue('ENTERTAINMENT')
+  entertainment,
   @JsonValue('FAST_FOOD')
   fastFood,
   @JsonValue('FISH_AND_CHIPS_RESTAURANT')
@@ -501,8 +542,8 @@ enum PlacesFromAddressRequestCategories {
   parking,
   @JsonValue('RESTAURANT')
   restaurant,
-  @JsonValue('SEAFOOD_RESTARANT')
-  seafoodRestarant,
+  @JsonValue('SEAFOOD_RESTAURANT')
+  seafoodRestaurant,
   @JsonValue('SUPERMARKET')
   supermarket,
   @JsonValue('SWIMMING_POOL')
@@ -527,7 +568,7 @@ const $PlacesFromAddressRequestCategoriesMap = {
   PlacesFromAddressRequestCategories.change: 'CHANGE',
   PlacesFromAddressRequestCategories.chineseRestaurant: 'CHINESE_RESTAURANT',
   PlacesFromAddressRequestCategories.coffeeShop: 'COFFEE_SHOP',
-  PlacesFromAddressRequestCategories.entertainement: 'ENTERTAINEMENT',
+  PlacesFromAddressRequestCategories.entertainment: 'ENTERTAINMENT',
   PlacesFromAddressRequestCategories.fastFood: 'FAST_FOOD',
   PlacesFromAddressRequestCategories.fishAndChipsRestaurant:
       'FISH_AND_CHIPS_RESTAURANT',
@@ -535,7 +576,7 @@ const $PlacesFromAddressRequestCategoriesMap = {
   PlacesFromAddressRequestCategories.museum: 'MUSEUM',
   PlacesFromAddressRequestCategories.parking: 'PARKING',
   PlacesFromAddressRequestCategories.restaurant: 'RESTAURANT',
-  PlacesFromAddressRequestCategories.seafoodRestarant: 'SEAFOOD_RESTARANT',
+  PlacesFromAddressRequestCategories.seafoodRestaurant: 'SEAFOOD_RESTAURANT',
   PlacesFromAddressRequestCategories.supermarket: 'SUPERMARKET',
   PlacesFromAddressRequestCategories.swimmingPool: 'SWIMMING_POOL',
   PlacesFromAddressRequestCategories.subway: 'SUBWAY',
@@ -702,6 +743,26 @@ const $ProfileUpdateRequestSportMap = {
   ProfileUpdateRequestSport.yes: 'YES',
   ProfileUpdateRequestSport.no: 'NO',
   ProfileUpdateRequestSport.noPreference: 'NO_PREFERENCE'
+};
+
+enum UpdateReportRequestReason {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('REIMBURSEMENT_PROBLEM')
+  reimbursementProblem,
+  @JsonValue('INNAPROPRIATE_BEHAVIOR')
+  innapropriateBehavior,
+  @JsonValue('HYGIENE_PROBLEM')
+  hygieneProblem,
+  @JsonValue('OTHER')
+  other
+}
+
+const $UpdateReportRequestReasonMap = {
+  UpdateReportRequestReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
+  UpdateReportRequestReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
+  UpdateReportRequestReason.hygieneProblem: 'HYGIENE_PROBLEM',
+  UpdateReportRequestReason.other: 'OTHER'
 };
 
 enum UpdatePrivateGroupRequestState {

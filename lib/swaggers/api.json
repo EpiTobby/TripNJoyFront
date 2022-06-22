@@ -11,7 +11,7 @@
     }
   ],
   "paths": {
-    "/expenses/{groupId}/{expenseId}": {
+    "/expenses/{groupId}/{expenseId}/purchaser/{user}": {
       "put": {
         "tags": [
           "expense-controller"
@@ -29,6 +29,15 @@
           },
           {
             "name": "expenseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
             "in": "path",
             "required": true,
             "schema": {
@@ -57,37 +66,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "expense-controller"
-        ],
-        "operationId": "deleteExpense",
-        "parameters": [
-          {
-            "name": "groupId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "expenseId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -183,6 +161,88 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ProfileModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports": {
+      "post": {
+        "tags": [
+          "report-controller"
+        ],
+        "summary": "Create a report",
+        "operationId": "submitReport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitReportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The report has been created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The submitter or reported user do not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recommendations": {
+      "post": {
+        "tags": [
+          "recommendation-controller"
+        ],
+        "summary": "Create a recommendation",
+        "operationId": "submitRecommendation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitRecommendationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The recommendation has been created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendationModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The submitter or reviewed user do not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendationModel"
                 }
               }
             }
@@ -996,6 +1056,117 @@
           },
           "422": {
             "description": "If the user does not exist"
+          }
+        }
+      }
+    },
+    "/reports/{id}": {
+      "get": {
+        "tags": [
+          "report-controller"
+        ],
+        "summary": "Get all the report posted by a user",
+        "operationId": "getBySubmitterId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "report-controller"
+        ],
+        "summary": "Delete a report",
+        "operationId": "deleteReport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The report has been deleted"
+          },
+          "404": {
+            "description": "The report does not exist"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "report-controller"
+        ],
+        "summary": "Update a report",
+        "operationId": "updateReport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The report has been updated",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The report does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportModel"
+                }
+              }
+            }
           }
         }
       }
@@ -1846,6 +2017,102 @@
         }
       }
     },
+    "/reports/admin/{id}": {
+      "get": {
+        "tags": [
+          "report-controller"
+        ],
+        "summary": "Get all the report of a user",
+        "operationId": "getByReporterUserId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recommendations/{id}": {
+      "get": {
+        "tags": [
+          "recommendation-controller"
+        ],
+        "summary": "Get all the recommendation of a user",
+        "operationId": "getByReviewedUserId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecommendationModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "recommendation-controller"
+        ],
+        "summary": "Delete a recommendation",
+        "operationId": "deleteRecommendation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The recommendation has been deleted"
+          },
+          "404": {
+            "description": "The recommendation does not exist"
+          }
+        }
+      }
+    },
     "/places/categories": {
       "get": {
         "tags": [
@@ -1872,14 +2139,14 @@
                       "CHANGE",
                       "CHINESE_RESTAURANT",
                       "COFFEE_SHOP",
-                      "ENTERTAINEMENT",
+                      "ENTERTAINMENT",
                       "FAST_FOOD",
                       "FISH_AND_CHIPS_RESTAURANT",
                       "ITALIAN_RESTAURANT",
                       "MUSEUM",
                       "PARKING",
                       "RESTAURANT",
-                      "SEAFOOD_RESTARANT",
+                      "SEAFOOD_RESTAURANT",
                       "SUPERMARKET",
                       "SWIMMING_POOL",
                       "SUBWAY",
@@ -2492,6 +2759,39 @@
           }
         }
       }
+    },
+    "/expenses/{groupId}/{expenseId}": {
+      "delete": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "deleteExpense",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "expenseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -3044,6 +3344,84 @@
           }
         }
       },
+      "SubmitReportRequest": {
+        "type": "object",
+        "properties": {
+          "reportedUserId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "REIMBURSEMENT_PROBLEM",
+              "INNAPROPRIATE_BEHAVIOR",
+              "HYGIENE_PROBLEM",
+              "OTHER"
+            ]
+          },
+          "details": {
+            "type": "string"
+          }
+        }
+      },
+      "ReportModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "REIMBURSEMENT_PROBLEM",
+              "INNAPROPRIATE_BEHAVIOR",
+              "HYGIENE_PROBLEM",
+              "OTHER"
+            ]
+          },
+          "details": {
+            "type": "string"
+          },
+          "reportedUser": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "submitter": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          }
+        }
+      },
+      "SubmitRecommendationRequest": {
+        "type": "object",
+        "properties": {
+          "reviewedUserId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "comment": {
+            "type": "string"
+          }
+        }
+      },
+      "RecommendationModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reviewer": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "recommendedUser": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "comment": {
+            "type": "string"
+          }
+        }
+      },
       "PlacesFromCoordinatesRequest": {
         "type": "object",
         "properties": {
@@ -3069,14 +3447,14 @@
                 "CHANGE",
                 "CHINESE_RESTAURANT",
                 "COFFEE_SHOP",
-                "ENTERTAINEMENT",
+                "ENTERTAINMENT",
                 "FAST_FOOD",
                 "FISH_AND_CHIPS_RESTAURANT",
                 "ITALIAN_RESTAURANT",
                 "MUSEUM",
                 "PARKING",
                 "RESTAURANT",
-                "SEAFOOD_RESTARANT",
+                "SEAFOOD_RESTAURANT",
                 "SUPERMARKET",
                 "SWIMMING_POOL",
                 "SUBWAY",
@@ -3126,14 +3504,14 @@
                 "CHANGE",
                 "CHINESE_RESTAURANT",
                 "COFFEE_SHOP",
-                "ENTERTAINEMENT",
+                "ENTERTAINMENT",
                 "FAST_FOOD",
                 "FISH_AND_CHIPS_RESTAURANT",
                 "ITALIAN_RESTAURANT",
                 "MUSEUM",
                 "PARKING",
                 "RESTAURANT",
-                "SEAFOOD_RESTARANT",
+                "SEAFOOD_RESTAURANT",
                 "SUPERMARKET",
                 "SWIMMING_POOL",
                 "SUBWAY",
@@ -3525,6 +3903,23 @@
           }
         }
       },
+      "UpdateReportRequest": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "enum": [
+              "REIMBURSEMENT_PROBLEM",
+              "INNAPROPRIATE_BEHAVIOR",
+              "HYGIENE_PROBLEM",
+              "OTHER"
+            ]
+          },
+          "details": {
+            "type": "string"
+          }
+        }
+      },
       "UpdatePublicGroupRequest": {
         "type": "object",
         "properties": {
@@ -3577,6 +3972,13 @@
             "type": "array",
             "items": {
               "type": "string"
+            }
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
             }
           }
         }
