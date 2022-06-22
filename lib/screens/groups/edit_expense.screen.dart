@@ -50,7 +50,9 @@ class EditExpense extends HookConsumerWidget {
           price.value != 0.0 &&
           paidBy.value != null &&
           paidFor.value != null &&
-          paidFor.value!.every((element) => element.amount == null || element.amount! > 0);
+          paidFor.value!.every((element) => element.amount == null || element.amount! > 0) &&
+          paidFor.value!.fold(0.0, (double previousValue, element) => previousValue + (element.amount ?? 0)) ==
+              price.value;
     }
 
     final nameController = useTextEditingController(text: name.value);
