@@ -485,4 +485,16 @@ class MockService extends HttpService {
     // TODO: implement deleteExpense
     throw UnimplementedError();
   }
+
+  @override
+  Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId) {
+    // TODO: implement getUserDueMoney
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<MoneyDueResponse>?> getUserOwedMoney(int groupId, num? userId) {
+    // TODO: implement getUserOwedMoney
+    throw UnimplementedError();
+  }
 }

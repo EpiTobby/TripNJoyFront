@@ -410,4 +410,16 @@ class CodegenService extends HttpService {
   Future<void> deleteExpense(int groupId, num? expenseId) async {
     await api.expensesGroupIdExpenseIdDelete(groupId: groupId, expenseId: expenseId);
   }
+
+  @override
+  Future<List<MoneyDueResponse>?> getUserOwedMoney(int groupId, num? userId) async {
+    final response = await api.expensesGroupUserUserDebtsDueGet(group: groupId, user: userId);
+    return response.body;
+  }
+
+  @override
+  Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId) async {
+    final response = await api.expensesGroupUserUserDebtsGet(group: groupId, user: userId);
+    return response.body;
+  }
 }

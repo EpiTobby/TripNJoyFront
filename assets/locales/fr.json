@@ -370,6 +370,16 @@
         "price": "Prix",
         "paid_by": "Payé par",
         "paid_for": "Membres concernés"
+      },
+      "reimbursement": {
+        "title": "Remboursement",
+        "owed": {
+          "title": "Ce qu'on me doit"
+        },
+        "due": {
+          "title": "Ce que je dois"
+        },
+        "owes": "doit"
       }
     }
   },

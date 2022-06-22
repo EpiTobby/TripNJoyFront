@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/providers/groups/budget.provider.dart';
+import 'package:trip_n_joy_front/providers/user/user.provider.dart';
+import 'package:trip_n_joy_front/screens/groups/budget_reimbursement.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/edit_expense.screen.dart';
 import 'package:trip_n_joy_front/widgets/groups/budget_balances.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_expenses.widget.dart';
@@ -17,8 +19,6 @@ class GroupBudget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final budgetViewModel = ref.watch(budgetProvider);
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -29,6 +29,13 @@ class GroupBudget extends HookConsumerWidget {
           ),
         ),
         actions: [
+          IconButton(
+            icon: Icon(Icons.currency_exchange, color: Theme.of(context).colorScheme.onBackground),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) => BudgetReimbursement(groupId: groupId)));
+            },
+            splashRadius: 16,
+          ),
           IconButton(
             icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onBackground),
             onPressed: () {

@@ -14,6 +14,8 @@ class BudgetViewModel extends ChangeNotifier {
 
   AsyncValue<List<BalanceResponse>> balances = const AsyncValue.loading();
   AsyncValue<List<ExpenseModel>> expenses = const AsyncValue.loading();
+  AsyncValue<List<MoneyDueResponse>> owedMoney = const AsyncValue.loading();
+  AsyncValue<List<MoneyDueResponse>> dueMoney = const AsyncValue.loading();
 
   Future<void> refreshGroupBudget(int groupId) async {
     await getGroupExpenses(groupId);
@@ -40,6 +42,34 @@ class BudgetViewModel extends ChangeNotifier {
         ? AsyncValue.data(newExpenses.reversed.toList())
         : AsyncValue.error(Exception("Failed to get group expenses"));
     notifyListeners();
+  }
+
+  Future<void> getUserOwedMoney(int groupId, num? userId) async {
+    logger.d("Getting user $userId owed money");
+    owedMoney = const AsyncValue.loading();
+    notifyListeners();
+    final newOwedMoney = await httpService.getUserOwedMoney(groupId, userId);
+    owedMoney = newOwedMoney != null
+        ? AsyncValue.data(newOwedMoney)
+        : AsyncValue.error(Exception("Failed to get user owed Money"));
+    notifyListeners();
+  }
+
+  Future<void> getUserDueMoney(int groupId, num? userId) async {
+    logger.d("Getting user $userId owed money");
+    dueMoney = const AsyncValue.loading();
+    notifyListeners();
+    final newDueMoney = await httpService.getUserDueMoney(groupId, userId);
+    dueMoney = newDueMoney != null
+        ? AsyncValue.data(newDueMoney)
+        : AsyncValue.error(Exception("Failed to get user due Money"));
+    notifyListeners();
+  }
+
+  Future<void> getUserReimbursement(int groupId, num? userId) async {
+    logger.d("Getting User $userId Reimbursement");
+    await getUserOwedMoney(groupId, userId);
+    await getUserDueMoney(groupId, userId);
   }
 
   Future<void> addExpense(int groupId, num? userId, ExpenseRequest body) async {

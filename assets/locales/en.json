@@ -370,6 +370,16 @@
           "title": "Delete expense",
           "confirm": "Are you sure you want to delete this expense ?"
         }
+      },
+      "reimbursement": {
+        "title": "Reimbursement",
+        "owed": {
+          "title": "What I am owed"
+        },
+        "due": {
+          "title": "What I owe"
+        },
+        "owes": "owes"
       }
     }
   },
