@@ -49,7 +49,10 @@ class GroupBudget extends HookConsumerWidget {
           child: ListView(
             children: [
               BudgetBalances(groupId: groupId),
-              GroupExpenses(groupId: groupId),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: GroupExpenses(groupId: groupId),
+              ),
             ],
           ),
         ),

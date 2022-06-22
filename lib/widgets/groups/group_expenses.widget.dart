@@ -31,7 +31,12 @@ class GroupExpenses extends HookConsumerWidget {
         LayoutBox(
           title: AppLocalizations.of(context).translate("groups.budget.expenses.title"),
           children: expenses.when(
-            data: (data) => data.map((e) => BudgetExpense(groupId: groupId, expense: e)).toList(),
+            data: (data) => data
+                .map((e) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: BudgetExpense(groupId: groupId, expense: e),
+                    ))
+                .toList(),
             loading: () => [const Center(child: CircularProgressIndicator())],
             error: (error, r) {
               logger.e(error, r);
