@@ -405,4 +405,9 @@ class CodegenService extends HttpService {
     final response = await api.expensesGroupGet(group: groupId);
     return response.body;
   }
+
+  @override
+  Future<void> deleteExpense(int groupId, num? expenseId) async {
+    await api.expensesGroupIdExpenseIdDelete(groupId: groupId, expenseId: expenseId);
+  }
 }

@@ -52,6 +52,11 @@ class BudgetViewModel extends ChangeNotifier {
     refreshGroupBudget(groupId);
   }
 
+  Future<void> deleteExpense(int groupId, num? expenseId) async {
+    await httpService.deleteExpense(groupId, expenseId);
+    refreshGroupBudget(groupId);
+  }
+
   List<MemberExpense> balanceExpenses(double amount, List<MemberExpense>? memberExpenses) {
     if (memberExpenses == null) {
       return [];

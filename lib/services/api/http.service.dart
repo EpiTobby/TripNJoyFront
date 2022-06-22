@@ -114,4 +114,6 @@ abstract class HttpService {
   Future<ExpenseModel?> updateExpense(int groupId, num? userId, num? expenseId, ExpenseRequest body);
 
   Future<List<ExpenseModel>?> getExpenses(int groupId);
+
+  Future<void> deleteExpense(int groupId, num? expenseId);
 }

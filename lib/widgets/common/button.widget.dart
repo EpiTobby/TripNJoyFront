@@ -8,6 +8,7 @@ class PrimaryButton extends StatelessWidget {
     required Function this.onPressed,
     bool this.isDisabled = false,
     bool this.fitContent = false,
+    this.color,
   }) : super(key: key);
 
   final String text;
@@ -15,6 +16,7 @@ class PrimaryButton extends StatelessWidget {
   final Function onPressed;
   final bool isDisabled;
   final bool fitContent;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class PrimaryButton extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).colorScheme.secondary,
+                primary: color ?? Theme.of(context).colorScheme.secondary,
                 textStyle: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSecondary),
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(

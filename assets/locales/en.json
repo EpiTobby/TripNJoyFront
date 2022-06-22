@@ -20,6 +20,7 @@
     "search": "Search",
     "accept": "Accept",
     "decline": "Decline",
+    "delete": "Delete",
     "date": "Date",
     "time": "Time",
     "startDate": "Start date",
@@ -364,7 +365,11 @@
         "name": "Name of the expense",
         "price": "Amount",
         "paid_by": "Paid by",
-        "paid_for": "For whom"
+        "paid_for": "For whom",
+        "delete": {
+          "title": "Delete expense",
+          "confirm": "Are you sure you want to delete this expense ?"
+        }
       }
     }
   },
