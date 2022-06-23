@@ -5,6 +5,7 @@ import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
 
 import '../../codegen/api.swagger.dart';
 import '../../viewmodels/auth/auth.viewmodel.dart';
@@ -457,6 +458,13 @@ class CodegenService extends HttpService {
   @override
   Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId) async {
     final response = await api.expensesGroupUserUserDebtsGet(group: groupId, user: userId);
+    return response.body;
+  }
+
+  @override
+  Future<ScanResponse?> scanReceipt(String minioUrl) async {
+    final response = await api.scanPost(body: ScanRequest(minioUrl: minioUrl));
+
     return response.body;
   }
 }

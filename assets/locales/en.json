@@ -24,7 +24,8 @@
     "date": "Date",
     "time": "Time",
     "startDate": "Start date",
-    "endDate": "End date"
+    "endDate": "End date",
+    "gallery": "Gallery"
   },
   "user": {
     "firstname": "Firstname",
@@ -400,7 +401,9 @@
     },
     "scan": {
       "title": "Scan",
-      "description": "Scan a sale receipt to add a new expense"
+      "description": "Scan a sale receipt to add a new expense",
+      "perArticle": "Per article",
+      "perPerson": "Per person"
     }
   },
   "settings": {

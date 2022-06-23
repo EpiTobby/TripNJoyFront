@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/providers/groups/budget.provider.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
@@ -19,13 +21,13 @@ class GroupScanReceipt extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final minioService = ref.watch(minioProvider);
+    final budgetViewModel = ref.watch(budgetProvider.notifier);
 
     final image = useState('');
     final loading = useState(false);
     final handleExpense = useState(false);
 
-    final articles = useState<Map<String, int>>({});
-    final total = useState(10);
+    final scanReceipt = useState<ScanResponse?>(null);
 
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +39,7 @@ class GroupScanReceipt extends HookConsumerWidget {
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
       body: handleExpense.value
-          ? BudgetReceiptExpenses(groupId: groupId)
+          ? BudgetReceiptExpenses(groupId: groupId, scanReceipt: scanReceipt.value)
           : Container(
               color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
               width: double.infinity,
@@ -79,7 +81,7 @@ class GroupScanReceipt extends HookConsumerWidget {
                                 fitContent: true,
                               ),
                               PrimaryButton(
-                                text: 'Gallery',
+                                text: AppLocalizations.of(context).translate('common.gallery'),
                                 onPressed: () async {
                                   final imageURL = await minioService.uploadImage();
 
@@ -110,9 +112,10 @@ class GroupScanReceipt extends HookConsumerWidget {
                                 text: AppLocalizations.of(context).translate('groups.scan.title'),
                                 onPressed: () async {
                                   loading.value = true;
-                                  // send to backend with budget wiew model
-
-                                  await Future.delayed(const Duration(seconds: 2));
+                                  String imageUrl = "https://ocr.space/Content/Images/receipt-ocr-original.jpg";
+                                  // String imageUrl = MinioService.getImageUrl(image.value, DEFAULT_URL.IMAGE)
+                                  scanReceipt.value = await budgetViewModel
+                                      .scanReceipt(imageUrl);
 
                                   loading.value = false;
                                   handleExpense.value = true;

@@ -3,9 +3,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/group/member_expense.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
+import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input.widget.dart';
@@ -15,37 +17,32 @@ import 'package:trip_n_joy_front/widgets/common/layout_row_item_member.widget.da
 import 'package:trip_n_joy_front/widgets/groups/layout_member_expense.widget.dart';
 
 class BudgetReceiptExpenses extends HookConsumerWidget {
-  const BudgetReceiptExpenses({
-    Key? key,
-    required this.groupId,
-  }) : super(key: key);
+  const BudgetReceiptExpenses({Key? key, required this.groupId, required this.scanReceipt}) : super(key: key);
 
   final int groupId;
+  final ScanResponse? scanReceipt;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (scanReceipt == null) {
+      return Container();
+    }
+
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
+
     final icon = useState(Icons.add_shopping_cart);
     final name = useState("");
     final paidBy = useState(group.members?.first);
     final paidFor = useState(group.members?.map((e) => MemberExpense(member: e, weight: 1)));
 
-    final articles = useState<Map<String, int>>({
-      'article1': 1,
-      'article2': 2,
-      'article3': 3,
-      'article4': 4,
-      'article5': 5,
-      'article6': 6,
-      'article7': 7,
-      'article8': 8,
-      'article9': 9,
-      'article10': 10,
-    });
-    final total = useState(10);
+    final articles = scanReceipt!.items;
+    final total =
+        scanReceipt!.total != 0 ? scanReceipt!.total : articles!.values.reduce((acc, article) => acc + article);
 
     final payTotal = useState(true);
+
+    final articlesParticipants = useState<Map<String, int>>({});
 
     return ListView(
       shrinkWrap: true,
@@ -102,9 +99,11 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text('Total: ${total.value}€', style: const TextStyle(fontSize: 24)),
+            Text('Total: $total€', style: const TextStyle(fontSize: 24)),
             PrimaryButton(
-              text: payTotal.value ? 'Par article' : 'Par personne',
+              text: payTotal.value
+                  ? AppLocalizations.of(context).translate("groups.scan.perArticle")
+                  : AppLocalizations.of(context).translate("groups.scan.perPerson"),
               onPressed: () {
                 payTotal.value = !payTotal.value;
               },
@@ -116,34 +115,45 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: LayoutItem(
-              title: AppLocalizations.of(context).translate("groups.budget.edit.paid_for"),
+              title: 'Articles',
               child: Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: Column(
-                  children: articles.value.keys
+                  children: articles!.keys
                       .map((key) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                '$key: ${articles.value[key]}€',
-                                style: const TextStyle(fontSize: 18),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Text(
+                                  '$key: ${articles[key]}€',
+                                  style: const TextStyle(fontSize: 18),
+                                  textAlign: TextAlign.start,
+                                ),
                               ),
-                              SizedBox(
-                                height: 100,
-                                child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  children: group.members
-                                          ?.map(
-                                            (e) => LayoutRowItemMember(
-                                              name: "${e.firstname} ${e.lastname}",
-                                              avatarUrl: MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
-                                              isSelected: paidBy.value == e,
-                                              onTap: (value) {
-                                                paidBy.value = e;
-                                              },
-                                            ),
-                                          )
-                                          .toList() ??
-                                      [],
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: SizedBox(
+                                  height: 100,
+                                  child: ListView(
+                                    scrollDirection: Axis.horizontal,
+                                    children: group.members
+                                            ?.map(
+                                              (e) => LayoutRowItemMember(
+                                                name: "${e.firstname} ${e.lastname}",
+                                                avatarUrl:
+                                                    MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
+                                                isSelected: articlesParticipants.value[key] == e.id!.toInt(),
+                                                onTap: (value) {
+                                                  articlesParticipants.value = articlesParticipants.value.map(
+                                                      (k, value) =>
+                                                          k != key ? MapEntry(k, value) : MapEntry(k, e.id!.toInt()));
+                                                },
+                                              ),
+                                            )
+                                            .toList() ??
+                                        [],
+                                  ),
                                 ),
                               ),
                             ],
@@ -202,6 +212,11 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                 ),
               ),
             ),
+          ),
+        if (name.value.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: PrimaryButton(text: AppLocalizations.of(context).translate('common.submit'), onPressed: () {}),
           ),
       ],
     );

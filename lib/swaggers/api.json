@@ -168,6 +168,36 @@
         }
       }
     },
+    "/scan": {
+      "post": {
+        "tags": [
+          "scan-controller"
+        ],
+        "operationId": "scan",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/reports": {
       "post": {
         "tags": [
@@ -3341,6 +3371,30 @@
           },
           "active": {
             "type": "boolean"
+          }
+        }
+      },
+      "ScanRequest": {
+        "type": "object",
+        "properties": {
+          "minioUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "ScanResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          "total": {
+            "type": "number",
+            "format": "float"
           }
         }
       },

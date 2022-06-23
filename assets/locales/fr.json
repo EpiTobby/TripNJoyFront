@@ -24,7 +24,8 @@
     "date": "Date",
     "time": "Heure",
     "startDate": "Date de début",
-    "endDate": "Date de fin"
+    "endDate": "Date de fin",
+    "gallery": "Galerie"
   },
   "user": {
     "firstname": "Prénom",
@@ -400,7 +401,9 @@
     },
     "scan": {
       "title": "Scan",
-      "description": "Scan un ticket de caisse pour ajouter une dépense"
+      "description": "Scan un ticket de caisse pour ajouter une dépense",
+      "perArticle": "Par article",
+      "perPerson": "Par personne"
     }
   },
   "settings": {

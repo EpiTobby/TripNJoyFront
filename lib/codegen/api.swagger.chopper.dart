@@ -45,6 +45,14 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<ScanResponse>> _scanPost({required ScanRequest? body}) {
+    final $url = '/scan';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<ScanResponse, ScanResponse>($request);
+  }
+
+  @override
   Future<Response<ReportModel>> _reportsPost(
       {required SubmitReportRequest? body}) {
     final $url = '/reports';
