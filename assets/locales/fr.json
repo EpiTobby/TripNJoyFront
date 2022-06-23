@@ -227,7 +227,15 @@
       "recommendUser": "Recommander cet utilisateur",
       "reportUser": "Signaler cet utilisateur",
       "recommendation": "Recommandation",
-      "reportForm": "Signalement"
+      "reportForm": "Signalement",
+      "reportReason": {
+        "title": "Raison du signalement",
+        "details": "Détails",
+        "reimbursementProblem": "Problème de remboursement",
+        "innapropriateBehavior": "Mauvais comportement",
+        "hygieneProblem": "Problème de hygiène",
+        "other": "Autre"
+      }
     },
     "create": "Créer un groupe",
     "join": "Rejoindre un groupe",

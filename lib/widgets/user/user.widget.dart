@@ -6,9 +6,11 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/user/recommendation.provider.dart';
 import 'package:trip_n_joy_front/providers/user/report.provider.dart';
+import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
+import 'package:trip_n_joy_front/widgets/common/input_dialog_report.widget.dart';
 
 class UserDialog extends HookConsumerWidget {
   const UserDialog({Key? key, required this.user}) : super(key: key);
@@ -19,6 +21,7 @@ class UserDialog extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final reportViewModel = ref.watch(reportProvider.notifier);
     final recommendationViewModel = ref.watch(recommendationProvider.notifier);
+    final currentUser = ref.watch(userProvider.notifier).userId;
 
     return Material(
       child: SafeArea(
@@ -91,50 +94,49 @@ class UserDialog extends HookConsumerWidget {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    PrimaryButton(
-                        text: AppLocalizations.of(context).translate('groups.settings.recommend'),
-                        onPressed: () {
-                          showMaterialModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return InputDialog(
-                                    title: AppLocalizations.of(context).translate('groups.settings.recommendUser'),
-                                    label: AppLocalizations.of(context).translate('groups.settings.recommendation'),
-                                    initialValue: '',
-                                    multiline: true,
-                                    textCapitalization: TextCapitalization.none,
-                                    onConfirm: (value) async {
-                                      await recommendationViewModel.submitRecommendation(
-                                          SubmitRecommendationRequest(reviewedUserId: user.id, comment: value));
-                                    });
-                              });
-                        },
-                        fitContent: true),
-                    PrimaryButton(
-                        text: AppLocalizations.of(context).translate('groups.settings.report'),
-                        onPressed: () {
-                          showMaterialModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return InputDialog(
-                                    title: AppLocalizations.of(context).translate('groups.settings.reportUser'),
-                                    label: AppLocalizations.of(context).translate('groups.settings.reportForm'),
-                                    initialValue: '',
-                                    multiline: true,
-                                    textCapitalization: TextCapitalization.none,
-                                    onConfirm: (value) async {
-                                      await reportViewModel
-                                          .submitReport(SubmitReportRequest(reportedUserId: user.id, reason: value));
-                                    });
-                              });
-                        },
-                        fitContent: true,
-                        color: Theme.of(context).colorScheme.tertiary),
-                  ],
-                )
+                if (currentUser != user.id)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      PrimaryButton(
+                          text: AppLocalizations.of(context).translate('groups.settings.recommend'),
+                          onPressed: () {
+                            showMaterialModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return InputDialog(
+                                      title: AppLocalizations.of(context).translate('groups.settings.recommendUser'),
+                                      label: AppLocalizations.of(context).translate('groups.settings.recommendation'),
+                                      initialValue: '',
+                                      multiline: true,
+                                      textCapitalization: TextCapitalization.none,
+                                      onConfirm: (value) async {
+                                        await recommendationViewModel.submitRecommendation(
+                                            SubmitRecommendationRequest(reviewedUserId: user.id, comment: value));
+                                      });
+                                });
+                          },
+                          fitContent: true),
+                      PrimaryButton(
+                          text: AppLocalizations.of(context).translate('groups.settings.report'),
+                          onPressed: () {
+                            showMaterialModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return InputDialogReport(
+                                      onConfirm: (value, reason) async {
+                                        await reportViewModel
+                                            .submitReport(SubmitReportRequest(
+                                            reportedUserId: user.id,
+                                            reason: reason,
+                                            details: value));
+                                      });
+                                });
+                          },
+                          fitContent: true,
+                          color: Theme.of(context).colorScheme.tertiary),
+                    ],
+                  )
               ],
             ),
           ),

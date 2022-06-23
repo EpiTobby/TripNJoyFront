@@ -227,7 +227,15 @@
       "recommendUser": "Recommend this user",
       "reportUser": "Report this user",
       "recommendation": "Recommendation",
-      "reportForm": "Report form"
+      "reportForm": "Report form",
+      "reason": {
+        "title": "Reason of the report",
+        "details": "Details",
+        "reimbursementProblem": "Reimbursement problem",
+        "innapropriateBehavior": "Inappropriate behavior",
+        "hygieneProblem": "Hygiene problem",
+        "other": "Other"
+      }
     },
     "create": "Create a group",
     "join": "Join a group",
