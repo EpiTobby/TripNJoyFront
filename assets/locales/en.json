@@ -221,7 +221,21 @@
       "close": "Close the group",
       "archive": "Archive the group",
       "quit": "Quit the group",
-      "maxSize": "Maximum number of members"
+      "maxSize": "Maximum number of members",
+      "recommend": "Recommend",
+      "report": "Report",
+      "recommendUser": "Recommend this user",
+      "reportUser": "Report this user",
+      "recommendation": "Recommendation",
+      "reportForm": "Report form",
+      "reason": {
+        "title": "Reason of the report",
+        "details": "Details",
+        "reimbursementProblem": "Reimbursement problem",
+        "innapropriateBehavior": "Inappropriate behavior",
+        "hygieneProblem": "Hygiene problem",
+        "other": "Other"
+      }
     },
     "create": "Create a group",
     "join": "Join a group",

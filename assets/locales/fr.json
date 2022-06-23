@@ -221,7 +221,21 @@
       "close": "Fermer le groupe",
       "archive": "Archiver le groupe",
       "quit": "Quitter le groupe",
-      "maxSize": "Nombre de membres maximum"
+      "maxSize": "Nombre de membres maximum",
+      "recommend": "Recommander",
+      "report": "Signaler",
+      "recommendUser": "Recommander cet utilisateur",
+      "reportUser": "Signaler cet utilisateur",
+      "recommendation": "Recommandation",
+      "reportForm": "Signalement",
+      "reportReason": {
+        "title": "Raison du signalement",
+        "details": "Détails",
+        "reimbursementProblem": "Problème de remboursement",
+        "innapropriateBehavior": "Mauvais comportement",
+        "hygieneProblem": "Problème de hygiène",
+        "other": "Autre"
+      }
     },
     "create": "Créer un groupe",
     "join": "Rejoindre un groupe",

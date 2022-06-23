@@ -28,6 +28,7 @@ class Dropdown extends StatelessWidget {
             elevation: 16,
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
             onChanged: (String? label) => onChanged(getValueFromLabel(label)),
+            underline: Container(color: Colors.transparent),
             items: listLabel.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     Key? key,
-    required String this.text,
-    bool this.isLoading = false,
-    required Function this.onPressed,
-    bool this.isDisabled = false,
-    bool this.fitContent = false,
+    required this.text,
+    required this.onPressed,
+    this.isLoading = false,
+    this.isDisabled = false,
+    this.fitContent = false,
     this.color,
   }) : super(key: key);
 
@@ -48,11 +48,11 @@ class PrimaryButton extends StatelessWidget {
 class SecondaryButton extends StatelessWidget {
   const SecondaryButton({
     Key? key,
-    required String this.text,
-    bool this.isLoading = false,
-    required Function this.onPressed,
-    bool this.isDisabled = false,
-    bool this.fitContent = false,
+    required this.text,
+    required this.onPressed,
+    this.isLoading = false,
+    this.isDisabled = false,
+    this.fitContent = false,
   }) : super(key: key);
 
   final String text;
@@ -96,10 +96,10 @@ class SecondaryButton extends StatelessWidget {
 class TertiaryButton extends StatelessWidget {
   const TertiaryButton({
     Key? key,
-    required String this.text,
-    bool this.isLoading = false,
-    required Function this.onPressed,
-    bool this.isDisabled = false,
+    required this.text,
+    required this.onPressed,
+    this.isLoading = false,
+    this.isDisabled = false,
   }) : super(key: key);
 
   final String text;

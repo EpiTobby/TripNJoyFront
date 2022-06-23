@@ -5,9 +5,6 @@ import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-import 'package:trip_n_joy_front/models/group/activity.dart';
-import 'package:trip_n_joy_front/models/group/chat_member.dart';
-import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 import '../../codegen/api.swagger.dart';
 import '../../viewmodels/auth/auth.viewmodel.dart';
@@ -379,6 +376,46 @@ class CodegenService extends HttpService {
   Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request) async {
     final response = await api.placesCoordinatesPost(body: request);
     return response.body;
+  }
+
+  @override
+  Future<List<ReportModel>?> getReports(int submitterId) async {
+    final response = await api.reportsIdGet(id: submitterId);
+    return response.body;
+  }
+
+  @override
+  Future<ReportModel?> submitReport(SubmitReportRequest submitReportRequest) async {
+    final response = await api.reportsPost(body: submitReportRequest);
+    return response.body;
+  }
+
+  @override
+  Future<ReportModel?> updateReport(int reportId, UpdateReportRequest updateReportRequest) async {
+    final response = await api.reportsIdPatch(id: reportId, body: updateReportRequest);
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteReport(int reportId) async {
+    await api.reportsIdDelete(id: reportId);
+  }
+
+  @override
+  Future<List<RecommendationModel>?> getRecommendations(int reviewedUserId) async {
+    final response = await api.recommendationsIdGet(id: reviewedUserId);
+    return response.body;
+  }
+
+  @override
+  Future<RecommendationModel?> submitRecommendation(SubmitRecommendationRequest request) async {
+    final response = await api.recommendationsPost(body: request);
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteRecommendation(int recommendationId) async {
+    await api.recommendationsIdDelete(id: recommendationId);
   }
 
   @override
