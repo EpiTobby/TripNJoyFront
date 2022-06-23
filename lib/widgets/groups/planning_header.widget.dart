@@ -21,6 +21,7 @@ class PlanningHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final groupViewModel = ref.watch(groupProvider);
+
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onPrimary,
@@ -40,6 +41,7 @@ class PlanningHeader extends ConsumerWidget {
             LayoutItem(
               title: AppLocalizations.of(context).translate("groups.planning.destination.title"),
               child: LayoutItemValue(
+                editable: group.state != GroupModelState.archived,
                 value: "planning.destination",
                 onPressed: () {
                   showMaterialModalBottomSheet(
@@ -59,6 +61,7 @@ class PlanningHeader extends ConsumerWidget {
             LayoutItem(
               title: AppLocalizations.of(context).translate("groups.planning.date.title"),
               child: LayoutItemValue(
+                editable: group.state != GroupModelState.archived,
                 value: group.startOfTrip == null || group.endOfTrip == null
                     ? ""
                     : "${DateFormat("dd/MM/yyyy").format(group.startOfTrip!)} - ${DateFormat("dd/MM/yyyy").format(group.endOfTrip!)}",
@@ -83,6 +86,7 @@ class PlanningHeader extends ConsumerWidget {
             LayoutItem(
               title: AppLocalizations.of(context).translate("groups.planning.note.title"),
               child: LayoutItemValue(
+                editable: group.state != GroupModelState.archived,
                 value: group.description ?? '',
                 multiline: true,
                 fontSize: 16,

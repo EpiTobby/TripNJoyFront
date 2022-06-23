@@ -30,14 +30,13 @@ class LayoutHeader extends StatelessWidget {
                         backgroundImage: NetworkImage(imageURL),
                         radius: 70,
                       ),
-                      Positioned(
+                      if (onClick != null)
+                        Positioned(
                           bottom: 0,
                           right: -15,
                           child: RawMaterialButton(
                             onPressed: () {
-                              if (onClick != null) {
-                                onClick!();
-                              }
+                              onClick!();
                             },
                             elevation: 0.5,
                             fillColor: Theme.of(context).colorScheme.secondary,
@@ -47,7 +46,8 @@ class LayoutHeader extends StatelessWidget {
                             ),
                             padding: const EdgeInsets.all(15.0),
                             shape: const CircleBorder(),
-                          )),
+                          ),
+                        ),
                     ],
                   ),
                 )),

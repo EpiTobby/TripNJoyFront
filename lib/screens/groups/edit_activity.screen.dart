@@ -13,7 +13,6 @@ import 'package:trip_n_joy_front/models/group/activity.dart';
 import 'package:trip_n_joy_front/models/group/chat_member.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
-import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_choice.widget.dart';
@@ -67,29 +66,31 @@ class EditActivity extends HookConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
         actions: [
-          IconButton(
-            splashRadius: 16,
-            icon: const Icon(Icons.check),
-            onPressed: () async {
-              Map<String, dynamic> json = {
-                'name': name.value,
-                'description': description.value,
-                'startDate': startDate.value.toIso8601String(),
-                'endDate': endDate.value.toIso8601String(),
-                'location': location.value,
-                'color': '#${color.value.value.toRadixString(16).substring(2)}',
-                'icon': icon.value.codePoint.toString(),
-                'participants': participants.value.map((member) => member.id).toList(),
-              };
+          if (group.state != GroupModelState.archived)
+            IconButton(
+              splashRadius: 16,
+              icon: const Icon(Icons.check),
+              onPressed: () async {
+                Map<String, dynamic> json = {
+                  'name': name.value,
+                  'description': description.value,
+                  'startDate': startDate.value.toIso8601String(),
+                  'endDate': endDate.value.toIso8601String(),
+                  'location': location.value,
+                  'color': '#${color.value.value.toRadixString(16).substring(2)}',
+                  'icon': icon.value.codePoint.toString(),
+                  'participants': participants.value.map((member) => member.id).toList(),
+                };
 
-              if (draft) {
-                await planningViewModel.addActivity(groupId, suggestedActivity ?? CreateActivityRequest.fromJson(json));
-              } else {
-                await planningViewModel.updateActivity(groupId, activity!.id, UpdateActivityRequest.fromJson(json));
-              }
-              Navigator.of(context).popUntil(ModalRoute.withName("/planning"));
-            },
-          ),
+                if (draft) {
+                  await planningViewModel.addActivity(
+                      groupId, suggestedActivity ?? CreateActivityRequest.fromJson(json));
+                } else {
+                  await planningViewModel.updateActivity(groupId, activity!.id, UpdateActivityRequest.fromJson(json));
+                }
+                Navigator.of(context).popUntil(ModalRoute.withName("/planning"));
+              },
+            ),
         ],
       ),
       body: Column(
@@ -115,6 +116,7 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.name.title"),
                       child: LayoutItemValue(
+                        editable: group.state != GroupModelState.archived,
                         value: name.value,
                         onPressed: () {
                           showMaterialModalBottomSheet(
@@ -138,6 +140,7 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.location.title"),
                       child: LayoutItemValue(
+                        editable: group.state != GroupModelState.archived,
                         value: location.value,
                         onPressed: () {
                           showMaterialModalBottomSheet(
@@ -161,6 +164,7 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.title"),
                       child: LayoutItemValue(
+                        editable: group.state != GroupModelState.archived,
                         value: DateFormat("HH:mm - dd/MM/yyyy").format(startDate.value),
                         onPressed: () {
                           showMaterialModalBottomSheet(
@@ -182,6 +186,7 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.end.title"),
                       child: LayoutItemValue(
+                        editable: group.state != GroupModelState.archived,
                         value: DateFormat("HH:mm - dd/MM/yyyy").format(endDate.value),
                         onPressed: () {
                           showMaterialModalBottomSheet(
@@ -202,6 +207,7 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.description.title"),
                       child: LayoutItemValue(
+                        editable: group.state != GroupModelState.archived,
                         value: description.value,
                         multiline: true,
                         fontSize: 20,
@@ -235,12 +241,14 @@ class EditActivity extends HookConsumerWidget {
                               icon.value,
                               size: 48,
                             ),
-                            onTap: () async {
-                              IconData? selectedIcon = await FlutterIconPicker.showIconPicker(context);
-                              if (selectedIcon != null) {
-                                icon.value = selectedIcon;
-                              }
-                            },
+                            onTap: group.state != GroupModelState.archived
+                                ? () async {
+                                    IconData? selectedIcon = await FlutterIconPicker.showIconPicker(context);
+                                    if (selectedIcon != null) {
+                                      icon.value = selectedIcon;
+                                    }
+                                  }
+                                : () {},
                           ),
                           LayoutRowItem(
                             title: AppLocalizations.of(context).translate("groups.planning.activity.edit.color.title"),
@@ -248,23 +256,25 @@ class EditActivity extends HookConsumerWidget {
                               backgroundColor: color.value,
                               radius: 24,
                             ),
-                            onTap: () {
-                              showMaterialModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                    child: BlockPicker(
-                                      pickerColor: color.value,
-                                      availableColors: ActivityColors.getColors(),
-                                      onColorChanged: (selectedColor) {
-                                        color.value = selectedColor;
+                            onTap: group.state != GroupModelState.archived
+                                ? () {
+                                    showMaterialModalBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                          child: BlockPicker(
+                                            pickerColor: color.value,
+                                            availableColors: ActivityColors.getColors(),
+                                            onColorChanged: (selectedColor) {
+                                              color.value = selectedColor;
+                                            },
+                                          ),
+                                        );
                                       },
-                                    ),
-                                  );
-                                },
-                              );
-                            },
+                                    );
+                                  }
+                                : () {},
                           ),
                         ],
                       ),
@@ -287,21 +297,24 @@ class EditActivity extends HookConsumerWidget {
                                             avatarUrl: MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
                                             isSelected:
                                                 participants.value.where((member) => member.id == e.id).isNotEmpty,
-                                            onTap: (value) {
-                                              if (value) {
-                                                participants.value = [
-                                                  ...participants.value,
-                                                  ChatMember(
-                                                      id: e.id!,
-                                                      name: "${e.firstname} ${e.lastname}",
-                                                      avatar: NetworkImage(MinioService.getImageUrl(
-                                                          e.profilePicture, DEFAULT_URL.AVATAR)))
-                                                ];
-                                              } else {
-                                                participants.value =
-                                                    participants.value.where((member) => member.id != e.id).toList();
-                                              }
-                                            },
+                                            onTap: group.state != GroupModelState.archived
+                                                ? (value) {
+                                                    if (value) {
+                                                      participants.value = [
+                                                        ...participants.value,
+                                                        ChatMember(
+                                                            id: e.id!,
+                                                            name: "${e.firstname} ${e.lastname}",
+                                                            avatar: NetworkImage(MinioService.getImageUrl(
+                                                                e.profilePicture, DEFAULT_URL.AVATAR)))
+                                                      ];
+                                                    } else {
+                                                      participants.value = participants.value
+                                                          .where((member) => member.id != e.id)
+                                                          .toList();
+                                                    }
+                                                  }
+                                                : (value) {},
                                           ),
                                         )
                                         .toList() ??
@@ -311,7 +324,7 @@ class EditActivity extends HookConsumerWidget {
                           ),
                         ),
                       ),
-                    if (!draft)
+                    if (!draft && group.state != GroupModelState.archived)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         child: LayoutItem(

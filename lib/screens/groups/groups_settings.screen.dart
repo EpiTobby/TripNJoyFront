@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.enums.swagger.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
@@ -35,6 +36,12 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
 
     final user = ref.watch(userProvider).value;
 
+    if (user == null) {
+      return Container();
+    }
+
+    final isPrivateGroup = group.owner != null;
+
     final minioService = ref.watch(minioProvider);
 
     return Scaffold(
@@ -52,25 +59,28 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                 children: [
                   LayoutHeader(
                     imageURL: MinioService.getImageUrl(group.picture, DEFAULT_URL.GROUP),
-                    onClick: () async {
-                      final imageURL = await minioService.uploadImage();
+                    onClick: group.state == GroupModelState.archived
+                        ? null
+                        : () async {
+                            final imageURL = await minioService.uploadImage();
 
-                      if (imageURL != null) {
-                        if (group.owner != null) {
-                          await groupViewModel.updatePrivateGroup(
-                              group.id!.toInt(), UpdatePrivateGroupRequest(picture: imageURL));
-                        } else {
-                          await groupViewModel.updatePublicGroup(
-                              group.id!.toInt(), UpdatePublicGroupRequest(picture: imageURL));
-                        }
-                      }
-                    },
+                            if (imageURL != null) {
+                              if (isPrivateGroup) {
+                                await groupViewModel.updatePrivateGroup(
+                                    group.id!.toInt(), UpdatePrivateGroupRequest(picture: imageURL));
+                              } else {
+                                await groupViewModel.updatePublicGroup(
+                                    group.id!.toInt(), UpdatePublicGroupRequest(picture: imageURL));
+                              }
+                            }
+                          },
                   ),
                   LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.about"), children: [
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.settings.groupName"),
                       child: LayoutItemValue(
                         value: group.name ?? '',
+                        editable: group.state != GroupModelState.archived && group.owner?.id == user.id,
                         onPressed: () {
                           showMaterialModalBottomSheet(
                               context: context,
@@ -80,7 +90,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                                     label: AppLocalizations.of(context).translate("groups.settings.groupName"),
                                     initialValue: group.name ?? '',
                                     onConfirm: (value) async {
-                                      if (group.owner != null) {
+                                      if (isPrivateGroup) {
                                         await groupViewModel.updatePrivateGroup(
                                             group.id!.toInt(), UpdatePrivateGroupRequest(name: value));
                                       } else {
@@ -91,6 +101,39 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                               });
                         },
                       ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Chip(
+                          label: Text(
+                            isPrivateGroup
+                                ? AppLocalizations.of(context).translate("groups.settings.private")
+                                : AppLocalizations.of(context).translate("groups.settings.public"),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: isPrivateGroup
+                              ? Theme.of(context).colorScheme.tertiary
+                              : Theme.of(context).colorScheme.secondary,
+                          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        ),
+                        if (!isPrivateGroup)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Chip(
+                              label: Text(
+                                AppLocalizations.of(context).translate("groups.settings.type.${group.state!.name}"),
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: group.state == GroupModelState.closed
+                                  ? Theme.of(context).colorScheme.tertiary
+                                  : group.state == GroupModelState.open
+                                      ? Theme.of(context).colorScheme.secondary
+                                      : Theme.of(context).colorScheme.primary,
+                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                            ),
+                          ),
+                      ],
                     ),
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.members"),
@@ -109,68 +152,84 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                                         return UserDialog(user: member);
                                       });
                                 },
-                                onDelete: member.id == group.owner?.id
+                                onDelete: user.id != group.owner?.id ||
+                                        member.id == group.owner?.id ||
+                                        group.state == GroupModelState.archived
                                     ? null
                                     : () async {
                                         await groupViewModel.removeUserFromGroup(group.id!.toInt(), member.id!.toInt());
                                       },
                               );
                             }).toList(),
-                            PrimaryButton(
-                                text: '+',
-                                fitContent: true,
-                                onPressed: () {
-                                  showMaterialModalBottomSheet(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return InputDialog(
-                                            title: AppLocalizations.of(context).translate("groups.addMember"),
-                                            label: AppLocalizations.of(context).translate("groups.email"),
-                                            initialValue: '',
-                                            textCapitalization: TextCapitalization.none,
-                                            onConfirm: (value) async {
-                                              await groupViewModel.addUserToPrivateGroup(group.id!.toInt(), value);
-                                            });
-                                      });
-                                })
+                            if (isPrivateGroup && group.state != GroupModelState.archived)
+                              PrimaryButton(
+                                  text: '+',
+                                  fitContent: true,
+                                  onPressed: () {
+                                    showMaterialModalBottomSheet(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return InputDialog(
+                                              title: AppLocalizations.of(context).translate("groups.addMember"),
+                                              label: AppLocalizations.of(context).translate("groups.email"),
+                                              initialValue: '',
+                                              textCapitalization: TextCapitalization.none,
+                                              onConfirm: (value) async {
+                                                await groupViewModel.addUserToPrivateGroup(group.id!.toInt(), value);
+                                              });
+                                        });
+                                  })
                           ],
                         ),
                       ),
                     ),
                   ]),
-                  LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.groupSettings"), children: [
-                    if (user != null && group.owner?.id == user.id)
-                      LayoutItem(
-                          child: LayoutItemValue(
-                        value: AppLocalizations.of(context).translate("groups.settings.close"),
-                        icon: Icons.lock_outline,
-                        onPressed: () {
-                          if (group.owner != null) {
-                            groupViewModel.updatePrivateGroup(group.id!.toInt(),
-                                UpdatePrivateGroupRequest(state: UpdatePrivateGroupRequestState.closed));
-                          }
-                        },
-                      )),
-                    if (user != null && group.owner?.id == user.id)
-                      LayoutItem(
-                          child: LayoutItemValue(
-                        value: AppLocalizations.of(context).translate("groups.settings.archive"),
-                        icon: Icons.archive_outlined,
-                        onPressed: () {
-                          groupViewModel.updatePrivateGroup(group.id!.toInt(),
-                              UpdatePrivateGroupRequest(state: UpdatePrivateGroupRequestState.archived));
-                        },
-                      )),
-                    LayoutItem(
-                        child: LayoutItemValue(
-                      value: AppLocalizations.of(context).translate("groups.settings.quit"),
-                      icon: Icons.exit_to_app,
-                      customColor: Theme.of(context).colorScheme.error,
-                      onPressed: () {
-                        groupViewModel.leaveGroup(group.id!.toInt());
-                      },
-                    )),
-                  ])
+                  if (group.state != GroupModelState.archived)
+                    LayoutBox(
+                        title: AppLocalizations.of(context).translate("groups.settings.groupSettings"),
+                        children: [
+                          if (!isPrivateGroup && group.state == GroupModelState.open)
+                            LayoutItem(
+                                child: LayoutItemValue(
+                              value: AppLocalizations.of(context).translate("groups.settings.close"),
+                              icon: Icons.lock_outline,
+                              onPressed: () {},
+                            )),
+                          if (isPrivateGroup)
+                            LayoutItem(
+                                child: LayoutItemValue(
+                              value: AppLocalizations.of(context).translate("groups.settings.askPublic"),
+                              multiline: true,
+                              icon: Icons.group_outlined,
+                              onPressed: () {},
+                            )),
+                          if (group.owner?.id == user.id)
+                            LayoutItem(
+                                child: LayoutItemValue(
+                              value: AppLocalizations.of(context).translate("groups.settings.archive"),
+                              icon: Icons.archive_outlined,
+                              onPressed: () {
+                                groupViewModel.updatePrivateGroup(group.id!.toInt(),
+                                    UpdatePrivateGroupRequest(state: UpdatePrivateGroupRequestState.archived));
+                              },
+                            )),
+                          if (!isPrivateGroup)
+                            LayoutItem(
+                                child: LayoutItemValue(
+                              value: AppLocalizations.of(context).translate("groups.settings.askArchive"),
+                              icon: Icons.archive_outlined,
+                              onPressed: () {},
+                            )),
+                          LayoutItem(
+                              child: LayoutItemValue(
+                            value: AppLocalizations.of(context).translate("groups.settings.quit"),
+                            icon: Icons.exit_to_app,
+                            customColor: Theme.of(context).colorScheme.error,
+                            onPressed: () {
+                              groupViewModel.leaveGroup(group.id!.toInt());
+                            },
+                          )),
+                        ])
                 ],
               ),
             ),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
-import 'package:trip_n_joy_front/providers/groups/budget.provider.dart';
-import 'package:trip_n_joy_front/providers/user/user.provider.dart';
+import 'package:trip_n_joy_front/codegen/api.enums.swagger.dart';
+import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/budget_reimbursement.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/edit_expense.screen.dart';
 import 'package:trip_n_joy_front/widgets/groups/budget_balances.widget.dart';
@@ -19,6 +18,8 @@ class GroupBudget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final group = ref.watch(groupProvider.notifier).groups.firstWhere((group) => group.id == groupId);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -36,13 +37,14 @@ class GroupBudget extends HookConsumerWidget {
             },
             splashRadius: 16,
           ),
-          IconButton(
-            icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onBackground),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) => EditExpense(groupId: groupId)));
-            },
-            splashRadius: 16,
-          ),
+          if (group.state != GroupModelState.archived)
+            IconButton(
+              icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onBackground),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => EditExpense(groupId: groupId)));
+              },
+              splashRadius: 16,
+            ),
         ],
         backgroundColor: Theme.of(context).colorScheme.background,
         foregroundColor: Theme.of(context).colorScheme.onBackground,
