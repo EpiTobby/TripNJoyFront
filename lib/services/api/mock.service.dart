@@ -455,4 +455,46 @@ class MockService extends HttpService {
   Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request) {
     return Future.value([]);
   }
+
+  @override
+  Future<List<BalanceResponse>?> getBudgetBalance(int groupId) {
+    // TODO: implement getBudgetBalance
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ExpenseModel?> createExpense(int groupId, num? userId, ExpenseRequest body) {
+    // TODO: implement createExpense
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<ExpenseModel>?> getExpenses(int groupId) {
+    // TODO: implement getExpenses
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ExpenseModel?> updateExpense(int groupId, num? userId, num? expenseId, ExpenseRequest body) {
+    // TODO: implement updateExpense
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteExpense(int groupId, num? expenseId) {
+    // TODO: implement deleteExpense
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId) {
+    // TODO: implement getUserDueMoney
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<MoneyDueResponse>?> getUserOwedMoney(int groupId, num? userId) {
+    // TODO: implement getUserOwedMoney
+    throw UnimplementedError();
+  }
 }

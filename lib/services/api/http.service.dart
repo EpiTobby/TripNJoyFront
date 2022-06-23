@@ -106,4 +106,18 @@ abstract class HttpService {
   Future<List<String>?> getPlacesCategories();
 
   Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request);
+
+  Future<List<BalanceResponse>?> getBudgetBalance(int groupId);
+
+  Future<ExpenseModel?> createExpense(int groupId, num? userId, ExpenseRequest body);
+
+  Future<ExpenseModel?> updateExpense(int groupId, num? userId, num? expenseId, ExpenseRequest body);
+
+  Future<List<ExpenseModel>?> getExpenses(int groupId);
+
+  Future<void> deleteExpense(int groupId, num? expenseId);
+
+  Future<List<MoneyDueResponse>?> getUserOwedMoney(int groupId, num? userId);
+
+  Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId);
 }

@@ -15,6 +15,7 @@ class InputDialogChoice extends StatefulHookWidget {
     required this.cancelChoice,
     required this.confirmChoice,
     required this.onConfirm,
+    this.delete = true,
   }) : super(key: key);
 
   final String? title;
@@ -22,6 +23,7 @@ class InputDialogChoice extends StatefulHookWidget {
   final String cancelChoice;
   final String confirmChoice;
   final Function onConfirm;
+  final bool delete;
 
   @override
   State<InputDialogChoice> createState() => _InputDialogChoiceState();
@@ -91,6 +93,7 @@ class _InputDialogChoiceState extends State<InputDialogChoice> {
                         pressButton(status, true, context);
                       },
                       fitContent: true,
+                      color: widget.delete ? Theme.of(context).colorScheme.tertiary : null,
                     ),
                   ],
                 ),

@@ -380,4 +380,46 @@ class CodegenService extends HttpService {
     final response = await api.placesCoordinatesPost(body: request);
     return response.body;
   }
+
+  @override
+  Future<List<BalanceResponse>?> getBudgetBalance(int groupId) async {
+    final response = await api.expensesGroupBalancesGet(group: groupId);
+    return response.body;
+  }
+
+  @override
+  Future<ExpenseModel?> createExpense(int groupId, num? userId, ExpenseRequest body) async {
+    final response = await api.expensesGroupPurchaserUserPost(group: groupId, user: userId, body: body);
+    return response.body;
+  }
+
+  @override
+  Future<ExpenseModel?> updateExpense(int groupId, num? userId, num? expenseId, ExpenseRequest body) async {
+    final response = await api.expensesGroupIdExpenseIdPurchaserUserPut(
+        groupId: groupId, expenseId: expenseId, user: userId, body: body);
+    return response.body;
+  }
+
+  @override
+  Future<List<ExpenseModel>?> getExpenses(int groupId) async {
+    final response = await api.expensesGroupGet(group: groupId);
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteExpense(int groupId, num? expenseId) async {
+    await api.expensesGroupIdExpenseIdDelete(groupId: groupId, expenseId: expenseId);
+  }
+
+  @override
+  Future<List<MoneyDueResponse>?> getUserOwedMoney(int groupId, num? userId) async {
+    final response = await api.expensesGroupUserUserDebtsDueGet(group: groupId, user: userId);
+    return response.body;
+  }
+
+  @override
+  Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId) async {
+    final response = await api.expensesGroupUserUserDebtsGet(group: groupId, user: userId);
+    return response.body;
+  }
 }

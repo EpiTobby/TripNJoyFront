@@ -20,6 +20,7 @@
     "search": "Rechercher",
     "accept": "Accepter",
     "decline": "Refuser",
+    "delete": "Supprimer",
     "date": "Date",
     "time": "Heure",
     "startDate": "Date de début",
@@ -350,7 +351,36 @@
       }
     },
     "budget": {
-      "title": "Budget"
+      "title": "Budget",
+      "expenses": {
+        "title": "Dépenses",
+        "paid_by": "Payé par $name",
+        "paid_for": "Membres: $members",
+        "delete": {
+          "title": "Supprimer la dépense",
+          "confirm": "Êtes-vous sûr de vouloir supprimer cette dépense ?"
+        }
+      },
+      "add": {
+        "title": "Ajouter une nouvelle dépense"
+      },
+      "edit": {
+        "title": "Modifier la dépense",
+        "name": "Nom de la dépense",
+        "price": "Prix",
+        "paid_by": "Payé par",
+        "paid_for": "Membres concernés"
+      },
+      "reimbursement": {
+        "title": "Remboursement",
+        "owed": {
+          "title": "Ce qu'on me doit"
+        },
+        "due": {
+          "title": "Ce que je dois"
+        },
+        "owes": "doit"
+      }
     }
   },
   "settings": {
