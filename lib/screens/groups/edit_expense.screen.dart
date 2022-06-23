@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/group/member_expense.dart';
 import 'package:trip_n_joy_front/providers/groups/budget.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
@@ -173,7 +174,7 @@ class EditExpense extends HookConsumerWidget {
                             ?.map(
                               (e) => LayoutRowItemMember(
                                 name: "${e.firstname} ${e.lastname}",
-                                avatarUrl: MinioService.getImageUrl(e.profilePicture),
+                                avatarUrl: MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
                                 isSelected: paidBy.value == e,
                                 onTap: (value) {
                                   paidBy.value = e;

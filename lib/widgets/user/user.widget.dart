@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 
 class UserDialog extends StatelessWidget {
   const UserDialog({Key? key, required this.user}) : super(key: key);
@@ -14,7 +15,7 @@ class UserDialog extends StatelessWidget {
       title: Column(
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage(user.profilePicture ?? DEFAULT_AVATAR_URL),
+            backgroundImage: NetworkImage(MinioService.getImageUrl(user.profilePicture, DEFAULT_URL.AVATAR)),
             radius: 30,
           ),
           Text(user.firstname! + ' ' + user.lastname!),

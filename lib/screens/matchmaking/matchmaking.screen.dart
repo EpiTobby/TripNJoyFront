@@ -69,9 +69,9 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
                 ? GroupFoundCard(
                     groupId: matchmakingGroup?.id!.toInt(),
                     isLoading: matchmakingStatus == MatchmakingStatus.WAITING_MATCHMAKING,
-                    groupPhotoUrl: matchmakingGroup?.picture ?? DEFAULT_AVATAR_URL,
+                    groupPhotoUrl: matchmakingGroup?.picture,
                     membersPhotoUrls: matchmakingGroup?.members!
-                            .map((member) => member.profilePicture ?? DEFAULT_AVATAR_URL)
+                            .map((member) => member.profilePicture)
                             .toList() ??
                         [],
                   )
