@@ -210,6 +210,12 @@ class MockService extends HttpService {
   }
 
   @override
+  Future<void> setGroupPublic(int groupId) async {
+    // TODO: implement setGroupPublic
+    throw UnimplementedError();
+  }
+
+  @override
   Future<ChannelModel?> createChannel(int groupId, CreateChannelRequest createChannelRequest) {
     return Future.value(ChannelModel(id: 1, name: "Channel 1", index: 1));
   }

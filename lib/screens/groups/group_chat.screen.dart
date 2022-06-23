@@ -108,22 +108,23 @@ class _GroupChatState extends ConsumerState<GroupChat> {
             ],
           ),
           actions: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  group.state! == GroupModelState.closed
-                      ? AppLocalizations.of(context).translate('groups.chat.close')
-                      : AppLocalizations.of(context).translate('groups.chat.open'),
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: group.state! == GroupModelState.closed
-                          ? Theme.of(context).colorScheme.tertiary
-                          : Theme.of(context).colorScheme.secondary),
-                ),
-              ],
-            ),
+            if (group.owner == null)
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    group.state! == GroupModelState.closed
+                        ? AppLocalizations.of(context).translate('groups.chat.close')
+                        : AppLocalizations.of(context).translate('groups.chat.open'),
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: group.state! == GroupModelState.closed
+                            ? Theme.of(context).colorScheme.tertiary
+                            : Theme.of(context).colorScheme.secondary),
+                  ),
+                ],
+              ),
             PopupMenuButton(
               onSelected: (value) {
                 if (value == 1) {
@@ -212,6 +213,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                     ),
                   ),
             ChatInput(
+              readOnly: group.state == GroupModelState.archived,
               onSend: (content, type) {
                 ref.read(chatProvider).sendMessage(widget.channel?.id, content, type);
               },

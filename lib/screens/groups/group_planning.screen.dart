@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.enums.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
@@ -32,6 +33,7 @@ class GroupPlanning extends HookConsumerWidget {
     useEffect(() {
       Future.microtask(() => ref.read(planningProvider).getActivities(groupId));
     }, [groupId]);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).translate('groups.planning.title')),
@@ -91,8 +93,9 @@ class GroupPlanning extends HookConsumerWidget {
           ),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
+
+      floatingActionButtonLocation: group.state != GroupModelState.archived ? FloatingActionButtonLocation.endFloat : null,
+      floatingActionButton: group.state != GroupModelState.archived ? FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddActivity(groupId: groupId)));
         },
@@ -101,7 +104,7 @@ class GroupPlanning extends HookConsumerWidget {
           color: Theme.of(context).colorScheme.onSecondary,
         ),
         backgroundColor: Theme.of(context).colorScheme.secondary,
-      ),
+      ): null,
     );
   }
 }

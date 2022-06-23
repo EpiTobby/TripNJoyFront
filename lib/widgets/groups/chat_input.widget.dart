@@ -15,9 +15,11 @@ class ChatInput extends HookConsumerWidget {
   const ChatInput({
     Key? key,
     required this.onSend,
+    this.readOnly = false,
   }) : super(key: key);
 
   final void Function(String, MessageResponseType$) onSend;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,8 +37,13 @@ class ChatInput extends HookConsumerWidget {
           children: [
             Expanded(
               child: ChatTextField(
+                readOnly: readOnly,
                 controller: controller,
                 onAttachFile: () async {
+                  if (readOnly) {
+                    return;
+                  }
+
                   FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
 
                   if (result != null) {
@@ -53,18 +60,25 @@ class ChatInput extends HookConsumerWidget {
                   }
                 },
                 onAttachImage: () async {
+                  if (readOnly) {
+                    return;
+                  }
+
                   final imageURL = await minioService.uploadImage();
-                  onSend(imageURL!, MessageResponseType$.image);
+                  if (imageURL != null) {
+                    onSend(imageURL, MessageResponseType$.image);
+                  }
                 },
               ),
             ),
-            ChatSendButton(onPressed: () {
-              if (controller.text.isNotEmpty) {
-                logger.d('send button pressed - message: ${controller.text}');
-                onSend(controller.text, MessageResponseType$.text);
-                controller.clear();
-              }
-            }),
+            if (!readOnly)
+              ChatSendButton(onPressed: () {
+                if (controller.text.isNotEmpty) {
+                  logger.d('send button pressed - message: ${controller.text}');
+                  onSend(controller.text, MessageResponseType$.text);
+                  controller.clear();
+                }
+              }),
           ],
         ),
       ),
