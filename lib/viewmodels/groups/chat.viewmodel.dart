@@ -28,7 +28,6 @@ class ChatViewModel extends ChangeNotifier {
   bool isLoadingMessages = true;
   bool mounted = true;
   HashMap<num, ChatMember> chatMembers = HashMap<num, ChatMember>();
-  final NetworkImage defaultProfileImage = const NetworkImage(DEFAULT_AVATAR_URL);
   int page = 0;
   static const int LAST_PAGE = -1;
   static const int START_PAGE = 0;
@@ -102,12 +101,9 @@ class ChatViewModel extends ChangeNotifier {
     final user = await httpService.getUserPublicInfo(groupId, userId);
     if (user != null && user.userId != null) {
       chatMembers[user.userId!] = ChatMember(
-        id: user.userId!,
-        name: "${user.firstname} ${user.lastname}",
-        avatar: user.profilePicture != null
-            ? NetworkImage(MinioService.getImageUrl(user.profilePicture!)!)
-            : defaultProfileImage,
-      );
+          id: user.userId!,
+          name: "${user.firstname} ${user.lastname}",
+          avatar: NetworkImage(MinioService.getImageUrl(user.profilePicture, DEFAULT_URL.AVATAR)));
       notifyListeners();
     }
   }

@@ -5,11 +5,7 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-import 'package:trip_n_joy_front/models/group/activity.dart';
-import 'package:trip_n_joy_front/models/group/chat_member.dart';
-import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
-import 'package:web_socket_channel/src/channel.dart';
 
 class MockService extends HttpService {
   @override
@@ -489,5 +485,47 @@ class MockService extends HttpService {
   @override
   Future<RecommendationModel?> submitRecommendation(SubmitRecommendationRequest request) {
     return Future.value(null);
+  }
+
+  @override
+  Future<List<BalanceResponse>?> getBudgetBalance(int groupId) {
+    // TODO: implement getBudgetBalance
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ExpenseModel?> createExpense(int groupId, num? userId, ExpenseRequest body) {
+    // TODO: implement createExpense
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<ExpenseModel>?> getExpenses(int groupId) {
+    // TODO: implement getExpenses
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ExpenseModel?> updateExpense(int groupId, num? userId, num? expenseId, ExpenseRequest body) {
+    // TODO: implement updateExpense
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteExpense(int groupId, num? expenseId) {
+    // TODO: implement deleteExpense
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId) {
+    // TODO: implement getUserDueMoney
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<MoneyDueResponse>?> getUserOwedMoney(int groupId, num? userId) {
+    // TODO: implement getUserOwedMoney
+    throw UnimplementedError();
   }
 }

@@ -6,7 +6,7 @@ class InputField extends StatefulHookWidget {
   const InputField({
     Key? key,
     required this.label,
-    required this.onChanged,
+    this.onChanged,
     this.hint = "",
     this.keyboardType = TextInputType.text,
     this.textCapitalization = TextCapitalization.sentences,
@@ -19,7 +19,7 @@ class InputField extends StatefulHookWidget {
   }) : super(key: key);
 
   final String label;
-  final Function onChanged;
+  final void Function(String)? onChanged;
   final String hint;
   final Icon? icon;
   final TextInputType keyboardType;
@@ -56,7 +56,7 @@ class _InputFieldState extends State<InputField> {
                   ),
                 )),
             TextField(
-              onChanged: (value) => widget.onChanged(value),
+              onChanged: widget.onChanged,
               controller: widget.controller,
               obscureText: widget.isPassword && !isVisible.value,
               keyboardType: widget.multiline ? TextInputType.multiline : widget.keyboardType,

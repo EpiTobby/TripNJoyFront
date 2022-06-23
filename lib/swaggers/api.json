@@ -11,6 +11,65 @@
     }
   ],
   "paths": {
+    "/expenses/{groupId}/{expenseId}/purchaser/{user}": {
+      "put": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "updateExpense",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "expenseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/{id}/profiles": {
       "get": {
         "tags": [
@@ -586,6 +645,56 @@
           },
           "403": {
             "description": "The client is not the owner of the group"
+          }
+        }
+      }
+    },
+    "/expenses/{group}/purchaser/{user}": {
+      "post": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "createExpense",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseModel"
+                }
+              }
+            }
           }
         }
       }
@@ -2226,6 +2335,203 @@
         }
       }
     },
+    "/expenses/{group}": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getExpensesByGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpenseModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/{group}/user/{user}/debts": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getMoneyUserOwesToEachMemberInGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MoneyDueResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/{group}/user/{user}/debts/due": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getMoneyEachMemberOwesToUserInGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MoneyDueResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/{group}/user/{user}/debts/details": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getUserDebtsDetails",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DebtDetailsResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/{group}/balances": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "computeBalances",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BalanceResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/chat/{channel_id}": {
       "get": {
         "tags": [
@@ -2453,10 +2759,337 @@
           }
         }
       }
+    },
+    "/expenses/{groupId}/{expenseId}": {
+      "delete": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "deleteExpense",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "expenseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "ExpenseRequest": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "moneyDueByEachUser": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MoneyDueRequest"
+            }
+          },
+          "icon": {
+            "type": "string"
+          },
+          "evenlyDivided": {
+            "type": "boolean"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "MoneyDueRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "money": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ChannelModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CityModel": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ExpenseMemberModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userModel": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "amountToPay": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ExpenseModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          },
+          "groupModel": {
+            "$ref": "#/components/schemas/GroupModel"
+          },
+          "purchaser": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "indebtedUsers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExpenseMemberModel"
+            }
+          }
+        }
+      },
+      "GroupMemberModel": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "profilePicture": {
+            "type": "string"
+          }
+        }
+      },
+      "GroupModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "CLOSED",
+              "ARCHIVED"
+            ]
+          },
+          "owner": {
+            "$ref": "#/components/schemas/UserModel"
+          },
+          "maxSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "picture": {
+            "type": "string"
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberModel"
+            }
+          },
+          "channels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChannelModel"
+            }
+          },
+          "createdDate": {
+            "type": "string"
+          }
+        }
+      },
+      "MemberModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "NOT_SPECIFIED"
+            ]
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "city": {
+            "$ref": "#/components/schemas/CityModel"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UserModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "NOT_SPECIFIED"
+            ]
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "city": {
+            "$ref": "#/components/schemas/CityModel"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          },
+          "language": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "DEFAULT",
+                "ADMIN"
+              ]
+            }
+          }
+        }
+      },
       "AvailabilityAnswerModel": {
         "type": "object",
         "properties": {
@@ -2728,24 +3361,6 @@
             ]
           },
           "details": {
-            "type": "string"
-          }
-        }
-      },
-      "GroupMemberModel": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "firstname": {
-            "type": "string"
-          },
-          "lastname": {
-            "type": "string"
-          },
-          "profilePicture": {
             "type": "string"
           }
         }
@@ -3024,194 +3639,6 @@
           "maxSize": {
             "type": "integer",
             "format": "int32"
-          }
-        }
-      },
-      "ChannelModel": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "index": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "CityModel": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          }
-        }
-      },
-      "GroupModel": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "state": {
-            "type": "string",
-            "enum": [
-              "OPEN",
-              "CLOSED",
-              "ARCHIVED"
-            ]
-          },
-          "owner": {
-            "$ref": "#/components/schemas/UserModel"
-          },
-          "maxSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "startOfTrip": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endOfTrip": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "picture": {
-            "type": "string"
-          },
-          "members": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MemberModel"
-            }
-          },
-          "channels": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ChannelModel"
-            }
-          },
-          "createdDate": {
-            "type": "string"
-          }
-        }
-      },
-      "MemberModel": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "firstname": {
-            "type": "string"
-          },
-          "lastname": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "birthDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "gender": {
-            "type": "string",
-            "enum": [
-              "MALE",
-              "FEMALE",
-              "NOT_SPECIFIED"
-            ]
-          },
-          "profilePicture": {
-            "type": "string"
-          },
-          "city": {
-            "$ref": "#/components/schemas/CityModel"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "confirmed": {
-            "type": "boolean"
-          }
-        }
-      },
-      "UserModel": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "firstname": {
-            "type": "string"
-          },
-          "lastname": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "birthDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "gender": {
-            "type": "string",
-            "enum": [
-              "MALE",
-              "FEMALE",
-              "NOT_SPECIFIED"
-            ]
-          },
-          "profilePicture": {
-            "type": "string"
-          },
-          "city": {
-            "$ref": "#/components/schemas/CityModel"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "confirmed": {
-            "type": "boolean"
-          },
-          "language": {
-            "type": "string"
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "DEFAULT",
-                "ADMIN"
-              ]
-            }
           }
         }
       },
@@ -3546,6 +3973,13 @@
             "items": {
               "type": "string"
             }
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         }
       },
@@ -3833,6 +4267,52 @@
           },
           "group": {
             "$ref": "#/components/schemas/GroupModel"
+          }
+        }
+      },
+      "MoneyDueResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "DebtDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "indebtedUser": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "purchaser": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "description": {
+            "type": "string"
+          },
+          "amountToPay": {
+            "type": "number",
+            "format": "double"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BalanceResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "money": {
+            "type": "number",
+            "format": "double"
           }
         }
       },

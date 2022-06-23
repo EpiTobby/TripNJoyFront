@@ -8,6 +8,7 @@ import 'package:trip_n_joy_front/providers/user/recommendation.provider.dart';
 import 'package:trip_n_joy_front/providers/user/report.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 
 class UserDialog extends HookConsumerWidget {
   const UserDialog({Key? key, required this.user}) : super(key: key);
@@ -27,7 +28,7 @@ class UserDialog extends HookConsumerWidget {
             child: Column(
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(user.profilePicture ?? DEFAULT_AVATAR_URL),
+                  backgroundImage: NetworkImage(MinioService.getImageUrl(user.profilePicture, DEFAULT_URL.AVATAR)),
                   radius: 30,
                 ),
                 Padding(
@@ -131,7 +132,7 @@ class UserDialog extends HookConsumerWidget {
                               });
                         },
                         fitContent: true,
-                        isError: true),
+                        color: Theme.of(context).colorScheme.tertiary),
                   ],
                 )
               ],

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     Key? key,
-    required String this.text,
-    bool this.isLoading = false,
-    required Function this.onPressed,
-    bool this.isDisabled = false,
-    bool this.fitContent = false,
-    this.isError = false,
+    required this.text,
+    required this.onPressed,
+    this.isLoading = false,
+    this.isDisabled = false,
+    this.fitContent = false,
+    this.color,
   }) : super(key: key);
 
   final String text;
@@ -16,7 +16,7 @@ class PrimaryButton extends StatelessWidget {
   final Function onPressed;
   final bool isDisabled;
   final bool fitContent;
-  final bool isError;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class PrimaryButton extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                primary: !isError ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.error,
+                primary: color ?? Theme.of(context).colorScheme.secondary,
                 textStyle: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSecondary),
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(
@@ -48,11 +48,11 @@ class PrimaryButton extends StatelessWidget {
 class SecondaryButton extends StatelessWidget {
   const SecondaryButton({
     Key? key,
-    required String this.text,
-    bool this.isLoading = false,
-    required Function this.onPressed,
-    bool this.isDisabled = false,
-    bool this.fitContent = false,
+    required this.text,
+    required this.onPressed,
+    this.isLoading = false,
+    this.isDisabled = false,
+    this.fitContent = false,
   }) : super(key: key);
 
   final String text;
@@ -96,10 +96,10 @@ class SecondaryButton extends StatelessWidget {
 class TertiaryButton extends StatelessWidget {
   const TertiaryButton({
     Key? key,
-    required String this.text,
-    bool this.isLoading = false,
-    required Function this.onPressed,
-    bool this.isDisabled = false,
+    required this.text,
+    required this.onPressed,
+    this.isLoading = false,
+    this.isDisabled = false,
   }) : super(key: key);
 
   final String text;
