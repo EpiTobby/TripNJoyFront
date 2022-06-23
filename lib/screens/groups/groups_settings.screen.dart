@@ -80,7 +80,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                       title: AppLocalizations.of(context).translate("groups.settings.groupName"),
                       child: LayoutItemValue(
                         value: group.name ?? '',
-                        editable: group.state != GroupModelState.archived,
+                        editable: group.state != GroupModelState.archived && group.owner?.id == user.id,
                         onPressed: () {
                           showMaterialModalBottomSheet(
                               context: context,
