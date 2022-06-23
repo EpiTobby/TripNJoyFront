@@ -36,7 +36,7 @@ class MoneyDue extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      owed ? other : user,
+                      owed ? other : "$user (me)",
                       style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
                     ),
                     Padding(
@@ -47,7 +47,7 @@ class MoneyDue extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      owed ? user : other,
+                      owed ? "$user (me)" : other,
                       style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
                     ),
                   ],

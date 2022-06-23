@@ -45,16 +45,31 @@ class BudgetReimbursement extends HookConsumerWidget {
             AsyncValueWidget<List<MoneyDueResponse>>(
               value: owedMoney,
               data: (data) => Column(
-                children: data
-                    .map(
-                      (e) => MoneyDue(
-                        amount: e.total,
-                        user: username,
-                        other: "${e.user?.firstname} ${e.user?.lastname}",
-                        owed: true,
-                      ),
-                    )
-                    .toList(),
+                children: data.isEmpty
+                    ? [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20.0),
+                          child: Center(
+                            child: Text(
+                              AppLocalizations.of(context).translate("groups.budget.reimbursement.owed.empty"),
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                  color: Theme.of(context).colorScheme.primary),
+                            ),
+                          ),
+                        )
+                      ]
+                    : data
+                        .map(
+                          (e) => MoneyDue(
+                            amount: e.total,
+                            user: username,
+                            other: "${e.user?.firstname} ${e.user?.lastname}",
+                            owed: true,
+                          ),
+                        )
+                        .toList(),
               ),
             ),
           ]),
@@ -64,16 +79,30 @@ class BudgetReimbursement extends HookConsumerWidget {
               AsyncValueWidget<List<MoneyDueResponse>>(
                 value: dueMoney,
                 data: (data) => Column(
-                  children: data
-                      .map(
-                        (e) => MoneyDue(
-                          amount: e.total,
-                          user: username,
-                          other: "${e.user?.firstname} ${e.user?.lastname}",
-                          owed: false,
-                        ),
-                      )
-                      .toList(),
+                  children: data.isEmpty
+                      ? [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Center(
+                                child: Text(
+                              AppLocalizations.of(context).translate("groups.budget.reimbursement.due.empty"),
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                  color: Theme.of(context).colorScheme.primary),
+                            )),
+                          )
+                        ]
+                      : data
+                          .map(
+                            (e) => MoneyDue(
+                              amount: e.total,
+                              user: username,
+                              other: "${e.user?.firstname} ${e.user?.lastname}",
+                              owed: false,
+                            ),
+                          )
+                          .toList(),
                 ),
               ),
             ],
