@@ -374,10 +374,12 @@
       "reimbursement": {
         "title": "Reimbursement",
         "owed": {
-          "title": "What I am owed"
+          "title": "What I am owed",
+          "empty": "Nothing to be owed"
         },
         "due": {
-          "title": "What I owe"
+          "title": "What I owe",
+          "empty": "Nothing to owe"
         },
         "owes": "owes"
       }

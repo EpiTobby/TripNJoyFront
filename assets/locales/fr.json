@@ -374,10 +374,12 @@
       "reimbursement": {
         "title": "Remboursement",
         "owed": {
-          "title": "Ce qu'on me doit"
+          "title": "Ce qu'on me doit",
+          "empty": "Aucun membre ne me doit de l'argent"
         },
         "due": {
-          "title": "Ce que je dois"
+          "title": "Ce que je dois",
+          "empty": "Je ne dois rien à personne"
         },
         "owes": "doit"
       }
