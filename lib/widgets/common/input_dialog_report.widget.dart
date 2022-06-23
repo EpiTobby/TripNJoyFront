@@ -2,42 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.enums.swagger.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
+import 'package:trip_n_joy_front/widgets/common/dropdown.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/snackbar.widget.dart';
 
 import 'button.widget.dart';
 import 'input.widget.dart';
 
-class InputDialog extends StatefulHookWidget {
-  const InputDialog({
+class InputDialogReport extends StatefulHookWidget {
+  const InputDialogReport({
     Key? key,
-    this.title,
-    required this.label,
-    required this.initialValue,
     required this.onConfirm,
-    this.isPassword = false,
-    this.multiline = false,
-    this.textCapitalization = TextCapitalization.sentences,
   }) : super(key: key);
 
-  final String? title;
-  final String label;
-  final String initialValue;
   final Function onConfirm;
-  final bool isPassword;
-  final bool multiline;
-  final TextCapitalization textCapitalization;
 
   @override
-  State<InputDialog> createState() => _InputDialogState();
+  State<InputDialogReport> createState() => _InputDialogReportState();
 }
 
-class _InputDialogState extends State<InputDialog> {
+class _InputDialogReportState extends State<InputDialogReport> {
   @override
   Widget build(BuildContext context) {
-    final controller = useTextEditingController(text: widget.initialValue);
+    final controller = useTextEditingController(text: '');
     final status = useState<AsyncValue<void>>(const AsyncValue.data(null));
+    final reason = useState(SubmitReportRequestReason.innapropriateBehavior);
+    final reasons = SubmitReportRequestReason.values
+        .map((e) => e.name)
+        .where((e) => e != "swaggerGeneratedUnknown")
+        .toList();
+
     return AnimatedPadding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -53,26 +49,35 @@ class _InputDialogState extends State<InputDialog> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (widget.title != null)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      widget.title!,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    AppLocalizations.of(context).translate('groups.settings.reportUser'),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold),
                   ),
+                ),
+                Dropdown(
+                  label: AppLocalizations.of(context).translate('groups.settings.reportReason.title'),
+                  selectedValue: reason.value.name,
+                  listValue: reasons,
+                  listLabel: reasons
+                      .map((e) => AppLocalizations.of(context).translate('groups.settings.reportReason.$e'))
+                      .toList(),
+                  onChanged: (value) {
+                    reason.value = SubmitReportRequestReason.values.firstWhere((e) => e.name == value);
+                  },
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InputField(
-                    isPassword: widget.isPassword,
-                    label: widget.label,
+                    label: AppLocalizations.of(context).translate('groups.settings.reportReason.details'),
                     controller: controller,
                     onChanged: (newValue) => {},
                     isError: status.value.isError,
-                    multiline: widget.multiline,
-                    textCapitalization: widget.textCapitalization,
+                    multiline: true,
+                    textCapitalization: TextCapitalization.none,
                   ),
                 ),
                 Padding(
@@ -92,7 +97,7 @@ class _InputDialogState extends State<InputDialog> {
                         onPressed: () async {
                           status.value = const AsyncLoading();
                           try {
-                            await widget.onConfirm(controller.text);
+                            await widget.onConfirm(controller.text, reason.value);
                             status.value = const AsyncData(null);
                             Navigator.of(context).pop();
                           } on HttpException catch (e) {

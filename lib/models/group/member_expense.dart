@@ -5,9 +5,11 @@ class MemberExpense {
     required this.member,
     this.weight,
     this.amount,
+    this.selected = true,
   });
 
   MemberModel member;
   int? weight;
   double? amount;
+  bool selected;
 }

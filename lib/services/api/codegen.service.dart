@@ -5,9 +5,6 @@ import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-import 'package:trip_n_joy_front/models/group/activity.dart';
-import 'package:trip_n_joy_front/models/group/chat_member.dart';
-import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 import '../../codegen/api.swagger.dart';
 import '../../viewmodels/auth/auth.viewmodel.dart';
@@ -382,8 +379,84 @@ class CodegenService extends HttpService {
   }
 
   @override
+  Future<List<ReportModel>?> getReports(int submitterId) async {
+    final response = await api.reportsIdGet(id: submitterId);
+    return response.body;
+  }
+
+  @override
+  Future<ReportModel?> submitReport(SubmitReportRequest submitReportRequest) async {
+    final response = await api.reportsPost(body: submitReportRequest);
+    return response.body;
+  }
+
+  @override
+  Future<ReportModel?> updateReport(int reportId, UpdateReportRequest updateReportRequest) async {
+    final response = await api.reportsIdPatch(id: reportId, body: updateReportRequest);
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteReport(int reportId) async {
+    await api.reportsIdDelete(id: reportId);
+  }
+
+  @override
+  Future<List<RecommendationModel>?> getRecommendations(int reviewedUserId) async {
+    final response = await api.recommendationsIdGet(id: reviewedUserId);
+    return response.body;
+  }
+
+  @override
+  Future<RecommendationModel?> submitRecommendation(SubmitRecommendationRequest request) async {
+    final response = await api.recommendationsPost(body: request);
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteRecommendation(int recommendationId) async {
+    await api.recommendationsIdDelete(id: recommendationId);
+  }
+
+  @override
   Future<List<BalanceResponse>?> getBudgetBalance(int groupId) async {
     final response = await api.expensesGroupBalancesGet(group: groupId);
+    return response.body;
+  }
+
+  @override
+  Future<ExpenseModel?> createExpense(int groupId, num? userId, ExpenseRequest body) async {
+    final response = await api.expensesGroupPurchaserUserPost(group: groupId, user: userId, body: body);
+    return response.body;
+  }
+
+  @override
+  Future<ExpenseModel?> updateExpense(int groupId, num? userId, num? expenseId, ExpenseRequest body) async {
+    final response = await api.expensesGroupIdExpenseIdPurchaserUserPut(
+        groupId: groupId, expenseId: expenseId, user: userId, body: body);
+    return response.body;
+  }
+
+  @override
+  Future<List<ExpenseModel>?> getExpenses(int groupId) async {
+    final response = await api.expensesGroupGet(group: groupId);
+    return response.body;
+  }
+
+  @override
+  Future<void> deleteExpense(int groupId, num? expenseId) async {
+    await api.expensesGroupIdExpenseIdDelete(groupId: groupId, expenseId: expenseId);
+  }
+
+  @override
+  Future<List<MoneyDueResponse>?> getUserOwedMoney(int groupId, num? userId) async {
+    final response = await api.expensesGroupUserUserDebtsDueGet(group: groupId, user: userId);
+    return response.body;
+  }
+
+  @override
+  Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId) async {
+    final response = await api.expensesGroupUserUserDebtsGet(group: groupId, user: userId);
     return response.body;
   }
 }

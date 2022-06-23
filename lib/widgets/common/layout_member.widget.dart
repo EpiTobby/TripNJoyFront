@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 
 class LayoutMember extends StatelessWidget {
   const LayoutMember({Key? key, required this.imageURL, required this.name, this.onClick, this.onDelete})

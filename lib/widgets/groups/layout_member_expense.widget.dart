@@ -10,23 +10,32 @@ class LayoutMemberExpense extends HookConsumerWidget {
     required this.expense,
     required this.onWeightChange,
     required this.onAmountChange,
+    required this.onToggleSelection,
   }) : super(key: key);
 
   final MemberExpense expense;
   final Function(String) onWeightChange;
   final Function(String) onAmountChange;
+  final Function(bool?) onToggleSelection;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final weightController = useTextEditingController(text: expense.weight?.toString());
-    final amountController = useTextEditingController(text: expense.amount?.toString() ?? "0.00");
+    final amountController = useTextEditingController(text: expense.amount?.toString() ?? "0.0");
 
     useEffect(() {
       weightController.text = expense.weight?.toString() ?? "";
-      amountController.text = expense.amount?.toString() ?? "0.00";
-    }, [expense]);
+      return null;
+    }, [expense.weight]);
+
+    useEffect(() {
+      amountController.text = expense.amount?.toStringAsFixed(2) ?? "0.0";
+      return null;
+    }, [expense.amount]);
+
     return Row(
       children: [
+        Checkbox(value: expense.selected, onChanged: onToggleSelection),
         Expanded(
           child: Text(
             "${expense.member.firstname} ${expense.member.lastname}",
@@ -40,7 +49,8 @@ class LayoutMemberExpense extends HookConsumerWidget {
             textAlign: TextAlign.center,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            onEditingComplete: () => onWeightChange(weightController.value.text),
+            onSubmitted: (value) => onWeightChange(value),
+            enabled: expense.selected,
           ),
         ),
         Padding(
@@ -51,7 +61,8 @@ class LayoutMemberExpense extends HookConsumerWidget {
               controller: amountController,
               textAlign: TextAlign.end,
               keyboardType: TextInputType.number,
-              onEditingComplete: () => onAmountChange(amountController.value.text),
+              onSubmitted: (value) => onAmountChange(value),
+              enabled: expense.selected,
             ),
           ),
         )

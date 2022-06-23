@@ -1,7 +1,5 @@
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
-import 'package:trip_n_joy_front/models/group/activity.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../codegen/api.swagger.dart';
 import '../../models/auth/signup.model.dart';
@@ -107,5 +105,31 @@ abstract class HttpService {
 
   Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request);
 
+  Future<ReportModel?> submitReport(SubmitReportRequest submitReportRequest);
+
+  Future<List<ReportModel>?> getReports(int submitterId);
+
+  Future<ReportModel?> updateReport(int reportId, UpdateReportRequest updateReportRequest);
+
+  Future<void> deleteReport(int reportId);
+
+  Future<RecommendationModel?> submitRecommendation(SubmitRecommendationRequest request);
+
+  Future<List<RecommendationModel>?> getRecommendations(int reviewedUserId);
+
+  Future<void> deleteRecommendation(int recommendationId);
+
   Future<List<BalanceResponse>?> getBudgetBalance(int groupId);
+
+  Future<ExpenseModel?> createExpense(int groupId, num? userId, ExpenseRequest body);
+
+  Future<ExpenseModel?> updateExpense(int groupId, num? userId, num? expenseId, ExpenseRequest body);
+
+  Future<List<ExpenseModel>?> getExpenses(int groupId);
+
+  Future<void> deleteExpense(int groupId, num? expenseId);
+
+  Future<List<MoneyDueResponse>?> getUserOwedMoney(int groupId, num? userId);
+
+  Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId);
 }

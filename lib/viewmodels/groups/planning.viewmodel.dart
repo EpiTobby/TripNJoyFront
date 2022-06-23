@@ -70,6 +70,12 @@ class PlanningViewModel extends ChangeNotifier {
     return newActivity != null ? Activity.fromActivityResponse(newActivity) : null;
   }
 
+  Future<Activity?> addActivity(int groupId, CreateActivityRequest createActivityRequest) async {
+    final newActivity = await httpService.createActivity(groupId, createActivityRequest);
+    getActivities(groupId);
+    return newActivity != null ? Activity.fromActivityResponse(newActivity) : null;
+  }
+
   Future<void> deleteActivity(int groupId, num activityId) async {
     await httpService.deleteActivity(groupId, activityId);
     getActivities(groupId);
@@ -108,6 +114,19 @@ class PlanningViewModel extends ChangeNotifier {
     return newActivity != null ? Activity.fromActivityResponse(newActivity) : null;
   }
 
+  CreateActivityRequest getSuggestedActivity(int groupId, String category, PlaceResponse activity) {
+    final newActivity = CreateActivityRequest(
+      name: activity.name,
+      description: category,
+      startDate: DateTime.now(),
+      endDate: DateTime.now(),
+      location: "${activity.street}, ${activity.city}, ${activity.country}",
+      color: '#${ActivityColors.blue.value.toRadixString(16).substring(2)}',
+      icon: getCategoryIcon(getCategory(category)).codePoint.toString(),
+    );
+    return newActivity;
+  }
+
   PlacesFromCoordinatesRequestCategories getCategory(String category) {
     switch (category) {
       case 'ANTIQUES_SHOP':
@@ -129,7 +148,7 @@ class PlanningViewModel extends ChangeNotifier {
       case 'COFFEE_SHOP':
         return PlacesFromCoordinatesRequestCategories.coffeeShop;
       case 'ENTERTAINMENT':
-        return PlacesFromCoordinatesRequestCategories.entertainement;
+        return PlacesFromCoordinatesRequestCategories.entertainment;
       case 'FAST_FOOD':
         return PlacesFromCoordinatesRequestCategories.fastFood;
       case 'FISH_AND_CHIPS_RESTAURANT':
@@ -143,7 +162,7 @@ class PlanningViewModel extends ChangeNotifier {
       case 'RESTAURANT':
         return PlacesFromCoordinatesRequestCategories.restaurant;
       case 'SEAFOOD_RESTAURANT':
-        return PlacesFromCoordinatesRequestCategories.seafoodRestarant;
+        return PlacesFromCoordinatesRequestCategories.seafoodRestaurant;
       case 'SUPERMARKET':
         return PlacesFromCoordinatesRequestCategories.supermarket;
       case 'SWIMMING_POOL':
@@ -181,7 +200,7 @@ class PlanningViewModel extends ChangeNotifier {
         return Icons.restaurant;
       case PlacesFromCoordinatesRequestCategories.coffeeShop:
         return Icons.local_cafe;
-      case PlacesFromCoordinatesRequestCategories.entertainement:
+      case PlacesFromCoordinatesRequestCategories.entertainment:
         return Icons.local_movies;
       case PlacesFromCoordinatesRequestCategories.fastFood:
         return Icons.fastfood;
@@ -195,7 +214,7 @@ class PlanningViewModel extends ChangeNotifier {
         return Icons.local_parking;
       case PlacesFromCoordinatesRequestCategories.restaurant:
         return Icons.restaurant;
-      case PlacesFromCoordinatesRequestCategories.seafoodRestarant:
+      case PlacesFromCoordinatesRequestCategories.seafoodRestaurant:
         return Icons.restaurant;
       case PlacesFromCoordinatesRequestCategories.supermarket:
         return Icons.local_grocery_store;

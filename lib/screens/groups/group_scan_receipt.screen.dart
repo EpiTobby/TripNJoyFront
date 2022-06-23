@@ -1,10 +1,8 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
@@ -64,7 +62,7 @@ class GroupScanReceipt extends HookConsumerWidget {
                                       color: Colors.black54,
                                     ),
                                   )
-                                : Image.network(MinioService.getImageUrl(image.value)!),
+                                : Image.network(MinioService.getImageUrl(image.value, DEFAULT_URL.IMAGE)),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

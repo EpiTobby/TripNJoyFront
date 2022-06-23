@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/group/member_expense.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
@@ -84,7 +85,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                           ?.map(
                             (e) => LayoutRowItemMember(
                               name: "${e.firstname} ${e.lastname}",
-                              avatarUrl: MinioService.getImageUrl(e.profilePicture),
+                              avatarUrl: MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
                               isSelected: paidBy.value == e,
                               onTap: (value) {
                                 paidBy.value = e;
@@ -101,7 +102,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text('Total: ${total.value}€', style: TextStyle(fontSize: 24)),
+            Text('Total: ${total.value}€', style: const TextStyle(fontSize: 24)),
             PrimaryButton(
               text: payTotal.value ? 'Par article' : 'Par personne',
               onPressed: () {
@@ -122,23 +123,26 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                   children: articles.value.keys
                       .map((key) => Column(
                             children: [
-                              Text('$key: ${articles.value[key]}€', style: TextStyle(fontSize: 18),),
+                              Text(
+                                '$key: ${articles.value[key]}€',
+                                style: const TextStyle(fontSize: 18),
+                              ),
                               SizedBox(
                                 height: 100,
                                 child: ListView(
                                   scrollDirection: Axis.horizontal,
                                   children: group.members
-                                      ?.map(
-                                        (e) => LayoutRowItemMember(
-                                      name: "${e.firstname} ${e.lastname}",
-                                      avatarUrl: MinioService.getImageUrl(e.profilePicture),
-                                      isSelected: paidBy.value == e,
-                                      onTap: (value) {
-                                        paidBy.value = e;
-                                      },
-                                    ),
-                                  )
-                                      .toList() ??
+                                          ?.map(
+                                            (e) => LayoutRowItemMember(
+                                              name: "${e.firstname} ${e.lastname}",
+                                              avatarUrl: MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
+                                              isSelected: paidBy.value == e,
+                                              onTap: (value) {
+                                                paidBy.value = e;
+                                              },
+                                            ),
+                                          )
+                                          .toList() ??
                                       [],
                                 ),
                               ),
@@ -158,30 +162,42 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                 padding: const EdgeInsets.only(top: 16.0),
                 child: Column(
                   children: paidFor.value
-                      ?.map(
-                        (e) => LayoutMemberExpense(
-                      expense: e,
-                      onWeightChange: (value) => paidFor.value = paidFor.value?.map(
-                            (member) {
-                          if (member.member == e.member) {
-                            member.weight = int.tryParse(value);
-                            member.amount = null;
-                          }
-                          return member;
-                        },
-                      ),
-                      onAmountChange: (value) => paidFor.value = paidFor.value?.map(
-                            (member) {
-                          if (member.member == e.member) {
-                            member.amount = double.tryParse(value);
-                            member.weight = null;
-                          }
-                          return member;
-                        },
-                      ),
-                    ),
-                  )
-                      .toList() ??
+                          ?.map(
+                            (e) => LayoutMemberExpense(
+                              expense: e,
+                              onWeightChange: (value) => paidFor.value = paidFor.value?.map(
+                                (member) {
+                                  if (member.member == e.member) {
+                                    member.weight = int.tryParse(value);
+                                    member.amount = null;
+                                  }
+                                  return member;
+                                },
+                              ),
+                              onAmountChange: (value) => paidFor.value = paidFor.value?.map(
+                                (member) {
+                                  if (member.member == e.member) {
+                                    member.amount = double.tryParse(value);
+                                    member.weight = null;
+                                  }
+                                  return member;
+                                },
+                              ),
+                              onToggleSelection: (value) {
+                                paidFor.value = paidFor.value?.map(
+                                  (member) {
+                                    if (member.member == e.member) {
+                                      member.selected = value == true;
+                                      member.amount = null;
+                                      member.weight = value == true ? 1 : null;
+                                    }
+                                    return member;
+                                  },
+                                ).toList();
+                              },
+                            ),
+                          )
+                          .toList() ??
                       [],
                 ),
               ),

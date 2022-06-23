@@ -17,6 +17,18 @@ class _$Api extends Api {
   final definitionType = Api;
 
   @override
+  Future<Response<ExpenseModel>> _expensesGroupIdExpenseIdPurchaserUserPut(
+      {required num? groupId,
+      required num? expenseId,
+      required num? user,
+      required ExpenseRequest? body}) {
+    final $url = '/expenses/${groupId}/${expenseId}/purchaser/${user}';
+    final $body = body;
+    final $request = Request('PUT', $url, client.baseUrl, body: $body);
+    return client.send<ExpenseModel, ExpenseModel>($request);
+  }
+
+  @override
   Future<Response<List<ProfileModel>>> _idProfilesGet({required num? id}) {
     final $url = '/${id}/profiles';
     final $request = Request('GET', $url, client.baseUrl);
@@ -30,6 +42,24 @@ class _$Api extends Api {
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<ProfileModel, ProfileModel>($request);
+  }
+
+  @override
+  Future<Response<ReportModel>> _reportsPost(
+      {required SubmitReportRequest? body}) {
+    final $url = '/reports';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<ReportModel, ReportModel>($request);
+  }
+
+  @override
+  Future<Response<RecommendationModel>> _recommendationsPost(
+      {required SubmitRecommendationRequest? body}) {
+    final $url = '/recommendations';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<RecommendationModel, RecommendationModel>($request);
   }
 
   @override
@@ -113,7 +143,7 @@ class _$Api extends Api {
   Future<Response<ExpenseModel>> _expensesGroupPurchaserUserPost(
       {required num? group,
       required num? user,
-      required CreateExpenseRequest? body}) {
+      required ExpenseRequest? body}) {
     final $url = '/expenses/${group}/purchaser/${user}';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -198,6 +228,29 @@ class _$Api extends Api {
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<List<ReportModel>>> _reportsIdGet({required num? id}) {
+    final $url = '/reports/${id}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<List<ReportModel>, ReportModel>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _reportsIdDelete({required num? id}) {
+    final $url = '/reports/${id}';
+    final $request = Request('DELETE', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<ReportModel>> _reportsIdPatch(
+      {required num? id, required UpdateReportRequest? body}) {
+    final $url = '/reports/${id}';
+    final $body = body;
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
+    return client.send<ReportModel, ReportModel>($request);
   }
 
   @override
@@ -389,6 +442,29 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<List<ReportModel>>> _reportsAdminIdGet({required num? id}) {
+    final $url = '/reports/admin/${id}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<List<ReportModel>, ReportModel>($request);
+  }
+
+  @override
+  Future<Response<List<RecommendationModel>>> _recommendationsIdGet(
+      {required num? id}) {
+    final $url = '/recommendations/${id}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client
+        .send<List<RecommendationModel>, RecommendationModel>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _recommendationsIdDelete({required num? id}) {
+    final $url = '/recommendations/${id}';
+    final $request = Request('DELETE', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<List<String>>> _placesCategoriesGet() {
     final $url = '/places/categories';
     final $request = Request('GET', $url, client.baseUrl);
@@ -423,6 +499,14 @@ class _$Api extends Api {
     final $url = '/groups/invites/${id}';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<List<GroupModel>, GroupModel>($request);
+  }
+
+  @override
+  Future<Response<List<ExpenseModel>>> _expensesGroupGet(
+      {required num? group}) {
+    final $url = '/expenses/${group}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<List<ExpenseModel>, ExpenseModel>($request);
   }
 
   @override
