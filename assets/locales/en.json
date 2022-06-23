@@ -20,6 +20,7 @@
     "search": "Search",
     "accept": "Accept",
     "decline": "Decline",
+    "delete": "Delete",
     "date": "Date",
     "time": "Time",
     "startDate": "Start date",
@@ -231,6 +232,20 @@
         "open": "Opened group",
         "closed": "Closed group",
         "archived": "Archived group"
+      },
+      "recommend": "Recommend",
+      "report": "Report",
+      "recommendUser": "Recommend this user",
+      "reportUser": "Report this user",
+      "recommendation": "Recommendation",
+      "reportForm": "Report form",
+      "reason": {
+        "title": "Reason of the report",
+        "details": "Details",
+        "reimbursementProblem": "Reimbursement problem",
+        "innapropriateBehavior": "Inappropriate behavior",
+        "hygieneProblem": "Hygiene problem",
+        "other": "Other"
       }
     },
     "create": "Create a group",
@@ -361,7 +376,38 @@
       }
     },
     "budget": {
-      "title": "Budget"
+      "title": "Budget",
+      "expenses": {
+        "title": "Expenses",
+        "paid_by": "Paid by $name",
+        "paid_for": "Members: $members"
+      },
+      "add": {
+        "title": "Add new expense"
+      },
+      "edit": {
+        "title": "Edit expense",
+        "name": "Name of the expense",
+        "price": "Amount",
+        "paid_by": "Paid by",
+        "paid_for": "For whom",
+        "delete": {
+          "title": "Delete expense",
+          "confirm": "Are you sure you want to delete this expense ?"
+        }
+      },
+      "reimbursement": {
+        "title": "Reimbursement",
+        "owed": {
+          "title": "What I am owed",
+          "empty": "Nothing to be owed"
+        },
+        "due": {
+          "title": "What I owe",
+          "empty": "Nothing to owe"
+        },
+        "owes": "owes"
+      }
     }
   },
   "settings": {

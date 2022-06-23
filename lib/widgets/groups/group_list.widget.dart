@@ -82,7 +82,7 @@ class GroupListItem extends StatelessWidget {
                 backgroundColor: group.state! != GroupModelState.archived
                     ? Theme.of(context).colorScheme.surface
                     : Theme.of(context).disabledColor.withOpacity(0.1),
-                backgroundImage: NetworkImage(MinioService.getImageUrl(group.picture) ?? DEFAULT_GROUP_AVATAR_URL)),
+                backgroundImage: NetworkImage(MinioService.getImageUrl(group.picture, DEFAULT_URL.GROUP))),
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),

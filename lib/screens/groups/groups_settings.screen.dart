@@ -58,7 +58,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                 shrinkWrap: true,
                 children: [
                   LayoutHeader(
-                    imageURL: MinioService.getImageUrl(group.picture) ?? DEFAULT_GROUP_AVATAR_URL,
+                    imageURL: MinioService.getImageUrl(group.picture, DEFAULT_URL.GROUP),
                     onClick: group.state == GroupModelState.archived
                         ? null
                         : () async {
@@ -144,7 +144,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                             ...group.members!.map((member) {
                               return LayoutMember(
                                 name: member.firstname! + " " + member.lastname!,
-                                imageURL: MinioService.getImageUrl(member.profilePicture) ?? DEFAULT_AVATAR_URL,
+                                imageURL: MinioService.getImageUrl(member.profilePicture, DEFAULT_URL.AVATAR),
                                 onClick: () {
                                   showMaterialModalBottomSheet(
                                       context: context,
@@ -216,10 +216,10 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                           if (!isPrivateGroup)
                             LayoutItem(
                                 child: LayoutItemValue(
-                                  value: AppLocalizations.of(context).translate("groups.settings.askArchive"),
-                                  icon: Icons.archive_outlined,
-                                  onPressed: () {},
-                                )),
+                              value: AppLocalizations.of(context).translate("groups.settings.askArchive"),
+                              icon: Icons.archive_outlined,
+                              onPressed: () {},
+                            )),
                           LayoutItem(
                               child: LayoutItemValue(
                             value: AppLocalizations.of(context).translate("groups.settings.quit"),

@@ -1,5 +1,70 @@
 import 'package:json_annotation/json_annotation.dart';
 
+enum GroupModelState {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('OPEN')
+  open,
+  @JsonValue('CLOSED')
+  closed,
+  @JsonValue('ARCHIVED')
+  archived
+}
+
+const $GroupModelStateMap = {
+  GroupModelState.open: 'OPEN',
+  GroupModelState.closed: 'CLOSED',
+  GroupModelState.archived: 'ARCHIVED'
+};
+
+enum MemberModelGender {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('MALE')
+  male,
+  @JsonValue('FEMALE')
+  female,
+  @JsonValue('NOT_SPECIFIED')
+  notSpecified
+}
+
+const $MemberModelGenderMap = {
+  MemberModelGender.male: 'MALE',
+  MemberModelGender.female: 'FEMALE',
+  MemberModelGender.notSpecified: 'NOT_SPECIFIED'
+};
+
+enum UserModelGender {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('MALE')
+  male,
+  @JsonValue('FEMALE')
+  female,
+  @JsonValue('NOT_SPECIFIED')
+  notSpecified
+}
+
+const $UserModelGenderMap = {
+  UserModelGender.male: 'MALE',
+  UserModelGender.female: 'FEMALE',
+  UserModelGender.notSpecified: 'NOT_SPECIFIED'
+};
+
+enum UserModelRoles {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('DEFAULT')
+  $default,
+  @JsonValue('ADMIN')
+  admin
+}
+
+const $UserModelRolesMap = {
+  UserModelRoles.$default: 'DEFAULT',
+  UserModelRoles.admin: 'ADMIN'
+};
+
 enum ProfileCreationRequestDestinationTypes {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
@@ -321,6 +386,46 @@ const $ProfileModelSportMap = {
   ProfileModelSport.noPreference: 'NO_PREFERENCE'
 };
 
+enum SubmitReportRequestReason {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('REIMBURSEMENT_PROBLEM')
+  reimbursementProblem,
+  @JsonValue('INNAPROPRIATE_BEHAVIOR')
+  innapropriateBehavior,
+  @JsonValue('HYGIENE_PROBLEM')
+  hygieneProblem,
+  @JsonValue('OTHER')
+  other
+}
+
+const $SubmitReportRequestReasonMap = {
+  SubmitReportRequestReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
+  SubmitReportRequestReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
+  SubmitReportRequestReason.hygieneProblem: 'HYGIENE_PROBLEM',
+  SubmitReportRequestReason.other: 'OTHER'
+};
+
+enum ReportModelReason {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('REIMBURSEMENT_PROBLEM')
+  reimbursementProblem,
+  @JsonValue('INNAPROPRIATE_BEHAVIOR')
+  innapropriateBehavior,
+  @JsonValue('HYGIENE_PROBLEM')
+  hygieneProblem,
+  @JsonValue('OTHER')
+  other
+}
+
+const $ReportModelReasonMap = {
+  ReportModelReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
+  ReportModelReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
+  ReportModelReason.hygieneProblem: 'HYGIENE_PROBLEM',
+  ReportModelReason.other: 'OTHER'
+};
+
 enum PlacesFromCoordinatesRequestCategories {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
@@ -478,71 +583,6 @@ const $PlacesFromAddressRequestCategoriesMap = {
   PlacesFromAddressRequestCategories.theatre: 'THEATRE',
   PlacesFromAddressRequestCategories.tourism: 'TOURISM',
   PlacesFromAddressRequestCategories.transport: 'TRANSPORT'
-};
-
-enum GroupModelState {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('OPEN')
-  open,
-  @JsonValue('CLOSED')
-  closed,
-  @JsonValue('ARCHIVED')
-  archived
-}
-
-const $GroupModelStateMap = {
-  GroupModelState.open: 'OPEN',
-  GroupModelState.closed: 'CLOSED',
-  GroupModelState.archived: 'ARCHIVED'
-};
-
-enum MemberModelGender {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('MALE')
-  male,
-  @JsonValue('FEMALE')
-  female,
-  @JsonValue('NOT_SPECIFIED')
-  notSpecified
-}
-
-const $MemberModelGenderMap = {
-  MemberModelGender.male: 'MALE',
-  MemberModelGender.female: 'FEMALE',
-  MemberModelGender.notSpecified: 'NOT_SPECIFIED'
-};
-
-enum UserModelGender {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('MALE')
-  male,
-  @JsonValue('FEMALE')
-  female,
-  @JsonValue('NOT_SPECIFIED')
-  notSpecified
-}
-
-const $UserModelGenderMap = {
-  UserModelGender.male: 'MALE',
-  UserModelGender.female: 'FEMALE',
-  UserModelGender.notSpecified: 'NOT_SPECIFIED'
-};
-
-enum UserModelRoles {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('DEFAULT')
-  $default,
-  @JsonValue('ADMIN')
-  admin
-}
-
-const $UserModelRolesMap = {
-  UserModelRoles.$default: 'DEFAULT',
-  UserModelRoles.admin: 'ADMIN'
 };
 
 enum ProfileUpdateRequestDestinationTypes {
@@ -703,6 +743,26 @@ const $ProfileUpdateRequestSportMap = {
   ProfileUpdateRequestSport.yes: 'YES',
   ProfileUpdateRequestSport.no: 'NO',
   ProfileUpdateRequestSport.noPreference: 'NO_PREFERENCE'
+};
+
+enum UpdateReportRequestReason {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('REIMBURSEMENT_PROBLEM')
+  reimbursementProblem,
+  @JsonValue('INNAPROPRIATE_BEHAVIOR')
+  innapropriateBehavior,
+  @JsonValue('HYGIENE_PROBLEM')
+  hygieneProblem,
+  @JsonValue('OTHER')
+  other
+}
+
+const $UpdateReportRequestReasonMap = {
+  UpdateReportRequestReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
+  UpdateReportRequestReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
+  UpdateReportRequestReason.hygieneProblem: 'HYGIENE_PROBLEM',
+  UpdateReportRequestReason.other: 'OTHER'
 };
 
 enum UpdatePrivateGroupRequestState {

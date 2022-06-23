@@ -28,6 +28,35 @@ abstract class Api extends ChopperService {
     return _$Api(newClient);
   }
 
+  ///
+  ///@param groupId
+  ///@param expenseId
+  ///@param user
+  Future<chopper.Response<ExpenseModel>>
+      expensesGroupIdExpenseIdPurchaserUserPut(
+          {required num? groupId,
+          required num? expenseId,
+          required num? user,
+          required ExpenseRequest? body}) {
+    generatedMapping.putIfAbsent(
+        ExpenseModel, () => ExpenseModel.fromJsonFactory);
+
+    return _expensesGroupIdExpenseIdPurchaserUserPut(
+        groupId: groupId, expenseId: expenseId, user: user, body: body);
+  }
+
+  ///
+  ///@param groupId
+  ///@param expenseId
+  ///@param user
+  @Put(path: '/expenses/{groupId}/{expenseId}/purchaser/{user}')
+  Future<chopper.Response<ExpenseModel>>
+      _expensesGroupIdExpenseIdPurchaserUserPut(
+          {@Path('groupId') required num? groupId,
+          @Path('expenseId') required num? expenseId,
+          @Path('user') required num? user,
+          @Body() required ExpenseRequest? body});
+
   ///Get all profiles from a user
   ///@param id
   Future<chopper.Response<List<ProfileModel>>> idProfilesGet(
@@ -60,6 +89,34 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<ProfileModel>> _idProfilesPost(
       {@Path('id') required num? id,
       @Body() required ProfileCreationRequest? body});
+
+  ///Create a report
+  Future<chopper.Response<ReportModel>> reportsPost(
+      {required SubmitReportRequest? body}) {
+    generatedMapping.putIfAbsent(
+        ReportModel, () => ReportModel.fromJsonFactory);
+
+    return _reportsPost(body: body);
+  }
+
+  ///Create a report
+  @Post(path: '/reports')
+  Future<chopper.Response<ReportModel>> _reportsPost(
+      {@Body() required SubmitReportRequest? body});
+
+  ///Create a recommendation
+  Future<chopper.Response<RecommendationModel>> recommendationsPost(
+      {required SubmitRecommendationRequest? body}) {
+    generatedMapping.putIfAbsent(
+        RecommendationModel, () => RecommendationModel.fromJsonFactory);
+
+    return _recommendationsPost(body: body);
+  }
+
+  ///Create a recommendation
+  @Post(path: '/recommendations')
+  Future<chopper.Response<RecommendationModel>> _recommendationsPost(
+      {@Body() required SubmitRecommendationRequest? body});
 
   ///Retrieve 10 places around geographic coordinates
   Future<chopper.Response<List<PlaceResponse>>> placesCoordinatesPost(
@@ -181,6 +238,29 @@ abstract class Api extends ChopperService {
   Future<chopper.Response> _groupsPrivateGroupUserPost(
       {@Path('group') required num? group,
       @Body() required ModelWithEmail? body});
+
+  ///
+  ///@param group
+  ///@param user
+  Future<chopper.Response<ExpenseModel>> expensesGroupPurchaserUserPost(
+      {required num? group,
+      required num? user,
+      required ExpenseRequest? body}) {
+    generatedMapping.putIfAbsent(
+        ExpenseModel, () => ExpenseModel.fromJsonFactory);
+
+    return _expensesGroupPurchaserUserPost(
+        group: group, user: user, body: body);
+  }
+
+  ///
+  ///@param group
+  ///@param user
+  @Post(path: '/expenses/{group}/purchaser/{user}')
+  Future<chopper.Response<ExpenseModel>> _expensesGroupPurchaserUserPost(
+      {@Path('group') required num? group,
+      @Path('user') required num? user,
+      @Body() required ExpenseRequest? body});
 
   ///Get all the channels from a group
   ///@param group
@@ -310,6 +390,49 @@ abstract class Api extends ChopperService {
   @Patch(path: '/users/{id}/update')
   Future<chopper.Response> _usersIdUpdatePatch(
       {@Path('id') required num? id, @Body() required UserUpdateRequest? body});
+
+  ///Get all the report posted by a user
+  ///@param id
+  Future<chopper.Response<List<ReportModel>>> reportsIdGet({required num? id}) {
+    generatedMapping.putIfAbsent(
+        ReportModel, () => ReportModel.fromJsonFactory);
+
+    return _reportsIdGet(id: id);
+  }
+
+  ///Get all the report posted by a user
+  ///@param id
+  @Get(path: '/reports/{id}')
+  Future<chopper.Response<List<ReportModel>>> _reportsIdGet(
+      {@Path('id') required num? id});
+
+  ///Delete a report
+  ///@param id
+  Future<chopper.Response> reportsIdDelete({required num? id}) {
+    return _reportsIdDelete(id: id);
+  }
+
+  ///Delete a report
+  ///@param id
+  @Delete(path: '/reports/{id}')
+  Future<chopper.Response> _reportsIdDelete({@Path('id') required num? id});
+
+  ///Update a report
+  ///@param id
+  Future<chopper.Response<ReportModel>> reportsIdPatch(
+      {required num? id, required UpdateReportRequest? body}) {
+    generatedMapping.putIfAbsent(
+        ReportModel, () => ReportModel.fromJsonFactory);
+
+    return _reportsIdPatch(id: id, body: body);
+  }
+
+  ///Update a report
+  ///@param id
+  @Patch(path: '/reports/{id}')
+  Future<chopper.Response<ReportModel>> _reportsIdPatch(
+      {@Path('id') required num? id,
+      @Body() required UpdateReportRequest? body});
 
   ///Update the public group
   ///@param group
@@ -640,6 +763,50 @@ abstract class Api extends ChopperService {
   @Get(path: '/users/me')
   Future<chopper.Response<UserModel>> _usersMeGet();
 
+  ///Get all the report of a user
+  ///@param id
+  Future<chopper.Response<List<ReportModel>>> reportsAdminIdGet(
+      {required num? id}) {
+    generatedMapping.putIfAbsent(
+        ReportModel, () => ReportModel.fromJsonFactory);
+
+    return _reportsAdminIdGet(id: id);
+  }
+
+  ///Get all the report of a user
+  ///@param id
+  @Get(path: '/reports/admin/{id}')
+  Future<chopper.Response<List<ReportModel>>> _reportsAdminIdGet(
+      {@Path('id') required num? id});
+
+  ///Get all the recommendation of a user
+  ///@param id
+  Future<chopper.Response<List<RecommendationModel>>> recommendationsIdGet(
+      {required num? id}) {
+    generatedMapping.putIfAbsent(
+        RecommendationModel, () => RecommendationModel.fromJsonFactory);
+
+    return _recommendationsIdGet(id: id);
+  }
+
+  ///Get all the recommendation of a user
+  ///@param id
+  @Get(path: '/recommendations/{id}')
+  Future<chopper.Response<List<RecommendationModel>>> _recommendationsIdGet(
+      {@Path('id') required num? id});
+
+  ///Delete a recommendation
+  ///@param id
+  Future<chopper.Response> recommendationsIdDelete({required num? id}) {
+    return _recommendationsIdDelete(id: id);
+  }
+
+  ///Delete a recommendation
+  ///@param id
+  @Delete(path: '/recommendations/{id}')
+  Future<chopper.Response> _recommendationsIdDelete(
+      {@Path('id') required num? id});
+
   ///Returns all the categories of locations
   Future<chopper.Response<List<String>>> placesCategoriesGet() {
     return _placesCategoriesGet();
@@ -712,6 +879,100 @@ abstract class Api extends ChopperService {
   @Get(path: '/groups/invites/{id}')
   Future<chopper.Response<List<GroupModel>>> _groupsInvitesIdGet(
       {@Path('id') required num? id});
+
+  ///
+  ///@param group
+  Future<chopper.Response<List<ExpenseModel>>> expensesGroupGet(
+      {required num? group}) {
+    generatedMapping.putIfAbsent(
+        ExpenseModel, () => ExpenseModel.fromJsonFactory);
+
+    return _expensesGroupGet(group: group);
+  }
+
+  ///
+  ///@param group
+  @Get(path: '/expenses/{group}')
+  Future<chopper.Response<List<ExpenseModel>>> _expensesGroupGet(
+      {@Path('group') required num? group});
+
+  ///
+  ///@param group
+  ///@param user
+  Future<chopper.Response<List<MoneyDueResponse>>>
+      expensesGroupUserUserDebtsGet({required num? group, required num? user}) {
+    generatedMapping.putIfAbsent(
+        MoneyDueResponse, () => MoneyDueResponse.fromJsonFactory);
+
+    return _expensesGroupUserUserDebtsGet(group: group, user: user);
+  }
+
+  ///
+  ///@param group
+  ///@param user
+  @Get(path: '/expenses/{group}/user/{user}/debts')
+  Future<chopper.Response<List<MoneyDueResponse>>>
+      _expensesGroupUserUserDebtsGet(
+          {@Path('group') required num? group,
+          @Path('user') required num? user});
+
+  ///
+  ///@param group
+  ///@param user
+  Future<chopper.Response<List<MoneyDueResponse>>>
+      expensesGroupUserUserDebtsDueGet(
+          {required num? group, required num? user}) {
+    generatedMapping.putIfAbsent(
+        MoneyDueResponse, () => MoneyDueResponse.fromJsonFactory);
+
+    return _expensesGroupUserUserDebtsDueGet(group: group, user: user);
+  }
+
+  ///
+  ///@param group
+  ///@param user
+  @Get(path: '/expenses/{group}/user/{user}/debts/due')
+  Future<chopper.Response<List<MoneyDueResponse>>>
+      _expensesGroupUserUserDebtsDueGet(
+          {@Path('group') required num? group,
+          @Path('user') required num? user});
+
+  ///
+  ///@param group
+  ///@param user
+  Future<chopper.Response<List<DebtDetailsResponse>>>
+      expensesGroupUserUserDebtsDetailsGet(
+          {required num? group, required num? user}) {
+    generatedMapping.putIfAbsent(
+        DebtDetailsResponse, () => DebtDetailsResponse.fromJsonFactory);
+
+    return _expensesGroupUserUserDebtsDetailsGet(group: group, user: user);
+  }
+
+  ///
+  ///@param group
+  ///@param user
+  @Get(path: '/expenses/{group}/user/{user}/debts/details')
+  Future<chopper.Response<List<DebtDetailsResponse>>>
+      _expensesGroupUserUserDebtsDetailsGet(
+          {@Path('group') required num? group,
+          @Path('user') required num? user});
+
+  ///
+  ///@param group
+  Future<chopper.Response<List<BalanceResponse>>> expensesGroupBalancesGet(
+      {required num? group}) {
+    generatedMapping.putIfAbsent(
+        BalanceResponse, () => BalanceResponse.fromJsonFactory);
+
+    return _expensesGroupBalancesGet(group: group);
+  }
+
+  ///
+  ///@param group
+  @Get(path: '/expenses/{group}/balances')
+  Future<chopper.Response<List<BalanceResponse>>> _expensesGroupBalancesGet(
+      {@Path('group') required num? group});
 
   ///Get the most recent channel's messages, by pages of size 50
   ///@param channel_id
@@ -805,6 +1066,852 @@ abstract class Api extends ChopperService {
   @Delete(path: '/groups/private/{group}/user/{id}')
   Future<chopper.Response> _groupsPrivateGroupUserIdDelete(
       {@Path('group') required num? group, @Path('id') required num? id});
+
+  ///
+  ///@param groupId
+  ///@param expenseId
+  Future<chopper.Response> expensesGroupIdExpenseIdDelete(
+      {required num? groupId, required num? expenseId}) {
+    return _expensesGroupIdExpenseIdDelete(
+        groupId: groupId, expenseId: expenseId);
+  }
+
+  ///
+  ///@param groupId
+  ///@param expenseId
+  @Delete(path: '/expenses/{groupId}/{expenseId}')
+  Future<chopper.Response> _expensesGroupIdExpenseIdDelete(
+      {@Path('groupId') required num? groupId,
+      @Path('expenseId') required num? expenseId});
+}
+
+@JsonSerializable(explicitToJson: true)
+class ExpenseRequest {
+  ExpenseRequest({
+    this.description,
+    this.moneyDueByEachUser,
+    this.icon,
+    this.evenlyDivided,
+    this.total,
+  });
+
+  factory ExpenseRequest.fromJson(Map<String, dynamic> json) =>
+      _$ExpenseRequestFromJson(json);
+
+  @JsonKey(name: 'description')
+  final String? description;
+  @JsonKey(name: 'moneyDueByEachUser', defaultValue: <MoneyDueRequest>[])
+  final List<MoneyDueRequest>? moneyDueByEachUser;
+  @JsonKey(name: 'icon')
+  final String? icon;
+  @JsonKey(name: 'evenlyDivided')
+  final bool? evenlyDivided;
+  @JsonKey(name: 'total')
+  final double? total;
+  static const fromJsonFactory = _$ExpenseRequestFromJson;
+  static const toJsonFactory = _$ExpenseRequestToJson;
+  Map<String, dynamic> toJson() => _$ExpenseRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ExpenseRequest &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
+            (identical(other.moneyDueByEachUser, moneyDueByEachUser) ||
+                const DeepCollectionEquality()
+                    .equals(other.moneyDueByEachUser, moneyDueByEachUser)) &&
+            (identical(other.icon, icon) ||
+                const DeepCollectionEquality().equals(other.icon, icon)) &&
+            (identical(other.evenlyDivided, evenlyDivided) ||
+                const DeepCollectionEquality()
+                    .equals(other.evenlyDivided, evenlyDivided)) &&
+            (identical(other.total, total) ||
+                const DeepCollectionEquality().equals(other.total, total)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(moneyDueByEachUser) ^
+      const DeepCollectionEquality().hash(icon) ^
+      const DeepCollectionEquality().hash(evenlyDivided) ^
+      const DeepCollectionEquality().hash(total) ^
+      runtimeType.hashCode;
+}
+
+extension $ExpenseRequestExtension on ExpenseRequest {
+  ExpenseRequest copyWith(
+      {String? description,
+      List<MoneyDueRequest>? moneyDueByEachUser,
+      String? icon,
+      bool? evenlyDivided,
+      double? total}) {
+    return ExpenseRequest(
+        description: description ?? this.description,
+        moneyDueByEachUser: moneyDueByEachUser ?? this.moneyDueByEachUser,
+        icon: icon ?? this.icon,
+        evenlyDivided: evenlyDivided ?? this.evenlyDivided,
+        total: total ?? this.total);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class MoneyDueRequest {
+  MoneyDueRequest({
+    this.userId,
+    this.money,
+  });
+
+  factory MoneyDueRequest.fromJson(Map<String, dynamic> json) =>
+      _$MoneyDueRequestFromJson(json);
+
+  @JsonKey(name: 'userId')
+  final num? userId;
+  @JsonKey(name: 'money')
+  final double? money;
+  static const fromJsonFactory = _$MoneyDueRequestFromJson;
+  static const toJsonFactory = _$MoneyDueRequestToJson;
+  Map<String, dynamic> toJson() => _$MoneyDueRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is MoneyDueRequest &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.money, money) ||
+                const DeepCollectionEquality().equals(other.money, money)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(money) ^
+      runtimeType.hashCode;
+}
+
+extension $MoneyDueRequestExtension on MoneyDueRequest {
+  MoneyDueRequest copyWith({num? userId, double? money}) {
+    return MoneyDueRequest(
+        userId: userId ?? this.userId, money: money ?? this.money);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ChannelModel {
+  ChannelModel({
+    this.id,
+    this.name,
+    this.index,
+  });
+
+  factory ChannelModel.fromJson(Map<String, dynamic> json) =>
+      _$ChannelModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'index')
+  final int? index;
+  static const fromJsonFactory = _$ChannelModelFromJson;
+  static const toJsonFactory = _$ChannelModelToJson;
+  Map<String, dynamic> toJson() => _$ChannelModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ChannelModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.index, index) ||
+                const DeepCollectionEquality().equals(other.index, index)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(index) ^
+      runtimeType.hashCode;
+}
+
+extension $ChannelModelExtension on ChannelModel {
+  ChannelModel copyWith({num? id, String? name, int? index}) {
+    return ChannelModel(
+        id: id ?? this.id, name: name ?? this.name, index: index ?? this.index);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CityModel {
+  CityModel({
+    this.name,
+  });
+
+  factory CityModel.fromJson(Map<String, dynamic> json) =>
+      _$CityModelFromJson(json);
+
+  @JsonKey(name: 'name')
+  final String? name;
+  static const fromJsonFactory = _$CityModelFromJson;
+  static const toJsonFactory = _$CityModelToJson;
+  Map<String, dynamic> toJson() => _$CityModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is CityModel &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
+}
+
+extension $CityModelExtension on CityModel {
+  CityModel copyWith({String? name}) {
+    return CityModel(name: name ?? this.name);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ExpenseMemberModel {
+  ExpenseMemberModel({
+    this.id,
+    this.userModel,
+    this.amountToPay,
+  });
+
+  factory ExpenseMemberModel.fromJson(Map<String, dynamic> json) =>
+      _$ExpenseMemberModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'userModel')
+  final GroupMemberModel? userModel;
+  @JsonKey(name: 'amountToPay')
+  final double? amountToPay;
+  static const fromJsonFactory = _$ExpenseMemberModelFromJson;
+  static const toJsonFactory = _$ExpenseMemberModelToJson;
+  Map<String, dynamic> toJson() => _$ExpenseMemberModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ExpenseMemberModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.userModel, userModel) ||
+                const DeepCollectionEquality()
+                    .equals(other.userModel, userModel)) &&
+            (identical(other.amountToPay, amountToPay) ||
+                const DeepCollectionEquality()
+                    .equals(other.amountToPay, amountToPay)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(userModel) ^
+      const DeepCollectionEquality().hash(amountToPay) ^
+      runtimeType.hashCode;
+}
+
+extension $ExpenseMemberModelExtension on ExpenseMemberModel {
+  ExpenseMemberModel copyWith(
+      {num? id, GroupMemberModel? userModel, double? amountToPay}) {
+    return ExpenseMemberModel(
+        id: id ?? this.id,
+        userModel: userModel ?? this.userModel,
+        amountToPay: amountToPay ?? this.amountToPay);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ExpenseModel {
+  ExpenseModel({
+    this.id,
+    this.description,
+    this.total,
+    this.groupModel,
+    this.purchaser,
+    this.date,
+    this.icon,
+    this.indebtedUsers,
+  });
+
+  factory ExpenseModel.fromJson(Map<String, dynamic> json) =>
+      _$ExpenseModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'description')
+  final String? description;
+  @JsonKey(name: 'total')
+  final double? total;
+  @JsonKey(name: 'groupModel')
+  final GroupModel? groupModel;
+  @JsonKey(name: 'purchaser')
+  final GroupMemberModel? purchaser;
+  @JsonKey(name: 'date')
+  final DateTime? date;
+  @JsonKey(name: 'icon')
+  final String? icon;
+  @JsonKey(name: 'indebtedUsers', defaultValue: <ExpenseMemberModel>[])
+  final List<ExpenseMemberModel>? indebtedUsers;
+  static const fromJsonFactory = _$ExpenseModelFromJson;
+  static const toJsonFactory = _$ExpenseModelToJson;
+  Map<String, dynamic> toJson() => _$ExpenseModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ExpenseModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
+            (identical(other.total, total) ||
+                const DeepCollectionEquality().equals(other.total, total)) &&
+            (identical(other.groupModel, groupModel) ||
+                const DeepCollectionEquality()
+                    .equals(other.groupModel, groupModel)) &&
+            (identical(other.purchaser, purchaser) ||
+                const DeepCollectionEquality()
+                    .equals(other.purchaser, purchaser)) &&
+            (identical(other.date, date) ||
+                const DeepCollectionEquality().equals(other.date, date)) &&
+            (identical(other.icon, icon) ||
+                const DeepCollectionEquality().equals(other.icon, icon)) &&
+            (identical(other.indebtedUsers, indebtedUsers) ||
+                const DeepCollectionEquality()
+                    .equals(other.indebtedUsers, indebtedUsers)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(total) ^
+      const DeepCollectionEquality().hash(groupModel) ^
+      const DeepCollectionEquality().hash(purchaser) ^
+      const DeepCollectionEquality().hash(date) ^
+      const DeepCollectionEquality().hash(icon) ^
+      const DeepCollectionEquality().hash(indebtedUsers) ^
+      runtimeType.hashCode;
+}
+
+extension $ExpenseModelExtension on ExpenseModel {
+  ExpenseModel copyWith(
+      {num? id,
+      String? description,
+      double? total,
+      GroupModel? groupModel,
+      GroupMemberModel? purchaser,
+      DateTime? date,
+      String? icon,
+      List<ExpenseMemberModel>? indebtedUsers}) {
+    return ExpenseModel(
+        id: id ?? this.id,
+        description: description ?? this.description,
+        total: total ?? this.total,
+        groupModel: groupModel ?? this.groupModel,
+        purchaser: purchaser ?? this.purchaser,
+        date: date ?? this.date,
+        icon: icon ?? this.icon,
+        indebtedUsers: indebtedUsers ?? this.indebtedUsers);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GroupMemberModel {
+  GroupMemberModel({
+    this.userId,
+    this.firstname,
+    this.lastname,
+    this.profilePicture,
+  });
+
+  factory GroupMemberModel.fromJson(Map<String, dynamic> json) =>
+      _$GroupMemberModelFromJson(json);
+
+  @JsonKey(name: 'userId')
+  final num? userId;
+  @JsonKey(name: 'firstname')
+  final String? firstname;
+  @JsonKey(name: 'lastname')
+  final String? lastname;
+  @JsonKey(name: 'profilePicture')
+  final String? profilePicture;
+  static const fromJsonFactory = _$GroupMemberModelFromJson;
+  static const toJsonFactory = _$GroupMemberModelToJson;
+  Map<String, dynamic> toJson() => _$GroupMemberModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is GroupMemberModel &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.firstname, firstname) ||
+                const DeepCollectionEquality()
+                    .equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastname, lastname)) &&
+            (identical(other.profilePicture, profilePicture) ||
+                const DeepCollectionEquality()
+                    .equals(other.profilePicture, profilePicture)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(lastname) ^
+      const DeepCollectionEquality().hash(profilePicture) ^
+      runtimeType.hashCode;
+}
+
+extension $GroupMemberModelExtension on GroupMemberModel {
+  GroupMemberModel copyWith(
+      {num? userId,
+      String? firstname,
+      String? lastname,
+      String? profilePicture}) {
+    return GroupMemberModel(
+        userId: userId ?? this.userId,
+        firstname: firstname ?? this.firstname,
+        lastname: lastname ?? this.lastname,
+        profilePicture: profilePicture ?? this.profilePicture);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GroupModel {
+  GroupModel({
+    this.id,
+    this.name,
+    this.description,
+    this.state,
+    this.owner,
+    this.maxSize,
+    this.startOfTrip,
+    this.endOfTrip,
+    this.picture,
+    this.members,
+    this.channels,
+    this.createdDate,
+  });
+
+  factory GroupModel.fromJson(Map<String, dynamic> json) =>
+      _$GroupModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'description')
+  final String? description;
+  @JsonKey(
+      name: 'state',
+      toJson: groupModelStateToJson,
+      fromJson: groupModelStateFromJson)
+  final enums.GroupModelState? state;
+  @JsonKey(name: 'owner')
+  final UserModel? owner;
+  @JsonKey(name: 'maxSize')
+  final int? maxSize;
+  @JsonKey(name: 'startOfTrip')
+  final DateTime? startOfTrip;
+  @JsonKey(name: 'endOfTrip')
+  final DateTime? endOfTrip;
+  @JsonKey(name: 'picture')
+  final String? picture;
+  @JsonKey(name: 'members', defaultValue: <MemberModel>[])
+  final List<MemberModel>? members;
+  @JsonKey(name: 'channels', defaultValue: <ChannelModel>[])
+  final List<ChannelModel>? channels;
+  @JsonKey(name: 'createdDate')
+  final String? createdDate;
+  static const fromJsonFactory = _$GroupModelFromJson;
+  static const toJsonFactory = _$GroupModelToJson;
+  Map<String, dynamic> toJson() => _$GroupModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is GroupModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
+            (identical(other.state, state) ||
+                const DeepCollectionEquality().equals(other.state, state)) &&
+            (identical(other.owner, owner) ||
+                const DeepCollectionEquality().equals(other.owner, owner)) &&
+            (identical(other.maxSize, maxSize) ||
+                const DeepCollectionEquality()
+                    .equals(other.maxSize, maxSize)) &&
+            (identical(other.startOfTrip, startOfTrip) ||
+                const DeepCollectionEquality()
+                    .equals(other.startOfTrip, startOfTrip)) &&
+            (identical(other.endOfTrip, endOfTrip) ||
+                const DeepCollectionEquality()
+                    .equals(other.endOfTrip, endOfTrip)) &&
+            (identical(other.picture, picture) ||
+                const DeepCollectionEquality()
+                    .equals(other.picture, picture)) &&
+            (identical(other.members, members) ||
+                const DeepCollectionEquality()
+                    .equals(other.members, members)) &&
+            (identical(other.channels, channels) ||
+                const DeepCollectionEquality()
+                    .equals(other.channels, channels)) &&
+            (identical(other.createdDate, createdDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdDate, createdDate)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(state) ^
+      const DeepCollectionEquality().hash(owner) ^
+      const DeepCollectionEquality().hash(maxSize) ^
+      const DeepCollectionEquality().hash(startOfTrip) ^
+      const DeepCollectionEquality().hash(endOfTrip) ^
+      const DeepCollectionEquality().hash(picture) ^
+      const DeepCollectionEquality().hash(members) ^
+      const DeepCollectionEquality().hash(channels) ^
+      const DeepCollectionEquality().hash(createdDate) ^
+      runtimeType.hashCode;
+}
+
+extension $GroupModelExtension on GroupModel {
+  GroupModel copyWith(
+      {num? id,
+      String? name,
+      String? description,
+      enums.GroupModelState? state,
+      UserModel? owner,
+      int? maxSize,
+      DateTime? startOfTrip,
+      DateTime? endOfTrip,
+      String? picture,
+      List<MemberModel>? members,
+      List<ChannelModel>? channels,
+      String? createdDate}) {
+    return GroupModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        description: description ?? this.description,
+        state: state ?? this.state,
+        owner: owner ?? this.owner,
+        maxSize: maxSize ?? this.maxSize,
+        startOfTrip: startOfTrip ?? this.startOfTrip,
+        endOfTrip: endOfTrip ?? this.endOfTrip,
+        picture: picture ?? this.picture,
+        members: members ?? this.members,
+        channels: channels ?? this.channels,
+        createdDate: createdDate ?? this.createdDate);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class MemberModel {
+  MemberModel({
+    this.id,
+    this.firstname,
+    this.lastname,
+    this.email,
+    this.birthDate,
+    this.gender,
+    this.profilePicture,
+    this.city,
+    this.createdDate,
+    this.phoneNumber,
+    this.confirmed,
+  });
+
+  factory MemberModel.fromJson(Map<String, dynamic> json) =>
+      _$MemberModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'firstname')
+  final String? firstname;
+  @JsonKey(name: 'lastname')
+  final String? lastname;
+  @JsonKey(name: 'email')
+  final String? email;
+  @JsonKey(name: 'birthDate')
+  final DateTime? birthDate;
+  @JsonKey(
+      name: 'gender',
+      toJson: memberModelGenderToJson,
+      fromJson: memberModelGenderFromJson)
+  final enums.MemberModelGender? gender;
+  @JsonKey(name: 'profilePicture')
+  final String? profilePicture;
+  @JsonKey(name: 'city')
+  final CityModel? city;
+  @JsonKey(name: 'createdDate')
+  final DateTime? createdDate;
+  @JsonKey(name: 'phoneNumber')
+  final String? phoneNumber;
+  @JsonKey(name: 'confirmed')
+  final bool? confirmed;
+  static const fromJsonFactory = _$MemberModelFromJson;
+  static const toJsonFactory = _$MemberModelToJson;
+  Map<String, dynamic> toJson() => _$MemberModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is MemberModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.firstname, firstname) ||
+                const DeepCollectionEquality()
+                    .equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastname, lastname)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.birthDate, birthDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.birthDate, birthDate)) &&
+            (identical(other.gender, gender) ||
+                const DeepCollectionEquality().equals(other.gender, gender)) &&
+            (identical(other.profilePicture, profilePicture) ||
+                const DeepCollectionEquality()
+                    .equals(other.profilePicture, profilePicture)) &&
+            (identical(other.city, city) ||
+                const DeepCollectionEquality().equals(other.city, city)) &&
+            (identical(other.createdDate, createdDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdDate, createdDate)) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.confirmed, confirmed) ||
+                const DeepCollectionEquality()
+                    .equals(other.confirmed, confirmed)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(lastname) ^
+      const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(birthDate) ^
+      const DeepCollectionEquality().hash(gender) ^
+      const DeepCollectionEquality().hash(profilePicture) ^
+      const DeepCollectionEquality().hash(city) ^
+      const DeepCollectionEquality().hash(createdDate) ^
+      const DeepCollectionEquality().hash(phoneNumber) ^
+      const DeepCollectionEquality().hash(confirmed) ^
+      runtimeType.hashCode;
+}
+
+extension $MemberModelExtension on MemberModel {
+  MemberModel copyWith(
+      {num? id,
+      String? firstname,
+      String? lastname,
+      String? email,
+      DateTime? birthDate,
+      enums.MemberModelGender? gender,
+      String? profilePicture,
+      CityModel? city,
+      DateTime? createdDate,
+      String? phoneNumber,
+      bool? confirmed}) {
+    return MemberModel(
+        id: id ?? this.id,
+        firstname: firstname ?? this.firstname,
+        lastname: lastname ?? this.lastname,
+        email: email ?? this.email,
+        birthDate: birthDate ?? this.birthDate,
+        gender: gender ?? this.gender,
+        profilePicture: profilePicture ?? this.profilePicture,
+        city: city ?? this.city,
+        createdDate: createdDate ?? this.createdDate,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        confirmed: confirmed ?? this.confirmed);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UserModel {
+  UserModel({
+    this.id,
+    this.firstname,
+    this.lastname,
+    this.password,
+    this.email,
+    this.birthDate,
+    this.gender,
+    this.profilePicture,
+    this.city,
+    this.createdDate,
+    this.phoneNumber,
+    this.confirmed,
+    this.language,
+    this.roles,
+  });
+
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'firstname')
+  final String? firstname;
+  @JsonKey(name: 'lastname')
+  final String? lastname;
+  @JsonKey(name: 'password')
+  final String? password;
+  @JsonKey(name: 'email')
+  final String? email;
+  @JsonKey(name: 'birthDate')
+  final DateTime? birthDate;
+  @JsonKey(
+      name: 'gender',
+      toJson: userModelGenderToJson,
+      fromJson: userModelGenderFromJson)
+  final enums.UserModelGender? gender;
+  @JsonKey(name: 'profilePicture')
+  final String? profilePicture;
+  @JsonKey(name: 'city')
+  final CityModel? city;
+  @JsonKey(name: 'createdDate')
+  final DateTime? createdDate;
+  @JsonKey(name: 'phoneNumber')
+  final String? phoneNumber;
+  @JsonKey(name: 'confirmed')
+  final bool? confirmed;
+  @JsonKey(name: 'language')
+  final String? language;
+  @JsonKey(
+      name: 'roles',
+      toJson: userModelRolesListToJson,
+      fromJson: userModelRolesListFromJson)
+  final List<enums.UserModelRoles>? roles;
+  static const fromJsonFactory = _$UserModelFromJson;
+  static const toJsonFactory = _$UserModelToJson;
+  Map<String, dynamic> toJson() => _$UserModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UserModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.firstname, firstname) ||
+                const DeepCollectionEquality()
+                    .equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastname, lastname)) &&
+            (identical(other.password, password) ||
+                const DeepCollectionEquality()
+                    .equals(other.password, password)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.birthDate, birthDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.birthDate, birthDate)) &&
+            (identical(other.gender, gender) ||
+                const DeepCollectionEquality().equals(other.gender, gender)) &&
+            (identical(other.profilePicture, profilePicture) ||
+                const DeepCollectionEquality()
+                    .equals(other.profilePicture, profilePicture)) &&
+            (identical(other.city, city) ||
+                const DeepCollectionEquality().equals(other.city, city)) &&
+            (identical(other.createdDate, createdDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdDate, createdDate)) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.confirmed, confirmed) ||
+                const DeepCollectionEquality()
+                    .equals(other.confirmed, confirmed)) &&
+            (identical(other.language, language) ||
+                const DeepCollectionEquality()
+                    .equals(other.language, language)) &&
+            (identical(other.roles, roles) ||
+                const DeepCollectionEquality().equals(other.roles, roles)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(lastname) ^
+      const DeepCollectionEquality().hash(password) ^
+      const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(birthDate) ^
+      const DeepCollectionEquality().hash(gender) ^
+      const DeepCollectionEquality().hash(profilePicture) ^
+      const DeepCollectionEquality().hash(city) ^
+      const DeepCollectionEquality().hash(createdDate) ^
+      const DeepCollectionEquality().hash(phoneNumber) ^
+      const DeepCollectionEquality().hash(confirmed) ^
+      const DeepCollectionEquality().hash(language) ^
+      const DeepCollectionEquality().hash(roles) ^
+      runtimeType.hashCode;
+}
+
+extension $UserModelExtension on UserModel {
+  UserModel copyWith(
+      {num? id,
+      String? firstname,
+      String? lastname,
+      String? password,
+      String? email,
+      DateTime? birthDate,
+      enums.UserModelGender? gender,
+      String? profilePicture,
+      CityModel? city,
+      DateTime? createdDate,
+      String? phoneNumber,
+      bool? confirmed,
+      String? language,
+      List<enums.UserModelRoles>? roles}) {
+    return UserModel(
+        id: id ?? this.id,
+        firstname: firstname ?? this.firstname,
+        lastname: lastname ?? this.lastname,
+        password: password ?? this.password,
+        email: email ?? this.email,
+        birthDate: birthDate ?? this.birthDate,
+        gender: gender ?? this.gender,
+        profilePicture: profilePicture ?? this.profilePicture,
+        city: city ?? this.city,
+        createdDate: createdDate ?? this.createdDate,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        confirmed: confirmed ?? this.confirmed,
+        language: language ?? this.language,
+        roles: roles ?? this.roles);
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1309,6 +2416,245 @@ extension $ProfileModelExtension on ProfileModel {
 }
 
 @JsonSerializable(explicitToJson: true)
+class SubmitReportRequest {
+  SubmitReportRequest({
+    this.reportedUserId,
+    this.reason,
+    this.details,
+  });
+
+  factory SubmitReportRequest.fromJson(Map<String, dynamic> json) =>
+      _$SubmitReportRequestFromJson(json);
+
+  @JsonKey(name: 'reportedUserId')
+  final num? reportedUserId;
+  @JsonKey(
+      name: 'reason',
+      toJson: submitReportRequestReasonToJson,
+      fromJson: submitReportRequestReasonFromJson)
+  final enums.SubmitReportRequestReason? reason;
+  @JsonKey(name: 'details')
+  final String? details;
+  static const fromJsonFactory = _$SubmitReportRequestFromJson;
+  static const toJsonFactory = _$SubmitReportRequestToJson;
+  Map<String, dynamic> toJson() => _$SubmitReportRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is SubmitReportRequest &&
+            (identical(other.reportedUserId, reportedUserId) ||
+                const DeepCollectionEquality()
+                    .equals(other.reportedUserId, reportedUserId)) &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.details, details) ||
+                const DeepCollectionEquality().equals(other.details, details)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(reportedUserId) ^
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(details) ^
+      runtimeType.hashCode;
+}
+
+extension $SubmitReportRequestExtension on SubmitReportRequest {
+  SubmitReportRequest copyWith(
+      {num? reportedUserId,
+      enums.SubmitReportRequestReason? reason,
+      String? details}) {
+    return SubmitReportRequest(
+        reportedUserId: reportedUserId ?? this.reportedUserId,
+        reason: reason ?? this.reason,
+        details: details ?? this.details);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ReportModel {
+  ReportModel({
+    this.id,
+    this.reason,
+    this.details,
+    this.reportedUser,
+    this.submitter,
+  });
+
+  factory ReportModel.fromJson(Map<String, dynamic> json) =>
+      _$ReportModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(
+      name: 'reason',
+      toJson: reportModelReasonToJson,
+      fromJson: reportModelReasonFromJson)
+  final enums.ReportModelReason? reason;
+  @JsonKey(name: 'details')
+  final String? details;
+  @JsonKey(name: 'reportedUser')
+  final GroupMemberModel? reportedUser;
+  @JsonKey(name: 'submitter')
+  final GroupMemberModel? submitter;
+  static const fromJsonFactory = _$ReportModelFromJson;
+  static const toJsonFactory = _$ReportModelToJson;
+  Map<String, dynamic> toJson() => _$ReportModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ReportModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.details, details) ||
+                const DeepCollectionEquality()
+                    .equals(other.details, details)) &&
+            (identical(other.reportedUser, reportedUser) ||
+                const DeepCollectionEquality()
+                    .equals(other.reportedUser, reportedUser)) &&
+            (identical(other.submitter, submitter) ||
+                const DeepCollectionEquality()
+                    .equals(other.submitter, submitter)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(details) ^
+      const DeepCollectionEquality().hash(reportedUser) ^
+      const DeepCollectionEquality().hash(submitter) ^
+      runtimeType.hashCode;
+}
+
+extension $ReportModelExtension on ReportModel {
+  ReportModel copyWith(
+      {num? id,
+      enums.ReportModelReason? reason,
+      String? details,
+      GroupMemberModel? reportedUser,
+      GroupMemberModel? submitter}) {
+    return ReportModel(
+        id: id ?? this.id,
+        reason: reason ?? this.reason,
+        details: details ?? this.details,
+        reportedUser: reportedUser ?? this.reportedUser,
+        submitter: submitter ?? this.submitter);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SubmitRecommendationRequest {
+  SubmitRecommendationRequest({
+    this.reviewedUserId,
+    this.comment,
+  });
+
+  factory SubmitRecommendationRequest.fromJson(Map<String, dynamic> json) =>
+      _$SubmitRecommendationRequestFromJson(json);
+
+  @JsonKey(name: 'reviewedUserId')
+  final num? reviewedUserId;
+  @JsonKey(name: 'comment')
+  final String? comment;
+  static const fromJsonFactory = _$SubmitRecommendationRequestFromJson;
+  static const toJsonFactory = _$SubmitRecommendationRequestToJson;
+  Map<String, dynamic> toJson() => _$SubmitRecommendationRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is SubmitRecommendationRequest &&
+            (identical(other.reviewedUserId, reviewedUserId) ||
+                const DeepCollectionEquality()
+                    .equals(other.reviewedUserId, reviewedUserId)) &&
+            (identical(other.comment, comment) ||
+                const DeepCollectionEquality().equals(other.comment, comment)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(reviewedUserId) ^
+      const DeepCollectionEquality().hash(comment) ^
+      runtimeType.hashCode;
+}
+
+extension $SubmitRecommendationRequestExtension on SubmitRecommendationRequest {
+  SubmitRecommendationRequest copyWith({num? reviewedUserId, String? comment}) {
+    return SubmitRecommendationRequest(
+        reviewedUserId: reviewedUserId ?? this.reviewedUserId,
+        comment: comment ?? this.comment);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class RecommendationModel {
+  RecommendationModel({
+    this.id,
+    this.reviewer,
+    this.recommendedUser,
+    this.comment,
+  });
+
+  factory RecommendationModel.fromJson(Map<String, dynamic> json) =>
+      _$RecommendationModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'reviewer')
+  final GroupMemberModel? reviewer;
+  @JsonKey(name: 'recommendedUser')
+  final GroupMemberModel? recommendedUser;
+  @JsonKey(name: 'comment')
+  final String? comment;
+  static const fromJsonFactory = _$RecommendationModelFromJson;
+  static const toJsonFactory = _$RecommendationModelToJson;
+  Map<String, dynamic> toJson() => _$RecommendationModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is RecommendationModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.reviewer, reviewer) ||
+                const DeepCollectionEquality()
+                    .equals(other.reviewer, reviewer)) &&
+            (identical(other.recommendedUser, recommendedUser) ||
+                const DeepCollectionEquality()
+                    .equals(other.recommendedUser, recommendedUser)) &&
+            (identical(other.comment, comment) ||
+                const DeepCollectionEquality().equals(other.comment, comment)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(reviewer) ^
+      const DeepCollectionEquality().hash(recommendedUser) ^
+      const DeepCollectionEquality().hash(comment) ^
+      runtimeType.hashCode;
+}
+
+extension $RecommendationModelExtension on RecommendationModel {
+  RecommendationModel copyWith(
+      {num? id,
+      GroupMemberModel? reviewer,
+      GroupMemberModel? recommendedUser,
+      String? comment}) {
+    return RecommendationModel(
+        id: id ?? this.id,
+        reviewer: reviewer ?? this.reviewer,
+        recommendedUser: recommendedUser ?? this.recommendedUser,
+        comment: comment ?? this.comment);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class PlacesFromCoordinatesRequest {
   PlacesFromCoordinatesRequest({
     this.longitude,
@@ -1768,70 +3114,6 @@ extension $ActivityModelExtension on ActivityModel {
 }
 
 @JsonSerializable(explicitToJson: true)
-class GroupMemberModel {
-  GroupMemberModel({
-    this.userId,
-    this.firstname,
-    this.lastname,
-    this.profilePicture,
-  });
-
-  factory GroupMemberModel.fromJson(Map<String, dynamic> json) =>
-      _$GroupMemberModelFromJson(json);
-
-  @JsonKey(name: 'userId')
-  final num? userId;
-  @JsonKey(name: 'firstname')
-  final String? firstname;
-  @JsonKey(name: 'lastname')
-  final String? lastname;
-  @JsonKey(name: 'profilePicture')
-  final String? profilePicture;
-  static const fromJsonFactory = _$GroupMemberModelFromJson;
-  static const toJsonFactory = _$GroupMemberModelToJson;
-  Map<String, dynamic> toJson() => _$GroupMemberModelToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is GroupMemberModel &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(lastname) ^
-      const DeepCollectionEquality().hash(profilePicture) ^
-      runtimeType.hashCode;
-}
-
-extension $GroupMemberModelExtension on GroupMemberModel {
-  GroupMemberModel copyWith(
-      {num? userId,
-      String? firstname,
-      String? lastname,
-      String? profilePicture}) {
-    return GroupMemberModel(
-        userId: userId ?? this.userId,
-        firstname: firstname ?? this.firstname,
-        lastname: lastname ?? this.lastname,
-        profilePicture: profilePicture ?? this.profilePicture);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class CreatePrivateGroupRequest {
   CreatePrivateGroupRequest({
     this.name,
@@ -1880,507 +3162,6 @@ extension $CreatePrivateGroupRequestExtension on CreatePrivateGroupRequest {
         name: name ?? this.name,
         description: description ?? this.description,
         maxSize: maxSize ?? this.maxSize);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class ChannelModel {
-  ChannelModel({
-    this.id,
-    this.name,
-    this.index,
-  });
-
-  factory ChannelModel.fromJson(Map<String, dynamic> json) =>
-      _$ChannelModelFromJson(json);
-
-  @JsonKey(name: 'id')
-  final num? id;
-  @JsonKey(name: 'name')
-  final String? name;
-  @JsonKey(name: 'index')
-  final int? index;
-  static const fromJsonFactory = _$ChannelModelFromJson;
-  static const toJsonFactory = _$ChannelModelToJson;
-  Map<String, dynamic> toJson() => _$ChannelModelToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is ChannelModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.index, index) ||
-                const DeepCollectionEquality().equals(other.index, index)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(index) ^
-      runtimeType.hashCode;
-}
-
-extension $ChannelModelExtension on ChannelModel {
-  ChannelModel copyWith({num? id, String? name, int? index}) {
-    return ChannelModel(
-        id: id ?? this.id, name: name ?? this.name, index: index ?? this.index);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class CityModel {
-  CityModel({
-    this.name,
-  });
-
-  factory CityModel.fromJson(Map<String, dynamic> json) =>
-      _$CityModelFromJson(json);
-
-  @JsonKey(name: 'name')
-  final String? name;
-  static const fromJsonFactory = _$CityModelFromJson;
-  static const toJsonFactory = _$CityModelToJson;
-  Map<String, dynamic> toJson() => _$CityModelToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is CityModel &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
-}
-
-extension $CityModelExtension on CityModel {
-  CityModel copyWith({String? name}) {
-    return CityModel(name: name ?? this.name);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class GroupModel {
-  GroupModel({
-    this.id,
-    this.name,
-    this.description,
-    this.state,
-    this.owner,
-    this.maxSize,
-    this.startOfTrip,
-    this.endOfTrip,
-    this.picture,
-    this.members,
-    this.channels,
-    this.createdDate,
-  });
-
-  factory GroupModel.fromJson(Map<String, dynamic> json) =>
-      _$GroupModelFromJson(json);
-
-  @JsonKey(name: 'id')
-  final num? id;
-  @JsonKey(name: 'name')
-  final String? name;
-  @JsonKey(name: 'description')
-  final String? description;
-  @JsonKey(
-      name: 'state',
-      toJson: groupModelStateToJson,
-      fromJson: groupModelStateFromJson)
-  final enums.GroupModelState? state;
-  @JsonKey(name: 'owner')
-  final UserModel? owner;
-  @JsonKey(name: 'maxSize')
-  final int? maxSize;
-  @JsonKey(name: 'startOfTrip')
-  final DateTime? startOfTrip;
-  @JsonKey(name: 'endOfTrip')
-  final DateTime? endOfTrip;
-  @JsonKey(name: 'picture')
-  final String? picture;
-  @JsonKey(name: 'members', defaultValue: <MemberModel>[])
-  final List<MemberModel>? members;
-  @JsonKey(name: 'channels', defaultValue: <ChannelModel>[])
-  final List<ChannelModel>? channels;
-  @JsonKey(name: 'createdDate')
-  final String? createdDate;
-  static const fromJsonFactory = _$GroupModelFromJson;
-  static const toJsonFactory = _$GroupModelToJson;
-  Map<String, dynamic> toJson() => _$GroupModelToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is GroupModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
-            (identical(other.state, state) ||
-                const DeepCollectionEquality().equals(other.state, state)) &&
-            (identical(other.owner, owner) ||
-                const DeepCollectionEquality().equals(other.owner, owner)) &&
-            (identical(other.maxSize, maxSize) ||
-                const DeepCollectionEquality()
-                    .equals(other.maxSize, maxSize)) &&
-            (identical(other.startOfTrip, startOfTrip) ||
-                const DeepCollectionEquality()
-                    .equals(other.startOfTrip, startOfTrip)) &&
-            (identical(other.endOfTrip, endOfTrip) ||
-                const DeepCollectionEquality()
-                    .equals(other.endOfTrip, endOfTrip)) &&
-            (identical(other.picture, picture) ||
-                const DeepCollectionEquality()
-                    .equals(other.picture, picture)) &&
-            (identical(other.members, members) ||
-                const DeepCollectionEquality()
-                    .equals(other.members, members)) &&
-            (identical(other.channels, channels) ||
-                const DeepCollectionEquality()
-                    .equals(other.channels, channels)) &&
-            (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(state) ^
-      const DeepCollectionEquality().hash(owner) ^
-      const DeepCollectionEquality().hash(maxSize) ^
-      const DeepCollectionEquality().hash(startOfTrip) ^
-      const DeepCollectionEquality().hash(endOfTrip) ^
-      const DeepCollectionEquality().hash(picture) ^
-      const DeepCollectionEquality().hash(members) ^
-      const DeepCollectionEquality().hash(channels) ^
-      const DeepCollectionEquality().hash(createdDate) ^
-      runtimeType.hashCode;
-}
-
-extension $GroupModelExtension on GroupModel {
-  GroupModel copyWith(
-      {num? id,
-      String? name,
-      String? description,
-      enums.GroupModelState? state,
-      UserModel? owner,
-      int? maxSize,
-      DateTime? startOfTrip,
-      DateTime? endOfTrip,
-      String? picture,
-      List<MemberModel>? members,
-      List<ChannelModel>? channels,
-      String? createdDate}) {
-    return GroupModel(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        description: description ?? this.description,
-        state: state ?? this.state,
-        owner: owner ?? this.owner,
-        maxSize: maxSize ?? this.maxSize,
-        startOfTrip: startOfTrip ?? this.startOfTrip,
-        endOfTrip: endOfTrip ?? this.endOfTrip,
-        picture: picture ?? this.picture,
-        members: members ?? this.members,
-        channels: channels ?? this.channels,
-        createdDate: createdDate ?? this.createdDate);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class MemberModel {
-  MemberModel({
-    this.id,
-    this.firstname,
-    this.lastname,
-    this.email,
-    this.birthDate,
-    this.gender,
-    this.profilePicture,
-    this.city,
-    this.createdDate,
-    this.phoneNumber,
-    this.confirmed,
-  });
-
-  factory MemberModel.fromJson(Map<String, dynamic> json) =>
-      _$MemberModelFromJson(json);
-
-  @JsonKey(name: 'id')
-  final num? id;
-  @JsonKey(name: 'firstname')
-  final String? firstname;
-  @JsonKey(name: 'lastname')
-  final String? lastname;
-  @JsonKey(name: 'email')
-  final String? email;
-  @JsonKey(name: 'birthDate')
-  final DateTime? birthDate;
-  @JsonKey(
-      name: 'gender',
-      toJson: memberModelGenderToJson,
-      fromJson: memberModelGenderFromJson)
-  final enums.MemberModelGender? gender;
-  @JsonKey(name: 'profilePicture')
-  final String? profilePicture;
-  @JsonKey(name: 'city')
-  final CityModel? city;
-  @JsonKey(name: 'createdDate')
-  final DateTime? createdDate;
-  @JsonKey(name: 'phoneNumber')
-  final String? phoneNumber;
-  @JsonKey(name: 'confirmed')
-  final bool? confirmed;
-  static const fromJsonFactory = _$MemberModelFromJson;
-  static const toJsonFactory = _$MemberModelToJson;
-  Map<String, dynamic> toJson() => _$MemberModelToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is MemberModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
-            (identical(other.birthDate, birthDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthDate, birthDate)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
-            (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)) &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
-            (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)) &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
-            (identical(other.confirmed, confirmed) ||
-                const DeepCollectionEquality()
-                    .equals(other.confirmed, confirmed)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(lastname) ^
-      const DeepCollectionEquality().hash(email) ^
-      const DeepCollectionEquality().hash(birthDate) ^
-      const DeepCollectionEquality().hash(gender) ^
-      const DeepCollectionEquality().hash(profilePicture) ^
-      const DeepCollectionEquality().hash(city) ^
-      const DeepCollectionEquality().hash(createdDate) ^
-      const DeepCollectionEquality().hash(phoneNumber) ^
-      const DeepCollectionEquality().hash(confirmed) ^
-      runtimeType.hashCode;
-}
-
-extension $MemberModelExtension on MemberModel {
-  MemberModel copyWith(
-      {num? id,
-      String? firstname,
-      String? lastname,
-      String? email,
-      DateTime? birthDate,
-      enums.MemberModelGender? gender,
-      String? profilePicture,
-      CityModel? city,
-      DateTime? createdDate,
-      String? phoneNumber,
-      bool? confirmed}) {
-    return MemberModel(
-        id: id ?? this.id,
-        firstname: firstname ?? this.firstname,
-        lastname: lastname ?? this.lastname,
-        email: email ?? this.email,
-        birthDate: birthDate ?? this.birthDate,
-        gender: gender ?? this.gender,
-        profilePicture: profilePicture ?? this.profilePicture,
-        city: city ?? this.city,
-        createdDate: createdDate ?? this.createdDate,
-        phoneNumber: phoneNumber ?? this.phoneNumber,
-        confirmed: confirmed ?? this.confirmed);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class UserModel {
-  UserModel({
-    this.id,
-    this.firstname,
-    this.lastname,
-    this.password,
-    this.email,
-    this.birthDate,
-    this.gender,
-    this.profilePicture,
-    this.city,
-    this.createdDate,
-    this.phoneNumber,
-    this.confirmed,
-    this.language,
-    this.roles,
-  });
-
-  factory UserModel.fromJson(Map<String, dynamic> json) =>
-      _$UserModelFromJson(json);
-
-  @JsonKey(name: 'id')
-  final num? id;
-  @JsonKey(name: 'firstname')
-  final String? firstname;
-  @JsonKey(name: 'lastname')
-  final String? lastname;
-  @JsonKey(name: 'password')
-  final String? password;
-  @JsonKey(name: 'email')
-  final String? email;
-  @JsonKey(name: 'birthDate')
-  final DateTime? birthDate;
-  @JsonKey(
-      name: 'gender',
-      toJson: userModelGenderToJson,
-      fromJson: userModelGenderFromJson)
-  final enums.UserModelGender? gender;
-  @JsonKey(name: 'profilePicture')
-  final String? profilePicture;
-  @JsonKey(name: 'city')
-  final CityModel? city;
-  @JsonKey(name: 'createdDate')
-  final DateTime? createdDate;
-  @JsonKey(name: 'phoneNumber')
-  final String? phoneNumber;
-  @JsonKey(name: 'confirmed')
-  final bool? confirmed;
-  @JsonKey(name: 'language')
-  final String? language;
-  @JsonKey(
-      name: 'roles',
-      toJson: userModelRolesListToJson,
-      fromJson: userModelRolesListFromJson)
-  final List<enums.UserModelRoles>? roles;
-  static const fromJsonFactory = _$UserModelFromJson;
-  static const toJsonFactory = _$UserModelToJson;
-  Map<String, dynamic> toJson() => _$UserModelToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is UserModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
-            (identical(other.birthDate, birthDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthDate, birthDate)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
-            (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)) &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
-            (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)) &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
-            (identical(other.confirmed, confirmed) ||
-                const DeepCollectionEquality()
-                    .equals(other.confirmed, confirmed)) &&
-            (identical(other.language, language) ||
-                const DeepCollectionEquality()
-                    .equals(other.language, language)) &&
-            (identical(other.roles, roles) ||
-                const DeepCollectionEquality().equals(other.roles, roles)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(lastname) ^
-      const DeepCollectionEquality().hash(password) ^
-      const DeepCollectionEquality().hash(email) ^
-      const DeepCollectionEquality().hash(birthDate) ^
-      const DeepCollectionEquality().hash(gender) ^
-      const DeepCollectionEquality().hash(profilePicture) ^
-      const DeepCollectionEquality().hash(city) ^
-      const DeepCollectionEquality().hash(createdDate) ^
-      const DeepCollectionEquality().hash(phoneNumber) ^
-      const DeepCollectionEquality().hash(confirmed) ^
-      const DeepCollectionEquality().hash(language) ^
-      const DeepCollectionEquality().hash(roles) ^
-      runtimeType.hashCode;
-}
-
-extension $UserModelExtension on UserModel {
-  UserModel copyWith(
-      {num? id,
-      String? firstname,
-      String? lastname,
-      String? password,
-      String? email,
-      DateTime? birthDate,
-      enums.UserModelGender? gender,
-      String? profilePicture,
-      CityModel? city,
-      DateTime? createdDate,
-      String? phoneNumber,
-      bool? confirmed,
-      String? language,
-      List<enums.UserModelRoles>? roles}) {
-    return UserModel(
-        id: id ?? this.id,
-        firstname: firstname ?? this.firstname,
-        lastname: lastname ?? this.lastname,
-        password: password ?? this.password,
-        email: email ?? this.email,
-        birthDate: birthDate ?? this.birthDate,
-        gender: gender ?? this.gender,
-        profilePicture: profilePicture ?? this.profilePicture,
-        city: city ?? this.city,
-        createdDate: createdDate ?? this.createdDate,
-        phoneNumber: phoneNumber ?? this.phoneNumber,
-        confirmed: confirmed ?? this.confirmed,
-        language: language ?? this.language,
-        roles: roles ?? this.roles);
   }
 }
 
@@ -3155,6 +3936,52 @@ extension $UserUpdateRequestExtension on UserUpdateRequest {
 }
 
 @JsonSerializable(explicitToJson: true)
+class UpdateReportRequest {
+  UpdateReportRequest({
+    this.reason,
+    this.details,
+  });
+
+  factory UpdateReportRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateReportRequestFromJson(json);
+
+  @JsonKey(
+      name: 'reason',
+      toJson: updateReportRequestReasonToJson,
+      fromJson: updateReportRequestReasonFromJson)
+  final enums.UpdateReportRequestReason? reason;
+  @JsonKey(name: 'details')
+  final String? details;
+  static const fromJsonFactory = _$UpdateReportRequestFromJson;
+  static const toJsonFactory = _$UpdateReportRequestToJson;
+  Map<String, dynamic> toJson() => _$UpdateReportRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UpdateReportRequest &&
+            (identical(other.reason, reason) ||
+                const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.details, details) ||
+                const DeepCollectionEquality().equals(other.details, details)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(reason) ^
+      const DeepCollectionEquality().hash(details) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdateReportRequestExtension on UpdateReportRequest {
+  UpdateReportRequest copyWith(
+      {enums.UpdateReportRequestReason? reason, String? details}) {
+    return UpdateReportRequest(
+        reason: reason ?? this.reason, details: details ?? this.details);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class UpdatePublicGroupRequest {
   UpdatePublicGroupRequest({
     this.name,
@@ -3237,6 +4064,7 @@ class UpdateActivityRequest {
     this.location,
     this.icon,
     this.infos,
+    this.participants,
   });
 
   factory UpdateActivityRequest.fromJson(Map<String, dynamic> json) =>
@@ -3258,6 +4086,8 @@ class UpdateActivityRequest {
   final String? icon;
   @JsonKey(name: 'infos', defaultValue: <String>[])
   final List<String>? infos;
+  @JsonKey(name: 'participants', defaultValue: <num>[])
+  final List<num>? participants;
   static const fromJsonFactory = _$UpdateActivityRequestFromJson;
   static const toJsonFactory = _$UpdateActivityRequestToJson;
   Map<String, dynamic> toJson() => _$UpdateActivityRequestToJson(this);
@@ -3285,7 +4115,10 @@ class UpdateActivityRequest {
             (identical(other.icon, icon) ||
                 const DeepCollectionEquality().equals(other.icon, icon)) &&
             (identical(other.infos, infos) ||
-                const DeepCollectionEquality().equals(other.infos, infos)));
+                const DeepCollectionEquality().equals(other.infos, infos)) &&
+            (identical(other.participants, participants) ||
+                const DeepCollectionEquality()
+                    .equals(other.participants, participants)));
   }
 
   @override
@@ -3298,6 +4131,7 @@ class UpdateActivityRequest {
       const DeepCollectionEquality().hash(location) ^
       const DeepCollectionEquality().hash(icon) ^
       const DeepCollectionEquality().hash(infos) ^
+      const DeepCollectionEquality().hash(participants) ^
       runtimeType.hashCode;
 }
 
@@ -3310,7 +4144,8 @@ extension $UpdateActivityRequestExtension on UpdateActivityRequest {
       String? color,
       String? location,
       String? icon,
-      List<String>? infos}) {
+      List<String>? infos,
+      List<num>? participants}) {
     return UpdateActivityRequest(
         name: name ?? this.name,
         description: description ?? this.description,
@@ -3319,7 +4154,8 @@ extension $UpdateActivityRequestExtension on UpdateActivityRequest {
         color: color ?? this.color,
         location: location ?? this.location,
         icon: icon ?? this.icon,
-        infos: infos ?? this.infos);
+        infos: infos ?? this.infos,
+        participants: participants ?? this.participants);
   }
 }
 
@@ -4215,6 +5051,162 @@ extension $MatchMakingResultExtension on MatchMakingResult {
 }
 
 @JsonSerializable(explicitToJson: true)
+class MoneyDueResponse {
+  MoneyDueResponse({
+    this.user,
+    this.total,
+  });
+
+  factory MoneyDueResponse.fromJson(Map<String, dynamic> json) =>
+      _$MoneyDueResponseFromJson(json);
+
+  @JsonKey(name: 'user')
+  final GroupMemberModel? user;
+  @JsonKey(name: 'total')
+  final double? total;
+  static const fromJsonFactory = _$MoneyDueResponseFromJson;
+  static const toJsonFactory = _$MoneyDueResponseToJson;
+  Map<String, dynamic> toJson() => _$MoneyDueResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is MoneyDueResponse &&
+            (identical(other.user, user) ||
+                const DeepCollectionEquality().equals(other.user, user)) &&
+            (identical(other.total, total) ||
+                const DeepCollectionEquality().equals(other.total, total)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(user) ^
+      const DeepCollectionEquality().hash(total) ^
+      runtimeType.hashCode;
+}
+
+extension $MoneyDueResponseExtension on MoneyDueResponse {
+  MoneyDueResponse copyWith({GroupMemberModel? user, double? total}) {
+    return MoneyDueResponse(
+        user: user ?? this.user, total: total ?? this.total);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class DebtDetailsResponse {
+  DebtDetailsResponse({
+    this.indebtedUser,
+    this.purchaser,
+    this.description,
+    this.amountToPay,
+    this.date,
+  });
+
+  factory DebtDetailsResponse.fromJson(Map<String, dynamic> json) =>
+      _$DebtDetailsResponseFromJson(json);
+
+  @JsonKey(name: 'indebtedUser')
+  final GroupMemberModel? indebtedUser;
+  @JsonKey(name: 'purchaser')
+  final GroupMemberModel? purchaser;
+  @JsonKey(name: 'description')
+  final String? description;
+  @JsonKey(name: 'amountToPay')
+  final double? amountToPay;
+  @JsonKey(name: 'date')
+  final DateTime? date;
+  static const fromJsonFactory = _$DebtDetailsResponseFromJson;
+  static const toJsonFactory = _$DebtDetailsResponseToJson;
+  Map<String, dynamic> toJson() => _$DebtDetailsResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is DebtDetailsResponse &&
+            (identical(other.indebtedUser, indebtedUser) ||
+                const DeepCollectionEquality()
+                    .equals(other.indebtedUser, indebtedUser)) &&
+            (identical(other.purchaser, purchaser) ||
+                const DeepCollectionEquality()
+                    .equals(other.purchaser, purchaser)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)) &&
+            (identical(other.amountToPay, amountToPay) ||
+                const DeepCollectionEquality()
+                    .equals(other.amountToPay, amountToPay)) &&
+            (identical(other.date, date) ||
+                const DeepCollectionEquality().equals(other.date, date)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(indebtedUser) ^
+      const DeepCollectionEquality().hash(purchaser) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(amountToPay) ^
+      const DeepCollectionEquality().hash(date) ^
+      runtimeType.hashCode;
+}
+
+extension $DebtDetailsResponseExtension on DebtDetailsResponse {
+  DebtDetailsResponse copyWith(
+      {GroupMemberModel? indebtedUser,
+      GroupMemberModel? purchaser,
+      String? description,
+      double? amountToPay,
+      DateTime? date}) {
+    return DebtDetailsResponse(
+        indebtedUser: indebtedUser ?? this.indebtedUser,
+        purchaser: purchaser ?? this.purchaser,
+        description: description ?? this.description,
+        amountToPay: amountToPay ?? this.amountToPay,
+        date: date ?? this.date);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BalanceResponse {
+  BalanceResponse({
+    this.user,
+    this.money,
+  });
+
+  factory BalanceResponse.fromJson(Map<String, dynamic> json) =>
+      _$BalanceResponseFromJson(json);
+
+  @JsonKey(name: 'user')
+  final GroupMemberModel? user;
+  @JsonKey(name: 'money')
+  final double? money;
+  static const fromJsonFactory = _$BalanceResponseFromJson;
+  static const toJsonFactory = _$BalanceResponseToJson;
+  Map<String, dynamic> toJson() => _$BalanceResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is BalanceResponse &&
+            (identical(other.user, user) ||
+                const DeepCollectionEquality().equals(other.user, user)) &&
+            (identical(other.money, money) ||
+                const DeepCollectionEquality().equals(other.money, money)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(user) ^
+      const DeepCollectionEquality().hash(money) ^
+      runtimeType.hashCode;
+}
+
+extension $BalanceResponseExtension on BalanceResponse {
+  BalanceResponse copyWith({GroupMemberModel? user, double? money}) {
+    return BalanceResponse(user: user ?? this.user, money: money ?? this.money);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class DeleteUserRequest {
   DeleteUserRequest({
     this.password,
@@ -4281,6 +5273,195 @@ extension $DeleteUserByAdminRequestExtension on DeleteUserByAdminRequest {
   DeleteUserByAdminRequest copyWith({String? reason}) {
     return DeleteUserByAdminRequest(reason: reason ?? this.reason);
   }
+}
+
+String? groupModelStateToJson(enums.GroupModelState? groupModelState) {
+  return enums.$GroupModelStateMap[groupModelState];
+}
+
+enums.GroupModelState groupModelStateFromJson(Object? groupModelState) {
+  if (groupModelState is int) {
+    return enums.$GroupModelStateMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == groupModelState.toString(),
+            orElse: () => const MapEntry(
+                enums.GroupModelState.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (groupModelState is String) {
+    return enums.$GroupModelStateMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == groupModelState.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.GroupModelState.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.GroupModelState.swaggerGeneratedUnknown;
+}
+
+List<String> groupModelStateListToJson(
+    List<enums.GroupModelState>? groupModelState) {
+  if (groupModelState == null) {
+    return [];
+  }
+
+  return groupModelState.map((e) => enums.$GroupModelStateMap[e]!).toList();
+}
+
+List<enums.GroupModelState> groupModelStateListFromJson(List? groupModelState) {
+  if (groupModelState == null) {
+    return [];
+  }
+
+  return groupModelState
+      .map((e) => groupModelStateFromJson(e.toString()))
+      .toList();
+}
+
+String? memberModelGenderToJson(enums.MemberModelGender? memberModelGender) {
+  return enums.$MemberModelGenderMap[memberModelGender];
+}
+
+enums.MemberModelGender memberModelGenderFromJson(Object? memberModelGender) {
+  if (memberModelGender is int) {
+    return enums.$MemberModelGenderMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == memberModelGender.toString(),
+            orElse: () => const MapEntry(
+                enums.MemberModelGender.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (memberModelGender is String) {
+    return enums.$MemberModelGenderMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == memberModelGender.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.MemberModelGender.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.MemberModelGender.swaggerGeneratedUnknown;
+}
+
+List<String> memberModelGenderListToJson(
+    List<enums.MemberModelGender>? memberModelGender) {
+  if (memberModelGender == null) {
+    return [];
+  }
+
+  return memberModelGender.map((e) => enums.$MemberModelGenderMap[e]!).toList();
+}
+
+List<enums.MemberModelGender> memberModelGenderListFromJson(
+    List? memberModelGender) {
+  if (memberModelGender == null) {
+    return [];
+  }
+
+  return memberModelGender
+      .map((e) => memberModelGenderFromJson(e.toString()))
+      .toList();
+}
+
+String? userModelGenderToJson(enums.UserModelGender? userModelGender) {
+  return enums.$UserModelGenderMap[userModelGender];
+}
+
+enums.UserModelGender userModelGenderFromJson(Object? userModelGender) {
+  if (userModelGender is int) {
+    return enums.$UserModelGenderMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == userModelGender.toString(),
+            orElse: () => const MapEntry(
+                enums.UserModelGender.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (userModelGender is String) {
+    return enums.$UserModelGenderMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == userModelGender.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.UserModelGender.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.UserModelGender.swaggerGeneratedUnknown;
+}
+
+List<String> userModelGenderListToJson(
+    List<enums.UserModelGender>? userModelGender) {
+  if (userModelGender == null) {
+    return [];
+  }
+
+  return userModelGender.map((e) => enums.$UserModelGenderMap[e]!).toList();
+}
+
+List<enums.UserModelGender> userModelGenderListFromJson(List? userModelGender) {
+  if (userModelGender == null) {
+    return [];
+  }
+
+  return userModelGender
+      .map((e) => userModelGenderFromJson(e.toString()))
+      .toList();
+}
+
+String? userModelRolesToJson(enums.UserModelRoles? userModelRoles) {
+  return enums.$UserModelRolesMap[userModelRoles];
+}
+
+enums.UserModelRoles userModelRolesFromJson(Object? userModelRoles) {
+  if (userModelRoles is int) {
+    return enums.$UserModelRolesMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == userModelRoles.toString(),
+            orElse: () => const MapEntry(
+                enums.UserModelRoles.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (userModelRoles is String) {
+    return enums.$UserModelRolesMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == userModelRoles.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.UserModelRoles.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.UserModelRoles.swaggerGeneratedUnknown;
+}
+
+List<String> userModelRolesListToJson(
+    List<enums.UserModelRoles>? userModelRoles) {
+  if (userModelRoles == null) {
+    return [];
+  }
+
+  return userModelRoles.map((e) => enums.$UserModelRolesMap[e]!).toList();
+}
+
+List<enums.UserModelRoles> userModelRolesListFromJson(List? userModelRoles) {
+  if (userModelRoles == null) {
+    return [];
+  }
+
+  return userModelRoles
+      .map((e) => userModelRolesFromJson(e.toString()))
+      .toList();
 }
 
 String? profileCreationRequestDestinationTypesToJson(
@@ -5352,6 +6533,108 @@ List<enums.ProfileModelSport> profileModelSportListFromJson(
       .toList();
 }
 
+String? submitReportRequestReasonToJson(
+    enums.SubmitReportRequestReason? submitReportRequestReason) {
+  return enums.$SubmitReportRequestReasonMap[submitReportRequestReason];
+}
+
+enums.SubmitReportRequestReason submitReportRequestReasonFromJson(
+    Object? submitReportRequestReason) {
+  if (submitReportRequestReason is int) {
+    return enums.$SubmitReportRequestReasonMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                submitReportRequestReason.toString(),
+            orElse: () => const MapEntry(
+                enums.SubmitReportRequestReason.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (submitReportRequestReason is String) {
+    return enums.$SubmitReportRequestReasonMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                submitReportRequestReason.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.SubmitReportRequestReason.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.SubmitReportRequestReason.swaggerGeneratedUnknown;
+}
+
+List<String> submitReportRequestReasonListToJson(
+    List<enums.SubmitReportRequestReason>? submitReportRequestReason) {
+  if (submitReportRequestReason == null) {
+    return [];
+  }
+
+  return submitReportRequestReason
+      .map((e) => enums.$SubmitReportRequestReasonMap[e]!)
+      .toList();
+}
+
+List<enums.SubmitReportRequestReason> submitReportRequestReasonListFromJson(
+    List? submitReportRequestReason) {
+  if (submitReportRequestReason == null) {
+    return [];
+  }
+
+  return submitReportRequestReason
+      .map((e) => submitReportRequestReasonFromJson(e.toString()))
+      .toList();
+}
+
+String? reportModelReasonToJson(enums.ReportModelReason? reportModelReason) {
+  return enums.$ReportModelReasonMap[reportModelReason];
+}
+
+enums.ReportModelReason reportModelReasonFromJson(Object? reportModelReason) {
+  if (reportModelReason is int) {
+    return enums.$ReportModelReasonMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == reportModelReason.toString(),
+            orElse: () => const MapEntry(
+                enums.ReportModelReason.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (reportModelReason is String) {
+    return enums.$ReportModelReasonMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == reportModelReason.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.ReportModelReason.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.ReportModelReason.swaggerGeneratedUnknown;
+}
+
+List<String> reportModelReasonListToJson(
+    List<enums.ReportModelReason>? reportModelReason) {
+  if (reportModelReason == null) {
+    return [];
+  }
+
+  return reportModelReason.map((e) => enums.$ReportModelReasonMap[e]!).toList();
+}
+
+List<enums.ReportModelReason> reportModelReasonListFromJson(
+    List? reportModelReason) {
+  if (reportModelReason == null) {
+    return [];
+  }
+
+  return reportModelReason
+      .map((e) => reportModelReasonFromJson(e.toString()))
+      .toList();
+}
+
 String? placesFromCoordinatesRequestCategoriesToJson(
     enums.PlacesFromCoordinatesRequestCategories?
         placesFromCoordinatesRequestCategories) {
@@ -5475,195 +6758,6 @@ List<enums.PlacesFromAddressRequestCategories>
 
   return placesFromAddressRequestCategories
       .map((e) => placesFromAddressRequestCategoriesFromJson(e.toString()))
-      .toList();
-}
-
-String? groupModelStateToJson(enums.GroupModelState? groupModelState) {
-  return enums.$GroupModelStateMap[groupModelState];
-}
-
-enums.GroupModelState groupModelStateFromJson(Object? groupModelState) {
-  if (groupModelState is int) {
-    return enums.$GroupModelStateMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == groupModelState.toString(),
-            orElse: () => const MapEntry(
-                enums.GroupModelState.swaggerGeneratedUnknown, ''))
-        .key;
-  }
-
-  if (groupModelState is String) {
-    return enums.$GroupModelStateMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == groupModelState.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.GroupModelState.swaggerGeneratedUnknown, ''))
-        .key;
-  }
-
-  return enums.GroupModelState.swaggerGeneratedUnknown;
-}
-
-List<String> groupModelStateListToJson(
-    List<enums.GroupModelState>? groupModelState) {
-  if (groupModelState == null) {
-    return [];
-  }
-
-  return groupModelState.map((e) => enums.$GroupModelStateMap[e]!).toList();
-}
-
-List<enums.GroupModelState> groupModelStateListFromJson(List? groupModelState) {
-  if (groupModelState == null) {
-    return [];
-  }
-
-  return groupModelState
-      .map((e) => groupModelStateFromJson(e.toString()))
-      .toList();
-}
-
-String? memberModelGenderToJson(enums.MemberModelGender? memberModelGender) {
-  return enums.$MemberModelGenderMap[memberModelGender];
-}
-
-enums.MemberModelGender memberModelGenderFromJson(Object? memberModelGender) {
-  if (memberModelGender is int) {
-    return enums.$MemberModelGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == memberModelGender.toString(),
-            orElse: () => const MapEntry(
-                enums.MemberModelGender.swaggerGeneratedUnknown, ''))
-        .key;
-  }
-
-  if (memberModelGender is String) {
-    return enums.$MemberModelGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == memberModelGender.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.MemberModelGender.swaggerGeneratedUnknown, ''))
-        .key;
-  }
-
-  return enums.MemberModelGender.swaggerGeneratedUnknown;
-}
-
-List<String> memberModelGenderListToJson(
-    List<enums.MemberModelGender>? memberModelGender) {
-  if (memberModelGender == null) {
-    return [];
-  }
-
-  return memberModelGender.map((e) => enums.$MemberModelGenderMap[e]!).toList();
-}
-
-List<enums.MemberModelGender> memberModelGenderListFromJson(
-    List? memberModelGender) {
-  if (memberModelGender == null) {
-    return [];
-  }
-
-  return memberModelGender
-      .map((e) => memberModelGenderFromJson(e.toString()))
-      .toList();
-}
-
-String? userModelGenderToJson(enums.UserModelGender? userModelGender) {
-  return enums.$UserModelGenderMap[userModelGender];
-}
-
-enums.UserModelGender userModelGenderFromJson(Object? userModelGender) {
-  if (userModelGender is int) {
-    return enums.$UserModelGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == userModelGender.toString(),
-            orElse: () => const MapEntry(
-                enums.UserModelGender.swaggerGeneratedUnknown, ''))
-        .key;
-  }
-
-  if (userModelGender is String) {
-    return enums.$UserModelGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == userModelGender.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.UserModelGender.swaggerGeneratedUnknown, ''))
-        .key;
-  }
-
-  return enums.UserModelGender.swaggerGeneratedUnknown;
-}
-
-List<String> userModelGenderListToJson(
-    List<enums.UserModelGender>? userModelGender) {
-  if (userModelGender == null) {
-    return [];
-  }
-
-  return userModelGender.map((e) => enums.$UserModelGenderMap[e]!).toList();
-}
-
-List<enums.UserModelGender> userModelGenderListFromJson(List? userModelGender) {
-  if (userModelGender == null) {
-    return [];
-  }
-
-  return userModelGender
-      .map((e) => userModelGenderFromJson(e.toString()))
-      .toList();
-}
-
-String? userModelRolesToJson(enums.UserModelRoles? userModelRoles) {
-  return enums.$UserModelRolesMap[userModelRoles];
-}
-
-enums.UserModelRoles userModelRolesFromJson(Object? userModelRoles) {
-  if (userModelRoles is int) {
-    return enums.$UserModelRolesMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == userModelRoles.toString(),
-            orElse: () => const MapEntry(
-                enums.UserModelRoles.swaggerGeneratedUnknown, ''))
-        .key;
-  }
-
-  if (userModelRoles is String) {
-    return enums.$UserModelRolesMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == userModelRoles.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.UserModelRoles.swaggerGeneratedUnknown, ''))
-        .key;
-  }
-
-  return enums.UserModelRoles.swaggerGeneratedUnknown;
-}
-
-List<String> userModelRolesListToJson(
-    List<enums.UserModelRoles>? userModelRoles) {
-  if (userModelRoles == null) {
-    return [];
-  }
-
-  return userModelRoles.map((e) => enums.$UserModelRolesMap[e]!).toList();
-}
-
-List<enums.UserModelRoles> userModelRolesListFromJson(List? userModelRoles) {
-  if (userModelRoles == null) {
-    return [];
-  }
-
-  return userModelRoles
-      .map((e) => userModelRolesFromJson(e.toString()))
       .toList();
 }
 
@@ -6209,6 +7303,60 @@ List<enums.ProfileUpdateRequestSport> profileUpdateRequestSportListFromJson(
 
   return profileUpdateRequestSport
       .map((e) => profileUpdateRequestSportFromJson(e.toString()))
+      .toList();
+}
+
+String? updateReportRequestReasonToJson(
+    enums.UpdateReportRequestReason? updateReportRequestReason) {
+  return enums.$UpdateReportRequestReasonMap[updateReportRequestReason];
+}
+
+enums.UpdateReportRequestReason updateReportRequestReasonFromJson(
+    Object? updateReportRequestReason) {
+  if (updateReportRequestReason is int) {
+    return enums.$UpdateReportRequestReasonMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                updateReportRequestReason.toString(),
+            orElse: () => const MapEntry(
+                enums.UpdateReportRequestReason.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (updateReportRequestReason is String) {
+    return enums.$UpdateReportRequestReasonMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                updateReportRequestReason.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.UpdateReportRequestReason.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.UpdateReportRequestReason.swaggerGeneratedUnknown;
+}
+
+List<String> updateReportRequestReasonListToJson(
+    List<enums.UpdateReportRequestReason>? updateReportRequestReason) {
+  if (updateReportRequestReason == null) {
+    return [];
+  }
+
+  return updateReportRequestReason
+      .map((e) => enums.$UpdateReportRequestReasonMap[e]!)
+      .toList();
+}
+
+List<enums.UpdateReportRequestReason> updateReportRequestReasonListFromJson(
+    List? updateReportRequestReason) {
+  if (updateReportRequestReason == null) {
+    return [];
+  }
+
+  return updateReportRequestReason
+      .map((e) => updateReportRequestReasonFromJson(e.toString()))
       .toList();
 }
 

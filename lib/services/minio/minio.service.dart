@@ -39,10 +39,22 @@ class MinioService {
     return imageURL.split('$MINIO_ENDPOINT:$MINIO_PORT/$MINIO_BUCKET/').last;
   }
 
-  static String? getImageUrl(String? name) {
+  static String getImageUrl(String? name, DEFAULT_URL defaultUrl) {
     if (name == null) {
-      return null;
+      if (defaultUrl == DEFAULT_URL.AVATAR) {
+        return DEFAULT_AVATAR_URL;
+      } else if (defaultUrl == DEFAULT_URL.GROUP) {
+        return DEFAULT_GROUP_AVATAR_URL;
+      } else{
+        return DEFAULT_IMAGE_URL;
+      }
     }
+
+    final uri = Uri.tryParse(name);
+    if (uri != null && uri.host.isNotEmpty && uri.origin.isNotEmpty){
+      return name;
+    }
+
     return 'http://$MINIO_ENDPOINT:$MINIO_PORT/$MINIO_BUCKET/$name';
   }
 }

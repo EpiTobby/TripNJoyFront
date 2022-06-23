@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
@@ -23,8 +24,8 @@ class GroupFoundCard extends HookConsumerWidget {
   }) : super(key: key);
 
   final int? groupId;
-  final String groupPhotoUrl;
-  final List<String> membersPhotoUrls;
+  final String? groupPhotoUrl;
+  final List<String?> membersPhotoUrls;
   final bool isLoading;
 
   @override
@@ -40,7 +41,6 @@ class GroupFoundCard extends HookConsumerWidget {
     final navbar = ref.watch(navbarStateProvider.notifier);
 
     final profiles = ref.watch(profileProvider);
-    final minioService = ref.watch(minioProvider);
 
     return SlideTransition(
       position: offset,
@@ -72,7 +72,7 @@ class GroupFoundCard extends HookConsumerWidget {
                           ],
                         ),
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(groupPhotoUrl),
+                          backgroundImage: NetworkImage(MinioService.getImageUrl(groupPhotoUrl, DEFAULT_URL.GROUP)),
                           radius: 70,
                         ),
                       ),
@@ -84,7 +84,8 @@ class GroupFoundCard extends HookConsumerWidget {
                           Container(
                             margin: const EdgeInsets.only(right: 10),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(MinioService.getImageUrl(memberPhotoUrl)!),
+                              backgroundImage:
+                                  NetworkImage(MinioService.getImageUrl(memberPhotoUrl, DEFAULT_URL.AVATAR)),
                               radius: 20,
                             ),
                           ),
