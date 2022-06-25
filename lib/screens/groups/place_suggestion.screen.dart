@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/edit_activity.screen.dart';
-import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/list_dialog.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/maps/osm_map.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning_activity.widget.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
@@ -32,6 +35,7 @@ class PlaceSuggestion extends HookConsumerWidget {
     // final currentPosition = useState(LatLng(48.864716, 2.349014));
     final isLoading = useState(false);
     final controller = useState(MapController());
+    final searchController = useTextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).translate("groups.planning.activity.type.$place"),
@@ -52,89 +56,35 @@ class PlaceSuggestion extends HookConsumerWidget {
                   ),
                 ),
                 // map
+                InputField(
+                    hint: AppLocalizations.of(context).translate('common.search'),
+                    controller: searchController,
+                    onEditingComplete: () async {
+                      List<SearchInfo> suggestions = await addressSuggestion(searchController.text);
+                      showMaterialModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ListDialog(
+                            items: suggestions,
+                            onSelect: (value) async {
+                              if (value.point != null) {
+                                controller.value.changeLocation(value.point!);
+                                controller.value.setZoom(zoomLevel: 14);
+                                ref.read(planningProvider).getSuggestedActivities(place, value.point!);
+                              }
+                            },
+                          );
+                        },
+                      );
+                    }),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 200,
-                    child: Stack(
-                      children: [
-                        OSMFlutter(
-                          controller: controller.value,
-                          trackMyPosition: true,
-                          showZoomController: true,
-                          minZoomLevel: 5,
-                          maxZoomLevel: 18,
-                          stepZoom: 1.0,
-                          isPicker: true,
-                          userLocationMarker: UserLocationMaker(
-                            personMarker: MarkerIcon(
-                              icon: Icon(
-                                Icons.location_on,
-                                color: Theme.of(context).colorScheme.secondary,
-                                size: 64,
-                              ),
-                            ),
-                            directionArrowMarker: MarkerIcon(
-                              icon: Icon(
-                                Icons.double_arrow,
-                                size: 48,
-                              ),
-                            ),
-                          ),
-                          markerOption: MarkerOption(
-                            defaultMarker: MarkerIcon(
-                              icon: Icon(
-                                Icons.location_on,
-                                color: Theme.of(context).colorScheme.secondary,
-                                size: 64,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 10,
-                          left: 10,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                            child: IconButton(
-                              padding: const EdgeInsets.all(8),
-                              onPressed: () async {
-                                await controller.value.currentLocation();
-                                await controller.value.setZoom(zoomLevel: 14);
-                              },
-                              icon: Icon(Icons.location_searching, color: Theme.of(context).colorScheme.onSecondary),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 10,
-                          right: 10,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                            child: IconButton(
-                              padding: const EdgeInsets.all(8),
-                              onPressed: () async {
-                                final position = await controller.value.centerMap;
-                                ref.read(planningProvider).getSuggestedActivities(place, position);
-                              },
-                              icon: Icon(Icons.search, color: Theme.of(context).colorScheme.onSecondary),
-                            ),
-                          ),
-                        ),
-                        Positioned.fill(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Icon(Icons.location_on, color: Theme.of(context).colorScheme.secondary),
-                          ),
-                        )
-                      ],
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 200,
+                      child: OSMMap(controller: controller, place: place),
                     ),
                   ),
                 ),

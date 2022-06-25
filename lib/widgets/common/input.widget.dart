@@ -5,7 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 class InputField extends StatefulHookWidget {
   const InputField({
     Key? key,
-    required this.label,
+    this.label,
     this.onChanged,
     this.hint = "",
     this.keyboardType = TextInputType.text,
@@ -16,9 +16,10 @@ class InputField extends StatefulHookWidget {
     this.inputFormatters,
     this.controller,
     this.multiline = false,
+    this.onEditingComplete,
   }) : super(key: key);
 
-  final String label;
+  final String? label;
   final void Function(String)? onChanged;
   final String hint;
   final Icon? icon;
@@ -29,6 +30,7 @@ class InputField extends StatefulHookWidget {
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
   final bool multiline;
+  final Future<void> Function()? onEditingComplete;
 
   @override
   State<InputField> createState() => _InputFieldState();
@@ -45,16 +47,18 @@ class _InputFieldState extends State<InputField> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-                padding: const EdgeInsets.only(bottom: 5, left: 10),
-                child: Text(
-                  widget.label,
-                  style: TextStyle(
-                    color: widget.isError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
+            if (widget.label != null)
+              Padding(
+                  padding: const EdgeInsets.only(bottom: 5, left: 10),
+                  child: Text(
+                    widget.label!,
+                    style: TextStyle(
+                      color:
+                          widget.isError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
             TextField(
               onChanged: widget.onChanged,
               controller: widget.controller,
@@ -103,6 +107,7 @@ class _InputFieldState extends State<InputField> {
                   borderSide: BorderSide(width: 2, color: Theme.of(context).colorScheme.tertiary),
                 ),
               ),
+              onEditingComplete: widget.onEditingComplete,
             )
           ],
         ));
