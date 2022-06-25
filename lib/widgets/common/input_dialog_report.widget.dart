@@ -29,10 +29,8 @@ class _InputDialogReportState extends State<InputDialogReport> {
     final controller = useTextEditingController(text: '');
     final status = useState<AsyncValue<void>>(const AsyncValue.data(null));
     final reason = useState(SubmitReportRequestReason.innapropriateBehavior);
-    final reasons = SubmitReportRequestReason.values
-        .map((e) => e.name)
-        .where((e) => e != "swaggerGeneratedUnknown")
-        .toList();
+    final reasons =
+        SubmitReportRequestReason.values.map((e) => e.name).where((e) => e != "swaggerGeneratedUnknown").toList();
 
     return AnimatedPadding(
       padding: EdgeInsets.only(

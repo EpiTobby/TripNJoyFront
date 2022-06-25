@@ -340,7 +340,7 @@ class EditActivity extends HookConsumerWidget {
                                     title: AppLocalizations.of(context)
                                         .translate('groups.planning.activity.edit.delete.content'),
                                     cancelChoice: AppLocalizations.of(context).translate('common.decline'),
-                                    confirmChoice: AppLocalizations.of(context).translate('common.accept'),
+                                    confirmChoice: AppLocalizations.of(context).translate('common.delete'),
                                     onConfirm: (value) async {
                                       if (value) {
                                         await planningViewModel.deleteActivity(groupId, activity!.id);
