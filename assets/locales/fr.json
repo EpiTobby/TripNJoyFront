@@ -24,7 +24,8 @@
     "date": "Date",
     "time": "Heure",
     "startDate": "Date de début",
-    "endDate": "Date de fin"
+    "endDate": "Date de fin",
+    "or": "ou"
   },
   "user": {
     "firstname": "Prénom",

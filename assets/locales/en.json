@@ -1,6 +1,7 @@
 {
   "common": {
-    "login": "Connect",
+    "login": "Login",
+    "signup": "Signup",
     "logout": "Disconnect",
     "reconnect": "Reconnect",
     "description": "Description",
@@ -24,7 +25,8 @@
     "date": "Date",
     "time": "Time",
     "startDate": "Start date",
-    "endDate": "End date"
+    "endDate": "End date",
+    "or": "or"
   },
   "user": {
     "firstname": "Firstname",

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:trip_n_joy_front/constants/common/colors.style.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/screens/auth/forgot_password.screen.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 
-class InputField extends HookWidget {
+class InputField extends HookConsumerWidget {
   const InputField({
     Key? key,
     this.label,
@@ -13,6 +16,7 @@ class InputField extends HookWidget {
     this.textCapitalization = TextCapitalization.sentences,
     this.icon,
     this.isPassword = false,
+    this.displayForgotPassword = false,
     this.isError = false,
     this.inputFormatters,
     this.controller,
@@ -27,6 +31,7 @@ class InputField extends HookWidget {
   final TextInputType keyboardType;
   final TextCapitalization textCapitalization;
   final bool isPassword;
+  final bool displayForgotPassword;
   final bool isError;
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
@@ -34,14 +39,14 @@ class InputField extends HookWidget {
   final Future<void> Function()? onEditingComplete;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isVisible = useState(false);
     final backgroundColor = useState(Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1));
     final focusNode = useFocusNode();
 
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
-        backgroundColor.value = Theme.of(context).colorScheme.secondary.withOpacity(0.1);
+        backgroundColor.value = Theme.of(context).colorScheme.secondaryContainer;
       } else {
         backgroundColor.value = Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1);
       }
@@ -96,7 +101,7 @@ class InputField extends HookWidget {
                   : null,
               hintText: hint,
               filled: true,
-              fillColor: isError ? Theme.of(context).colorScheme.error.withOpacity(0.1) : backgroundColor.value,
+              fillColor: isError ? Theme.of(context).colorScheme.errorContainer : backgroundColor.value,
               enabledBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 borderSide: BorderSide(
@@ -117,7 +122,15 @@ class InputField extends HookWidget {
               ),
             ),
             onEditingComplete: onEditingComplete,
-          )
+          ),
+          if (isPassword && displayForgotPassword)
+            Align(
+              alignment: Alignment.topRight,
+              child: TertiaryButton(
+                  text: AppLocalizations.of(context).translate("auth.forgotPassword"),
+                  onPressed: () =>
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgotPassword()))),
+            ),
         ],
       ),
     );
