@@ -21,6 +21,7 @@ class InputField extends HookConsumerWidget {
     this.inputFormatters,
     this.controller,
     this.multiline = false,
+    this.textInputAction,
     this.onEditingComplete,
   }) : super(key: key);
 
@@ -36,6 +37,7 @@ class InputField extends HookConsumerWidget {
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
   final bool multiline;
+  final TextInputAction? textInputAction;
   final Future<void> Function()? onEditingComplete;
 
   @override
@@ -81,6 +83,7 @@ class InputField extends HookConsumerWidget {
             textCapitalization: isPassword ? TextCapitalization.none : textCapitalization,
             maxLines: multiline ? 10 : 1,
             focusNode: focusNode,
+            textInputAction: textInputAction,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.all(15),
               prefixIcon: icon,

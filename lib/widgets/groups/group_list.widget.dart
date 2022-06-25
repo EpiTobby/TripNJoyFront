@@ -8,26 +8,27 @@ import 'package:trip_n_joy_front/screens/groups/group_chat_container.screen.dart
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 
 class GroupList extends StatelessWidget {
-  const GroupList({Key? key, required this.groups, required this.title}) : super(key: key);
+  const GroupList({Key? key, required this.groups, this.title}) : super(key: key);
 
   final List<GroupModel> groups;
-  final String title;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onBackground,
+        if (title != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Text(
+              title!,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
             ),
           ),
-        ),
         ...groups
             .map((group) => GroupListItem(
                   group: group,

@@ -185,7 +185,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
     return user.when(
         data: (data) => Scaffold(
-              appBar: selectedPage != NavbarPage.MATCHMAKING
+              appBar: selectedPage != NavbarPage.MATCHMAKING && selectedPage != NavbarPage.GROUPS
                   ? AppBar(
                       title: Text(
                         AppLocalizations.of(context).translate("${selectedPage.name.toLowerCase()}.title"),
