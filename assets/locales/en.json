@@ -382,6 +382,7 @@
     },
     "budget": {
       "title": "Budget",
+      "empty": "No expenses yet",
       "expenses": {
         "title": "Expenses",
         "paid_by": "Paid by $name",

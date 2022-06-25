@@ -381,6 +381,7 @@
     },
     "budget": {
       "title": "Budget",
+      "empty": "Aucune dépense de groupe",
       "expenses": {
         "title": "Dépenses",
         "paid_by": "Payé par $name",
