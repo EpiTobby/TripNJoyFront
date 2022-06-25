@@ -21,7 +21,7 @@ class LayoutItem extends StatelessWidget {
           Text(
             title!,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.primaryContainer,
               fontSize: 16,
               fontWeight: boldTitle ? FontWeight.bold : FontWeight.w300,
             ),

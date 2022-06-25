@@ -31,7 +31,8 @@ class EditExpense extends HookConsumerWidget {
     final icon = useState(expense?.icon != null
         ? IconData(int.parse(expense!.icon!), fontFamily: 'MaterialIcons')
         : Icons.add_shopping_cart);
-    final name = useState(expense?.description ?? '');
+    final name =
+        useState(expense?.description ?? AppLocalizations.of(context).translate("groups.budget.expenses.title"));
     final price = useState(expense?.total ?? 0.0);
     final paidBy = useState(
         expense != null ? group.members?.firstWhere((m) => m.id == expense?.purchaser?.userId) : group.members?.first);
@@ -203,45 +204,48 @@ class EditExpense extends HookConsumerWidget {
                 child: Column(
                   children: paidFor.value
                           ?.map(
-                            (e) => LayoutMemberExpense(
-                              expense: e,
-                              onWeightChange: (value) {
-                                paidFor.value = paidFor.value?.map(
-                                  (member) {
-                                    if (member.member == e.member) {
-                                      member.weight = int.tryParse(value);
-                                      member.amount = null;
-                                    }
-                                    return member;
-                                  },
-                                ).toList();
-                                balanceExpenses();
-                              },
-                              onAmountChange: (value) {
-                                paidFor.value = paidFor.value?.map(
-                                  (member) {
-                                    if (member.member == e.member) {
-                                      member.amount = double.tryParse(value);
-                                      member.weight = null;
-                                    }
-                                    return member;
-                                  },
-                                ).toList();
-                                balanceExpenses();
-                              },
-                              onToggleSelection: (value) {
-                                paidFor.value = paidFor.value?.map(
-                                  (member) {
-                                    if (member.member == e.member) {
-                                      member.selected = value == true;
-                                      member.amount = null;
-                                      member.weight = value == true ? 1 : null;
-                                    }
-                                    return member;
-                                  },
-                                ).toList();
-                                balanceExpenses();
-                              },
+                            (e) => Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: LayoutMemberExpense(
+                                expense: e,
+                                onWeightChange: (value) {
+                                  paidFor.value = paidFor.value?.map(
+                                    (member) {
+                                      if (member.member == e.member) {
+                                        member.weight = int.tryParse(value);
+                                        member.amount = null;
+                                      }
+                                      return member;
+                                    },
+                                  ).toList();
+                                  balanceExpenses();
+                                },
+                                onAmountChange: (value) {
+                                  paidFor.value = paidFor.value?.map(
+                                    (member) {
+                                      if (member.member == e.member) {
+                                        member.amount = double.tryParse(value);
+                                        member.weight = null;
+                                      }
+                                      return member;
+                                    },
+                                  ).toList();
+                                  balanceExpenses();
+                                },
+                                onToggleSelection: (value) {
+                                  paidFor.value = paidFor.value?.map(
+                                    (member) {
+                                      if (member.member == e.member) {
+                                        member.selected = value == true;
+                                        member.amount = null;
+                                        member.weight = value == true ? 1 : null;
+                                      }
+                                      return member;
+                                    },
+                                  ).toList();
+                                  balanceExpenses();
+                                },
+                              ),
                             ),
                           )
                           .toList() ??

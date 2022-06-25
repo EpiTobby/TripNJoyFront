@@ -38,7 +38,7 @@ class GroupExpenses extends HookConsumerWidget {
               data: (data) => data.isEmpty
                   ? Center(
                       child: Text(
-                        AppLocalizations.of(context).translate("groups.budget.expenses.empty"),
+                        AppLocalizations.of(context).translate("groups.budget.empty"),
                         style: TextStyle(fontSize: 22, color: Theme.of(context).colorScheme.primary),
                       ),
                     )
