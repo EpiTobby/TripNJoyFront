@@ -8,7 +8,6 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/edit_activity.screen.dart';
-import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning_activity.widget.dart';
