@@ -60,6 +60,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                     AppLocalizations.of(context).translate("user.gender.woman"),
                     AppLocalizations.of(context).translate("user.gender.other")
                   ],
+                  isError: authViewModel.signupState.isError,
                   onChanged: (value) => gender.value = value),
               InputField(
                   label: AppLocalizations.of(context).translate("user.firstname"),
@@ -76,6 +77,7 @@ class _SignUpState extends ConsumerState<SignUp> {
               DatePicker(
                   label: AppLocalizations.of(context).translate("user.birthDate"),
                   selectedDate: birthDate.value,
+                  isError: authViewModel.signupState.isError,
                   onChanged: (value) => birthDate.value = value),
               InputField(
                   label: AppLocalizations.of(context).translate("user.email"),

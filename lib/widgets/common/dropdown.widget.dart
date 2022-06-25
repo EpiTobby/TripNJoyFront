@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:trip_n_joy_front/widgets/common/input_wrap.widget.dart';
 
 class Dropdown extends StatelessWidget {
-  const Dropdown(
-      {Key? key,
-      required this.label,
-      this.icon,
-      required this.selectedValue,
-      required this.listValue,
-      required this.listLabel,
-      required this.onChanged})
-      : super(key: key);
+  const Dropdown({
+    Key? key,
+    required this.label,
+    this.icon,
+    required this.selectedValue,
+    required this.listValue,
+    required this.listLabel,
+    this.isError = false,
+    required this.onChanged,
+  }) : super(key: key);
   final String label;
   final Icon? icon;
   final String selectedValue;
   final List<String> listValue;
   final List<String> listLabel;
+  final bool isError;
   final Function onChanged;
 
   @override
@@ -23,6 +25,7 @@ class Dropdown extends StatelessWidget {
     return InputWrap(
         label: label,
         icon: icon,
+        isError: isError,
         child: DropdownButton<String>(
             value: getLabelFromValue(selectedValue),
             elevation: 16,
