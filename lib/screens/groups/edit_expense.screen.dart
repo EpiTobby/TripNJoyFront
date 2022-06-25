@@ -256,7 +256,7 @@ class EditExpense extends HookConsumerWidget {
               child: Center(
                 child: InkWell(
                     onTap: () {
-                      showMaterialModalBottomSheet(
+                      showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
                           return InputDialogChoice(

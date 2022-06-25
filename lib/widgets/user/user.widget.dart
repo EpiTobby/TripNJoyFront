@@ -101,7 +101,7 @@ class UserDialog extends HookConsumerWidget {
                       PrimaryButton(
                           text: AppLocalizations.of(context).translate('groups.settings.recommend'),
                           onPressed: () {
-                            showMaterialModalBottomSheet(
+                            showBarModalBottomSheet(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return InputDialog(
@@ -120,17 +120,13 @@ class UserDialog extends HookConsumerWidget {
                       PrimaryButton(
                           text: AppLocalizations.of(context).translate('groups.settings.report'),
                           onPressed: () {
-                            showMaterialModalBottomSheet(
+                            showBarModalBottomSheet(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return InputDialogReport(
-                                      onConfirm: (value, reason) async {
-                                        await reportViewModel
-                                            .submitReport(SubmitReportRequest(
-                                            reportedUserId: user.id,
-                                            reason: reason,
-                                            details: value));
-                                      });
+                                  return InputDialogReport(onConfirm: (value, reason) async {
+                                    await reportViewModel.submitReport(
+                                        SubmitReportRequest(reportedUserId: user.id, reason: reason, details: value));
+                                  });
                                 });
                           },
                           fitContent: true,

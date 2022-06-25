@@ -67,7 +67,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: user.firstname!,
                 onPressed: () {
-                  showMaterialModalBottomSheet(
+                  showBarModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialog(
@@ -85,7 +85,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: user.lastname!,
                 onPressed: () {
-                  showMaterialModalBottomSheet(
+                  showBarModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialog(
@@ -103,7 +103,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: user.email!,
                 onPressed: () {
-                  showMaterialModalBottomSheet(
+                  showBarModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialogEmail(onConfirm: (newEmail, password) async {
@@ -118,7 +118,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: "•••••••••",
                 onPressed: () {
-                  showMaterialModalBottomSheet(
+                  showBarModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialogPassword(onConfirm: (password, newPassword) async {
@@ -133,7 +133,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: user.phoneNumber ?? AppLocalizations.of(context).translate("settings.noPhoneNumber"),
                 onPressed: () {
-                  showMaterialModalBottomSheet(
+                  showBarModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialog(
@@ -152,7 +152,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 value: user.city?.name ?? AppLocalizations.of(context).translate("settings.noCity"),
                 icon: Icons.keyboard_arrow_right_sharp,
                 onPressed: () {
-                  showMaterialModalBottomSheet(
+                  showBarModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialog(
@@ -204,7 +204,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             icon: Icons.close,
             customColor: Theme.of(context).colorScheme.error,
             onPressed: () async {
-              showMaterialModalBottomSheet(
+              showBarModalBottomSheet(
                   context: context,
                   builder: (BuildContext context) {
                     return InputDialog(

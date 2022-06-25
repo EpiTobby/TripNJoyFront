@@ -44,7 +44,7 @@ class PlanningHeader extends ConsumerWidget {
                 editable: group.state != GroupModelState.archived,
                 value: "planning.destination",
                 onPressed: () {
-                  showMaterialModalBottomSheet(
+                  showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return InputDialog(
@@ -66,7 +66,7 @@ class PlanningHeader extends ConsumerWidget {
                     ? ""
                     : "${DateFormat("dd/MM/yyyy").format(group.startOfTrip!)} - ${DateFormat("dd/MM/yyyy").format(group.endOfTrip!)}",
                 onPressed: () {
-                  showMaterialModalBottomSheet(
+                  showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return InputDialogDate(
@@ -91,7 +91,7 @@ class PlanningHeader extends ConsumerWidget {
                 multiline: true,
                 fontSize: 16,
                 onPressed: () {
-                  showMaterialModalBottomSheet(
+                  showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return InputDialog(

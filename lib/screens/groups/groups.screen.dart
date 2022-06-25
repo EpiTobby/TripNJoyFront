@@ -76,7 +76,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
           PopupMenuButton(
             onSelected: (selected) async {
               if (selected == 1) {
-                showMaterialModalBottomSheet(
+                showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return GroupDialog(
