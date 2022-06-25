@@ -134,27 +134,24 @@ class _SignUpState extends ConsumerState<SignUp> {
           ),
         ),
         Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: Column(
-              children: [
-                PrimaryButton(
-                    text: AppLocalizations.of(context).translate("common.signup"),
-                    isLoading: authViewModel.signupState.isLoading,
-                    onPressed: () => authViewModel.signup(SignupCredentials(
-                        gender: gender.value,
-                        firstname: firstname.value,
-                        lastname: lastname.value,
-                        birthDate: birthDate.value.toString(),
-                        email: email.value,
-                        password: password.value,
-                        phoneNumber: phoneNumber.value.isEmpty ? null : phoneNumber.value,
-                        language: AppLocalizations.of(context).locale.languageCode == "en" ? "ENGLISH" : "FRENCH",
-                        city: city.value))),
-                SecondaryButton(
-                    text: AppLocalizations.of(context).translate("common.back"),
-                    onPressed: () => authViewModel.goToLogin()),
-              ],
-            )),
+          padding: const EdgeInsets.only(top: 30),
+          child: PrimaryButton(
+            text: AppLocalizations.of(context).translate("common.signup"),
+            isLoading: authViewModel.signupState.isLoading,
+            onPressed: () => authViewModel.signup(
+              SignupCredentials(
+                  gender: gender.value,
+                  firstname: firstname.value,
+                  lastname: lastname.value,
+                  birthDate: birthDate.value.toString(),
+                  email: email.value,
+                  password: password.value,
+                  phoneNumber: phoneNumber.value.isEmpty ? null : phoneNumber.value,
+                  language: AppLocalizations.of(context).locale.languageCode == "en" ? "ENGLISH" : "FRENCH",
+                  city: city.value),
+            ),
+          ),
+        ),
       ],
     );
   }
