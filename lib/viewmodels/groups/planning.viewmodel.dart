@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
@@ -38,7 +39,7 @@ class PlanningViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getSuggestedActivities(String category, LatLng coordinates) async {
+  void getSuggestedActivities(String category, GeoPoint coordinates) async {
     logger.d('Getting suggested activities for category: $category and coordinates: $coordinates');
     suggestedActivities = const AsyncValue.loading();
     notifyListeners();
