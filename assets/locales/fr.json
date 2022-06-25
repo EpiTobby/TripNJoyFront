@@ -289,15 +289,18 @@
       "title": "Planning",
       "destination": {
         "title": "Destination",
-        "edit": "Modifier la destination"
+        "edit": "Modifier la destination",
+        "empty": "Aucune destination"
       },
       "date": {
         "title": "Date",
-        "edit": "Modifier la date"
+        "edit": "Modifier la date",
+        "empty": "Aucune date définie"
       },
       "note": {
         "title": "Note",
-        "edit": "Modifier la note"
+        "edit": "Modifier la note",
+        "empty": "Aucune note"
       },
       "activity": {
         "title": "Activité",
