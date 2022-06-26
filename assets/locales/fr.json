@@ -246,6 +246,10 @@
         "innapropriateBehavior": "Mauvais comportement",
         "hygieneProblem": "Problème de hygiène",
         "other": "Autre"
+      },
+      "end": {
+        "title": "Votre voyage est terminé !",
+        "subtitle": "Nous espérons que vous avez passé un bon moment !"
       }
     },
     "create": "Créer un groupe",

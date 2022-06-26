@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/screens/groups/end_of_trip.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/group_chat.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/group_chat_container.screen.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
@@ -38,6 +39,15 @@ class GroupList extends StatelessWidget {
                         builder: (_) => GroupChatContainer(groupId: group.id!.toInt()),
                       ),
                     );
+                    if (group.state == GroupModelState.closed &&
+                        group.endOfTrip?.add(const Duration(days: 1)).isBefore(DateTime.now()) == true) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => EndOfTrip(groupId: group.id!.toInt()),
+                        ),
+                      );
+                    }
                   },
                 ))
             .toList()
