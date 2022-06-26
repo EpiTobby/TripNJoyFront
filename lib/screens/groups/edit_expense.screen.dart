@@ -260,7 +260,7 @@ class EditExpense extends HookConsumerWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return InputDialogChoice(
-                            title: AppLocalizations.of(context).translate('groups.budget.edit.delete.confirm'),
+                            title: AppLocalizations.of(context).translate('groups.budget.expenses.delete.confirm'),
                             cancelChoice: AppLocalizations.of(context).translate('common.decline'),
                             confirmChoice: AppLocalizations.of(context).translate('common.delete'),
                             onConfirm: (value) async {
@@ -274,7 +274,7 @@ class EditExpense extends HookConsumerWidget {
                         },
                       );
                     },
-                    child: Text(AppLocalizations.of(context).translate("groups.budget.edit.delete.title"),
+                    child: Text(AppLocalizations.of(context).translate("groups.budget.expenses.delete.title"),
                         style: TextStyle(color: Theme.of(context).colorScheme.tertiary))),
               ),
             ),

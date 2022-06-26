@@ -6,6 +6,7 @@ import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/group/member_expense.dart';
+import 'package:trip_n_joy_front/providers/groups/budget.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
@@ -31,10 +32,12 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
 
+    final budgetViewModel = ref.watch(budgetProvider);
+
     final icon = useState(Icons.add_shopping_cart);
     final name = useState("");
     final paidBy = useState(group.members?.first);
-    final paidFor = useState(group.members?.map((e) => MemberExpense(member: e, weight: 1)));
+    final paidFor = useState(group.members?.map((e) => MemberExpense(member: e, weight: 1)).toList());
 
     final articles = scanReceipt!.items;
     final total =
@@ -42,7 +45,28 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
 
     final payTotal = useState(true);
 
-    final articlesParticipants = useState<Map<String, int>>({});
+    final articlesParticipants = useState<Map<String, List<int>>>(
+        articles!.map((key, value) => MapEntry(key, group.members!.map((e) => e.id!.toInt()).toList())));
+
+    void balanceExpenses() {
+      paidFor.value = budgetViewModel.balanceExpenses(total, paidFor.value);
+    }
+
+    balanceExpenses();
+
+    bool isExpenseTotalValid() {
+      final foldAmount =
+          paidFor.value!.fold(0.0, (double previousValue, element) => previousValue + (element.amount ?? 0));
+
+      return paidBy.value != null &&
+          paidFor.value != null &&
+          paidFor.value!.every((element) => element.amount == null || element.amount! > 0) &&
+          foldAmount == total;
+    }
+
+    bool isExpensePerArticleValid() {
+      return articlesParticipants.value.values.every((members) => members.isNotEmpty);
+    }
 
     return ListView(
       shrinkWrap: true,
@@ -119,7 +143,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: Column(
-                  children: articles!.keys
+                  children: articles.keys
                       .map((key) => Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -143,11 +167,15 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                                                 name: "${e.firstname} ${e.lastname}",
                                                 avatarUrl:
                                                     MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
-                                                isSelected: articlesParticipants.value[key] == e.id!.toInt(),
+                                                isSelected: articlesParticipants.value[key]!.contains(e.id!.toInt()),
                                                 onTap: (value) {
                                                   articlesParticipants.value = articlesParticipants.value.map(
-                                                      (k, value) =>
-                                                          k != key ? MapEntry(k, value) : MapEntry(k, e.id!.toInt()));
+                                                      (k, val) => k != key
+                                                          ? MapEntry(k, val)
+                                                          : (value
+                                                              ? MapEntry(k, [...val, e.id!.toInt()])
+                                                              : MapEntry(
+                                                                  k, val.where((m) => m != e.id!.toInt()).toList())));
                                                 },
                                               ),
                                             )
@@ -175,24 +203,30 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                           ?.map(
                             (e) => LayoutMemberExpense(
                               expense: e,
-                              onWeightChange: (value) => paidFor.value = paidFor.value?.map(
-                                (member) {
-                                  if (member.member == e.member) {
-                                    member.weight = int.tryParse(value);
-                                    member.amount = null;
-                                  }
-                                  return member;
-                                },
-                              ),
-                              onAmountChange: (value) => paidFor.value = paidFor.value?.map(
-                                (member) {
-                                  if (member.member == e.member) {
-                                    member.amount = double.tryParse(value);
-                                    member.weight = null;
-                                  }
-                                  return member;
-                                },
-                              ),
+                              onWeightChange: (value) {
+                                paidFor.value = paidFor.value?.map(
+                                  (member) {
+                                    if (member.member == e.member) {
+                                      member.weight = int.tryParse(value);
+                                      member.amount = null;
+                                    }
+                                    return member;
+                                  },
+                                ).toList();
+                                balanceExpenses();
+                              },
+                              onAmountChange: (value) {
+                                paidFor.value = paidFor.value?.map(
+                                  (member) {
+                                    if (member.member == e.member) {
+                                      member.amount = double.tryParse(value);
+                                      member.weight = null;
+                                    }
+                                    return member;
+                                  },
+                                ).toList();
+                                balanceExpenses();
+                              },
                               onToggleSelection: (value) {
                                 paidFor.value = paidFor.value?.map(
                                   (member) {
@@ -204,6 +238,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                                     return member;
                                   },
                                 ).toList();
+                                balanceExpenses();
                               },
                             ),
                           )
@@ -213,10 +248,41 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
               ),
             ),
           ),
-        if (name.value.isNotEmpty)
+        if (name.value.isNotEmpty &&
+            ((payTotal.value && isExpenseTotalValid()) || (!payTotal.value && isExpensePerArticleValid())))
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: PrimaryButton(text: AppLocalizations.of(context).translate('common.submit'), onPressed: () {}),
+            child: PrimaryButton(
+                text: AppLocalizations.of(context).translate('common.submit'),
+                onPressed: () async {
+                  Map<String, dynamic> json = {
+                    'description': name.value,
+                    'icon': icon.value.codePoint.toString(),
+                    'total': total,
+                  };
+
+                  if (payTotal.value) {
+                    json['moneyDueByEachUser'] = paidFor.value!
+                        .where((element) => element.selected)
+                        .map((element) => MoneyDueRequest(userId: element.member.id, money: element.amount).toJson())
+                        .toList();
+
+                    json['evenlyDivided'] = paidFor.value!.every((element) => element.weight == 1);
+                  } else {
+                    json['moneyDueByEachUser'] = group.members!.map((e) {
+                      var amountToPay = 0.0;
+                      articlesParticipants.value.forEach((key, value) {
+                        if (value.contains(e.id!.toInt())) {
+                          amountToPay += articles[key] / value.length;
+                        }
+                      });
+
+                      return MoneyDueRequest(userId: e.id, money: amountToPay).toJson();
+                    }).toList();
+                  }
+                  await budgetViewModel.addExpense(groupId, paidBy.value!.id, ExpenseRequest.fromJson(json));
+                  Navigator.of(context).pop();
+                }),
           ),
       ],
     );
