@@ -43,31 +43,21 @@ class _SignUpState extends ConsumerState<SignUp> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Stack(
-          children: [
-            InkWell(
-              onTap: () => authViewModel.goToLogin(),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary),
-                  Text(
-                    AppLocalizations.of(context).translate("common.back"),
-                    style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                  ),
-                ],
-              ),
-            ),
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 20),
-                child: Text(
-                  'TripNJoy',
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: InkWell(
+            onTap: () => authViewModel.goToLogin(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary),
+                Text(
+                  AppLocalizations.of(context).translate("common.back"),
+                  style: TextStyle(color: Theme.of(context).colorScheme.primary),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
         Expanded(
           child: ListView(

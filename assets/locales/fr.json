@@ -1,6 +1,7 @@
 {
   "common": {
     "login": "Se connecter",
+    "signup": "S'inscrire",
     "logout": "Se déconnecter",
     "reconnect": "Se reconnecter",
     "description": "Description",
