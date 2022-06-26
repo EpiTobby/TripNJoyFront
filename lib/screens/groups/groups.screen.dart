@@ -55,12 +55,12 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
                     builder: (BuildContext context) {
                       return GroupDialog(
                         onConfirm: (name, maxSize) {
-                          ref.read(groupProvider).createPrivateGroup(name, maxSize);
+                          groupViewModel.createPrivateGroup(name, maxSize);
                         },
                       );
                     });
               } else if (selected == 2) {
-                final groupInvitations = await ref.read(groupProvider).getUserInvitesGroups();
+                final groupInvitations = await groupViewModel.getUserInvitesGroups();
                 Navigator.push(context, MaterialPageRoute(builder: (_) => GroupsInvitations(groups: groupInvitations)));
               }
             },
