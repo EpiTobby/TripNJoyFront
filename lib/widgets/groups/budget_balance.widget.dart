@@ -19,7 +19,7 @@ class BudgetBalance extends StatelessWidget {
     final money = balance.money ?? 0;
     final positiveMoney = money.isNegative ? -money : money;
     final widthPercent = max(positiveMoney / total, 0.1);
-    const screenPadding = 64;
+    const screenPadding = 72;
     final widthByScreen = widthPercent * (MediaQuery.of(context).size.width - screenPadding);
     const threshold = 0.3;
     final exceedThreshold = widthPercent > threshold;

@@ -18,6 +18,7 @@ class BudgetBalances extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final budgetViewModel = ref.watch(budgetProvider);
     final balances = budgetViewModel.balances;
+    final expenses = budgetViewModel.expenses;
 
     useEffect(() {
       Future.microtask(() => ref.read(budgetProvider).getBudgetBalance(groupId));
@@ -28,7 +29,20 @@ class BudgetBalances extends HookConsumerWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: data.map((e) => BudgetBalance(balance: e, total: 100)).toList(),
+          children: data
+              .map(
+                (e) => BudgetBalance(
+                  balance: e,
+                  total: data.fold(
+                    0,
+                    (prev, next) {
+                      final money = (next.money ?? 0).abs();
+                      return money > prev ? money : prev;
+                    },
+                  ),
+                ),
+              )
+              .toList(),
         ),
       ),
       loading: () => const Center(child: CircularProgressIndicator()),
