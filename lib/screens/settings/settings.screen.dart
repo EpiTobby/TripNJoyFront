@@ -211,7 +211,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         title: AppLocalizations.of(context).translate("settings.confirmDeleteAccount"),
                         label: AppLocalizations.of(context).translate("user.password"),
                         isPassword: true,
-                        initialValue: user.lastname!,
+                        initialValue: '',
                         onConfirm: (value) async {
                           final success =
                               await userViewModel.deleteUser(authViewModel.token!, DeleteUserRequest(password: value));
