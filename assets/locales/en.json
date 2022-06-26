@@ -1,6 +1,7 @@
 {
   "common": {
-    "login": "Connect",
+    "login": "Login",
+    "signup": "Signup",
     "logout": "Disconnect",
     "reconnect": "Reconnect",
     "description": "Description",
@@ -24,7 +25,8 @@
     "date": "Date",
     "time": "Time",
     "startDate": "Start date",
-    "endDate": "End date"
+    "endDate": "End date",
+    "or": "or"
   },
   "user": {
     "firstname": "Firstname",
@@ -292,15 +294,18 @@
       "title": "Planning",
       "destination": {
         "title": "Destination",
-        "edit": "Edit the destination"
+        "edit": "Edit the destination",
+        "empty": "No destination"
       },
       "date": {
         "title": "Date",
-        "edit": "Edit the date"
+        "edit": "Edit the date",
+        "empty": "No date set"
       },
       "note": {
         "title": "Note",
-        "edit": "Edit the note"
+        "edit": "Edit the note",
+        "empty": "No note"
       },
       "activity": {
         "title": "Activity",
@@ -381,6 +386,7 @@
     },
     "budget": {
       "title": "Budget",
+      "empty": "No expenses yet",
       "expenses": {
         "title": "Expenses",
         "paid_by": "Paid by $name",

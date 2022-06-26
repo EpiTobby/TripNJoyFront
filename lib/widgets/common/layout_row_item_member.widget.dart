@@ -32,16 +32,20 @@ class LayoutRowItemMember extends StatelessWidget {
                 radius: 24,
               ),
             ),
-            SizedBox(
-              width: 64,
-              child: Text(
-                name,
-                maxLines: 2,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    color: isSelected ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary,
-                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: SizedBox(
+                width: 64,
+                child: Text(
+                  name,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color:
+                          isSelected ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary,
+                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal),
+                ),
               ),
             ),
           ],

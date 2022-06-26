@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/screens/auth/forgot_password.screen.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 
-class InputField extends StatefulHookWidget {
+class InputField extends HookConsumerWidget {
   const InputField({
     Key? key,
     this.label,
@@ -12,10 +16,12 @@ class InputField extends StatefulHookWidget {
     this.textCapitalization = TextCapitalization.sentences,
     this.icon,
     this.isPassword = false,
+    this.displayForgotPassword = false,
     this.isError = false,
     this.inputFormatters,
     this.controller,
     this.multiline = false,
+    this.textInputAction,
     this.onEditingComplete,
   }) : super(key: key);
 
@@ -26,90 +32,110 @@ class InputField extends StatefulHookWidget {
   final TextInputType keyboardType;
   final TextCapitalization textCapitalization;
   final bool isPassword;
+  final bool displayForgotPassword;
   final bool isError;
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
   final bool multiline;
+  final TextInputAction? textInputAction;
   final Future<void> Function()? onEditingComplete;
 
   @override
-  State<InputField> createState() => _InputFieldState();
-}
-
-class _InputFieldState extends State<InputField> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isVisible = useState(false);
+    final backgroundColor = useState(Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1));
+    final focusNode = useFocusNode();
+
+    focusNode.addListener(() {
+      if (focusNode.hasFocus) {
+        backgroundColor.value = Theme.of(context).colorScheme.secondaryContainer;
+      } else {
+        backgroundColor.value = Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1);
+      }
+    });
     return Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (widget.label != null)
-              Padding(
-                  padding: const EdgeInsets.only(bottom: 5, left: 10),
-                  child: Text(
-                    widget.label!,
-                    style: TextStyle(
-                      color:
-                          widget.isError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
-            TextField(
-              onChanged: widget.onChanged,
-              controller: widget.controller,
-              obscureText: widget.isPassword && !isVisible.value,
-              keyboardType: widget.multiline ? TextInputType.multiline : widget.keyboardType,
-              inputFormatters: widget.inputFormatters,
-              textCapitalization: widget.isPassword ? TextCapitalization.none : widget.textCapitalization,
-              maxLines: widget.multiline ? 10 : 1,
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.all(15),
-                prefixIcon: widget.icon,
-                prefixIconColor:
-                    widget.isError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.secondary,
-                suffixIcon: widget.isPassword
-                    ? IconButton(
-                        splashRadius: 15,
-                        icon: Icon(
-                          isVisible.value ? Icons.visibility : Icons.visibility_off,
-                          color: widget.isError
-                              ? Theme.of(context).colorScheme.error
-                              : Theme.of(context).colorScheme.primaryContainer,
-                        ),
-                        onPressed: () {
-                          isVisible.value = !isVisible.value;
-                        },
-                      )
-                    : null,
-                labelText: widget.hint,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                  borderSide: BorderSide(
-                    width: 2,
-                    color: widget.isError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                  borderSide: BorderSide(
-                      width: 2,
-                      color: widget.isError
-                          ? Theme.of(context).colorScheme.error
-                          : Theme.of(context).colorScheme.secondary),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                  borderSide: BorderSide(width: 2, color: Theme.of(context).colorScheme.tertiary),
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (label != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 5, left: 10),
+              child: Text(
+                label!,
+                style: TextStyle(
+                  color: isError
+                      ? Theme.of(context).colorScheme.error
+                      : Theme.of(context).colorScheme.primary.withOpacity(0.7),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              onEditingComplete: widget.onEditingComplete,
-            )
-          ],
-        ));
+            ),
+          TextField(
+            onChanged: onChanged,
+            controller: controller,
+            obscureText: isPassword && !isVisible.value,
+            keyboardType: multiline ? TextInputType.multiline : keyboardType,
+            inputFormatters: inputFormatters,
+            textCapitalization: isPassword ? TextCapitalization.none : textCapitalization,
+            maxLines: multiline ? 10 : 1,
+            focusNode: focusNode,
+            textInputAction: textInputAction,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(15),
+              prefixIcon: icon,
+              prefixIconColor: isError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.secondary,
+              suffixIcon: isPassword
+                  ? IconButton(
+                      splashRadius: 15,
+                      icon: Icon(
+                        isVisible.value ? Icons.visibility : Icons.visibility_off,
+                        color: isError
+                            ? Theme.of(context).colorScheme.error
+                            : Theme.of(context).colorScheme.primaryContainer,
+                      ),
+                      onPressed: () {
+                        isVisible.value = !isVisible.value;
+                      },
+                    )
+                  : null,
+              hintText: hint,
+              filled: true,
+              fillColor: isError ? Theme.of(context).colorScheme.errorContainer : backgroundColor.value,
+              enabledBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                borderSide: BorderSide(
+                  width: 2,
+                  color: Colors.transparent,
+                ),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                borderSide: BorderSide(
+                  width: 2,
+                  color: Colors.transparent,
+                ),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                borderSide: BorderSide(width: 2, color: Theme.of(context).colorScheme.tertiary),
+              ),
+            ),
+            onEditingComplete: onEditingComplete,
+          ),
+          if (isPassword && displayForgotPassword)
+            Align(
+              alignment: Alignment.topRight,
+              child: TertiaryButton(
+                  text: AppLocalizations.of(context).translate("auth.forgotPassword"),
+                  onPressed: () =>
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgotPassword()))),
+            ),
+        ],
+      ),
+    );
   }
 }

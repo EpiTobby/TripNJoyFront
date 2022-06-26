@@ -4,10 +4,16 @@ import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/widgets/common/input_wrap.widget.dart';
 
 class TimePicker extends StatelessWidget {
-  const TimePicker({Key? key, required this.label, required this.selectedTime, required this.onChanged})
-      : super(key: key);
+  const TimePicker({
+    Key? key,
+    required this.label,
+    required this.selectedTime,
+    this.isError = false,
+    required this.onChanged,
+  }) : super(key: key);
   final String label;
   final TimeOfDay selectedTime;
+  final bool isError;
   final ValueChanged<TimeOfDay> onChanged;
 
   @override
@@ -15,6 +21,7 @@ class TimePicker extends StatelessWidget {
     return InputWrap(
       label: label,
       icon: const Icon(Icons.date_range),
+      isError: isError,
       child: GestureDetector(
         child: Text(selectedTime.format(context)),
         onTap: () async {

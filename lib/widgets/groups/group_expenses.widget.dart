@@ -35,14 +35,21 @@ class GroupExpenses extends HookConsumerWidget {
           children: [
             AsyncValueWidget<List<ExpenseModel>>(
               value: expenses,
-              data: (data) => Column(
-                children: data
-                    .map((e) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: BudgetExpense(groupId: groupId, expense: e),
-                        ))
-                    .toList(),
-              ),
+              data: (data) => data.isEmpty
+                  ? Center(
+                      child: Text(
+                        AppLocalizations.of(context).translate("groups.budget.empty"),
+                        style: TextStyle(fontSize: 22, color: Theme.of(context).colorScheme.primary),
+                      ),
+                    )
+                  : Column(
+                      children: data
+                          .map((e) => Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: BudgetExpense(groupId: groupId, expense: e),
+                              ))
+                          .toList(),
+                    ),
             ),
           ],
         )

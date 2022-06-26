@@ -93,18 +93,20 @@ class GroupPlanning extends HookConsumerWidget {
           ),
         ],
       ),
-
-      floatingActionButtonLocation: group.state != GroupModelState.archived ? FloatingActionButtonLocation.endFloat : null,
-      floatingActionButton: group.state != GroupModelState.archived ? FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddActivity(groupId: groupId)));
-        },
-        child: Icon(
-          Icons.add,
-          color: Theme.of(context).colorScheme.onSecondary,
-        ),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-      ): null,
+      floatingActionButtonLocation:
+          group.state != GroupModelState.archived ? FloatingActionButtonLocation.endFloat : null,
+      floatingActionButton: group.state != GroupModelState.archived
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddActivity(groupId: groupId)));
+              },
+              child: Icon(
+                Icons.add,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+            )
+          : null,
     );
   }
 }

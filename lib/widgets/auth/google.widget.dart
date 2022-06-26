@@ -29,14 +29,14 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> {
           : OutlinedButton(
               style: ButtonStyle(
                 side: MaterialStateProperty.all(
-                  BorderSide(
+                  const BorderSide(
                     width: 2.0,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Colors.transparent,
                     style: BorderStyle.solid,
                   ),
                 ),
                 overlayColor: MaterialStateProperty.all(Colors.blue),
-                backgroundColor: MaterialStateProperty.all(Colors.white),
+                backgroundColor: MaterialStateProperty.all(Colors.transparent),
                 shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
@@ -63,9 +63,9 @@ class _GoogleSignInButtonState extends ConsumerState<GoogleSignInButton> {
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
                         AppLocalizations.of(context).translate("auth.google.login"),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black54,
+                          color: Theme.of(context).colorScheme.primaryContainer,
                           fontWeight: FontWeight.w600,
                         ),
                       ),

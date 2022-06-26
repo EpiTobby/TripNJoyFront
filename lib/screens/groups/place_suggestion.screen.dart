@@ -60,7 +60,7 @@ class PlaceSuggestion extends HookConsumerWidget {
                     controller: searchController,
                     onEditingComplete: () async {
                       List<SearchInfo> suggestions = await addressSuggestion(searchController.text);
-                      showMaterialModalBottomSheet(
+                      showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
                           return ListDialog(

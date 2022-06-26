@@ -42,9 +42,9 @@ class PlanningHeader extends ConsumerWidget {
               title: AppLocalizations.of(context).translate("groups.planning.destination.title"),
               child: LayoutItemValue(
                 editable: group.state != GroupModelState.archived,
-                value: "planning.destination",
+                value: AppLocalizations.of(context).translate("groups.planning.destination.empty"),
                 onPressed: () {
-                  showMaterialModalBottomSheet(
+                  showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return InputDialog(
@@ -63,10 +63,10 @@ class PlanningHeader extends ConsumerWidget {
               child: LayoutItemValue(
                 editable: group.state != GroupModelState.archived,
                 value: group.startOfTrip == null || group.endOfTrip == null
-                    ? ""
+                    ? AppLocalizations.of(context).translate("groups.planning.date.empty")
                     : "${DateFormat("dd/MM/yyyy").format(group.startOfTrip!)} - ${DateFormat("dd/MM/yyyy").format(group.endOfTrip!)}",
                 onPressed: () {
-                  showMaterialModalBottomSheet(
+                  showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return InputDialogDate(
@@ -87,11 +87,11 @@ class PlanningHeader extends ConsumerWidget {
               title: AppLocalizations.of(context).translate("groups.planning.note.title"),
               child: LayoutItemValue(
                 editable: group.state != GroupModelState.archived,
-                value: group.description ?? '',
+                value: group.description ?? AppLocalizations.of(context).translate("groups.planning.note.empty"),
                 multiline: true,
                 fontSize: 16,
                 onPressed: () {
-                  showMaterialModalBottomSheet(
+                  showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return InputDialog(

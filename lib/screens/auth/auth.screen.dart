@@ -20,9 +20,14 @@ class _AuthState extends ConsumerState<Auth> {
   Widget build(BuildContext context) {
     final step = ref.watch(authProvider).step;
     return Scaffold(
-        body: Center(
-            child: Padding(
-                padding: const EdgeInsets.all(30),
-                child: step == AuthStep.LOGIN ? Login(parentContext: context) : SignUp(parentContext: context))));
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(30),
+            child: step == AuthStep.LOGIN ? Login(parentContext: context) : SignUp(parentContext: context),
+          ),
+        ),
+      ),
+    );
   }
 }

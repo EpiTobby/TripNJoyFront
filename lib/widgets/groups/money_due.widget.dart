@@ -43,7 +43,10 @@ class MoneyDue extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Text(
                         AppLocalizations.of(context).translate("groups.budget.reimbursement.owes"),
-                        style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                        style: TextStyle(
+                            color: owed
+                                ? Theme.of(context).colorScheme.secondary
+                                : Theme.of(context).colorScheme.tertiary),
                       ),
                     ),
                     Text(
@@ -57,7 +60,9 @@ class MoneyDue extends StatelessWidget {
                 child: Text(
                   "${(amount ?? 0).toStringAsFixed(2)}€",
                   style: TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.secondary),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: owed ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.tertiary),
                 ),
               ),
             ],

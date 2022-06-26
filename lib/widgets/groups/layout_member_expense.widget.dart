@@ -33,18 +33,49 @@ class LayoutMemberExpense extends HookConsumerWidget {
       return null;
     }, [expense.amount]);
 
+    final decorator = InputDecoration(
+      filled: true,
+      fillColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1),
+      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+      enabledBorder: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        borderSide: BorderSide(
+          width: 2,
+          color: Colors.transparent,
+        ),
+      ),
+      focusedBorder: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        borderSide: BorderSide(
+          width: 2,
+          color: Colors.transparent,
+        ),
+      ),
+      disabledBorder: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        borderSide: BorderSide(
+          width: 2,
+          color: Colors.transparent,
+        ),
+      ),
+    );
+
     return Row(
       children: [
-        Checkbox(value: expense.selected, onChanged: onToggleSelection),
+        Checkbox(
+            value: expense.selected,
+            onChanged: onToggleSelection,
+            activeColor: Theme.of(context).colorScheme.secondary),
         Expanded(
           child: Text(
             "${expense.member.firstname} ${expense.member.lastname}",
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.primary),
           ),
         ),
         SizedBox(
           width: 32,
           child: TextField(
+            decoration: decorator,
             controller: weightController,
             textAlign: TextAlign.center,
             keyboardType: TextInputType.number,
@@ -58,6 +89,7 @@ class LayoutMemberExpense extends HookConsumerWidget {
           child: SizedBox(
             width: 80,
             child: TextField(
+              decoration: decorator,
               controller: amountController,
               textAlign: TextAlign.end,
               keyboardType: TextInputType.number,

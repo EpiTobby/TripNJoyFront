@@ -67,31 +67,21 @@ class _InputDialogPasswordState extends State<InputDialogEmail> {
               )),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    TertiaryButton(
-                      text: AppLocalizations.of(context).translate("common.cancel"),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                    PrimaryButton(
-                      text: status.value.isError
-                          ? AppLocalizations.of(context).translate("common.tryAgain")
-                          : AppLocalizations.of(context).translate("common.submit"),
-                      isLoading: status.value.isLoading,
-                      onPressed: () async {
-                        status.value = const AsyncLoading();
-                        try {
-                          await widget.onConfirm(newEmail.value, password.value);
-                          status.value = const AsyncData(null);
-                          Navigator.of(context).pop();
-                        } catch (e) {
-                          status.value = AsyncError(e);
-                        }
-                      },
-                      fitContent: true,
-                    ),
-                  ],
+                child: PrimaryButton(
+                  text: status.value.isError
+                      ? AppLocalizations.of(context).translate("common.tryAgain")
+                      : AppLocalizations.of(context).translate("common.submit"),
+                  isLoading: status.value.isLoading,
+                  onPressed: () async {
+                    status.value = const AsyncLoading();
+                    try {
+                      await widget.onConfirm(newEmail.value, password.value);
+                      status.value = const AsyncData(null);
+                      Navigator.of(context).pop();
+                    } catch (e) {
+                      status.value = AsyncError(e);
+                    }
+                  },
                 ),
               ),
             ]),

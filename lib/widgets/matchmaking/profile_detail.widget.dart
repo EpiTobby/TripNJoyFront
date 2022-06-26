@@ -53,7 +53,7 @@ class ProfileDetail extends ConsumerWidget {
               value: profileModel.name!,
               editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
               onPressed: () {
-                showMaterialModalBottomSheet(
+                showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return InputDialog(
@@ -86,7 +86,7 @@ class ProfileDetail extends ConsumerWidget {
                   .join(' ; '),
               editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
               onPressed: () {
-                showMaterialModalBottomSheet(
+                showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return Card(
@@ -119,7 +119,7 @@ class ProfileDetail extends ConsumerWidget {
                   }),
                   editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
-                    showMaterialModalBottomSheet(
+                    showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
                           return Card(
@@ -156,7 +156,7 @@ class ProfileDetail extends ConsumerWidget {
                   }),
                   editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
-                    showMaterialModalBottomSheet(
+                    showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
                           return Card(
@@ -194,7 +194,7 @@ class ProfileDetail extends ConsumerWidget {
                   }),
                   editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
-                    showMaterialModalBottomSheet(
+                    showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
                           return Card(
@@ -232,7 +232,7 @@ class ProfileDetail extends ConsumerWidget {
                   }),
                   editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
-                    showMaterialModalBottomSheet(
+                    showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
                           return Card(
@@ -266,7 +266,7 @@ class ProfileDetail extends ConsumerWidget {
                   value: AppLocalizations.of(context).translate('cards.gender.${profileModel.gender!.name}'),
                   editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
-                    showMaterialModalBottomSheet(
+                    showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
                           return Card(
@@ -291,7 +291,7 @@ class ProfileDetail extends ConsumerWidget {
                       "cards.travelWithPersonSameLanguage.${profileModel.travelWithPersonSameLanguage!.name}"),
                   editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
-                    showMaterialModalBottomSheet(
+                    showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
                           return Card(
@@ -316,7 +316,7 @@ class ProfileDetail extends ConsumerWidget {
                       "cards.travelWithPersonFromSameCountry.${profileModel.travelWithPersonFromSameCountry!.name}"),
                   editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
-                    showMaterialModalBottomSheet(
+                    showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
                           return Card(
@@ -342,7 +342,7 @@ class ProfileDetail extends ConsumerWidget {
                       "cards.travelWithPersonFromSameCity.${profileModel.travelWithPersonFromSameCity!.name}"),
                   editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
-                    showMaterialModalBottomSheet(
+                    showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
                           return Card(
@@ -368,7 +368,7 @@ class ProfileDetail extends ConsumerWidget {
                       .join(', '),
                   editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
                   onPressed: () {
-                    showMaterialModalBottomSheet(
+                    showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
                           return Card(
@@ -395,7 +395,7 @@ class ProfileDetail extends ConsumerWidget {
               value: AppLocalizations.of(context).translate("cards.sport.${profileModel.sport!.name}"),
               editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
               onPressed: () {
-                showMaterialModalBottomSheet(
+                showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return Card(
@@ -421,7 +421,7 @@ class ProfileDetail extends ConsumerWidget {
               value: AppLocalizations.of(context).translate("cards.goOutAtNight.${profileModel.goOutAtNight!.name}"),
               editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
               onPressed: () {
-                showMaterialModalBottomSheet(
+                showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return Card(
@@ -447,7 +447,7 @@ class ProfileDetail extends ConsumerWidget {
               value: AppLocalizations.of(context).translate("cards.aboutFood.${profileModel.aboutFood!.name}"),
               editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
               onPressed: () {
-                showMaterialModalBottomSheet(
+                showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return Card(
@@ -473,7 +473,7 @@ class ProfileDetail extends ConsumerWidget {
               value: AppLocalizations.of(context).translate("cards.chillOrVisit.${profileModel.chillOrVisit!.name}"),
               editable: matchmakingStatus != MatchmakingStatus.WAITING_MATCHMAKING,
               onPressed: () {
-                showMaterialModalBottomSheet(
+                showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return Card(
