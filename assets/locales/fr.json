@@ -27,7 +27,8 @@
     "startDate": "Date de début",
     "endDate": "Date de fin",
     "gallery": "Galerie",
-    "or": "ou"
+    "or": "ou",
+    "me": "moi"
   },
   "user": {
     "firstname": "Prénom",

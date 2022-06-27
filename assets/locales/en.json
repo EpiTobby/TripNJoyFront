@@ -27,7 +27,8 @@
     "startDate": "Start date",
     "endDate": "End date",
     "gallery": "Gallery",
-    "or": "or"
+    "or": "or",
+    "me": "me"
   },
   "user": {
     "firstname": "Firstname",

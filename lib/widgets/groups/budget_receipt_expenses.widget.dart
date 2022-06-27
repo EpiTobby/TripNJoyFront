@@ -40,13 +40,13 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
     final paidFor = useState(group.members?.map((e) => MemberExpense(member: e, weight: 1)).toList());
 
     final articles = scanReceipt!.items;
-    final total =
-        scanReceipt!.total != 0 ? scanReceipt!.total : articles!.values.reduce((acc, article) => acc + article);
+    final sumArticles = articles!.values.reduce((acc, article) => acc + article);
+    final total = scanReceipt!.total ?? sumArticles;
 
     final payTotal = useState(true);
 
     final articlesParticipants = useState<Map<String, List<int>>>(
-        articles!.map((key, value) => MapEntry(key, group.members!.map((e) => e.id!.toInt()).toList())));
+        articles.map((key, value) => MapEntry(key, group.members!.map((e) => e.id!.toInt()).toList())));
 
     void balanceExpenses() {
       paidFor.value = budgetViewModel.balanceExpenses(total, paidFor.value);
@@ -123,7 +123,14 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text('Total: $total€', style: const TextStyle(fontSize: 24)),
+            Column(
+              children: [
+                Text('Total: $total€', style: const TextStyle(fontSize: 24)),
+                if (!payTotal.value && sumArticles != total)
+                  Text('Missing ${((total - sumArticles) as double).toStringAsFixed(2)}€',
+                      style: const TextStyle(fontSize: 16, color: Colors.red)),
+              ],
+            ),
             PrimaryButton(
               text: payTotal.value
                   ? AppLocalizations.of(context).translate("groups.scan.perArticle")
@@ -149,10 +156,21 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 8.0),
-                                child: Text(
-                                  '$key: ${articles[key]}€',
-                                  style: const TextStyle(fontSize: 18),
-                                  textAlign: TextAlign.start,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '$key: ${articles[key]}€',
+                                      style: const TextStyle(fontSize: 18),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    SecondaryButton(
+                                      text: 'Adjust',
+                                      onPressed: () {
+                                      },
+                                      fitContent: true,
+                                    ),
+                                  ],
                                 ),
                               ),
                               Padding(
