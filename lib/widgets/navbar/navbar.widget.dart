@@ -62,7 +62,7 @@ class Navbar extends HookConsumerWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.secondaryContainer,
             blurRadius: 20,
             offset: const Offset(0, -5),
           ),

@@ -75,27 +75,14 @@ class _InputDialogChoiceState extends State<InputDialogChoice> {
                   ),
                 ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    TertiaryButton(
-                      text: widget.cancelChoice,
-                      isLoading: status.value.isLoading,
-                      onPressed: () async {
-                        pressButton(status, false, context);
-                      },
-                    ),
-                    PrimaryButton(
-                      text: widget.confirmChoice,
-                      isLoading: status.value.isLoading,
-                      onPressed: () async {
-                        pressButton(status, true, context);
-                      },
-                      fitContent: true,
-                      color: widget.delete ? Theme.of(context).colorScheme.tertiary : null,
-                    ),
-                  ],
+                padding: const EdgeInsets.all(16.0),
+                child: PrimaryButton(
+                  text: widget.confirmChoice,
+                  isLoading: status.value.isLoading,
+                  onPressed: () async {
+                    pressButton(status, true, context);
+                  },
+                  color: widget.delete ? Theme.of(context).colorScheme.error : null,
                 ),
               ),
             ],

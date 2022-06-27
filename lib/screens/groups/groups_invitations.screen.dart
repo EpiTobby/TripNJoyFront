@@ -39,7 +39,7 @@ class _GroupsInvitationsState extends ConsumerState<GroupsInvitations> {
                     .map((group) => GroupListItem(
                         group: group,
                         onClick: () {
-                          showMaterialModalBottomSheet(
+                          showBarModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
                                 return InputDialogChoice(

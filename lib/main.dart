@@ -79,7 +79,10 @@ class MyApp extends StatelessWidget {
           onSecondary: CColors.onSecondary,
           onTertiary: CColors.onTertiary,
           primaryContainer: CColors.variant,
+          secondaryContainer: CColors.secondary.withOpacity(0.1),
+          tertiaryContainer: CColors.tertiary.withOpacity(0.1),
           error: CColors.error,
+          errorContainer: CColors.error.withOpacity(0.1),
           onError: CColors.onError,
           surface: CColors.surface,
           onSurface: CColors.onSurface,
@@ -182,7 +185,7 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
     return user.when(
         data: (data) => Scaffold(
-              appBar: selectedPage != NavbarPage.MATCHMAKING
+              appBar: selectedPage != NavbarPage.MATCHMAKING && selectedPage != NavbarPage.GROUPS
                   ? AppBar(
                       title: Text(
                         AppLocalizations.of(context).translate("${selectedPage.name.toLowerCase()}.title"),

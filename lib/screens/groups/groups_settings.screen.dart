@@ -82,7 +82,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                         value: group.name ?? '',
                         editable: group.state != GroupModelState.archived && group.owner?.id == user.id,
                         onPressed: () {
-                          showMaterialModalBottomSheet(
+                          showBarModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
                                 return InputDialog(
@@ -146,7 +146,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                                 name: member.firstname! + " " + member.lastname!,
                                 imageURL: MinioService.getImageUrl(member.profilePicture, DEFAULT_URL.AVATAR),
                                 onClick: () {
-                                  showMaterialModalBottomSheet(
+                                  showBarModalBottomSheet(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return UserDialog(user: member);
@@ -166,7 +166,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                                   text: '+',
                                   fitContent: true,
                                   onPressed: () {
-                                    showMaterialModalBottomSheet(
+                                    showBarModalBottomSheet(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return InputDialog(

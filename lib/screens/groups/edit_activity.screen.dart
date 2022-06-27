@@ -119,7 +119,7 @@ class EditActivity extends HookConsumerWidget {
                         editable: group.state != GroupModelState.archived,
                         value: name.value,
                         onPressed: () {
-                          showMaterialModalBottomSheet(
+                          showBarModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialog(
@@ -143,7 +143,7 @@ class EditActivity extends HookConsumerWidget {
                         editable: group.state != GroupModelState.archived,
                         value: location.value,
                         onPressed: () {
-                          showMaterialModalBottomSheet(
+                          showBarModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialog(
@@ -167,7 +167,7 @@ class EditActivity extends HookConsumerWidget {
                         editable: group.state != GroupModelState.archived,
                         value: DateFormat("HH:mm - dd/MM/yyyy").format(startDate.value),
                         onPressed: () {
-                          showMaterialModalBottomSheet(
+                          showBarModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialogDateTime(
@@ -189,7 +189,7 @@ class EditActivity extends HookConsumerWidget {
                         editable: group.state != GroupModelState.archived,
                         value: DateFormat("HH:mm - dd/MM/yyyy").format(endDate.value),
                         onPressed: () {
-                          showMaterialModalBottomSheet(
+                          showBarModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialogDateTime(
@@ -212,7 +212,7 @@ class EditActivity extends HookConsumerWidget {
                         multiline: true,
                         fontSize: 20,
                         onPressed: () {
-                          showMaterialModalBottomSheet(
+                          showBarModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
                               return InputDialog(
@@ -258,11 +258,11 @@ class EditActivity extends HookConsumerWidget {
                             ),
                             onTap: group.state != GroupModelState.archived
                                 ? () {
-                                    showMaterialModalBottomSheet(
+                                    showBarModalBottomSheet(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
                                           child: BlockPicker(
                                             pickerColor: color.value,
                                             availableColors: ActivityColors.getColors(),
@@ -333,14 +333,14 @@ class EditActivity extends HookConsumerWidget {
                             icon: Icons.close,
                             customColor: Theme.of(context).colorScheme.error,
                             onPressed: () {
-                              showMaterialModalBottomSheet(
+                              showBarModalBottomSheet(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return InputDialogChoice(
                                     title: AppLocalizations.of(context)
                                         .translate('groups.planning.activity.edit.delete.content'),
                                     cancelChoice: AppLocalizations.of(context).translate('common.decline'),
-                                    confirmChoice: AppLocalizations.of(context).translate('common.accept'),
+                                    confirmChoice: AppLocalizations.of(context).translate('common.delete'),
                                     onConfirm: (value) async {
                                       if (value) {
                                         await planningViewModel.deleteActivity(groupId, activity!.id);

@@ -1,6 +1,7 @@
 {
   "common": {
     "login": "Se connecter",
+    "signup": "S'inscrire",
     "logout": "Se déconnecter",
     "reconnect": "Se reconnecter",
     "description": "Description",
@@ -25,7 +26,8 @@
     "time": "Heure",
     "startDate": "Date de début",
     "endDate": "Date de fin",
-    "gallery": "Galerie"
+    "gallery": "Galerie",
+    "or": "ou"
   },
   "user": {
     "firstname": "Prénom",
@@ -247,6 +249,10 @@
         "innapropriateBehavior": "Mauvais comportement",
         "hygieneProblem": "Problème de hygiène",
         "other": "Autre"
+      },
+      "end": {
+        "title": "Votre voyage est terminé !",
+        "subtitle": "Nous espérons que vous avez passé un bon moment !"
       }
     },
     "create": "Créer un groupe",
@@ -289,15 +295,18 @@
       "title": "Planning",
       "destination": {
         "title": "Destination",
-        "edit": "Modifier la destination"
+        "edit": "Modifier la destination",
+        "empty": "Aucune destination"
       },
       "date": {
         "title": "Date",
-        "edit": "Modifier la date"
+        "edit": "Modifier la date",
+        "empty": "Aucune date définie"
       },
       "note": {
         "title": "Note",
-        "edit": "Modifier la note"
+        "edit": "Modifier la note",
+        "empty": "Aucune note"
       },
       "activity": {
         "title": "Activité",
@@ -378,6 +387,7 @@
     },
     "budget": {
       "title": "Budget",
+      "empty": "Aucune dépense de groupe",
       "expenses": {
         "title": "Dépenses",
         "paid_by": "Payé par $name",

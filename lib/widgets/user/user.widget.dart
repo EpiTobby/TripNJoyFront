@@ -27,117 +27,97 @@ class UserDialog extends HookConsumerWidget {
       child: SafeArea(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: Column(
               children: [
                 CircleAvatar(
                   backgroundImage: NetworkImage(MinioService.getImageUrl(user.profilePicture, DEFAULT_URL.AVATAR)),
-                  radius: 30,
+                  radius: 48,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child:
-                      Text(user.firstname! + ' ' + user.lastname!, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  child: Text(user.firstname! + ' ' + user.lastname!,
+                      style: TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary)),
                 ),
               ],
             ),
           ),
-          SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 32.0, right: 32.0, bottom: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            const TextSpan(text: 'Email : ', style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(text: user.email!),
-                          ],
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 32.0, right: 32.0, bottom: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          user.email!,
+                          style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.primary),
                         ),
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            const TextSpan(text: 'Phone : ', style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(
-                                text:
-                                    (user.phoneNumber ?? AppLocalizations.of(context).translate('user.noPhoneNumber'))),
-                          ],
+                        Text(
+                          user.phoneNumber ?? AppLocalizations.of(context).translate('user.noPhoneNumber'),
+                          style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.primary),
                         ),
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            const TextSpan(text: 'Gender : ', style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(text: user.gender.toString().split('.')[1]),
-                          ],
+                        Text(
+                          user.gender.toString().split('.')[1],
+                          style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.primary),
                         ),
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            const TextSpan(text: 'City : ', style: TextStyle(fontWeight: FontWeight.bold)),
-                            TextSpan(
-                                text: (user.city != null
-                                    ? user.city!.name!
-                                    : AppLocalizations.of(context).translate('user.noCity'))),
-                          ],
+                        Text(
+                          user.city != null ? user.city!.name! : AppLocalizations.of(context).translate('user.noCity'),
+                          style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.primary),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                if (currentUser != user.id)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      PrimaryButton(
+                  if (currentUser != user.id)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        PrimaryButton(
                           text: AppLocalizations.of(context).translate('groups.settings.recommend'),
                           onPressed: () {
-                            showMaterialModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return InputDialog(
-                                      title: AppLocalizations.of(context).translate('groups.settings.recommendUser'),
-                                      label: AppLocalizations.of(context).translate('groups.settings.recommendation'),
-                                      initialValue: '',
-                                      multiline: true,
-                                      textCapitalization: TextCapitalization.none,
-                                      onConfirm: (value) async {
-                                        await recommendationViewModel.submitRecommendation(
-                                            SubmitRecommendationRequest(reviewedUserId: user.id, comment: value));
-                                      });
-                                });
+                            showBarModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return InputDialog(
+                                  title: AppLocalizations.of(context).translate('groups.settings.recommendUser'),
+                                  label: AppLocalizations.of(context).translate('groups.settings.recommendation'),
+                                  initialValue: '',
+                                  multiline: true,
+                                  textCapitalization: TextCapitalization.none,
+                                  onConfirm: (value) async {
+                                    await recommendationViewModel.submitRecommendation(
+                                        SubmitRecommendationRequest(reviewedUserId: user.id, comment: value));
+                                  },
+                                );
+                              },
+                            );
                           },
-                          fitContent: true),
-                      PrimaryButton(
+                        ),
+                        PrimaryButton(
                           text: AppLocalizations.of(context).translate('groups.settings.report'),
                           onPressed: () {
-                            showMaterialModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return InputDialogReport(
-                                      onConfirm: (value, reason) async {
-                                        await reportViewModel
-                                            .submitReport(SubmitReportRequest(
-                                            reportedUserId: user.id,
-                                            reason: reason,
-                                            details: value));
-                                      });
-                                });
+                            showBarModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return InputDialogReport(
+                                  onConfirm: (value, reason) async {
+                                    await reportViewModel.submitReport(
+                                        SubmitReportRequest(reportedUserId: user.id, reason: reason, details: value));
+                                  },
+                                );
+                              },
+                            );
                           },
-                          fitContent: true,
-                          color: Theme.of(context).colorScheme.tertiary),
-                    ],
-                  )
-              ],
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                      ],
+                    )
+                ],
+              ),
             ),
           ),
         ]),

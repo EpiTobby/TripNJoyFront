@@ -43,7 +43,7 @@ class GroupChannels extends HookConsumerWidget {
               icon: const Icon(Icons.add),
               splashRadius: 16,
               onPressed: () {
-                showMaterialModalBottomSheet(
+                showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
                       return InputDialog(
@@ -60,8 +60,8 @@ class GroupChannels extends HookConsumerWidget {
             Padding(
               padding: const EdgeInsets.only(right: 40),
               child: IconButton(
-                icon:
-                    Icon(isEditMode.value ? Icons.check : Icons.edit, color: Theme.of(context).colorScheme.onBackground),
+                icon: Icon(isEditMode.value ? Icons.check : Icons.edit,
+                    color: Theme.of(context).colorScheme.onBackground),
                 onPressed: () {
                   isEditMode.value = !isEditMode.value;
                 },
@@ -88,7 +88,7 @@ class GroupChannels extends HookConsumerWidget {
                     if (isEditMode.value)
                       IconButton(
                         onPressed: () {
-                          showMaterialModalBottomSheet(
+                          showBarModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
                                 return InputDialog(
@@ -108,7 +108,7 @@ class GroupChannels extends HookConsumerWidget {
                       IconButton(
                         onPressed: channels.length > 1
                             ? () {
-                                showMaterialModalBottomSheet(
+                                showBarModalBottomSheet(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return InputDialogChoice(
