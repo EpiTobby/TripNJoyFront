@@ -4,10 +4,12 @@ class LayoutBox extends StatelessWidget {
   const LayoutBox({
     Key? key,
     required this.title,
+    this.top = false,
     required this.children,
   }) : super(key: key);
 
   final String title;
+  final bool top;
   final List<Widget> children;
 
   @override
@@ -16,7 +18,7 @@ class LayoutBox extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 32),
+          padding: top ? const EdgeInsets.all(0) : const EdgeInsets.only(top: 32),
           child: Container(
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface.withOpacity(0.5),

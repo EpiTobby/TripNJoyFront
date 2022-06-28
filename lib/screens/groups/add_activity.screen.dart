@@ -42,9 +42,9 @@ class AddActivity extends HookConsumerWidget {
             child: LayoutItem(
               child: LayoutItemValue(
                 value: AppLocalizations.of(context).translate("groups.planning.activity.manual"),
+                icon: Icons.add,
                 onPressed: () async {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => EditActivity(groupId: groupId)));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => EditActivity(groupId: groupId)));
                 },
               ),
             ),

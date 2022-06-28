@@ -111,8 +111,59 @@ class EditActivity extends HookConsumerWidget {
             child: ListView(
               children: [
                 LayoutBox(
+                  top: true,
                   title: AppLocalizations.of(context).translate("groups.planning.activity.edit.title"),
                   children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          LayoutRowItem(
+                            title: AppLocalizations.of(context).translate("groups.planning.activity.edit.icon.title"),
+                            child: Icon(
+                              icon.value,
+                              size: 48,
+                            ),
+                            onTap: group.state != GroupModelState.archived
+                                ? () async {
+                                    IconData? selectedIcon = await FlutterIconPicker.showIconPicker(context);
+                                    if (selectedIcon != null) {
+                                      icon.value = selectedIcon;
+                                    }
+                                  }
+                                : () {},
+                          ),
+                          LayoutRowItem(
+                            title: AppLocalizations.of(context).translate("groups.planning.activity.edit.color.title"),
+                            child: CircleAvatar(
+                              backgroundColor: color.value,
+                              radius: 24,
+                            ),
+                            onTap: group.state != GroupModelState.archived
+                                ? () {
+                                    showBarModalBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+                                          child: BlockPicker(
+                                            pickerColor: color.value,
+                                            availableColors: ActivityColors.getColors(),
+                                            onColorChanged: (selectedColor) {
+                                              color.value = selectedColor;
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }
+                                : () {},
+                          ),
+                        ],
+                      ),
+                    ),
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.name.title"),
                       child: LayoutItemValue(
@@ -231,95 +282,44 @@ class EditActivity extends HookConsumerWidget {
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: Row(
-                        children: [
-                          LayoutRowItem(
-                            title: AppLocalizations.of(context).translate("groups.planning.activity.edit.icon.title"),
-                            child: Icon(
-                              icon.value,
-                              size: 48,
-                            ),
-                            onTap: group.state != GroupModelState.archived
-                                ? () async {
-                                    IconData? selectedIcon = await FlutterIconPicker.showIconPicker(context);
-                                    if (selectedIcon != null) {
-                                      icon.value = selectedIcon;
-                                    }
-                                  }
-                                : () {},
-                          ),
-                          LayoutRowItem(
-                            title: AppLocalizations.of(context).translate("groups.planning.activity.edit.color.title"),
-                            child: CircleAvatar(
-                              backgroundColor: color.value,
-                              radius: 24,
-                            ),
-                            onTap: group.state != GroupModelState.archived
-                                ? () {
-                                    showBarModalBottomSheet(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-                                          child: BlockPicker(
-                                            pickerColor: color.value,
-                                            availableColors: ActivityColors.getColors(),
-                                            onColorChanged: (selectedColor) {
-                                              color.value = selectedColor;
-                                            },
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  }
-                                : () {},
-                          ),
-                        ],
-                      ),
-                    ),
                     if (!draft)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: LayoutItem(
-                          title: AppLocalizations.of(context).translate("groups.planning.activity.edit.members.title"),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: SizedBox(
-                              height: 100,
-                              child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: group.members
-                                        ?.map(
-                                          (e) => LayoutRowItemMember(
-                                            name: "${e.firstname} ${e.lastname}",
-                                            avatarUrl: MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
-                                            isSelected:
-                                                participants.value.where((member) => member.id == e.id).isNotEmpty,
-                                            onTap: group.state != GroupModelState.archived
-                                                ? (value) {
-                                                    if (value) {
-                                                      participants.value = [
-                                                        ...participants.value,
-                                                        ChatMember(
-                                                            id: e.id!,
-                                                            name: "${e.firstname} ${e.lastname}",
-                                                            avatar: NetworkImage(MinioService.getImageUrl(
-                                                                e.profilePicture, DEFAULT_URL.AVATAR)))
-                                                      ];
-                                                    } else {
-                                                      participants.value = participants.value
-                                                          .where((member) => member.id != e.id)
-                                                          .toList();
-                                                    }
+                      LayoutItem(
+                        title: AppLocalizations.of(context).translate("groups.planning.activity.edit.members.title"),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: SizedBox(
+                            height: 100,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: group.members
+                                      ?.map(
+                                        (e) => LayoutRowItemMember(
+                                          name: "${e.firstname} ${e.lastname}",
+                                          avatarUrl: MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
+                                          isSelected:
+                                              participants.value.where((member) => member.id == e.id).isNotEmpty,
+                                          onTap: group.state != GroupModelState.archived
+                                              ? (value) {
+                                                  if (value) {
+                                                    participants.value = [
+                                                      ...participants.value,
+                                                      ChatMember(
+                                                          id: e.id!,
+                                                          name: "${e.firstname} ${e.lastname}",
+                                                          avatar: NetworkImage(MinioService.getImageUrl(
+                                                              e.profilePicture, DEFAULT_URL.AVATAR)))
+                                                    ];
+                                                  } else {
+                                                    participants.value = participants.value
+                                                        .where((member) => member.id != e.id)
+                                                        .toList();
                                                   }
-                                                : (value) {},
-                                          ),
-                                        )
-                                        .toList() ??
-                                    [],
-                              ),
+                                                }
+                                              : (value) {},
+                                        ),
+                                      )
+                                      .toList() ??
+                                  [],
                             ),
                           ),
                         ),
@@ -328,6 +328,8 @@ class EditActivity extends HookConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         child: LayoutItem(
+                          card: true,
+                          cardVariant: true,
                           child: LayoutItemValue(
                             value: AppLocalizations.of(context).translate("groups.planning.activity.edit.delete.title"),
                             icon: Icons.close,
@@ -354,6 +356,7 @@ class EditActivity extends HookConsumerWidget {
                           ),
                         ),
                       ),
+                    const Padding(padding: EdgeInsets.only(top: 20)),
                   ],
                 ),
               ],
