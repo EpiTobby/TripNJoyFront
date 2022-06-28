@@ -39,6 +39,7 @@ class PlanningHeader extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             LayoutItem(
+              card: false,
               title: AppLocalizations.of(context).translate("groups.planning.destination.title"),
               child: LayoutItemValue(
                 editable: group.state != GroupModelState.archived,
@@ -59,6 +60,7 @@ class PlanningHeader extends ConsumerWidget {
               ),
             ),
             LayoutItem(
+              card: false,
               title: AppLocalizations.of(context).translate("groups.planning.date.title"),
               child: LayoutItemValue(
                 editable: group.state != GroupModelState.archived,
@@ -84,6 +86,7 @@ class PlanningHeader extends ConsumerWidget {
               ),
             ),
             LayoutItem(
+              card: false,
               title: AppLocalizations.of(context).translate("groups.planning.note.title"),
               child: LayoutItemValue(
                 editable: group.state != GroupModelState.archived,

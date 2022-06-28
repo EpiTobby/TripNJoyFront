@@ -175,7 +175,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(AppLocalizations.of(context).translate("settings.darkMode"),
-                    style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 24)),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold)),
                 Switch(
                   value: _darkMode,
                   onChanged: (bool value) {
@@ -188,44 +189,49 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             ))
           ],
         ),
-        LayoutBox(title: AppLocalizations.of(context).translate("common.account"), children: <Widget>[
-          LayoutItem(
-              child: LayoutItemValue(
-            value: AppLocalizations.of(context).translate("common.logout"),
-            icon: Icons.exit_to_app,
-            onPressed: () {
-              authViewModel.logout();
-              ref.read(navbarStateProvider.notifier).navigate(NavbarPage.MATCHMAKING);
-            },
-          )),
-          LayoutItem(
-              child: LayoutItemValue(
-            value: AppLocalizations.of(context).translate("settings.deleteAccount"),
-            icon: Icons.close,
-            customColor: Theme.of(context).colorScheme.error,
-            onPressed: () async {
-              showBarModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return InputDialog(
-                        title: AppLocalizations.of(context).translate("settings.confirmDeleteAccount"),
-                        label: AppLocalizations.of(context).translate("user.password"),
-                        isPassword: true,
-                        initialValue: '',
-                        onConfirm: (value) async {
-                          final success =
-                              await userViewModel.deleteUser(authViewModel.token!, DeleteUserRequest(password: value));
-                          if (success) {
-                            authViewModel.logout();
-                          } else {
-                            throw HttpException(
-                                message: AppLocalizations.of(context).translate("errors.wrongPassword"));
-                          }
+        LayoutBox(
+          title: AppLocalizations.of(context).translate("common.account"),
+          children: <Widget>[
+            LayoutItem(
+                child: LayoutItemValue(
+              value: AppLocalizations.of(context).translate("common.logout"),
+              icon: Icons.exit_to_app,
+              onPressed: () {
+                authViewModel.logout();
+                ref.read(navbarStateProvider.notifier).navigate(NavbarPage.MATCHMAKING);
+              },
+            )),
+            LayoutItem(
+                cardVariant: true,
+                child: LayoutItemValue(
+                  value: AppLocalizations.of(context).translate("settings.deleteAccount"),
+                  icon: Icons.close,
+                  customColor: Theme.of(context).colorScheme.error,
+                  onPressed: () async {
+                    showBarModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return InputDialog(
+                              title: AppLocalizations.of(context).translate("settings.confirmDeleteAccount"),
+                              label: AppLocalizations.of(context).translate("user.password"),
+                              isPassword: true,
+                              initialValue: '',
+                              onConfirm: (value) async {
+                                final success = await userViewModel.deleteUser(
+                                    authViewModel.token!, DeleteUserRequest(password: value));
+                                if (success) {
+                                  authViewModel.logout();
+                                } else {
+                                  throw HttpException(
+                                      message: AppLocalizations.of(context).translate("errors.wrongPassword"));
+                                }
+                              });
                         });
-                  });
-            },
-          )),
-        ])
+                  },
+                )),
+          ],
+        ),
+        const Padding(padding: EdgeInsets.only(bottom: 20)),
       ],
     );
   }

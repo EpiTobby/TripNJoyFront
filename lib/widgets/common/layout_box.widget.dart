@@ -4,10 +4,12 @@ class LayoutBox extends StatelessWidget {
   const LayoutBox({
     Key? key,
     required this.title,
+    this.top = false,
     required this.children,
   }) : super(key: key);
 
   final String title;
+  final bool top;
   final List<Widget> children;
 
   @override
@@ -16,20 +18,25 @@ class LayoutBox extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 12, top: 8),
-          child: Divider(
-            height: 5,
-            thickness: 1,
-            color: Theme.of(context).colorScheme.primary.withAlpha(0x33),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Center(
-            child: Text(title,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                )),
+          padding: top ? const EdgeInsets.all(0) : const EdgeInsets.only(top: 32),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.7),
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
         Padding(

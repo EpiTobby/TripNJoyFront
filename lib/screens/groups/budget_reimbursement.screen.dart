@@ -7,6 +7,7 @@ import 'package:trip_n_joy_front/providers/groups/budget.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout_empty.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/money_due.widget.dart';
 
 class BudgetReimbursement extends HookConsumerWidget {
@@ -41,38 +42,33 @@ class BudgetReimbursement extends HookConsumerWidget {
       body: ListView(
         shrinkWrap: true,
         children: [
-          LayoutBox(title: AppLocalizations.of(context).translate("groups.budget.reimbursement.owed.title"), children: [
-            AsyncValueWidget<List<MoneyDueResponse>>(
-              value: owedMoney,
-              data: (data) => Column(
-                children: data.isEmpty
-                    ? [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Center(
-                            child: Text(
-                              AppLocalizations.of(context).translate("groups.budget.reimbursement.owed.empty"),
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                  color: Theme.of(context).colorScheme.primary),
+          LayoutBox(
+              title: AppLocalizations.of(context).translate("groups.budget.reimbursement.owed.title"),
+              top: true,
+              children: [
+                AsyncValueWidget<List<MoneyDueResponse>>(
+                  value: owedMoney,
+                  data: (data) => Column(
+                    children: data.isEmpty
+                        ? [
+                            LayoutEmpty(
+                              message: AppLocalizations.of(context).translate("groups.budget.reimbursement.owed.empty"),
+                              icon: Icons.highlight_remove,
                             ),
-                          ),
-                        )
-                      ]
-                    : data
-                        .map(
-                          (e) => MoneyDue(
-                            amount: e.total,
-                            user: username,
-                            other: "${e.user?.firstname} ${e.user?.lastname}",
-                            owed: true,
-                          ),
-                        )
-                        .toList(),
-              ),
-            ),
-          ]),
+                          ]
+                        : data
+                            .map(
+                              (e) => MoneyDue(
+                                amount: e.total,
+                                user: username,
+                                other: "${e.user?.firstname} ${e.user?.lastname}",
+                                owed: true,
+                              ),
+                            )
+                            .toList(),
+                  ),
+                ),
+              ]),
           LayoutBox(
             title: AppLocalizations.of(context).translate("groups.budget.reimbursement.due.title"),
             children: [
@@ -81,17 +77,10 @@ class BudgetReimbursement extends HookConsumerWidget {
                 data: (data) => Column(
                   children: data.isEmpty
                       ? [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Center(
-                                child: Text(
-                              AppLocalizations.of(context).translate("groups.budget.reimbursement.due.empty"),
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                  color: Theme.of(context).colorScheme.primary),
-                            )),
-                          )
+                          LayoutEmpty(
+                            message: AppLocalizations.of(context).translate("groups.budget.reimbursement.due.empty"),
+                            icon: Icons.highlight_remove,
+                          ),
                         ]
                       : data
                           .map(
