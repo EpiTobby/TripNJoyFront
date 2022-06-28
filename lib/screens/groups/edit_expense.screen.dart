@@ -126,6 +126,7 @@ class EditExpense extends HookConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: LayoutItem(
+              card: false,
               title: AppLocalizations.of(context).translate("groups.planning.activity.edit.icon.title"),
               boldTitle: true,
               child: Padding(
@@ -168,6 +169,7 @@ class EditExpense extends HookConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: LayoutItem(
+              card: false,
               title: AppLocalizations.of(context).translate("groups.budget.edit.paid_by"),
               boldTitle: true,
               child: Padding(
@@ -197,6 +199,7 @@ class EditExpense extends HookConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: LayoutItem(
+              card: false,
               title: AppLocalizations.of(context).translate("groups.budget.edit.paid_for"),
               boldTitle: true,
               child: Padding(

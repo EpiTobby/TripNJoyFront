@@ -18,8 +18,8 @@ class BudgetBalance extends StatelessWidget {
     final username = "${balance.user?.firstname} ${balance.user?.lastname}";
     final money = balance.money ?? 0;
     final positiveMoney = money.isNegative ? -money : money;
-    final widthPercent = total != 0.0 ? min(max(positiveMoney / total, 0.1), 1) : 0.4;
-    const screenPadding = 72;
+    final widthPercent = min(max(positiveMoney / total, 0.1), 1);
+    const screenPadding = 80;
     final widthByScreen = widthPercent * (MediaQuery.of(context).size.width - screenPadding);
     const threshold = 0.3;
     final exceedThreshold = widthPercent > threshold;
@@ -28,7 +28,7 @@ class BudgetBalance extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.only(top: 12.0, bottom: 6.0),
           child: Text(
             username,
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
@@ -37,7 +37,7 @@ class BudgetBalance extends StatelessWidget {
         Row(
           children: [
             Container(
-              height: 20,
+              height: 24,
               width: widthByScreen,
               decoration: BoxDecoration(
                 color:
@@ -48,17 +48,21 @@ class BudgetBalance extends StatelessWidget {
                   ? Center(
                       child: Text(
                         money.toString(),
-                        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onPrimary),
                       ),
                     )
                   : null,
             ),
             if (!exceedThreshold)
               Expanded(
-                child: Center(
-                  child: Text(
-                    money.toString(),
-                    style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      money.toString(),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
+                    ),
                   ),
                 ),
               ),
