@@ -292,6 +292,7 @@
     },
     "planning": {
       "title": "Planning",
+      "empty": "Appuyez sur le bouton + pour ajouter une nouvelle activité",
       "destination": {
         "title": "Destination",
         "edit": "Modifier la destination",
@@ -313,7 +314,7 @@
         "manual": "Ajouter une activité manuellement",
         "suggestion": {
           "title": "Activités suggérées",
-          "empty": "Aucune activité suggérée",
+          "empty": "Sélectionnez une position afin d'obtenir des activités suggérées",
           "map": {
             "title": "Vers quel endroit voulez-vous réaliser l’activité ?"
           }

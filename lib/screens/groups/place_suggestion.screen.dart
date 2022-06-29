@@ -10,6 +10,7 @@ import 'package:trip_n_joy_front/screens/groups/edit_activity.screen.dart';
 import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout_empty.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/list_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/maps/osm_map.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning_activity.widget.dart';
@@ -47,76 +48,82 @@ class PlaceSuggestion extends HookConsumerWidget {
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Center(
-                    child: Text(AppLocalizations.of(context).translate('groups.planning.activity.suggestion.map.title'),
-                        style: TextStyle(color: Theme.of(context).colorScheme.primary)),
-                  ),
-                ),
-                // map
-                InputField(
-                    hint: AppLocalizations.of(context).translate('common.search'),
-                    controller: searchController,
-                    onEditingComplete: () async {
-                      List<SearchInfo> suggestions = await addressSuggestion(searchController.text);
-                      showBarModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return ListDialog(
-                            items: suggestions,
-                            onSelect: (value) async {
-                              if (value.point != null) {
-                                controller.value.changeLocation(value.point!);
-                                controller.value.setZoom(zoomLevel: 14);
-                                ref.read(planningProvider).getSuggestedActivities(place, value.point!);
-                              }
+                LayoutBox(
+                  top: true,
+                  title: AppLocalizations.of(context).translate('groups.planning.activity.suggestion.map.title'),
+                  children: <Widget>[
+                    InputField(
+                        hint: AppLocalizations.of(context).translate('common.search'),
+                        controller: searchController,
+                        onEditingComplete: () async {
+                          List<SearchInfo> suggestions = await addressSuggestion(searchController.text);
+                          showBarModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ListDialog(
+                                items: suggestions,
+                                onSelect: (value) async {
+                                  if (value.point != null) {
+                                    controller.value.changeLocation(value.point!);
+                                    controller.value.setZoom(zoomLevel: 14);
+                                    ref.read(planningProvider).getSuggestedActivities(place, value.point!);
+                                  }
+                                },
+                              );
                             },
                           );
-                        },
-                      );
-                    }),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 200,
-                      child: OSMMap(controller: controller, place: place),
+                        }),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 200,
+                          child: OSMMap(controller: controller, place: place),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
                 Expanded(
                   child: SingleChildScrollView(
                     child: LayoutBox(
+                      top: true,
                       title: AppLocalizations.of(context).translate("groups.planning.activity.suggestion.title"),
                       children: <Widget>[
                         AsyncValueWidget<List<PlaceResponse>>(
                           value: activities,
-                          data: (activities) => Column(
-                            children: activities
-                                .map(
-                                  (activity) => PlanningActivity(
-                                    title: activity.name,
-                                    subtitle: activity.street,
-                                    subsubtitle: activity.city,
-                                    description: activity.country,
-                                    color: ActivityColors.getRandomColorFromString(activity.name),
-                                    onTap: () async {
-                                      isLoading.value = true;
-                                      final newActivity =
-                                          ref.read(planningProvider).getSuggestedActivity(groupId, place, activity);
-                                      isLoading.value = false;
-
-                                      Navigator.of(context).push(MaterialPageRoute(
-                                          builder: (_) =>
-                                              EditActivity(groupId: groupId, suggestedActivity: newActivity)));
-                                    },
-                                  ),
+                          data: (activities) => activities.isEmpty
+                              ? LayoutEmpty(
+                                  message: AppLocalizations.of(context)
+                                      .translate("groups.planning.activity.suggestion.empty"),
+                                  icon: Icons.arrow_circle_up,
                                 )
-                                .toList(),
-                          ),
+                              : Column(
+                                  children: activities
+                                      .map(
+                                        (activity) => PlanningActivity(
+                                          title: activity.name,
+                                          subtitle: activity.street,
+                                          subsubtitle: activity.city,
+                                          description: activity.country,
+                                          color: ActivityColors.getRandomColorFromString(activity.name),
+                                          onTap: () async {
+                                            isLoading.value = true;
+                                            final newActivity = ref
+                                                .read(planningProvider)
+                                                .getSuggestedActivity(groupId, place, activity);
+                                            isLoading.value = false;
+
+                                            Navigator.of(context).push(MaterialPageRoute(
+                                                builder: (_) =>
+                                                    EditActivity(groupId: groupId, suggestedActivity: newActivity)));
+                                          },
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
                         ),
                       ],
                     ),

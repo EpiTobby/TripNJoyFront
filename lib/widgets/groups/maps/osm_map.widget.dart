@@ -28,8 +28,8 @@ class OSMMap extends HookConsumerWidget {
           userLocationMarker: UserLocationMaker(
             personMarker: MarkerIcon(
               icon: Icon(
-                Icons.location_on,
-                color: Theme.of(context).colorScheme.secondary,
+                Icons.person_pin_circle,
+                color: Theme.of(context).colorScheme.tertiary,
                 size: 64,
               ),
             ),
@@ -41,17 +41,17 @@ class OSMMap extends HookConsumerWidget {
             ),
           ),
           markerOption: MarkerOption(
-            advancedPickerMarker: MarkerIcon(
+            advancedPickerMarker: const MarkerIcon(
               icon: Icon(
                 Icons.location_on,
-                color: Theme.of(context).colorScheme.secondary,
+                color: Colors.transparent,
                 size: 64,
               ),
             ),
-            defaultMarker: MarkerIcon(
+            defaultMarker: const MarkerIcon(
               icon: Icon(
                 Icons.location_on,
-                color: Theme.of(context).colorScheme.secondary,
+                color: Colors.transparent,
                 size: 64,
               ),
             ),
