@@ -8,6 +8,7 @@ import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout_empty.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_expense.widget.dart';
 
 class GroupExpenses extends HookConsumerWidget {
@@ -36,11 +37,9 @@ class GroupExpenses extends HookConsumerWidget {
             AsyncValueWidget<List<ExpenseModel>>(
               value: expenses,
               data: (data) => data.isEmpty
-                  ? Center(
-                      child: Text(
-                        AppLocalizations.of(context).translate("groups.budget.empty"),
-                        style: TextStyle(fontSize: 22, color: Theme.of(context).colorScheme.primary),
-                      ),
+                  ? LayoutEmpty(
+                      message: AppLocalizations.of(context).translate("groups.budget.empty"),
+                      icon: Icons.highlight_remove,
                     )
                   : Column(
                       children: data

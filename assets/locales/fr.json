@@ -294,6 +294,7 @@
     },
     "planning": {
       "title": "Planning",
+      "empty": "Appuyez sur le bouton + pour ajouter une nouvelle activité",
       "destination": {
         "title": "Destination",
         "edit": "Modifier la destination",
@@ -315,7 +316,7 @@
         "manual": "Ajouter une activité manuellement",
         "suggestion": {
           "title": "Activités suggérées",
-          "empty": "Aucune activité suggérée",
+          "empty": "Sélectionnez une position afin d'obtenir des activités suggérées",
           "map": {
             "title": "Vers quel endroit voulez-vous réaliser l’activité ?"
           }
@@ -392,11 +393,7 @@
       "expenses": {
         "title": "Dépenses",
         "paid_by": "Payé par $name",
-        "paid_for": "Membres: $members",
-        "delete": {
-          "title": "Supprimer la dépense",
-          "confirm": "Êtes-vous sûr de vouloir supprimer cette dépense ?"
-        }
+        "paid_for": "Membres: $members"
       },
       "add": {
         "title": "Ajouter une nouvelle dépense"
@@ -406,7 +403,11 @@
         "name": "Nom de la dépense",
         "price": "Prix",
         "paid_by": "Payé par",
-        "paid_for": "Membres concernés"
+        "paid_for": "Membres concernés",
+        "delete": {
+          "title": "Supprimer la dépense",
+          "confirm": "Êtes-vous sûr de vouloir supprimer cette dépense ?"
+        }
       },
       "reimbursement": {
         "title": "Remboursement",

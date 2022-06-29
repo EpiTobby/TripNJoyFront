@@ -8,7 +8,7 @@ class LayoutItemValue extends StatelessWidget {
     this.icon = Icons.keyboard_arrow_right_sharp,
     this.customColor,
     this.onPressed,
-    this.fontSize = 24,
+    this.fontSize = 20,
     this.multiline = false,
   }) : super(key: key);
 
@@ -29,16 +29,21 @@ class LayoutItemValue extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Expanded(
-            child: Text(value,
-                maxLines: multiline ? 10 : 1,
-                overflow: TextOverflow.ellipsis,
-                softWrap: false,
-                style: TextStyle(color: customColor ?? Theme.of(context).colorScheme.primary, fontSize: fontSize)),
+            child: Text(
+              value,
+              maxLines: multiline ? 10 : 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: false,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: customColor ?? Theme.of(context).colorScheme.primary,
+                  fontSize: fontSize),
+            ),
           ),
           IconButton(
               color: customColor ??
                   (editable == false ? Theme.of(context).colorScheme.shadow : Theme.of(context).colorScheme.primary),
-              splashRadius: 20,
+              splashRadius: 16,
               icon: Icon(icon),
               onPressed: editable == false ? () {} : onPressed),
         ],

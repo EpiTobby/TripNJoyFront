@@ -243,7 +243,7 @@
       "reportUser": "Report this user",
       "recommendation": "Recommendation",
       "reportForm": "Report form",
-      "reason": {
+      "reportReason": {
         "title": "Reason of the report",
         "details": "Details",
         "reimbursementProblem": "Reimbursement problem",
@@ -294,6 +294,7 @@
     },
     "planning": {
       "title": "Planning",
+      "empty": "Press the + button to add a new activity",
       "destination": {
         "title": "Destination",
         "edit": "Edit the destination",
@@ -315,7 +316,7 @@
         "manual": "Add an activity manually",
         "suggestion": {
           "title": "Suggested activities",
-          "empty": "No suggested activities",
+          "empty": "Select a location to get a suggestion of activities",
           "map": {
             "title": "Where would you like to do the activity?"
           }

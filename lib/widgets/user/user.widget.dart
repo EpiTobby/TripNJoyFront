@@ -96,6 +96,7 @@ class UserDialog extends HookConsumerWidget {
                               },
                             );
                           },
+                          fitContent: true,
                         ),
                         PrimaryButton(
                           text: AppLocalizations.of(context).translate('groups.settings.report'),
@@ -112,6 +113,7 @@ class UserDialog extends HookConsumerWidget {
                               },
                             );
                           },
+                          fitContent: true,
                           color: Theme.of(context).colorScheme.tertiary,
                         ),
                       ],

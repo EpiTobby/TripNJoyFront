@@ -136,6 +136,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                       ],
                     ),
                     LayoutItem(
+                      card: false,
                       title: AppLocalizations.of(context).translate("groups.members"),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
@@ -220,15 +221,19 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                               icon: Icons.archive_outlined,
                               onPressed: () {},
                             )),
-                          LayoutItem(
-                              child: LayoutItemValue(
-                            value: AppLocalizations.of(context).translate("groups.settings.quit"),
-                            icon: Icons.exit_to_app,
-                            customColor: Theme.of(context).colorScheme.error,
-                            onPressed: () {
-                              groupViewModel.leaveGroup(group.id!.toInt());
-                            },
-                          )),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: LayoutItem(
+                                cardVariant: true,
+                                child: LayoutItemValue(
+                                  value: AppLocalizations.of(context).translate("groups.settings.quit"),
+                                  icon: Icons.exit_to_app,
+                                  customColor: Theme.of(context).colorScheme.error,
+                                  onPressed: () {
+                                    groupViewModel.leaveGroup(group.id!.toInt());
+                                  },
+                                )),
+                          ),
                         ])
                 ],
               ),

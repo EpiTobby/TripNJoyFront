@@ -17,13 +17,17 @@ class LayoutRowItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 16.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
               title,
-              style: Theme.of(context).textTheme.headline6,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primaryContainer,
+              ),
             ),
           ),
           InkWell(onTap: onTap, child: SizedBox(height: 48, width: 48, child: child)),

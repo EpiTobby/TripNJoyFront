@@ -13,6 +13,7 @@ import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/input.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_choice.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_row_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_row_item_member.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/layout_member_expense.widget.dart';
@@ -126,6 +127,7 @@ class EditExpense extends HookConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: LayoutItem(
+              card: false,
               title: AppLocalizations.of(context).translate("groups.planning.activity.edit.icon.title"),
               boldTitle: true,
               child: Padding(
@@ -168,6 +170,7 @@ class EditExpense extends HookConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: LayoutItem(
+              card: false,
               title: AppLocalizations.of(context).translate("groups.budget.edit.paid_by"),
               boldTitle: true,
               child: Padding(
@@ -197,6 +200,7 @@ class EditExpense extends HookConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: LayoutItem(
+              card: false,
               title: AppLocalizations.of(context).translate("groups.budget.edit.paid_for"),
               boldTitle: true,
               child: Padding(
@@ -256,30 +260,33 @@ class EditExpense extends HookConsumerWidget {
           ),
           if (expense != null)
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Center(
-                child: InkWell(
-                    onTap: () {
-                      showBarModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return InputDialogChoice(
-                            title: AppLocalizations.of(context).translate('groups.budget.expenses.delete.confirm'),
-                            cancelChoice: AppLocalizations.of(context).translate('common.decline'),
-                            confirmChoice: AppLocalizations.of(context).translate('common.delete'),
-                            onConfirm: (value) async {
-                              if (value) {
-                                await budgetViewModel.deleteExpense(groupId, expense!.id);
-                                Navigator.of(context).pop();
-                              }
-                            },
-                            delete: true,
-                          );
-                        },
-                      );
-                    },
-                    child: Text(AppLocalizations.of(context).translate("groups.budget.expenses.delete.title"),
-                        style: TextStyle(color: Theme.of(context).colorScheme.tertiary))),
+              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+              child: LayoutItem(
+                cardVariant: true,
+                child: LayoutItemValue(
+                  value: AppLocalizations.of(context).translate("groups.budget.edit.delete.title"),
+                  icon: Icons.exit_to_app,
+                  customColor: Theme.of(context).colorScheme.error,
+                  onPressed: () {
+                    showBarModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialogChoice(
+                          title: AppLocalizations.of(context).translate("groups.budget.edit.delete.confirm"),
+                          cancelChoice: AppLocalizations.of(context).translate('common.decline'),
+                          confirmChoice: AppLocalizations.of(context).translate('common.delete'),
+                          onConfirm: (value) async {
+                            if (value) {
+                              await budgetViewModel.deleteExpense(groupId, expense!.id);
+                              Navigator.of(context).pop();
+                            }
+                          },
+                          delete: true,
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
             ),
         ],

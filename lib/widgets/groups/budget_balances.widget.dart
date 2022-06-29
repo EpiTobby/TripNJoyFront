@@ -34,7 +34,7 @@ class BudgetBalances extends HookConsumerWidget {
                 (e) => BudgetBalance(
                   balance: e,
                   total: data.fold(
-                    0,
+                    1,
                     (prev, next) {
                       final money = (next.money ?? 0).abs();
                       return money > prev ? money : prev;
