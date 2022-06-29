@@ -425,7 +425,15 @@
       "title": "Scan",
       "description": "Scan a sale receipt to add a new expense",
       "perArticle": "Per article",
-      "perPerson": "Per person"
+      "perPerson": "Per person",
+      "changePrice": "Change price",
+      "adjust": "Adjust",
+      "addArticle": {
+        "title": "Add article",
+        "name": "Name of the article",
+        "price": "Price"
+      },
+      "missing": "Missing"
     }
   },
   "settings": {

@@ -425,7 +425,15 @@
       "title": "Scan",
       "description": "Scan un ticket de caisse pour ajouter une dépense",
       "perArticle": "Par article",
-      "perPerson": "Par personne"
+      "perPerson": "Par personne",
+      "changePrice": "Modifier le prix",
+      "adjust": "Ajuster",
+      "addArticle": {
+        "title": "Ajouter un article",
+        "name": "Nom de l'article",
+        "price": "Prix"
+      },
+      "missing": "Manquant :"
     }
   },
   "settings": {

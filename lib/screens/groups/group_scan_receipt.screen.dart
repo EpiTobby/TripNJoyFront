@@ -113,7 +113,7 @@ class GroupScanReceipt extends HookConsumerWidget {
                                 onPressed: () async {
                                   loading.value = true;
                                   String imageUrl = "https://ocr.space/Content/Images/receipt-ocr-original.jpg";
-                                  // String imageUrl = MinioService.getImageUrl(image.value, DEFAULT_URL.IMAGE)
+                                  // String imageUrl = MinioService.getImageUrl(image.value, DEFAULT_URL.IMAGE);
                                   scanReceipt.value = await budgetViewModel
                                       .scanReceipt(imageUrl);
 

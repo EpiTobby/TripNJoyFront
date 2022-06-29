@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
@@ -12,6 +13,8 @@ import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input_dialog_price.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_row_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_row_item_member.widget.dart';
@@ -35,18 +38,24 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
     final budgetViewModel = ref.watch(budgetProvider);
 
     final icon = useState(Icons.add_shopping_cart);
-    final name = useState("");
+    final name = useTextEditingController(text: "");
     final paidBy = useState(group.members?.first);
     final paidFor = useState(group.members?.map((e) => MemberExpense(member: e, weight: 1)).toList());
 
-    final articles = scanReceipt!.items;
-    final sumArticles = articles!.values.reduce((acc, article) => acc + article);
+    final articles = useState(scanReceipt!.items!);
+    var sumArticles = articles.value.values.fold(0.0, (double acc, article) => acc + article);
     final total = scanReceipt!.total ?? sumArticles;
+
+    useEffect(() {
+      sumArticles = articles.value.values.fold(0.0, (acc, article) => acc + article);
+
+      return null;
+    }, [articles.value]);
 
     final payTotal = useState(true);
 
     final articlesParticipants = useState<Map<String, List<int>>>(
-        articles.map((key, value) => MapEntry(key, group.members!.map((e) => e.id!.toInt()).toList())));
+        articles.value.map((key, value) => MapEntry(key, group.members!.map((e) => e.id!.toInt()).toList())));
 
     void balanceExpenses() {
       paidFor.value = budgetViewModel.balanceExpenses(total, paidFor.value);
@@ -65,7 +74,8 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
     }
 
     bool isExpensePerArticleValid() {
-      return articlesParticipants.value.values.every((members) => members.isNotEmpty);
+      return articlesParticipants.value.values.every((members) => members.isNotEmpty) &&
+          sumArticles.toStringAsFixed(2) == total.toStringAsFixed(2);
     }
 
     return ListView(
@@ -89,7 +99,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
         ),
         InputField(
           label: AppLocalizations.of(context).translate("groups.budget.edit.name"),
-          onChanged: (value) => name.value = value,
+          controller: name,
           icon: const Icon(Icons.shop),
         ),
         Padding(
@@ -126,8 +136,9 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
             Column(
               children: [
                 Text('Total: $total€', style: const TextStyle(fontSize: 24)),
-                if (!payTotal.value && sumArticles != total)
-                  Text('Missing ${((total - sumArticles) as double).toStringAsFixed(2)}€',
+                if (!payTotal.value && sumArticles.toStringAsFixed(2) != total.toStringAsFixed(2))
+                  Text(
+                      '${AppLocalizations.of(context).translate('groups.scan.missing')} ${((total - sumArticles)).toStringAsFixed(2)}€',
                       style: const TextStyle(fontSize: 16, color: Colors.red)),
               ],
             ),
@@ -150,7 +161,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: Column(
-                  children: articles.keys
+                  children: articles.value.keys
                       .map((key) => Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -160,13 +171,83 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      '$key: ${articles[key]}€',
+                                      '$key: ${articles.value[key]}€',
                                       style: const TextStyle(fontSize: 18),
                                       textAlign: TextAlign.start,
                                     ),
                                     SecondaryButton(
-                                      text: 'Adjust',
+                                      text: AppLocalizations.of(context).translate("groups.scan.adjust"),
                                       onPressed: () {
+                                        showBarModalBottomSheet(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AnimatedPadding(
+                                                padding: EdgeInsets.only(
+                                                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                                                ),
+                                                curve: Curves.easeOut,
+                                                duration: const Duration(milliseconds: 200),
+                                                child: Material(
+                                                  child: SafeArea(
+                                                    top: false,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(16.0),
+                                                      child: Column(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(bottom: 16.0),
+                                                            child: Text(
+                                                              '$key: ${articles.value[key]}€',
+                                                              style: const TextStyle(fontSize: 24),
+                                                              textAlign: TextAlign.start,
+                                                            ),
+                                                          ),
+                                                          Wrap(
+                                                            alignment: WrapAlignment.center,
+                                                            children: [
+                                                              SecondaryButton(
+                                                                text: AppLocalizations.of(context)
+                                                                    .translate("groups.scan.changePrice"),
+                                                                onPressed: () {
+                                                                  showBarModalBottomSheet(
+                                                                      context: context,
+                                                                      builder: (BuildContext context) {
+                                                                        return InputDialogPrice(
+                                                                            label: AppLocalizations.of(context)
+                                                                                .translate(
+                                                                                    "groups.scan.addArticle.title"),
+                                                                            shouldHaveInputName: false,
+                                                                            onConfirm: (name, price) {
+                                                                              articles.value[key] = price;
+                                                                              articles.value = {...articles.value};
+                                                                              Navigator.of(context).pop();
+                                                                            });
+                                                                      });
+                                                                },
+                                                                fitContent: true,
+                                                              ),
+                                                              PrimaryButton(
+                                                                text: AppLocalizations.of(context)
+                                                                    .translate('common.delete'),
+                                                                onPressed: () {
+                                                                  articles.value.remove(key);
+                                                                  articles.value = {...articles.value};
+                                                                  articlesParticipants.value.remove(key);
+                                                                  Navigator.of(context).pop();
+                                                                },
+                                                                fitContent: true,
+                                                                color: Theme.of(context).errorColor,
+                                                              )
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            });
                                       },
                                       fitContent: true,
                                     ),
@@ -266,7 +347,22 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
               ),
             ),
           ),
-        if (name.value.isNotEmpty &&
+        if (!payTotal.value && sumArticles.toStringAsFixed(2) != total.toStringAsFixed(2))
+          PrimaryButton(
+              text: AppLocalizations.of(context).translate('groups.scan.addArticle.title'),
+              onPressed: () {
+                showBarModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return InputDialogPrice(
+                          label: AppLocalizations.of(context).translate("groups.scan.addArticle.title"),
+                          onConfirm: (name, price) {
+                            articles.value = {...articles.value, name: price};
+                            articlesParticipants.value[name] = group.members!.map((e) => e.id!.toInt()).toList();
+                          });
+                    });
+              }),
+        if (name.text.isNotEmpty &&
             ((payTotal.value && isExpenseTotalValid()) || (!payTotal.value && isExpensePerArticleValid())))
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
@@ -274,7 +370,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                 text: AppLocalizations.of(context).translate('common.submit'),
                 onPressed: () async {
                   Map<String, dynamic> json = {
-                    'description': name.value,
+                    'description': name.text,
                     'icon': icon.value.codePoint.toString(),
                     'total': total,
                   };
@@ -291,7 +387,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                       var amountToPay = 0.0;
                       articlesParticipants.value.forEach((key, value) {
                         if (value.contains(e.id!.toInt())) {
-                          amountToPay += articles[key] / value.length;
+                          amountToPay += articles.value[key] / value.length;
                         }
                       });
 
