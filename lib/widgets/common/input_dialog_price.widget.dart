@@ -69,26 +69,26 @@ class _InputDialogPriceState extends State<InputDialogPrice> {
                   ),
                 ],
               )),
-              if (name.value.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: PrimaryButton(
-                    text: status.value.isError
-                        ? AppLocalizations.of(context).translate("common.tryAgain")
-                        : AppLocalizations.of(context).translate("common.submit"),
-                    isLoading: status.value.isLoading,
-                    onPressed: () async {
-                      status.value = const AsyncLoading();
-                      try {
-                        await widget.onConfirm(name.value, price.value);
-                        status.value = const AsyncData(null);
-                        Navigator.of(context).pop();
-                      } catch (e) {
-                        status.value = AsyncError(e);
-                      }
-                    },
-                  ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PrimaryButton(
+                  text: status.value.isError
+                      ? AppLocalizations.of(context).translate("common.tryAgain")
+                      : AppLocalizations.of(context).translate("common.submit"),
+                  isDisabled: name.value.isEmpty,
+                  isLoading: status.value.isLoading,
+                  onPressed: () async {
+                    status.value = const AsyncLoading();
+                    try {
+                      await widget.onConfirm(name.value, price.value);
+                      status.value = const AsyncData(null);
+                      Navigator.of(context).pop();
+                    } catch (e) {
+                      status.value = AsyncError(e);
+                    }
+                  },
                 ),
+              ),
             ]),
           ),
         ),
