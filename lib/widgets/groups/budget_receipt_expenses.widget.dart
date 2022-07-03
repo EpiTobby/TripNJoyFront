@@ -19,6 +19,7 @@ import 'package:trip_n_joy_front/widgets/common/input_dialog_price.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_row_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_row_item_member.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/budget_receipt_article.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/input_dialog_article.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/layout_member_expense.widget.dart';
 
@@ -61,7 +62,8 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
 
     final articles = useState(getArticles(scanReceipt));
     var sumArticles = articles.value.fold(0.0, (double acc, article) => acc + article.price);
-    final total = scanReceipt!.total ?? sumArticles;
+    final total = useState(scanReceipt!.total ?? sumArticles);
+    final totalController = useTextEditingController(text: total.value.toStringAsFixed(2));
 
     useEffect(() {
       sumArticles = articles.value.fold(0.0, (acc, article) => acc + article.price);
@@ -72,7 +74,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
     final payTotal = useState(true);
 
     void balanceExpenses() {
-      paidFor.value = budgetViewModel.balanceExpenses(total, paidFor.value);
+      paidFor.value = budgetViewModel.balanceExpenses(total.value, paidFor.value);
     }
 
     balanceExpenses();
@@ -84,12 +86,15 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
       return paidBy.value != null &&
           paidFor.value != null &&
           paidFor.value!.every((element) => element.amount == null || element.amount! > 0) &&
-          foldAmount == total;
+          foldAmount == total.value;
+    }
+
+    bool isSumArticlesEqualsTotal() {
+      return sumArticles.toStringAsFixed(2) == total.value.toStringAsFixed(2);
     }
 
     bool isExpensePerArticleValid() {
-      return articles.value.every((article) => article.participants.isNotEmpty) &&
-          sumArticles.toStringAsFixed(2) == total.toStringAsFixed(2);
+      return articles.value.every((article) => article.participants.isNotEmpty) && isSumArticlesEqualsTotal();
     }
 
     void onEditArticle(article) {
@@ -166,33 +171,85 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Column(
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Total: $total€', style: const TextStyle(fontSize: 24)),
-                if (!payTotal.value && sumArticles.toStringAsFixed(2) != total.toStringAsFixed(2))
-                  Text(
-                      '${AppLocalizations.of(context).translate('groups.scan.missing')} ${((total - sumArticles)).toStringAsFixed(2)}€',
-                      style: const TextStyle(fontSize: 16, color: Colors.red)),
-              ],
-            ),
-            PrimaryButton(
-              text: payTotal.value
-                  ? AppLocalizations.of(context).translate("groups.scan.perArticle")
-                  : AppLocalizations.of(context).translate("groups.scan.perPerson"),
-              onPressed: () {
-                payTotal.value = !payTotal.value;
-              },
-              fitContent: true,
-            )
-          ]),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(AppLocalizations.of(context).translate("groups.scan.total"),
+                            style: TextStyle(fontSize: 24, color: Theme.of(context).colorScheme.primary)),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: SizedBox(
+                            width: 80,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1),
+                                contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                                enabledBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                  borderSide: BorderSide(
+                                    width: 2,
+                                    color: Colors.transparent,
+                                  ),
+                                ),
+                                focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                  borderSide: BorderSide(
+                                    width: 2,
+                                    color: Colors.transparent,
+                                  ),
+                                ),
+                                disabledBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                  borderSide: BorderSide(
+                                    width: 2,
+                                    color: Colors.transparent,
+                                  ),
+                                ),
+                              ),
+                              controller: totalController,
+                              textAlign: TextAlign.end,
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) => {total.value = double.tryParse(value) ?? 0.0},
+                            ),
+                          ),
+                        ),
+                        Text(' €', style: TextStyle(fontSize: 24, color: Theme.of(context).colorScheme.primary)),
+                      ],
+                    ),
+                    if (!payTotal.value && !isSumArticlesEqualsTotal())
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                            '${AppLocalizations.of(context).translate('groups.scan.missing')} ${((total.value - sumArticles)).toStringAsFixed(2)}€',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.error)),
+                      ),
+                  ],
+                ),
+                PrimaryButton(
+                  text: payTotal.value
+                      ? AppLocalizations.of(context).translate("groups.scan.perArticle")
+                      : AppLocalizations.of(context).translate("groups.scan.perPerson"),
+                  onPressed: () {
+                    payTotal.value = !payTotal.value;
+                  },
+                  fitContent: true,
+                )
+              ]),
         ),
         if (!payTotal.value)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: LayoutItem(
               title: 'Articles',
-              actionIcon: sumArticles.toStringAsFixed(2) != total.toStringAsFixed(2) ? Icons.add : null,
+              cardVariant: !isSumArticlesEqualsTotal(),
+              actionIcon: !isSumArticlesEqualsTotal() ? Icons.add : null,
               onAction: () {
                 showBarModalBottomSheet(
                   context: context,
@@ -218,55 +275,8 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                 padding: const EdgeInsets.only(top: 16.0),
                 child: Column(
                   children: articles.value
-                      .map(
-                        (article) => Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      article.name,
-                                      style: const TextStyle(fontSize: 18),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 4.0),
-                                    child: Text(
-                                      '${article.price}€',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context).colorScheme.primary),
-                                      textAlign: TextAlign.end,
-                                    ),
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.secondary),
-                                    onPressed: () {
-                                      showBarModalBottomSheet(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return InputDialogArticle(
-                                            groupId: groupId,
-                                            article: article,
-                                            onEdit: onEditArticle,
-                                            onDelete: onDeleteArticle,
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                      .map((article) => BudgetReceiptArticle(
+                          groupId: groupId, article: article, onEdit: onEditArticle, onDelete: onDeleteArticle))
                       .toList(),
                 ),
               ),
@@ -338,36 +348,37 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: PrimaryButton(
-                text: AppLocalizations.of(context).translate('common.submit'),
-                onPressed: () async {
-                  Map<String, dynamic> json = {
-                    'description': name.text,
-                    'icon': icon.value.codePoint.toString(),
-                    'total': total,
-                  };
+              text: AppLocalizations.of(context).translate('common.submit'),
+              onPressed: () async {
+                Map<String, dynamic> json = {
+                  'description': name.text,
+                  'icon': icon.value.codePoint.toString(),
+                  'total': total.value,
+                };
 
-                  if (payTotal.value) {
-                    json['moneyDueByEachUser'] = paidFor.value!
-                        .where((element) => element.selected)
-                        .map((element) => MoneyDueRequest(userId: element.member.id, money: element.amount).toJson())
-                        .toList();
+                if (payTotal.value) {
+                  json['moneyDueByEachUser'] = paidFor.value!
+                      .where((element) => element.selected)
+                      .map((element) => MoneyDueRequest(userId: element.member.id, money: element.amount).toJson())
+                      .toList();
 
-                    json['evenlyDivided'] = paidFor.value!.every((element) => element.weight == 1);
-                  } else {
-                    json['moneyDueByEachUser'] = group.members!.map((e) {
-                      var amountToPay = 0.0;
-                      for (var article in articles.value) {
-                        if (article.participants.contains(e.id!.toInt())) {
-                          amountToPay += article.price / article.participants.length;
-                        }
+                  json['evenlyDivided'] = paidFor.value!.every((element) => element.weight == 1);
+                } else {
+                  json['moneyDueByEachUser'] = group.members!.map((e) {
+                    var amountToPay = 0.0;
+                    for (var article in articles.value) {
+                      if (article.participants.contains(e.id!.toInt())) {
+                        amountToPay += article.price / article.participants.length;
                       }
-                      amountToPay = amountToPay * 100 / 100;
-                      return MoneyDueRequest(userId: e.id, money: amountToPay).toJson();
-                    }).toList();
-                  }
-                  await budgetViewModel.addExpense(groupId, paidBy.value!.id, ExpenseRequest.fromJson(json));
-                  Navigator.of(context).pop();
-                }),
+                    }
+                    amountToPay = amountToPay * 100 / 100;
+                    return MoneyDueRequest(userId: e.id, money: amountToPay).toJson();
+                  }).toList();
+                }
+                await budgetViewModel.addExpense(groupId, paidBy.value!.id, ExpenseRequest.fromJson(json));
+                Navigator.of(context).pop();
+              },
+            ),
           ),
       ],
     );
