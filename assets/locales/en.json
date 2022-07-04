@@ -429,6 +429,7 @@
       "perPerson": "Per person",
       "changePrice": "Change price",
       "adjust": "Adjust",
+      "total": "Total",
       "addArticle": {
         "title": "Add article",
         "name": "Name of the article",
