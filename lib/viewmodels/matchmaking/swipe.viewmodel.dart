@@ -45,10 +45,10 @@ class SwipeViewModel extends ChangeNotifier {
 
     switch (status) {
       case CardStatus.LEFT:
-        swipeLeft(name, values[0]);
+        swipeLeft(name, values[1]);
         break;
       case CardStatus.RIGHT:
-        swipeRight(name, values[1]);
+        swipeRight(name, values[0]);
         break;
       case CardStatus.DOWN:
         swipeDown(name, values[2]);

@@ -23,7 +23,6 @@ class ProfileViewModel extends StateNotifier<List<ProfileModel>?> {
   }
 
   Future<void> getUserProfiles() async {
-
     if (authViewModel.token == null) {
       return;
     }

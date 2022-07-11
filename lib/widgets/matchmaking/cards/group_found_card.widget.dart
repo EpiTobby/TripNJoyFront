@@ -68,7 +68,7 @@ class GroupFoundCard extends HookConsumerWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           boxShadow: [
-                            BoxShadow(blurRadius: 20, color: Theme.of(context).colorScheme.secondary, spreadRadius: -10)
+                            BoxShadow(blurRadius: 20, color: Theme.of(context).colorScheme.surface, spreadRadius: -10)
                           ],
                         ),
                         child: CircleAvatar(
