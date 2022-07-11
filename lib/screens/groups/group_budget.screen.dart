@@ -5,6 +5,7 @@ import 'package:trip_n_joy_front/codegen/api.enums.swagger.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/budget_reimbursement.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/edit_expense.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
 import 'package:trip_n_joy_front/widgets/groups/budget_balances.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_expenses.widget.dart';
 
@@ -37,6 +38,13 @@ class GroupBudget extends HookConsumerWidget {
             },
             splashRadius: 16,
           ),
+          if (group.state != GroupModelState.archived)
+            IconButton(
+                icon: Icon(Icons.camera_alt, color: Theme.of(context).colorScheme.onBackground),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => GroupScanReceipt(groupId: groupId)));
+                },
+                splashRadius: 16),
           if (group.state != GroupModelState.archived)
             IconButton(
               icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onBackground),

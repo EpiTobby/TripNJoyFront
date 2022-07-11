@@ -90,6 +90,20 @@ abstract class Api extends ChopperService {
       {@Path('id') required num? id,
       @Body() required ProfileCreationRequest? body});
 
+  ///
+  Future<chopper.Response<ScanResponse>> scanPost(
+      {required ScanRequest? body}) {
+    generatedMapping.putIfAbsent(
+        ScanResponse, () => ScanResponse.fromJsonFactory);
+
+    return _scanPost(body: body);
+  }
+
+  ///
+  @Post(path: '/scan')
+  Future<chopper.Response<ScanResponse>> _scanPost(
+      {@Body() required ScanRequest? body});
+
   ///Create a report
   Future<chopper.Response<ReportModel>> reportsPost(
       {required SubmitReportRequest? body}) {
@@ -2412,6 +2426,82 @@ extension $ProfileModelExtension on ProfileModel {
         goOutAtNight: goOutAtNight ?? this.goOutAtNight,
         sport: sport ?? this.sport,
         active: active ?? this.active);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ScanRequest {
+  ScanRequest({
+    this.minioUrl,
+  });
+
+  factory ScanRequest.fromJson(Map<String, dynamic> json) =>
+      _$ScanRequestFromJson(json);
+
+  @JsonKey(name: 'minioUrl')
+  final String? minioUrl;
+  static const fromJsonFactory = _$ScanRequestFromJson;
+  static const toJsonFactory = _$ScanRequestToJson;
+  Map<String, dynamic> toJson() => _$ScanRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ScanRequest &&
+            (identical(other.minioUrl, minioUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.minioUrl, minioUrl)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(minioUrl) ^ runtimeType.hashCode;
+}
+
+extension $ScanRequestExtension on ScanRequest {
+  ScanRequest copyWith({String? minioUrl}) {
+    return ScanRequest(minioUrl: minioUrl ?? this.minioUrl);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ScanResponse {
+  ScanResponse({
+    this.items,
+    this.total,
+  });
+
+  factory ScanResponse.fromJson(Map<String, dynamic> json) =>
+      _$ScanResponseFromJson(json);
+
+  @JsonKey(name: 'items')
+  final Map<String, dynamic>? items;
+  @JsonKey(name: 'total')
+  final double? total;
+  static const fromJsonFactory = _$ScanResponseFromJson;
+  static const toJsonFactory = _$ScanResponseToJson;
+  Map<String, dynamic> toJson() => _$ScanResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ScanResponse &&
+            (identical(other.items, items) ||
+                const DeepCollectionEquality().equals(other.items, items)) &&
+            (identical(other.total, total) ||
+                const DeepCollectionEquality().equals(other.total, total)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(items) ^
+      const DeepCollectionEquality().hash(total) ^
+      runtimeType.hashCode;
+}
+
+extension $ScanResponseExtension on ScanResponse {
+  ScanResponse copyWith({Map<String, dynamic>? items, double? total}) {
+    return ScanResponse(items: items ?? this.items, total: total ?? this.total);
   }
 }
 

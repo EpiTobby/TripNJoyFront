@@ -26,7 +26,9 @@
     "time": "Heure",
     "startDate": "Date de début",
     "endDate": "Date de fin",
-    "or": "ou"
+    "gallery": "Galerie",
+    "or": "ou",
+    "me": "moi"
   },
   "user": {
     "firstname": "Prénom",
@@ -392,11 +394,7 @@
       "expenses": {
         "title": "Dépenses",
         "paid_by": "Payé par $name",
-        "paid_for": "Membres: $members",
-        "delete": {
-          "title": "Supprimer la dépense",
-          "confirm": "Êtes-vous sûr de vouloir supprimer cette dépense ?"
-        }
+        "paid_for": "Membres: $members"
       },
       "add": {
         "title": "Ajouter une nouvelle dépense"
@@ -406,7 +404,11 @@
         "name": "Nom de la dépense",
         "price": "Prix",
         "paid_by": "Payé par",
-        "paid_for": "Membres concernés"
+        "paid_for": "Membres concernés",
+        "delete": {
+          "title": "Supprimer la dépense",
+          "confirm": "Êtes-vous sûr de vouloir supprimer cette dépense ?"
+        }
       },
       "reimbursement": {
         "title": "Remboursement",
@@ -420,6 +422,21 @@
         },
         "owes": "doit"
       }
+    },
+    "scan": {
+      "title": "Scan",
+      "description": "Scan un ticket de caisse pour ajouter une dépense",
+      "perArticle": "Par article",
+      "perPerson": "Par personne",
+      "changePrice": "Modifier le prix",
+      "adjust": "Ajuster",
+      "total": "Total",
+      "addArticle": {
+        "title": "Ajouter un article",
+        "name": "Nom de l'article",
+        "price": "Prix"
+      },
+      "missing": "Manquant :"
     }
   },
   "settings": {

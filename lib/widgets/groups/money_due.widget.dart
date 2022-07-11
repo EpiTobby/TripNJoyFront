@@ -36,7 +36,7 @@ class MoneyDue extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      owed ? other : "$user (me)",
+                      owed ? other : "$user (${AppLocalizations.of(context).translate('common.me')})",
                       style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
                     ),
                     Padding(

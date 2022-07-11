@@ -47,7 +47,7 @@ class BudgetBalance extends StatelessWidget {
               child: exceedThreshold
                   ? Center(
                       child: Text(
-                        money.toString(),
+                        money.toStringAsFixed(2),
                         style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onPrimary),
                       ),
                     )
@@ -60,7 +60,7 @@ class BudgetBalance extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      money.toString(),
+                      money.toStringAsFixed(2),
                       style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                     ),
                   ),

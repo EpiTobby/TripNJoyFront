@@ -412,6 +412,26 @@ Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
       'active': instance.active,
     };
 
+ScanRequest _$ScanRequestFromJson(Map<String, dynamic> json) => ScanRequest(
+      minioUrl: json['minioUrl'] as String?,
+    );
+
+Map<String, dynamic> _$ScanRequestToJson(ScanRequest instance) =>
+    <String, dynamic>{
+      'minioUrl': instance.minioUrl,
+    };
+
+ScanResponse _$ScanResponseFromJson(Map<String, dynamic> json) => ScanResponse(
+      items: json['items'] as Map<String, dynamic>?,
+      total: (json['total'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$ScanResponseToJson(ScanResponse instance) =>
+    <String, dynamic>{
+      'items': instance.items,
+      'total': instance.total,
+    };
+
 SubmitReportRequest _$SubmitReportRequestFromJson(Map<String, dynamic> json) =>
     SubmitReportRequest(
       reportedUserId: json['reportedUserId'] as num?,

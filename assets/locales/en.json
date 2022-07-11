@@ -26,7 +26,9 @@
     "time": "Time",
     "startDate": "Start date",
     "endDate": "End date",
-    "or": "or"
+    "gallery": "Gallery",
+    "or": "or",
+    "me": "me"
   },
   "user": {
     "firstname": "Firstname",
@@ -242,7 +244,7 @@
       "reportUser": "Report this user",
       "recommendation": "Recommendation",
       "reportForm": "Report form",
-      "reason": {
+      "reportReason": {
         "title": "Reason of the report",
         "details": "Details",
         "reimbursementProblem": "Reimbursement problem",
@@ -420,6 +422,21 @@
         },
         "owes": "owes"
       }
+    },
+    "scan": {
+      "title": "Scan",
+      "description": "Scan a sale receipt to add a new expense",
+      "perArticle": "Per article",
+      "perPerson": "Per person",
+      "changePrice": "Change price",
+      "adjust": "Adjust",
+      "total": "Total",
+      "addArticle": {
+        "title": "Add article",
+        "name": "Name of the article",
+        "price": "Price"
+      },
+      "missing": "Missing"
     }
   },
   "settings": {
