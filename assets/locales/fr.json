@@ -188,7 +188,8 @@
       "subtitle": "Saississez un intervalle entre 1 et 30+ jours"
     },
     "swipeToChoose": "Swiper pour choisir votre préférence",
-    "no_preference": "N'importe"
+    "no_preference": "N'importe",
+    "mixed": "N'importe"
   },
   "matchmaking": {
     "title": "Matchmaking",

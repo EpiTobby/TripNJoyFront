@@ -188,7 +188,8 @@
       "subtitle": "Please select a range between 1 and 30 days+."
     },
     "swipeToChoose": "Swipe to choose your preference",
-    "no_preference": "Any"
+    "no_preference": "Any",
+    "mixed": "Any"
   },
   "matchmaking": {
     "title": "Matchmaking",

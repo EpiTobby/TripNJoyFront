@@ -167,7 +167,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           color: Theme.of(context).colorScheme.primary,
           backgroundColor: CardColors.orange,
           isLoading: isLoading,
-          values: const ["male", "female", "no_preference"],
+          values: const ["male", "female", "mixed"],
         ),
       ),
       CardModel(
