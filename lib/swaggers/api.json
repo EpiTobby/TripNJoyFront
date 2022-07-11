@@ -2995,6 +2995,9 @@
           "picture": {
             "type": "string"
           },
+          "destination": {
+            "type": "string"
+          },
           "members": {
             "type": "array",
             "items": {
@@ -3993,6 +3996,9 @@
           },
           "picture": {
             "type": "string"
+          },
+          "destination": {
+            "type": "string"
           }
         }
       },
@@ -4071,6 +4077,9 @@
             "format": "date-time"
           },
           "picture": {
+            "type": "string"
+          },
+          "destination": {
             "type": "string"
           }
         }

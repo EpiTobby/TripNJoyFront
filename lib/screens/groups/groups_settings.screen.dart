@@ -58,6 +58,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                 shrinkWrap: true,
                 children: [
                   LayoutHeader(
+                    background: true,
                     imageURL: MinioService.getImageUrl(group.picture, DEFAULT_URL.GROUP),
                     onClick: group.state == GroupModelState.archived
                         ? null

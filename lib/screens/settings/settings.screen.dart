@@ -60,6 +60,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(profilePicture: imageURL));
             }
           },
+          background: false,
         ),
         LayoutBox(title: AppLocalizations.of(context).translate("settings.about"), children: <Widget>[
           LayoutItem(

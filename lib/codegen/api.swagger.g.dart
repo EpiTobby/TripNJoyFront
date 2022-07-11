@@ -143,6 +143,7 @@ GroupModel _$GroupModelFromJson(Map<String, dynamic> json) => GroupModel(
           ? null
           : DateTime.parse(json['endOfTrip'] as String),
       picture: json['picture'] as String?,
+      destination: json['destination'] as String?,
       members: (json['members'] as List<dynamic>?)
               ?.map((e) => MemberModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -165,6 +166,7 @@ Map<String, dynamic> _$GroupModelToJson(GroupModel instance) =>
       'startOfTrip': instance.startOfTrip?.toIso8601String(),
       'endOfTrip': instance.endOfTrip?.toIso8601String(),
       'picture': instance.picture,
+      'destination': instance.destination,
       'members': instance.members?.map((e) => e.toJson()).toList(),
       'channels': instance.channels?.map((e) => e.toJson()).toList(),
       'createdDate': instance.createdDate,
@@ -920,6 +922,7 @@ UpdatePublicGroupRequest _$UpdatePublicGroupRequestFromJson(
           ? null
           : DateTime.parse(json['endOfTrip'] as String),
       picture: json['picture'] as String?,
+      destination: json['destination'] as String?,
     );
 
 Map<String, dynamic> _$UpdatePublicGroupRequestToJson(
@@ -930,6 +933,7 @@ Map<String, dynamic> _$UpdatePublicGroupRequestToJson(
       'startOfTrip': instance.startOfTrip?.toIso8601String(),
       'endOfTrip': instance.endOfTrip?.toIso8601String(),
       'picture': instance.picture,
+      'destination': instance.destination,
     };
 
 UpdateActivityRequest _$UpdateActivityRequestFromJson(
@@ -984,6 +988,7 @@ UpdatePrivateGroupRequest _$UpdatePrivateGroupRequestFromJson(
           ? null
           : DateTime.parse(json['endOfTrip'] as String),
       picture: json['picture'] as String?,
+      destination: json['destination'] as String?,
     );
 
 Map<String, dynamic> _$UpdatePrivateGroupRequestToJson(
@@ -997,6 +1002,7 @@ Map<String, dynamic> _$UpdatePrivateGroupRequestToJson(
       'startOfTrip': instance.startOfTrip?.toIso8601String(),
       'endOfTrip': instance.endOfTrip?.toIso8601String(),
       'picture': instance.picture,
+      'destination': instance.destination,
     };
 
 MessageResponse _$MessageResponseFromJson(Map<String, dynamic> json) =>

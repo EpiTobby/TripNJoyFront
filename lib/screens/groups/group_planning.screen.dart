@@ -45,7 +45,7 @@ class GroupPlanning extends HookConsumerWidget {
       body: ListView(
         controller: scrollController,
         children: [
-          PlanningHeader(group: group),
+          PlanningHeader(groupId: group.id!.toInt()),
           AsyncValueWidget<List<Activity>>(
             value: activities,
             data: (activities) => activities.isEmpty

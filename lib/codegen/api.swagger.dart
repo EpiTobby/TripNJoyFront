@@ -1521,6 +1521,7 @@ class GroupModel {
     this.startOfTrip,
     this.endOfTrip,
     this.picture,
+    this.destination,
     this.members,
     this.channels,
     this.createdDate,
@@ -1550,6 +1551,8 @@ class GroupModel {
   final DateTime? endOfTrip;
   @JsonKey(name: 'picture')
   final String? picture;
+  @JsonKey(name: 'destination')
+  final String? destination;
   @JsonKey(name: 'members', defaultValue: <MemberModel>[])
   final List<MemberModel>? members;
   @JsonKey(name: 'channels', defaultValue: <ChannelModel>[])
@@ -1587,6 +1590,9 @@ class GroupModel {
             (identical(other.picture, picture) ||
                 const DeepCollectionEquality()
                     .equals(other.picture, picture)) &&
+            (identical(other.destination, destination) ||
+                const DeepCollectionEquality()
+                    .equals(other.destination, destination)) &&
             (identical(other.members, members) ||
                 const DeepCollectionEquality()
                     .equals(other.members, members)) &&
@@ -1609,6 +1615,7 @@ class GroupModel {
       const DeepCollectionEquality().hash(startOfTrip) ^
       const DeepCollectionEquality().hash(endOfTrip) ^
       const DeepCollectionEquality().hash(picture) ^
+      const DeepCollectionEquality().hash(destination) ^
       const DeepCollectionEquality().hash(members) ^
       const DeepCollectionEquality().hash(channels) ^
       const DeepCollectionEquality().hash(createdDate) ^
@@ -1626,6 +1633,7 @@ extension $GroupModelExtension on GroupModel {
       DateTime? startOfTrip,
       DateTime? endOfTrip,
       String? picture,
+      String? destination,
       List<MemberModel>? members,
       List<ChannelModel>? channels,
       String? createdDate}) {
@@ -1639,6 +1647,7 @@ extension $GroupModelExtension on GroupModel {
         startOfTrip: startOfTrip ?? this.startOfTrip,
         endOfTrip: endOfTrip ?? this.endOfTrip,
         picture: picture ?? this.picture,
+        destination: destination ?? this.destination,
         members: members ?? this.members,
         channels: channels ?? this.channels,
         createdDate: createdDate ?? this.createdDate);
@@ -4079,6 +4088,7 @@ class UpdatePublicGroupRequest {
     this.startOfTrip,
     this.endOfTrip,
     this.picture,
+    this.destination,
   });
 
   factory UpdatePublicGroupRequest.fromJson(Map<String, dynamic> json) =>
@@ -4094,6 +4104,8 @@ class UpdatePublicGroupRequest {
   final DateTime? endOfTrip;
   @JsonKey(name: 'picture')
   final String? picture;
+  @JsonKey(name: 'destination')
+  final String? destination;
   static const fromJsonFactory = _$UpdatePublicGroupRequestFromJson;
   static const toJsonFactory = _$UpdatePublicGroupRequestToJson;
   Map<String, dynamic> toJson() => _$UpdatePublicGroupRequestToJson(this);
@@ -4114,7 +4126,11 @@ class UpdatePublicGroupRequest {
                 const DeepCollectionEquality()
                     .equals(other.endOfTrip, endOfTrip)) &&
             (identical(other.picture, picture) ||
-                const DeepCollectionEquality().equals(other.picture, picture)));
+                const DeepCollectionEquality()
+                    .equals(other.picture, picture)) &&
+            (identical(other.destination, destination) ||
+                const DeepCollectionEquality()
+                    .equals(other.destination, destination)));
   }
 
   @override
@@ -4124,6 +4140,7 @@ class UpdatePublicGroupRequest {
       const DeepCollectionEquality().hash(startOfTrip) ^
       const DeepCollectionEquality().hash(endOfTrip) ^
       const DeepCollectionEquality().hash(picture) ^
+      const DeepCollectionEquality().hash(destination) ^
       runtimeType.hashCode;
 }
 
@@ -4133,13 +4150,15 @@ extension $UpdatePublicGroupRequestExtension on UpdatePublicGroupRequest {
       String? description,
       DateTime? startOfTrip,
       DateTime? endOfTrip,
-      String? picture}) {
+      String? picture,
+      String? destination}) {
     return UpdatePublicGroupRequest(
         name: name ?? this.name,
         description: description ?? this.description,
         startOfTrip: startOfTrip ?? this.startOfTrip,
         endOfTrip: endOfTrip ?? this.endOfTrip,
-        picture: picture ?? this.picture);
+        picture: picture ?? this.picture,
+        destination: destination ?? this.destination);
   }
 }
 
@@ -4260,6 +4279,7 @@ class UpdatePrivateGroupRequest {
     this.startOfTrip,
     this.endOfTrip,
     this.picture,
+    this.destination,
   });
 
   factory UpdatePrivateGroupRequest.fromJson(Map<String, dynamic> json) =>
@@ -4284,6 +4304,8 @@ class UpdatePrivateGroupRequest {
   final DateTime? endOfTrip;
   @JsonKey(name: 'picture')
   final String? picture;
+  @JsonKey(name: 'destination')
+  final String? destination;
   static const fromJsonFactory = _$UpdatePrivateGroupRequestFromJson;
   static const toJsonFactory = _$UpdatePrivateGroupRequestToJson;
   Map<String, dynamic> toJson() => _$UpdatePrivateGroupRequestToJson(this);
@@ -4312,7 +4334,11 @@ class UpdatePrivateGroupRequest {
                 const DeepCollectionEquality()
                     .equals(other.endOfTrip, endOfTrip)) &&
             (identical(other.picture, picture) ||
-                const DeepCollectionEquality().equals(other.picture, picture)));
+                const DeepCollectionEquality()
+                    .equals(other.picture, picture)) &&
+            (identical(other.destination, destination) ||
+                const DeepCollectionEquality()
+                    .equals(other.destination, destination)));
   }
 
   @override
@@ -4325,6 +4351,7 @@ class UpdatePrivateGroupRequest {
       const DeepCollectionEquality().hash(startOfTrip) ^
       const DeepCollectionEquality().hash(endOfTrip) ^
       const DeepCollectionEquality().hash(picture) ^
+      const DeepCollectionEquality().hash(destination) ^
       runtimeType.hashCode;
 }
 
@@ -4337,7 +4364,8 @@ extension $UpdatePrivateGroupRequestExtension on UpdatePrivateGroupRequest {
       int? maxSize,
       DateTime? startOfTrip,
       DateTime? endOfTrip,
-      String? picture}) {
+      String? picture,
+      String? destination}) {
     return UpdatePrivateGroupRequest(
         name: name ?? this.name,
         description: description ?? this.description,
@@ -4346,7 +4374,8 @@ extension $UpdatePrivateGroupRequestExtension on UpdatePrivateGroupRequest {
         maxSize: maxSize ?? this.maxSize,
         startOfTrip: startOfTrip ?? this.startOfTrip,
         endOfTrip: endOfTrip ?? this.endOfTrip,
-        picture: picture ?? this.picture);
+        picture: picture ?? this.picture,
+        destination: destination ?? this.destination);
   }
 }
 

@@ -13,14 +13,15 @@ import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
 class PlanningHeader extends ConsumerWidget {
   const PlanningHeader({
     Key? key,
-    required this.group,
+    required this.groupId,
   }) : super(key: key);
 
-  final GroupModel group;
+  final int groupId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final groupViewModel = ref.watch(groupProvider);
+    final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
 
     return Container(
       decoration: BoxDecoration(
@@ -43,7 +44,7 @@ class PlanningHeader extends ConsumerWidget {
               title: AppLocalizations.of(context).translate("groups.planning.destination.title"),
               child: LayoutItemValue(
                 editable: group.state != GroupModelState.archived,
-                value: AppLocalizations.of(context).translate("groups.planning.destination.empty"),
+                value: group.destination ?? AppLocalizations.of(context).translate("groups.planning.destination.empty"),
                 onPressed: () {
                   showBarModalBottomSheet(
                     context: context,
@@ -51,8 +52,16 @@ class PlanningHeader extends ConsumerWidget {
                       return InputDialog(
                         title: AppLocalizations.of(context).translate("groups.planning.destination.edit"),
                         label: AppLocalizations.of(context).translate("groups.planning.destination.title"),
-                        initialValue: "planning.destination",
-                        onConfirm: (value) async {},
+                        initialValue: group.destination ?? '',
+                        onConfirm: (value) async {
+                          if (group.owner == null) {
+                            await groupViewModel.updatePublicGroup(
+                                group.id!.toInt(), UpdatePublicGroupRequest(destination: value));
+                          } else {
+                            await groupViewModel.updatePrivateGroup(
+                                group.id!.toInt(), UpdatePrivateGroupRequest(destination: value));
+                          }
+                        },
                       );
                     },
                   );
