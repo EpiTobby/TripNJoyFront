@@ -41,10 +41,24 @@ class _SignUpState extends ConsumerState<SignUp> {
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Padding(
-            padding: EdgeInsets.only(top: 20, bottom: 20),
-            child: Text('TripNJoy', style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold))),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: InkWell(
+            onTap: () => authViewModel.goToLogin(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.primary),
+                Text(
+                  AppLocalizations.of(context).translate("common.back"),
+                  style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                ),
+              ],
+            ),
+          ),
+        ),
         Expanded(
           child: ListView(
             padding: const EdgeInsets.all(0),
@@ -60,6 +74,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                     AppLocalizations.of(context).translate("user.gender.woman"),
                     AppLocalizations.of(context).translate("user.gender.other")
                   ],
+                  isError: authViewModel.signupState.isError,
                   onChanged: (value) => gender.value = value),
               InputField(
                   label: AppLocalizations.of(context).translate("user.firstname"),
@@ -76,6 +91,7 @@ class _SignUpState extends ConsumerState<SignUp> {
               DatePicker(
                   label: AppLocalizations.of(context).translate("user.birthDate"),
                   selectedDate: birthDate.value,
+                  isError: authViewModel.signupState.isError,
                   onChanged: (value) => birthDate.value = value),
               InputField(
                   label: AppLocalizations.of(context).translate("user.email"),
@@ -108,27 +124,24 @@ class _SignUpState extends ConsumerState<SignUp> {
           ),
         ),
         Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: Column(
-              children: [
-                PrimaryButton(
-                    text: AppLocalizations.of(context).translate("auth.createAccount"),
-                    isLoading: authViewModel.signupState.isLoading,
-                    onPressed: () => authViewModel.signup(SignupCredentials(
-                        gender: gender.value,
-                        firstname: firstname.value,
-                        lastname: lastname.value,
-                        birthDate: birthDate.value.toString(),
-                        email: email.value,
-                        password: password.value,
-                        phoneNumber: phoneNumber.value.isEmpty ? null : phoneNumber.value,
-                        language: AppLocalizations.of(context).locale.languageCode == "en" ? "ENGLISH" : "FRENCH",
-                        city: city.value))),
-                SecondaryButton(
-                    text: AppLocalizations.of(context).translate("common.back"),
-                    onPressed: () => authViewModel.goToLogin()),
-              ],
-            )),
+          padding: const EdgeInsets.only(top: 30),
+          child: PrimaryButton(
+            text: AppLocalizations.of(context).translate("common.signup"),
+            isLoading: authViewModel.signupState.isLoading,
+            onPressed: () => authViewModel.signup(
+              SignupCredentials(
+                  gender: gender.value,
+                  firstname: firstname.value,
+                  lastname: lastname.value,
+                  birthDate: birthDate.value.toString(),
+                  email: email.value,
+                  password: password.value,
+                  phoneNumber: phoneNumber.value.isEmpty ? null : phoneNumber.value,
+                  language: AppLocalizations.of(context).locale.languageCode == "en" ? "ENGLISH" : "FRENCH",
+                  city: city.value),
+            ),
+          ),
+        ),
       ],
     );
   }

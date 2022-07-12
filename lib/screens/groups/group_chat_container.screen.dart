@@ -49,7 +49,7 @@ class GroupChatContainer extends HookConsumerWidget {
                 return GroupChat(groupId: groupId, channel: selectedChannel.value);
               }),
               right: Builder(builder: (context) {
-                return GroupBudget();
+                return GroupBudget(groupId: groupId);
               }),
             )
     ]);

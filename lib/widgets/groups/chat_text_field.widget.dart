@@ -2,17 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 
 class ChatTextField extends StatelessWidget {
-  const ChatTextField({Key? key, required this.controller, required this.onAttachFile, required this.onAttachImage})
+  const ChatTextField(
+      {Key? key,
+      required this.controller,
+      required this.onAttachFile,
+      required this.onAttachImage,
+      this.readOnly = false})
       : super(key: key);
 
   final TextEditingController controller;
   final Function onAttachFile;
   final Function onAttachImage;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      readOnly: readOnly,
       controller: controller,
+      textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         prefixIcon: IconButton(
           icon: Icon(

@@ -3,10 +3,13 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/models/group/activity.dart';
 import 'package:trip_n_joy_front/providers/groups/chat.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
+import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/group_chat_pinned_messages.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/group_planning.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_element.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_file.widget.dart';
@@ -14,6 +17,7 @@ import 'package:trip_n_joy_front/widgets/groups/chat_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_image.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_input.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_message.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/planning_activity.widget.dart';
 
 class GroupChat extends StatefulHookConsumerWidget {
   const GroupChat({
@@ -51,6 +55,23 @@ class _GroupChatState extends ConsumerState<GroupChat> {
     final isLoadingMessages = chatViewModel.isLoadingMessages;
     final scrollController = useScrollController();
 
+    final activities = ref.watch(planningProvider).activities;
+    final nextActivity = useState<Activity?>(null);
+    useEffect(() {
+      Future.microtask(() => ref.read(planningProvider).getActivities(widget.groupId));
+    }, [widget.groupId]);
+
+    useEffect(() {
+      if (activities.value != null) {
+        final now = DateTime.now();
+        try {
+          nextActivity.value = activities.value?.firstWhere((element) => element.startDate.isAfter(now));
+        } catch (e) {
+          nextActivity.value = null;
+        }
+      }
+    }, [activities]);
+
     useEffect(() {
       if (widget.channel != null && isConnected) {
         Future.microtask(() {
@@ -67,26 +88,27 @@ class _GroupChatState extends ConsumerState<GroupChat> {
 
     return Scaffold(
         appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_rounded),
-              splashRadius: 16.0,
-              onPressed: () => {_navigator.pop()},
-            ),
-            title: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  group.name ?? group.members!.map((e) => e.firstname).join(', '),
-                  style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
-                ),
-                Text(
-                  widget.channel?.name ?? '',
-                  style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary),
-                ),
-              ],
-            ),
-            actions: [
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_rounded),
+            splashRadius: 16.0,
+            onPressed: () => {_navigator.pop()},
+          ),
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                group.name ?? group.members!.map((e) => e.firstname).join(', '),
+                style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
+              ),
+              Text(
+                widget.channel?.name ?? '',
+                style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary),
+              ),
+            ],
+          ),
+          actions: [
+            if (group.owner == null)
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -103,43 +125,85 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                   ),
                 ],
               ),
-              PopupMenuButton(
-                onSelected: (value) {
-                  if (value == 1) {
-                    _navigator.push(MaterialPageRoute(builder: (_) => GroupsSettings(groupId: group.id!.toInt())));
-                  }
-                  if (value == 2 && widget.channel?.id != null) {
-                    _navigator.push(
-                      MaterialPageRoute(
-                        builder: (_) => PinnedMessages(
-                          channelId: widget.channel!.id!,
-                        ),
+            PopupMenuButton(
+              onSelected: (value) {
+                if (value == 1) {
+                  _navigator.push(MaterialPageRoute(builder: (_) => GroupsSettings(groupId: group.id!.toInt())));
+                }
+                if (value == 2 && widget.channel?.id != null) {
+                  _navigator.push(
+                    MaterialPageRoute(
+                      builder: (_) => PinnedMessages(
+                        channelId: widget.channel!.id!,
                       ),
-                    );
-                  }
-                },
-                itemBuilder: (ctx) => [
-                  if (widget.channel != null)
-                    PopupMenuItem(
-                      child: Text(AppLocalizations.of(context).translate('groups.chat.pinned_messages.title')),
-                      value: 2,
                     ),
+                  );
+                }
+                if (value == 3) {
+                  _navigator.push(
+                    MaterialPageRoute(
+                      settings: const RouteSettings(name: "/planning"),
+                      builder: (_) => GroupPlanning(
+                        groupId: group.id!.toInt(),
+                      ),
+                    ),
+                  );
+                }
+              },
+              itemBuilder: (ctx) => [
+                if (group.state == GroupModelState.closed)
                   PopupMenuItem(
-                    child: Text(AppLocalizations.of(context).translate('settings.title')),
-                    value: 1,
+                    child: Text(AppLocalizations.of(context).translate('groups.planning.title')),
+                    value: 3,
                   ),
-                ],
-              )
-            ],
-            foregroundColor: Theme.of(context).colorScheme.primary,
-            backgroundColor: Theme.of(context).colorScheme.onPrimary,
-            shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5)),
+                if (widget.channel != null)
+                  PopupMenuItem(
+                    child: Text(AppLocalizations.of(context).translate('groups.chat.pinned_messages.title')),
+                    value: 2,
+                  ),
+                PopupMenuItem(
+                  child: Text(AppLocalizations.of(context).translate('settings.title')),
+                  value: 1,
+                ),
+              ],
+            )
+          ],
+          foregroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: Theme.of(context).colorScheme.onPrimary,
+          shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+        ),
         body: Column(
           children: [
+            if (nextActivity.value != null)
+              PlanningActivity(
+                prefix: Icon(
+                  nextActivity.value!.icon,
+                  color: Theme.of(context).colorScheme.background,
+                  size: 64,
+                ),
+                title: nextActivity.value!.name,
+                subtitle: nextActivity.value!.location,
+                subsubtitle: nextActivity.value!.getActivityDateFormat(),
+                description: nextActivity.value!.description,
+                color: nextActivity.value!.color,
+                members: nextActivity.value!.members.map((e) => e.avatar.url).toList(),
+                onTap: () {
+                  _navigator.push(
+                    MaterialPageRoute(
+                      settings: const RouteSettings(name: "/planning"),
+                      builder: (_) => GroupPlanning(
+                        groupId: group.id!.toInt(),
+                      ),
+                    ),
+                  );
+                },
+              ),
             widget.channel == null || isLoadingMessages
                 ? const Expanded(child: Center(child: CircularProgressIndicator()))
                 : Expanded(
                     child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
                       controller: scrollController,
                       reverse: true,
                       itemCount: messages.length,
@@ -149,6 +213,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                     ),
                   ),
             ChatInput(
+              readOnly: group.state == GroupModelState.archived,
               onSend: (content, type) {
                 ref.read(chatProvider).sendMessage(widget.channel?.id, content, type);
               },

@@ -8,6 +8,8 @@ import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart
 import 'package:trip_n_joy_front/providers/matchmaking/swipe.provider.dart';
 import 'package:trip_n_joy_front/screens/matchmaking/profile.screen.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/cards/group_not_found_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation_card.widget.dart';
 
 import '../../widgets/matchmaking/cards/group_found_card.widget.dart';
@@ -28,6 +30,7 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
     final currIndex = ref.watch(matchmakingProvider).index;
     final matchmakingStatus = ref.watch(matchmakingProvider).status;
     final matchmakingViewModel = ref.watch(matchmakingProvider.notifier);
+    final matchmakingGroup = ref.watch(matchmakingProvider).groupFound;
     final swipeViewModel = ref.watch(swipeProvider.notifier);
     if (swipeViewModel.screenSize == Size.zero) {
       swipeViewModel.setScreenSize(MediaQuery.of(context).size);
@@ -47,7 +50,7 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
                 onPressed: () => {matchmakingViewModel.previousCard()}, icon: const Icon(Icons.arrow_back_rounded))
             : null,
         title: Text(AppLocalizations.of(context).translate("matchmaking.title"),
-            style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+            style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold)),
         actions: [
           IconButton(
             icon: const Icon(Icons.account_circle),
@@ -64,35 +67,15 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
         child: matchmakingStatus != MatchmakingStatus.CREATE_PROFILE
             ? matchmakingStatus != MatchmakingStatus.NO_GROUP
                 ? GroupFoundCard(
-                    groupId: 1,
+                    groupId: matchmakingGroup?.id!.toInt(),
                     isLoading: matchmakingStatus == MatchmakingStatus.WAITING_MATCHMAKING,
-                    groupPhotoUrl: DEFAULT_AVATAR_URL,
-                    membersPhotoUrls: const [],
+                    groupPhotoUrl: matchmakingGroup?.picture,
+                    membersPhotoUrls: matchmakingGroup?.members!
+                            .map((member) => member.profilePicture)
+                            .toList() ??
+                        [],
                   )
-                :  Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            AppLocalizations.of(context).translate("matchmaking.noGroup"),
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontSize: 16,
-                            ),
-                            textAlign:TextAlign.center,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: PrimaryButton(
-                              text: AppLocalizations.of(context).translate('matchmaking.newProfile'),
-                              onPressed: () {
-                                matchmakingViewModel.restartProfileCreation();
-                              }),
-                        ),
-                      ],
-                    )
+                : const GroupNotFoundCard()
             : cards.isEmpty || currIndex >= cards.length || currIndex < 0
                 ? const ProfileCreationCard()
                 : Stack(

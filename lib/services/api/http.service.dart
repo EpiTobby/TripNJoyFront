@@ -1,6 +1,6 @@
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
 
 import '../../codegen/api.swagger.dart';
 import '../../models/auth/signup.model.dart';
@@ -66,11 +66,15 @@ abstract class HttpService {
 
   Future<void> deletePrivateGroup(int groupId);
 
-  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest);
+  Future<void> updatePrivateGroup(int groupId, UpdatePrivateGroupRequest groupUpdateRequest);
+
+  Future<void> updatePublicGroup(int groupId, UpdatePublicGroupRequest groupUpdateRequest);
 
   Future<void> removeUserFromPrivateGroup(int groupId, int userId);
 
   Future<void> leaveGroup(int groupId, int userId);
+
+  Future<void> setGroupPublic(int groupId);
 
   Future<List<ChannelModel>> getChannels(int groupId);
 
@@ -80,9 +84,7 @@ abstract class HttpService {
 
   Future<void> deleteChannel(num channelId);
 
-  Future<StompClient> loadWebSocketChannel(void Function(bool) onConnection);
-
-  Future<WebSocketChannel> loadReadWebSocketChannel(num channelId);
+  Future<StompClient?> loadWebSocketChannel(void Function(bool) onConnection);
 
   Future<List<MessageResponse>> getChannelMessages(num channelId, int page);
 
@@ -91,4 +93,48 @@ abstract class HttpService {
   Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId);
 
   Future<MessageResponse?> togglePinnedMessage(num messageId, bool pinned);
+
+  Future<List<ActivityModel>?> getActivities(int groupId);
+
+  Future<ActivityModel?> createActivity(int groupId, CreateActivityRequest request);
+
+  Future<void> deleteActivity(int groupId, num activityId);
+
+  Future<ActivityModel?> updateActivity(int groupId, num activityId, UpdateActivityRequest request);
+
+  Future<bool> toggleActivityMember(int groupId, num activityId, num userId, bool join);
+
+  Future<List<String>?> getPlacesCategories();
+
+  Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request);
+
+  Future<ReportModel?> submitReport(SubmitReportRequest submitReportRequest);
+
+  Future<List<ReportModel>?> getReports(int submitterId);
+
+  Future<ReportModel?> updateReport(int reportId, UpdateReportRequest updateReportRequest);
+
+  Future<void> deleteReport(int reportId);
+
+  Future<RecommendationModel?> submitRecommendation(SubmitRecommendationRequest request);
+
+  Future<List<RecommendationModel>?> getRecommendations(int reviewedUserId);
+
+  Future<void> deleteRecommendation(int recommendationId);
+
+  Future<List<BalanceResponse>?> getBudgetBalance(int groupId);
+
+  Future<ExpenseModel?> createExpense(int groupId, num? userId, ExpenseRequest body);
+
+  Future<ExpenseModel?> updateExpense(int groupId, num? userId, num? expenseId, ExpenseRequest body);
+
+  Future<List<ExpenseModel>?> getExpenses(int groupId);
+
+  Future<void> deleteExpense(int groupId, num? expenseId);
+
+  Future<List<MoneyDueResponse>?> getUserOwedMoney(int groupId, num? userId);
+
+  Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId);
+
+  Future<ScanResponse?> scanReceipt(String minioUrl);
 }

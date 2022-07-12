@@ -9,15 +9,17 @@ import 'package:trip_n_joy_front/models/group/chat_member.dart';
 import 'package:trip_n_joy_front/models/group/post_message_request.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 
 class ChatViewModel extends ChangeNotifier {
-  ChatViewModel(this.httpService, this.authViewModel) {
+  ChatViewModel(this.httpService, this.authViewModel, this.minioService) {
     _init();
   }
 
   final HttpService httpService;
   final AuthViewModel authViewModel;
+  final MinioService minioService;
 
   List<MessageResponse> messages = [];
   bool isConnectedToSocket = false;
@@ -26,7 +28,6 @@ class ChatViewModel extends ChangeNotifier {
   bool isLoadingMessages = true;
   bool mounted = true;
   HashMap<num, ChatMember> chatMembers = HashMap<num, ChatMember>();
-  final NetworkImage defaultProfileImage = const NetworkImage(DEFAULT_AVATAR_URL);
   int page = 0;
   static const int LAST_PAGE = -1;
   static const int START_PAGE = 0;
@@ -96,24 +97,13 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void sendMessage(num? channelId, String message, MessageResponseType$ type) async {
-    if (message.isNotEmpty && channelId != null) {
-      var body =
-          PostMessageRequest(userId: httpService.getUserIdFromToken(authViewModel.token)!, content: message, type: type)
-              .toJsonString();
-      logger.i("/app/chat/$channelId - $body");
-      client?.send(destination: '/app/chat/$channelId', body: body, headers: {});
-    }
-  }
-
   void loadUserMember(int groupId, num userId) async {
     final user = await httpService.getUserPublicInfo(groupId, userId);
     if (user != null && user.userId != null) {
       chatMembers[user.userId!] = ChatMember(
-        id: user.userId!,
-        name: "${user.firstname} ${user.lastname}",
-        avatar: user.profilePicture != null ? NetworkImage(user.profilePicture!) : defaultProfileImage,
-      );
+          id: user.userId!,
+          name: "${user.firstname} ${user.lastname}",
+          avatar: NetworkImage(MinioService.getImageUrl(user.profilePicture, DEFAULT_URL.AVATAR)));
       notifyListeners();
     }
   }
@@ -128,6 +118,16 @@ class ChatViewModel extends ChangeNotifier {
         messages.insert(0, message);
         notifyListeners();
       }
+    }
+  }
+
+  void sendMessage(num? channelId, String message, MessageResponseType$ type) async {
+    if (message.isNotEmpty && channelId != null) {
+      var body =
+          PostMessageRequest(userId: httpService.getUserIdFromToken(authViewModel.token)!, content: message, type: type)
+              .toJsonString();
+      logger.i("/app/chat/$channelId - $body");
+      client?.send(destination: '/app/chat/$channelId', body: body, headers: {});
     }
   }
 

@@ -11,6 +11,65 @@
     }
   ],
   "paths": {
+    "/expenses/{groupId}/{expenseId}/purchaser/{user}": {
+      "put": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "updateExpense",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "expenseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/{id}/profiles": {
       "get": {
         "tags": [
@@ -109,6 +168,212 @@
         }
       }
     },
+    "/scan": {
+      "post": {
+        "tags": [
+          "scan-controller"
+        ],
+        "operationId": "scan",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports": {
+      "post": {
+        "tags": [
+          "report-controller"
+        ],
+        "summary": "Create a report",
+        "operationId": "submitReport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitReportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The report has been created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The submitter or reported user do not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recommendations": {
+      "post": {
+        "tags": [
+          "recommendation-controller"
+        ],
+        "summary": "Create a recommendation",
+        "operationId": "submitRecommendation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitRecommendationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The recommendation has been created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendationModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The submitter or reviewed user do not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendationModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/places/coordinates": {
+      "post": {
+        "tags": [
+          "places-controller"
+        ],
+        "summary": "Retrieve 10 places around geographic coordinates",
+        "operationId": "getPlacesFromCoordinates",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlacesFromCoordinatesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Return a list of places",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaceResponse"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Address not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaceResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/places/address": {
+      "post": {
+        "tags": [
+          "places-controller"
+        ],
+        "summary": "Retrieve 10 places around an address",
+        "operationId": "getPlacesFromAddress",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlacesFromAddressRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Return a list of places",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaceResponse"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Address not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaceResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/matchmaking": {
       "post": {
         "tags": [
@@ -193,6 +458,127 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/MatchMakingResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{groupId}/planning": {
+      "get": {
+        "tags": [
+          "planning-controller"
+        ],
+        "summary": "Get the group's activities",
+        "operationId": "getActivities",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActivityModel"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The group does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActivityModel"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User does not belong to the group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActivityModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "planning-controller"
+        ],
+        "summary": "Add a new activity to the group's planning",
+        "operationId": "createActivity",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateActivityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Activity created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The group does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User does not belong to the group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityModel"
                 }
               }
             }
@@ -289,6 +675,56 @@
           },
           "403": {
             "description": "The client is not the owner of the group"
+          }
+        }
+      }
+    },
+    "/expenses/{group}/purchaser/{user}": {
+      "post": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "createExpense",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseModel"
+                }
+              }
+            }
           }
         }
       }
@@ -654,6 +1090,155 @@
         }
       }
     },
+    "/reports/{id}": {
+      "get": {
+        "tags": [
+          "report-controller"
+        ],
+        "summary": "Get all the report posted by a user",
+        "operationId": "getBySubmitterId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "report-controller"
+        ],
+        "summary": "Delete a report",
+        "operationId": "deleteReport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "The report does not exist"
+          },
+          "200": {
+            "description": "The report has been deleted"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "report-controller"
+        ],
+        "summary": "Update a report",
+        "operationId": "updateReport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "The report does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The report has been updated",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group}": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Update the public group",
+        "operationId": "updatePublicGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePublicGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The group is updated"
+          },
+          "422": {
+            "description": "Group does not exist"
+          }
+        }
+      }
+    },
     "/groups/{group}/join/{id}": {
       "patch": {
         "tags": [
@@ -728,6 +1313,213 @@
         }
       }
     },
+    "/groups/{groupId}/planning/{activityId}": {
+      "delete": {
+        "tags": [
+          "planning-controller"
+        ],
+        "summary": "Delete the activity",
+        "operationId": "deleteActivity",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "The activity or group does not exist"
+          },
+          "204": {
+            "description": "Activity deleted"
+          },
+          "403": {
+            "description": "User does not belong to the group"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "planning-controller"
+        ],
+        "summary": "Update the activity",
+        "operationId": "updateActivity",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateActivityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "The activity or group does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityModel"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Activity updated. New activity is returned",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User does not belong to the group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{groupId}/planning/{activityId}/leave": {
+      "patch": {
+        "tags": [
+          "planning-controller"
+        ],
+        "summary": "Remove the user from the given activity",
+        "operationId": "leaveActivity",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User removed"
+          },
+          "404": {
+            "description": "The activity or group does not exist"
+          },
+          "403": {
+            "description": "User does not belong to the group"
+          }
+        }
+      }
+    },
+    "/groups/{groupId}/planning/{activityId}/join": {
+      "patch": {
+        "tags": [
+          "planning-controller"
+        ],
+        "summary": "Add the user to the given activity",
+        "operationId": "joinActivity",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "The activity or group does not exist"
+          },
+          "204": {
+            "description": "User added"
+          },
+          "403": {
+            "description": "User does not belong to the group"
+          }
+        }
+      }
+    },
     "/groups/private/{group}": {
       "delete": {
         "tags": [
@@ -779,7 +1571,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateGroupRequest"
+                "$ref": "#/components/schemas/UpdatePrivateGroupRequest"
               }
             }
           },
@@ -794,6 +1586,47 @@
           },
           "403": {
             "description": "The client is not the owner of the group"
+          }
+        }
+      }
+    },
+    "/groups/private/{groupId}/public": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Make a private group public",
+        "operationId": "setGroupPublic",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The group is now public"
+          },
+          "422": {
+            "description": "Group does not exist"
+          },
+          "403": {
+            "description": "User is not in the group, or the group is already public"
           }
         }
       }
@@ -1214,6 +2047,151 @@
         }
       }
     },
+    "/reports/admin/{id}": {
+      "get": {
+        "tags": [
+          "report-controller"
+        ],
+        "summary": "Get all the report of a user",
+        "operationId": "getByReporterUserId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recommendations/{id}": {
+      "get": {
+        "tags": [
+          "recommendation-controller"
+        ],
+        "summary": "Get all the recommendation of a user",
+        "operationId": "getByReviewedUserId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecommendationModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "recommendation-controller"
+        ],
+        "summary": "Delete a recommendation",
+        "operationId": "deleteRecommendation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The recommendation has been deleted"
+          },
+          "404": {
+            "description": "The recommendation does not exist"
+          }
+        }
+      }
+    },
+    "/places/categories": {
+      "get": {
+        "tags": [
+          "places-controller"
+        ],
+        "summary": "Returns all the categories of locations",
+        "operationId": "getCategories",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "ANTIQUES_SHOP",
+                      "ARTS_CENTER",
+                      "ART_SHOP",
+                      "BAR_AND_PUB",
+                      "BEACH",
+                      "BUS",
+                      "CHANGE",
+                      "CHINESE_RESTAURANT",
+                      "COFFEE_SHOP",
+                      "ENTERTAINMENT",
+                      "FAST_FOOD",
+                      "FISH_AND_CHIPS_RESTAURANT",
+                      "ITALIAN_RESTAURANT",
+                      "MUSEUM",
+                      "PARKING",
+                      "RESTAURANT",
+                      "SEAFOOD_RESTAURANT",
+                      "SUPERMARKET",
+                      "SWIMMING_POOL",
+                      "SUBWAY",
+                      "THEATRE",
+                      "TOURISM",
+                      "TRANSPORT"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/matchmaking/{taskId}": {
       "get": {
         "tags": [
@@ -1379,6 +2357,203 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/GroupModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/{group}": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getExpensesByGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpenseModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/{group}/user/{user}/debts": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getMoneyUserOwesToEachMemberInGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MoneyDueResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/{group}/user/{user}/debts/due": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getMoneyEachMemberOwesToUserInGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MoneyDueResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/{group}/user/{user}/debts/details": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getUserDebtsDetails",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DebtDetailsResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/{group}/balances": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "computeBalances",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BalanceResponse"
                   }
                 }
               }
@@ -1614,10 +2789,340 @@
           }
         }
       }
+    },
+    "/expenses/{groupId}/{expenseId}": {
+      "delete": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "deleteExpense",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "expenseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "ExpenseRequest": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "moneyDueByEachUser": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MoneyDueRequest"
+            }
+          },
+          "icon": {
+            "type": "string"
+          },
+          "evenlyDivided": {
+            "type": "boolean"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "MoneyDueRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "money": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ChannelModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CityModel": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ExpenseMemberModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userModel": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "amountToPay": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ExpenseModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          },
+          "groupModel": {
+            "$ref": "#/components/schemas/GroupModel"
+          },
+          "purchaser": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "indebtedUsers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExpenseMemberModel"
+            }
+          }
+        }
+      },
+      "GroupMemberModel": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "profilePicture": {
+            "type": "string"
+          }
+        }
+      },
+      "GroupModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "CLOSED",
+              "ARCHIVED"
+            ]
+          },
+          "owner": {
+            "$ref": "#/components/schemas/UserModel"
+          },
+          "maxSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "picture": {
+            "type": "string"
+          },
+          "destination": {
+            "type": "string"
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberModel"
+            }
+          },
+          "channels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChannelModel"
+            }
+          },
+          "createdDate": {
+            "type": "string"
+          }
+        }
+      },
+      "MemberModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "NOT_SPECIFIED"
+            ]
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "city": {
+            "$ref": "#/components/schemas/CityModel"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UserModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "NOT_SPECIFIED"
+            ]
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "city": {
+            "$ref": "#/components/schemas/CityModel"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          },
+          "language": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "DEFAULT",
+                "ADMIN"
+              ]
+            }
+          }
+        }
+      },
       "AvailabilityAnswerModel": {
         "type": "object",
         "properties": {
@@ -1872,6 +3377,222 @@
           }
         }
       },
+      "ScanRequest": {
+        "type": "object",
+        "properties": {
+          "minioUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "ScanResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          "total": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "SubmitReportRequest": {
+        "type": "object",
+        "properties": {
+          "reportedUserId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "REIMBURSEMENT_PROBLEM",
+              "INNAPROPRIATE_BEHAVIOR",
+              "HYGIENE_PROBLEM",
+              "OTHER"
+            ]
+          },
+          "details": {
+            "type": "string"
+          }
+        }
+      },
+      "ReportModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "REIMBURSEMENT_PROBLEM",
+              "INNAPROPRIATE_BEHAVIOR",
+              "HYGIENE_PROBLEM",
+              "OTHER"
+            ]
+          },
+          "details": {
+            "type": "string"
+          },
+          "reportedUser": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "submitter": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          }
+        }
+      },
+      "SubmitRecommendationRequest": {
+        "type": "object",
+        "properties": {
+          "reviewedUserId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "comment": {
+            "type": "string"
+          }
+        }
+      },
+      "RecommendationModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reviewer": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "recommendedUser": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "comment": {
+            "type": "string"
+          }
+        }
+      },
+      "PlacesFromCoordinatesRequest": {
+        "type": "object",
+        "properties": {
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ANTIQUES_SHOP",
+                "ARTS_CENTER",
+                "ART_SHOP",
+                "BAR_AND_PUB",
+                "BEACH",
+                "BUS",
+                "CHANGE",
+                "CHINESE_RESTAURANT",
+                "COFFEE_SHOP",
+                "ENTERTAINMENT",
+                "FAST_FOOD",
+                "FISH_AND_CHIPS_RESTAURANT",
+                "ITALIAN_RESTAURANT",
+                "MUSEUM",
+                "PARKING",
+                "RESTAURANT",
+                "SEAFOOD_RESTAURANT",
+                "SUPERMARKET",
+                "SWIMMING_POOL",
+                "SUBWAY",
+                "THEATRE",
+                "TOURISM",
+                "TRANSPORT"
+              ]
+            }
+          },
+          "radiusMeter": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PlaceResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "street": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          }
+        }
+      },
+      "PlacesFromAddressRequest": {
+        "type": "object",
+        "properties": {
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ANTIQUES_SHOP",
+                "ARTS_CENTER",
+                "ART_SHOP",
+                "BAR_AND_PUB",
+                "BEACH",
+                "BUS",
+                "CHANGE",
+                "CHINESE_RESTAURANT",
+                "COFFEE_SHOP",
+                "ENTERTAINMENT",
+                "FAST_FOOD",
+                "FISH_AND_CHIPS_RESTAURANT",
+                "ITALIAN_RESTAURANT",
+                "MUSEUM",
+                "PARKING",
+                "RESTAURANT",
+                "SEAFOOD_RESTAURANT",
+                "SUPERMARKET",
+                "SWIMMING_POOL",
+                "SUBWAY",
+                "THEATRE",
+                "TOURISM",
+                "TRANSPORT"
+              ]
+            }
+          },
+          "radiusMeter": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "address": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          }
+        }
+      },
       "MatchMakingResponse": {
         "type": "object",
         "properties": {
@@ -1884,200 +3605,97 @@
           }
         }
       },
+      "CreateActivityRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "participantsIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "color": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          }
+        }
+      },
+      "ActivityModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupMemberModel"
+            }
+          },
+          "color": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "infos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "CreatePrivateGroupRequest": {
         "type": "object",
         "properties": {
           "name": {
             "type": "string"
           },
-          "maxSize": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "ChannelModel": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
+          "description": {
             "type": "string"
-          },
-          "index": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "CityModel": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          }
-        }
-      },
-      "GroupModel": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "state": {
-            "type": "string",
-            "enum": [
-              "OPEN",
-              "CLOSED",
-              "ARCHIVED"
-            ]
-          },
-          "owner": {
-            "$ref": "#/components/schemas/UserModel"
           },
           "maxSize": {
             "type": "integer",
             "format": "int32"
-          },
-          "startOfTrip": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endOfTrip": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "picture": {
-            "type": "string"
-          },
-          "members": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MemberModel"
-            }
-          },
-          "channels": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ChannelModel"
-            }
-          },
-          "createdDate": {
-            "type": "string"
-          }
-        }
-      },
-      "MemberModel": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "firstname": {
-            "type": "string"
-          },
-          "lastname": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "birthDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "gender": {
-            "type": "string",
-            "enum": [
-              "MALE",
-              "FEMALE",
-              "NOT_SPECIFIED"
-            ]
-          },
-          "profilePicture": {
-            "type": "string"
-          },
-          "city": {
-            "$ref": "#/components/schemas/CityModel"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "confirmed": {
-            "type": "boolean"
-          }
-        }
-      },
-      "UserModel": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "firstname": {
-            "type": "string"
-          },
-          "lastname": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "birthDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "gender": {
-            "type": "string",
-            "enum": [
-              "MALE",
-              "FEMALE",
-              "NOT_SPECIFIED"
-            ]
-          },
-          "profilePicture": {
-            "type": "string"
-          },
-          "city": {
-            "$ref": "#/components/schemas/CityModel"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "confirmed": {
-            "type": "boolean"
-          },
-          "language": {
-            "type": "string"
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "DEFAULT",
-                "ADMIN"
-              ]
-            }
           }
         }
       },
@@ -2342,10 +3960,96 @@
           }
         }
       },
-      "UpdateGroupRequest": {
+      "UpdateReportRequest": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "enum": [
+              "REIMBURSEMENT_PROBLEM",
+              "INNAPROPRIATE_BEHAVIOR",
+              "HYGIENE_PROBLEM",
+              "OTHER"
+            ]
+          },
+          "details": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdatePublicGroupRequest": {
         "type": "object",
         "properties": {
           "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endOfTrip": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "picture": {
+            "type": "string"
+          },
+          "destination": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateActivityRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "color": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "infos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      },
+      "UpdatePrivateGroupRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
             "type": "string"
           },
           "state": {
@@ -2373,6 +4077,9 @@
             "format": "date-time"
           },
           "picture": {
+            "type": "string"
+          },
+          "destination": {
             "type": "string"
           }
         }
@@ -2621,27 +4328,54 @@
               "SEARCHING"
             ]
           },
-          "groupId": {
-            "type": "integer",
-            "format": "int64"
+          "group": {
+            "$ref": "#/components/schemas/GroupModel"
           }
         }
       },
-      "GroupMemberModel": {
+      "MoneyDueResponse": {
         "type": "object",
         "properties": {
-          "userId": {
-            "type": "integer",
-            "format": "int64"
+          "user": {
+            "$ref": "#/components/schemas/GroupMemberModel"
           },
-          "firstname": {
+          "total": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "DebtDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "indebtedUser": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "purchaser": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "description": {
             "type": "string"
           },
-          "lastname": {
-            "type": "string"
+          "amountToPay": {
+            "type": "number",
+            "format": "double"
           },
-          "profilePicture": {
-            "type": "string"
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BalanceResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "money": {
+            "type": "number",
+            "format": "double"
           }
         }
       },

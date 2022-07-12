@@ -46,7 +46,7 @@ dependencies:
   jwt_decode: ^0.3.1
   image_picker: ^0.8.4+11
   minio: ^3.5.0
-  another_flushbar: ^1.10.28
+  another_flushbar: 1.10.28
   google_fonts: ^2.3.1
   mockito: ^5.1.0
   firebase_core: ^1.13.1
@@ -61,6 +61,12 @@ dependencies:
   flutter_downloader: ^1.7.3
   permission_handler: ^9.2.0
   path_provider: ^2.0.9
+  flutter_iconpicker: ^3.1.4+1
+  flutter_colorpicker: ^1.0.3
+  modal_bottom_sheet: ^2.0.1
+  flutter_map: ^0.14.0
+  latlong2: ^0.8.1
+  flutter_osm_plugin: ^0.28.2
 
 dev_dependencies:
   flutter_test:

@@ -3,30 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/screens/groups/end_of_trip.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/group_chat.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/group_chat_container.screen.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 
 class GroupList extends StatelessWidget {
-  const GroupList({Key? key, required this.groups, required this.title}) : super(key: key);
+  const GroupList({Key? key, required this.groups, this.title}) : super(key: key);
 
   final List<GroupModel> groups;
-  final String title;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onBackground,
+        if (title != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Text(
+              title!,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
             ),
           ),
-        ),
         ...groups
             .map((group) => GroupListItem(
                   group: group,
@@ -37,6 +40,15 @@ class GroupList extends StatelessWidget {
                         builder: (_) => GroupChatContainer(groupId: group.id!.toInt()),
                       ),
                     );
+                    if (group.state == GroupModelState.closed &&
+                        group.endOfTrip?.add(const Duration(days: 1)).isBefore(DateTime.now()) == true) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => EndOfTrip(groupId: group.id!.toInt()),
+                        ),
+                      );
+                    }
                   },
                 ))
             .toList()
@@ -81,7 +93,7 @@ class GroupListItem extends StatelessWidget {
                 backgroundColor: group.state! != GroupModelState.archived
                     ? Theme.of(context).colorScheme.surface
                     : Theme.of(context).disabledColor.withOpacity(0.1),
-                backgroundImage: NetworkImage(group.picture ?? DEFAULT_GROUP_AVATAR_URL)),
+                backgroundImage: NetworkImage(MinioService.getImageUrl(group.picture, DEFAULT_URL.GROUP))),
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
@@ -89,7 +101,7 @@ class GroupListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      group.name!,
+                      group.name ?? group.members!.map((e) => e.firstname).join(', '),
                       style: GoogleFonts.raleway(
                         fontSize: 22,
                         fontWeight: FontWeight.w800,

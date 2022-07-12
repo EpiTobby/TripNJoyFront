@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 
 class LayoutHeader extends StatelessWidget {
-  const LayoutHeader({Key? key, this.title, required this.imageURL, this.onClick}) : super(key: key);
+  const LayoutHeader({Key? key, this.title, required this.imageURL, this.onClick, required this.background}) : super(key: key);
 
   final String? title;
   final String imageURL;
   final Function? onClick;
+  final bool background;
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +15,14 @@ class LayoutHeader extends StatelessWidget {
       children: [
         Stack(
           children: [
-            ColoredBox(
-              color: Theme.of(context).colorScheme.secondary,
-              child: const SizedBox(
-                width: double.infinity,
-                height: 100,
+            if (background)
+              ColoredBox(
+                color: Theme.of(context).colorScheme.secondary,
+                child: const SizedBox(
+                  width: double.infinity,
+                  height: 100,
+                ),
               ),
-            ),
             Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: Center(
@@ -29,14 +32,13 @@ class LayoutHeader extends StatelessWidget {
                         backgroundImage: NetworkImage(imageURL),
                         radius: 70,
                       ),
-                      Positioned(
+                      if (onClick != null)
+                        Positioned(
                           bottom: 0,
                           right: -15,
                           child: RawMaterialButton(
                             onPressed: () {
-                              if (onClick != null) {
-                                onClick!();
-                              }
+                              onClick!();
                             },
                             elevation: 0.5,
                             fillColor: Theme.of(context).colorScheme.secondary,
@@ -46,7 +48,8 @@ class LayoutHeader extends StatelessWidget {
                             ),
                             padding: const EdgeInsets.all(15.0),
                             shape: const CircleBorder(),
-                          )),
+                          ),
+                        ),
                     ],
                   ),
                 )),

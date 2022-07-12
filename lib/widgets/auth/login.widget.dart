@@ -34,54 +34,66 @@ class _LoginState extends ConsumerState<Login> {
     ref.listen<AsyncValue<void>>(authLoginStateProvider, (_, state) => state.showSnackBarOnError(widget.parentContext));
 
     return SingleChildScrollView(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-            padding: const EdgeInsets.only(bottom: 30),
-            child: Text('TripNJoy',
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary, fontSize: 40, fontWeight: FontWeight.bold))),
-        InputField(
-          label: AppLocalizations.of(context).translate("user.email"),
-          hint: AppLocalizations.of(context).translate("auth.email"),
-          onChanged: (value) => email.value = value,
-          icon: const Icon(Icons.email),
-          keyboardType: TextInputType.emailAddress,
-          textCapitalization: TextCapitalization.none,
-          isError: auth.loginState.isError,
-        ),
-        InputField(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+              padding: const EdgeInsets.only(bottom: 30),
+              child: Text('TripNJoy',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary, fontSize: 40, fontWeight: FontWeight.bold))),
+          InputField(
+            label: AppLocalizations.of(context).translate("user.email"),
+            hint: AppLocalizations.of(context).translate("auth.email"),
+            onChanged: (value) => email.value = value,
+            icon: const Icon(Icons.email),
+            keyboardType: TextInputType.emailAddress,
+            textCapitalization: TextCapitalization.none,
+            isError: auth.loginState.isError,
+          ),
+          InputField(
             label: AppLocalizations.of(context).translate("user.password"),
             hint: AppLocalizations.of(context).translate("auth.password"),
             onChanged: (value) => password.value = value,
             icon: const Icon(Icons.lock),
             isError: auth.loginState.isError,
-            isPassword: true),
-        Padding(
+            isPassword: true,
+            displayForgotPassword: true,
+          ),
+          Padding(
             padding: const EdgeInsets.only(top: 29),
             child: Column(
               children: [
+                PrimaryButton(
+                  text: AppLocalizations.of(context).translate("common.login"),
+                  isLoading: auth.loginState.isLoading,
+                  onPressed: () => auth.login(email.value, password.value),
+                ),
+                TertiaryButton(
+                  text: AppLocalizations.of(context).translate("common.signup"),
+                  onPressed: () => auth.goToSignup(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 18.0),
+                  child: Text(
+                    "- " + AppLocalizations.of(context).translate("common.or").toUpperCase() + " -",
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primaryContainer),
+                  ),
+                ),
                 FutureBuilder(
                   future: AuthViewModel.initializeFirebase(context),
                   builder: (context, snapshot) {
                     return const GoogleSignInButton();
                   },
                 ),
-                PrimaryButton(
-                    text: AppLocalizations.of(context).translate("common.login"),
-                    isLoading: auth.loginState.isLoading,
-                    onPressed: () => auth.login(email.value, password.value)),
-                SecondaryButton(
-                    text: AppLocalizations.of(context).translate("auth.createAccount"),
-                    onPressed: () => auth.goToSignup()),
-                TertiaryButton(
-                    text: AppLocalizations.of(context).translate("auth.forgotPassword"),
-                    onPressed: () =>
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassword()))),
               ],
-            )),
-      ],
-    ));
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

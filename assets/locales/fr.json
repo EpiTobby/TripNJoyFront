@@ -1,6 +1,7 @@
 {
   "common": {
     "login": "Se connecter",
+    "signup": "S'inscrire",
     "logout": "Se déconnecter",
     "reconnect": "Se reconnecter",
     "description": "Description",
@@ -19,7 +20,15 @@
     "people": "personnes",
     "search": "Rechercher",
     "accept": "Accepter",
-    "decline": "Refuser"
+    "decline": "Refuser",
+    "delete": "Supprimer",
+    "date": "Date",
+    "time": "Heure",
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "gallery": "Galerie",
+    "or": "ou",
+    "me": "moi"
   },
   "user": {
     "firstname": "Prénom",
@@ -181,12 +190,16 @@
       "subtitle": "Saississez un intervalle entre 1 et 30+ jours"
     },
     "swipeToChoose": "Swiper pour choisir votre préférence",
-    "no_preference": "N'importe"
+    "no_preference": "N'importe",
+    "mixed": "N'importe"
   },
   "matchmaking": {
     "title": "Matchmaking",
     "retryProfile": "Relancer un matchmaking avec ce profil",
-    "noGroup": "Aucun groupe trouvé. Attendez qu'un autre utilisateur match avec vous ou relancez le matchmaking avec un autre profil.",
+    "noGroup": {
+      "title": "Aucun groupe trouvé",
+      "subtitle": "Aucun groupe trouvé. Attendez qu'un autre utilisateur match avec vous ou relancez le matchmaking avec un autre profil."
+    },
     "newProfile": "Nouveau profil"
   },
   "profile": {
@@ -210,10 +223,39 @@
       "about": "Information sur le groupe",
       "groupName": "Nom du groupe",
       "groupSettings": "Paramètres du groupe",
+      "open": "Ouvrir le groupe",
       "close": "Fermer le groupe",
       "archive": "Archiver le groupe",
       "quit": "Quitter le groupe",
-      "maxSize": "Nombre de membres maximum"
+      "maxSize": "Nombre de membres maximum",
+      "askPublic": "Demander à passer le groupe en public",
+      "askArchive": "Demander à archiver le groupe",
+      "public": "Groupe public",
+      "private": "Groupe privé",
+      "status": "Statut",
+      "type": {
+        "open": "Groupe ouvert",
+        "closed": "Groupe fermé",
+        "archived": "Groupe archivé"
+      },
+      "recommend": "Recommander",
+      "report": "Signaler",
+      "recommendUser": "Recommander cet utilisateur",
+      "reportUser": "Signaler cet utilisateur",
+      "recommendation": "Recommandation",
+      "reportForm": "Signalement",
+      "reportReason": {
+        "title": "Raison du signalement",
+        "details": "Détails",
+        "reimbursementProblem": "Problème de remboursement",
+        "innapropriateBehavior": "Mauvais comportement",
+        "hygieneProblem": "Problème de hygiène",
+        "other": "Autre"
+      },
+      "end": {
+        "title": "Votre voyage est terminé !",
+        "subtitle": "Nous espérons que vous avez passé un bon moment !"
+      }
     },
     "create": "Créer un groupe",
     "join": "Rejoindre un groupe",
@@ -251,8 +293,150 @@
         "confirm": "Supprimer"
       }
     },
+    "planning": {
+      "title": "Planning",
+      "empty": "Appuyez sur le bouton + pour ajouter une nouvelle activité",
+      "destination": {
+        "title": "Destination",
+        "edit": "Modifier la destination",
+        "empty": "Aucune destination"
+      },
+      "date": {
+        "title": "Date",
+        "edit": "Modifier la date",
+        "empty": "Aucune date définie"
+      },
+      "note": {
+        "title": "Note",
+        "edit": "Modifier la note",
+        "empty": "Aucune note"
+      },
+      "activity": {
+        "title": "Activité",
+        "add": "Ajouter une activité",
+        "manual": "Ajouter une activité manuellement",
+        "suggestion": {
+          "title": "Activités suggérées",
+          "empty": "Sélectionnez une position afin d'obtenir des activités suggérées",
+          "map": {
+            "title": "Vers quel endroit voulez-vous réaliser l’activité ?"
+          }
+        },
+        "type": {
+          "title": "Type d'activité",
+          "ANTIQUES_SHOP": "Boutique d'antiques",
+          "ARTS_CENTER": "Centre d'art",
+          "ART_SHOP": "Boutique d'art",
+          "BAR_AND_PUB": "Bar et pub",
+          "BEACH": "Plage",
+          "BUS": "Bus",
+          "CHANGE": "DAB",
+          "CHINESE_RESTAURANT": "Restaurant chinois",
+          "COFFEE_SHOP": "Café",
+          "ENTERTAINMENT": "Spectacle",
+          "FAST_FOOD": "Fast food",
+          "FISH_AND_CHIPS_RESTAURANT": "Restaurant Fish and Chips",
+          "ITALIAN_RESTAURANT": "Restaurant italien",
+          "MUSEUM": "Musée",
+          "PARKING": "Parking",
+          "RESTAURANT": "Restaurant",
+          "SEAFOOD_RESTAURANT": "Restaurant de fruit de mer",
+          "SUPERMARKET": "Supermarché",
+          "SWIMMING_POOL": "Piscine",
+          "SUBWAY": "Métro",
+          "THEATRE": "Théâtre",
+          "TOURISM": "Tourisme",
+          "TRANSPORT": "Transport"
+        },
+        "edit": {
+          "title": "Information sur l'activité",
+          "name": {
+            "title": "Nom de l'activité",
+            "edit": "Modifier le nom de l'activité"
+          },
+          "location": {
+            "title": "Lieu de l'activité",
+            "edit": "Modifier le lieu de l'activité"
+          },
+          "begin": {
+            "title": "Date de début",
+            "edit": "Modifier la date de début"
+          },
+          "end": {
+            "title": "Date de fin",
+            "edit": "Modifier la date de fin"
+          },
+          "description": {
+            "title": "Description de l'activité",
+            "edit": "Modifier la description de l'activité"
+          },
+          "icon": {
+            "title": "Icône",
+            "edit": "Modifier l'icône de l'activité"
+          },
+          "color": {
+            "title": "Couleur",
+            "edit": "Modifier la couleur de l'activité"
+          },
+          "members": {
+            "title": "Membres concernés"
+          },
+          "delete": {
+            "title": "Supprimer l'activité",
+            "content": "Êtes-vous sûr de vouloir supprimer cette activité ?"
+          }
+        }
+      }
+    },
     "budget": {
-      "title": "Budget"
+      "title": "Budget",
+      "empty": "Aucune dépense de groupe",
+      "expenses": {
+        "title": "Dépenses",
+        "paid_by": "Payé par $name",
+        "paid_for": "Membres: $members"
+      },
+      "add": {
+        "title": "Ajouter une nouvelle dépense"
+      },
+      "edit": {
+        "title": "Modifier la dépense",
+        "name": "Nom de la dépense",
+        "price": "Prix",
+        "paid_by": "Payé par",
+        "paid_for": "Membres concernés",
+        "delete": {
+          "title": "Supprimer la dépense",
+          "confirm": "Êtes-vous sûr de vouloir supprimer cette dépense ?"
+        }
+      },
+      "reimbursement": {
+        "title": "Remboursement",
+        "owed": {
+          "title": "Ce qu'on me doit",
+          "empty": "Aucun membre ne me doit de l'argent"
+        },
+        "due": {
+          "title": "Ce que je dois",
+          "empty": "Je ne dois rien à personne"
+        },
+        "owes": "doit"
+      }
+    },
+    "scan": {
+      "title": "Scan",
+      "description": "Scan un ticket de caisse pour ajouter une dépense",
+      "perArticle": "Par article",
+      "perPerson": "Par personne",
+      "changePrice": "Modifier le prix",
+      "adjust": "Ajuster",
+      "total": "Total",
+      "addArticle": {
+        "title": "Ajouter un article",
+        "name": "Nom de l'article",
+        "price": "Prix"
+      },
+      "missing": "Manquant :"
     }
   },
   "settings": {
@@ -273,7 +457,11 @@
     "newPassword": "Nouveau mot de passe",
     "confirmDeleteAccount": "Confirmer le mot de passe pour supprimer votre compte",
     "country": "Changer de pays",
-    "city": "Changer de ville"
+    "city": "Changer de ville",
+    "noCity": "Aucune ville"
+  },
+  "notifications": {
+    "title": "Notifications"
   },
   "errors": {
     "login": "Identifiants incorrects",

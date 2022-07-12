@@ -1,6 +1,7 @@
 {
   "common": {
-    "login": "Connect",
+    "login": "Login",
+    "signup": "Signup",
     "logout": "Disconnect",
     "reconnect": "Reconnect",
     "description": "Description",
@@ -19,7 +20,15 @@
     "people": "people",
     "search": "Search",
     "accept": "Accept",
-    "decline": "Decline"
+    "decline": "Decline",
+    "delete": "Delete",
+    "date": "Date",
+    "time": "Time",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "gallery": "Gallery",
+    "or": "or",
+    "me": "me"
   },
   "user": {
     "firstname": "Firstname",
@@ -181,12 +190,16 @@
       "subtitle": "Please select a range between 1 and 30 days+."
     },
     "swipeToChoose": "Swipe to choose your preference",
-    "no_preference": "Any"
+    "no_preference": "Any",
+    "mixed": "Any"
   },
   "matchmaking": {
     "title": "Matchmaking",
     "retryProfile": "Retry a matchmaking with this profile",
-    "noGroup": "No group found, wait for another user to match with you or try with another profile.",
+    "noGroup": {
+      "title": "No group found",
+      "subtitle": "No group found, wait for another user to match with you or try with another profile."
+    },
     "newProfile": "New profile"
   },
   "profile": {
@@ -210,10 +223,39 @@
       "about": "About the group",
       "groupName": "Name of the group",
       "groupSettings": "Settings for the group",
+      "open": "Open the group",
       "close": "Close the group",
       "archive": "Archive the group",
       "quit": "Quit the group",
-      "maxSize": "Maximum number of members"
+      "maxSize": "Maximum number of members",
+      "askPublic": "Ask for the group to be public",
+      "askArchive": "Ask for the group to be archived",
+      "public": "Public group",
+      "private": "Private group",
+      "status": "Status",
+      "type": {
+        "open": "Opened group",
+        "closed": "Closed group",
+        "archived": "Archived group"
+      },
+      "recommend": "Recommend",
+      "report": "Report",
+      "recommendUser": "Recommend this user",
+      "reportUser": "Report this user",
+      "recommendation": "Recommendation",
+      "reportForm": "Report form",
+      "reportReason": {
+        "title": "Reason of the report",
+        "details": "Details",
+        "reimbursementProblem": "Reimbursement problem",
+        "innapropriateBehavior": "Inappropriate behavior",
+        "hygieneProblem": "Hygiene problem",
+        "other": "Other"
+      },
+      "end": {
+        "title": "Your trip is over!",
+        "subtitle": "We hope you had a good time!"
+      }
     },
     "create": "Create a group",
     "join": "Join a group",
@@ -251,8 +293,150 @@
         "confirm": "Delete"
       }
     },
+    "planning": {
+      "title": "Planning",
+      "empty": "Press the + button to add a new activity",
+      "destination": {
+        "title": "Destination",
+        "edit": "Edit the destination",
+        "empty": "No destination"
+      },
+      "date": {
+        "title": "Date",
+        "edit": "Edit the date",
+        "empty": "No date set"
+      },
+      "note": {
+        "title": "Note",
+        "edit": "Edit the note",
+        "empty": "No note"
+      },
+      "activity": {
+        "title": "Activity",
+        "add": "Add an activity",
+        "manual": "Add an activity manually",
+        "suggestion": {
+          "title": "Suggested activities",
+          "empty": "Select a location to get a suggestion of activities",
+          "map": {
+            "title": "Where would you like to do the activity?"
+          }
+        },
+        "type": {
+          "title": "Activity type",
+          "ANTIQUES_SHOP": "Antiques shop",
+          "ARTS_CENTER": "Arts center",
+          "ART_SHOP": "Art shop",
+          "BAR_AND_PUB": "Bar and pub",
+          "BEACH": "Beach",
+          "BUS": "Bus station",
+          "CHANGE": "Change",
+          "CHINESE_RESTAURANT": "Chinese restaurant",
+          "COFFEE_SHOP": "Coffee shop",
+          "ENTERTAINMENT": "Entertainment",
+          "FAST_FOOD": "Fast food",
+          "FISH_AND_CHIPS_RESTAURANT": "Fish and chips restaurant",
+          "ITALIAN_RESTAURANT": "Italian restaurant",
+          "MUSEUM": "Museum",
+          "PARKING": "Parking",
+          "RESTAURANT": "Restaurant",
+          "SEAFOOD_RESTAURANT": "Seafood restaurant",
+          "SUPERMARKET": "Supermarket",
+          "SWIMMING_POOL": "Swimming pool",
+          "SUBWAY": "Subway station",
+          "THEATRE": "Theatre",
+          "TOURISM": "Tourism",
+          "TRANSPORT": "Transport"
+        },
+        "edit": {
+          "title": "Information on the activity",
+          "name": {
+            "title": "Name of the activity",
+            "edit": "Edit the name of the activity"
+          },
+          "location": {
+            "title": "Location of the activity",
+            "edit": "Edit the location of the activity"
+          },
+          "begin": {
+            "title": "Begin of the activity",
+            "edit": "Edit the begin of the activity"
+          },
+          "end": {
+            "title": "End of the activity",
+            "edit": "Edit the end of the activity"
+          },
+          "description": {
+            "title": "Description of the activity",
+            "edit": "Edit the description of the activity"
+          },
+          "icon": {
+            "title": "Icon",
+            "edit": "Edit the icon of the activity"
+          },
+          "color": {
+            "title": "Color",
+            "edit": "Edit the color of the activity"
+          },
+          "members": {
+            "title": "Members"
+          },
+          "delete": {
+            "title": "Delete the activity",
+            "content": "Are you sure you want to delete the activity ?"
+          }
+        }
+      }
+    },
     "budget": {
-      "title": "Budget"
+      "title": "Budget",
+      "empty": "No expenses yet",
+      "expenses": {
+        "title": "Expenses",
+        "paid_by": "Paid by $name",
+        "paid_for": "Members: $members"
+      },
+      "add": {
+        "title": "Add new expense"
+      },
+      "edit": {
+        "title": "Edit expense",
+        "name": "Name of the expense",
+        "price": "Amount",
+        "paid_by": "Paid by",
+        "paid_for": "For whom",
+        "delete": {
+          "title": "Delete expense",
+          "confirm": "Are you sure you want to delete this expense ?"
+        }
+      },
+      "reimbursement": {
+        "title": "Reimbursement",
+        "owed": {
+          "title": "What I am owed",
+          "empty": "Nothing to be owed"
+        },
+        "due": {
+          "title": "What I owe",
+          "empty": "Nothing to owe"
+        },
+        "owes": "owes"
+      }
+    },
+    "scan": {
+      "title": "Scan",
+      "description": "Scan a sale receipt to add a new expense",
+      "perArticle": "Per article",
+      "perPerson": "Per person",
+      "changePrice": "Change price",
+      "adjust": "Adjust",
+      "total": "Total",
+      "addArticle": {
+        "title": "Add article",
+        "name": "Name of the article",
+        "price": "Price"
+      },
+      "missing": "Missing"
     }
   },
   "settings": {
@@ -273,7 +457,11 @@
     "newPassword": "New password",
     "confirmDeleteAccount": "Confirm password to delete your account",
     "country": "Change your country",
-    "city": "Change your city"
+    "city": "Change your city",
+    "noCity": "No city"
+  },
+  "notifications": {
+    "title": "Notifications"
   },
   "errors": {
     "login": "Wrong email or password",

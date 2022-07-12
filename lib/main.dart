@@ -79,7 +79,10 @@ class MyApp extends StatelessWidget {
           onSecondary: CColors.onSecondary,
           onTertiary: CColors.onTertiary,
           primaryContainer: CColors.variant,
+          secondaryContainer: CColors.secondary.withOpacity(0.1),
+          tertiaryContainer: CColors.tertiary.withOpacity(0.1),
           error: CColors.error,
+          errorContainer: CColors.error.withOpacity(0.1),
           onError: CColors.onError,
           surface: CColors.surface,
           onSurface: CColors.onSurface,
@@ -94,6 +97,9 @@ class MyApp extends StatelessWidget {
           showValueIndicator: ShowValueIndicator.always,
           overlayColor: CColors.secondary,
           valueIndicatorColor: CColors.secondary,
+        ),
+        timePickerTheme: const TimePickerThemeData(
+          backgroundColor: CColors.background,
         ),
       ),
       supportedLocales: const [
@@ -149,36 +155,42 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     }
 
     useEffect(() {
-      if (authViewModel.isAuthenticated && mounted) {
-        userViewModel.loadUser().then((value) {
-          if (value != null && mounted) {
-            if (value.confirmed == false) {
-              logger.d("user not confirmed");
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => AccountVerification(
-                    userId: value.id!.toInt(),
+      Future.microtask(() {
+        if (authViewModel.isAuthenticated && mounted) {
+          userViewModel.loadUser().then((value) {
+            if (value != null && mounted) {
+              if (value.confirmed == false) {
+                logger.d("user not confirmed");
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AccountVerification(
+                      userId: value.id!.toInt(),
+                    ),
                   ),
-                ),
-              );
+                );
+              }
+            } else {
+              logger.d("user not found");
+              authViewModel.logout();
             }
-          } else {
-            logger.d("user not found");
-            authViewModel.logout();
-          }
-        });
-      }
+          });
+        }
+      });
+
       return null;
-    }, [authViewModel]);
+    }, [authViewModel, userViewModel]);
 
     final user = ref.watch(userProvider);
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
     return user.when(
         data: (data) => Scaffold(
-              appBar: selectedPage != NavbarPage.MATCHMAKING
+              appBar: selectedPage != NavbarPage.MATCHMAKING && selectedPage != NavbarPage.GROUPS
                   ? AppBar(
-                      title: Text(widget.title),
+                      title: Text(
+                        AppLocalizations.of(context).translate("${selectedPage.name.toLowerCase()}.title"),
+                        style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
+                      ),
                       backgroundColor: Theme.of(context).colorScheme.background,
                       foregroundColor: Theme.of(context).colorScheme.onBackground,
                       shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),

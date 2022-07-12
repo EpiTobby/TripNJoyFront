@@ -37,7 +37,7 @@ class PinnedMessages extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pinned Messages'),
+        title: Text(AppLocalizations.of(context).translate("groups.chat.pinned_messages.title")),
         foregroundColor: Theme.of(context).colorScheme.primary,
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
@@ -88,7 +88,10 @@ class PinnedMessages extends HookConsumerWidget {
 
     final chatMember = chatMembers[message.userId];
     return ListTile(
-      title: Text(chatMember?.name ?? ''),
+      title: Padding(
+        padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+        child: Text(chatMember?.name ?? ''),
+      ),
       subtitle: child,
       trailing: Text(formatTimeToMessage(message.sentDate!)),
     );

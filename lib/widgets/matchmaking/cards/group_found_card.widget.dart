@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
+import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
+import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
+import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 
 import '../../../app_localizations.dart';
 import '../../../providers/matchmaking/matchmaking.provider.dart';
@@ -11,15 +17,15 @@ import '../../common/card.widget.dart';
 class GroupFoundCard extends HookConsumerWidget {
   const GroupFoundCard({
     Key? key,
-    required this.groupId,
+    this.groupId,
     required this.groupPhotoUrl,
     required this.membersPhotoUrls,
     this.isLoading = false,
   }) : super(key: key);
 
-  final int groupId;
-  final String groupPhotoUrl;
-  final List<String> membersPhotoUrls;
+  final int? groupId;
+  final String? groupPhotoUrl;
+  final List<String?> membersPhotoUrls;
   final bool isLoading;
 
   @override
@@ -30,6 +36,9 @@ class GroupFoundCard extends HookConsumerWidget {
     final offset = Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, -2))
         .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
     final matchmakingViewModel = ref.watch(matchmakingProvider.notifier);
+    final groupViewModel = ref.watch(groupProvider);
+
+    final navbar = ref.watch(navbarStateProvider.notifier);
 
     final profiles = ref.watch(profileProvider);
 
@@ -59,11 +68,11 @@ class GroupFoundCard extends HookConsumerWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           boxShadow: [
-                            BoxShadow(blurRadius: 20, color: Theme.of(context).colorScheme.secondary, spreadRadius: -10)
+                            BoxShadow(blurRadius: 20, color: Theme.of(context).colorScheme.surface, spreadRadius: -10)
                           ],
                         ),
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(groupPhotoUrl),
+                          backgroundImage: NetworkImage(MinioService.getImageUrl(groupPhotoUrl, DEFAULT_URL.GROUP)),
                           radius: 70,
                         ),
                       ),
@@ -75,7 +84,8 @@ class GroupFoundCard extends HookConsumerWidget {
                           Container(
                             margin: const EdgeInsets.only(right: 10),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(memberPhotoUrl),
+                              backgroundImage:
+                                  NetworkImage(MinioService.getImageUrl(memberPhotoUrl, DEFAULT_URL.AVATAR)),
                               radius: 20,
                             ),
                           ),
@@ -84,8 +94,8 @@ class GroupFoundCard extends HookConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10.0),
                       child: Text(
-                        AppLocalizations.of(context)
-                            .translate('cards.group_found.members', {'count': membersPhotoUrls.length.toString()}),
+                        AppLocalizations.of(context).translate('cards.group_found.members',
+                            {'count': membersPhotoUrls.isEmpty ? "1" : membersPhotoUrls.length.toString()}),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 16,
@@ -98,8 +108,10 @@ class GroupFoundCard extends HookConsumerWidget {
                 PrimaryButton(
                     text: AppLocalizations.of(context).translate('cards.group_found.button'),
                     onPressed: () {
-                      animation.forward().whenComplete(() {
-                        matchmakingViewModel.joinGroup(groupId);
+                      animation.forward().whenComplete(() async {
+                        await groupViewModel.getGroups();
+                        matchmakingViewModel.joinGroup();
+                        navbar.navigate(NavbarPage.GROUPS);
                       });
                     }),
               ],
@@ -108,12 +120,14 @@ class GroupFoundCard extends HookConsumerWidget {
           if (!isLoading)
             SecondaryButton(
                 text: AppLocalizations.of(context).translate('cards.group_found.retry'),
-                onPressed: () {
+                onPressed: () async {
                   if (profiles != null) {
                     final activeProfile = profiles.where((profile) => profile.active!);
                     if (activeProfile.isNotEmpty) {
-                      matchmakingViewModel.retryMatchmaking(activeProfile.first.id!.toInt());
+                      matchmakingViewModel.retryMatchmaking(activeProfile.first.id!.toInt(), groupId);
                     }
+                  } else {
+                    matchmakingViewModel.retryMatchmakingNoProfile(groupId);
                   }
                 }),
         ],

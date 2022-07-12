@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/common/colors.style.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
+import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
-import 'package:web_socket_channel/src/channel.dart';
 
 class MockService extends HttpService {
   @override
@@ -197,8 +199,19 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<void> updatePrivateGroup(int groupId, UpdateGroupRequest groupUpdateRequest) {
+  Future<void> updatePrivateGroup(int groupId, UpdatePrivateGroupRequest groupUpdateRequest) {
     // TODO: implement updatePrivateGroup
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updatePublicGroup(int groupId, UpdatePublicGroupRequest groupUpdateRequest) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> setGroupPublic(int groupId) async {
+    // TODO: implement setGroupPublic
     throw UnimplementedError();
   }
 
@@ -230,7 +243,17 @@ class MockService extends HttpService {
 
   @override
   Future<MatchMakingResult?> getMatchmakingResult(int taskId) {
-    return Future.value(MatchMakingResult(groupId: 1, type: MatchMakingResultType$.joined));
+    return Future.value(MatchMakingResult(
+        group: GroupModel(
+            id: 1,
+            state: GroupModelState.closed,
+            name: "A very long title that should be truncated in the appbar",
+            members: [
+              MemberModel(firstname: "tony", lastname: "stark"),
+              MemberModel(firstname: "steve", lastname: "rogers")
+            ],
+            picture: "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png"),
+        type: MatchMakingResultType$.joined));
   }
 
   @override
@@ -244,38 +267,277 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<StompClient> loadWebSocketChannel(void Function(bool) onConnection) {
-    // TODO: implement loadWebSocketChannel
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<WebSocketChannel> loadReadWebSocketChannel(num channelId) {
-    // TODO: implement loadReadWebSocketChannel
-    throw UnimplementedError();
+  Future<StompClient?> loadWebSocketChannel(void Function(bool) onConnection) {
+    onConnection(true);
+    return Future.value(null);
   }
 
   @override
   Future<List<MessageResponse>> getChannelMessages(num channelId, int page) {
-    // TODO: implement getChannelMessages
-    throw UnimplementedError();
+    return Future.delayed(
+      const Duration(milliseconds: 500),
+      () => [
+        MessageResponse(
+          id: 1,
+          content: "Hello",
+          type: MessageResponseType$.text,
+          modifiedDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          sentDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          channelId: 1,
+          userId: 1,
+          pinned: true,
+        ),
+        MessageResponse(
+          id: 2,
+          content: "Hello!",
+          type: MessageResponseType$.text,
+          modifiedDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
+          sentDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
+          channelId: 1,
+          userId: 2,
+          pinned: true,
+        ),
+        MessageResponse(
+          id: 3,
+          content: "file.txt",
+          type: MessageResponseType$.file,
+          modifiedDate: DateTime.parse("2020-01-03T00:00:00.000Z"),
+          sentDate: DateTime.parse("2020-01-03T00:00:00.000Z"),
+          channelId: 1,
+          userId: 1,
+          pinned: false,
+        ),
+        MessageResponse(
+          id: 4,
+          content: "https://as2.ftcdn.net/v2/jpg/01/81/75/23/1000_F_181752325_chPCE32kZXwYmHxhwPdfaaGio7Pr3v5V.jpg",
+          type: MessageResponseType$.image,
+          modifiedDate: DateTime.parse("2020-01-04T00:00:00.000Z"),
+          sentDate: DateTime.parse("2020-01-04T00:00:00.000Z"),
+          channelId: 1,
+          userId: 2,
+          pinned: false,
+        ),
+      ].reversed.toList(),
+    );
   }
 
   @override
   Future<List<MessageResponse>> getPinnedMessages(num channelId) {
-    // TODO: implement getPinnedMessages
-    throw UnimplementedError();
+    return Future.delayed(
+      const Duration(milliseconds: 500),
+      () => [
+        MessageResponse(
+          id: 1,
+          content: "Hello",
+          type: MessageResponseType$.text,
+          modifiedDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          sentDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          channelId: 1,
+          userId: 1,
+          pinned: true,
+        ),
+        MessageResponse(
+          id: 2,
+          content: "Hello!",
+          type: MessageResponseType$.text,
+          modifiedDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
+          sentDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
+          channelId: 1,
+          userId: 2,
+          pinned: true,
+        ),
+      ].reversed.toList(),
+    );
   }
 
   @override
   Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId) {
-    // TODO: implement getUserPublicInfo
-    throw UnimplementedError();
+    return Future.value(
+      userId == 1
+          ? GroupMemberModel(
+              userId: 1,
+              firstname: "Tony",
+              lastname: "Heng",
+              profilePicture:
+                  "https://as2.ftcdn.net/v2/jpg/01/81/75/23/1000_F_181752325_chPCE32kZXwYmHxhwPdfaaGio7Pr3v5V.jpg",
+            )
+          : GroupMemberModel(
+              userId: 2,
+              firstname: "Yanis",
+              lastname: "Chaabane",
+            ),
+    );
   }
 
   @override
   Future<MessageResponse?> togglePinnedMessage(num messageId, bool pinned) {
-    // TODO: implement togglePinnedMessage
+    return Future.value(null);
+  }
+
+  @override
+  Future<List<ActivityModel>?> getActivities(int groupId) {
+    return Future.delayed(
+      const Duration(milliseconds: 500),
+      () => [
+        ActivityModel(
+          id: 1,
+          icon: Icons.airplane_ticket.codePoint.toString(),
+          name: "Flight Departure",
+          location: "Airport CDG",
+          startDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          endDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          color: ActivityColors.blue.toString(),
+          description: "Go to Terminal 1, take the first flight to CDG, then take the second flight to JFK",
+          participants: [
+            GroupMemberModel(userId: 1, firstname: "Tony", lastname: "Heng", profilePicture: DEFAULT_AVATAR_URL),
+            GroupMemberModel(userId: 2, firstname: "Yanis", lastname: "Chaabane", profilePicture: DEFAULT_AVATAR_URL),
+            GroupMemberModel(userId: 3, firstname: "Gabriels", lastname: "Raynik", profilePicture: DEFAULT_AVATAR_URL),
+          ],
+        ),
+        ActivityModel(
+          id: 2,
+          icon: Icons.beach_access.codePoint.toString(),
+          name: "Beach Time !",
+          location: "JFK Beach",
+          startDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          endDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          color: ActivityColors.turquoise.toString(),
+          description: "Chill and swim at the beach",
+          participants: [
+            GroupMemberModel(userId: 1, firstname: "Tony", lastname: "Heng", profilePicture: DEFAULT_AVATAR_URL),
+            GroupMemberModel(userId: 2, firstname: "Yanis", lastname: "Chaabane", profilePicture: DEFAULT_AVATAR_URL),
+          ],
+        ),
+        ActivityModel(
+          id: 1,
+          icon: Icons.airplane_ticket.codePoint.toString(),
+          name: "Flight Return",
+          location: "Airport JFK",
+          startDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          endDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+          color: ActivityColors.blue.toString(),
+          description: "Go to Terminal 1, take the first flight to CDG, then take the second flight to JFK",
+          participants: [
+            GroupMemberModel(userId: 1, firstname: "Tony", lastname: "Heng", profilePicture: DEFAULT_AVATAR_URL),
+            GroupMemberModel(userId: 2, firstname: "Yanis", lastname: "Chaabane", profilePicture: DEFAULT_AVATAR_URL),
+            GroupMemberModel(userId: 3, firstname: "Gabriels", lastname: "Raynik", profilePicture: DEFAULT_AVATAR_URL),
+          ],
+        ),
+      ],
+    );
+  }
+
+  @override
+  Future<ActivityModel?> createActivity(int groupId, CreateActivityRequest request) {
+    return Future.value(
+      ActivityModel(),
+    );
+  }
+
+  @override
+  Future<void> deleteActivity(int groupId, num activityId) {
+    return Future.value(null);
+  }
+
+  @override
+  Future<ActivityModel?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) {
     throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> toggleActivityMember(int groupId, num activityId, num userId, bool join) {
+    return Future.value(true);
+  }
+
+  @override
+  Future<List<String>?> getPlacesCategories() {
+    return Future.value([]);
+  }
+
+  @override
+  Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request) {
+    return Future.value([]);
+  }
+
+  @override
+  Future<void> deleteReport(int reportId) {
+    return Future.value();
+  }
+
+  @override
+  Future<List<ReportModel>?> getReports(int submitterId) {
+    return Future.value([]);
+  }
+
+  @override
+  Future<ReportModel?> submitReport(SubmitReportRequest submitReportRequest) {
+    return Future.value(null);
+  }
+
+  @override
+  Future<ReportModel?> updateReport(int reportId, UpdateReportRequest updateReportRequest) {
+    return Future.value(null);
+  }
+
+  @override
+  Future<void> deleteRecommendation(int recommendationId) {
+    return Future.value();
+  }
+
+  @override
+  Future<List<RecommendationModel>?> getRecommendations(int reviewedUserId) {
+    return Future.value([]);
+  }
+
+  @override
+  Future<RecommendationModel?> submitRecommendation(SubmitRecommendationRequest request) {
+    return Future.value(null);
+  }
+
+  @override
+  Future<List<BalanceResponse>?> getBudgetBalance(int groupId) {
+    // TODO: implement getBudgetBalance
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ExpenseModel?> createExpense(int groupId, num? userId, ExpenseRequest body) {
+    // TODO: implement createExpense
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<ExpenseModel>?> getExpenses(int groupId) {
+    // TODO: implement getExpenses
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ExpenseModel?> updateExpense(int groupId, num? userId, num? expenseId, ExpenseRequest body) {
+    // TODO: implement updateExpense
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteExpense(int groupId, num? expenseId) {
+    // TODO: implement deleteExpense
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId) {
+    // TODO: implement getUserDueMoney
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<MoneyDueResponse>?> getUserOwedMoney(int groupId, num? userId) {
+    // TODO: implement getUserOwedMoney
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ScanResponse?> scanReceipt(String minioUrl) {
+    return Future.value(null);
   }
 }

@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:minio/minio.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
 import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
+import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
+import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_password.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
@@ -48,7 +52,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       children: <Widget>[
         LayoutHeader(
           title: "${user.firstname} ${user.lastname}",
-          imageURL: user.profilePicture ?? DEFAULT_AVATAR_URL,
+          imageURL: MinioService.getImageUrl(user.profilePicture, DEFAULT_URL.AVATAR),
           onClick: () async {
             final imageURL = await minioService.uploadImage();
 
@@ -56,6 +60,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(profilePicture: imageURL));
             }
           },
+          background: false,
         ),
         LayoutBox(title: AppLocalizations.of(context).translate("settings.about"), children: <Widget>[
           LayoutItem(
@@ -63,7 +68,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: user.firstname!,
                 onPressed: () {
-                  showDialog(
+                  showBarModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialog(
@@ -81,7 +86,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: user.lastname!,
                 onPressed: () {
-                  showDialog(
+                  showBarModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialog(
@@ -99,7 +104,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: user.email!,
                 onPressed: () {
-                  showDialog(
+                  showBarModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialogEmail(onConfirm: (newEmail, password) async {
@@ -114,7 +119,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: "•••••••••",
                 onPressed: () {
-                  showDialog(
+                  showBarModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialogPassword(onConfirm: (password, newPassword) async {
@@ -129,7 +134,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               child: LayoutItemValue(
                 value: user.phoneNumber ?? AppLocalizations.of(context).translate("settings.noPhoneNumber"),
                 onPressed: () {
-                  showDialog(
+                  showBarModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialog(
@@ -145,18 +150,19 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           LayoutItem(
               title: AppLocalizations.of(context).translate("user.city"),
               child: LayoutItemValue(
-                value: user.city!.name!,
+                value: user.city?.name ?? AppLocalizations.of(context).translate("settings.noCity"),
                 icon: Icons.keyboard_arrow_right_sharp,
                 onPressed: () {
-                  showDialog(
+                  showBarModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return InputDialog(
                             title: AppLocalizations.of(context).translate("settings.city"),
                             label: AppLocalizations.of(context).translate("user.city"),
-                            initialValue: user.city!.name ?? "",
+                            initialValue: user.city?.name ?? "",
                             onConfirm: (value) async {
-                              userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(city: CityModel(name: value)));
+                              userViewModel.updateUser(
+                                  authViewModel.token!, UserUpdateRequest(city: CityModel(name: value)));
                             });
                       });
                 },
@@ -170,7 +176,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(AppLocalizations.of(context).translate("settings.darkMode"),
-                    style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 24)),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold)),
                 Switch(
                   value: _darkMode,
                   onChanged: (bool value) {
@@ -183,43 +190,49 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             ))
           ],
         ),
-        LayoutBox(title: AppLocalizations.of(context).translate("common.account"), children: <Widget>[
-          LayoutItem(
-              child: LayoutItemValue(
-            value: AppLocalizations.of(context).translate("common.logout"),
-            icon: Icons.exit_to_app,
-            onPressed: () {
-              authViewModel.logout();
-            },
-          )),
-          LayoutItem(
-              child: LayoutItemValue(
-            value: AppLocalizations.of(context).translate("settings.deleteAccount"),
-            icon: Icons.close,
-            customColor: Theme.of(context).colorScheme.error,
-            onPressed: () async {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return InputDialog(
-                        title: AppLocalizations.of(context).translate("settings.confirmDeleteAccount"),
-                        label: AppLocalizations.of(context).translate("user.password"),
-                        isPassword: true,
-                        initialValue: user.lastname!,
-                        onConfirm: (value) async {
-                          final success =
-                              await userViewModel.deleteUser(authViewModel.token!, DeleteUserRequest(password: value));
-                          if (success) {
-                            authViewModel.logout();
-                          } else {
-                            throw HttpException(
-                                message: AppLocalizations.of(context).translate("errors.wrongPassword"));
-                          }
+        LayoutBox(
+          title: AppLocalizations.of(context).translate("common.account"),
+          children: <Widget>[
+            LayoutItem(
+                child: LayoutItemValue(
+              value: AppLocalizations.of(context).translate("common.logout"),
+              icon: Icons.exit_to_app,
+              onPressed: () {
+                authViewModel.logout();
+                ref.read(navbarStateProvider.notifier).navigate(NavbarPage.MATCHMAKING);
+              },
+            )),
+            LayoutItem(
+                cardVariant: true,
+                child: LayoutItemValue(
+                  value: AppLocalizations.of(context).translate("settings.deleteAccount"),
+                  icon: Icons.close,
+                  customColor: Theme.of(context).colorScheme.error,
+                  onPressed: () async {
+                    showBarModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return InputDialog(
+                              title: AppLocalizations.of(context).translate("settings.confirmDeleteAccount"),
+                              label: AppLocalizations.of(context).translate("user.password"),
+                              isPassword: true,
+                              initialValue: '',
+                              onConfirm: (value) async {
+                                final success = await userViewModel.deleteUser(
+                                    authViewModel.token!, DeleteUserRequest(password: value));
+                                if (success) {
+                                  authViewModel.logout();
+                                } else {
+                                  throw HttpException(
+                                      message: AppLocalizations.of(context).translate("errors.wrongPassword"));
+                                }
+                              });
                         });
-                  });
-            },
-          )),
-        ])
+                  },
+                )),
+          ],
+        ),
+        const Padding(padding: EdgeInsets.only(bottom: 20)),
       ],
     );
   }
