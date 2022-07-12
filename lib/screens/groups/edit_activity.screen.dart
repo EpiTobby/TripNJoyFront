@@ -83,8 +83,7 @@ class EditActivity extends HookConsumerWidget {
                 };
 
                 if (draft) {
-                  await planningViewModel.addActivity(
-                      groupId, suggestedActivity ?? CreateActivityRequest.fromJson(json));
+                  await planningViewModel.addActivity(groupId, CreateActivityRequest.fromJson(json));
                 } else {
                   await planningViewModel.updateActivity(groupId, activity!.id, UpdateActivityRequest.fromJson(json));
                 }
