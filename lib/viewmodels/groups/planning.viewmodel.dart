@@ -48,7 +48,7 @@ class PlanningViewModel extends ChangeNotifier {
         categories: [placesCategory],
         latitude: coordinates.latitude.toDouble(),
         longitude: coordinates.longitude.toDouble(),
-        radiusMeter: 1000));
+        radiusMeter: 5000));
     suggestedActivities = newSuggestedActivities != null
         ? AsyncValue.data(newSuggestedActivities)
         : AsyncValue.error(Exception('Failed to get suggested activities'));
