@@ -66,7 +66,7 @@ dependencies {
     // https://firebase.google.com/docs/android/setup#available-libraries
     implementation 'com.google.firebase:firebase-auth'
 
-    implementation 'androidx.multidex:multidex: 2.0.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation 'com.google.android.gms:play-services-mlkit-barcode-scanning:18.0.0'
 }
