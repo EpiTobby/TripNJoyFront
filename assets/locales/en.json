@@ -261,6 +261,7 @@
     "join": "Join a group",
     "joinGroupChoice": "Do you want to join the group ?",
     "invitations": "Invitations",
+    "qr_code": "Scan QR code",
     "noOpenGroup": "No open groups",
     "addMember": "Add a member",
     "email": "Enter the email of the member you want to add",

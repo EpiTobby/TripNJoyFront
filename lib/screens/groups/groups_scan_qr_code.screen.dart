@@ -11,27 +11,27 @@ class GroupsScanQRCode extends StatefulHookConsumerWidget {
 }
 
 class _GroupsScanQRCodeState extends ConsumerState<GroupsScanQRCode> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context).translate('groups.invitations')),
-          foregroundColor: Theme.of(context).colorScheme.primary,
-          backgroundColor: Theme.of(context).colorScheme.onPrimary,
-          shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-        ),
-        body:  MobileScanner(
-            allowDuplicates: false,
-            controller: MobileScannerController(facing: CameraFacing.back),
-            onDetect: (barcode, args) {
-              if (barcode.rawValue == null) {
-                debugPrint('Failed to scan Barcode');
-              } else {
-                final String code = barcode.rawValue!;
-                debugPrint('Barcode found! $code');
-              }
-            })
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context).translate('groups.qr_code')),
+        foregroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+        shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+      ),
+      body: MobileScanner(
+        allowDuplicates: false,
+        controller: MobileScannerController(facing: CameraFacing.back),
+        onDetect: (barcode, args) {
+          if (barcode.rawValue == null) {
+            debugPrint('Failed to scan Barcode');
+          } else {
+            final String code = barcode.rawValue!;
+            debugPrint('Barcode found! $code');
+          }
+        },
+      ),
     );
   }
 }

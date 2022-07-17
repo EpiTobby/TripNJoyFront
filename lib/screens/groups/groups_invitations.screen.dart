@@ -31,6 +31,16 @@ class _GroupsInvitationsState extends ConsumerState<GroupsInvitations> {
         foregroundColor: Theme.of(context).colorScheme.primary,
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.qr_code_scanner,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            splashRadius: 16,
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const GroupsScanQRCode())),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -63,13 +73,6 @@ class _GroupsInvitationsState extends ConsumerState<GroupsInvitations> {
                     .toList(),
               ),
             ),
-            PrimaryButton(
-              text: "Scan QR Code",
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const GroupsScanQRCode()));
-              },
-            ),
-           
           ],
         ),
       ),
