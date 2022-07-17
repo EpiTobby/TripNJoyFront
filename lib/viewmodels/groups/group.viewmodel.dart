@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
@@ -12,6 +13,7 @@ class GroupViewModel extends ChangeNotifier {
   final AuthViewModel authViewModel;
 
   List<GroupModel> groups = [];
+  AsyncValue<GroupModel> groupInfo = const AsyncValue.loading();
   bool isLoading = false;
 
   void _init() async {
@@ -103,4 +105,11 @@ class GroupViewModel extends ChangeNotifier {
     await getGroups(); // TODO: update only the group
   }
 
+  void getGroupPublicInfoById(int groupId) async {
+    groupInfo = const AsyncValue.loading();
+    notifyListeners();
+    groupInfo = AsyncValue.data(
+        GroupModel(name: 'Group TripNJoy', id: groupId, members: [], maxSize: 10, state: GroupModelState.open));
+    notifyListeners();
+  }
 }
