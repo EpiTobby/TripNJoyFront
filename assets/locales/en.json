@@ -261,7 +261,14 @@
     "join": "Join a group",
     "joinGroupChoice": "Do you want to join the group ?",
     "invitations": "Invitations",
-    "qr_code": "Scan QR code",
+    "qr_code": {
+      "title": "Scan QR code",
+      "already_joined": "You are already in this group",
+      "scan_another": "Scan another",
+      "scan_again": "Scan again",
+      "join": "Join group",
+      "error": "Error while scanning QR code"
+    },
     "noOpenGroup": "No open groups",
     "addMember": "Add a member",
     "email": "Enter the email of the member you want to add",

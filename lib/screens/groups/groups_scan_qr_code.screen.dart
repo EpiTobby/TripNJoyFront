@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/providers/groups/qr_code.provider.dart';
+import 'package:trip_n_joy_front/widgets/groups/group_invitation_dialog.widget.dart';
 
-class GroupsScanQRCode extends StatefulHookConsumerWidget {
-  const GroupsScanQRCode({Key? key}) : super(key: key);
+class GroupsScanQRCode extends HookConsumerWidget {
+  const GroupsScanQRCode({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  _GroupsScanQRCodeState createState() => _GroupsScanQRCodeState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final qrCodeViewModel = ref.watch(qrCodeProvider.notifier);
 
-class _GroupsScanQRCodeState extends ConsumerState<GroupsScanQRCode> {
-  @override
-  Widget build(BuildContext context) {
+    final isHandlingQRCode = useState(false);
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('groups.qr_code')),
+        title: Text(AppLocalizations.of(context).translate('groups.qr_code.title')),
         foregroundColor: Theme.of(context).colorScheme.primary,
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
@@ -24,11 +28,25 @@ class _GroupsScanQRCodeState extends ConsumerState<GroupsScanQRCode> {
         allowDuplicates: false,
         controller: MobileScannerController(facing: CameraFacing.back),
         onDetect: (barcode, args) {
+          if (isHandlingQRCode.value) {
+            return;
+          }
+          isHandlingQRCode.value = true;
           if (barcode.rawValue == null) {
             debugPrint('Failed to scan Barcode');
+            isHandlingQRCode.value = false;
           } else {
             final String code = barcode.rawValue!;
+            qrCodeViewModel.extractGroupIdFromQRCode(code);
             debugPrint('Barcode found! $code');
+            showBarModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return const GroupInvitationDialog();
+              },
+            ).whenComplete(() {
+              isHandlingQRCode.value = false;
+            });
           }
         },
       ),
