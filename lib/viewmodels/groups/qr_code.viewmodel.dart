@@ -10,7 +10,7 @@ class QRCodeViewModel extends StateNotifier<int?> {
 
   void extractGroupIdFromQRCode(String code) {
     // TODO: check identifier is present and extract groupId
-    state = 1;
+    state = 100;
   }
 
   bool checkGroupAlreadyJoined(int groupId) {

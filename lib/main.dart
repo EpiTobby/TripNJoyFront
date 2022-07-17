@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
           secondaryContainer: CColors.secondary.withOpacity(0.1),
           tertiaryContainer: CColors.tertiary.withOpacity(0.1),
           error: CColors.error,
-          errorContainer: CColors.error.withOpacity(0.1),
+          errorContainer: CColors.error.withOpacity(0.8),
           onError: CColors.onError,
           surface: CColors.surface,
           onSurface: CColors.onSurface,

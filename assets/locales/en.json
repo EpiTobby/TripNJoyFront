@@ -263,11 +263,11 @@
     "invitations": "Invitations",
     "qr_code": {
       "title": "Scan QR code",
-      "already_joined": "You are already in this group",
+      "already_joined": "You are already in this group, please try another one",
       "scan_another": "Scan another",
       "scan_again": "Scan again",
       "join": "Join group",
-      "error": "Error while scanning QR code"
+      "error": "Error while scanning QR code, please try again"
     },
     "noOpenGroup": "No open groups",
     "addMember": "Add a member",

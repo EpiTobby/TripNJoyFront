@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/providers/groups/qr_code.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout_empty.widget.dart';
 
 class GroupInvitationDialog extends HookConsumerWidget {
   const GroupInvitationDialog({
@@ -39,31 +40,19 @@ class GroupInvitationDialog extends HookConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: groupId == null
                   ? [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(AppLocalizations.of(context).translate('groups.qr_code.error')),
-                      ),
-                      PrimaryButton(
-                        text: AppLocalizations.of(context).translate('groups.qr_code.scan_again'),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                      LayoutEmpty(
+                        message: AppLocalizations.of(context).translate('groups.qr_code.error'),
+                        icon: Icons.highlight_remove,
+                        variant: Theme.of(context).colorScheme.errorContainer,
                       ),
                     ]
                   : alreadyJoined.value
                       ? [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              AppLocalizations.of(context).translate('groups.qr_code.already_joined'),
-                            ),
-                          ),
-                          PrimaryButton(
-                            text: AppLocalizations.of(context).translate('groups.qr_code.scan_another'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
+                          LayoutEmpty(
+                            message: AppLocalizations.of(context).translate('groups.qr_code.already_joined'),
+                            icon: Icons.highlight_remove,
+                            variant: Theme.of(context).colorScheme.errorContainer,
+                          )
                         ]
                       : [
                           Padding(

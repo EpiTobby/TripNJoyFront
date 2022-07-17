@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class LayoutEmpty extends StatelessWidget {
-  const LayoutEmpty({Key? key, this.message, this.icon}) : super(key: key);
+  const LayoutEmpty({Key? key, this.message, this.icon, this.variant}) : super(key: key);
 
   final String? message;
   final IconData? icon;
+  final Color? variant;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class LayoutEmpty extends StatelessWidget {
               Icon(
                 icon,
                 size: 64,
-                color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
+                color: variant ?? Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
               ),
             if (message != null)
               Padding(
@@ -30,7 +31,7 @@ class LayoutEmpty extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
+                    color: variant ?? Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
                   ),
                 ),
               ),
