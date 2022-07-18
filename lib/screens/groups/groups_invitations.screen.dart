@@ -7,6 +7,7 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input_dialog_choice.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout_empty.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_list.widget.dart';
 
 import 'groups_scan_qr_code.screen.dart';
@@ -27,7 +28,7 @@ class _GroupsInvitationsState extends ConsumerState<GroupsInvitations> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('groups.invitations')),
+        title: Text(AppLocalizations.of(context).translate('groups.invitations.title')),
         foregroundColor: Theme.of(context).colorScheme.primary,
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
@@ -49,28 +50,35 @@ class _GroupsInvitationsState extends ConsumerState<GroupsInvitations> {
             Expanded(
               child: ListView(
                 shrinkWrap: true,
-                children: widget.groups
-                    .map((group) => GroupListItem(
-                        group: group,
-                        onClick: () {
-                          showBarModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return InputDialogChoice(
-                                    title: AppLocalizations.of(context).translate('groups.joinGroupChoice'),
-                                    cancelChoice: AppLocalizations.of(context).translate('common.decline'),
-                                    confirmChoice: AppLocalizations.of(context).translate('common.accept'),
-                                    onConfirm: (value) {
-                                      if (value) {
-                                        groupsViewModel.joinPrivateGroup(group.id!.toInt());
-                                      } else {
-                                        groupsViewModel.declineGroupInvitation(group.id!.toInt());
-                                      }
-                                      widget.groups.remove(group);
-                                    });
-                              });
-                        }))
-                    .toList(),
+                children: widget.groups.isEmpty
+                    ? [
+                        LayoutEmpty(
+                          message: AppLocalizations.of(context).translate('groups.invitations.empty'),
+                          icon: Icons.highlight_remove,
+                        ),
+                      ]
+                    : widget.groups
+                        .map((group) => GroupListItem(
+                            group: group,
+                            onClick: () {
+                              showBarModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return InputDialogChoice(
+                                        title: AppLocalizations.of(context).translate('groups.joinGroupChoice'),
+                                        cancelChoice: AppLocalizations.of(context).translate('common.decline'),
+                                        confirmChoice: AppLocalizations.of(context).translate('common.accept'),
+                                        onConfirm: (value) {
+                                          if (value) {
+                                            groupsViewModel.joinPrivateGroup(group.id!.toInt());
+                                          } else {
+                                            groupsViewModel.declineGroupInvitation(group.id!.toInt());
+                                          }
+                                          widget.groups.remove(group);
+                                        });
+                                  });
+                            }))
+                        .toList(),
               ),
             ),
           ],

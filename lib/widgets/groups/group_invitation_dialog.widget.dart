@@ -52,7 +52,7 @@ class GroupInvitationDialog extends HookConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
-              children: groupId == null
+              children: groupId == null || groupInfo.value == null
                   ? [
                       LayoutEmpty(
                         message: AppLocalizations.of(context).translate('groups.qr_code.error'),

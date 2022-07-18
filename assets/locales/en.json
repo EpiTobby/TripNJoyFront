@@ -260,7 +260,10 @@
     "create": "Create a group",
     "join": "Join a group",
     "joinGroupChoice": "Do you want to join the group ?",
-    "invitations": "Invitations",
+    "invitations": {
+      "title": "Invitations",
+      "empty": "You have no invitations, try scanning an invitation QR code"
+    },
     "qr_code": {
       "title": "Scan QR code",
       "already_joined": "You are already in this group, please try another one",
