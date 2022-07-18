@@ -5,10 +5,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
-import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/group/chat_member.dart';
 import 'package:trip_n_joy_front/providers/groups/chat.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/pinned_messages.provider.dart';
+import 'package:trip_n_joy_front/widgets/common/layout_empty.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_file.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat_image.widget.dart';
@@ -45,7 +45,11 @@ class PinnedMessages extends HookConsumerWidget {
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : pinnedMessages.isEmpty
-              ? Center(child: Text(AppLocalizations.of(context).translate('groups.chat.pinned_messages.empty')))
+              ? Center(
+                  child: LayoutEmpty(
+                      message: AppLocalizations.of(context).translate('groups.chat.pinned_messages.empty'),
+                      icon: Icons.highlight_remove),
+                )
               : ListView.builder(
                   itemCount: pinnedMessages.length,
                   itemBuilder: (context, index) {
