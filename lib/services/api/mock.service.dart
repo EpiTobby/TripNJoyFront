@@ -5,7 +5,6 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 
 class MockService extends HttpService {

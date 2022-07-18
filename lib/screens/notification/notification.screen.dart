@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trip_n_joy_front/widgets/notifications/notification_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/notifications/notification_item_icon.widget.dart';
-import 'package:trip_n_joy_front/widgets/notifications/notification_item_picture.widget.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({Key? key}) : super(key: key);

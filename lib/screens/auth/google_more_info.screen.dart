@@ -1,17 +1,14 @@
-import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/user/user.gender.dart';
-import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
-import 'package:trip_n_joy_front/widgets/common/date_picker.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/dropdown.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/input.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input/date_picker.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input/dropdown.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input/input.widget.dart';
 
-import '../../models/auth/signup.model.dart';
 import '../../providers/auth/auth.provider.dart';
 import '../../widgets/common/button.widget.dart';
 

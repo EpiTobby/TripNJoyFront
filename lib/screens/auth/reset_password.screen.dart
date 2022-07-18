@@ -6,7 +6,7 @@ import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 
 import '../../providers/auth/auth.provider.dart';
 import '../../widgets/common/button.widget.dart';
-import '../../widgets/common/input.widget.dart';
+import '../../widgets/common/input/input.widget.dart';
 
 class ResetPassword extends HookConsumerWidget {
   const ResetPassword({

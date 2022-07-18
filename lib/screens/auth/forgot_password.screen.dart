@@ -7,7 +7,7 @@ import 'package:trip_n_joy_front/screens/auth/reset_password.screen.dart';
 
 import '../../providers/auth/auth.provider.dart';
 import '../../widgets/common/button.widget.dart';
-import '../../widgets/common/input.widget.dart';
+import '../../widgets/common/input/input.widget.dart';
 
 class ForgotPassword extends HookConsumerWidget {
   const ForgotPassword({

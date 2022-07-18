@@ -9,7 +9,7 @@ import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 import '../../main.dart';
 import '../../providers/auth/auth.provider.dart';
 import '../../widgets/common/button.widget.dart';
-import '../../widgets/common/input.widget.dart';
+import '../../widgets/common/input/input.widget.dart';
 
 class AccountVerification extends HookConsumerWidget {
   const AccountVerification({Key? key, required this.userId}) : super(key: key);

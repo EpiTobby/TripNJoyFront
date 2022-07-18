@@ -18,10 +18,7 @@ class _$Api extends Api {
 
   @override
   Future<Response<ExpenseModel>> _expensesGroupIdExpenseIdPurchaserUserPut(
-      {required num? groupId,
-      required num? expenseId,
-      required num? user,
-      required ExpenseRequest? body}) {
+      {required num? groupId, required num? expenseId, required num? user, required ExpenseRequest? body}) {
     final $url = '/expenses/${groupId}/${expenseId}/purchaser/${user}';
     final $body = body;
     final $request = Request('PUT', $url, client.baseUrl, body: $body);
@@ -36,8 +33,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<ProfileModel>> _idProfilesPost(
-      {required num? id, required ProfileCreationRequest? body}) {
+  Future<Response<ProfileModel>> _idProfilesPost({required num? id, required ProfileCreationRequest? body}) {
     final $url = '/${id}/profiles';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -53,8 +49,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<ReportModel>> _reportsPost(
-      {required SubmitReportRequest? body}) {
+  Future<Response<ReportModel>> _reportsPost({required SubmitReportRequest? body}) {
     final $url = '/reports';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -62,8 +57,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<RecommendationModel>> _recommendationsPost(
-      {required SubmitRecommendationRequest? body}) {
+  Future<Response<RecommendationModel>> _recommendationsPost({required SubmitRecommendationRequest? body}) {
     final $url = '/recommendations';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -71,8 +65,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<List<PlaceResponse>>> _placesCoordinatesPost(
-      {required PlacesFromCoordinatesRequest? body}) {
+  Future<Response<List<PlaceResponse>>> _placesCoordinatesPost({required PlacesFromCoordinatesRequest? body}) {
     final $url = '/places/coordinates';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -80,8 +73,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<List<PlaceResponse>>> _placesAddressPost(
-      {required PlacesFromAddressRequest? body}) {
+  Future<Response<List<PlaceResponse>>> _placesAddressPost({required PlacesFromAddressRequest? body}) {
     final $url = '/places/address';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -89,32 +81,24 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _matchmakingPost(
-      {required num? userId, required ProfileCreationRequest? body}) {
+  Future<Response<dynamic>> _matchmakingPost({required num? userId, required ProfileCreationRequest? body}) {
     final $url = '/matchmaking';
     final $params = <String, dynamic>{'user_id': userId};
     final $body = body;
-    final $request =
-        Request('POST', $url, client.baseUrl, body: $body, parameters: $params);
+    final $request = Request('POST', $url, client.baseUrl, body: $body, parameters: $params);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> _matchmakingPatch(
-      {required num? userId, required num? profileId}) {
+  Future<Response<dynamic>> _matchmakingPatch({required num? userId, required num? profileId}) {
     final $url = '/matchmaking';
-    final $params = <String, dynamic>{
-      'user_id': userId,
-      'profile_id': profileId
-    };
-    final $request =
-        Request('PATCH', $url, client.baseUrl, parameters: $params);
+    final $params = <String, dynamic>{'user_id': userId, 'profile_id': profileId};
+    final $request = Request('PATCH', $url, client.baseUrl, parameters: $params);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<List<ActivityModel>>> _groupsGroupIdPlanningGet(
-      {required num? groupId}) {
+  Future<Response<List<ActivityModel>>> _groupsGroupIdPlanningGet({required num? groupId}) {
     final $url = '/groups/${groupId}/planning';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<List<ActivityModel>, ActivityModel>($request);
@@ -130,8 +114,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<GroupModel>> _groupsPrivateIdPost(
-      {required num? id, required CreatePrivateGroupRequest? body}) {
+  Future<Response<GroupModel>> _groupsPrivateIdPost({required num? id, required CreatePrivateGroupRequest? body}) {
     final $url = '/groups/private/${id}';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -139,8 +122,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _groupsPrivateGroupUserPost(
-      {required num? group, required ModelWithEmail? body}) {
+  Future<Response<dynamic>> _groupsPrivateGroupUserPost({required num? group, required ModelWithEmail? body}) {
     final $url = '/groups/private/${group}/user';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -149,9 +131,7 @@ class _$Api extends Api {
 
   @override
   Future<Response<ExpenseModel>> _expensesGroupPurchaserUserPost(
-      {required num? group,
-      required num? user,
-      required ExpenseRequest? body}) {
+      {required num? group, required num? user, required ExpenseRequest? body}) {
     final $url = '/expenses/${group}/purchaser/${user}';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -159,16 +139,14 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<List<ChannelModel>>> _channelsGroupGet(
-      {required num? group}) {
+  Future<Response<List<ChannelModel>>> _channelsGroupGet({required num? group}) {
     final $url = '/channels/${group}';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<List<ChannelModel>, ChannelModel>($request);
   }
 
   @override
-  Future<Response<ChannelModel>> _channelsGroupPost(
-      {required num? group, required CreateChannelRequest? body}) {
+  Future<Response<ChannelModel>> _channelsGroupPost({required num? group, required CreateChannelRequest? body}) {
     final $url = '/channels/${group}';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -183,8 +161,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<AuthTokenResponse>> _authRegisterPost(
-      {required UserCreationRequest? body}) {
+  Future<Response<AuthTokenResponse>> _authRegisterPost({required UserCreationRequest? body}) {
     final $url = '/auth/register';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -192,8 +169,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<LoginResponse>> _authLoginPost(
-      {required LoginRequest? body}) {
+  Future<Response<LoginResponse>> _authLoginPost({required LoginRequest? body}) {
     final $url = '/auth/login';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -201,8 +177,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<GoogleAuthResponse>> _authGooglePost(
-      {required GoogleRequest? body}) {
+  Future<Response<GoogleAuthResponse>> _authGooglePost({required GoogleRequest? body}) {
     final $url = '/auth/google';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -210,8 +185,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _authForgotPasswordPost(
-      {required ForgotPasswordRequest? body}) {
+  Future<Response<dynamic>> _authForgotPasswordPost({required ForgotPasswordRequest? body}) {
     final $url = '/auth/forgot/password';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -220,9 +194,7 @@ class _$Api extends Api {
 
   @override
   Future<Response<dynamic>> _idProfilesProfileUpdatePatch(
-      {required num? id,
-      required num? profile,
-      required ProfileUpdateRequest? body}) {
+      {required num? id, required num? profile, required ProfileUpdateRequest? body}) {
     final $url = '/${id}/profiles/${profile}/update';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -230,8 +202,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _usersIdUpdatePatch(
-      {required num? id, required UserUpdateRequest? body}) {
+  Future<Response<dynamic>> _usersIdUpdatePatch({required num? id, required UserUpdateRequest? body}) {
     final $url = '/users/${id}/update';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -253,8 +224,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<ReportModel>> _reportsIdPatch(
-      {required num? id, required UpdateReportRequest? body}) {
+  Future<Response<ReportModel>> _reportsIdPatch({required num? id, required UpdateReportRequest? body}) {
     final $url = '/reports/${id}';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -262,8 +232,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _groupsGroupPatch(
-      {required num? group, required UpdatePublicGroupRequest? body}) {
+  Future<Response<dynamic>> _groupsGroupPatch({required num? group, required UpdatePublicGroupRequest? body}) {
     final $url = '/groups/${group}';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -271,24 +240,21 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _groupsGroupJoinIdPatch(
-      {required num? group, required num? id}) {
+  Future<Response<dynamic>> _groupsGroupJoinIdPatch({required num? group, required num? id}) {
     final $url = '/groups/${group}/join/${id}';
     final $request = Request('PATCH', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> _groupsGroupDeclineIdPatch(
-      {required num? group, required num? id}) {
+  Future<Response<dynamic>> _groupsGroupDeclineIdPatch({required num? group, required num? id}) {
     final $url = '/groups/${group}/decline/${id}';
     final $request = Request('PATCH', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> _groupsGroupIdPlanningActivityIdDelete(
-      {required num? groupId, required num? activityId}) {
+  Future<Response<dynamic>> _groupsGroupIdPlanningActivityIdDelete({required num? groupId, required num? activityId}) {
     final $url = '/groups/${groupId}/planning/${activityId}';
     final $request = Request('DELETE', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
@@ -296,9 +262,7 @@ class _$Api extends Api {
 
   @override
   Future<Response<ActivityModel>> _groupsGroupIdPlanningActivityIdPatch(
-      {required num? groupId,
-      required num? activityId,
-      required UpdateActivityRequest? body}) {
+      {required num? groupId, required num? activityId, required UpdateActivityRequest? body}) {
     final $url = '/groups/${groupId}/planning/${activityId}';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -310,8 +274,7 @@ class _$Api extends Api {
       {required num? groupId, required num? activityId, required num? userId}) {
     final $url = '/groups/${groupId}/planning/${activityId}/leave';
     final $params = <String, dynamic>{'userId': userId};
-    final $request =
-        Request('PATCH', $url, client.baseUrl, parameters: $params);
+    final $request = Request('PATCH', $url, client.baseUrl, parameters: $params);
     return client.send<dynamic, dynamic>($request);
   }
 
@@ -320,8 +283,7 @@ class _$Api extends Api {
       {required num? groupId, required num? activityId, required num? userId}) {
     final $url = '/groups/${groupId}/planning/${activityId}/join';
     final $params = <String, dynamic>{'userId': userId};
-    final $request =
-        Request('PATCH', $url, client.baseUrl, parameters: $params);
+    final $request = Request('PATCH', $url, client.baseUrl, parameters: $params);
     return client.send<dynamic, dynamic>($request);
   }
 
@@ -333,8 +295,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _groupsPrivateGroupPatch(
-      {required num? group, required UpdatePrivateGroupRequest? body}) {
+  Future<Response<dynamic>> _groupsPrivateGroupPatch({required num? group, required UpdatePrivateGroupRequest? body}) {
     final $url = '/groups/private/${group}';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -351,12 +312,10 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<MessageResponse>> _chatMessageIdPinnedPatch(
-      {required num? messageId, bool? pin}) {
+  Future<Response<MessageResponse>> _chatMessageIdPinnedPatch({required num? messageId, bool? pin}) {
     final $url = '/chat/${messageId}/pinned';
     final $params = <String, dynamic>{'pin': pin};
-    final $request =
-        Request('PATCH', $url, client.baseUrl, parameters: $params);
+    final $request = Request('PATCH', $url, client.baseUrl, parameters: $params);
     return client.send<MessageResponse, MessageResponse>($request);
   }
 
@@ -368,8 +327,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _channelsIdPatch(
-      {required num? id, required UpdateChannelRequest? body}) {
+  Future<Response<dynamic>> _channelsIdPatch({required num? id, required UpdateChannelRequest? body}) {
     final $url = '/channels/${id}';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -377,8 +335,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _authIdPasswordPatch(
-      {required num? id, required UpdatePasswordRequest? body}) {
+  Future<Response<dynamic>> _authIdPasswordPatch({required num? id, required UpdatePasswordRequest? body}) {
     final $url = '/auth/${id}/password';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -386,8 +343,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<LoginResponse>> _authIdEmailPatch(
-      {required num? id, required UpdateEmailRequest? body}) {
+  Future<Response<LoginResponse>> _authIdEmailPatch({required num? id, required UpdateEmailRequest? body}) {
     final $url = '/auth/${id}/email';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -395,8 +351,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _authIdConfirmationPatch(
-      {required num? id, required ConfirmationCodeModel? body}) {
+  Future<Response<dynamic>> _authIdConfirmationPatch({required num? id, required ConfirmationCodeModel? body}) {
     final $url = '/auth/${id}/confirmation';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -404,8 +359,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<UserIdResponse>> _authValidationPasswordPatch(
-      {required ValidateCodePasswordRequest? body}) {
+  Future<Response<UserIdResponse>> _authValidationPasswordPatch({required ValidateCodePasswordRequest? body}) {
     final $url = '/auth/validation/password';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
@@ -434,8 +388,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _usersIdDelete(
-      {required num? id, required DeleteUserRequest? body}) {
+  Future<Response<dynamic>> _usersIdDelete({required num? id, required DeleteUserRequest? body}) {
     final $url = '/users/${id}';
     final $body = body;
     final $request = Request('DELETE', $url, client.baseUrl, body: $body);
@@ -457,12 +410,10 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<List<RecommendationModel>>> _recommendationsIdGet(
-      {required num? id}) {
+  Future<Response<List<RecommendationModel>>> _recommendationsIdGet({required num? id}) {
     final $url = '/recommendations/${id}';
     final $request = Request('GET', $url, client.baseUrl);
-    return client
-        .send<List<RecommendationModel>, RecommendationModel>($request);
+    return client.send<List<RecommendationModel>, RecommendationModel>($request);
   }
 
   @override
@@ -480,8 +431,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<MatchMakingResult>> _matchmakingTaskIdGet(
-      {required num? taskId}) {
+  Future<Response<MatchMakingResult>> _matchmakingTaskIdGet({required num? taskId}) {
     final $url = '/matchmaking/${taskId}';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<MatchMakingResult, MatchMakingResult>($request);
@@ -495,8 +445,7 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<GroupMemberModel>> _groupsGroupIdUsersUserIdGet(
-      {required num? groupId, required num? userId}) {
+  Future<Response<GroupMemberModel>> _groupsGroupIdUsersUserIdGet({required num? groupId, required num? userId}) {
     final $url = '/groups/${groupId}/users/${userId}';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<GroupMemberModel, GroupMemberModel>($request);
@@ -510,16 +459,14 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<List<ExpenseModel>>> _expensesGroupGet(
-      {required num? group}) {
+  Future<Response<List<ExpenseModel>>> _expensesGroupGet({required num? group}) {
     final $url = '/expenses/${group}';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<List<ExpenseModel>, ExpenseModel>($request);
   }
 
   @override
-  Future<Response<List<MoneyDueResponse>>> _expensesGroupUserUserDebtsGet(
-      {required num? group, required num? user}) {
+  Future<Response<List<MoneyDueResponse>>> _expensesGroupUserUserDebtsGet({required num? group, required num? user}) {
     final $url = '/expenses/${group}/user/${user}/debts';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<List<MoneyDueResponse>, MoneyDueResponse>($request);
@@ -534,26 +481,22 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<List<DebtDetailsResponse>>>
-      _expensesGroupUserUserDebtsDetailsGet(
-          {required num? group, required num? user}) {
+  Future<Response<List<DebtDetailsResponse>>> _expensesGroupUserUserDebtsDetailsGet(
+      {required num? group, required num? user}) {
     final $url = '/expenses/${group}/user/${user}/debts/details';
     final $request = Request('GET', $url, client.baseUrl);
-    return client
-        .send<List<DebtDetailsResponse>, DebtDetailsResponse>($request);
+    return client.send<List<DebtDetailsResponse>, DebtDetailsResponse>($request);
   }
 
   @override
-  Future<Response<List<BalanceResponse>>> _expensesGroupBalancesGet(
-      {required num? group}) {
+  Future<Response<List<BalanceResponse>>> _expensesGroupBalancesGet({required num? group}) {
     final $url = '/expenses/${group}/balances';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<List<BalanceResponse>, BalanceResponse>($request);
   }
 
   @override
-  Future<Response<List<MessageResponse>>> _chatChannelIdGet(
-      {required num? channelId, int? page}) {
+  Future<Response<List<MessageResponse>>> _chatChannelIdGet({required num? channelId, int? page}) {
     final $url = '/chat/${channelId}';
     final $params = <String, dynamic>{'page': page};
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
@@ -561,24 +504,21 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<List<MessageResponse>>> _chatChannelIdPinnedGet(
-      {required num? channelId}) {
+  Future<Response<List<MessageResponse>>> _chatChannelIdPinnedGet({required num? channelId}) {
     final $url = '/chat/${channelId}/pinned';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<List<MessageResponse>, MessageResponse>($request);
   }
 
   @override
-  Future<Response<dynamic>> _idProfilesProfileDelete(
-      {required num? id, required num? profile}) {
+  Future<Response<dynamic>> _idProfilesProfileDelete({required num? id, required num? profile}) {
     final $url = '/${id}/profiles/${profile}';
     final $request = Request('DELETE', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> _usersIdAdminDelete(
-      {required num? id, required DeleteUserByAdminRequest? body}) {
+  Future<Response<dynamic>> _usersIdAdminDelete({required num? id, required DeleteUserByAdminRequest? body}) {
     final $url = '/users/${id}/admin';
     final $body = body;
     final $request = Request('DELETE', $url, client.baseUrl, body: $body);
@@ -586,24 +526,21 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _groupsGroupUserIdDelete(
-      {required num? group, required num? id}) {
+  Future<Response<dynamic>> _groupsGroupUserIdDelete({required num? group, required num? id}) {
     final $url = '/groups/${group}/user/${id}';
     final $request = Request('DELETE', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> _groupsPrivateGroupUserIdDelete(
-      {required num? group, required num? id}) {
+  Future<Response<dynamic>> _groupsPrivateGroupUserIdDelete({required num? group, required num? id}) {
     final $url = '/groups/private/${group}/user/${id}';
     final $request = Request('DELETE', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
-  Future<Response<dynamic>> _expensesGroupIdExpenseIdDelete(
-      {required num? groupId, required num? expenseId}) {
+  Future<Response<dynamic>> _expensesGroupIdExpenseIdDelete({required num? groupId, required num? expenseId}) {
     final $url = '/expenses/${groupId}/${expenseId}';
     final $request = Request('DELETE', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);

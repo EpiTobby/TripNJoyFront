@@ -5,7 +5,6 @@ import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
-import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 

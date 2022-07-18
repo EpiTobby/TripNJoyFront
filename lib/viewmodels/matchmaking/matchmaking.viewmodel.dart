@@ -8,7 +8,6 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/matchmaking/matchmaking_status.enum.dart';
 import 'package:trip_n_joy_front/models/matchmaking/availability.model.dart';
 import 'package:trip_n_joy_front/viewmodels/matchmaking/profile.viewmodel.dart';
-import 'package:trip_n_joy_front/widgets/matchmaking/cards/group_found_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/multiple_choice_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/swipe_card.widget.dart';
 

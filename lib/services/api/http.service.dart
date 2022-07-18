@@ -1,6 +1,5 @@
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
-import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
 
 import '../../codegen/api.swagger.dart';
 import '../../models/auth/signup.model.dart';

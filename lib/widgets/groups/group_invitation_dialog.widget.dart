@@ -9,7 +9,7 @@ import 'package:trip_n_joy_front/providers/groups/qr_code.provider.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_empty.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_empty.widget.dart';
 
 class GroupInvitationDialog extends HookConsumerWidget {
   const GroupInvitationDialog({
