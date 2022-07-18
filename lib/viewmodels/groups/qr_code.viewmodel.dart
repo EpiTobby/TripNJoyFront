@@ -13,7 +13,7 @@ class QRCodeViewModel extends StateNotifier<int?> {
     state = 100;
   }
 
-  bool checkGroupAlreadyJoined(int groupId) {
+  bool checkGroupAlreadyJoined(int? groupId) {
     return groupViewModel.groups.any((group) => group.id == groupId);
   }
 }

@@ -14,29 +14,21 @@ import 'package:trip_n_joy_front/widgets/common/layout_empty.widget.dart';
 class GroupInvitationDialog extends HookConsumerWidget {
   const GroupInvitationDialog({
     Key? key,
+    required this.groupId,
   }) : super(key: key);
+
+  final int? groupId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final groupId = ref.watch(qrCodeProvider);
     final qrCodeViewModel = ref.watch(qrCodeProvider.notifier);
-    final groupsViewModel = ref.watch(groupProvider);
-    final groupInfo = groupsViewModel.groupInfo;
-
-    final alreadyJoined = useState(false);
+    final groupInfo = ref.watch(groupProvider).groupInfo;
     useEffect(() {
-      if (groupId != null) {
-        alreadyJoined.value = qrCodeViewModel.checkGroupAlreadyJoined(groupId);
-      }
+      Future.microtask(() => ref.read(groupProvider).getGroupPublicInfoById(groupId));
       return null;
     }, [groupId]);
 
-    useEffect(() {
-      if (!alreadyJoined.value) {
-        groupsViewModel.getGroupPublicInfoById(groupId!);
-      }
-      return null;
-    }, [alreadyJoined]);
+    final alreadyJoined = qrCodeViewModel.checkGroupAlreadyJoined(groupId);
 
     return AnimatedPadding(
       padding: EdgeInsets.only(
@@ -52,7 +44,7 @@ class GroupInvitationDialog extends HookConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
-              children: groupId == null || groupInfo.value == null
+              children: groupId == null
                   ? [
                       LayoutEmpty(
                         message: AppLocalizations.of(context).translate('groups.qr_code.error'),
@@ -60,12 +52,11 @@ class GroupInvitationDialog extends HookConsumerWidget {
                         variant: Theme.of(context).colorScheme.error.withOpacity(0.8),
                       ),
                     ]
-                  : alreadyJoined.value
+                  : alreadyJoined
                       ? [
                           LayoutEmpty(
                             message: AppLocalizations.of(context).translate('groups.qr_code.already_joined'),
                             icon: Icons.highlight_remove,
-                            variant: Theme.of(context).colorScheme.error.withOpacity(0.8),
                           )
                         ]
                       : [
@@ -116,18 +107,21 @@ class GroupInvitationDialog extends HookConsumerWidget {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 24.0),
+                                    child: PrimaryButton(
+                                      text: AppLocalizations.of(context).translate('groups.qr_code.join'),
+                                      onPressed: () async {
+                                        await ref.read(groupProvider).joinPrivateGroup(data.id!.toInt());
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-                          ),
-                          PrimaryButton(
-                            text: AppLocalizations.of(context).translate('groups.qr_code.join'),
-                            onPressed: () async {
-                              await groupsViewModel.joinPrivateGroup(groupId);
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            },
                           ),
                         ],
             ),

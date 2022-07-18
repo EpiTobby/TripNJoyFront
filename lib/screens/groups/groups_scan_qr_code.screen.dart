@@ -44,7 +44,8 @@ class GroupsScanQRCode extends HookConsumerWidget {
                 showBarModalBottomSheet(
                   context: context,
                   builder: (BuildContext context) {
-                    return const GroupInvitationDialog();
+                    final groupId = ref.read(qrCodeProvider);
+                    return GroupInvitationDialog(groupId: groupId);
                   },
                 ).whenComplete(() {
                   isHandlingQRCode.value = false;

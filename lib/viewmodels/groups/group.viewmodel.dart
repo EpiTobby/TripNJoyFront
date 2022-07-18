@@ -53,7 +53,7 @@ class GroupViewModel extends ChangeNotifier {
 
   Future<void> joinPrivateGroup(int groupId) async {
     final id = httpService.getUserIdFromToken(authViewModel.token!);
-    final group = await httpService.joinPrivateGroup(groupId, id!);
+    await httpService.joinPrivateGroup(groupId, id!);
 
     await getGroups();
   }
@@ -105,7 +105,10 @@ class GroupViewModel extends ChangeNotifier {
     await getGroups(); // TODO: update only the group
   }
 
-  void getGroupPublicInfoById(int groupId) async {
+  Future<void> getGroupPublicInfoById(int? groupId) async {
+    if (groupId == null) {
+      return;
+    }
     groupInfo = const AsyncValue.loading();
     notifyListeners();
     groupInfo = AsyncValue.data(
