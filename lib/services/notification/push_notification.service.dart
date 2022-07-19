@@ -3,8 +3,7 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
-import '../log/logger.service.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 Future<void> onBackgroundMessage(RemoteMessage message) async {
   logger.i("onBackgroundMessage");

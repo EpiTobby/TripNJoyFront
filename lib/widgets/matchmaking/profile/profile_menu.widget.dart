@@ -7,7 +7,7 @@ import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/profile/profile_detail.widget.dart';
 
-import '../../../codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 
 class ProfileMenu extends ConsumerWidget {
   const ProfileMenu({Key? key, required this.value, required this.profileModel, required this.parentContext})

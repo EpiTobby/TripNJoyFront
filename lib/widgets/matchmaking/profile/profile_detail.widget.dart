@@ -9,6 +9,7 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/matchmaking/matchmaking_status.enum.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
+import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_item_value.widget.dart';
@@ -16,8 +17,6 @@ import 'package:trip_n_joy_front/widgets/matchmaking/cards/availability_card.wid
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/multiple_choice_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/range_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/swipe_card.widget.dart';
-
-import '../../common/dialog/input_dialog.widget.dart';
 
 class ProfileDetail extends ConsumerWidget {
   const ProfileDetail({Key? key, required this.profileId}) : super(key: key);

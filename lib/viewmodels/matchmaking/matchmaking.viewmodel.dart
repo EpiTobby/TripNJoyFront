@@ -7,17 +7,16 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/matchmaking/matchmaking_status.enum.dart';
 import 'package:trip_n_joy_front/models/matchmaking/availability.model.dart';
+import 'package:trip_n_joy_front/models/matchmaking/card.model.dart';
+import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
+import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 import 'package:trip_n_joy_front/viewmodels/matchmaking/profile.viewmodel.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/cards/availability_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/multiple_choice_card.widget.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/cards/name_profile_card.widget.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/cards/range_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/swipe_card.widget.dart';
-
-import '../../models/matchmaking/card.model.dart';
-import '../../services/api/http.service.dart';
-import '../../services/log/logger.service.dart';
-import '../../widgets/matchmaking/cards/availability_card.widget.dart';
-import '../../widgets/matchmaking/cards/name_profile_card.widget.dart';
-import '../../widgets/matchmaking/cards/range_card.widget.dart';
-import '../auth/auth.viewmodel.dart';
 
 class MatchmakingViewModel extends ChangeNotifier {
   MatchmakingViewModel(this.httpService, this.authViewModel, this.profileViewModel, this.storage) {

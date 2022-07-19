@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
-
-import '../../services/api/http.service.dart';
+import 'package:trip_n_joy_front/services/api/http.service.dart';
 
 class SettingsViewModel extends ChangeNotifier {
   SettingsViewModel(this.httpService) {

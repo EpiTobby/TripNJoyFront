@@ -4,14 +4,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/constants/user/user.gender.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
+import 'package:trip_n_joy_front/models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
+import 'package:trip_n_joy_front/providers/auth/auth_step.provider.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input/date_picker.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input/dropdown.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input/input.widget.dart';
-
-import '../../models/auth/signup.model.dart';
-import '../../providers/auth/auth.provider.dart';
-import '../../providers/auth/auth_step.provider.dart';
-import '../common/button.widget.dart';
 
 class SignUp extends StatefulHookConsumerWidget {
   const SignUp({Key? key, required this.parentContext}) : super(key: key);

@@ -10,17 +10,14 @@ import 'package:trip_n_joy_front/models/group/article.dart';
 import 'package:trip_n_joy_front/models/group/member_expense.dart';
 import 'package:trip_n_joy_front/providers/groups/budget.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
-import 'package:trip_n_joy_front/screens/groups/budget/group_scan_receipt.screen.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/input/input.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog_price.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input/input.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_row_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_row_item_member.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/budget/budget_receipt_article.widget.dart';
-import 'package:trip_n_joy_front/widgets/groups/budget/input_dialog_article.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/budget/layout_member_expense.widget.dart';
 
 class BudgetReceiptExpenses extends HookConsumerWidget {

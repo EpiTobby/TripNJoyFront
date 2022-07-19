@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/extensions/HexColor.extension.dart';
 import 'package:trip_n_joy_front/models/group/activity.dart';
@@ -23,8 +24,6 @@ import 'package:trip_n_joy_front/widgets/common/layout/layout_item_value.widget.
 import 'package:trip_n_joy_front/widgets/common/layout/layout_row_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_row_item_member.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning/planning_activity.widget.dart';
-
-import '../../../constants/common/colors.style.dart';
 
 class EditActivity extends HookConsumerWidget {
   const EditActivity({

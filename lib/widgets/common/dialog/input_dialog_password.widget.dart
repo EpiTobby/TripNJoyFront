@@ -3,9 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
-
-import '../button.widget.dart';
-import '../input/input.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input/input.widget.dart';
 
 class InputDialogPassword extends StatefulHookWidget {
   const InputDialogPassword({

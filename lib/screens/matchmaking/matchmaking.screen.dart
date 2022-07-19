@@ -6,10 +6,9 @@ import 'package:trip_n_joy_front/constants/matchmaking/matchmaking_status.enum.d
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/swipe.provider.dart';
 import 'package:trip_n_joy_front/screens/matchmaking/profile.screen.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/cards/group_found_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/group_not_found_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation_card.widget.dart';
-
-import '../../widgets/matchmaking/cards/group_found_card.widget.dart';
 
 class MatchmakingPage extends StatefulHookConsumerWidget {
   const MatchmakingPage({

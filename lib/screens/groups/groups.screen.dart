@@ -13,8 +13,6 @@ import 'package:trip_n_joy_front/widgets/common/input/input.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_list.widget.dart';
 
-import '../../codegen/api.enums.swagger.dart';
-
 class GroupsPage extends StatefulHookConsumerWidget {
   const GroupsPage({Key? key}) : super(key: key);
 

@@ -1,10 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
-
-import '../../app_localizations.dart';
-import '../../codegen/api.swagger.dart';
-import '../../services/api/http.service.dart';
-import '../auth/auth.viewmodel.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 
 class UserViewModel extends StateNotifier<AsyncValue<UserModel?>> {
   UserViewModel(this.httpService, this.authViewModel) : super(const AsyncValue.loading());

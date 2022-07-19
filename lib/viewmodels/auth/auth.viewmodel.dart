@@ -7,12 +7,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/auth/auth_step.enum.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-
-import '../../constants/auth/auth_step.enum.dart';
-import '../../services/api/http.service.dart';
-import '../../services/log/logger.service.dart';
+import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 class AuthViewModel extends ChangeNotifier {
   AuthViewModel(this.httpService, this.storage) {

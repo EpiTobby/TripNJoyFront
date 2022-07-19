@@ -4,10 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
 import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input/input.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/snackbar.widget.dart';
-
-import '../button.widget.dart';
-import '../input/input.widget.dart';
 
 class InputDialog extends StatefulHookWidget {
   const InputDialog({

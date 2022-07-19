@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.enums.swagger.dart';
+import 'package:trip_n_joy_front/models/group/activity.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/planning/add_activity.screen.dart';
@@ -11,8 +12,6 @@ import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_empty.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning/planning_activity.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning/planning_header.widget.dart';
-
-import '../../../models/group/activity.dart';
 
 class GroupPlanning extends HookConsumerWidget {
   const GroupPlanning({

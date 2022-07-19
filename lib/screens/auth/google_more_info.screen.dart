@@ -4,13 +4,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/user/user.gender.dart';
+import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input/date_picker.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input/dropdown.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input/input.widget.dart';
-
-import '../../providers/auth/auth.provider.dart';
-import '../../widgets/common/button.widget.dart';
 
 class GoogleMoreInfo extends StatefulHookConsumerWidget {
   const GoogleMoreInfo({Key? key}) : super(key: key);

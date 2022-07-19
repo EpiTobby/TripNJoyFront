@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/models/matchmaking/availability.model.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input/date_picker.widget.dart';
-
-import '../../../models/matchmaking/availability.model.dart';
-import '../../common/button.widget.dart';
 
 class AvailabilityCard extends HookConsumerWidget {
   const AvailabilityCard({Key? key, this.isLoading = false, required this.onPressed}) : super(key: key);

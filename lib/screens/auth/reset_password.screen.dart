@@ -3,10 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
-
-import '../../providers/auth/auth.provider.dart';
-import '../../widgets/common/button.widget.dart';
-import '../../widgets/common/input/input.widget.dart';
+import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input/input.widget.dart';
 
 class ResetPassword extends HookConsumerWidget {
   const ResetPassword({
