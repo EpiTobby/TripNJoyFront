@@ -324,38 +324,35 @@ class EditActivity extends HookConsumerWidget {
                         ),
                       ),
                     if (!draft && group.state != GroupModelState.archived)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: LayoutItem(
-                          card: true,
-                          cardVariant: true,
-                          child: LayoutItemValue(
-                            value: AppLocalizations.of(context).translate("groups.planning.activity.edit.delete.title"),
-                            icon: Icons.close,
-                            customColor: Theme.of(context).colorScheme.error,
-                            onPressed: () {
-                              showBarModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return InputDialogChoice(
-                                    title: AppLocalizations.of(context)
-                                        .translate('groups.planning.activity.edit.delete.content'),
-                                    cancelChoice: AppLocalizations.of(context).translate('common.decline'),
-                                    confirmChoice: AppLocalizations.of(context).translate('common.delete'),
-                                    onConfirm: (value) async {
-                                      if (value) {
-                                        await planningViewModel.deleteActivity(groupId, activity!.id);
-                                        Navigator.of(context).pop();
-                                      }
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                          ),
+                      LayoutItem(
+                        card: true,
+                        cardVariant: true,
+                        child: LayoutItemValue(
+                          value: AppLocalizations.of(context).translate("groups.planning.activity.edit.delete.title"),
+                          icon: Icons.close,
+                          customColor: Theme.of(context).colorScheme.error,
+                          onPressed: () {
+                            showBarModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return InputDialogChoice(
+                                  title: AppLocalizations.of(context)
+                                      .translate('groups.planning.activity.edit.delete.content'),
+                                  cancelChoice: AppLocalizations.of(context).translate('common.decline'),
+                                  confirmChoice: AppLocalizations.of(context).translate('common.delete'),
+                                  onConfirm: (value) async {
+                                    if (value) {
+                                      await planningViewModel.deleteActivity(groupId, activity!.id);
+                                      Navigator.of(context).pop();
+                                    }
+                                  },
+                                );
+                              },
+                            );
+                          },
                         ),
                       ),
-                    const Padding(padding: EdgeInsets.only(top: 20)),
+                    const Padding(padding: EdgeInsets.only(top: 16)),
                   ],
                 ),
               ],
