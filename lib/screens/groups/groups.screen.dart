@@ -7,13 +7,11 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
-import 'package:trip_n_joy_front/screens/groups/groups_invitations.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/invitation/groups_invitations.screen.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/input.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input/input.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_list.widget.dart';
-
-import '../../codegen/api.enums.swagger.dart';
 
 class GroupsPage extends StatefulHookConsumerWidget {
   const GroupsPage({Key? key}) : super(key: key);

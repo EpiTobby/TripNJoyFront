@@ -7,13 +7,12 @@ class SignInUpGoogleCredentials {
   String? _phoneNumber;
 
   SignInUpGoogleCredentials(
-      {
-        required String firstname,
-        required String lastname,
-        required String email,
-        required String accessToken,
-        required String profilePicture,
-        String? phoneNumber}) {
+      {required String firstname,
+      required String lastname,
+      required String email,
+      required String accessToken,
+      required String profilePicture,
+      String? phoneNumber}) {
     this.firstname = firstname;
     this.lastname = lastname;
     this.email = email;
@@ -23,16 +22,27 @@ class SignInUpGoogleCredentials {
   }
 
   String get firstname => _firstname;
+
   set firstname(String firstname) => _firstname = firstname;
+
   String get lastname => _lastname;
+
   set lastname(String lastname) => _lastname = lastname;
+
   String get email => _email;
+
   set email(String email) => _email = email;
+
   String get accessToken => _accessToken;
+
   set accessToken(String accessToken) => _accessToken = accessToken;
+
   String get profilePicture => _profilePicture;
+
   set profilePicture(String profilePicture) => _profilePicture = profilePicture;
+
   String? get phoneNumber => _phoneNumber;
+
   set phoneNumber(String? phoneNumber) => _phoneNumber = phoneNumber;
 
   SignInUpGoogleCredentials.fromJson(Map<String, dynamic> json) {

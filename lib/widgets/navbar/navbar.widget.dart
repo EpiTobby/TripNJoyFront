@@ -3,15 +3,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/navbar/navbar.const.dart';
+import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
 import 'package:trip_n_joy_front/constants/navbar/navbar.icons.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
-import 'package:trip_n_joy_front/screens/groups/group_chat.screen.dart';
+import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
-
-import '../../constants/navbar/navbar.const.dart';
-import '../../constants/navbar/navbar.enum.dart';
-import '../../providers/navbar/navbar.provider.dart';
 
 class Navbar extends HookConsumerWidget {
   const Navbar({Key? key}) : super(key: key);

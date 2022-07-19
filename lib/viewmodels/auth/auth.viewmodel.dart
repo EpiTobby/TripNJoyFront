@@ -1,19 +1,17 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/auth/auth_step.enum.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-
-import '../../services/api/http.service.dart';
-import '../../services/log/logger.service.dart';
-import '../../constants/auth/auth_step.enum.dart';
+import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 class AuthViewModel extends ChangeNotifier {
   AuthViewModel(this.httpService, this.storage) {
@@ -231,7 +229,6 @@ class AuthViewModel extends ChangeNotifier {
         }
 
         final language = AppLocalizations.of(context).locale.languageCode == "en" ? "ENGLISH" : "FRENCH";
-
 
         SignInUpGoogleCredentials userInfo = SignInUpGoogleCredentials(
             email: userCredential.user!.email ?? "",

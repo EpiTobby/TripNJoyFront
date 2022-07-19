@@ -11,8 +11,7 @@ class ReportViewModel extends ChangeNotifier {
   final HttpService httpService;
   final AuthViewModel authViewModel;
 
-  void _init() async {
-  }
+  void _init() async {}
 
   Future<List<ReportModel>?> getReports(int submitterId) async {
     return await httpService.getReports(submitterId);
@@ -29,6 +28,4 @@ class ReportViewModel extends ChangeNotifier {
   Future<void> deleteReport(int reportId) async {
     await httpService.deleteReport(reportId);
   }
-
-
 }
