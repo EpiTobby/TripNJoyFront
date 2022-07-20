@@ -67,6 +67,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       home: const TripNJoy(title: 'TripNJoy'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
