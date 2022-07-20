@@ -1,11 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trip_n_joy_front/app_localizations.dart';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/google_more_info.screen.dart';
-
-import '../../providers/auth/auth.provider.dart';
 
 class GoogleSignInButton extends StatefulHookConsumerWidget {
   const GoogleSignInButton({Key? key}) : super(key: key);

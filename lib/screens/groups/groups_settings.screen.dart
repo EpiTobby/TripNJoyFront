@@ -10,12 +10,12 @@ import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_member.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_box.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_header.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_item.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_item_value.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_member.widget.dart';
 import 'package:trip_n_joy_front/widgets/user/user.widget.dart';
 
 class GroupsSettings extends StatefulHookConsumerWidget {

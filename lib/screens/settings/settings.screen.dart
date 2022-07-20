@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:minio/minio.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
 import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
+import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
+import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
-import 'package:trip_n_joy_front/widgets/common/input_dialog_password.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
-
-import '../../providers/auth/auth.provider.dart';
-import '../../providers/user/user.provider.dart';
-import '../../viewmodels/auth/auth.viewmodel.dart';
-import '../../viewmodels/user/user.viewmodel.dart';
-import '../../widgets/common/input_dialog.widget.dart';
-import '../../widgets/common/input_dialog_email.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog_email.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog_password.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_box.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_header.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_item.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_item_value.widget.dart';
 
 class SettingsPage extends StatefulHookConsumerWidget {
   const SettingsPage({Key? key}) : super(key: key);

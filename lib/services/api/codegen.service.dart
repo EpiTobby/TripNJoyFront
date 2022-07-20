@@ -3,13 +3,11 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
-
-import '../../codegen/api.swagger.dart';
-import '../../viewmodels/auth/auth.viewmodel.dart';
-import 'http.service.dart';
+import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 
 const BASE_URL = String.fromEnvironment("BASE_URL", defaultValue: "http://localhost:8080");
 
@@ -235,9 +233,7 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<void> setGroupPublic(int groupId) async {
-
-  }
+  Future<void> setGroupPublic(int groupId) async {}
 
   @override
   Future<List<ChannelModel>> getChannels(int groupId) async {

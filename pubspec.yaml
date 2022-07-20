@@ -67,6 +67,7 @@ dependencies:
   flutter_map: ^0.14.0
   latlong2: ^0.8.1
   flutter_osm_plugin: ^0.28.2
+  mobile_scanner: 1.0.0
 
 dev_dependencies:
   flutter_test:
