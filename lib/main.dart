@@ -12,6 +12,7 @@ import 'package:trip_n_joy_front/constants/themes/dark.theme.dart';
 import 'package:trip_n_joy_front/constants/themes/light.theme.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
+import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
 import 'package:trip_n_joy_front/screens/auth/verification.screen.dart';
@@ -49,14 +50,15 @@ Future initNotifications() async {
   pushNotificationService.setNotifications();
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settingsViewModel = ref.watch(settingsProvider);
     return MaterialApp(
       title: 'TripNJoy',
-      theme: darkTheme,
+      theme: settingsViewModel.isDarkMode ? darkTheme : lightTheme,
       supportedLocales: const [
         Locale('fr', 'FR'),
         Locale('en', 'en_US'),
