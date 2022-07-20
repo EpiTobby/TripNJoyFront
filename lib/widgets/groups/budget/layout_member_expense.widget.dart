@@ -35,7 +35,7 @@ class LayoutMemberExpense extends HookConsumerWidget {
 
     final decorator = InputDecoration(
       filled: true,
-      fillColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1),
+      fillColor: Theme.of(context).colorScheme.surface,
       contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
       enabledBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -75,6 +75,9 @@ class LayoutMemberExpense extends HookConsumerWidget {
         SizedBox(
           width: 32,
           child: TextField(
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+            ),
             decoration: decorator,
             controller: weightController,
             textAlign: TextAlign.center,
@@ -89,6 +92,9 @@ class LayoutMemberExpense extends HookConsumerWidget {
           child: SizedBox(
             width: 80,
             child: TextField(
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              ),
               decoration: decorator,
               controller: amountController,
               textAlign: TextAlign.end,

@@ -7,6 +7,7 @@ import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 import 'package:trip_n_joy_front/viewmodels/matchmaking/matchmaking.viewmodel.dart';
 import 'package:trip_n_joy_front/viewmodels/matchmaking/profile.viewmodel.dart';
+import 'package:trip_n_joy_front/viewmodels/settings/settings.viewmodel.dart';
 
 class MockHttpService extends Mock implements HttpService {}
 
@@ -14,20 +15,24 @@ class MockAuthViewModel extends Mock implements AuthViewModel {}
 
 class MockProfileViewModel extends Mock implements ProfileViewModel {}
 
+class MockSettingsViewModel extends Mock implements SettingsViewModel {}
+
 void main() {
   MockHttpService mockHttpService = MockHttpService();
   MockAuthViewModel mockAuthViewModel = MockAuthViewModel();
   MockProfileViewModel mockProfileViewModel = MockProfileViewModel();
+  MockSettingsViewModel mockSettingsViewModel = MockSettingsViewModel();
   FlutterSecureStorage flutterSecureStorage = const FlutterSecureStorage();
-  MatchmakingViewModel matchmakingViewModel =
-      MatchmakingViewModel(mockHttpService, mockAuthViewModel, mockProfileViewModel, flutterSecureStorage);
+  MatchmakingViewModel matchmakingViewModel = MatchmakingViewModel(
+      mockHttpService, mockAuthViewModel, mockProfileViewModel, mockSettingsViewModel, flutterSecureStorage);
 
   setUp(() {
     mockHttpService = MockHttpService();
     mockAuthViewModel = MockAuthViewModel();
     mockProfileViewModel = MockProfileViewModel();
-    matchmakingViewModel =
-        MatchmakingViewModel(mockHttpService, mockAuthViewModel, mockProfileViewModel, flutterSecureStorage);
+    mockSettingsViewModel = MockSettingsViewModel();
+    matchmakingViewModel = MatchmakingViewModel(
+        mockHttpService, mockAuthViewModel, mockProfileViewModel, mockSettingsViewModel, flutterSecureStorage);
   });
 
   test('should init cards state to empty array when init matchmaking ViewModel', () {

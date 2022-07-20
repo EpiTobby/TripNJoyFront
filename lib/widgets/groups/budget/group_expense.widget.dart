@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
-import 'package:trip_n_joy_front/screens/groups/planning/edit_expense.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/budget/edit_expense.screen.dart';
 
 class BudgetExpense extends StatelessWidget {
   const BudgetExpense({

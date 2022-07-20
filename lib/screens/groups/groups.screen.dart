@@ -46,6 +46,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
         actions: [
           PopupMenuButton(
+            color: Theme.of(context).colorScheme.background,
             onSelected: (selected) async {
               if (selected == 1) {
                 showBarModalBottomSheet(
@@ -64,17 +65,24 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
             },
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: Text(AppLocalizations.of(context).translate('groups.create')),
+                child: Text(
+                  AppLocalizations.of(context).translate('groups.create'),
+                  style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                ),
                 value: 1,
               ),
               PopupMenuItem(
-                child: Text(AppLocalizations.of(context).translate('groups.join')),
+                child: Text(
+                  AppLocalizations.of(context).translate('groups.join'),
+                  style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                ),
                 value: 2,
               ),
             ],
           )
         ],
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(children: [
         Row(
           children: [
@@ -126,7 +134,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
                                 children: [
                                   Text(
                                     AppLocalizations.of(context).translate('groups.noOpenGroup'),
-                                    style: const TextStyle(fontSize: 20),
+                                    style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.onBackground),
                                   ),
                                   const SizedBox(height: 20),
                                   PrimaryButton(

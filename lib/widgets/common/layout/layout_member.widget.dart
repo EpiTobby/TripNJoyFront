@@ -27,7 +27,7 @@ class LayoutMember extends StatelessWidget {
                 CircleAvatar(backgroundImage: NetworkImage(imageURL)),
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
-                  child: Text(name),
+                  child: Text(name, style: TextStyle(color: Theme.of(context).colorScheme.primary)),
                 ),
               ],
             ),

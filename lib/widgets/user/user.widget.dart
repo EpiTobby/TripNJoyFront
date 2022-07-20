@@ -24,6 +24,7 @@ class UserDialog extends HookConsumerWidget {
     final currentUser = ref.watch(userProvider.notifier).userId;
 
     return Material(
+      color: Theme.of(context).colorScheme.background,
       child: SafeArea(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Padding(

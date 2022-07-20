@@ -45,6 +45,7 @@ class _InputDialogChoiceState extends State<InputDialogChoice> {
   Widget build(BuildContext context) {
     final status = useState<AsyncValue<void>>(const AsyncValue.data(null));
     return Material(
+      color: Theme.of(context).colorScheme.background,
       child: SafeArea(
         top: false,
         child: Padding(

@@ -18,6 +18,9 @@ class ChatTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.primary,
+      ),
       readOnly: readOnly,
       controller: controller,
       textCapitalization: TextCapitalization.sentences,
@@ -45,26 +48,31 @@ class ChatTextField extends StatelessWidget {
         ),
         suffixIconColor: Theme.of(context).colorScheme.secondary,
         hintText: AppLocalizations.of(context).translate('groups.chat.hint'),
+        hintStyle: TextStyle(
+          color: Theme.of(context).colorScheme.primaryContainer,
+        ),
+        filled: true,
+        fillColor: Theme.of(context).colorScheme.surface,
         contentPadding: const EdgeInsets.symmetric(vertical: 8),
-        border: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(100)),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(100)),
           borderSide: BorderSide(
             width: 2,
-            color: Theme.of(context).colorScheme.secondary,
+            color: Colors.transparent,
           ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(100)),
+        enabledBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(100)),
           borderSide: BorderSide(
             width: 2,
-            color: Theme.of(context).colorScheme.secondary,
+            color: Colors.transparent,
           ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(100)),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(100)),
           borderSide: BorderSide(
             width: 2,
-            color: Theme.of(context).colorScheme.secondary,
+            color: Colors.transparent,
           ),
         ),
       ),

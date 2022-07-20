@@ -126,7 +126,11 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
               size: 48,
             ),
             onTap: () async {
-              IconData? newIcon = await FlutterIconPicker.showIconPicker(context);
+              IconData? newIcon = await FlutterIconPicker.showIconPicker(
+                context,
+                iconColor: Theme.of(context).colorScheme.onBackground,
+                backgroundColor: Theme.of(context).colorScheme.background,
+              );
               if (newIcon != null) {
                 icon.value = newIcon;
               }
@@ -185,7 +189,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                             child: TextField(
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1),
+                                fillColor: Theme.of(context).colorScheme.surface,
                                 contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                                 enabledBorder: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(10.0)),

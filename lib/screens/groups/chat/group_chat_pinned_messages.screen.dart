@@ -42,6 +42,7 @@ class PinnedMessages extends HookConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : pinnedMessages.isEmpty
@@ -64,13 +65,13 @@ class PinnedMessages extends HookConsumerWidget {
                           }
                         },
                         splashColor: Theme.of(context).colorScheme.background,
-                        child: buildMessageTile(pinnedMessages[index], chatMembers));
+                        child: buildMessageTile(context, pinnedMessages[index], chatMembers));
                   },
                 ),
     );
   }
 
-  Widget buildMessageTile(MessageResponse message, HashMap<num, ChatMember> chatMembers) {
+  Widget buildMessageTile(BuildContext context, MessageResponse message, HashMap<num, ChatMember> chatMembers) {
     if (message.content == null) {
       return Container();
     }
@@ -94,10 +95,16 @@ class PinnedMessages extends HookConsumerWidget {
     return ListTile(
       title: Padding(
         padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-        child: Text(chatMember?.name ?? ''),
+        child: Text(
+          chatMember?.name ?? '',
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        ),
       ),
       subtitle: child,
-      trailing: Text(formatTimeToMessage(message.sentDate!)),
+      trailing: Text(
+        formatTimeToMessage(message.sentDate!),
+        style: TextStyle(color: Theme.of(context).colorScheme.primary),
+      ),
     );
   }
 }

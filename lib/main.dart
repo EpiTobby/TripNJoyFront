@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:trip_n_joy_front/constants/common/colors.style.dart';
+import 'package:trip_n_joy_front/constants/themes/dark.theme.dart';
+import 'package:trip_n_joy_front/constants/themes/light.theme.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
+import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
 import 'package:trip_n_joy_front/screens/auth/verification.screen.dart';
@@ -49,59 +50,15 @@ Future initNotifications() async {
   pushNotificationService.setNotifications();
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settingsViewModel = ref.watch(settingsProvider);
     return MaterialApp(
       title: 'TripNJoy',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-
-        fontFamily: GoogleFonts.roboto().fontFamily,
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(
-          background: CColors.background,
-          primary: CColors.primary,
-          secondary: CColors.secondary,
-          tertiary: CColors.tertiary,
-          onBackground: CColors.onBackground,
-          onPrimary: CColors.onPrimary,
-          onSecondary: CColors.onSecondary,
-          onTertiary: CColors.onTertiary,
-          primaryContainer: CColors.variant,
-          secondaryContainer: CColors.secondary.withOpacity(0.1),
-          tertiaryContainer: CColors.tertiary.withOpacity(0.1),
-          error: CColors.error,
-          errorContainer: CColors.error.withOpacity(0.1),
-          onError: CColors.onError,
-          surface: CColors.surface,
-          onSurface: CColors.onSurface,
-        ),
-        scrollbarTheme: ScrollbarThemeData(
-          thumbColor: MaterialStateProperty.all(CColors.secondary),
-        ),
-        sliderTheme: const SliderThemeData(
-          thumbColor: CColors.secondary,
-          activeTickMarkColor: CColors.secondary,
-          activeTrackColor: CColors.secondary,
-          showValueIndicator: ShowValueIndicator.always,
-          overlayColor: CColors.secondary,
-          valueIndicatorColor: CColors.secondary,
-        ),
-        timePickerTheme: const TimePickerThemeData(
-          backgroundColor: CColors.background,
-        ),
-      ),
+      theme: settingsViewModel.isDarkMode ? darkTheme : lightTheme,
       supportedLocales: const [
         Locale('fr', 'FR'),
         Locale('en', 'en_US'),
@@ -112,6 +69,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       home: const TripNJoy(title: 'TripNJoy'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -184,33 +142,40 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     final user = ref.watch(userProvider);
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
     return user.when(
-        data: (data) => Scaffold(
-              appBar: selectedPage != NavbarPage.MATCHMAKING && selectedPage != NavbarPage.GROUPS
-                  ? AppBar(
-                      title: Text(
-                        AppLocalizations.of(context).translate("${selectedPage.name.toLowerCase()}.title"),
-                        style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
-                      ),
-                      backgroundColor: Theme.of(context).colorScheme.background,
-                      foregroundColor: Theme.of(context).colorScheme.onBackground,
-                      shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-                    )
-                  : null,
-              extendBody: true,
-              body: Container(
-                child: getPageWidget(selectedPage),
-              ),
-              bottomNavigationBar: const Navbar(),
-              resizeToAvoidBottomInset: false,
-            ),
-        error: (error, r) {
-          logger.e(error, r);
-          return const ErrorScreen();
-        },
-        loading: () => Scaffold(
-            body: Center(
-                child: Container(
-                    color: Theme.of(context).colorScheme.background, child: const CircularProgressIndicator()))));
+      data: (data) => Scaffold(
+        appBar: selectedPage != NavbarPage.MATCHMAKING && selectedPage != NavbarPage.GROUPS
+            ? AppBar(
+                title: Text(
+                  AppLocalizations.of(context).translate("${selectedPage.name.toLowerCase()}.title"),
+                  style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
+                ),
+                backgroundColor: Theme.of(context).colorScheme.background,
+                foregroundColor: Theme.of(context).colorScheme.onBackground,
+                shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+              )
+            : null,
+        extendBody: true,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: Container(
+          child: getPageWidget(selectedPage),
+        ),
+        bottomNavigationBar: const Navbar(),
+        resizeToAvoidBottomInset: false,
+      ),
+      error: (error, r) {
+        logger.e(error, r);
+        return const ErrorScreen();
+      },
+      loading: () => Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: Center(
+          child: Container(
+            color: Theme.of(context).colorScheme.background,
+            child: const CircularProgressIndicator(),
+          ),
+        ),
+      ),
+    );
   }
 
   getPageWidget(NavbarPage selectedPage) {

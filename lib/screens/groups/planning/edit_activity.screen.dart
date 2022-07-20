@@ -91,12 +91,13 @@ class EditActivity extends HookConsumerWidget {
             ),
         ],
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
         children: [
           PlanningActivity(
             prefix: Icon(
               icon.value,
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.onSecondary,
               size: 64,
             ),
             title: name.value,
@@ -123,10 +124,15 @@ class EditActivity extends HookConsumerWidget {
                             child: Icon(
                               icon.value,
                               size: 48,
+                              color: Theme.of(context).colorScheme.onBackground,
                             ),
                             onTap: group.state != GroupModelState.archived
                                 ? () async {
-                                    IconData? selectedIcon = await FlutterIconPicker.showIconPicker(context);
+                                    IconData? selectedIcon = await FlutterIconPicker.showIconPicker(
+                                      context,
+                                      iconColor: Theme.of(context).colorScheme.onBackground,
+                                      backgroundColor: Theme.of(context).colorScheme.background,
+                                    );
                                     if (selectedIcon != null) {
                                       icon.value = selectedIcon;
                                     }
@@ -144,14 +150,17 @@ class EditActivity extends HookConsumerWidget {
                                     showBarModalBottomSheet(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-                                          child: BlockPicker(
-                                            pickerColor: color.value,
-                                            availableColors: ActivityColors.getColors(),
-                                            onColorChanged: (selectedColor) {
-                                              color.value = selectedColor;
-                                            },
+                                        return Material(
+                                          color: Theme.of(context).colorScheme.background,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+                                            child: BlockPicker(
+                                              pickerColor: color.value,
+                                              availableColors: ActivityColors.getColors(),
+                                              onColorChanged: (selectedColor) {
+                                                color.value = selectedColor;
+                                              },
+                                            ),
                                           ),
                                         );
                                       },
