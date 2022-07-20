@@ -4,8 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/screens/groups/chat/group_chat_container.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/group_memories.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/planning/end_of_trip.screen.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
+import 'package:trip_n_joy_front/widgets/groups/group_icon.widget.dart';
 
 class GroupList extends StatelessWidget {
   const GroupList({Key? key, required this.groups, this.title}) : super(key: key);
@@ -87,12 +89,7 @@ class GroupListItem extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
-                radius: 40,
-                backgroundColor: group.state! != GroupModelState.archived
-                    ? Theme.of(context).colorScheme.surface
-                    : Theme.of(context).disabledColor.withOpacity(0.1),
-                backgroundImage: NetworkImage(MinioService.getImageUrl(group.picture, DEFAULT_URL.GROUP))),
+            GroupIcon(groupId: group.id!.toInt(), radius: 40,),
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
