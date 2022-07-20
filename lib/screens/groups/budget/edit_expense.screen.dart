@@ -134,7 +134,11 @@ class EditExpense extends HookConsumerWidget {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: InkWell(
                   onTap: () async {
-                    IconData? newIcon = await FlutterIconPicker.showIconPicker(context);
+                    IconData? newIcon = await FlutterIconPicker.showIconPicker(
+                      context,
+                      iconColor: Theme.of(context).colorScheme.onBackground,
+                      backgroundColor: Theme.of(context).colorScheme.background,
+                    );
                     if (newIcon != null) {
                       icon.value = newIcon;
                     }

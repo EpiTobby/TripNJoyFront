@@ -128,7 +128,11 @@ class EditActivity extends HookConsumerWidget {
                             ),
                             onTap: group.state != GroupModelState.archived
                                 ? () async {
-                                    IconData? selectedIcon = await FlutterIconPicker.showIconPicker(context);
+                                    IconData? selectedIcon = await FlutterIconPicker.showIconPicker(
+                                      context,
+                                      iconColor: Theme.of(context).colorScheme.onBackground,
+                                      backgroundColor: Theme.of(context).colorScheme.background,
+                                    );
                                     if (selectedIcon != null) {
                                       icon.value = selectedIcon;
                                     }
@@ -146,14 +150,17 @@ class EditActivity extends HookConsumerWidget {
                                     showBarModalBottomSheet(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-                                          child: BlockPicker(
-                                            pickerColor: color.value,
-                                            availableColors: ActivityColors.getColors(),
-                                            onColorChanged: (selectedColor) {
-                                              color.value = selectedColor;
-                                            },
+                                        return Material(
+                                          color: Theme.of(context).colorScheme.background,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+                                            child: BlockPicker(
+                                              pickerColor: color.value,
+                                              availableColors: ActivityColors.getColors(),
+                                              onColorChanged: (selectedColor) {
+                                                color.value = selectedColor;
+                                              },
+                                            ),
                                           ),
                                         );
                                       },
