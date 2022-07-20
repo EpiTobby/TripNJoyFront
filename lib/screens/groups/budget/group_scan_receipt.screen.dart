@@ -38,6 +38,7 @@ class GroupScanReceipt extends HookConsumerWidget {
         foregroundColor: Theme.of(context).colorScheme.onBackground,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: handleExpense.value
           ? BudgetReceiptExpenses(groupId: groupId, scanReceipt: scanReceipt.value)
           : Container(

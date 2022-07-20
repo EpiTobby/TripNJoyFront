@@ -120,6 +120,7 @@ class EditExpense extends HookConsumerWidget {
               )
         ],
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: ListView(
         shrinkWrap: true,
         children: [
@@ -141,10 +142,7 @@ class EditExpense extends HookConsumerWidget {
                   child: SizedBox(
                     height: 48,
                     width: 48,
-                    child: Icon(
-                      icon.value,
-                      size: 48,
-                    ),
+                    child: Icon(icon.value, size: 48, color: Theme.of(context).colorScheme.primary),
                   ),
                 ),
               ),

@@ -126,6 +126,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                 ],
               ),
             PopupMenuButton(
+              color: Theme.of(context).colorScheme.background,
               onSelected: (value) {
                 if (value == 1) {
                   _navigator.push(MaterialPageRoute(builder: (_) => GroupsSettings(groupId: group.id!.toInt())));
@@ -153,15 +154,18 @@ class _GroupChatState extends ConsumerState<GroupChat> {
               itemBuilder: (ctx) => [
                 if (group.state == GroupModelState.closed)
                   PopupMenuItem(
+                    textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                     child: Text(AppLocalizations.of(context).translate('groups.planning.title')),
                     value: 3,
                   ),
                 if (widget.channel != null)
                   PopupMenuItem(
+                    textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                     child: Text(AppLocalizations.of(context).translate('groups.chat.pinned_messages.title')),
                     value: 2,
                   ),
                 PopupMenuItem(
+                  textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                   child: Text(AppLocalizations.of(context).translate('settings.title')),
                   value: 1,
                 ),
@@ -172,6 +176,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
           shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
         ),
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: Column(
           children: [
             if (nextActivity.value != null)

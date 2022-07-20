@@ -205,6 +205,7 @@
   "profile": {
     "title": "Profile",
     "active": "Active profile",
+    "active_empty": "You don't have any active profile",
     "other": "Other profiles",
     "information": "Information",
     "name": "Profile name",

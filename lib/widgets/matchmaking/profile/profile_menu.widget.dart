@@ -32,6 +32,8 @@ class ProfileMenu extends ConsumerWidget {
             softWrap: false,
             style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 24)),
         PopupMenuButton(
+          icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary),
+          color: Theme.of(context).colorScheme.background,
           onSelected: (result) {
             if (result == PopupMenuItemType.EDIT) {
               Navigator.push(
@@ -43,7 +45,8 @@ class ProfileMenu extends ConsumerWidget {
               PopupMenuItem(
                 child: Row(
                   children: <Widget>[
-                    Text(AppLocalizations.of(context).translate('profile.defineActive')),
+                    Text(AppLocalizations.of(context).translate('profile.defineActive'),
+                        style: TextStyle(color: Theme.of(context).colorScheme.primary)),
                   ],
                 ),
                 onTap: () {
@@ -54,7 +57,9 @@ class ProfileMenu extends ConsumerWidget {
             PopupMenuItem(
                 child: Row(
                   children: <Widget>[
-                    Flexible(child: Text(AppLocalizations.of(context).translate('matchmaking.retryProfile'))),
+                    Flexible(
+                        child: Text(AppLocalizations.of(context).translate('matchmaking.retryProfile'),
+                            style: TextStyle(color: Theme.of(context).colorScheme.primary))),
                   ],
                 ),
                 onTap: () async {
@@ -65,7 +70,8 @@ class ProfileMenu extends ConsumerWidget {
               value: PopupMenuItemType.EDIT,
               child: Row(
                 children: <Widget>[
-                  Text(AppLocalizations.of(context).translate('profile.edit')),
+                  Text(AppLocalizations.of(context).translate('profile.edit'),
+                      style: TextStyle(color: Theme.of(context).colorScheme.primary)),
                 ],
               ),
             ),

@@ -35,6 +35,7 @@ class AddActivity extends HookConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: ListView(
         children: [
           Padding(

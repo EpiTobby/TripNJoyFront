@@ -72,7 +72,7 @@ class GroupListItem extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: group.state! != GroupModelState.archived
-                ? Theme.of(context).colorScheme.background
+                ? Theme.of(context).colorScheme.surface
                 : Theme.of(context).disabledColor.withOpacity(0.1),
             boxShadow: [
               if (group.state != GroupModelState.archived)
@@ -90,7 +90,7 @@ class GroupListItem extends StatelessWidget {
             CircleAvatar(
                 radius: 40,
                 backgroundColor: group.state! != GroupModelState.archived
-                    ? Theme.of(context).colorScheme.surface
+                    ? Theme.of(context).colorScheme.background
                     : Theme.of(context).disabledColor.withOpacity(0.1),
                 backgroundImage: NetworkImage(MinioService.getImageUrl(group.picture, DEFAULT_URL.GROUP))),
             Flexible(
@@ -104,6 +104,7 @@ class GroupListItem extends StatelessWidget {
                       style: GoogleFonts.raleway(
                         fontSize: 22,
                         fontWeight: FontWeight.w800,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
                   ],

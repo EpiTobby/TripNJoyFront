@@ -21,6 +21,7 @@ class ForgotPassword extends HookConsumerWidget {
     ref.listen<AsyncValue<void>>(authForgotPasswordStateProvider, (_, state) => state.showSnackBarOnError(context));
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(70),

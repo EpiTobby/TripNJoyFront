@@ -29,40 +29,41 @@ class _GoogleMoreInfo extends ConsumerState<GoogleMoreInfo> {
     final city = useState('');
 
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-            padding: const EdgeInsets.only(top: 20, bottom: 20),
-            child: Text(AppLocalizations.of(context).translate('auth.google.moreInfo'),
-                textAlign: TextAlign.center, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
-        ListView(
-          padding: const EdgeInsets.all(0),
-          shrinkWrap: true,
-          children: [
-            Dropdown(
-                label: AppLocalizations.of(context).translate("common.gender"),
-                icon: const Icon(Icons.person),
-                selectedValue: gender.value,
-                listValue: [Gender.male.name, Gender.female.name, Gender.other.name],
-                listLabel: [
-                  AppLocalizations.of(context).translate("user.gender.man"),
-                  AppLocalizations.of(context).translate("user.gender.woman"),
-                  AppLocalizations.of(context).translate("user.gender.other")
-                ],
-                onChanged: (value) => gender.value = value),
-            DatePicker(
-                label: AppLocalizations.of(context).translate("user.birthDate"),
-                selectedDate: birthDate.value,
-                onChanged: (value) => birthDate.value = value),
-            InputField(
-                label: AppLocalizations.of(context).translate("user.city"),
-                hint: AppLocalizations.of(context).translate("auth.city"),
-                onChanged: (value) => city.value = value,
-                icon: const Icon(Icons.apartment)),
-          ],
-        ),
-        Padding(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+              padding: const EdgeInsets.only(top: 20, bottom: 20),
+              child: Text(AppLocalizations.of(context).translate('auth.google.moreInfo'),
+                  textAlign: TextAlign.center, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+          ListView(
+            padding: const EdgeInsets.all(0),
+            shrinkWrap: true,
+            children: [
+              Dropdown(
+                  label: AppLocalizations.of(context).translate("common.gender"),
+                  icon: const Icon(Icons.person),
+                  selectedValue: gender.value,
+                  listValue: [Gender.male.name, Gender.female.name, Gender.other.name],
+                  listLabel: [
+                    AppLocalizations.of(context).translate("user.gender.man"),
+                    AppLocalizations.of(context).translate("user.gender.woman"),
+                    AppLocalizations.of(context).translate("user.gender.other")
+                  ],
+                  onChanged: (value) => gender.value = value),
+              DatePicker(
+                  label: AppLocalizations.of(context).translate("user.birthDate"),
+                  selectedDate: birthDate.value,
+                  onChanged: (value) => birthDate.value = value),
+              InputField(
+                  label: AppLocalizations.of(context).translate("user.city"),
+                  hint: AppLocalizations.of(context).translate("auth.city"),
+                  onChanged: (value) => city.value = value,
+                  icon: const Icon(Icons.apartment)),
+            ],
+          ),
+          Padding(
             padding: const EdgeInsets.only(top: 30),
             child: Column(
               children: [
@@ -79,8 +80,10 @@ class _GoogleMoreInfo extends ConsumerState<GoogleMoreInfo> {
                                     AppLocalizations.of(context).locale.languageCode == "en" ? "ENGLISH" : "FRENCH"))
                         .then((value) => Navigator.pop(context))),
               ],
-            )),
-      ],
-    ));
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -40,9 +40,7 @@ class InputWrap extends StatelessWidget {
             width: double.infinity,
             height: 55,
             decoration: BoxDecoration(
-              color: isError
-                  ? Theme.of(context).colorScheme.errorContainer
-                  : Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1),
+              color: isError ? Theme.of(context).colorScheme.errorContainer : Theme.of(context).colorScheme.surface,
               border: Border.all(
                 color: Colors.transparent,
                 width: 2,

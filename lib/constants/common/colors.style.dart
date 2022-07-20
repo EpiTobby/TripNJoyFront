@@ -1,9 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
-abstract class CColors {
-  static const white0 = Color(0xffffffff);
-  static const black100 = Color(0xff000000);
+abstract class LightColors {
   static const primary = Color(0xff1E1B18);
   static const variant = Color(0xff666666);
   static const secondary = Color(0xff2F63E0);
@@ -17,6 +15,22 @@ abstract class CColors {
   static const onError = Color(0xffFAFAFF);
   static const surface = Color(0xffEBEBFA);
   static const onSurface = Color(0xff1E1B18);
+}
+
+abstract class DarkColors {
+  static const primary = Color(0xffe0e0e3);
+  static const variant = Color(0xff666666);
+  static const secondary = Color(0xff3a63cc);
+  static const tertiary = Color(0xffc73a5d);
+  static const background = Color(0xff18191e);
+  static const onPrimary = Color(0xff18191e);
+  static const onSecondary = Color(0xffe0e0e3);
+  static const onTertiary = Color(0xff18191e);
+  static const onBackground = Color(0xffe0e0e3);
+  static const error = Color(0xffEB4040);
+  static const onError = Color(0xffe0e0e3);
+  static const surface = Color(0xff37393f);
+  static const onSurface = Color(0xffe0e0e3);
 }
 
 abstract class CardColors {

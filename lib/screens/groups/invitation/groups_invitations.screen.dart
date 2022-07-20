@@ -41,6 +41,7 @@ class _GroupsInvitationsState extends ConsumerState<GroupsInvitations> {
           ),
         ],
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

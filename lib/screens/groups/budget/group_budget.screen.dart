@@ -5,7 +5,7 @@ import 'package:trip_n_joy_front/codegen/api.enums.swagger.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/budget/budget_reimbursement.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/budget/group_scan_receipt.screen.dart';
-import 'package:trip_n_joy_front/screens/groups/planning/edit_expense.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/budget/edit_expense.screen.dart';
 import 'package:trip_n_joy_front/widgets/groups/budget/budget_balances.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/budget/group_expenses.widget.dart';
 
@@ -58,6 +58,7 @@ class GroupBudget extends HookConsumerWidget {
         foregroundColor: Theme.of(context).colorScheme.onBackground,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Padding(
         padding: const EdgeInsets.only(left: 40.0),
         child: Container(

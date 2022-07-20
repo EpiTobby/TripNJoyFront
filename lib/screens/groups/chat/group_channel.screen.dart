@@ -71,6 +71,7 @@ class GroupChannels extends HookConsumerWidget {
         foregroundColor: Theme.of(context).colorScheme.onBackground,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Container(
         color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
         width: double.infinity,

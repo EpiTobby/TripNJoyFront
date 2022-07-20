@@ -21,27 +21,32 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(5),
-        child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: color ?? Theme.of(context).colorScheme.secondary,
-                textStyle: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSecondary),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
+      padding: const EdgeInsets.all(5),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            primary: color ?? Theme.of(context).colorScheme.secondary,
+            textStyle: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSecondary),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            minimumSize: fitContent ? const Size(0, 0) : const Size(180, 30)),
+        onPressed: isDisabled ? null : () => onPressed(),
+        child: isLoading
+            ? SizedBox(
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  strokeWidth: 3,
                 ),
-                minimumSize: fitContent ? const Size(0, 0) : const Size(180, 30)),
-            onPressed: isDisabled ? null : () => onPressed(),
-            child: isLoading
-                ? SizedBox(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).colorScheme.onSecondary,
-                      strokeWidth: 3,
-                    ),
-                    height: 20,
-                    width: 20,
-                  )
-                : Text(text)));
+                height: 20,
+                width: 20,
+              )
+            : Text(
+                text,
+                style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              ),
+      ),
+    );
   }
 }
 

@@ -40,12 +40,14 @@ class LayoutItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (title != null)
-                  Text(
-                    title!,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      fontSize: 16,
-                      fontWeight: boldTitle ? FontWeight.bold : FontWeight.w300,
+                  Expanded(
+                    child: Text(
+                      title!,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        fontSize: 16,
+                        fontWeight: boldTitle ? FontWeight.bold : FontWeight.w300,
+                      ),
                     ),
                   ),
                 if (actionIcon != null)

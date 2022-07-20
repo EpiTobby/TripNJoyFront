@@ -38,6 +38,7 @@ class GroupPlanning extends HookConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         elevation: 0,
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: ListView(
         controller: scrollController,
         children: [
@@ -59,7 +60,7 @@ class GroupPlanning extends HookConsumerWidget {
                                 PlanningActivity(
                                   prefix: Icon(
                                     activity.icon,
-                                    color: Theme.of(context).colorScheme.background,
+                                    color: Theme.of(context).colorScheme.onSecondary,
                                     size: 64,
                                   ),
                                   title: activity.name,

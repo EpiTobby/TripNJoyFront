@@ -8,6 +8,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:trip_n_joy_front/constants/themes/dark.theme.dart';
 import 'package:trip_n_joy_front/constants/themes/light.theme.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TripNJoy',
-      theme: lightTheme,
+      theme: darkTheme,
       supportedLocales: const [
         Locale('fr', 'FR'),
         Locale('en', 'en_US'),
@@ -138,33 +139,40 @@ class _TripNJoyState extends ConsumerState<TripNJoy> {
     final user = ref.watch(userProvider);
     final selectedPage = ref.watch(navbarStateProvider) as NavbarPage;
     return user.when(
-        data: (data) => Scaffold(
-              appBar: selectedPage != NavbarPage.MATCHMAKING && selectedPage != NavbarPage.GROUPS
-                  ? AppBar(
-                      title: Text(
-                        AppLocalizations.of(context).translate("${selectedPage.name.toLowerCase()}.title"),
-                        style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
-                      ),
-                      backgroundColor: Theme.of(context).colorScheme.background,
-                      foregroundColor: Theme.of(context).colorScheme.onBackground,
-                      shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-                    )
-                  : null,
-              extendBody: true,
-              body: Container(
-                child: getPageWidget(selectedPage),
-              ),
-              bottomNavigationBar: const Navbar(),
-              resizeToAvoidBottomInset: false,
-            ),
-        error: (error, r) {
-          logger.e(error, r);
-          return const ErrorScreen();
-        },
-        loading: () => Scaffold(
-            body: Center(
-                child: Container(
-                    color: Theme.of(context).colorScheme.background, child: const CircularProgressIndicator()))));
+      data: (data) => Scaffold(
+        appBar: selectedPage != NavbarPage.MATCHMAKING && selectedPage != NavbarPage.GROUPS
+            ? AppBar(
+                title: Text(
+                  AppLocalizations.of(context).translate("${selectedPage.name.toLowerCase()}.title"),
+                  style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
+                ),
+                backgroundColor: Theme.of(context).colorScheme.background,
+                foregroundColor: Theme.of(context).colorScheme.onBackground,
+                shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+              )
+            : null,
+        extendBody: true,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: Container(
+          child: getPageWidget(selectedPage),
+        ),
+        bottomNavigationBar: const Navbar(),
+        resizeToAvoidBottomInset: false,
+      ),
+      error: (error, r) {
+        logger.e(error, r);
+        return const ErrorScreen();
+      },
+      loading: () => Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: Center(
+          child: Container(
+            color: Theme.of(context).colorScheme.background,
+            child: const CircularProgressIndicator(),
+          ),
+        ),
+      ),
+    );
   }
 
   getPageWidget(NavbarPage selectedPage) {

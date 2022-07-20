@@ -75,6 +75,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
           )
         ],
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(children: [
         Row(
           children: [
@@ -126,7 +127,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
                                 children: [
                                   Text(
                                     AppLocalizations.of(context).translate('groups.noOpenGroup'),
-                                    style: const TextStyle(fontSize: 20),
+                                    style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.onBackground),
                                   ),
                                   const SizedBox(height: 20),
                                   PrimaryButton(

@@ -91,12 +91,13 @@ class EditActivity extends HookConsumerWidget {
             ),
         ],
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
         children: [
           PlanningActivity(
             prefix: Icon(
               icon.value,
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.onSecondary,
               size: 64,
             ),
             title: name.value,
@@ -123,6 +124,7 @@ class EditActivity extends HookConsumerWidget {
                             child: Icon(
                               icon.value,
                               size: 48,
+                              color: Theme.of(context).colorScheme.onBackground,
                             ),
                             onTap: group.state != GroupModelState.archived
                                 ? () async {
