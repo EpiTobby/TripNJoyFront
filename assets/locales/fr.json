@@ -29,7 +29,8 @@
     "gallery": "Galerie",
     "or": "ou",
     "me": "moi",
-    "copy_to_clipboard": "Copier dans le presse-papier"
+    "copy_to_clipboard": "Copier dans le presse-papier",
+    "share": "Partager"
   },
   "user": {
     "firstname": "Prénom",
@@ -273,7 +274,8 @@
       "join": "Rejoindre le groupe",
       "error": "Erreur lors du scan du code QR, veuillez réessayer",
       "generate": "Générer un code QR d'invitation",
-      "download": "Télécharger le code QR"
+      "download": "Télécharger le code QR",
+      "share": "Partager le code QR"
     },
     "noOpenGroup": "Pas de groupes ouverts",
     "addMember": "Ajouter un membre",

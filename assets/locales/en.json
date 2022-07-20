@@ -29,7 +29,8 @@
     "gallery": "Gallery",
     "or": "or",
     "me": "me",
-    "copy_to_clipboard": "Copy to clipboard"
+    "copy_to_clipboard": "Copy to clipboard",
+    "share": "Share"
   },
   "user": {
     "firstname": "Firstname",
@@ -273,7 +274,8 @@
       "join": "Join group",
       "error": "Error while scanning QR code, please try again",
       "generate": "Generate invitation QR code",
-      "download": "Download QR code"
+      "download": "Download QR code",
+      "share": "Share QR code"
     },
     "noOpenGroup": "No open groups",
     "addMember": "Add a member",
