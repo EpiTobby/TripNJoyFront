@@ -70,19 +70,11 @@ class GroupListItem extends StatelessWidget {
       },
       title: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: group.state! != GroupModelState.archived
-                ? Theme.of(context).colorScheme.surface
-                : Theme.of(context).disabledColor.withOpacity(0.1),
-            boxShadow: [
-              if (group.state != GroupModelState.archived)
-                BoxShadow(
-                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.25),
-                  offset: const Offset(0, 10),
-                  blurRadius: 14,
-                  spreadRadius: -6,
-                ),
-            ]),
+          borderRadius: BorderRadius.circular(10),
+          color: group.state! != GroupModelState.archived
+              ? Theme.of(context).colorScheme.surface.withOpacity(0.5)
+              : Theme.of(context).disabledColor.withOpacity(0.1),
+        ),
         padding: const EdgeInsets.all(10),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -9,6 +9,7 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/matchmaking/matchmaking_status.enum.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
+import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_item.widget.dart';
@@ -29,6 +30,8 @@ class ProfileDetail extends ConsumerWidget {
     final profileModel = profileModels!.firstWhere((profile) => profile.id == profileId);
     final profileViewModel = ref.watch(profileProvider.notifier);
     final matchmakingStatus = ref.watch(matchmakingProvider).status;
+    final settingsViewModel = ref.watch(settingsProvider);
+    final isDarkMode = settingsViewModel.isDarkMode;
 
     final updateProfileSwap = (name, value) async {
       await profileViewModel.updateProfile(
@@ -136,7 +139,7 @@ class ProfileDetail extends ConsumerWidget {
                                   min: 1,
                                   max: 30,
                                   color: LightColors.primary,
-                                  backgroundColor: CardColors.yellow,
+                                  backgroundColor: isDarkMode ? DarkCardColors.yellow : LightCardColors.yellow,
                                   onPressed: (name, value) {
                                     profileViewModel.updateProfile(
                                         profileModel.id!.toInt(),
@@ -177,7 +180,7 @@ class ProfileDetail extends ConsumerWidget {
                                   min: 100,
                                   max: 2000,
                                   color: LightColors.primary,
-                                  backgroundColor: CardColors.yellow,
+                                  backgroundColor: isDarkMode ? DarkCardColors.yellow : LightCardColors.yellow,
                                   onPressed: (name, value) {
                                     profileViewModel.updateProfile(
                                         profileModel.id!.toInt(),
@@ -218,7 +221,7 @@ class ProfileDetail extends ConsumerWidget {
                                   min: 18,
                                   max: 100,
                                   color: LightColors.primary,
-                                  backgroundColor: CardColors.yellow,
+                                  backgroundColor: isDarkMode ? DarkCardColors.yellow : LightCardColors.yellow,
                                   onPressed: (name, value) {
                                     profileViewModel.updateProfile(
                                         profileModel.id!.toInt(),
@@ -259,7 +262,7 @@ class ProfileDetail extends ConsumerWidget {
                                   min: 2,
                                   max: 10,
                                   color: LightColors.primary,
-                                  backgroundColor: CardColors.yellow,
+                                  backgroundColor: isDarkMode ? DarkCardColors.yellow : LightCardColors.yellow,
                                   onPressed: (name, value) {
                                     profileViewModel.updateProfile(
                                         profileModel.id!.toInt(),
@@ -295,7 +298,7 @@ class ProfileDetail extends ConsumerWidget {
                                 subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
                                 onTop: true,
                                 color: Theme.of(context).colorScheme.primary,
-                                backgroundColor: CardColors.green,
+                                backgroundColor: isDarkMode ? DarkCardColors.green : LightCardColors.green,
                                 values: const ["male", "female", "no_preference"],
                                 updateProfile: updateProfileSwap,
                               ),
@@ -324,7 +327,7 @@ class ProfileDetail extends ConsumerWidget {
                                 subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
                                 onTop: true,
                                 color: Theme.of(context).colorScheme.primary,
-                                backgroundColor: CardColors.green,
+                                backgroundColor: isDarkMode ? DarkCardColors.green : LightCardColors.green,
                                 values: const ["yes", "no", "no_preference"],
                                 updateProfile: updateProfileSwap,
                               ),
@@ -353,7 +356,7 @@ class ProfileDetail extends ConsumerWidget {
                                 subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
                                 onTop: true,
                                 color: Theme.of(context).colorScheme.primary,
-                                backgroundColor: CardColors.green,
+                                backgroundColor: isDarkMode ? DarkCardColors.green : LightCardColors.green,
                                 values: const ["yes", "no", "no_preference"],
                                 updateProfile: updateProfileSwap,
                               ),
@@ -382,7 +385,7 @@ class ProfileDetail extends ConsumerWidget {
                                 subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
                                 onTop: true,
                                 color: Theme.of(context).colorScheme.primary,
-                                backgroundColor: CardColors.green,
+                                backgroundColor: isDarkMode ? DarkCardColors.green : LightCardColors.green,
                                 values: const ["yes", "no", "no_preference"],
                                 updateProfile: updateProfileSwap,
                               ),
@@ -410,7 +413,7 @@ class ProfileDetail extends ConsumerWidget {
                                 title: AppLocalizations.of(context).translate("cards.destinationTypes.title"),
                                 subtitle: AppLocalizations.of(context).translate("cards.destinationTypes.subtitle"),
                                 color: Theme.of(context).colorScheme.primary,
-                                backgroundColor: CardColors.darkBlue,
+                                backgroundColor: isDarkMode ? DarkCardColors.darkBlue : LightCardColors.darkBlue,
                                 values: const ["mountain", "beach", "city", "countryside"],
                                 onPressed: (name, value) {
                                   profileViewModel.updateProfile(
@@ -441,7 +444,7 @@ class ProfileDetail extends ConsumerWidget {
                             subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
                             onTop: true,
                             color: Theme.of(context).colorScheme.primary,
-                            backgroundColor: CardColors.lightBlue,
+                            backgroundColor: isDarkMode ? DarkCardColors.lightBlue : LightCardColors.lightBlue,
                             values: const ["yes", "no", "no_preference"],
                             updateProfile: updateProfileSwap,
                           ),
@@ -470,7 +473,7 @@ class ProfileDetail extends ConsumerWidget {
                             subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
                             onTop: true,
                             color: Theme.of(context).colorScheme.primary,
-                            backgroundColor: CardColors.lightBlue,
+                            backgroundColor: isDarkMode ? DarkCardColors.lightBlue : LightCardColors.lightBlue,
                             values: const ["yes", "no", "no_preference"],
                             updateProfile: updateProfileSwap,
                           ),
@@ -499,7 +502,7 @@ class ProfileDetail extends ConsumerWidget {
                             subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
                             onTop: true,
                             color: Theme.of(context).colorScheme.primary,
-                            backgroundColor: CardColors.yellow,
+                            backgroundColor: isDarkMode ? DarkCardColors.yellow : LightCardColors.yellow,
                             values: const ["restaurant", "cook", "no_preference"],
                             updateProfile: updateProfileSwap,
                           ),
@@ -528,7 +531,7 @@ class ProfileDetail extends ConsumerWidget {
                             subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
                             onTop: true,
                             color: Theme.of(context).colorScheme.primary,
-                            backgroundColor: CardColors.red,
+                            backgroundColor: isDarkMode ? DarkCardColors.red : LightCardColors.red,
                             values: const ["chill", "visit", "no_preference"],
                             updateProfile: updateProfileSwap,
                           ),
