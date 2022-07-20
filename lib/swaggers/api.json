@@ -586,6 +586,98 @@
         }
       }
     },
+    "/groups/{groupId}/memories": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get all the memories from a group",
+        "operationId": "getMemories",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Group does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemoriesResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The memories are returned",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemoriesResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Add memory to a group",
+        "operationId": "addMemory",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupMemoryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "description": "Group or Memory does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemoriesResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The memory is added to the group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemoriesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/groups/private/{id}": {
       "post": {
         "tags": [
@@ -3677,6 +3769,25 @@
             "type": "string"
           },
           "infos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "GroupMemoryRequest": {
+        "type": "object",
+        "properties": {
+          "memoryUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "GroupMemoriesResponse": {
+        "type": "object",
+        "properties": {
+          "memories": {
             "type": "array",
             "items": {
               "type": "string"
