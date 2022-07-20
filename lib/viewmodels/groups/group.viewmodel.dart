@@ -16,6 +16,8 @@ class GroupViewModel extends ChangeNotifier {
   AsyncValue<GroupModel> groupInfo = const AsyncValue.loading();
   bool isLoading = false;
 
+  List<String> memories = [];
+
   void _init() async {
     isLoading = true;
     await getGroups();
@@ -114,5 +116,15 @@ class GroupViewModel extends ChangeNotifier {
     groupInfo = AsyncValue.data(
         GroupModel(name: 'Group TripNJoy', id: groupId, members: [], maxSize: 10, state: GroupModelState.open));
     notifyListeners();
+  }
+
+  Future<void> getGroupMemories(int groupId) async {
+    final memoriesResponse = await httpService.getGroupMemories(groupId);
+    memories = memoriesResponse?.memories ?? [];
+  }
+
+  Future<void> addMemoryToGroup(int groupId, String memoryUrl) async {
+    final memoriesResponse = await httpService.addGroupMemory(groupId, GroupMemoryRequest(memoryUrl: memoryUrl));
+    memories = memoriesResponse?.memories ?? [];
   }
 }
