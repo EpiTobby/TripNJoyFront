@@ -468,4 +468,18 @@ class CodegenService extends HttpService {
 
     return response.body;
   }
+
+  @override
+  Future<GroupMemoriesResponse?> addGroupMemory(int groupId, GroupMemoryRequest request) async {
+    final response = await api.groupsGroupIdMemoriesPost(groupId: groupId, body: request);
+
+    return response.body;
+  }
+
+  @override
+  Future<GroupMemoriesResponse?> getGroupMemories(int groupId) async {
+    final response = await api.groupsGroupIdMemoriesGet(groupId: groupId);
+
+    return response.body;
+  }
 }

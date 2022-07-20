@@ -539,4 +539,14 @@ class MockService extends HttpService {
   Future<ScanResponse?> scanReceipt(String minioUrl) {
     return Future.value(null);
   }
+
+  @override
+  Future<GroupMemoriesResponse?> addGroupMemory(int groupId, GroupMemoryRequest request) {
+    return Future.value(GroupMemoriesResponse());
+  }
+
+  @override
+  Future<GroupMemoriesResponse?> getGroupMemories(int groupId) {
+    return Future.value(GroupMemoriesResponse());
+  }
 }

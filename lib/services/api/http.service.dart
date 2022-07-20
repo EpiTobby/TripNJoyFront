@@ -135,4 +135,8 @@ abstract class HttpService {
   Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId);
 
   Future<ScanResponse?> scanReceipt(String minioUrl);
+
+  Future<GroupMemoriesResponse?> getGroupMemories(int groupId);
+
+  Future<GroupMemoriesResponse?> addGroupMemory(int groupId, GroupMemoryRequest request);
 }
