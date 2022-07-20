@@ -31,6 +31,8 @@ class AvailabilityCard extends HookConsumerWidget {
         title: AppLocalizations.of(context).translate("cards.availability.title"),
         subtitle: AppLocalizations.of(context).translate("cards.availability.subtitle"),
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+        color: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.background,
         isLoading: isLoading,
         child: Column(
           children: [
