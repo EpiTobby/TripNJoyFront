@@ -23,7 +23,7 @@ class GroupIcon extends HookConsumerWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => GroupMemories(group: group),
+            builder: (_) => GroupMemories(groupId: group.id!.toInt()),
           ),
         );
       },
@@ -36,7 +36,7 @@ class GroupIcon extends HookConsumerWidget {
               turns: 4,
               child: CircleAvatar(
                 radius: radius + 4,
-                backgroundImage: NetworkImage("https://wallpapercave.com/wp/wp4411792.jpg"),
+                backgroundImage: const NetworkImage(BACKGROUND_GRADIENT),
               ),
             ),
           CircleAvatar(
