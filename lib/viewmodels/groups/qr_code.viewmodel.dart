@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/viewmodels/groups/group.viewmodel.dart';
 
 class QRCodeViewModel extends ChangeNotifier {
@@ -9,13 +10,22 @@ class QRCodeViewModel extends ChangeNotifier {
   final HttpService httpService;
   final GroupViewModel groupViewModel;
 
-  int? groupId = 100;
+  static RegExp qrCodeRegex = RegExp('tripnjoy-group-qr:([0-9]+)');
+
+  int? groupId;
   AsyncValue<String> qrCodeBase64 = const AsyncValue.loading();
 
-  void extractGroupIdFromQRCode(String code) {
-    // TODO: check identifier is present and extract groupId
-    groupId = 100;
-    notifyListeners();
+  int? extractGroupIdFromQRCode(String code) {
+    var match = qrCodeRegex.firstMatch(code);
+    if (match != null) {
+      groupId = int.parse(match.group(1).toString());
+      logger.d('QR Code valid - groupId: $groupId');
+      notifyListeners();
+      return groupId;
+    } else {
+      logger.d('QR Code invalid');
+      return null;
+    }
   }
 
   bool checkGroupAlreadyJoined(int? groupId) {

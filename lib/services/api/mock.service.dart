@@ -545,4 +545,15 @@ class MockService extends HttpService {
     return Future.value(
         "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAQAAAACFI5MzAAABMElEQVR4Xu2WTa7DIAyEnRXH4Kb83JRjsMKdsaM2avt2T8WLWCRy/GUxtWEa0b9C3gvPuMlNGP9PmiByk9x11MmHIwzpuCYJ7lxeCUKmHDPjXpm7/FikpVESOhqRIFlp8JVQRDntrkMSO3pWYhA/JajZ+jw/O4nHgmQdrHnEIC1BeFYdRdjXcvk920nnsvJkDX3VUGRSL+ZcacyByJK86Cti7oLT/OzofqLwYxbM/ERs5lFIE+o9KN+TUcMQPaeNgPlxSzKNQkxyAhezQP7lBiFwl2WFwm+o607cTzxgft3kN57jKASpmCtbO3FW7M0YpOv5FVAS8+67MgiZbi0ce+O0wxF1d0FrXzsxClkcOFXD/GocojZtW5T8cpf9xE9Jp7tAsl46up98j5vchPEr8gDE3gIVopb0oQAAAABJRU5ErkJggg==");
   }
+
+  @override
+  Future<GroupInfoModel?> getGroupPublicInfoById(int groupId) {
+    return Future.value(
+        GroupInfoModel(name: 'Group TripNJoy', id: groupId, members: [], maxSize: 10, state: GroupInfoModelState.open));
+  }
+
+  @override
+  Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId) {
+    return Future.value();
+  }
 }

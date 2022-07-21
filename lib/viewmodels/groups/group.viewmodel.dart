@@ -13,7 +13,7 @@ class GroupViewModel extends ChangeNotifier {
   final AuthViewModel authViewModel;
 
   List<GroupModel> groups = [];
-  AsyncValue<GroupModel> groupInfo = const AsyncValue.loading();
+  AsyncValue<GroupInfoModel> groupInfo = const AsyncValue.loading();
   bool isLoading = false;
 
   void _init() async {
@@ -54,6 +54,13 @@ class GroupViewModel extends ChangeNotifier {
   Future<void> joinPrivateGroup(int groupId) async {
     final id = httpService.getUserIdFromToken(authViewModel.token!);
     await httpService.joinPrivateGroup(groupId, id!);
+
+    await getGroups();
+  }
+
+  Future<void> joinPrivateGroupWithoutInvitation(int groupId) async {
+    final id = httpService.getUserIdFromToken(authViewModel.token!);
+    await httpService.joinPrivateGroupWithoutInvitation(groupId, id!);
 
     await getGroups();
   }
@@ -111,8 +118,8 @@ class GroupViewModel extends ChangeNotifier {
     }
     groupInfo = const AsyncValue.loading();
     notifyListeners();
-    groupInfo = AsyncValue.data(
-        GroupModel(name: 'Group TripNJoy', id: groupId, members: [], maxSize: 10, state: GroupModelState.open));
+    final response = await httpService.getGroupPublicInfoById(groupId);
+    groupInfo = response != null ? AsyncValue.data(response) : const AsyncValue.error("Group not found");
     notifyListeners();
   }
 }

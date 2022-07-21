@@ -37,6 +37,7 @@ class GroupInvitationDialog extends HookConsumerWidget {
       curve: Curves.easeOut,
       duration: const Duration(milliseconds: 200),
       child: Material(
+        color: Theme.of(context).colorScheme.background,
         child: SafeArea(
           top: false,
           child: Padding(
@@ -60,7 +61,7 @@ class GroupInvitationDialog extends HookConsumerWidget {
                           )
                         ]
                       : [
-                          AsyncValueWidget<GroupModel>(
+                          AsyncValueWidget<GroupInfoModel>(
                             value: groupInfo,
                             data: (data) => Padding(
                               padding: const EdgeInsets.all(16.0),
@@ -112,7 +113,9 @@ class GroupInvitationDialog extends HookConsumerWidget {
                                     child: PrimaryButton(
                                       text: AppLocalizations.of(context).translate('groups.qr_code.join'),
                                       onPressed: () async {
-                                        await ref.read(groupProvider).joinPrivateGroup(data.id!.toInt());
+                                        await ref
+                                            .read(groupProvider)
+                                            .joinPrivateGroupWithoutInvitation(data.id!.toInt());
                                         Navigator.pop(context);
                                         Navigator.pop(context);
                                         Navigator.pop(context);

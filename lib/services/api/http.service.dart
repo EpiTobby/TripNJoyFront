@@ -62,6 +62,8 @@ abstract class HttpService {
 
   Future<void> joinPrivateGroup(int groupId, int userId);
 
+  Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId);
+
   Future<void> deletePrivateGroup(int groupId);
 
   Future<void> updatePrivateGroup(int groupId, UpdatePrivateGroupRequest groupUpdateRequest);
@@ -137,4 +139,6 @@ abstract class HttpService {
   Future<ScanResponse?> scanReceipt(String minioUrl);
 
   Future<String?> getGroupQRCode(int groupId);
+
+  Future<GroupInfoModel?> getGroupPublicInfoById(int groupId);
 }
