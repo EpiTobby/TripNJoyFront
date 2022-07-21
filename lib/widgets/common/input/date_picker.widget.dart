@@ -27,7 +27,12 @@ class DatePicker extends StatelessWidget {
       icon: const Icon(Icons.date_range),
       isError: isError,
       child: GestureDetector(
-        child: Text(DateFormat("EEE d MMM yyyy", AppLocalizations.of(context).locale.countryCode).format(selectedDate)),
+        child: Text(
+          DateFormat("EEE d MMM yyyy", AppLocalizations.of(context).locale.countryCode).format(selectedDate),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
         onTap: () async {
           final DateTime? picked = await showDatePicker(
             context: context,

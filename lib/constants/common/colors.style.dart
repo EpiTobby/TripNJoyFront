@@ -1,9 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
-abstract class CColors {
-  static const white0 = Color(0xffffffff);
-  static const black100 = Color(0xff000000);
+abstract class LightColors {
   static const primary = Color(0xff1E1B18);
   static const variant = Color(0xff666666);
   static const secondary = Color(0xff2F63E0);
@@ -19,6 +17,22 @@ abstract class CColors {
   static const onSurface = Color(0xff1E1B18);
 }
 
+abstract class DarkColors {
+  static const primary = Color(0xffe0e0e3);
+  static const variant = Color(0xff666666);
+  static const secondary = Color(0xff3a63cc);
+  static const tertiary = Color(0xffc73a5d);
+  static const background = Color(0xff18191e);
+  static const onPrimary = Color(0xff18191e);
+  static const onSecondary = Color(0xffe0e0e3);
+  static const onTertiary = Color(0xff18191e);
+  static const onBackground = Color(0xffe0e0e3);
+  static const error = Color(0xffEB4040);
+  static const onError = Color(0xffe0e0e3);
+  static const surface = Color(0xff37393f);
+  static const onSurface = Color(0xffe0e0e3);
+}
+
 abstract class CardColors {
   static const white = Color(0xffFAFAFF);
   static const red = Color(0xffFAD2D2);
@@ -29,6 +43,30 @@ abstract class CardColors {
   static const darkBlue = Color(0xffD2D8FA);
   static const purple = Color(0xffD8D2FA);
   static const pink = Color(0xffFAD2E8);
+}
+
+class LightCardColors extends CardColors {
+  static const white = Color(0xffFAFAFF);
+  static const red = Color(0xffFAD2D2);
+  static const orange = Color(0xfffae0d2);
+  static const yellow = Color(0xffFAF1D2);
+  static const green = Color(0xffDAFAD2);
+  static const lightBlue = Color(0xffD2F8FA);
+  static const darkBlue = Color(0xffD2D8FA);
+  static const purple = Color(0xffD8D2FA);
+  static const pink = Color(0xffFAD2E8);
+}
+
+class DarkCardColors extends CardColors {
+  static const white = Color(0xff18191e);
+  static const red = Color(0xffab5959);
+  static const orange = Color(0xffa66e55);
+  static const yellow = Color(0xffbeb475);
+  static const green = Color(0xff58835f);
+  static const lightBlue = Color(0xff60959a);
+  static const darkBlue = Color(0xff535d9b);
+  static const purple = Color(0xff66599b);
+  static const pink = Color(0xff9d6d88);
 }
 
 class ActivityColors {

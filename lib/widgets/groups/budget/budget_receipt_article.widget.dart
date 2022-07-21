@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/models/group/article.dart';
-import 'package:trip_n_joy_front/widgets/groups/budget/input_dialog_article.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog_article.widget.dart';
 
 class BudgetReceiptArticle extends StatelessWidget {
   const BudgetReceiptArticle({

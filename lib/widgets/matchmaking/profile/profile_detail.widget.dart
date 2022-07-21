@@ -9,6 +9,7 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/matchmaking/matchmaking_status.enum.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/profile.provider.dart';
+import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_box.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_item.widget.dart';
@@ -29,6 +30,8 @@ class ProfileDetail extends ConsumerWidget {
     final profileModel = profileModels!.firstWhere((profile) => profile.id == profileId);
     final profileViewModel = ref.watch(profileProvider.notifier);
     final matchmakingStatus = ref.watch(matchmakingProvider).status;
+    final settingsViewModel = ref.watch(settingsProvider);
+    final isDarkMode = settingsViewModel.isDarkMode;
 
     final updateProfileSwap = (name, value) async {
       await profileViewModel.updateProfile(
@@ -44,8 +47,9 @@ class ProfileDetail extends ConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: ListView(children: [
-        LayoutBox(title: AppLocalizations.of(context).translate('profile.information'), children: [
+        LayoutBox(title: AppLocalizations.of(context).translate('profile.information'), top: true, children: [
           LayoutItem(
             title: AppLocalizations.of(context).translate('profile.name'),
             child: LayoutItemValue(
@@ -88,21 +92,24 @@ class ProfileDetail extends ConsumerWidget {
                 showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      return Card(
-                        margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                        child: AvailabilityCard(onPressed: (name, value) async {
-                          await profileViewModel.updateProfile(
-                              profileModel.id!.toInt(),
-                              ProfileUpdateRequest.fromJsonFactory({
-                                name: value
-                                    .map((e) => {
-                                          "startDate": e.startDate.toIso8601String(),
-                                          "endDate": e.endDate.toIso8601String()
-                                        })
-                                    .toList()
-                              }));
-                          Navigator.pop(context);
-                        }),
+                      return Material(
+                        color: Theme.of(context).colorScheme.background,
+                        child: Card(
+                          margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                          child: AvailabilityCard(onPressed: (name, value) async {
+                            await profileViewModel.updateProfile(
+                                profileModel.id!.toInt(),
+                                ProfileUpdateRequest.fromJsonFactory({
+                                  name: value
+                                      .map((e) => {
+                                            "startDate": e.startDate.toIso8601String(),
+                                            "endDate": e.endDate.toIso8601String()
+                                          })
+                                      .toList()
+                                }));
+                            Navigator.pop(context);
+                          }),
+                        ),
                       );
                     });
               },
@@ -121,27 +128,30 @@ class ProfileDetail extends ConsumerWidget {
                     showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                            child: RangeCard(
-                                name: "duration",
-                                title: AppLocalizations.of(context).translate("cards.duration.title"),
-                                subtitle: AppLocalizations.of(context).translate("cards.duration.subtitle"),
-                                min: 1,
-                                max: 30,
-                                color: CColors.primary,
-                                backgroundColor: CardColors.yellow,
-                                onPressed: (name, value) {
-                                  profileViewModel.updateProfile(
-                                      profileModel.id!.toInt(),
-                                      ProfileUpdateRequest.fromJsonFactory({
-                                        name: {
-                                          "minValue": value.start.round().toInt(),
-                                          "maxValue": value.end.round().toInt()
-                                        }
-                                      }));
-                                  Navigator.pop(context);
-                                }),
+                          return Material(
+                            color: Theme.of(context).colorScheme.background,
+                            child: Card(
+                              margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                              child: RangeCard(
+                                  name: "duration",
+                                  title: AppLocalizations.of(context).translate("cards.duration.title"),
+                                  subtitle: AppLocalizations.of(context).translate("cards.duration.subtitle"),
+                                  min: 1,
+                                  max: 30,
+                                  color: LightColors.primary,
+                                  backgroundColor: isDarkMode ? DarkCardColors.yellow : LightCardColors.yellow,
+                                  onPressed: (name, value) {
+                                    profileViewModel.updateProfile(
+                                        profileModel.id!.toInt(),
+                                        ProfileUpdateRequest.fromJsonFactory({
+                                          name: {
+                                            "minValue": value.start.round().toInt(),
+                                            "maxValue": value.end.round().toInt()
+                                          }
+                                        }));
+                                    Navigator.pop(context);
+                                  }),
+                            ),
                           );
                         });
                   })),
@@ -157,29 +167,33 @@ class ProfileDetail extends ConsumerWidget {
                   onPressed: () {
                     showBarModalBottomSheet(
                         context: context,
+                        backgroundColor: Theme.of(context).colorScheme.background,
                         builder: (BuildContext context) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                            child: RangeCard(
-                                name: "budget",
-                                title: AppLocalizations.of(context).translate("cards.budget.title"),
-                                subtitle: AppLocalizations.of(context).translate("cards.budget.subtitle"),
-                                min: 100,
-                                max: 2000,
-                                color: CColors.primary,
-                                backgroundColor: CardColors.yellow,
-                                onPressed: (name, value) {
-                                  profileViewModel.updateProfile(
-                                      profileModel.id!.toInt(),
-                                      ProfileUpdateRequest.fromJsonFactory({
-                                        name: {
-                                          "minValue": value.start.round().toInt(),
-                                          "maxValue": value.end.round().toInt()
-                                        }
-                                      }));
+                          return Material(
+                            color: Theme.of(context).colorScheme.background,
+                            child: Card(
+                              margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                              child: RangeCard(
+                                  name: "budget",
+                                  title: AppLocalizations.of(context).translate("cards.budget.title"),
+                                  subtitle: AppLocalizations.of(context).translate("cards.budget.subtitle"),
+                                  min: 100,
+                                  max: 2000,
+                                  color: LightColors.primary,
+                                  backgroundColor: isDarkMode ? DarkCardColors.yellow : LightCardColors.yellow,
+                                  onPressed: (name, value) {
+                                    profileViewModel.updateProfile(
+                                        profileModel.id!.toInt(),
+                                        ProfileUpdateRequest.fromJsonFactory({
+                                          name: {
+                                            "minValue": value.start.round().toInt(),
+                                            "maxValue": value.end.round().toInt()
+                                          }
+                                        }));
 
-                                  Navigator.pop(context);
-                                }),
+                                    Navigator.pop(context);
+                                  }),
+                            ),
                           );
                         });
                   })),
@@ -196,28 +210,31 @@ class ProfileDetail extends ConsumerWidget {
                     showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                            child: RangeCard(
-                                name: "ages",
-                                title: AppLocalizations.of(context).translate("cards.ages.title"),
-                                subtitle: AppLocalizations.of(context).translate("cards.ages.subtitle"),
-                                min: 18,
-                                max: 100,
-                                color: CColors.primary,
-                                backgroundColor: CardColors.yellow,
-                                onPressed: (name, value) {
-                                  profileViewModel.updateProfile(
-                                      profileModel.id!.toInt(),
-                                      ProfileUpdateRequest.fromJsonFactory({
-                                        name: {
-                                          "minValue": value.start.round().toInt(),
-                                          "maxValue": value.end.round().toInt()
-                                        }
-                                      }));
+                          return Material(
+                            color: Theme.of(context).colorScheme.background,
+                            child: Card(
+                              margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                              child: RangeCard(
+                                  name: "ages",
+                                  title: AppLocalizations.of(context).translate("cards.ages.title"),
+                                  subtitle: AppLocalizations.of(context).translate("cards.ages.subtitle"),
+                                  min: 18,
+                                  max: 100,
+                                  color: LightColors.primary,
+                                  backgroundColor: isDarkMode ? DarkCardColors.yellow : LightCardColors.yellow,
+                                  onPressed: (name, value) {
+                                    profileViewModel.updateProfile(
+                                        profileModel.id!.toInt(),
+                                        ProfileUpdateRequest.fromJsonFactory({
+                                          name: {
+                                            "minValue": value.start.round().toInt(),
+                                            "maxValue": value.end.round().toInt()
+                                          }
+                                        }));
 
-                                  Navigator.pop(context);
-                                }),
+                                    Navigator.pop(context);
+                                  }),
+                            ),
                           );
                         });
                   })),
@@ -234,28 +251,31 @@ class ProfileDetail extends ConsumerWidget {
                     showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                            child: RangeCard(
-                                name: "groupSize",
-                                title: AppLocalizations.of(context).translate("cards.groupSize.title"),
-                                subtitle: AppLocalizations.of(context).translate("cards.groupSize.subtitle"),
-                                min: 2,
-                                max: 10,
-                                color: CColors.primary,
-                                backgroundColor: CardColors.yellow,
-                                onPressed: (name, value) {
-                                  profileViewModel.updateProfile(
-                                      profileModel.id!.toInt(),
-                                      ProfileUpdateRequest.fromJsonFactory({
-                                        name: {
-                                          "minValue": value.start.round().toInt(),
-                                          "maxValue": value.end.round().toInt()
-                                        }
-                                      }));
+                          return Material(
+                            color: Theme.of(context).colorScheme.background,
+                            child: Card(
+                              margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                              child: RangeCard(
+                                  name: "groupSize",
+                                  title: AppLocalizations.of(context).translate("cards.groupSize.title"),
+                                  subtitle: AppLocalizations.of(context).translate("cards.groupSize.subtitle"),
+                                  min: 2,
+                                  max: 10,
+                                  color: LightColors.primary,
+                                  backgroundColor: isDarkMode ? DarkCardColors.yellow : LightCardColors.yellow,
+                                  onPressed: (name, value) {
+                                    profileViewModel.updateProfile(
+                                        profileModel.id!.toInt(),
+                                        ProfileUpdateRequest.fromJsonFactory({
+                                          name: {
+                                            "minValue": value.start.round().toInt(),
+                                            "maxValue": value.end.round().toInt()
+                                          }
+                                        }));
 
-                                  Navigator.pop(context);
-                                }),
+                                    Navigator.pop(context);
+                                  }),
+                            ),
                           );
                         });
                   })),
@@ -268,17 +288,20 @@ class ProfileDetail extends ConsumerWidget {
                     showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                            child: SwipeCard(
-                              name: "gender",
-                              title: AppLocalizations.of(context).translate("cards.gender.title"),
-                              subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-                              onTop: true,
-                              color: Theme.of(context).colorScheme.primary,
-                              backgroundColor: CardColors.green,
-                              values: const ["male", "female", "no_preference"],
-                              updateProfile: updateProfileSwap,
+                          return Material(
+                            color: Theme.of(context).colorScheme.background,
+                            child: Card(
+                              margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                              child: SwipeCard(
+                                name: "gender",
+                                title: AppLocalizations.of(context).translate("cards.gender.title"),
+                                subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+                                onTop: true,
+                                color: Theme.of(context).colorScheme.primary,
+                                backgroundColor: isDarkMode ? DarkCardColors.green : LightCardColors.green,
+                                values: const ["male", "female", "no_preference"],
+                                updateProfile: updateProfileSwap,
+                              ),
                             ),
                           );
                         });
@@ -293,17 +316,21 @@ class ProfileDetail extends ConsumerWidget {
                     showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                            child: SwipeCard(
-                              name: "travelWithPersonSameLanguage",
-                              title: AppLocalizations.of(context).translate("cards.travelWithPersonSameLanguage.title"),
-                              subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-                              onTop: true,
-                              color: Theme.of(context).colorScheme.primary,
-                              backgroundColor: CardColors.green,
-                              values: const ["yes", "no", "no_preference"],
-                              updateProfile: updateProfileSwap,
+                          return Material(
+                            color: Theme.of(context).colorScheme.background,
+                            child: Card(
+                              margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                              child: SwipeCard(
+                                name: "travelWithPersonSameLanguage",
+                                title:
+                                    AppLocalizations.of(context).translate("cards.travelWithPersonSameLanguage.title"),
+                                subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+                                onTop: true,
+                                color: Theme.of(context).colorScheme.primary,
+                                backgroundColor: isDarkMode ? DarkCardColors.green : LightCardColors.green,
+                                values: const ["yes", "no", "no_preference"],
+                                updateProfile: updateProfileSwap,
+                              ),
                             ),
                           );
                         });
@@ -318,18 +345,21 @@ class ProfileDetail extends ConsumerWidget {
                     showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                            child: SwipeCard(
-                              name: "travelWithPersonFromSameCountry",
-                              title:
-                                  AppLocalizations.of(context).translate("cards.travelWithPersonFromSameCountry.title"),
-                              subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-                              onTop: true,
-                              color: Theme.of(context).colorScheme.primary,
-                              backgroundColor: CardColors.green,
-                              values: const ["yes", "no", "no_preference"],
-                              updateProfile: updateProfileSwap,
+                          return Material(
+                            color: Theme.of(context).colorScheme.background,
+                            child: Card(
+                              margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                              child: SwipeCard(
+                                name: "travelWithPersonFromSameCountry",
+                                title: AppLocalizations.of(context)
+                                    .translate("cards.travelWithPersonFromSameCountry.title"),
+                                subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+                                onTop: true,
+                                color: Theme.of(context).colorScheme.primary,
+                                backgroundColor: isDarkMode ? DarkCardColors.green : LightCardColors.green,
+                                values: const ["yes", "no", "no_preference"],
+                                updateProfile: updateProfileSwap,
+                              ),
                             ),
                           );
                         });
@@ -344,17 +374,21 @@ class ProfileDetail extends ConsumerWidget {
                     showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                            child: SwipeCard(
-                              name: "travelWithPersonFromSameCity",
-                              title: AppLocalizations.of(context).translate("cards.travelWithPersonFromSameCity.title"),
-                              subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-                              onTop: true,
-                              color: Theme.of(context).colorScheme.primary,
-                              backgroundColor: CardColors.green,
-                              values: const ["yes", "no", "no_preference"],
-                              updateProfile: updateProfileSwap,
+                          return Material(
+                            color: Theme.of(context).colorScheme.background,
+                            child: Card(
+                              margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                              child: SwipeCard(
+                                name: "travelWithPersonFromSameCity",
+                                title:
+                                    AppLocalizations.of(context).translate("cards.travelWithPersonFromSameCity.title"),
+                                subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+                                onTop: true,
+                                color: Theme.of(context).colorScheme.primary,
+                                backgroundColor: isDarkMode ? DarkCardColors.green : LightCardColors.green,
+                                values: const ["yes", "no", "no_preference"],
+                                updateProfile: updateProfileSwap,
+                              ),
                             ),
                           );
                         });
@@ -370,20 +404,23 @@ class ProfileDetail extends ConsumerWidget {
                     showBarModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                            child: MultipleChoiceCard(
-                              name: "destinationTypes",
-                              title: AppLocalizations.of(context).translate("cards.destinationTypes.title"),
-                              subtitle: AppLocalizations.of(context).translate("cards.destinationTypes.subtitle"),
-                              color: Theme.of(context).colorScheme.primary,
-                              backgroundColor: CardColors.darkBlue,
-                              values: const ["mountain", "beach", "city", "countryside"],
-                              onPressed: (name, value) {
-                                profileViewModel.updateProfile(
-                                    profileModel.id!.toInt(), ProfileUpdateRequest.fromJsonFactory({name: value}));
-                                Navigator.pop(context);
-                              },
+                          return Material(
+                            color: Theme.of(context).colorScheme.background,
+                            child: Card(
+                              margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                              child: MultipleChoiceCard(
+                                name: "destinationTypes",
+                                title: AppLocalizations.of(context).translate("cards.destinationTypes.title"),
+                                subtitle: AppLocalizations.of(context).translate("cards.destinationTypes.subtitle"),
+                                color: Theme.of(context).colorScheme.primary,
+                                backgroundColor: isDarkMode ? DarkCardColors.darkBlue : LightCardColors.darkBlue,
+                                values: const ["mountain", "beach", "city", "countryside"],
+                                onPressed: (name, value) {
+                                  profileViewModel.updateProfile(
+                                      profileModel.id!.toInt(), ProfileUpdateRequest.fromJsonFactory({name: value}));
+                                  Navigator.pop(context);
+                                },
+                              ),
                             ),
                           );
                         });
@@ -397,17 +434,20 @@ class ProfileDetail extends ConsumerWidget {
                 showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      return Card(
-                        margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                        child: SwipeCard(
-                          name: "sport",
-                          title: AppLocalizations.of(context).translate("cards.sport.title"),
-                          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-                          onTop: true,
-                          color: Theme.of(context).colorScheme.primary,
-                          backgroundColor: CardColors.lightBlue,
-                          values: const ["yes", "no", "no_preference"],
-                          updateProfile: updateProfileSwap,
+                      return Material(
+                        color: Theme.of(context).colorScheme.background,
+                        child: Card(
+                          margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                          child: SwipeCard(
+                            name: "sport",
+                            title: AppLocalizations.of(context).translate("cards.sport.title"),
+                            subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+                            onTop: true,
+                            color: Theme.of(context).colorScheme.primary,
+                            backgroundColor: isDarkMode ? DarkCardColors.lightBlue : LightCardColors.lightBlue,
+                            values: const ["yes", "no", "no_preference"],
+                            updateProfile: updateProfileSwap,
+                          ),
                         ),
                       );
                     });
@@ -423,17 +463,20 @@ class ProfileDetail extends ConsumerWidget {
                 showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      return Card(
-                        margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                        child: SwipeCard(
-                          name: "goOutAtNight",
-                          title: AppLocalizations.of(context).translate("cards.goOutAtNight.title"),
-                          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-                          onTop: true,
-                          color: Theme.of(context).colorScheme.primary,
-                          backgroundColor: CardColors.lightBlue,
-                          values: const ["yes", "no", "no_preference"],
-                          updateProfile: updateProfileSwap,
+                      return Material(
+                        color: Theme.of(context).colorScheme.background,
+                        child: Card(
+                          margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                          child: SwipeCard(
+                            name: "goOutAtNight",
+                            title: AppLocalizations.of(context).translate("cards.goOutAtNight.title"),
+                            subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+                            onTop: true,
+                            color: Theme.of(context).colorScheme.primary,
+                            backgroundColor: isDarkMode ? DarkCardColors.lightBlue : LightCardColors.lightBlue,
+                            values: const ["yes", "no", "no_preference"],
+                            updateProfile: updateProfileSwap,
+                          ),
                         ),
                       );
                     });
@@ -449,17 +492,20 @@ class ProfileDetail extends ConsumerWidget {
                 showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      return Card(
-                        margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                        child: SwipeCard(
-                          name: "aboutFood",
-                          title: AppLocalizations.of(context).translate("cards.aboutFood.title"),
-                          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-                          onTop: true,
-                          color: Theme.of(context).colorScheme.primary,
-                          backgroundColor: CardColors.yellow,
-                          values: const ["restaurant", "cook", "no_preference"],
-                          updateProfile: updateProfileSwap,
+                      return Material(
+                        color: Theme.of(context).colorScheme.background,
+                        child: Card(
+                          margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                          child: SwipeCard(
+                            name: "aboutFood",
+                            title: AppLocalizations.of(context).translate("cards.aboutFood.title"),
+                            subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+                            onTop: true,
+                            color: Theme.of(context).colorScheme.primary,
+                            backgroundColor: isDarkMode ? DarkCardColors.yellow : LightCardColors.yellow,
+                            values: const ["restaurant", "cook", "no_preference"],
+                            updateProfile: updateProfileSwap,
+                          ),
                         ),
                       );
                     });
@@ -475,17 +521,20 @@ class ProfileDetail extends ConsumerWidget {
                 showBarModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      return Card(
-                        margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                        child: SwipeCard(
-                          name: "chillOrVisit",
-                          title: AppLocalizations.of(context).translate("cards.chillOrVisit.title"),
-                          subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
-                          onTop: true,
-                          color: Theme.of(context).colorScheme.primary,
-                          backgroundColor: CardColors.red,
-                          values: const ["chill", "visit", "no_preference"],
-                          updateProfile: updateProfileSwap,
+                      return Material(
+                        color: Theme.of(context).colorScheme.background,
+                        child: Card(
+                          margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                          child: SwipeCard(
+                            name: "chillOrVisit",
+                            title: AppLocalizations.of(context).translate("cards.chillOrVisit.title"),
+                            subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
+                            onTop: true,
+                            color: Theme.of(context).colorScheme.primary,
+                            backgroundColor: isDarkMode ? DarkCardColors.red : LightCardColors.red,
+                            values: const ["chill", "visit", "no_preference"],
+                            updateProfile: updateProfileSwap,
+                          ),
                         ),
                       );
                     });

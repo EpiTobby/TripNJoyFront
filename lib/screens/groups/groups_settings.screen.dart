@@ -48,6 +48,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
         children: [
           Expanded(

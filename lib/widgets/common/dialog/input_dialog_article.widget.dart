@@ -39,6 +39,7 @@ class InputDialogArticle extends HookConsumerWidget {
       curve: Curves.easeOut,
       duration: const Duration(milliseconds: 200),
       child: Material(
+        color: Theme.of(context).colorScheme.background,
         child: SafeArea(
           top: false,
           child: Padding(

@@ -9,6 +9,7 @@ import 'package:trip_n_joy_front/models/exceptions/http_exceptions.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
+import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
@@ -20,21 +21,18 @@ import 'package:trip_n_joy_front/widgets/common/layout/layout_header.widget.dart
 import 'package:trip_n_joy_front/widgets/common/layout/layout_item.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_item_value.widget.dart';
 
-class SettingsPage extends StatefulHookConsumerWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+class SettingsPage extends HookConsumerWidget {
+  const SettingsPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  _SettingsPageState createState() => _SettingsPageState();
-}
-
-class _SettingsPageState extends ConsumerState<SettingsPage> {
-  bool _darkMode = false;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final userViewModel = ref.watch(userProvider.notifier);
     final authViewModel = ref.watch(authProvider);
     var user = ref.watch(userProvider).value;
+    final settingsViewModel = ref.watch(settingsProvider);
+    final isDarkMode = settingsViewModel.isDarkMode;
 
     final minioService = ref.watch(minioProvider);
 
@@ -174,11 +172,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold)),
                 Switch(
-                  value: _darkMode,
+                  value: isDarkMode,
                   onChanged: (bool value) {
-                    setState(() {
-                      _darkMode = value;
-                    });
+                    settingsViewModel.setDarkMode(value);
                   },
                 ),
               ],

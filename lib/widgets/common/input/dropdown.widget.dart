@@ -23,21 +23,26 @@ class Dropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InputWrap(
-        label: label,
-        icon: icon,
-        isError: isError,
-        child: DropdownButton<String>(
-            value: getLabelFromValue(selectedValue),
-            elevation: 16,
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
-            onChanged: (String? label) => onChanged(getValueFromLabel(label)),
-            underline: Container(color: Colors.transparent),
-            items: listLabel.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList()));
+      label: label,
+      icon: icon,
+      isError: isError,
+      child: DropdownButton<String>(
+        dropdownColor: Theme.of(context).colorScheme.background,
+        value: getLabelFromValue(selectedValue),
+        elevation: 16,
+        style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        onChanged: (String? label) => onChanged(getValueFromLabel(label)),
+        underline: Container(color: Colors.transparent),
+        items: listLabel.map<DropdownMenuItem<String>>(
+          (String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          },
+        ).toList(),
+      ),
+    );
   }
 
   String getValueFromLabel(String? label) {
