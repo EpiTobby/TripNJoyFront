@@ -60,7 +60,10 @@ enum UserModelRoles {
   admin
 }
 
-const $UserModelRolesMap = {UserModelRoles.$default: 'DEFAULT', UserModelRoles.admin: 'ADMIN'};
+const $UserModelRolesMap = {
+  UserModelRoles.$default: 'DEFAULT',
+  UserModelRoles.admin: 'ADMIN'
+};
 
 enum ProfileCreationRequestDestinationTypes {
   @JsonValue('swaggerGeneratedUnknown')
@@ -99,7 +102,8 @@ enum ProfileCreationRequestTravelWithPersonFromSameCity {
 const $ProfileCreationRequestTravelWithPersonFromSameCityMap = {
   ProfileCreationRequestTravelWithPersonFromSameCity.yes: 'YES',
   ProfileCreationRequestTravelWithPersonFromSameCity.no: 'NO',
-  ProfileCreationRequestTravelWithPersonFromSameCity.noPreference: 'NO_PREFERENCE'
+  ProfileCreationRequestTravelWithPersonFromSameCity.noPreference:
+      'NO_PREFERENCE'
 };
 
 enum ProfileCreationRequestTravelWithPersonFromSameCountry {
@@ -116,7 +120,8 @@ enum ProfileCreationRequestTravelWithPersonFromSameCountry {
 const $ProfileCreationRequestTravelWithPersonFromSameCountryMap = {
   ProfileCreationRequestTravelWithPersonFromSameCountry.yes: 'YES',
   ProfileCreationRequestTravelWithPersonFromSameCountry.no: 'NO',
-  ProfileCreationRequestTravelWithPersonFromSameCountry.noPreference: 'NO_PREFERENCE'
+  ProfileCreationRequestTravelWithPersonFromSameCountry.noPreference:
+      'NO_PREFERENCE'
 };
 
 enum ProfileCreationRequestTravelWithPersonSameLanguage {
@@ -133,7 +138,8 @@ enum ProfileCreationRequestTravelWithPersonSameLanguage {
 const $ProfileCreationRequestTravelWithPersonSameLanguageMap = {
   ProfileCreationRequestTravelWithPersonSameLanguage.yes: 'YES',
   ProfileCreationRequestTravelWithPersonSameLanguage.no: 'NO',
-  ProfileCreationRequestTravelWithPersonSameLanguage.noPreference: 'NO_PREFERENCE'
+  ProfileCreationRequestTravelWithPersonSameLanguage.noPreference:
+      'NO_PREFERENCE'
 };
 
 enum ProfileCreationRequestGender {
@@ -479,16 +485,20 @@ const $PlacesFromCoordinatesRequestCategoriesMap = {
   PlacesFromCoordinatesRequestCategories.beach: 'BEACH',
   PlacesFromCoordinatesRequestCategories.bus: 'BUS',
   PlacesFromCoordinatesRequestCategories.change: 'CHANGE',
-  PlacesFromCoordinatesRequestCategories.chineseRestaurant: 'CHINESE_RESTAURANT',
+  PlacesFromCoordinatesRequestCategories.chineseRestaurant:
+      'CHINESE_RESTAURANT',
   PlacesFromCoordinatesRequestCategories.coffeeShop: 'COFFEE_SHOP',
   PlacesFromCoordinatesRequestCategories.entertainment: 'ENTERTAINMENT',
   PlacesFromCoordinatesRequestCategories.fastFood: 'FAST_FOOD',
-  PlacesFromCoordinatesRequestCategories.fishAndChipsRestaurant: 'FISH_AND_CHIPS_RESTAURANT',
-  PlacesFromCoordinatesRequestCategories.italianRestaurant: 'ITALIAN_RESTAURANT',
+  PlacesFromCoordinatesRequestCategories.fishAndChipsRestaurant:
+      'FISH_AND_CHIPS_RESTAURANT',
+  PlacesFromCoordinatesRequestCategories.italianRestaurant:
+      'ITALIAN_RESTAURANT',
   PlacesFromCoordinatesRequestCategories.museum: 'MUSEUM',
   PlacesFromCoordinatesRequestCategories.parking: 'PARKING',
   PlacesFromCoordinatesRequestCategories.restaurant: 'RESTAURANT',
-  PlacesFromCoordinatesRequestCategories.seafoodRestaurant: 'SEAFOOD_RESTAURANT',
+  PlacesFromCoordinatesRequestCategories.seafoodRestaurant:
+      'SEAFOOD_RESTAURANT',
   PlacesFromCoordinatesRequestCategories.supermarket: 'SUPERMARKET',
   PlacesFromCoordinatesRequestCategories.swimmingPool: 'SWIMMING_POOL',
   PlacesFromCoordinatesRequestCategories.subway: 'SUBWAY',
@@ -560,7 +570,8 @@ const $PlacesFromAddressRequestCategoriesMap = {
   PlacesFromAddressRequestCategories.coffeeShop: 'COFFEE_SHOP',
   PlacesFromAddressRequestCategories.entertainment: 'ENTERTAINMENT',
   PlacesFromAddressRequestCategories.fastFood: 'FAST_FOOD',
-  PlacesFromAddressRequestCategories.fishAndChipsRestaurant: 'FISH_AND_CHIPS_RESTAURANT',
+  PlacesFromAddressRequestCategories.fishAndChipsRestaurant:
+      'FISH_AND_CHIPS_RESTAURANT',
   PlacesFromAddressRequestCategories.italianRestaurant: 'ITALIAN_RESTAURANT',
   PlacesFromAddressRequestCategories.museum: 'MUSEUM',
   PlacesFromAddressRequestCategories.parking: 'PARKING',
@@ -628,7 +639,8 @@ enum ProfileUpdateRequestTravelWithPersonFromSameCountry {
 const $ProfileUpdateRequestTravelWithPersonFromSameCountryMap = {
   ProfileUpdateRequestTravelWithPersonFromSameCountry.yes: 'YES',
   ProfileUpdateRequestTravelWithPersonFromSameCountry.no: 'NO',
-  ProfileUpdateRequestTravelWithPersonFromSameCountry.noPreference: 'NO_PREFERENCE'
+  ProfileUpdateRequestTravelWithPersonFromSameCountry.noPreference:
+      'NO_PREFERENCE'
 };
 
 enum ProfileUpdateRequestTravelWithPersonSameLanguage {
@@ -805,4 +817,21 @@ const $MatchMakingResultType$Map = {
   MatchMakingResultType$.joined: 'JOINED',
   MatchMakingResultType$.waiting: 'WAITING',
   MatchMakingResultType$.searching: 'SEARCHING'
+};
+
+enum GroupInfoModelState {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('OPEN')
+  open,
+  @JsonValue('CLOSED')
+  closed,
+  @JsonValue('ARCHIVED')
+  archived
+}
+
+const $GroupInfoModelStateMap = {
+  GroupInfoModelState.open: 'OPEN',
+  GroupInfoModelState.closed: 'CLOSED',
+  GroupInfoModelState.archived: 'ARCHIVED'
 };
