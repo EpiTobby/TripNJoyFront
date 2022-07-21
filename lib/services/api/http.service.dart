@@ -135,4 +135,6 @@ abstract class HttpService {
   Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId);
 
   Future<ScanResponse?> scanReceipt(String minioUrl);
+
+  Future<String?> getGroupQRCode(int groupId);
 }

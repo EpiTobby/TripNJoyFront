@@ -468,4 +468,11 @@ class CodegenService extends HttpService {
 
     return response.body;
   }
+
+  @override
+  Future<String?> getGroupQRCode(int groupId) async {
+    final response = await api.groupsPrivateGroupQrcodeGet(group: groupId);
+
+    return response.body;
+  }
 }
