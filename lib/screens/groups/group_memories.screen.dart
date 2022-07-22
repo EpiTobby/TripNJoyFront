@@ -42,25 +42,14 @@ class GroupMemories extends HookConsumerWidget {
         },
         child: const Icon(Icons.add),
       ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Stack(
         children: [
-          if (hasMemories && selectedMemory.value > 0)
-            IconButton(
-              icon: const Icon(
-                Icons.arrow_back_rounded,
-                size: 40,
-              ),
-              onPressed: () {
-                selectedMemory.value -= 1;
-              },
-            ),
           Image.network(
             MinioService.getImageUrl(hasMemories ? memories.elementAt(selectedMemory.value) : group.picture,
                 hasMemories ? DEFAULT_URL.IMAGE : DEFAULT_URL.GROUP),
             fit: BoxFit.scaleDown,
             height: double.infinity,
-            width: 100,
+            width: MediaQuery.of(context).size.width,
             //double.infinity,
             alignment: Alignment.center,
             loadingBuilder: (context, child, loadingProgress) {
@@ -72,12 +61,50 @@ class GroupMemories extends HookConsumerWidget {
               );
             },
           ),
+          if (hasMemories && selectedMemory.value > 0)
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back_rounded,
+                        size: 32,
+                      ),
+                      onPressed: () {
+                        selectedMemory.value -= 1;
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ),
           if (hasMemories && selectedMemory.value < memories.length - 1)
-            IconButton(
-              icon: const Icon(Icons.arrow_forward_rounded, size: 40),
-              onPressed: () {
-                selectedMemory.value += 1;
-              },
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_forward_rounded, size: 32),
+                      onPressed: () {
+                        selectedMemory.value += 1;
+                      },
+                    ),
+                  ),
+                ),
+              ),
             ),
         ],
       ),
