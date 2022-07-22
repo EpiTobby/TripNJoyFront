@@ -468,4 +468,23 @@ class CodegenService extends HttpService {
 
     return response.body;
   }
+
+  @override
+  Future<String?> getGroupQRCode(int groupId) async {
+    final response = await api.groupsPrivateGroupQrcodeGet(group: groupId);
+
+    return response.body;
+  }
+
+  @override
+  Future<GroupInfoModel?> getGroupPublicInfoById(int groupId) async {
+    final response = await api.groupsInfoIdGet(id: groupId);
+
+    return response.body;
+  }
+
+  @override
+  Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId) async {
+    await api.groupsPrivateGroupJoinIdPatch(group: groupId, id: userId);
+  }
 }

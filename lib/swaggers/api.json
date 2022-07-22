@@ -442,8 +442,8 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Profile or user not found",
+          "202": {
+            "description": "Matchmaking started",
             "content": {
               "*/*": {
                 "schema": {
@@ -452,8 +452,8 @@
               }
             }
           },
-          "202": {
-            "description": "Matchmaking started",
+          "404": {
+            "description": "Profile or user not found",
             "content": {
               "*/*": {
                 "schema": {
@@ -497,8 +497,8 @@
               }
             }
           },
-          "404": {
-            "description": "The group does not exist",
+          "403": {
+            "description": "User does not belong to the group",
             "content": {
               "*/*": {
                 "schema": {
@@ -510,8 +510,8 @@
               }
             }
           },
-          "403": {
-            "description": "User does not belong to the group",
+          "404": {
+            "description": "The group does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -563,8 +563,8 @@
               }
             }
           },
-          "404": {
-            "description": "The group does not exist",
+          "403": {
+            "description": "User does not belong to the group",
             "content": {
               "*/*": {
                 "schema": {
@@ -573,8 +573,8 @@
               }
             }
           },
-          "403": {
-            "description": "User does not belong to the group",
+          "404": {
+            "description": "The group does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -615,8 +615,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "User or Group does not exist",
+          "200": {
+            "description": "Returns the created group",
             "content": {
               "*/*": {
                 "schema": {
@@ -625,8 +625,8 @@
               }
             }
           },
-          "200": {
-            "description": "Returns the created group",
+          "422": {
+            "description": "User or Group does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -667,14 +667,14 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The user is added to the group"
           },
           "403": {
             "description": "The client is not the owner of the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -748,8 +748,8 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "The group does not exist",
+          "200": {
+            "description": "Return the list of channels of a group",
             "content": {
               "*/*": {
                 "schema": {
@@ -761,8 +761,8 @@
               }
             }
           },
-          "200": {
-            "description": "Return the list of channels of a group",
+          "422": {
+            "description": "The group does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -914,8 +914,8 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Authentication failed. Wrong username or password",
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
             "content": {
               "*/*": {
                 "schema": {
@@ -924,8 +924,8 @@
               }
             }
           },
-          "200": {
-            "description": "Authentication Succeeded. Use the given jwt in following requests",
+          "401": {
+            "description": "Authentication failed. Wrong username or password",
             "content": {
               "*/*": {
                 "schema": {
@@ -955,8 +955,8 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Authentication failed. Wrong username or password",
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
             "content": {
               "*/*": {
                 "schema": {
@@ -965,8 +965,8 @@
               }
             }
           },
-          "200": {
-            "description": "Authentication Succeeded. Use the given jwt in following requests",
+          "401": {
+            "description": "Authentication failed. Wrong username or password",
             "content": {
               "*/*": {
                 "schema": {
@@ -996,11 +996,11 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "If the user does not exist"
-          },
           "200": {
             "description": "Email is sent to reset password"
+          },
+          "422": {
+            "description": "If the user does not exist"
           }
         }
       }
@@ -1081,11 +1081,11 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "If the user does not exist"
-          },
           "200": {
             "description": "User information have been updated"
+          },
+          "422": {
+            "description": "If the user does not exist"
           }
         }
       }
@@ -1142,11 +1142,11 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "The report does not exist"
-          },
           "200": {
             "description": "The report has been deleted"
+          },
+          "404": {
+            "description": "The report does not exist"
           }
         }
       },
@@ -1178,8 +1178,8 @@
           "required": true
         },
         "responses": {
-          "404": {
-            "description": "The report does not exist",
+          "200": {
+            "description": "The report has been updated",
             "content": {
               "*/*": {
                 "schema": {
@@ -1188,8 +1188,8 @@
               }
             }
           },
-          "200": {
-            "description": "The report has been updated",
+          "404": {
+            "description": "The report does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -1267,11 +1267,11 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The user has joined the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -1304,11 +1304,11 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The user has declined the invite"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -1341,14 +1341,14 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "The activity or group does not exist"
-          },
           "204": {
             "description": "Activity deleted"
           },
           "403": {
             "description": "User does not belong to the group"
+          },
+          "404": {
+            "description": "The activity or group does not exist"
           }
         }
       },
@@ -1389,16 +1389,6 @@
           "required": true
         },
         "responses": {
-          "404": {
-            "description": "The activity or group does not exist",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActivityModel"
-                }
-              }
-            }
-          },
           "200": {
             "description": "Activity updated. New activity is returned",
             "content": {
@@ -1411,6 +1401,16 @@
           },
           "403": {
             "description": "User does not belong to the group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The activity or group does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -1462,11 +1462,11 @@
           "204": {
             "description": "User removed"
           },
-          "404": {
-            "description": "The activity or group does not exist"
-          },
           "403": {
             "description": "User does not belong to the group"
+          },
+          "404": {
+            "description": "The activity or group does not exist"
           }
         }
       }
@@ -1508,14 +1508,14 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "The activity or group does not exist"
-          },
           "204": {
             "description": "User added"
           },
           "403": {
             "description": "User does not belong to the group"
+          },
+          "404": {
+            "description": "The activity or group does not exist"
           }
         }
       }
@@ -1539,14 +1539,14 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The group is deleted"
           },
           "403": {
             "description": "The client is not the owner of the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       },
@@ -1578,14 +1578,51 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The group is updated"
           },
           "403": {
             "description": "The client is not the owner of the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
+          }
+        }
+      }
+    },
+    "/groups/private/{group}/join/{id}": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Accept the invitation to the group",
+        "operationId": "joinGroupWithoutInvite",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user has joined the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -1622,11 +1659,11 @@
           "200": {
             "description": "The group is now public"
           },
-          "422": {
-            "description": "Group does not exist"
-          },
           "403": {
             "description": "User is not in the group, or the group is already public"
+          },
+          "422": {
+            "description": "Group does not exist"
           }
         }
       }
@@ -1730,11 +1767,11 @@
           "200": {
             "description": "The channel has been updated"
           },
-          "422": {
-            "description": "The channel does not exist"
-          },
           "403": {
             "description": "The client  don't have access to this channel"
+          },
+          "422": {
+            "description": "The channel does not exist"
           }
         }
       }
@@ -2330,6 +2367,38 @@
         }
       }
     },
+    "/groups/private/{group}/qrcode": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get the QR code to join a private group",
+        "operationId": "getQRCode",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the encoded qr code",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/groups/invites/{id}": {
       "get": {
         "tags": [
@@ -2358,6 +2427,38 @@
                   "items": {
                     "$ref": "#/components/schemas/GroupModel"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/info/{id}": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get info about a group",
+        "operationId": "getInfo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupInfoModel"
                 }
               }
             }
@@ -2670,11 +2771,11 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "No profile has been found"
-          },
           "200": {
             "description": "The profile is deleted"
+          },
+          "422": {
+            "description": "No profile has been found"
           }
         }
       }
@@ -2741,11 +2842,11 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The user has left the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -2778,14 +2879,14 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
+          "200": {
+            "description": "The user is removed"
           },
           "403": {
             "description": "The client is not the owner of the group"
           },
-          "200": {
-            "description": "The user is removed"
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -4330,6 +4431,54 @@
           },
           "group": {
             "$ref": "#/components/schemas/GroupModel"
+          }
+        }
+      },
+      "GroupInfoModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupMemberPublicInfoModel"
+            }
+          },
+          "maxSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "CLOSED",
+              "ARCHIVED"
+            ]
+          },
+          "picture": {
+            "type": "string"
+          }
+        }
+      },
+      "GroupMemberPublicInfoModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
           }
         }
       },

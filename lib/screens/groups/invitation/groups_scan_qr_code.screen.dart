@@ -14,7 +14,7 @@ class GroupsScanQRCode extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final qrCodeViewModel = ref.watch(qrCodeProvider.notifier);
+    final qrCodeViewModel = ref.watch(qrCodeProvider);
 
     final isHandlingQRCode = useState(false);
     return Scaffold(
@@ -40,12 +40,10 @@ class GroupsScanQRCode extends HookConsumerWidget {
                 isHandlingQRCode.value = false;
               } else {
                 final String code = barcode.rawValue!;
-                qrCodeViewModel.extractGroupIdFromQRCode(code);
-                debugPrint('Barcode found! $code');
+                final groupId = qrCodeViewModel.extractGroupIdFromQRCode(code);
                 showBarModalBottomSheet(
                   context: context,
                   builder: (BuildContext context) {
-                    final groupId = ref.read(qrCodeProvider);
                     return GroupInvitationDialog(groupId: groupId);
                   },
                 ).whenComplete(() {
