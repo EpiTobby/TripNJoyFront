@@ -98,31 +98,33 @@ class _GroupChatState extends ConsumerState<GroupChat> {
             onPressed: () => {_navigator.pop()},
           ),
           title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               GroupIcon(
                 groupId: group.id!.toInt(),
                 radius: 18,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      group.name ?? group.members!.map((e) => e.firstname).join(', '),
-                      style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: false,
-                    ),
-                    Text(
-                      widget.channel?.name ?? '',
-                      style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary),
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: false,
-                    ),
-                  ],
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        group.name ?? group.members!.map((e) => e.firstname).join(', '),
+                        style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                      ),
+                      Text(
+                        widget.channel?.name ?? '',
+                        style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
