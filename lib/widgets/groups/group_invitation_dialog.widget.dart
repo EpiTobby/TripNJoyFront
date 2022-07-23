@@ -6,6 +6,7 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/qr_code.provider.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
@@ -15,13 +16,15 @@ class GroupInvitationDialog extends HookConsumerWidget {
   const GroupInvitationDialog({
     Key? key,
     required this.groupId,
+    required this.hash,
   }) : super(key: key);
 
   final int? groupId;
+  final String? hash;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final qrCodeViewModel = ref.watch(qrCodeProvider.notifier);
+    final qrCodeViewModel = ref.watch(qrCodeProvider);
     final groupInfo = ref.watch(groupProvider).groupInfo;
     useEffect(() {
       Future.microtask(() => ref.read(groupProvider).getGroupPublicInfoById(groupId));
@@ -113,9 +116,8 @@ class GroupInvitationDialog extends HookConsumerWidget {
                                     child: PrimaryButton(
                                       text: AppLocalizations.of(context).translate('groups.qr_code.join'),
                                       onPressed: () async {
-                                        await ref
-                                            .read(groupProvider)
-                                            .joinPrivateGroupWithoutInvitation(data.id!.toInt());
+                                        await ref.read(groupProvider).joinPrivateGroupWithoutInvitation(
+                                            data.id!.toInt(), JoinGroupWithoutInviteModel(message: hash));
                                         Navigator.pop(context);
                                         Navigator.pop(context);
                                         Navigator.pop(context);

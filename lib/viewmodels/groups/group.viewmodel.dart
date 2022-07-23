@@ -58,9 +58,9 @@ class GroupViewModel extends ChangeNotifier {
     await getGroups();
   }
 
-  Future<void> joinPrivateGroupWithoutInvitation(int groupId) async {
+  Future<void> joinPrivateGroupWithoutInvitation(int groupId, JoinGroupWithoutInviteModel body) async {
     final id = httpService.getUserIdFromToken(authViewModel.token!);
-    await httpService.joinPrivateGroupWithoutInvitation(groupId, id!);
+    await httpService.joinPrivateGroupWithoutInvitation(groupId, id!, body);
 
     await getGroups();
   }

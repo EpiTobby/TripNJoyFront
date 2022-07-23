@@ -62,7 +62,7 @@ abstract class HttpService {
 
   Future<void> joinPrivateGroup(int groupId, int userId);
 
-  Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId);
+  Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId, JoinGroupWithoutInviteModel body);
 
   Future<void> deletePrivateGroup(int groupId);
 

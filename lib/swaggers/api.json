@@ -1617,6 +1617,16 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JoinGroupWithoutInviteModel"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "The user has joined the group"
@@ -4181,6 +4191,14 @@
             "type": "string"
           },
           "destination": {
+            "type": "string"
+          }
+        }
+      },
+      "JoinGroupWithoutInviteModel": {
+        "type": "object",
+        "properties": {
+          "message": {
             "type": "string"
           }
         }
