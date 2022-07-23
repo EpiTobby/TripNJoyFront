@@ -553,7 +553,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId) {
+  Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId, JoinGroupWithoutInviteModel body) {
     return Future.value();
   }
 }

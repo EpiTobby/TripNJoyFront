@@ -343,9 +343,12 @@ class _$Api extends Api {
 
   @override
   Future<Response<dynamic>> _groupsPrivateGroupJoinIdPatch(
-      {required num? group, required num? id}) {
+      {required num? group,
+      required num? id,
+      required JoinGroupWithoutInviteModel? body}) {
     final $url = '/groups/private/${group}/join/${id}';
-    final $request = Request('PATCH', $url, client.baseUrl);
+    final $body = body;
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
   }
 

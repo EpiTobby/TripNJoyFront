@@ -40,11 +40,11 @@ class GroupsScanQRCode extends HookConsumerWidget {
                 isHandlingQRCode.value = false;
               } else {
                 final String code = barcode.rawValue!;
-                final groupId = qrCodeViewModel.extractGroupIdFromQRCode(code);
+                final qrCodeInfo = qrCodeViewModel.extractGroupIdFromQRCode(code);
                 showBarModalBottomSheet(
                   context: context,
                   builder: (BuildContext context) {
-                    return GroupInvitationDialog(groupId: groupId);
+                    return GroupInvitationDialog(groupId: qrCodeInfo?.groupId, hash: qrCodeInfo?.hash);
                   },
                 ).whenComplete(() {
                   isHandlingQRCode.value = false;

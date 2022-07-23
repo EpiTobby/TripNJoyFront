@@ -1005,6 +1005,18 @@ Map<String, dynamic> _$UpdatePrivateGroupRequestToJson(
       'destination': instance.destination,
     };
 
+JoinGroupWithoutInviteModel _$JoinGroupWithoutInviteModelFromJson(
+        Map<String, dynamic> json) =>
+    JoinGroupWithoutInviteModel(
+      message: json['message'] as String?,
+    );
+
+Map<String, dynamic> _$JoinGroupWithoutInviteModelToJson(
+        JoinGroupWithoutInviteModel instance) =>
+    <String, dynamic>{
+      'message': instance.message,
+    };
+
 MessageResponse _$MessageResponseFromJson(Map<String, dynamic> json) =>
     MessageResponse(
       id: json['id'] as num?,
