@@ -62,7 +62,7 @@ class GroupBudget extends HookConsumerWidget {
       backgroundColor: Theme.of(context).colorScheme.background,
       body: RefreshIndicator(
         onRefresh: () async {
-          await ref.read(budgetProvider).getGroupExpenses(groupId);
+          await ref.read(budgetProvider).refreshGroupBudget(groupId);
         },
         color: Theme.of(context).colorScheme.secondary,
         backgroundColor: Theme.of(context).colorScheme.background,
