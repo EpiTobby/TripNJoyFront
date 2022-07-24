@@ -26,7 +26,8 @@ class GroupPlanning extends HookConsumerWidget {
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
     final scrollController = ScrollController();
-    final activities = ref.watch(planningProvider).activities;
+    final planningViewModel = ref.watch(planningProvider);
+    final activities = planningViewModel.activities;
     useEffect(() {
       Future.microtask(() => ref.read(planningProvider).getActivities(groupId));
     }, [groupId]);
@@ -39,62 +40,70 @@ class GroupPlanning extends HookConsumerWidget {
         elevation: 0,
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: ListView(
-        controller: scrollController,
-        children: [
-          PlanningHeader(groupId: group.id!.toInt()),
-          AsyncValueWidget<List<Activity>>(
-            value: activities,
-            data: (activities) => activities.isEmpty
-                ? LayoutEmpty(
-                    message: AppLocalizations.of(context).translate('groups.planning.empty'),
-                    icon: Icons.add_circle_outline,
-                  )
-                : Padding(
-                    padding: const EdgeInsets.only(bottom: 80.0),
-                    child: Column(
-                      children: activities
-                          .map(
-                            (activity) => Column(
-                              children: [
-                                PlanningActivity(
-                                  prefix: Icon(
-                                    activity.icon,
-                                    color: Theme.of(context).colorScheme.onSecondary,
-                                    size: 64,
-                                  ),
-                                  title: activity.name,
-                                  subtitle: activity.location,
-                                  subsubtitle: activity.getActivityDateFormat(),
-                                  description: activity.description,
-                                  color: activity.color,
-                                  members: activity.members.map((e) => e.avatar.url).toList(),
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (_) => EditActivity(
-                                          activity: activity,
-                                          groupId: groupId,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                if (activities.last != activity)
-                                  Center(
-                                    child: Icon(
-                                      Icons.more_vert,
-                                      color: Theme.of(context).colorScheme.surface,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          planningViewModel.getActivities(groupId);
+        },
+        color: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: scrollController,
+          children: [
+            PlanningHeader(groupId: group.id!.toInt()),
+            AsyncValueWidget<List<Activity>>(
+              value: activities,
+              data: (activities) => activities.isEmpty
+                  ? LayoutEmpty(
+                      message: AppLocalizations.of(context).translate('groups.planning.empty'),
+                      icon: Icons.add_circle_outline,
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(bottom: 80.0),
+                      child: Column(
+                        children: activities
+                            .map(
+                              (activity) => Column(
+                                children: [
+                                  PlanningActivity(
+                                    prefix: Icon(
+                                      activity.icon,
+                                      color: Theme.of(context).colorScheme.onSecondary,
+                                      size: 64,
                                     ),
+                                    title: activity.name,
+                                    subtitle: activity.location,
+                                    subsubtitle: activity.getActivityDateFormat(),
+                                    description: activity.description,
+                                    color: activity.color,
+                                    members: activity.members.map((e) => e.avatar.url).toList(),
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (_) => EditActivity(
+                                            activity: activity,
+                                            groupId: groupId,
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
-                              ],
-                            ),
-                          )
-                          .toList(),
+                                  if (activities.last != activity)
+                                    Center(
+                                      child: Icon(
+                                        Icons.more_vert,
+                                        color: Theme.of(context).colorScheme.surface,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            )
+                            .toList(),
+                      ),
                     ),
-                  ),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
       floatingActionButtonLocation:
           group.state != GroupModelState.archived ? FloatingActionButtonLocation.endFloat : null,

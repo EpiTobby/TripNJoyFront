@@ -68,8 +68,8 @@ class BudgetViewModel extends ChangeNotifier {
 
   Future<void> getUserReimbursement(int groupId, num? userId) async {
     logger.d("Getting User $userId Reimbursement");
-    await getUserOwedMoney(groupId, userId);
-    await getUserDueMoney(groupId, userId);
+    getUserOwedMoney(groupId, userId);
+    getUserDueMoney(groupId, userId);
   }
 
   Future<void> addExpense(int groupId, num? userId, ExpenseRequest body) async {

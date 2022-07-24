@@ -40,20 +40,53 @@ class BudgetReimbursement extends HookConsumerWidget {
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          LayoutBox(
-              title: AppLocalizations.of(context).translate("groups.budget.reimbursement.owed.title"),
-              top: true,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await budgetViewModel.getUserReimbursement(groupId, userId);
+        },
+        color: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            LayoutBox(
+                title: AppLocalizations.of(context).translate("groups.budget.reimbursement.owed.title"),
+                top: true,
+                children: [
+                  AsyncValueWidget<List<MoneyDueResponse>>(
+                    value: owedMoney,
+                    data: (data) => Column(
+                      children: data.isEmpty
+                          ? [
+                              LayoutEmpty(
+                                message:
+                                    AppLocalizations.of(context).translate("groups.budget.reimbursement.owed.empty"),
+                                icon: Icons.highlight_remove,
+                              ),
+                            ]
+                          : data
+                              .map(
+                                (e) => MoneyDue(
+                                  amount: e.total,
+                                  user: username,
+                                  other: "${e.user?.firstname} ${e.user?.lastname}",
+                                  owed: true,
+                                ),
+                              )
+                              .toList(),
+                    ),
+                  ),
+                ]),
+            LayoutBox(
+              title: AppLocalizations.of(context).translate("groups.budget.reimbursement.due.title"),
               children: [
                 AsyncValueWidget<List<MoneyDueResponse>>(
-                  value: owedMoney,
+                  value: dueMoney,
                   data: (data) => Column(
                     children: data.isEmpty
                         ? [
                             LayoutEmpty(
-                              message: AppLocalizations.of(context).translate("groups.budget.reimbursement.owed.empty"),
+                              message: AppLocalizations.of(context).translate("groups.budget.reimbursement.due.empty"),
                               icon: Icons.highlight_remove,
                             ),
                           ]
@@ -63,41 +96,16 @@ class BudgetReimbursement extends HookConsumerWidget {
                                 amount: e.total,
                                 user: username,
                                 other: "${e.user?.firstname} ${e.user?.lastname}",
-                                owed: true,
+                                owed: false,
                               ),
                             )
                             .toList(),
                   ),
                 ),
-              ]),
-          LayoutBox(
-            title: AppLocalizations.of(context).translate("groups.budget.reimbursement.due.title"),
-            children: [
-              AsyncValueWidget<List<MoneyDueResponse>>(
-                value: dueMoney,
-                data: (data) => Column(
-                  children: data.isEmpty
-                      ? [
-                          LayoutEmpty(
-                            message: AppLocalizations.of(context).translate("groups.budget.reimbursement.due.empty"),
-                            icon: Icons.highlight_remove,
-                          ),
-                        ]
-                      : data
-                          .map(
-                            (e) => MoneyDue(
-                              amount: e.total,
-                              user: username,
-                              other: "${e.user?.firstname} ${e.user?.lastname}",
-                              owed: false,
-                            ),
-                          )
-                          .toList(),
-                ),
-              ),
-            ],
-          )
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

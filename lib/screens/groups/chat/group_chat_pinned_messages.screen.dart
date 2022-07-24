@@ -51,22 +51,29 @@ class PinnedMessages extends HookConsumerWidget {
                       message: AppLocalizations.of(context).translate('groups.chat.pinned_messages.empty'),
                       icon: Icons.highlight_remove),
                 )
-              : ListView.builder(
-                  itemCount: pinnedMessages.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                        onLongPress: () async {
-                          final updatedMessage = await ref
-                              .read(pinnedMessagesProvider)
-                              .togglePinnedMessage(pinnedMessages[index].id!, false);
-                          if (updatedMessage != null) {
-                            ref.read(pinnedMessagesProvider).removePinnedMessage(updatedMessage);
-                            ref.read(chatProvider).updateMessage(updatedMessage);
-                          }
-                        },
-                        splashColor: Theme.of(context).colorScheme.background,
-                        child: buildMessageTile(context, pinnedMessages[index], chatMembers));
+              : RefreshIndicator(
+                  onRefresh: () async {
+                    await ref.read(pinnedMessagesProvider).fetchPinnedMessages(channelId);
                   },
+                  color: Theme.of(context).colorScheme.secondary,
+                  backgroundColor: Theme.of(context).colorScheme.background,
+                  child: ListView.builder(
+                    itemCount: pinnedMessages.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                          onLongPress: () async {
+                            final updatedMessage = await ref
+                                .read(pinnedMessagesProvider)
+                                .togglePinnedMessage(pinnedMessages[index].id!, false);
+                            if (updatedMessage != null) {
+                              ref.read(pinnedMessagesProvider).removePinnedMessage(updatedMessage);
+                              ref.read(chatProvider).updateMessage(updatedMessage);
+                            }
+                          },
+                          splashColor: Theme.of(context).colorScheme.background,
+                          child: buildMessageTile(context, pinnedMessages[index], chatMembers));
+                    },
+                  ),
                 ),
     );
   }
