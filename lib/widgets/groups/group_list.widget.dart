@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -64,48 +65,59 @@ class GroupListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: () {
-        onClick();
-      },
-      title: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: group.state! != GroupModelState.archived
-              ? Theme.of(context).colorScheme.surface.withOpacity(0.5)
-              : Theme.of(context).disabledColor.withOpacity(0.1),
-        ),
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-                radius: 40,
-                backgroundColor: group.state! != GroupModelState.archived
-                    ? Theme.of(context).colorScheme.background
-                    : Theme.of(context).disabledColor.withOpacity(0.1),
-                backgroundImage: NetworkImage(MinioService.getImageUrl(group.picture, DEFAULT_URL.GROUP))),
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      group.name ?? group.members!.map((e) => e.firstname).join(', '),
-                      style: GoogleFonts.raleway(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w800,
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+    return OpenContainer(
+      openBuilder: (context, _) => GroupChatContainer(groupId: group.id!.toInt()),
+      openColor: Theme.of(context).colorScheme.background,
+      closedShape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(0)),
       ),
+      closedElevation: 0,
+      closedColor: Theme.of(context).colorScheme.background,
+      closedBuilder: (context, openContainer) {
+        return ListTile(
+          onTap: () {
+            openContainer();
+          },
+          title: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: group.state! != GroupModelState.archived
+                  ? Theme.of(context).colorScheme.surface.withOpacity(0.5)
+                  : Theme.of(context).disabledColor.withOpacity(0.1),
+            ),
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                    radius: 40,
+                    backgroundColor: group.state! != GroupModelState.archived
+                        ? Theme.of(context).colorScheme.background
+                        : Theme.of(context).disabledColor.withOpacity(0.1),
+                    backgroundImage: NetworkImage(MinioService.getImageUrl(group.picture, DEFAULT_URL.GROUP))),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          group.name ?? group.members!.map((e) => e.firstname).join(', '),
+                          style: GoogleFonts.raleway(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w800,
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
