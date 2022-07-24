@@ -120,41 +120,48 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
         Expanded(
           child: groupViewModel.isLoading
               ? const Center(child: CircularProgressIndicator())
-              : ListView(
-                  shrinkWrap: true,
-                  children: [
-                    openGroups.isNotEmpty || searchText.value.isNotEmpty
-                        ? GroupList(
-                            groups: searchText.value.isNotEmpty ? searchedOpenGroups.value : openGroups,
-                          )
-                        : Center(
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    AppLocalizations.of(context).translate('groups.noOpenGroup'),
-                                    style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.onBackground),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  PrimaryButton(
-                                      text: AppLocalizations.of(context).translate('profile.create'),
-                                      onPressed: () {
-                                        navbarProvider.navigate(NavbarPage.MATCHMAKING);
-                                      })
-                                ],
+              : RefreshIndicator(
+                  onRefresh: () async {
+                    await groupViewModel.getGroups();
+                  },
+                  color: Theme.of(context).colorScheme.secondary,
+                  backgroundColor: Theme.of(context).colorScheme.background,
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      openGroups.isNotEmpty || searchText.value.isNotEmpty
+                          ? GroupList(
+                              groups: searchText.value.isNotEmpty ? searchedOpenGroups.value : openGroups,
+                            )
+                          : Center(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      AppLocalizations.of(context).translate('groups.noOpenGroup'),
+                                      style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.onBackground),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    PrimaryButton(
+                                        text: AppLocalizations.of(context).translate('profile.create'),
+                                        onPressed: () {
+                                          navbarProvider.navigate(NavbarPage.MATCHMAKING);
+                                        })
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                    ...(archivedGroups.isNotEmpty || searchText.value.isNotEmpty
-                        ? [
-                            const Divider(height: 40),
-                            GroupList(
-                                title: AppLocalizations.of(context).translate('groups.archived'),
-                                groups: searchText.value.isNotEmpty ? searchedArchivedGroups.value : archivedGroups)
-                          ]
-                        : [const SizedBox()]),
-                  ],
+                      ...(archivedGroups.isNotEmpty || searchText.value.isNotEmpty
+                          ? [
+                              const Divider(height: 40),
+                              GroupList(
+                                  title: AppLocalizations.of(context).translate('groups.archived'),
+                                  groups: searchText.value.isNotEmpty ? searchedArchivedGroups.value : archivedGroups)
+                            ]
+                          : [const SizedBox()]),
+                    ],
+                  ),
                 ),
         )
       ]),
