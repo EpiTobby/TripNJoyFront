@@ -32,7 +32,8 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
   @override
   Widget build(BuildContext context) {
     final groupViewModel = ref.watch(groupProvider);
-    final group = groupViewModel.groups.firstWhere((group) => group.id == widget.groupId);
+    final group = groupViewModel.groups
+        .firstWhere((group) => group.id == widget.groupId, orElse: () => groupViewModel.defaultGroupModel);
 
     final user = ref.watch(userProvider).value;
 
@@ -247,7 +248,10 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                             icon: Icons.exit_to_app,
                             customColor: Theme.of(context).colorScheme.error,
                             onPressed: () {
-                              groupViewModel.leaveGroup(group.id!.toInt());
+                              groupViewModel.leaveGroup(group.id!.toInt()).then((value) {
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
+                              });
                             },
                           )),
                     ),

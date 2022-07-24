@@ -16,6 +16,16 @@ class GroupViewModel extends ChangeNotifier {
   AsyncValue<GroupInfoModel> groupInfo = const AsyncValue.loading();
   bool isLoading = false;
 
+  final defaultGroupModel = GroupModel(
+    id: 0,
+    name: '',
+    maxSize: 0,
+    members: [],
+    owner: null,
+    state: GroupModelState.open,
+    channels: [],
+  );
+
   void _init() async {
     isLoading = true;
     await getGroups();

@@ -46,7 +46,8 @@ class _GroupChatState extends ConsumerState<GroupChat> {
   @override
   Widget build(BuildContext context) {
     final groupViewModel = ref.watch(groupProvider);
-    final group = groupViewModel.groups.firstWhere((group) => group.id == widget.groupId);
+    final group = groupViewModel.groups
+        .firstWhere((group) => group.id == widget.groupId, orElse: () => groupViewModel.defaultGroupModel);
     final userId = ref.read(userProvider).value?.id;
 
     final chatViewModel = ref.watch(chatProvider);
