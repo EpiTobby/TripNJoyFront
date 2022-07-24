@@ -28,36 +28,41 @@ class ProfilesList extends ConsumerWidget {
             ),
             textAlign: TextAlign.center,
           ))
-        : ListView(
-            children: [
-              LayoutBox(
-                title: AppLocalizations.of(context).translate('profile.active'),
-                top: true,
-                children: [
-                  activeProfile.isEmpty
-                      ? LayoutEmpty(
-                          message: AppLocalizations.of(context).translate('profile.active_empty'),
-                          icon: Icons.highlight_remove,
-                        )
-                      : LayoutItem(
-                          child: ProfileMenu(
-                            parentContext: context,
-                            profileModel: activeProfile.first,
-                            value: activeProfile.first.name!,
-                          ),
-                        )
-                ],
-              ),
-              LayoutBox(
-                title: AppLocalizations.of(context).translate('profile.other'),
-                children: [
-                  ...inactiveProfiles.map(
-                    (profile) => LayoutItem(
-                        child: ProfileMenu(parentContext: context, profileModel: profile, value: profile.name!)),
-                  )
-                ],
-              ),
-            ],
+        : RefreshIndicator(
+            onRefresh: () => ref.read(profileProvider.notifier).getUserProfiles(),
+            color: Theme.of(context).colorScheme.secondary,
+            backgroundColor: Theme.of(context).colorScheme.background,
+            child: ListView(
+              children: [
+                LayoutBox(
+                  title: AppLocalizations.of(context).translate('profile.active'),
+                  top: true,
+                  children: [
+                    activeProfile.isEmpty
+                        ? LayoutEmpty(
+                            message: AppLocalizations.of(context).translate('profile.active_empty'),
+                            icon: Icons.highlight_remove,
+                          )
+                        : LayoutItem(
+                            child: ProfileMenu(
+                              parentContext: context,
+                              profileModel: activeProfile.first,
+                              value: activeProfile.first.name!,
+                            ),
+                          )
+                  ],
+                ),
+                LayoutBox(
+                  title: AppLocalizations.of(context).translate('profile.other'),
+                  children: [
+                    ...inactiveProfiles.map(
+                      (profile) => LayoutItem(
+                          child: ProfileMenu(parentContext: context, profileModel: profile, value: profile.name!)),
+                    )
+                  ],
+                ),
+              ],
+            ),
           );
   }
 }
