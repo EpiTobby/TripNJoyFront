@@ -58,28 +58,30 @@ class GroupPlanning extends HookConsumerWidget {
                           .map(
                             (activity) => Column(
                               children: [
-                                PlanningActivity(
-                                  prefix: Icon(
-                                    activity.icon,
-                                    color: Theme.of(context).colorScheme.onSecondary,
-                                    size: 64,
+                                OpenContainer(
+                                  openBuilder: (context, _) => EditActivity(
+                                    activity: activity,
+                                    groupId: groupId,
                                   ),
-                                  title: activity.name,
-                                  subtitle: activity.location,
-                                  subsubtitle: activity.getActivityDateFormat(),
-                                  description: activity.description,
-                                  color: activity.color,
-                                  members: activity.members.map((e) => e.avatar.url).toList(),
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (_) => EditActivity(
-                                          activity: activity,
-                                          groupId: groupId,
-                                        ),
-                                      ),
-                                    );
-                                  },
+                                  openColor: Theme.of(context).colorScheme.background,
+                                  closedColor: Theme.of(context).colorScheme.background,
+                                  closedElevation: 0,
+                                  closedBuilder: (context, openContainer) => PlanningActivity(
+                                    prefix: Icon(
+                                      activity.icon,
+                                      color: Theme.of(context).colorScheme.onSecondary,
+                                      size: 64,
+                                    ),
+                                    title: activity.name,
+                                    subtitle: activity.location,
+                                    subsubtitle: activity.getActivityDateFormat(),
+                                    description: activity.description,
+                                    color: activity.color,
+                                    members: activity.members.map((e) => e.avatar.url).toList(),
+                                    onTap: () {
+                                      openContainer();
+                                    },
+                                  ),
                                 ),
                                 if (activities.last != activity)
                                   Center(
