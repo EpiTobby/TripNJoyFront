@@ -69,6 +69,7 @@ dependencies:
   flutter_osm_plugin: ^0.28.2
   mobile_scanner: 1.0.0
   share_extend: ^2.0.0
+  animations: ^2.0.2
 
 dev_dependencies:
   flutter_test:
