@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -99,15 +100,22 @@ class GroupPlanning extends HookConsumerWidget {
       floatingActionButtonLocation:
           group.state != GroupModelState.archived ? FloatingActionButtonLocation.endFloat : null,
       floatingActionButton: group.state != GroupModelState.archived
-          ? FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddActivity(groupId: groupId)));
-              },
-              child: Icon(
-                Icons.add,
-                color: Theme.of(context).colorScheme.onSecondary,
+          ? OpenContainer(
+              openBuilder: (context, _) => AddActivity(groupId: groupId),
+              openColor: Theme.of(context).colorScheme.background,
+              closedColor: Theme.of(context).colorScheme.background,
+              closedElevation: 0,
+              closedBuilder: (context, openContainer) => FloatingActionButton(
+                onPressed: () {
+                  // Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddActivity(groupId: groupId)));
+                  openContainer();
+                },
+                child: Icon(
+                  Icons.add,
+                  color: Theme.of(context).colorScheme.onSecondary,
+                ),
+                backgroundColor: Theme.of(context).colorScheme.secondary,
               ),
-              backgroundColor: Theme.of(context).colorScheme.secondary,
             )
           : null,
     );
