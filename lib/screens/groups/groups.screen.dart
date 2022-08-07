@@ -10,7 +10,7 @@ import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/invitation/groups_invitations.screen.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/input/input.widget.dart';
-import 'package:trip_n_joy_front/widgets/groups/group_dialog.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/dialog/group_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_list.widget.dart';
 
 class GroupsPage extends StatefulHookConsumerWidget {
