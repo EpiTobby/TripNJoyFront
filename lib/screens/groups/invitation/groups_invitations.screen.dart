@@ -42,45 +42,52 @@ class _GroupsInvitationsState extends ConsumerState<GroupsInvitations> {
         ],
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                children: widget.groups.isEmpty
-                    ? [
-                        LayoutEmpty(
-                          message: AppLocalizations.of(context).translate('groups.invitations.empty'),
-                          icon: Icons.highlight_remove,
-                        ),
-                      ]
-                    : widget.groups
-                        .map((group) => GroupListItem(
-                            group: group,
-                            onClick: () {
-                              showBarModalBottomSheet(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return InputDialogChoice(
-                                        title: AppLocalizations.of(context).translate('groups.joinGroupChoice'),
-                                        cancelChoice: AppLocalizations.of(context).translate('common.decline'),
-                                        confirmChoice: AppLocalizations.of(context).translate('common.accept'),
-                                        onConfirm: (value) {
-                                          if (value) {
-                                            groupsViewModel.joinPrivateGroup(group.id!.toInt());
-                                          } else {
-                                            groupsViewModel.declineGroupInvitation(group.id!.toInt());
-                                          }
-                                          widget.groups.remove(group);
-                                        });
-                                  });
-                            }))
-                        .toList(),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await groupsViewModel.getUserInvitesGroups();
+        },
+        color: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: widget.groups.isEmpty
+                      ? [
+                          LayoutEmpty(
+                            message: AppLocalizations.of(context).translate('groups.invitations.empty'),
+                            icon: Icons.highlight_remove,
+                          ),
+                        ]
+                      : widget.groups
+                          .map((group) => GroupListItem(
+                              group: group,
+                              onClick: () {
+                                showBarModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return InputDialogChoice(
+                                          title: AppLocalizations.of(context).translate('groups.joinGroupChoice'),
+                                          cancelChoice: AppLocalizations.of(context).translate('common.decline'),
+                                          confirmChoice: AppLocalizations.of(context).translate('common.accept'),
+                                          onConfirm: (value) {
+                                            if (value) {
+                                              groupsViewModel.joinPrivateGroup(group.id!.toInt());
+                                            } else {
+                                              groupsViewModel.declineGroupInvitation(group.id!.toInt());
+                                            }
+                                            widget.groups.remove(group);
+                                          });
+                                    });
+                              }))
+                          .toList(),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

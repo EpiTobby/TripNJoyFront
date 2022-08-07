@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.enums.swagger.dart';
+import 'package:trip_n_joy_front/providers/groups/budget.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/budget/budget_reimbursement.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/budget/group_scan_receipt.screen.dart';
@@ -59,19 +60,26 @@ class GroupBudget extends HookConsumerWidget {
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Padding(
-        padding: const EdgeInsets.only(left: 40.0),
-        child: Container(
-          color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
-          width: double.infinity,
-          child: ListView(
-            children: [
-              BudgetBalances(groupId: groupId),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                child: GroupExpenses(groupId: groupId),
-              ),
-            ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await ref.read(budgetProvider).refreshGroupBudget(groupId);
+        },
+        color: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 40.0),
+          child: Container(
+            color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
+            width: double.infinity,
+            child: ListView(
+              children: [
+                BudgetBalances(groupId: groupId),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: GroupExpenses(groupId: groupId),
+                ),
+              ],
+            ),
           ),
         ),
       ),
