@@ -604,16 +604,20 @@ abstract class Api extends ChopperService {
   ///@param group
   ///@param id
   Future<chopper.Response> groupsPrivateGroupJoinIdPatch(
-      {required num? group, required num? id}) {
-    return _groupsPrivateGroupJoinIdPatch(group: group, id: id);
+      {required num? group,
+      required num? id,
+      required JoinGroupWithoutInviteModel? body}) {
+    return _groupsPrivateGroupJoinIdPatch(group: group, id: id, body: body);
   }
 
   ///Accept the invitation to the group
   ///@param group
   ///@param id
-  @Patch(path: '/groups/private/{group}/join/{id}', optionalBody: true)
+  @Patch(path: '/groups/private/{group}/join/{id}')
   Future<chopper.Response> _groupsPrivateGroupJoinIdPatch(
-      {@Path('group') required num? group, @Path('id') required num? id});
+      {@Path('group') required num? group,
+      @Path('id') required num? id,
+      @Body() required JoinGroupWithoutInviteModel? body});
 
   ///Make a private group public
   ///@param groupId
@@ -4419,6 +4423,40 @@ extension $UpdatePrivateGroupRequestExtension on UpdatePrivateGroupRequest {
         endOfTrip: endOfTrip ?? this.endOfTrip,
         picture: picture ?? this.picture,
         destination: destination ?? this.destination);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class JoinGroupWithoutInviteModel {
+  JoinGroupWithoutInviteModel({
+    this.message,
+  });
+
+  factory JoinGroupWithoutInviteModel.fromJson(Map<String, dynamic> json) =>
+      _$JoinGroupWithoutInviteModelFromJson(json);
+
+  @JsonKey(name: 'message')
+  final String? message;
+  static const fromJsonFactory = _$JoinGroupWithoutInviteModelFromJson;
+  static const toJsonFactory = _$JoinGroupWithoutInviteModelToJson;
+  Map<String, dynamic> toJson() => _$JoinGroupWithoutInviteModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is JoinGroupWithoutInviteModel &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(message) ^ runtimeType.hashCode;
+}
+
+extension $JoinGroupWithoutInviteModelExtension on JoinGroupWithoutInviteModel {
+  JoinGroupWithoutInviteModel copyWith({String? message}) {
+    return JoinGroupWithoutInviteModel(message: message ?? this.message);
   }
 }
 
