@@ -69,6 +69,7 @@ dependencies:
   flutter_osm_plugin: ^0.28.2
   mobile_scanner: 1.0.0
   share_extend: ^2.0.0
+  flutter_native_splash: ^2.1.6
 
 dev_dependencies:
   flutter_test:
@@ -146,3 +147,9 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/launcher_icon/launcher_icon.png"
+
+flutter_native_splash:
+  color: "#2f63e0"
+  image: assets/launcher_icon/launcher_icon.png
+  android_12:
+    color: "#2f63e0"
