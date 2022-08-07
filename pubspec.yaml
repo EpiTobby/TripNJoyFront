@@ -79,6 +79,7 @@ dev_dependencies:
   chopper_generator: ^4.0.2
   json_serializable: ^5.0.0
   swagger_dart_code_generator: any
+  flutter_launcher_icons: ^0.9.3
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -140,3 +141,8 @@ flutter:
     - family: SwipeCardIcon
       fonts:
         - asset: fonts/SwipeCardIcon.ttf
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/launcher_icon/launcher_icon.png"
