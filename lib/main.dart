@@ -31,7 +31,7 @@ import 'screens/settings/settings.screen.dart';
 
 void main() async {
   if (!Platform.isIOS && !Platform.isMacOS) {
-    await initFirebase();
+    // await initFirebase();
     WidgetsFlutterBinding.ensureInitialized();
     await FlutterDownloader.initialize();
   }
@@ -46,9 +46,7 @@ Future initFirebase() async {
 }
 
 Future initNotifications() async {
-  final pushNotificationService = PushNotificationService(FirebaseMessaging.instance);
-  pushNotificationService.init();
-  pushNotificationService.setNotifications();
+  PushNotificationService(FirebaseMessaging.instance);
 }
 
 class MyApp extends ConsumerWidget {
