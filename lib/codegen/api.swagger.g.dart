@@ -1205,6 +1205,7 @@ UserEntity _$UserEntityFromJson(Map<String, dynamic> json) => UserEntity(
           : DateTime.parse(json['createdDate'] as String),
       phoneNumber: json['phoneNumber'] as String?,
       confirmed: json['confirmed'] as bool?,
+      firebaseToken: json['firebaseToken'] as String?,
       language: json['language'] == null
           ? null
           : LanguageEntity.fromJson(json['language'] as Map<String, dynamic>),
@@ -1233,10 +1234,23 @@ Map<String, dynamic> _$UserEntityToJson(UserEntity instance) =>
       'createdDate': instance.createdDate?.toIso8601String(),
       'phoneNumber': instance.phoneNumber,
       'confirmed': instance.confirmed,
+      'firebaseToken': instance.firebaseToken,
       'language': instance.language?.toJson(),
       'roles': instance.roles?.map((e) => e.toJson()).toList(),
       'profiles': instance.profiles?.map((e) => e.toJson()).toList(),
       'waitingForGroup': instance.waitingForGroup,
+    };
+
+FirebaseTokenResponse _$FirebaseTokenResponseFromJson(
+        Map<String, dynamic> json) =>
+    FirebaseTokenResponse(
+      token: json['token'] as String?,
+    );
+
+Map<String, dynamic> _$FirebaseTokenResponseToJson(
+        FirebaseTokenResponse instance) =>
+    <String, dynamic>{
+      'token': instance.token,
     };
 
 MatchMakingResult _$MatchMakingResultFromJson(Map<String, dynamic> json) =>

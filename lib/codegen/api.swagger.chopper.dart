@@ -239,6 +239,24 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<FirebaseTokenResponse>> _usersIdFirebaseGet(
+      {required num? id}) {
+    final $url = '/users/${id}/firebase';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<FirebaseTokenResponse, FirebaseTokenResponse>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _usersIdFirebasePatch(
+      {required num? id, String? token}) {
+    final $url = '/users/${id}/firebase';
+    final $params = <String, dynamic>{'token': token};
+    final $request =
+        Request('PATCH', $url, client.baseUrl, parameters: $params);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<List<ReportModel>>> _reportsIdGet({required num? id}) {
     final $url = '/reports/${id}';
     final $request = Request('GET', $url, client.baseUrl);

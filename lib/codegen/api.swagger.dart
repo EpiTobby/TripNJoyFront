@@ -405,6 +405,37 @@ abstract class Api extends ChopperService {
   Future<chopper.Response> _usersIdUpdatePatch(
       {@Path('id') required num? id, @Body() required UserUpdateRequest? body});
 
+  ///Get the firebase token of this user
+  ///@param id
+  Future<chopper.Response<FirebaseTokenResponse>> usersIdFirebaseGet(
+      {required num? id}) {
+    generatedMapping.putIfAbsent(
+        FirebaseTokenResponse, () => FirebaseTokenResponse.fromJsonFactory);
+
+    return _usersIdFirebaseGet(id: id);
+  }
+
+  ///Get the firebase token of this user
+  ///@param id
+  @Get(path: '/users/{id}/firebase')
+  Future<chopper.Response<FirebaseTokenResponse>> _usersIdFirebaseGet(
+      {@Path('id') required num? id});
+
+  ///Update the firebase token associated to this user. If the token is not provided, it will be unset
+  ///@param id
+  ///@param token
+  Future<chopper.Response> usersIdFirebasePatch(
+      {required num? id, String? token}) {
+    return _usersIdFirebasePatch(id: id, token: token);
+  }
+
+  ///Update the firebase token associated to this user. If the token is not provided, it will be unset
+  ///@param id
+  ///@param token
+  @Patch(path: '/users/{id}/firebase', optionalBody: true)
+  Future<chopper.Response> _usersIdFirebasePatch(
+      {@Path('id') required num? id, @Query('token') String? token});
+
   ///Get all the report posted by a user
   ///@param id
   Future<chopper.Response<List<ReportModel>>> reportsIdGet({required num? id}) {
@@ -5051,6 +5082,7 @@ class UserEntity {
     this.createdDate,
     this.phoneNumber,
     this.confirmed,
+    this.firebaseToken,
     this.language,
     this.roles,
     this.profiles,
@@ -5084,6 +5116,8 @@ class UserEntity {
   final String? phoneNumber;
   @JsonKey(name: 'confirmed')
   final bool? confirmed;
+  @JsonKey(name: 'firebaseToken')
+  final String? firebaseToken;
   @JsonKey(name: 'language')
   final LanguageEntity? language;
   @JsonKey(name: 'roles', defaultValue: <RoleEntity>[])
@@ -5132,6 +5166,9 @@ class UserEntity {
             (identical(other.confirmed, confirmed) ||
                 const DeepCollectionEquality()
                     .equals(other.confirmed, confirmed)) &&
+            (identical(other.firebaseToken, firebaseToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.firebaseToken, firebaseToken)) &&
             (identical(other.language, language) ||
                 const DeepCollectionEquality()
                     .equals(other.language, language)) &&
@@ -5159,6 +5196,7 @@ class UserEntity {
       const DeepCollectionEquality().hash(createdDate) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
       const DeepCollectionEquality().hash(confirmed) ^
+      const DeepCollectionEquality().hash(firebaseToken) ^
       const DeepCollectionEquality().hash(language) ^
       const DeepCollectionEquality().hash(roles) ^
       const DeepCollectionEquality().hash(profiles) ^
@@ -5180,6 +5218,7 @@ extension $UserEntityExtension on UserEntity {
       DateTime? createdDate,
       String? phoneNumber,
       bool? confirmed,
+      String? firebaseToken,
       LanguageEntity? language,
       List<RoleEntity>? roles,
       List<ProfileEntity>? profiles,
@@ -5197,10 +5236,45 @@ extension $UserEntityExtension on UserEntity {
         createdDate: createdDate ?? this.createdDate,
         phoneNumber: phoneNumber ?? this.phoneNumber,
         confirmed: confirmed ?? this.confirmed,
+        firebaseToken: firebaseToken ?? this.firebaseToken,
         language: language ?? this.language,
         roles: roles ?? this.roles,
         profiles: profiles ?? this.profiles,
         waitingForGroup: waitingForGroup ?? this.waitingForGroup);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FirebaseTokenResponse {
+  FirebaseTokenResponse({
+    this.token,
+  });
+
+  factory FirebaseTokenResponse.fromJson(Map<String, dynamic> json) =>
+      _$FirebaseTokenResponseFromJson(json);
+
+  @JsonKey(name: 'token')
+  final String? token;
+  static const fromJsonFactory = _$FirebaseTokenResponseFromJson;
+  static const toJsonFactory = _$FirebaseTokenResponseToJson;
+  Map<String, dynamic> toJson() => _$FirebaseTokenResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is FirebaseTokenResponse &&
+            (identical(other.token, token) ||
+                const DeepCollectionEquality().equals(other.token, token)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(token) ^ runtimeType.hashCode;
+}
+
+extension $FirebaseTokenResponseExtension on FirebaseTokenResponse {
+  FirebaseTokenResponse copyWith({String? token}) {
+    return FirebaseTokenResponse(token: token ?? this.token);
   }
 }
 

@@ -1090,6 +1090,82 @@
         }
       }
     },
+    "/users/{id}/firebase": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "Get the firebase token of this user",
+        "operationId": "getFirebaseToken",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Firebase token returned. May be null",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FirebaseTokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The user does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FirebaseTokenResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "Update the firebase token associated to this user. If the token is not provided, it will be unset",
+        "operationId": "setFirebaseToken",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Firebase token updated"
+          },
+          "422": {
+            "description": "If the user does not exist"
+          }
+        }
+      }
+    },
     "/reports/{id}": {
       "get": {
         "tags": [
@@ -4415,6 +4491,9 @@
           "confirmed": {
             "type": "boolean"
           },
+          "firebaseToken": {
+            "type": "string"
+          },
           "language": {
             "$ref": "#/components/schemas/LanguageEntity"
           },
@@ -4432,6 +4511,14 @@
           },
           "waitingForGroup": {
             "type": "boolean"
+          }
+        }
+      },
+      "FirebaseTokenResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
           }
         }
       },
