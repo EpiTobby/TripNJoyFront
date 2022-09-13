@@ -6,6 +6,7 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
+import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 class FirebaseProvider extends HookConsumerWidget {
@@ -39,14 +40,17 @@ class FirebaseProvider extends HookConsumerWidget {
           matchmakingViewModel.receiveGroupMatch();
         }
 
-        showSimpleNotification(
-          Text(message.notification!.title!), // use translation
-          subtitle: Text(message.notification!.body!),
-          foreground: Theme.of(context).colorScheme.onBackground,
-          background: Theme.of(context).colorScheme.background,
-          position: NotificationPosition.top,
-          context: context,
-        );
+        final user = ref.read(userProvider);
+        if (user.value != null && user.value!.id!.toString() != message.data['sender']) {
+          showSimpleNotification(
+            Text(message.notification!.title!), // use translation
+            subtitle: Text(message.notification!.body!),
+            foreground: Theme.of(context).colorScheme.onBackground,
+            background: Theme.of(context).colorScheme.background,
+            position: NotificationPosition.top,
+            context: context,
+          );
+        }
       },
     );
     return child;

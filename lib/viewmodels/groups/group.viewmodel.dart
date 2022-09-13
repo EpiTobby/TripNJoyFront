@@ -40,6 +40,10 @@ class GroupViewModel extends ChangeNotifier {
       return;
     }
 
+    for (var group in groups) {
+      pushNotificationService.unsubscribeToTopic(groupTopic + group.id.toString());
+    }
+
     final id = httpService.getUserIdFromToken(authViewModel.token!);
 
     final userGroups = await httpService.getGroups(id!);
