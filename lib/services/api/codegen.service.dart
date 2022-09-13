@@ -487,4 +487,9 @@ class CodegenService extends HttpService {
   Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId, JoinGroupWithoutInviteModel body) async {
     await api.groupsPrivateGroupJoinIdPatch(group: groupId, id: userId, body: body);
   }
+
+  @override
+  Future<void> setUserFirebaseToken(int userId, String token) async {
+    await api.usersIdFirebasePatch(id: userId, token: token);
+  }
 }
