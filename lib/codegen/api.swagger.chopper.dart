@@ -130,6 +130,23 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<GroupMemoriesResponse>> _groupsGroupIdMemoriesGet(
+      {required num? groupId}) {
+    final $url = '/groups/${groupId}/memories';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<GroupMemoriesResponse, GroupMemoriesResponse>($request);
+  }
+
+  @override
+  Future<Response<GroupMemoriesResponse>> _groupsGroupIdMemoriesPost(
+      {required num? groupId, required GroupMemoryRequest? body}) {
+    final $url = '/groups/${groupId}/memories';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<GroupMemoriesResponse, GroupMemoriesResponse>($request);
+  }
+
+  @override
   Future<Response<GroupModel>> _groupsPrivateIdPost(
       {required num? id, required CreatePrivateGroupRequest? body}) {
     final $url = '/groups/private/${id}';

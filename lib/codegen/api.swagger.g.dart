@@ -649,6 +649,31 @@ Map<String, dynamic> _$ActivityModelToJson(ActivityModel instance) =>
       'infos': instance.infos,
     };
 
+GroupMemoryRequest _$GroupMemoryRequestFromJson(Map<String, dynamic> json) =>
+    GroupMemoryRequest(
+      memoryUrl: json['memoryUrl'] as String?,
+    );
+
+Map<String, dynamic> _$GroupMemoryRequestToJson(GroupMemoryRequest instance) =>
+    <String, dynamic>{
+      'memoryUrl': instance.memoryUrl,
+    };
+
+GroupMemoriesResponse _$GroupMemoriesResponseFromJson(
+        Map<String, dynamic> json) =>
+    GroupMemoriesResponse(
+      memories: (json['memories'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$GroupMemoriesResponseToJson(
+        GroupMemoriesResponse instance) =>
+    <String, dynamic>{
+      'memories': instance.memories,
+    };
+
 CreatePrivateGroupRequest _$CreatePrivateGroupRequestFromJson(
         Map<String, dynamic> json) =>
     CreatePrivateGroupRequest(

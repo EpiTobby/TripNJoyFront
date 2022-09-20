@@ -17,6 +17,7 @@ import 'package:trip_n_joy_front/widgets/groups/chat/chat_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat/chat_image.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat/chat_input.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat/chat_message.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/group_icon.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning/planning_activity.widget.dart';
 
 class GroupChat extends StatefulHookConsumerWidget {
@@ -56,6 +57,9 @@ class _GroupChatState extends ConsumerState<GroupChat> {
     final isLoadingMessages = chatViewModel.isLoadingMessages;
     final scrollController = useScrollController();
 
+    final memories =
+        groupViewModel.memories.containsKey(widget.groupId) ? groupViewModel.memories[widget.groupId] ?? [] : const [];
+
     final activities = ref.watch(planningProvider).activities;
     final nextActivity = useState<Activity?>(null);
     useEffect(() {
@@ -94,17 +98,35 @@ class _GroupChatState extends ConsumerState<GroupChat> {
             splashRadius: 16.0,
             onPressed: () => {_navigator.pop()},
           ),
-          title: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                group.name ?? group.members!.map((e) => e.firstname).join(', '),
-                style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
+              GroupIcon(
+                groupId: group.id!.toInt(),
+                radius: 18,
               ),
-              Text(
-                widget.channel?.name ?? '',
-                style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        group.name ?? group.members!.map((e) => e.firstname).join(', '),
+                        style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                      ),
+                      Text(
+                        widget.channel?.name ?? '',
+                        style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),

@@ -223,6 +223,39 @@ abstract class Api extends ChopperService {
       {@Path('groupId') required num? groupId,
       @Body() required CreateActivityRequest? body});
 
+  ///Get all the memories from a group
+  ///@param groupId
+  Future<chopper.Response<GroupMemoriesResponse>> groupsGroupIdMemoriesGet(
+      {required num? groupId}) {
+    generatedMapping.putIfAbsent(
+        GroupMemoriesResponse, () => GroupMemoriesResponse.fromJsonFactory);
+
+    return _groupsGroupIdMemoriesGet(groupId: groupId);
+  }
+
+  ///Get all the memories from a group
+  ///@param groupId
+  @Get(path: '/groups/{groupId}/memories')
+  Future<chopper.Response<GroupMemoriesResponse>> _groupsGroupIdMemoriesGet(
+      {@Path('groupId') required num? groupId});
+
+  ///Add memory to a group
+  ///@param groupId
+  Future<chopper.Response<GroupMemoriesResponse>> groupsGroupIdMemoriesPost(
+      {required num? groupId, required GroupMemoryRequest? body}) {
+    generatedMapping.putIfAbsent(
+        GroupMemoriesResponse, () => GroupMemoriesResponse.fromJsonFactory);
+
+    return _groupsGroupIdMemoriesPost(groupId: groupId, body: body);
+  }
+
+  ///Add memory to a group
+  ///@param groupId
+  @Post(path: '/groups/{groupId}/memories')
+  Future<chopper.Response<GroupMemoriesResponse>> _groupsGroupIdMemoriesPost(
+      {@Path('groupId') required num? groupId,
+      @Body() required GroupMemoryRequest? body});
+
   ///Create a private group
   ///@param id
   Future<chopper.Response<GroupModel>> groupsPrivateIdPost(
@@ -3350,6 +3383,76 @@ extension $ActivityModelExtension on ActivityModel {
         location: location ?? this.location,
         icon: icon ?? this.icon,
         infos: infos ?? this.infos);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GroupMemoryRequest {
+  GroupMemoryRequest({
+    this.memoryUrl,
+  });
+
+  factory GroupMemoryRequest.fromJson(Map<String, dynamic> json) =>
+      _$GroupMemoryRequestFromJson(json);
+
+  @JsonKey(name: 'memoryUrl')
+  final String? memoryUrl;
+  static const fromJsonFactory = _$GroupMemoryRequestFromJson;
+  static const toJsonFactory = _$GroupMemoryRequestToJson;
+  Map<String, dynamic> toJson() => _$GroupMemoryRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is GroupMemoryRequest &&
+            (identical(other.memoryUrl, memoryUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.memoryUrl, memoryUrl)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(memoryUrl) ^ runtimeType.hashCode;
+}
+
+extension $GroupMemoryRequestExtension on GroupMemoryRequest {
+  GroupMemoryRequest copyWith({String? memoryUrl}) {
+    return GroupMemoryRequest(memoryUrl: memoryUrl ?? this.memoryUrl);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GroupMemoriesResponse {
+  GroupMemoriesResponse({
+    this.memories,
+  });
+
+  factory GroupMemoriesResponse.fromJson(Map<String, dynamic> json) =>
+      _$GroupMemoriesResponseFromJson(json);
+
+  @JsonKey(name: 'memories', defaultValue: <String>[])
+  final List<String>? memories;
+  static const fromJsonFactory = _$GroupMemoriesResponseFromJson;
+  static const toJsonFactory = _$GroupMemoriesResponseToJson;
+  Map<String, dynamic> toJson() => _$GroupMemoriesResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is GroupMemoriesResponse &&
+            (identical(other.memories, memories) ||
+                const DeepCollectionEquality()
+                    .equals(other.memories, memories)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(memories) ^ runtimeType.hashCode;
+}
+
+extension $GroupMemoriesResponseExtension on GroupMemoriesResponse {
+  GroupMemoriesResponse copyWith({List<String>? memories}) {
+    return GroupMemoriesResponse(memories: memories ?? this.memories);
   }
 }
 

@@ -138,6 +138,10 @@ abstract class HttpService {
 
   Future<ScanResponse?> scanReceipt(String minioUrl);
 
+  Future<GroupMemoriesResponse?> getGroupMemories(int groupId);
+
+  Future<GroupMemoriesResponse?> addGroupMemory(int groupId, GroupMemoryRequest request);
+
   Future<String?> getGroupQRCode(int groupId);
 
   Future<GroupInfoModel?> getGroupPublicInfoById(int groupId);

@@ -14,3 +14,6 @@ const MINIO_ACCESS_KEY = String.fromEnvironment('MINIO_ACCESS_KEY');
 const MINIO_SECRET_KEY = String.fromEnvironment('MINIO_SECRET_KEY');
 final MINIO_PORT = int.parse(const String.fromEnvironment('MINIO_PORT', defaultValue: '9000'));
 const MINIO_BUCKET = String.fromEnvironment('MINIO_BUCKET', defaultValue: 'tripnjoy');
+
+/// BACKGROUND GRADIENT
+const BACKGROUND_GRADIENT = "https://wallpapercave.com/wp/wp4411792.jpg";
