@@ -492,4 +492,10 @@ class CodegenService extends HttpService {
   Future<void> setUserFirebaseToken(int userId, String token) async {
     await api.usersIdFirebasePatch(id: userId, token: token);
   }
+
+  @override
+  Future<List<NotificationModel>> getNotifications() async {
+    final response = await api.notificationsGet();
+    return response.body ?? [];
+  }
 }

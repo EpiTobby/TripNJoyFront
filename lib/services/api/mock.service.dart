@@ -561,4 +561,9 @@ class MockService extends HttpService {
   Future<void> setUserFirebaseToken(int userId, String token) {
     return Future.value();
   }
+
+  @override
+  Future<List<NotificationModel>> getNotifications() {
+    return Future.value([]);
+  }
 }
