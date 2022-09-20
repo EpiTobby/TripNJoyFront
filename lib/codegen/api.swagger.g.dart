@@ -1253,6 +1253,24 @@ Map<String, dynamic> _$FirebaseTokenResponseToJson(
       'token': instance.token,
     };
 
+NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) =>
+    NotificationModel(
+      title: json['title'] as String?,
+      body: json['body'] as String?,
+      userId: json['userId'] as num?,
+      id: json['id'] as num?,
+      firebaseId: json['firebaseId'] as String?,
+    );
+
+Map<String, dynamic> _$NotificationModelToJson(NotificationModel instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'body': instance.body,
+      'userId': instance.userId,
+      'id': instance.id,
+      'firebaseId': instance.firebaseId,
+    };
+
 MatchMakingResult _$MatchMakingResultFromJson(Map<String, dynamic> json) =>
     MatchMakingResult(
       type: matchMakingResultType$FromJson(json['type']),

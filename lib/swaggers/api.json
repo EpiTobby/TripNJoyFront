@@ -861,7 +861,7 @@
           "auth-controller"
         ],
         "summary": "Create a new account. Will send a confirmation mail to the given address",
-        "operationId": "create",
+        "operationId": "createAccount",
         "requestBody": {
           "content": {
             "application/json": {
@@ -896,6 +896,47 @@
         }
       }
     },
+    "/auth/register/admin": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Create a new admin account. Will send a confirmation mail to the given address",
+        "operationId": "createAdminAccount",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Admin is created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "If the email is already in use by another user",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/login": {
       "post": {
         "tags": [
@@ -903,6 +944,47 @@
         ],
         "summary": "Log a user, to allow authenticated endpoints",
         "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed. Wrong username or password",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login/admin": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Log a user, to allow authenticated endpoints",
+        "operationId": "loginAdmin",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1197,32 +1279,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "report-controller"
-        ],
-        "summary": "Delete a report",
-        "operationId": "deleteReport",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The report has been deleted"
-          },
-          "404": {
-            "description": "The report does not exist"
           }
         }
       },
@@ -2176,7 +2232,7 @@
           "report-controller"
         ],
         "summary": "Get all the report of a user",
-        "operationId": "getByReporterUserId",
+        "operationId": "getByReportedUserId",
         "parameters": [
           {
             "name": "id",
@@ -2307,6 +2363,29 @@
                       "TOURISM",
                       "TRANSPORT"
                     ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications/": {
+      "get": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "getForUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NotificationModel"
                   }
                 }
               }
@@ -2893,6 +2972,86 @@
           },
           "required": true
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/reports/{id}/admin": {
+      "delete": {
+        "tags": [
+          "report-controller"
+        ],
+        "summary": "Delete a report",
+        "operationId": "deleteReportAdmin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The report has been deleted"
+          },
+          "404": {
+            "description": "The report does not exist"
+          }
+        }
+      }
+    },
+    "/reports/{id}/": {
+      "delete": {
+        "tags": [
+          "report-controller"
+        ],
+        "summary": "Delete a report",
+        "operationId": "deleteReport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The report has been deleted"
+          },
+          "404": {
+            "description": "The report does not exist"
+          }
+        }
+      }
+    },
+    "/notifications/{id}": {
+      "delete": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "discard",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -4518,6 +4677,28 @@
         "type": "object",
         "properties": {
           "token": {
+            "type": "string"
+          }
+        }
+      },
+      "NotificationModel": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firebaseId": {
             "type": "string"
           }
         }

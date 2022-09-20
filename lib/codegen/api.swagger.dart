@@ -334,6 +334,19 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<AuthTokenResponse>> _authRegisterPost(
       {@Body() required UserCreationRequest? body});
 
+  ///Create a new admin account. Will send a confirmation mail to the given address
+  Future<chopper.Response<UserModel>> authRegisterAdminPost(
+      {required UserCreationRequest? body}) {
+    generatedMapping.putIfAbsent(UserModel, () => UserModel.fromJsonFactory);
+
+    return _authRegisterAdminPost(body: body);
+  }
+
+  ///Create a new admin account. Will send a confirmation mail to the given address
+  @Post(path: '/auth/register/admin')
+  Future<chopper.Response<UserModel>> _authRegisterAdminPost(
+      {@Body() required UserCreationRequest? body});
+
   ///Log a user, to allow authenticated endpoints
   Future<chopper.Response<LoginResponse>> authLoginPost(
       {required LoginRequest? body}) {
@@ -346,6 +359,20 @@ abstract class Api extends ChopperService {
   ///Log a user, to allow authenticated endpoints
   @Post(path: '/auth/login')
   Future<chopper.Response<LoginResponse>> _authLoginPost(
+      {@Body() required LoginRequest? body});
+
+  ///Log a user, to allow authenticated endpoints
+  Future<chopper.Response<LoginResponse>> authLoginAdminPost(
+      {required LoginRequest? body}) {
+    generatedMapping.putIfAbsent(
+        LoginResponse, () => LoginResponse.fromJsonFactory);
+
+    return _authLoginAdminPost(body: body);
+  }
+
+  ///Log a user, to allow authenticated endpoints
+  @Post(path: '/auth/login/admin')
+  Future<chopper.Response<LoginResponse>> _authLoginAdminPost(
       {@Body() required LoginRequest? body});
 
   ///Log a user, to allow authenticated endpoints
@@ -450,17 +477,6 @@ abstract class Api extends ChopperService {
   @Get(path: '/reports/{id}')
   Future<chopper.Response<List<ReportModel>>> _reportsIdGet(
       {@Path('id') required num? id});
-
-  ///Delete a report
-  ///@param id
-  Future<chopper.Response> reportsIdDelete({required num? id}) {
-    return _reportsIdDelete(id: id);
-  }
-
-  ///Delete a report
-  ///@param id
-  @Delete(path: '/reports/{id}')
-  Future<chopper.Response> _reportsIdDelete({@Path('id') required num? id});
 
   ///Update a report
   ///@param id
@@ -880,6 +896,18 @@ abstract class Api extends ChopperService {
   @Get(path: '/places/categories')
   Future<chopper.Response<List<String>>> _placesCategoriesGet();
 
+  ///
+  Future<chopper.Response<List<NotificationModel>>> notificationsGet() {
+    generatedMapping.putIfAbsent(
+        NotificationModel, () => NotificationModel.fromJsonFactory);
+
+    return _notificationsGet();
+  }
+
+  ///
+  @Get(path: '/notifications/')
+  Future<chopper.Response<List<NotificationModel>>> _notificationsGet();
+
   ///Get the state of a match making task
   ///@param taskId
   Future<chopper.Response<MatchMakingResult>> matchmakingTaskIdGet(
@@ -1128,6 +1156,41 @@ abstract class Api extends ChopperService {
   Future<chopper.Response> _usersIdAdminDelete(
       {@Path('id') required num? id,
       @Body() required DeleteUserByAdminRequest? body});
+
+  ///Delete a report
+  ///@param id
+  Future<chopper.Response> reportsIdAdminDelete({required num? id}) {
+    return _reportsIdAdminDelete(id: id);
+  }
+
+  ///Delete a report
+  ///@param id
+  @Delete(path: '/reports/{id}/admin')
+  Future<chopper.Response> _reportsIdAdminDelete(
+      {@Path('id') required num? id});
+
+  ///Delete a report
+  ///@param id
+  Future<chopper.Response> reportsIdDelete({required num? id}) {
+    return _reportsIdDelete(id: id);
+  }
+
+  ///Delete a report
+  ///@param id
+  @Delete(path: '/reports/{id}/')
+  Future<chopper.Response> _reportsIdDelete({@Path('id') required num? id});
+
+  ///
+  ///@param id
+  Future<chopper.Response> notificationsIdDelete({required num? id}) {
+    return _notificationsIdDelete(id: id);
+  }
+
+  ///
+  ///@param id
+  @Delete(path: '/notifications/{id}')
+  Future<chopper.Response> _notificationsIdDelete(
+      {@Path('id') required num? id});
 
   ///Remove the user from a group
   ///@param group
@@ -5275,6 +5338,72 @@ class FirebaseTokenResponse {
 extension $FirebaseTokenResponseExtension on FirebaseTokenResponse {
   FirebaseTokenResponse copyWith({String? token}) {
     return FirebaseTokenResponse(token: token ?? this.token);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class NotificationModel {
+  NotificationModel({
+    this.title,
+    this.body,
+    this.userId,
+    this.id,
+    this.firebaseId,
+  });
+
+  factory NotificationModel.fromJson(Map<String, dynamic> json) =>
+      _$NotificationModelFromJson(json);
+
+  @JsonKey(name: 'title')
+  final String? title;
+  @JsonKey(name: 'body')
+  final String? body;
+  @JsonKey(name: 'userId')
+  final num? userId;
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'firebaseId')
+  final String? firebaseId;
+  static const fromJsonFactory = _$NotificationModelFromJson;
+  static const toJsonFactory = _$NotificationModelToJson;
+  Map<String, dynamic> toJson() => _$NotificationModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is NotificationModel &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.body, body) ||
+                const DeepCollectionEquality().equals(other.body, body)) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.firebaseId, firebaseId) ||
+                const DeepCollectionEquality()
+                    .equals(other.firebaseId, firebaseId)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(body) ^
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(firebaseId) ^
+      runtimeType.hashCode;
+}
+
+extension $NotificationModelExtension on NotificationModel {
+  NotificationModel copyWith(
+      {String? title, String? body, num? userId, num? id, String? firebaseId}) {
+    return NotificationModel(
+        title: title ?? this.title,
+        body: body ?? this.body,
+        userId: userId ?? this.userId,
+        id: id ?? this.id,
+        firebaseId: firebaseId ?? this.firebaseId);
   }
 }
 
