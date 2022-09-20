@@ -556,4 +556,14 @@ class MockService extends HttpService {
   Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId, JoinGroupWithoutInviteModel body) {
     return Future.value();
   }
+
+  @override
+  Future<void> setUserFirebaseToken(int userId, String token) {
+    return Future.value();
+  }
+
+  @override
+  Future<List<NotificationModel>> getNotifications() {
+    return Future.value([]);
+  }
 }

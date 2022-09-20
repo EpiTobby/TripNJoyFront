@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -18,8 +17,8 @@ import 'package:trip_n_joy_front/screens/auth/auth.screen.dart';
 import 'package:trip_n_joy_front/screens/auth/verification.screen.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
-import 'package:trip_n_joy_front/services/notification/push_notification.service.dart';
 import 'package:trip_n_joy_front/widgets/navbar/navbar.widget.dart';
+import 'package:trip_n_joy_front/widgets/notifications/firebase_provider.widget.dart';
 
 import 'app_localizations.dart';
 import 'constants/navbar/navbar.enum.dart';
@@ -30,24 +29,12 @@ import 'screens/settings/settings.screen.dart';
 
 void main() async {
   if (!Platform.isIOS && !Platform.isMacOS) {
-    await initFirebase();
     WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
     await FlutterDownloader.initialize();
   }
 
   runApp(const ProviderScope(child: OverlaySupport.global(child: MyApp())));
-}
-
-Future initFirebase() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await initNotifications();
-}
-
-Future initNotifications() async {
-  final pushNotificationService = PushNotificationService(FirebaseMessaging.instance);
-  pushNotificationService.init();
-  pushNotificationService.setNotifications();
 }
 
 class MyApp extends ConsumerWidget {
@@ -56,20 +43,22 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settingsViewModel = ref.watch(settingsProvider);
-    return MaterialApp(
-      title: 'TripNJoy',
-      theme: settingsViewModel.isDarkMode ? darkTheme : lightTheme,
-      supportedLocales: const [
-        Locale('fr', 'FR'),
-        Locale('en', 'en_US'),
-      ],
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        ...GlobalMaterialLocalizations.delegates,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      home: const TripNJoy(title: 'TripNJoy'),
-      debugShowCheckedModeBanner: false,
+    return FirebaseProvider(
+      child: MaterialApp(
+        title: 'TripNJoy',
+        theme: settingsViewModel.isDarkMode ? darkTheme : lightTheme,
+        supportedLocales: const [
+          Locale('fr', 'FR'),
+          Locale('en', 'en_US'),
+        ],
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          ...GlobalMaterialLocalizations.delegates,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        home: const TripNJoy(title: 'TripNJoy'),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

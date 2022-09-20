@@ -192,9 +192,27 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<UserModel>> _authRegisterAdminPost(
+      {required UserCreationRequest? body}) {
+    final $url = '/auth/register/admin';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<UserModel, UserModel>($request);
+  }
+
+  @override
   Future<Response<LoginResponse>> _authLoginPost(
       {required LoginRequest? body}) {
     final $url = '/auth/login';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<LoginResponse, LoginResponse>($request);
+  }
+
+  @override
+  Future<Response<LoginResponse>> _authLoginAdminPost(
+      {required LoginRequest? body}) {
+    final $url = '/auth/login/admin';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<LoginResponse, LoginResponse>($request);
@@ -239,17 +257,28 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<FirebaseTokenResponse>> _usersIdFirebaseGet(
+      {required num? id}) {
+    final $url = '/users/${id}/firebase';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<FirebaseTokenResponse, FirebaseTokenResponse>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _usersIdFirebasePatch(
+      {required num? id, String? token}) {
+    final $url = '/users/${id}/firebase';
+    final $params = <String, dynamic>{'token': token};
+    final $request =
+        Request('PATCH', $url, client.baseUrl, parameters: $params);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<List<ReportModel>>> _reportsIdGet({required num? id}) {
     final $url = '/reports/${id}';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<List<ReportModel>, ReportModel>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _reportsIdDelete({required num? id}) {
-    final $url = '/reports/${id}';
-    final $request = Request('DELETE', $url, client.baseUrl);
-    return client.send<dynamic, dynamic>($request);
   }
 
   @override
@@ -491,6 +520,13 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<List<NotificationModel>>> _notificationsGet() {
+    final $url = '/notifications/';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<List<NotificationModel>, NotificationModel>($request);
+  }
+
+  @override
   Future<Response<MatchMakingResult>> _matchmakingTaskIdGet(
       {required num? taskId}) {
     final $url = '/matchmaking/${taskId}';
@@ -607,6 +643,27 @@ class _$Api extends Api {
     final $url = '/users/${id}/admin';
     final $body = body;
     final $request = Request('DELETE', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _reportsIdAdminDelete({required num? id}) {
+    final $url = '/reports/${id}/admin';
+    final $request = Request('DELETE', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _reportsIdDelete({required num? id}) {
+    final $url = '/reports/${id}/';
+    final $request = Request('DELETE', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _notificationsIdDelete({required num? id}) {
+    final $url = '/notifications/${id}';
+    final $request = Request('DELETE', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 

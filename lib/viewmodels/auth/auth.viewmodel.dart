@@ -45,7 +45,6 @@ class AuthViewModel extends ChangeNotifier {
   }
 
   Future<String?> login(String email, String password) async {
-    logger.d("login - $email, $password");
     loginState = const AsyncValue.loading();
     notifyListeners();
     try {

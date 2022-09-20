@@ -141,4 +141,8 @@ abstract class HttpService {
   Future<String?> getGroupQRCode(int groupId);
 
   Future<GroupInfoModel?> getGroupPublicInfoById(int groupId);
+
+  Future<void> setUserFirebaseToken(int userId, String token);
+
+  Future<List<NotificationModel>> getNotifications();
 }
