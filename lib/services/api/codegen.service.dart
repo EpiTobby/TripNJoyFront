@@ -472,7 +472,6 @@ class CodegenService extends HttpService {
   @override
   Future<GroupMemoriesResponse?> addGroupMemory(int groupId, GroupMemoryRequest request) async {
     final response = await api.groupsGroupIdMemoriesPost(groupId: groupId, body: request);
-
     return response.body;
   }
 
@@ -481,5 +480,34 @@ class CodegenService extends HttpService {
     final response = await api.groupsGroupIdMemoriesGet(groupId: groupId);
 
     return response.body;
+  }
+
+  @override
+  Future<String?> getGroupQRCode(int groupId) async {
+    final response = await api.groupsPrivateGroupQrcodeGet(group: groupId);
+    return response.body;
+  }
+
+  @override
+  Future<GroupInfoModel?> getGroupPublicInfoById(int groupId) async {
+    final response = await api.groupsInfoIdGet(id: groupId);
+
+    return response.body;
+  }
+
+  @override
+  Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId, JoinGroupWithoutInviteModel body) async {
+    await api.groupsPrivateGroupJoinIdPatch(group: groupId, id: userId, body: body);
+  }
+
+  @override
+  Future<void> setUserFirebaseToken(int userId, String token) async {
+    await api.usersIdFirebasePatch(id: userId, token: token);
+  }
+
+  @override
+  Future<List<NotificationModel>> getNotifications() async {
+    final response = await api.notificationsGet();
+    return response.body ?? [];
   }
 }

@@ -19,6 +19,7 @@ class _AuthState extends ConsumerState<Auth> {
   Widget build(BuildContext context) {
     final step = ref.watch(authProvider).step;
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: Center(
           child: Padding(

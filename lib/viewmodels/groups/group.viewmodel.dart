@@ -2,19 +2,32 @@ import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:trip_n_joy_front/services/notification/push_notification.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 
 class GroupViewModel extends ChangeNotifier {
-  GroupViewModel(this.httpService, this.authViewModel) {
+  GroupViewModel(this.httpService, this.authViewModel, this.pushNotificationService) {
     _init();
   }
 
   final HttpService httpService;
   final AuthViewModel authViewModel;
+  final PushNotificationService pushNotificationService;
 
   List<GroupModel> groups = [];
-  AsyncValue<GroupModel> groupInfo = const AsyncValue.loading();
+  AsyncValue<GroupInfoModel> groupInfo = const AsyncValue.loading();
   bool isLoading = false;
+  static const String groupTopic = 'chat_';
+
+  final defaultGroupModel = GroupModel(
+    id: 0,
+    name: '',
+    maxSize: 0,
+    members: [],
+    owner: null,
+    state: GroupModelState.open,
+    channels: [],
+  );
 
   Map<int, List<String>> memories = {};
 
@@ -29,6 +42,10 @@ class GroupViewModel extends ChangeNotifier {
       return;
     }
 
+    for (var group in groups) {
+      pushNotificationService.unsubscribeToTopic(groupTopic + group.id.toString());
+    }
+
     final id = httpService.getUserIdFromToken(authViewModel.token!);
 
     final userGroups = await httpService.getGroups(id!);
@@ -39,6 +56,9 @@ class GroupViewModel extends ChangeNotifier {
     }
     
     notifyListeners();
+    for (var group in groups) {
+      pushNotificationService.subscribeToTopic(groupTopic + group.id.toString());
+    }
   }
 
   Future<List<GroupModel>> getUserInvitesGroups() async {
@@ -61,6 +81,13 @@ class GroupViewModel extends ChangeNotifier {
   Future<void> joinPrivateGroup(int groupId) async {
     final id = httpService.getUserIdFromToken(authViewModel.token!);
     await httpService.joinPrivateGroup(groupId, id!);
+
+    await getGroups();
+  }
+
+  Future<void> joinPrivateGroupWithoutInvitation(int groupId, JoinGroupWithoutInviteModel body) async {
+    final id = httpService.getUserIdFromToken(authViewModel.token!);
+    await httpService.joinPrivateGroupWithoutInvitation(groupId, id!, body);
 
     await getGroups();
   }
@@ -118,8 +145,8 @@ class GroupViewModel extends ChangeNotifier {
     }
     groupInfo = const AsyncValue.loading();
     notifyListeners();
-    groupInfo = AsyncValue.data(
-        GroupModel(name: 'Group TripNJoy', id: groupId, members: [], maxSize: 10, state: GroupModelState.open));
+    final response = await httpService.getGroupPublicInfoById(groupId);
+    groupInfo = response != null ? AsyncValue.data(response) : const AsyncValue.error("Group not found");
     notifyListeners();
   }
 

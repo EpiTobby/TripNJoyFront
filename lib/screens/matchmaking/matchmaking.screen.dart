@@ -59,6 +59,7 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Container(
         child: matchmakingStatus != MatchmakingStatus.CREATE_PROFILE
             ? matchmakingStatus != MatchmakingStatus.NO_GROUP

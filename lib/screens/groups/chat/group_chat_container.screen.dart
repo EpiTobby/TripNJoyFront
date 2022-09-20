@@ -32,8 +32,11 @@ class GroupChatContainer extends HookConsumerWidget {
 
     return Stack(children: [
       channels.isEmpty
-          ? const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
+          ? Scaffold(
+              backgroundColor: Theme.of(context).colorScheme.background,
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
             )
           : OverlappingPanels(
               left: Builder(builder: (context) {

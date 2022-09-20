@@ -953,7 +953,7 @@
           "auth-controller"
         ],
         "summary": "Create a new account. Will send a confirmation mail to the given address",
-        "operationId": "create",
+        "operationId": "createAccount",
         "requestBody": {
           "content": {
             "application/json": {
@@ -988,6 +988,47 @@
         }
       }
     },
+    "/auth/register/admin": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Create a new admin account. Will send a confirmation mail to the given address",
+        "operationId": "createAdminAccount",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Admin is created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "If the email is already in use by another user",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/login": {
       "post": {
         "tags": [
@@ -995,6 +1036,47 @@
         ],
         "summary": "Log a user, to allow authenticated endpoints",
         "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "401": {
+            "description": "Authentication failed. Wrong username or password",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login/admin": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "summary": "Log a user, to allow authenticated endpoints",
+        "operationId": "loginAdmin",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1182,6 +1264,82 @@
         }
       }
     },
+    "/users/{id}/firebase": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "Get the firebase token of this user",
+        "operationId": "getFirebaseToken",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Firebase token returned. May be null",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FirebaseTokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The user does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FirebaseTokenResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "Update the firebase token associated to this user. If the token is not provided, it will be unset",
+        "operationId": "setFirebaseToken",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "If the user does not exist"
+          },
+          "200": {
+            "description": "Firebase token updated"
+          }
+        }
+      }
+    },
     "/reports/{id}": {
       "get": {
         "tags": [
@@ -1213,32 +1371,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "report-controller"
-        ],
-        "summary": "Delete a report",
-        "operationId": "deleteReport",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "404": {
-            "description": "The report does not exist"
-          },
-          "200": {
-            "description": "The report has been deleted"
           }
         }
       },
@@ -1678,6 +1810,53 @@
           },
           "403": {
             "description": "The client is not the owner of the group"
+          }
+        }
+      }
+    },
+    "/groups/private/{group}/join/{id}": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Accept the invitation to the group",
+        "operationId": "joinGroupWithoutInvite",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JoinGroupWithoutInviteModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "description": "Group or User does not exist"
+          },
+          "200": {
+            "description": "The user has joined the group"
           }
         }
       }
@@ -2145,7 +2324,7 @@
           "report-controller"
         ],
         "summary": "Get all the report of a user",
-        "operationId": "getByReporterUserId",
+        "operationId": "getByReportedUserId",
         "parameters": [
           {
             "name": "id",
@@ -2276,6 +2455,29 @@
                       "TOURISM",
                       "TRANSPORT"
                     ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notifications/": {
+      "get": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "getForUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NotificationModel"
                   }
                 }
               }
@@ -2422,6 +2624,38 @@
         }
       }
     },
+    "/groups/private/{group}/qrcode": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get the QR code to join a private group",
+        "operationId": "getQRCode",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the encoded qr code",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/groups/invites/{id}": {
       "get": {
         "tags": [
@@ -2450,6 +2684,38 @@
                   "items": {
                     "$ref": "#/components/schemas/GroupModel"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/info/{id}": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get info about a group",
+        "operationId": "getInfo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupInfoModel"
                 }
               }
             }
@@ -2798,6 +3064,86 @@
           },
           "required": true
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/reports/{id}/admin": {
+      "delete": {
+        "tags": [
+          "report-controller"
+        ],
+        "summary": "Delete a report",
+        "operationId": "deleteReportAdmin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "The report does not exist"
+          },
+          "200": {
+            "description": "The report has been deleted"
+          }
+        }
+      }
+    },
+    "/reports/{id}/": {
+      "delete": {
+        "tags": [
+          "report-controller"
+        ],
+        "summary": "Delete a report",
+        "operationId": "deleteReport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "The report does not exist"
+          },
+          "200": {
+            "description": "The report has been deleted"
+          }
+        }
+      }
+    },
+    "/notifications/{id}": {
+      "delete": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "discard",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -4195,6 +4541,14 @@
           }
         }
       },
+      "JoinGroupWithoutInviteModel": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
       "MessageResponse": {
         "type": "object",
         "properties": {
@@ -4407,6 +4761,9 @@
           "confirmed": {
             "type": "boolean"
           },
+          "firebaseToken": {
+            "type": "string"
+          },
           "language": {
             "$ref": "#/components/schemas/LanguageEntity"
           },
@@ -4427,6 +4784,36 @@
           }
         }
       },
+      "FirebaseTokenResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "NotificationModel": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firebaseId": {
+            "type": "string"
+          }
+        }
+      },
       "MatchMakingResult": {
         "type": "object",
         "properties": {
@@ -4441,6 +4828,54 @@
           },
           "group": {
             "$ref": "#/components/schemas/GroupModel"
+          }
+        }
+      },
+      "GroupInfoModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupMemberPublicInfoModel"
+            }
+          },
+          "maxSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "CLOSED",
+              "ARCHIVED"
+            ]
+          },
+          "picture": {
+            "type": "string"
+          }
+        }
+      },
+      "GroupMemberPublicInfoModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
           }
         }
       },

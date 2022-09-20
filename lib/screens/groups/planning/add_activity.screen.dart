@@ -35,44 +35,52 @@ class AddActivity extends HookConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 16, left: 20, right: 16),
-            child: LayoutItem(
-              child: LayoutItemValue(
-                value: AppLocalizations.of(context).translate("groups.planning.activity.manual"),
-                icon: Icons.add,
-                onPressed: () async {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => EditActivity(groupId: groupId)));
-                },
-              ),
-            ),
-          ),
-          LayoutBox(
-            title: AppLocalizations.of(context).translate("groups.planning.activity.suggestion.title"),
-            children: <Widget>[
-              AsyncValueWidget<List<String>>(
-                value: places,
-                data: (places) => Column(
-                  children: places
-                      .map(
-                        (place) => LayoutItem(
-                          child: LayoutItemValue(
-                            value: AppLocalizations.of(context).translate("groups.planning.activity.type.$place"),
-                            onPressed: () async {
-                              Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (_) => PlaceSuggestion(groupId: groupId, place: place)));
-                            },
-                          ),
-                        ),
-                      )
-                      .toList(),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          planningViewModel.getPlaces();
+        },
+        color: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 16, left: 20, right: 16),
+              child: LayoutItem(
+                child: LayoutItemValue(
+                  value: AppLocalizations.of(context).translate("groups.planning.activity.manual"),
+                  icon: Icons.add,
+                  onPressed: () async {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => EditActivity(groupId: groupId)));
+                  },
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+            LayoutBox(
+              title: AppLocalizations.of(context).translate("groups.planning.activity.suggestion.title"),
+              children: <Widget>[
+                AsyncValueWidget<List<String>>(
+                  value: places,
+                  data: (places) => Column(
+                    children: places
+                        .map(
+                          (place) => LayoutItem(
+                            child: LayoutItemValue(
+                              value: AppLocalizations.of(context).translate("groups.planning.activity.type.$place"),
+                              onPressed: () async {
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (_) => PlaceSuggestion(groupId: groupId, place: place)));
+                              },
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

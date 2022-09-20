@@ -367,6 +367,19 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<AuthTokenResponse>> _authRegisterPost(
       {@Body() required UserCreationRequest? body});
 
+  ///Create a new admin account. Will send a confirmation mail to the given address
+  Future<chopper.Response<UserModel>> authRegisterAdminPost(
+      {required UserCreationRequest? body}) {
+    generatedMapping.putIfAbsent(UserModel, () => UserModel.fromJsonFactory);
+
+    return _authRegisterAdminPost(body: body);
+  }
+
+  ///Create a new admin account. Will send a confirmation mail to the given address
+  @Post(path: '/auth/register/admin')
+  Future<chopper.Response<UserModel>> _authRegisterAdminPost(
+      {@Body() required UserCreationRequest? body});
+
   ///Log a user, to allow authenticated endpoints
   Future<chopper.Response<LoginResponse>> authLoginPost(
       {required LoginRequest? body}) {
@@ -379,6 +392,20 @@ abstract class Api extends ChopperService {
   ///Log a user, to allow authenticated endpoints
   @Post(path: '/auth/login')
   Future<chopper.Response<LoginResponse>> _authLoginPost(
+      {@Body() required LoginRequest? body});
+
+  ///Log a user, to allow authenticated endpoints
+  Future<chopper.Response<LoginResponse>> authLoginAdminPost(
+      {required LoginRequest? body}) {
+    generatedMapping.putIfAbsent(
+        LoginResponse, () => LoginResponse.fromJsonFactory);
+
+    return _authLoginAdminPost(body: body);
+  }
+
+  ///Log a user, to allow authenticated endpoints
+  @Post(path: '/auth/login/admin')
+  Future<chopper.Response<LoginResponse>> _authLoginAdminPost(
       {@Body() required LoginRequest? body});
 
   ///Log a user, to allow authenticated endpoints
@@ -438,6 +465,37 @@ abstract class Api extends ChopperService {
   Future<chopper.Response> _usersIdUpdatePatch(
       {@Path('id') required num? id, @Body() required UserUpdateRequest? body});
 
+  ///Get the firebase token of this user
+  ///@param id
+  Future<chopper.Response<FirebaseTokenResponse>> usersIdFirebaseGet(
+      {required num? id}) {
+    generatedMapping.putIfAbsent(
+        FirebaseTokenResponse, () => FirebaseTokenResponse.fromJsonFactory);
+
+    return _usersIdFirebaseGet(id: id);
+  }
+
+  ///Get the firebase token of this user
+  ///@param id
+  @Get(path: '/users/{id}/firebase')
+  Future<chopper.Response<FirebaseTokenResponse>> _usersIdFirebaseGet(
+      {@Path('id') required num? id});
+
+  ///Update the firebase token associated to this user. If the token is not provided, it will be unset
+  ///@param id
+  ///@param token
+  Future<chopper.Response> usersIdFirebasePatch(
+      {required num? id, String? token}) {
+    return _usersIdFirebasePatch(id: id, token: token);
+  }
+
+  ///Update the firebase token associated to this user. If the token is not provided, it will be unset
+  ///@param id
+  ///@param token
+  @Patch(path: '/users/{id}/firebase', optionalBody: true)
+  Future<chopper.Response> _usersIdFirebasePatch(
+      {@Path('id') required num? id, @Query('token') String? token});
+
   ///Get all the report posted by a user
   ///@param id
   Future<chopper.Response<List<ReportModel>>> reportsIdGet({required num? id}) {
@@ -452,17 +510,6 @@ abstract class Api extends ChopperService {
   @Get(path: '/reports/{id}')
   Future<chopper.Response<List<ReportModel>>> _reportsIdGet(
       {@Path('id') required num? id});
-
-  ///Delete a report
-  ///@param id
-  Future<chopper.Response> reportsIdDelete({required num? id}) {
-    return _reportsIdDelete(id: id);
-  }
-
-  ///Delete a report
-  ///@param id
-  @Delete(path: '/reports/{id}')
-  Future<chopper.Response> _reportsIdDelete({@Path('id') required num? id});
 
   ///Update a report
   ///@param id
@@ -632,6 +679,25 @@ abstract class Api extends ChopperService {
   Future<chopper.Response> _groupsPrivateGroupPatch(
       {@Path('group') required num? group,
       @Body() required UpdatePrivateGroupRequest? body});
+
+  ///Accept the invitation to the group
+  ///@param group
+  ///@param id
+  Future<chopper.Response> groupsPrivateGroupJoinIdPatch(
+      {required num? group,
+      required num? id,
+      required JoinGroupWithoutInviteModel? body}) {
+    return _groupsPrivateGroupJoinIdPatch(group: group, id: id, body: body);
+  }
+
+  ///Accept the invitation to the group
+  ///@param group
+  ///@param id
+  @Patch(path: '/groups/private/{group}/join/{id}')
+  Future<chopper.Response> _groupsPrivateGroupJoinIdPatch(
+      {@Path('group') required num? group,
+      @Path('id') required num? id,
+      @Body() required JoinGroupWithoutInviteModel? body});
 
   ///Make a private group public
   ///@param groupId
@@ -863,6 +929,18 @@ abstract class Api extends ChopperService {
   @Get(path: '/places/categories')
   Future<chopper.Response<List<String>>> _placesCategoriesGet();
 
+  ///
+  Future<chopper.Response<List<NotificationModel>>> notificationsGet() {
+    generatedMapping.putIfAbsent(
+        NotificationModel, () => NotificationModel.fromJsonFactory);
+
+    return _notificationsGet();
+  }
+
+  ///
+  @Get(path: '/notifications/')
+  Future<chopper.Response<List<NotificationModel>>> _notificationsGet();
+
   ///Get the state of a match making task
   ///@param taskId
   Future<chopper.Response<MatchMakingResult>> matchmakingTaskIdGet(
@@ -912,6 +990,19 @@ abstract class Api extends ChopperService {
       {@Path('groupId') required num? groupId,
       @Path('userId') required num? userId});
 
+  ///Get the QR code to join a private group
+  ///@param group
+  Future<chopper.Response<String>> groupsPrivateGroupQrcodeGet(
+      {required num? group}) {
+    return _groupsPrivateGroupQrcodeGet(group: group);
+  }
+
+  ///Get the QR code to join a private group
+  ///@param group
+  @Get(path: '/groups/private/{group}/qrcode')
+  Future<chopper.Response<String>> _groupsPrivateGroupQrcodeGet(
+      {@Path('group') required num? group});
+
   ///Get all the group invitation of the user
   ///@param id
   Future<chopper.Response<List<GroupModel>>> groupsInvitesIdGet(
@@ -925,6 +1016,21 @@ abstract class Api extends ChopperService {
   ///@param id
   @Get(path: '/groups/invites/{id}')
   Future<chopper.Response<List<GroupModel>>> _groupsInvitesIdGet(
+      {@Path('id') required num? id});
+
+  ///Get info about a group
+  ///@param id
+  Future<chopper.Response<GroupInfoModel>> groupsInfoIdGet({required num? id}) {
+    generatedMapping.putIfAbsent(
+        GroupInfoModel, () => GroupInfoModel.fromJsonFactory);
+
+    return _groupsInfoIdGet(id: id);
+  }
+
+  ///Get info about a group
+  ///@param id
+  @Get(path: '/groups/info/{id}')
+  Future<chopper.Response<GroupInfoModel>> _groupsInfoIdGet(
       {@Path('id') required num? id});
 
   ///
@@ -1083,6 +1189,41 @@ abstract class Api extends ChopperService {
   Future<chopper.Response> _usersIdAdminDelete(
       {@Path('id') required num? id,
       @Body() required DeleteUserByAdminRequest? body});
+
+  ///Delete a report
+  ///@param id
+  Future<chopper.Response> reportsIdAdminDelete({required num? id}) {
+    return _reportsIdAdminDelete(id: id);
+  }
+
+  ///Delete a report
+  ///@param id
+  @Delete(path: '/reports/{id}/admin')
+  Future<chopper.Response> _reportsIdAdminDelete(
+      {@Path('id') required num? id});
+
+  ///Delete a report
+  ///@param id
+  Future<chopper.Response> reportsIdDelete({required num? id}) {
+    return _reportsIdDelete(id: id);
+  }
+
+  ///Delete a report
+  ///@param id
+  @Delete(path: '/reports/{id}/')
+  Future<chopper.Response> _reportsIdDelete({@Path('id') required num? id});
+
+  ///
+  ///@param id
+  Future<chopper.Response> notificationsIdDelete({required num? id}) {
+    return _notificationsIdDelete(id: id);
+  }
+
+  ///
+  ///@param id
+  @Delete(path: '/notifications/{id}')
+  Future<chopper.Response> _notificationsIdDelete(
+      {@Path('id') required num? id});
 
   ///Remove the user from a group
   ///@param group
@@ -4483,6 +4624,40 @@ extension $UpdatePrivateGroupRequestExtension on UpdatePrivateGroupRequest {
 }
 
 @JsonSerializable(explicitToJson: true)
+class JoinGroupWithoutInviteModel {
+  JoinGroupWithoutInviteModel({
+    this.message,
+  });
+
+  factory JoinGroupWithoutInviteModel.fromJson(Map<String, dynamic> json) =>
+      _$JoinGroupWithoutInviteModelFromJson(json);
+
+  @JsonKey(name: 'message')
+  final String? message;
+  static const fromJsonFactory = _$JoinGroupWithoutInviteModelFromJson;
+  static const toJsonFactory = _$JoinGroupWithoutInviteModelToJson;
+  Map<String, dynamic> toJson() => _$JoinGroupWithoutInviteModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is JoinGroupWithoutInviteModel &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(message) ^ runtimeType.hashCode;
+}
+
+extension $JoinGroupWithoutInviteModelExtension on JoinGroupWithoutInviteModel {
+  JoinGroupWithoutInviteModel copyWith({String? message}) {
+    return JoinGroupWithoutInviteModel(message: message ?? this.message);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class MessageResponse {
   MessageResponse({
     this.id,
@@ -5073,6 +5248,7 @@ class UserEntity {
     this.createdDate,
     this.phoneNumber,
     this.confirmed,
+    this.firebaseToken,
     this.language,
     this.roles,
     this.profiles,
@@ -5106,6 +5282,8 @@ class UserEntity {
   final String? phoneNumber;
   @JsonKey(name: 'confirmed')
   final bool? confirmed;
+  @JsonKey(name: 'firebaseToken')
+  final String? firebaseToken;
   @JsonKey(name: 'language')
   final LanguageEntity? language;
   @JsonKey(name: 'roles', defaultValue: <RoleEntity>[])
@@ -5154,6 +5332,9 @@ class UserEntity {
             (identical(other.confirmed, confirmed) ||
                 const DeepCollectionEquality()
                     .equals(other.confirmed, confirmed)) &&
+            (identical(other.firebaseToken, firebaseToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.firebaseToken, firebaseToken)) &&
             (identical(other.language, language) ||
                 const DeepCollectionEquality()
                     .equals(other.language, language)) &&
@@ -5181,6 +5362,7 @@ class UserEntity {
       const DeepCollectionEquality().hash(createdDate) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
       const DeepCollectionEquality().hash(confirmed) ^
+      const DeepCollectionEquality().hash(firebaseToken) ^
       const DeepCollectionEquality().hash(language) ^
       const DeepCollectionEquality().hash(roles) ^
       const DeepCollectionEquality().hash(profiles) ^
@@ -5202,6 +5384,7 @@ extension $UserEntityExtension on UserEntity {
       DateTime? createdDate,
       String? phoneNumber,
       bool? confirmed,
+      String? firebaseToken,
       LanguageEntity? language,
       List<RoleEntity>? roles,
       List<ProfileEntity>? profiles,
@@ -5219,10 +5402,111 @@ extension $UserEntityExtension on UserEntity {
         createdDate: createdDate ?? this.createdDate,
         phoneNumber: phoneNumber ?? this.phoneNumber,
         confirmed: confirmed ?? this.confirmed,
+        firebaseToken: firebaseToken ?? this.firebaseToken,
         language: language ?? this.language,
         roles: roles ?? this.roles,
         profiles: profiles ?? this.profiles,
         waitingForGroup: waitingForGroup ?? this.waitingForGroup);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FirebaseTokenResponse {
+  FirebaseTokenResponse({
+    this.token,
+  });
+
+  factory FirebaseTokenResponse.fromJson(Map<String, dynamic> json) =>
+      _$FirebaseTokenResponseFromJson(json);
+
+  @JsonKey(name: 'token')
+  final String? token;
+  static const fromJsonFactory = _$FirebaseTokenResponseFromJson;
+  static const toJsonFactory = _$FirebaseTokenResponseToJson;
+  Map<String, dynamic> toJson() => _$FirebaseTokenResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is FirebaseTokenResponse &&
+            (identical(other.token, token) ||
+                const DeepCollectionEquality().equals(other.token, token)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(token) ^ runtimeType.hashCode;
+}
+
+extension $FirebaseTokenResponseExtension on FirebaseTokenResponse {
+  FirebaseTokenResponse copyWith({String? token}) {
+    return FirebaseTokenResponse(token: token ?? this.token);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class NotificationModel {
+  NotificationModel({
+    this.title,
+    this.body,
+    this.userId,
+    this.id,
+    this.firebaseId,
+  });
+
+  factory NotificationModel.fromJson(Map<String, dynamic> json) =>
+      _$NotificationModelFromJson(json);
+
+  @JsonKey(name: 'title')
+  final String? title;
+  @JsonKey(name: 'body')
+  final String? body;
+  @JsonKey(name: 'userId')
+  final num? userId;
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'firebaseId')
+  final String? firebaseId;
+  static const fromJsonFactory = _$NotificationModelFromJson;
+  static const toJsonFactory = _$NotificationModelToJson;
+  Map<String, dynamic> toJson() => _$NotificationModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is NotificationModel &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.body, body) ||
+                const DeepCollectionEquality().equals(other.body, body)) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.firebaseId, firebaseId) ||
+                const DeepCollectionEquality()
+                    .equals(other.firebaseId, firebaseId)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(body) ^
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(firebaseId) ^
+      runtimeType.hashCode;
+}
+
+extension $NotificationModelExtension on NotificationModel {
+  NotificationModel copyWith(
+      {String? title, String? body, num? userId, num? id, String? firebaseId}) {
+    return NotificationModel(
+        title: title ?? this.title,
+        body: body ?? this.body,
+        userId: userId ?? this.userId,
+        id: id ?? this.id,
+        firebaseId: firebaseId ?? this.firebaseId);
   }
 }
 
@@ -5269,6 +5553,141 @@ extension $MatchMakingResultExtension on MatchMakingResult {
       {enums.MatchMakingResultType$? type, GroupModel? group}) {
     return MatchMakingResult(
         type: type ?? this.type, group: group ?? this.group);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GroupInfoModel {
+  GroupInfoModel({
+    this.id,
+    this.name,
+    this.members,
+    this.maxSize,
+    this.state,
+    this.picture,
+  });
+
+  factory GroupInfoModel.fromJson(Map<String, dynamic> json) =>
+      _$GroupInfoModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'name')
+  final String? name;
+  @JsonKey(name: 'members', defaultValue: <GroupMemberPublicInfoModel>[])
+  final List<GroupMemberPublicInfoModel>? members;
+  @JsonKey(name: 'maxSize')
+  final int? maxSize;
+  @JsonKey(
+      name: 'state',
+      toJson: groupInfoModelStateToJson,
+      fromJson: groupInfoModelStateFromJson)
+  final enums.GroupInfoModelState? state;
+  @JsonKey(name: 'picture')
+  final String? picture;
+  static const fromJsonFactory = _$GroupInfoModelFromJson;
+  static const toJsonFactory = _$GroupInfoModelToJson;
+  Map<String, dynamic> toJson() => _$GroupInfoModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is GroupInfoModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.members, members) ||
+                const DeepCollectionEquality()
+                    .equals(other.members, members)) &&
+            (identical(other.maxSize, maxSize) ||
+                const DeepCollectionEquality()
+                    .equals(other.maxSize, maxSize)) &&
+            (identical(other.state, state) ||
+                const DeepCollectionEquality().equals(other.state, state)) &&
+            (identical(other.picture, picture) ||
+                const DeepCollectionEquality().equals(other.picture, picture)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(members) ^
+      const DeepCollectionEquality().hash(maxSize) ^
+      const DeepCollectionEquality().hash(state) ^
+      const DeepCollectionEquality().hash(picture) ^
+      runtimeType.hashCode;
+}
+
+extension $GroupInfoModelExtension on GroupInfoModel {
+  GroupInfoModel copyWith(
+      {num? id,
+      String? name,
+      List<GroupMemberPublicInfoModel>? members,
+      int? maxSize,
+      enums.GroupInfoModelState? state,
+      String? picture}) {
+    return GroupInfoModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        members: members ?? this.members,
+        maxSize: maxSize ?? this.maxSize,
+        state: state ?? this.state,
+        picture: picture ?? this.picture);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GroupMemberPublicInfoModel {
+  GroupMemberPublicInfoModel({
+    this.id,
+    this.firstname,
+    this.lastname,
+  });
+
+  factory GroupMemberPublicInfoModel.fromJson(Map<String, dynamic> json) =>
+      _$GroupMemberPublicInfoModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'firstname')
+  final String? firstname;
+  @JsonKey(name: 'lastname')
+  final String? lastname;
+  static const fromJsonFactory = _$GroupMemberPublicInfoModelFromJson;
+  static const toJsonFactory = _$GroupMemberPublicInfoModelToJson;
+  Map<String, dynamic> toJson() => _$GroupMemberPublicInfoModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is GroupMemberPublicInfoModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.firstname, firstname) ||
+                const DeepCollectionEquality()
+                    .equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastname, lastname)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(firstname) ^
+      const DeepCollectionEquality().hash(lastname) ^
+      runtimeType.hashCode;
+}
+
+extension $GroupMemberPublicInfoModelExtension on GroupMemberPublicInfoModel {
+  GroupMemberPublicInfoModel copyWith(
+      {num? id, String? firstname, String? lastname}) {
+    return GroupMemberPublicInfoModel(
+        id: id ?? this.id,
+        firstname: firstname ?? this.firstname,
+        lastname: lastname ?? this.lastname);
   }
 }
 
@@ -7745,6 +8164,59 @@ List<enums.MatchMakingResultType$> matchMakingResultType$ListFromJson(
 
   return matchMakingResultType$
       .map((e) => matchMakingResultType$FromJson(e.toString()))
+      .toList();
+}
+
+String? groupInfoModelStateToJson(
+    enums.GroupInfoModelState? groupInfoModelState) {
+  return enums.$GroupInfoModelStateMap[groupInfoModelState];
+}
+
+enums.GroupInfoModelState groupInfoModelStateFromJson(
+    Object? groupInfoModelState) {
+  if (groupInfoModelState is int) {
+    return enums.$GroupInfoModelStateMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == groupInfoModelState.toString(),
+            orElse: () => const MapEntry(
+                enums.GroupInfoModelState.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (groupInfoModelState is String) {
+    return enums.$GroupInfoModelStateMap.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                groupInfoModelState.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.GroupInfoModelState.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.GroupInfoModelState.swaggerGeneratedUnknown;
+}
+
+List<String> groupInfoModelStateListToJson(
+    List<enums.GroupInfoModelState>? groupInfoModelState) {
+  if (groupInfoModelState == null) {
+    return [];
+  }
+
+  return groupInfoModelState
+      .map((e) => enums.$GroupInfoModelStateMap[e]!)
+      .toList();
+}
+
+List<enums.GroupInfoModelState> groupInfoModelStateListFromJson(
+    List? groupInfoModelState) {
+  if (groupInfoModelState == null) {
+    return [];
+  }
+
+  return groupInfoModelState
+      .map((e) => groupInfoModelStateFromJson(e.toString()))
       .toList();
 }
 

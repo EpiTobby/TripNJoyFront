@@ -43,14 +43,14 @@ class InputField extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isVisible = useState(false);
-    final backgroundColor = useState(Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1));
+    final backgroundColor = useState(Theme.of(context).colorScheme.surface);
     final focusNode = useFocusNode();
 
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
         backgroundColor.value = Theme.of(context).colorScheme.secondaryContainer;
       } else {
-        backgroundColor.value = Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1);
+        backgroundColor.value = Theme.of(context).colorScheme.surface;
       }
     });
     return Padding(
@@ -75,6 +75,9 @@ class InputField extends HookConsumerWidget {
               ),
             ),
           TextField(
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+            ),
             onChanged: onChanged,
             controller: controller,
             obscureText: isPassword && !isVisible.value,
@@ -103,6 +106,9 @@ class InputField extends HookConsumerWidget {
                     )
                   : null,
               hintText: hint,
+              hintStyle: TextStyle(
+                color: Theme.of(context).colorScheme.primaryContainer,
+              ),
               filled: true,
               fillColor: isError ? Theme.of(context).colorScheme.errorContainer : backgroundColor.value,
               enabledBorder: const OutlineInputBorder(

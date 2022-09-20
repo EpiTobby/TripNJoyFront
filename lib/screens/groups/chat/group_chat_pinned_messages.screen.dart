@@ -42,6 +42,7 @@ class PinnedMessages extends HookConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : pinnedMessages.isEmpty
@@ -50,27 +51,34 @@ class PinnedMessages extends HookConsumerWidget {
                       message: AppLocalizations.of(context).translate('groups.chat.pinned_messages.empty'),
                       icon: Icons.highlight_remove),
                 )
-              : ListView.builder(
-                  itemCount: pinnedMessages.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                        onLongPress: () async {
-                          final updatedMessage = await ref
-                              .read(pinnedMessagesProvider)
-                              .togglePinnedMessage(pinnedMessages[index].id!, false);
-                          if (updatedMessage != null) {
-                            ref.read(pinnedMessagesProvider).removePinnedMessage(updatedMessage);
-                            ref.read(chatProvider).updateMessage(updatedMessage);
-                          }
-                        },
-                        splashColor: Theme.of(context).colorScheme.background,
-                        child: buildMessageTile(pinnedMessages[index], chatMembers));
+              : RefreshIndicator(
+                  onRefresh: () async {
+                    await ref.read(pinnedMessagesProvider).fetchPinnedMessages(channelId);
                   },
+                  color: Theme.of(context).colorScheme.secondary,
+                  backgroundColor: Theme.of(context).colorScheme.background,
+                  child: ListView.builder(
+                    itemCount: pinnedMessages.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                          onLongPress: () async {
+                            final updatedMessage = await ref
+                                .read(pinnedMessagesProvider)
+                                .togglePinnedMessage(pinnedMessages[index].id!, false);
+                            if (updatedMessage != null) {
+                              ref.read(pinnedMessagesProvider).removePinnedMessage(updatedMessage);
+                              ref.read(chatProvider).updateMessage(updatedMessage);
+                            }
+                          },
+                          splashColor: Theme.of(context).colorScheme.background,
+                          child: buildMessageTile(context, pinnedMessages[index], chatMembers));
+                    },
+                  ),
                 ),
     );
   }
 
-  Widget buildMessageTile(MessageResponse message, HashMap<num, ChatMember> chatMembers) {
+  Widget buildMessageTile(BuildContext context, MessageResponse message, HashMap<num, ChatMember> chatMembers) {
     if (message.content == null) {
       return Container();
     }
@@ -94,10 +102,16 @@ class PinnedMessages extends HookConsumerWidget {
     return ListTile(
       title: Padding(
         padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-        child: Text(chatMember?.name ?? ''),
+        child: Text(
+          chatMember?.name ?? '',
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        ),
       ),
       subtitle: child,
-      trailing: Text(formatTimeToMessage(message.sentDate!)),
+      trailing: Text(
+        formatTimeToMessage(message.sentDate!),
+        style: TextStyle(color: Theme.of(context).colorScheme.primary),
+      ),
     );
   }
 }
