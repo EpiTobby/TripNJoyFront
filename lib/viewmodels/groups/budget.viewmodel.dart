@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/group/member_expense.dart';
-import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
@@ -69,8 +68,8 @@ class BudgetViewModel extends ChangeNotifier {
 
   Future<void> getUserReimbursement(int groupId, num? userId) async {
     logger.d("Getting User $userId Reimbursement");
-    await getUserOwedMoney(groupId, userId);
-    await getUserDueMoney(groupId, userId);
+    getUserOwedMoney(groupId, userId);
+    getUserDueMoney(groupId, userId);
   }
 
   Future<void> addExpense(int groupId, num? userId, ExpenseRequest body) async {

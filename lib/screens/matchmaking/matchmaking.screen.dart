@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
-import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/constants/matchmaking/matchmaking_status.enum.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/swipe.provider.dart';
 import 'package:trip_n_joy_front/screens/matchmaking/profile.screen.dart';
-import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/cards/group_found_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/group_not_found_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/profile_creation_card.widget.dart';
-
-import '../../widgets/matchmaking/cards/group_found_card.widget.dart';
 
 class MatchmakingPage extends StatefulHookConsumerWidget {
   const MatchmakingPage({
@@ -63,6 +59,7 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Container(
         child: matchmakingStatus != MatchmakingStatus.CREATE_PROFILE
             ? matchmakingStatus != MatchmakingStatus.NO_GROUP
@@ -70,10 +67,7 @@ class _MatchmakingPageState extends ConsumerState<MatchmakingPage> with SingleTi
                     groupId: matchmakingGroup?.id!.toInt(),
                     isLoading: matchmakingStatus == MatchmakingStatus.WAITING_MATCHMAKING,
                     groupPhotoUrl: matchmakingGroup?.picture,
-                    membersPhotoUrls: matchmakingGroup?.members!
-                            .map((member) => member.profilePicture)
-                            .toList() ??
-                        [],
+                    membersPhotoUrls: matchmakingGroup?.members!.map((member) => member.profilePicture).toList() ?? [],
                   )
                 : const GroupNotFoundCard()
             : cards.isEmpty || currIndex >= cards.length || currIndex < 0

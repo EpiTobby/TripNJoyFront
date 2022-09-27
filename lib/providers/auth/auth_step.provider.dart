@@ -1,6 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../constants/auth/auth_step.enum.dart';
+import 'package:trip_n_joy_front/constants/auth/auth_step.enum.dart';
 
 final authStepProvider = StateNotifierProvider((ref) {
   return AuthStepState();

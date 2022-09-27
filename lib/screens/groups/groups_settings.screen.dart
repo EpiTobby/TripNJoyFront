@@ -8,15 +8,15 @@ import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
-import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_box.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_header.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_item.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_item_value.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/layout_member.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/dialog/qr_code_dialog.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_box.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_header.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_item.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_item_value.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/layout/layout_member.widget.dart';
 import 'package:trip_n_joy_front/widgets/user/user.widget.dart';
 
 class GroupsSettings extends StatefulHookConsumerWidget {
@@ -32,7 +32,8 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
   @override
   Widget build(BuildContext context) {
     final groupViewModel = ref.watch(groupProvider);
-    final group = groupViewModel.groups.firstWhere((group) => group.id == widget.groupId);
+    final group = groupViewModel.groups
+        .firstWhere((group) => group.id == widget.groupId, orElse: () => groupViewModel.defaultGroupModel);
 
     final user = ref.watch(userProvider).value;
 
@@ -48,35 +49,36 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
         children: [
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 32.0),
-              child: ListView(
-                physics: const ClampingScrollPhysics(),
-                shrinkWrap: true,
-                children: [
-                  LayoutHeader(
-                    background: true,
-                    imageURL: MinioService.getImageUrl(group.picture, DEFAULT_URL.GROUP),
-                    onClick: group.state == GroupModelState.archived
-                        ? null
-                        : () async {
-                            final imageURL = await minioService.uploadImage();
+            child: ListView(
+              physics: const ClampingScrollPhysics(),
+              shrinkWrap: true,
+              children: [
+                LayoutHeader(
+                  background: true,
+                  imageURL: MinioService.getImageUrl(group.picture, DEFAULT_URL.GROUP),
+                  onClick: group.state == GroupModelState.archived
+                      ? null
+                      : () async {
+                          final imageURL = await minioService.uploadImage();
 
-                            if (imageURL != null) {
-                              if (isPrivateGroup) {
-                                await groupViewModel.updatePrivateGroup(
-                                    group.id!.toInt(), UpdatePrivateGroupRequest(picture: imageURL));
-                              } else {
-                                await groupViewModel.updatePublicGroup(
-                                    group.id!.toInt(), UpdatePublicGroupRequest(picture: imageURL));
-                              }
+                          if (imageURL != null) {
+                            if (isPrivateGroup) {
+                              await groupViewModel.updatePrivateGroup(
+                                  group.id!.toInt(), UpdatePrivateGroupRequest(picture: imageURL));
+                            } else {
+                              await groupViewModel.updatePublicGroup(
+                                  group.id!.toInt(), UpdatePublicGroupRequest(picture: imageURL));
                             }
-                          },
-                  ),
-                  LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.about"), children: [
+                          }
+                        },
+                ),
+                LayoutBox(
+                  title: AppLocalizations.of(context).translate("groups.settings.about"),
+                  children: [
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.settings.groupName"),
                       child: LayoutItemValue(
@@ -185,59 +187,76 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                         ),
                       ),
                     ),
-                  ]),
-                  if (group.state != GroupModelState.archived)
-                    LayoutBox(
-                        title: AppLocalizations.of(context).translate("groups.settings.groupSettings"),
-                        children: [
-                          if (!isPrivateGroup && group.state == GroupModelState.open)
-                            LayoutItem(
-                                child: LayoutItemValue(
-                              value: AppLocalizations.of(context).translate("groups.settings.close"),
-                              icon: Icons.lock_outline,
-                              onPressed: () {},
-                            )),
-                          if (isPrivateGroup)
-                            LayoutItem(
-                                child: LayoutItemValue(
-                              value: AppLocalizations.of(context).translate("groups.settings.askPublic"),
-                              multiline: true,
-                              icon: Icons.group_outlined,
-                              onPressed: () {},
-                            )),
-                          if (group.owner?.id == user.id)
-                            LayoutItem(
-                                child: LayoutItemValue(
-                              value: AppLocalizations.of(context).translate("groups.settings.archive"),
-                              icon: Icons.archive_outlined,
-                              onPressed: () {
-                                groupViewModel.updatePrivateGroup(group.id!.toInt(),
-                                    UpdatePrivateGroupRequest(state: UpdatePrivateGroupRequestState.archived));
+                    if (isPrivateGroup && group.state != GroupModelState.archived)
+                      LayoutItem(
+                        child: LayoutItemValue(
+                          value: AppLocalizations.of(context).translate("groups.qr_code.generate"),
+                          multiline: true,
+                          icon: Icons.qr_code,
+                          onPressed: () {
+                            showBarModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return QRCodeDialog(groupId: widget.groupId);
                               },
-                            )),
-                          if (!isPrivateGroup)
-                            LayoutItem(
-                                child: LayoutItemValue(
-                              value: AppLocalizations.of(context).translate("groups.settings.askArchive"),
-                              icon: Icons.archive_outlined,
-                              onPressed: () {},
-                            )),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            child: LayoutItem(
-                                cardVariant: true,
-                                child: LayoutItemValue(
-                                  value: AppLocalizations.of(context).translate("groups.settings.quit"),
-                                  icon: Icons.exit_to_app,
-                                  customColor: Theme.of(context).colorScheme.error,
-                                  onPressed: () {
-                                    groupViewModel.leaveGroup(group.id!.toInt());
-                                  },
-                                )),
-                          ),
-                        ])
-                ],
-              ),
+                            );
+                          },
+                        ),
+                      ),
+                  ],
+                ),
+                if (group.state != GroupModelState.archived)
+                  LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.groupSettings"), children: [
+                    if (!isPrivateGroup && group.state == GroupModelState.open)
+                      LayoutItem(
+                          child: LayoutItemValue(
+                        value: AppLocalizations.of(context).translate("groups.settings.close"),
+                        icon: Icons.lock_outline,
+                        onPressed: () {},
+                      )),
+                    if (isPrivateGroup)
+                      LayoutItem(
+                          child: LayoutItemValue(
+                        value: AppLocalizations.of(context).translate("groups.settings.askPublic"),
+                        multiline: true,
+                        icon: Icons.group_outlined,
+                        onPressed: () {},
+                      )),
+                    if (group.owner?.id == user.id)
+                      LayoutItem(
+                          child: LayoutItemValue(
+                        value: AppLocalizations.of(context).translate("groups.settings.archive"),
+                        icon: Icons.archive_outlined,
+                        onPressed: () {
+                          groupViewModel.updatePrivateGroup(group.id!.toInt(),
+                              UpdatePrivateGroupRequest(state: UpdatePrivateGroupRequestState.archived));
+                        },
+                      )),
+                    if (!isPrivateGroup)
+                      LayoutItem(
+                          child: LayoutItemValue(
+                        value: AppLocalizations.of(context).translate("groups.settings.askArchive"),
+                        icon: Icons.archive_outlined,
+                        onPressed: () {},
+                      )),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: LayoutItem(
+                          cardVariant: true,
+                          child: LayoutItemValue(
+                            value: AppLocalizations.of(context).translate("groups.settings.quit"),
+                            icon: Icons.exit_to_app,
+                            customColor: Theme.of(context).colorScheme.error,
+                            onPressed: () {
+                              groupViewModel.leaveGroup(group.id!.toInt()).then((value) {
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
+                              });
+                            },
+                          )),
+                    ),
+                  ])
+              ],
             ),
           ),
         ],

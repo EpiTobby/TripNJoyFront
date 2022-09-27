@@ -5,11 +5,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
-
-import '../../main.dart';
-import '../../providers/auth/auth.provider.dart';
-import '../../widgets/common/button.widget.dart';
-import '../../widgets/common/input.widget.dart';
+import 'package:trip_n_joy_front/main.dart';
+import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input/input.widget.dart';
 
 class AccountVerification extends HookConsumerWidget {
   const AccountVerification({Key? key, required this.userId}) : super(key: key);
@@ -33,6 +32,7 @@ class AccountVerification extends HookConsumerWidget {
     ref.listen<AsyncValue<void>>(authVerifyAccountStateProvider, (_, state) => state.showSnackBarOnError(context));
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(70),

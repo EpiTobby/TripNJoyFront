@@ -5,7 +5,6 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 
 class MockService extends HttpService {
@@ -539,5 +538,42 @@ class MockService extends HttpService {
   @override
   Future<ScanResponse?> scanReceipt(String minioUrl) {
     return Future.value(null);
+  }
+
+  @override
+  Future<GroupMemoriesResponse?> addGroupMemory(int groupId, GroupMemoryRequest request) {
+    return Future.value(GroupMemoriesResponse());
+  }
+
+  @override
+  Future<GroupMemoriesResponse?> getGroupMemories(int groupId) {
+    return Future.value(GroupMemoriesResponse());
+  }
+
+  @override
+  Future<String?> getGroupQRCode(int groupId) {
+    return Future.value(
+        "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAQAAAACFI5MzAAABMElEQVR4Xu2WTa7DIAyEnRXH4Kb83JRjsMKdsaM2avt2T8WLWCRy/GUxtWEa0b9C3gvPuMlNGP9PmiByk9x11MmHIwzpuCYJ7lxeCUKmHDPjXpm7/FikpVESOhqRIFlp8JVQRDntrkMSO3pWYhA/JajZ+jw/O4nHgmQdrHnEIC1BeFYdRdjXcvk920nnsvJkDX3VUGRSL+ZcacyByJK86Cti7oLT/OzofqLwYxbM/ERs5lFIE+o9KN+TUcMQPaeNgPlxSzKNQkxyAhezQP7lBiFwl2WFwm+o607cTzxgft3kN57jKASpmCtbO3FW7M0YpOv5FVAS8+67MgiZbi0ce+O0wxF1d0FrXzsxClkcOFXD/GocojZtW5T8cpf9xE9Jp7tAsl46up98j5vchPEr8gDE3gIVopb0oQAAAABJRU5ErkJggg==");
+  }
+
+  @override
+  Future<GroupInfoModel?> getGroupPublicInfoById(int groupId) {
+    return Future.value(
+        GroupInfoModel(name: 'Group TripNJoy', id: groupId, members: [], maxSize: 10, state: GroupInfoModelState.open));
+  }
+
+  @override
+  Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId, JoinGroupWithoutInviteModel body) {
+    return Future.value();
+  }
+
+  @override
+  Future<void> setUserFirebaseToken(int userId, String token) {
+    return Future.value();
+  }
+
+  @override
+  Future<List<NotificationModel>> getNotifications() {
+    return Future.value([]);
   }
 }

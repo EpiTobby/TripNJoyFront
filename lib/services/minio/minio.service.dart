@@ -45,13 +45,13 @@ class MinioService {
         return DEFAULT_AVATAR_URL;
       } else if (defaultUrl == DEFAULT_URL.GROUP) {
         return DEFAULT_GROUP_AVATAR_URL;
-      } else{
+      } else {
         return DEFAULT_IMAGE_URL;
       }
     }
 
     final uri = Uri.tryParse(name);
-    if (uri != null && uri.host.isNotEmpty && uri.origin.isNotEmpty){
+    if (uri != null && uri.host.isNotEmpty && uri.origin.isNotEmpty) {
       return name;
     }
 

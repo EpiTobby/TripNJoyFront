@@ -7,27 +7,28 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/matchmaking/matchmaking_status.enum.dart';
 import 'package:trip_n_joy_front/models/matchmaking/availability.model.dart';
+import 'package:trip_n_joy_front/models/matchmaking/card.model.dart';
+import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
+import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 import 'package:trip_n_joy_front/viewmodels/matchmaking/profile.viewmodel.dart';
-import 'package:trip_n_joy_front/widgets/matchmaking/cards/group_found_card.widget.dart';
+import 'package:trip_n_joy_front/viewmodels/settings/settings.viewmodel.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/cards/availability_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/multiple_choice_card.widget.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/cards/name_profile_card.widget.dart';
+import 'package:trip_n_joy_front/widgets/matchmaking/cards/range_card.widget.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/swipe_card.widget.dart';
 
-import '../../models/matchmaking/card.model.dart';
-import '../../services/api/http.service.dart';
-import '../../services/log/logger.service.dart';
-import '../../widgets/matchmaking/cards/availability_card.widget.dart';
-import '../../widgets/matchmaking/cards/name_profile_card.widget.dart';
-import '../../widgets/matchmaking/cards/range_card.widget.dart';
-import '../auth/auth.viewmodel.dart';
-
 class MatchmakingViewModel extends ChangeNotifier {
-  MatchmakingViewModel(this.httpService, this.authViewModel, this.profileViewModel, this.storage) {
+  MatchmakingViewModel(
+      this.httpService, this.authViewModel, this.profileViewModel, this.settingsViewModel, this.storage) {
     _init();
   }
 
   final AuthViewModel authViewModel;
   final HttpService httpService;
   final ProfileViewModel profileViewModel;
+  final SettingsViewModel settingsViewModel;
 
   final FlutterSecureStorage storage;
   static const String taskKey = 'taskId';
@@ -60,6 +61,7 @@ class MatchmakingViewModel extends ChangeNotifier {
   }
 
   void startProfileCreation() {
+    final isDarkMode = settingsViewModel.isDarkMode;
     cards = [
       CardModel(
         builder: (context, onTop, isLoading) => SwipeCard(
@@ -68,7 +70,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
-          backgroundColor: CardColors.red,
+          backgroundColor: isDarkMode ? DarkCardColors.red : LightCardColors.red,
           isLoading: isLoading,
           values: const ["chill", "visit", "no_preference"],
         ),
@@ -80,7 +82,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
-          backgroundColor: CardColors.yellow,
+          backgroundColor: isDarkMode ? DarkCardColors.yellow : LightCardColors.yellow,
           isLoading: isLoading,
           values: const ["restaurant", "cooking", "no_preference"],
         ),
@@ -92,7 +94,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
-          backgroundColor: CardColors.green,
+          backgroundColor: isDarkMode ? DarkCardColors.green : LightCardColors.green,
           isLoading: isLoading,
           values: const ["yes", "no", "no_preference"],
         ),
@@ -104,7 +106,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
-          backgroundColor: CardColors.lightBlue,
+          backgroundColor: isDarkMode ? DarkCardColors.lightBlue : LightCardColors.lightBlue,
           isLoading: isLoading,
           values: const ["yes", "no", "no_preference"],
         ),
@@ -115,7 +117,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           title: AppLocalizations.of(context).translate("cards.destinationTypes.title"),
           subtitle: AppLocalizations.of(context).translate("cards.destinationTypes.subtitle"),
           color: Theme.of(context).colorScheme.primary,
-          backgroundColor: CardColors.darkBlue,
+          backgroundColor: isDarkMode ? DarkCardColors.darkBlue : LightCardColors.darkBlue,
           isLoading: isLoading,
           values: const ["mountain", "beach", "city", "countryside"],
           onPressed: submitMultipleChoiceCard,
@@ -128,7 +130,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
-          backgroundColor: CardColors.purple,
+          backgroundColor: isDarkMode ? DarkCardColors.purple : LightCardColors.purple,
           isLoading: isLoading,
           values: const ["yes", "no", "no_preference"],
         ),
@@ -140,7 +142,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
-          backgroundColor: CardColors.pink,
+          backgroundColor: isDarkMode ? DarkCardColors.pink : LightCardColors.pink,
           isLoading: isLoading,
           values: const ["yes", "no", "no_preference"],
         ),
@@ -152,7 +154,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
-          backgroundColor: CardColors.white,
+          backgroundColor: isDarkMode ? DarkCardColors.white : LightCardColors.white,
           shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
           isLoading: isLoading,
           values: const ["yes", "no", "no_preference"],
@@ -165,7 +167,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           subtitle: AppLocalizations.of(context).translate("cards.swipeToChoose"),
           onTop: onTop,
           color: Theme.of(context).colorScheme.primary,
-          backgroundColor: CardColors.orange,
+          backgroundColor: isDarkMode ? DarkCardColors.orange : LightCardColors.orange,
           isLoading: isLoading,
           values: const ["male", "female", "mixed"],
         ),
@@ -176,7 +178,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           title: AppLocalizations.of(context).translate("cards.groupSize.title"),
           subtitle: AppLocalizations.of(context).translate("cards.groupSize.subtitle"),
           color: Theme.of(context).colorScheme.primary,
-          backgroundColor: CardColors.purple,
+          backgroundColor: isDarkMode ? DarkCardColors.purple : LightCardColors.white,
           isLoading: isLoading,
           min: 2,
           max: 10,
@@ -189,7 +191,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           title: AppLocalizations.of(context).translate("cards.ages.title"),
           subtitle: AppLocalizations.of(context).translate("cards.ages.subtitle"),
           color: Theme.of(context).colorScheme.primary,
-          backgroundColor: CardColors.red,
+          backgroundColor: isDarkMode ? DarkCardColors.red : LightCardColors.red,
           isLoading: isLoading,
           min: 18,
           max: 100,
@@ -202,7 +204,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           title: AppLocalizations.of(context).translate("cards.budget.title"),
           subtitle: AppLocalizations.of(context).translate("cards.budget.subtitle"),
           color: Theme.of(context).colorScheme.primary,
-          backgroundColor: CardColors.yellow,
+          backgroundColor: isDarkMode ? DarkCardColors.yellow : LightCardColors.yellow,
           isLoading: isLoading,
           min: 100,
           max: 2000,
@@ -215,7 +217,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           title: AppLocalizations.of(context).translate("cards.duration.title"),
           subtitle: AppLocalizations.of(context).translate("cards.duration.subtitle"),
           color: Theme.of(context).colorScheme.primary,
-          backgroundColor: CardColors.green,
+          backgroundColor: isDarkMode ? DarkCardColors.green : LightCardColors.green,
           isLoading: isLoading,
           min: 1,
           max: 30,

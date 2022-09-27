@@ -3,13 +3,11 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
-
-import '../../codegen/api.swagger.dart';
-import '../../viewmodels/auth/auth.viewmodel.dart';
-import 'http.service.dart';
+import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 
 const BASE_URL = String.fromEnvironment("BASE_URL", defaultValue: "http://localhost:8080");
 
@@ -235,9 +233,7 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<void> setGroupPublic(int groupId) async {
-
-  }
+  Future<void> setGroupPublic(int groupId) async {}
 
   @override
   Future<List<ChannelModel>> getChannels(int groupId) async {
@@ -471,5 +467,47 @@ class CodegenService extends HttpService {
     final response = await api.scanPost(body: ScanRequest(minioUrl: minioUrl));
 
     return response.body;
+  }
+
+  @override
+  Future<GroupMemoriesResponse?> addGroupMemory(int groupId, GroupMemoryRequest request) async {
+    final response = await api.groupsGroupIdMemoriesPost(groupId: groupId, body: request);
+    return response.body;
+  }
+
+  @override
+  Future<GroupMemoriesResponse?> getGroupMemories(int groupId) async {
+    final response = await api.groupsGroupIdMemoriesGet(groupId: groupId);
+
+    return response.body;
+  }
+
+  @override
+  Future<String?> getGroupQRCode(int groupId) async {
+    final response = await api.groupsPrivateGroupQrcodeGet(group: groupId);
+    return response.body;
+  }
+
+  @override
+  Future<GroupInfoModel?> getGroupPublicInfoById(int groupId) async {
+    final response = await api.groupsInfoIdGet(id: groupId);
+
+    return response.body;
+  }
+
+  @override
+  Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId, JoinGroupWithoutInviteModel body) async {
+    await api.groupsPrivateGroupJoinIdPatch(group: groupId, id: userId, body: body);
+  }
+
+  @override
+  Future<void> setUserFirebaseToken(int userId, String token) async {
+    await api.usersIdFirebasePatch(id: userId, token: token);
+  }
+
+  @override
+  Future<List<NotificationModel>> getNotifications() async {
+    final response = await api.notificationsGet();
+    return response.body ?? [];
   }
 }

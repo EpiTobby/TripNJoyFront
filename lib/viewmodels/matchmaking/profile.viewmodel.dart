@@ -1,8 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
-
-import '../auth/auth.viewmodel.dart';
+import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 
 class ProfileViewModel extends StateNotifier<List<ProfileModel>?> {
   ProfileViewModel(this.httpService, this.authViewModel) : super([]) {

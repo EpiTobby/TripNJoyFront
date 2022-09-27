@@ -7,10 +7,10 @@ import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/user/recommendation.provider.dart';
 import 'package:trip_n_joy_front/providers/user/report.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
-import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
-import 'package:trip_n_joy_front/widgets/common/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
-import 'package:trip_n_joy_front/widgets/common/input_dialog_report.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog_report.widget.dart';
 
 class UserDialog extends HookConsumerWidget {
   const UserDialog({Key? key, required this.user}) : super(key: key);
@@ -24,6 +24,7 @@ class UserDialog extends HookConsumerWidget {
     final currentUser = ref.watch(userProvider.notifier).userId;
 
     return Material(
+      color: Theme.of(context).colorScheme.background,
       child: SafeArea(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Padding(

@@ -3,14 +3,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/extensions/AsyncValue.extension.dart';
-import 'package:trip_n_joy_front/screens/auth/forgot_password.screen.dart';
+import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
-
-import '../../providers/auth/auth.provider.dart';
-import '../common/button.widget.dart';
-import '../common/input.widget.dart';
-
-import 'google.widget.dart';
+import 'package:trip_n_joy_front/widgets/auth/google.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
+import 'package:trip_n_joy_front/widgets/common/input/input.widget.dart';
 
 class Login extends StatefulHookConsumerWidget {
   const Login({

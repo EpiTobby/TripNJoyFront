@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../../constants/matchmaking/card_status.enum.dart';
-import '../../services/log/logger.service.dart';
-import 'matchmaking.viewmodel.dart';
+import 'package:trip_n_joy_front/constants/matchmaking/card_status.enum.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
+import 'package:trip_n_joy_front/viewmodels/matchmaking/matchmaking.viewmodel.dart';
 
 class SwipeViewModel extends ChangeNotifier {
   SwipeViewModel(this.matchmakingViewModel);

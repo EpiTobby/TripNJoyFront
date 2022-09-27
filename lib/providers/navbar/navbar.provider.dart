@@ -1,6 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../constants/navbar/navbar.enum.dart';
+import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
 
 final navbarStateProvider = StateNotifierProvider((ref) {
   return NavbarState();

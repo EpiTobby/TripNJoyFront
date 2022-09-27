@@ -1,15 +1,15 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
-
-import '../../app_localizations.dart';
-import '../../codegen/api.swagger.dart';
-import '../../services/api/http.service.dart';
-import '../auth/auth.viewmodel.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:trip_n_joy_front/services/notification/push_notification.service.dart';
+import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 
 class UserViewModel extends StateNotifier<AsyncValue<UserModel?>> {
-  UserViewModel(this.httpService, this.authViewModel) : super(const AsyncValue.loading());
+  UserViewModel(this.httpService, this.authViewModel, this.pushNotificationService) : super(const AsyncValue.loading());
   final HttpService httpService;
   final AuthViewModel authViewModel;
+  final PushNotificationService pushNotificationService;
   UserModel? user;
 
   Future<UserModel?> loadUser() async {
@@ -17,6 +17,9 @@ class UserViewModel extends StateNotifier<AsyncValue<UserModel?>> {
       state = const AsyncLoading();
       user = await httpService.loadUser().timeout(const Duration(seconds: 10));
       state = AsyncData(user);
+      if (user != null && user!.id != null) {
+        pushNotificationService.setUserToken(user!.id!.toInt());
+      }
       return user;
     } catch (e) {
       state = AsyncError(e);

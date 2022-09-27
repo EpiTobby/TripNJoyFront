@@ -649,6 +649,31 @@ Map<String, dynamic> _$ActivityModelToJson(ActivityModel instance) =>
       'infos': instance.infos,
     };
 
+GroupMemoryRequest _$GroupMemoryRequestFromJson(Map<String, dynamic> json) =>
+    GroupMemoryRequest(
+      memoryUrl: json['memoryUrl'] as String?,
+    );
+
+Map<String, dynamic> _$GroupMemoryRequestToJson(GroupMemoryRequest instance) =>
+    <String, dynamic>{
+      'memoryUrl': instance.memoryUrl,
+    };
+
+GroupMemoriesResponse _$GroupMemoriesResponseFromJson(
+        Map<String, dynamic> json) =>
+    GroupMemoriesResponse(
+      memories: (json['memories'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$GroupMemoriesResponseToJson(
+        GroupMemoriesResponse instance) =>
+    <String, dynamic>{
+      'memories': instance.memories,
+    };
+
 CreatePrivateGroupRequest _$CreatePrivateGroupRequestFromJson(
         Map<String, dynamic> json) =>
     CreatePrivateGroupRequest(
@@ -1005,6 +1030,18 @@ Map<String, dynamic> _$UpdatePrivateGroupRequestToJson(
       'destination': instance.destination,
     };
 
+JoinGroupWithoutInviteModel _$JoinGroupWithoutInviteModelFromJson(
+        Map<String, dynamic> json) =>
+    JoinGroupWithoutInviteModel(
+      message: json['message'] as String?,
+    );
+
+Map<String, dynamic> _$JoinGroupWithoutInviteModelToJson(
+        JoinGroupWithoutInviteModel instance) =>
+    <String, dynamic>{
+      'message': instance.message,
+    };
+
 MessageResponse _$MessageResponseFromJson(Map<String, dynamic> json) =>
     MessageResponse(
       id: json['id'] as num?,
@@ -1193,6 +1230,7 @@ UserEntity _$UserEntityFromJson(Map<String, dynamic> json) => UserEntity(
           : DateTime.parse(json['createdDate'] as String),
       phoneNumber: json['phoneNumber'] as String?,
       confirmed: json['confirmed'] as bool?,
+      firebaseToken: json['firebaseToken'] as String?,
       language: json['language'] == null
           ? null
           : LanguageEntity.fromJson(json['language'] as Map<String, dynamic>),
@@ -1221,10 +1259,41 @@ Map<String, dynamic> _$UserEntityToJson(UserEntity instance) =>
       'createdDate': instance.createdDate?.toIso8601String(),
       'phoneNumber': instance.phoneNumber,
       'confirmed': instance.confirmed,
+      'firebaseToken': instance.firebaseToken,
       'language': instance.language?.toJson(),
       'roles': instance.roles?.map((e) => e.toJson()).toList(),
       'profiles': instance.profiles?.map((e) => e.toJson()).toList(),
       'waitingForGroup': instance.waitingForGroup,
+    };
+
+FirebaseTokenResponse _$FirebaseTokenResponseFromJson(
+        Map<String, dynamic> json) =>
+    FirebaseTokenResponse(
+      token: json['token'] as String?,
+    );
+
+Map<String, dynamic> _$FirebaseTokenResponseToJson(
+        FirebaseTokenResponse instance) =>
+    <String, dynamic>{
+      'token': instance.token,
+    };
+
+NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) =>
+    NotificationModel(
+      title: json['title'] as String?,
+      body: json['body'] as String?,
+      userId: json['userId'] as num?,
+      id: json['id'] as num?,
+      firebaseId: json['firebaseId'] as String?,
+    );
+
+Map<String, dynamic> _$NotificationModelToJson(NotificationModel instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'body': instance.body,
+      'userId': instance.userId,
+      'id': instance.id,
+      'firebaseId': instance.firebaseId,
     };
 
 MatchMakingResult _$MatchMakingResultFromJson(Map<String, dynamic> json) =>
@@ -1239,6 +1308,46 @@ Map<String, dynamic> _$MatchMakingResultToJson(MatchMakingResult instance) =>
     <String, dynamic>{
       'type': matchMakingResultType$ToJson(instance.type),
       'group': instance.group?.toJson(),
+    };
+
+GroupInfoModel _$GroupInfoModelFromJson(Map<String, dynamic> json) =>
+    GroupInfoModel(
+      id: json['id'] as num?,
+      name: json['name'] as String?,
+      members: (json['members'] as List<dynamic>?)
+              ?.map((e) => GroupMemberPublicInfoModel.fromJson(
+                  e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      maxSize: json['maxSize'] as int?,
+      state: groupInfoModelStateFromJson(json['state']),
+      picture: json['picture'] as String?,
+    );
+
+Map<String, dynamic> _$GroupInfoModelToJson(GroupInfoModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'members': instance.members?.map((e) => e.toJson()).toList(),
+      'maxSize': instance.maxSize,
+      'state': groupInfoModelStateToJson(instance.state),
+      'picture': instance.picture,
+    };
+
+GroupMemberPublicInfoModel _$GroupMemberPublicInfoModelFromJson(
+        Map<String, dynamic> json) =>
+    GroupMemberPublicInfoModel(
+      id: json['id'] as num?,
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
+    );
+
+Map<String, dynamic> _$GroupMemberPublicInfoModelToJson(
+        GroupMemberPublicInfoModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'firstname': instance.firstname,
+      'lastname': instance.lastname,
     };
 
 MoneyDueResponse _$MoneyDueResponseFromJson(Map<String, dynamic> json) =>

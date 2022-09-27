@@ -3,10 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/constants/matchmaking/swipe.icons.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/swipe.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/card.widget.dart';
-
-import '../../../constants/matchmaking/swipe.icons.dart';
 
 class SwipeCard extends ConsumerWidget {
   const SwipeCard(

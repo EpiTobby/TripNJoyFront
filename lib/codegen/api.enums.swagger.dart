@@ -818,3 +818,20 @@ const $MatchMakingResultType$Map = {
   MatchMakingResultType$.waiting: 'WAITING',
   MatchMakingResultType$.searching: 'SEARCHING'
 };
+
+enum GroupInfoModelState {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('OPEN')
+  open,
+  @JsonValue('CLOSED')
+  closed,
+  @JsonValue('ARCHIVED')
+  archived
+}
+
+const $GroupInfoModelStateMap = {
+  GroupInfoModelState.open: 'OPEN',
+  GroupInfoModelState.closed: 'CLOSED',
+  GroupInfoModelState.archived: 'ARCHIVED'
+};

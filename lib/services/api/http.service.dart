@@ -1,9 +1,7 @@
 import 'package:stomp_dart_client/stomp.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
-import 'package:trip_n_joy_front/screens/groups/group_scan_receipt.screen.dart';
-
-import '../../codegen/api.swagger.dart';
-import '../../models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 
 enum Method { POST, GET, PUT, DELETE, PATCH }
 
@@ -63,6 +61,8 @@ abstract class HttpService {
   Future<void> addUserToPrivateGroup(int groupId, String email);
 
   Future<void> joinPrivateGroup(int groupId, int userId);
+
+  Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId, JoinGroupWithoutInviteModel body);
 
   Future<void> deletePrivateGroup(int groupId);
 
@@ -137,4 +137,16 @@ abstract class HttpService {
   Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId);
 
   Future<ScanResponse?> scanReceipt(String minioUrl);
+
+  Future<GroupMemoriesResponse?> getGroupMemories(int groupId);
+
+  Future<GroupMemoriesResponse?> addGroupMemory(int groupId, GroupMemoryRequest request);
+
+  Future<String?> getGroupQRCode(int groupId);
+
+  Future<GroupInfoModel?> getGroupPublicInfoById(int groupId);
+
+  Future<void> setUserFirebaseToken(int userId, String token);
+
+  Future<List<NotificationModel>> getNotifications();
 }

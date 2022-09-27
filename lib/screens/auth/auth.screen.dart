@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/auth/auth_step.enum.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
-
-import '../../widgets/auth/login.widget.dart';
-import '../../widgets/auth/signup.widget.dart';
+import 'package:trip_n_joy_front/widgets/auth/login.widget.dart';
+import 'package:trip_n_joy_front/widgets/auth/signup.widget.dart';
 
 class Auth extends StatefulHookConsumerWidget {
   const Auth({
@@ -20,6 +19,7 @@ class _AuthState extends ConsumerState<Auth> {
   Widget build(BuildContext context) {
     final step = ref.watch(authProvider).step;
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: Center(
           child: Padding(

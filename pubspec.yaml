@@ -67,6 +67,9 @@ dependencies:
   flutter_map: ^0.14.0
   latlong2: ^0.8.1
   flutter_osm_plugin: ^0.28.2
+  mobile_scanner: 1.0.0
+  share_extend: ^2.0.0
+  flutter_native_splash: ^2.1.6
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +80,7 @@ dev_dependencies:
   chopper_generator: ^4.0.2
   json_serializable: ^5.0.0
   swagger_dart_code_generator: any
+  flutter_launcher_icons: ^0.9.3
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -138,3 +142,14 @@ flutter:
     - family: SwipeCardIcon
       fonts:
         - asset: fonts/SwipeCardIcon.ttf
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/launcher_icon/launcher_icon.png"
+
+flutter_native_splash:
+  color: "#2f63e0"
+  image: assets/launcher_icon/launcher_icon.png
+  android_12:
+    color: "#2f63e0"

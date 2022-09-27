@@ -9,7 +9,7 @@ class StandardCard extends StatelessWidget {
       this.name,
       this.title,
       this.subtitle,
-      this.color = CColors.primary,
+      this.color = LightColors.primary,
       this.backgroundColor = CardColors.white,
       this.shadowColor,
       this.isLoading = false,
