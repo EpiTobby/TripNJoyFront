@@ -1,16 +1,12 @@
-# trip_n_joy_front
+# TripNJoy front
 
-A new Flutter project.
+La crise sanitaire a fermé les frontières, et l'accès aux activités. En conséquent, de nombreuses personnes ont été plongées dans l'isolement. Un réel besoin de sortir se fait ressentir, et la rencontre de nouvelles personnes semble nécessaire à l'épanouissement personnel.
 
-## Getting Started
+TripNJoy est une application permettant de planifier des voyages de groupe en mettant en relation des personnes ayant les mêmes intérêts tout en se partageant les frais. Elle permet de nouer un lien social entre des personnes après la crise sanitaire tout en réduisant les coûts et en relançant l’économie locale.
 
-This project is a starting point for a Flutter application.
+### Auteurs
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [Tony Heng](https://github.com/TonyHg)
+- [Yanis Chaabane](https://github.com/Yanisiman)
+- [Gabriel Rayzal](https://github.com/GabRayz)
+- [Gabriel Bouhnik](https://github.com/gabrielbouhnik)
