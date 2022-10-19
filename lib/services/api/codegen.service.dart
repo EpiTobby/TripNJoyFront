@@ -8,8 +8,10 @@ import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
+import 'package:weather/weather.dart';
 
 const BASE_URL = String.fromEnvironment("BASE_URL", defaultValue: "http://localhost:8080");
+const WEATHER_API_KEY = String.fromEnvironment("WEATHER_API_KEY", defaultValue: "");
 
 class CodegenService extends HttpService {
   late Api api;
@@ -509,5 +511,12 @@ class CodegenService extends HttpService {
   Future<List<NotificationModel>> getNotifications() async {
     final response = await api.notificationsGet();
     return response.body ?? [];
+  }
+
+  @override
+  Future<Weather?> getWeather(String destination) async {
+    final wf = WeatherFactory(WEATHER_API_KEY);
+    final weather = await wf.currentWeatherByCityName(destination);
+    return weather;
   }
 }

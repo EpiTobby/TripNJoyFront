@@ -6,6 +6,7 @@ import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:weather/weather.dart';
 
 class MockService extends HttpService {
   @override
@@ -575,5 +576,10 @@ class MockService extends HttpService {
   @override
   Future<List<NotificationModel>> getNotifications() {
     return Future.value([]);
+  }
+
+  @override
+  Future<Weather?> getWeather(String destination) {
+    return Future.value(null);
   }
 }
