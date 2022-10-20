@@ -403,6 +403,14 @@
             "content": "Êtes-vous sûr de vouloir supprimer cette activité ?"
           }
         }
+      },
+      "weather": {
+        "title": "Météo",
+        "empty": "Aucune météo disponible"
+      },
+      "news": {
+        "title": "Actualités",
+        "empty": "Aucune actualité disponible"
       }
     },
     "budget": {
