@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:weather/weather.dart';
 
 class WeatherViewModel extends ChangeNotifier {
@@ -15,6 +16,7 @@ class WeatherViewModel extends ChangeNotifier {
     notifyListeners();
     var response = await httpService.getWeather(destination);
     weather = response != null ? AsyncValue.data(response) : const AsyncValue.error('Failed to get weather');
+    logger.d(weather.value?.weatherConditionCode?.toString() ?? "no");
     notifyListeners();
   }
 }
