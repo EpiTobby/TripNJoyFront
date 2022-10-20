@@ -519,4 +519,25 @@ class CodegenService extends HttpService {
     final weather = await wf.currentWeatherByCityName(destination);
     return weather;
   }
+
+  @override
+  Future<List<Weather>?> getWeeklyWeather(String destination) async {
+    final wf = WeatherFactory(WEATHER_API_KEY);
+    final weathers = await wf.fiveDayForecastByCityName(destination);
+    final filteredWeathers = List<Weather>.empty(growable: true);
+
+    DateTime? lastDate;
+    for (var weather in weathers) {
+      if (lastDate == null) {
+        lastDate = weather.date;
+        filteredWeathers.add(weather);
+        continue;
+      }
+      if (lastDate.day != weather.date?.day) {
+        lastDate = weather.date;
+        filteredWeathers.add(weather);
+      }
+    }
+    return filteredWeathers;
+  }
 }

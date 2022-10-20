@@ -582,4 +582,9 @@ class MockService extends HttpService {
   Future<Weather?> getWeather(String destination) {
     return Future.value(null);
   }
+
+  @override
+  Future<List<Weather>?> getWeeklyWeather(String destination) {
+    return Future.value([]);
+  }
 }

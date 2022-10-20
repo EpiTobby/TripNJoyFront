@@ -152,4 +152,6 @@ abstract class HttpService {
   Future<List<NotificationModel>> getNotifications();
 
   Future<Weather?> getWeather(String destination);
+
+  Future<List<Weather>?> getWeeklyWeather(String destination);
 }
