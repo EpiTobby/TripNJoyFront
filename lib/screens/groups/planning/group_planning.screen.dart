@@ -53,32 +53,33 @@ class GroupPlanning extends HookConsumerWidget {
           controller: scrollController,
           children: [
             PlanningHeader(groupId: group.id!.toInt()),
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0, left: 8.0, right: 8.0, bottom: 8.0),
-              child: Row(
-                children: [
-                  PlanningPill(
-                    label: AppLocalizations.of(context).translate("groups.planning.weather.title"),
-                    icon: Icons.wb_cloudy,
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => DestinationWeather(
-                          groupId: groupId,
+            if (group.destination != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0, left: 8.0, right: 8.0, bottom: 8.0),
+                child: Row(
+                  children: [
+                    PlanningPill(
+                      label: AppLocalizations.of(context).translate("groups.planning.weather.title"),
+                      icon: Icons.wb_cloudy,
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => DestinationWeather(
+                            groupId: groupId,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: PlanningPill(
-                      label: AppLocalizations.of(context).translate("groups.planning.news.title"),
-                      icon: Icons.newspaper,
-                      onTap: () => {},
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: PlanningPill(
+                        label: AppLocalizations.of(context).translate("groups.planning.news.title"),
+                        icon: Icons.newspaper,
+                        onTap: () => {},
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
             AsyncValueWidget<List<Activity>>(
               value: activities,
               data: (activities) => activities.isEmpty

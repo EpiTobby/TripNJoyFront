@@ -4,6 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/weather.provider.dart';
+import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/planning/weather/weather.widget.dart';
+import 'package:weather/weather.dart';
 
 class DestinationWeather extends HookConsumerWidget {
   const DestinationWeather({
@@ -40,7 +43,18 @@ class DestinationWeather extends HookConsumerWidget {
         },
         color: Theme.of(context).colorScheme.secondary,
         backgroundColor: Theme.of(context).colorScheme.background,
-        child: Container(child: Text('')),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(children: [
+            SizedBox(
+              width: double.infinity,
+              child: AsyncValueWidget<Weather>(
+                value: weather,
+                data: (data) => WeatherData(weather: data, destination: group.destination!),
+              ),
+            ),
+          ]),
+        ),
       ),
     );
   }
