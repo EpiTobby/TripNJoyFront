@@ -403,6 +403,14 @@
             "content": "Are you sure you want to delete the activity ?"
           }
         }
+      },
+      "weather": {
+        "title": "Weather",
+        "empty": "No weather information available"
+      },
+      "news": {
+        "title": "News",
+        "empty": "No news available"
       }
     },
     "budget": {

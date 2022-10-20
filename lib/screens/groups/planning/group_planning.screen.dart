@@ -8,10 +8,12 @@ import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/planning/add_activity.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/planning/edit_activity.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/planning/weather/weather.screen.dart';
 import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_empty.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning/planning_activity.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning/planning_header.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/planning/planning_pill.widget.dart';
 
 class GroupPlanning extends HookConsumerWidget {
   const GroupPlanning({
@@ -51,6 +53,32 @@ class GroupPlanning extends HookConsumerWidget {
           controller: scrollController,
           children: [
             PlanningHeader(groupId: group.id!.toInt()),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0, left: 8.0, right: 8.0, bottom: 8.0),
+              child: Row(
+                children: [
+                  PlanningPill(
+                    label: AppLocalizations.of(context).translate("groups.planning.weather.title"),
+                    icon: Icons.wb_cloudy,
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => DestinationWeather(
+                          groupId: groupId,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: PlanningPill(
+                      label: AppLocalizations.of(context).translate("groups.planning.news.title"),
+                      icon: Icons.newspaper,
+                      onTap: () => {},
+                    ),
+                  ),
+                ],
+              ),
+            ),
             AsyncValueWidget<List<Activity>>(
               value: activities,
               data: (activities) => activities.isEmpty
