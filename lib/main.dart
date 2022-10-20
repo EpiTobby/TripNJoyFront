@@ -28,9 +28,10 @@ import 'screens/notification/notification.screen.dart';
 import 'screens/settings/settings.screen.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   if (!Platform.isIOS && !Platform.isMacOS) {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
     await FlutterDownloader.initialize();
   }
 

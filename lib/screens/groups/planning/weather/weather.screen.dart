@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
-import 'package:trip_n_joy_front/providers/groups/weather.provider.dart';
+import 'package:trip_n_joy_front/providers/api/weather.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning/weather/weather.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning/weather/weekly_weather.widget.dart';
