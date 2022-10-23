@@ -168,6 +168,186 @@
         }
       }
     },
+    "/surveys/{id}": {
+      "get": {
+        "tags": [
+          "survey-controller"
+        ],
+        "summary": "Get all the surveys in a channel",
+        "operationId": "getSurveysByChannelId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The data have been successfully retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "survey-controller"
+        ],
+        "summary": "Create a survey in a challenge",
+        "operationId": "createSurvey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostSurveyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The survey has been created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "survey-controller"
+        ],
+        "summary": "Delete a survey in a channel",
+        "operationId": "deleteSurvey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The survey has been updated"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "survey-controller"
+        ],
+        "summary": "Update a survey in a channel",
+        "operationId": "updateSurvey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSurveyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The survey has been updated",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/surveys/vote/{id}": {
+      "post": {
+        "tags": [
+          "survey-controller"
+        ],
+        "summary": "Vote for a survey",
+        "operationId": "submitVote",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoteSurveyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The vote has been submitted",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/scan": {
       "post": {
         "tags": [
@@ -442,8 +622,8 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Profile or user not found",
+          "202": {
+            "description": "Matchmaking started",
             "content": {
               "*/*": {
                 "schema": {
@@ -452,8 +632,8 @@
               }
             }
           },
-          "202": {
-            "description": "Matchmaking started",
+          "404": {
+            "description": "Profile or user not found",
             "content": {
               "*/*": {
                 "schema": {
@@ -497,8 +677,8 @@
               }
             }
           },
-          "404": {
-            "description": "The group does not exist",
+          "403": {
+            "description": "User does not belong to the group",
             "content": {
               "*/*": {
                 "schema": {
@@ -510,8 +690,8 @@
               }
             }
           },
-          "403": {
-            "description": "User does not belong to the group",
+          "404": {
+            "description": "The group does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -563,8 +743,8 @@
               }
             }
           },
-          "404": {
-            "description": "The group does not exist",
+          "403": {
+            "description": "User does not belong to the group",
             "content": {
               "*/*": {
                 "schema": {
@@ -573,8 +753,8 @@
               }
             }
           },
-          "403": {
-            "description": "User does not belong to the group",
+          "404": {
+            "description": "The group does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -605,8 +785,8 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group does not exist",
+          "200": {
+            "description": "The memories are returned",
             "content": {
               "*/*": {
                 "schema": {
@@ -615,8 +795,8 @@
               }
             }
           },
-          "200": {
-            "description": "The memories are returned",
+          "422": {
+            "description": "Group does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -655,8 +835,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Group or Memory does not exist",
+          "200": {
+            "description": "The memory is added to the group",
             "content": {
               "*/*": {
                 "schema": {
@@ -665,8 +845,8 @@
               }
             }
           },
-          "200": {
-            "description": "The memory is added to the group",
+          "422": {
+            "description": "Group or Memory does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -707,8 +887,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "User or Group does not exist",
+          "200": {
+            "description": "Returns the created group",
             "content": {
               "*/*": {
                 "schema": {
@@ -717,8 +897,8 @@
               }
             }
           },
-          "200": {
-            "description": "Returns the created group",
+          "422": {
+            "description": "User or Group does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -759,14 +939,14 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The user is added to the group"
           },
           "403": {
             "description": "The client is not the owner of the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -840,8 +1020,8 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "The group does not exist",
+          "200": {
+            "description": "Return the list of channels of a group",
             "content": {
               "*/*": {
                 "schema": {
@@ -853,8 +1033,8 @@
               }
             }
           },
-          "200": {
-            "description": "Return the list of channels of a group",
+          "422": {
+            "description": "The group does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -1047,8 +1227,8 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Authentication failed. Wrong username or password",
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
             "content": {
               "*/*": {
                 "schema": {
@@ -1057,8 +1237,8 @@
               }
             }
           },
-          "200": {
-            "description": "Authentication Succeeded. Use the given jwt in following requests",
+          "401": {
+            "description": "Authentication failed. Wrong username or password",
             "content": {
               "*/*": {
                 "schema": {
@@ -1088,8 +1268,8 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Authentication failed. Wrong username or password",
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
             "content": {
               "*/*": {
                 "schema": {
@@ -1098,8 +1278,8 @@
               }
             }
           },
-          "200": {
-            "description": "Authentication Succeeded. Use the given jwt in following requests",
+          "401": {
+            "description": "Authentication failed. Wrong username or password",
             "content": {
               "*/*": {
                 "schema": {
@@ -1129,8 +1309,8 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Authentication failed. Wrong username or password",
+          "200": {
+            "description": "Authentication Succeeded. Use the given jwt in following requests",
             "content": {
               "*/*": {
                 "schema": {
@@ -1139,8 +1319,8 @@
               }
             }
           },
-          "200": {
-            "description": "Authentication Succeeded. Use the given jwt in following requests",
+          "401": {
+            "description": "Authentication failed. Wrong username or password",
             "content": {
               "*/*": {
                 "schema": {
@@ -1170,11 +1350,11 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "If the user does not exist"
-          },
           "200": {
             "description": "Email is sent to reset password"
+          },
+          "422": {
+            "description": "If the user does not exist"
           }
         }
       }
@@ -1255,11 +1435,11 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "If the user does not exist"
-          },
           "200": {
             "description": "User information have been updated"
+          },
+          "422": {
+            "description": "If the user does not exist"
           }
         }
       }
@@ -1331,11 +1511,11 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "If the user does not exist"
-          },
           "200": {
             "description": "Firebase token updated"
+          },
+          "422": {
+            "description": "If the user does not exist"
           }
         }
       }
@@ -1402,8 +1582,8 @@
           "required": true
         },
         "responses": {
-          "404": {
-            "description": "The report does not exist",
+          "200": {
+            "description": "The report has been updated",
             "content": {
               "*/*": {
                 "schema": {
@@ -1412,8 +1592,8 @@
               }
             }
           },
-          "200": {
-            "description": "The report has been updated",
+          "404": {
+            "description": "The report does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -1491,11 +1671,11 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The user has joined the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -1528,11 +1708,11 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The user has declined the invite"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -1565,14 +1745,14 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "The activity or group does not exist"
-          },
           "204": {
             "description": "Activity deleted"
           },
           "403": {
             "description": "User does not belong to the group"
+          },
+          "404": {
+            "description": "The activity or group does not exist"
           }
         }
       },
@@ -1613,16 +1793,6 @@
           "required": true
         },
         "responses": {
-          "404": {
-            "description": "The activity or group does not exist",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActivityModel"
-                }
-              }
-            }
-          },
           "200": {
             "description": "Activity updated. New activity is returned",
             "content": {
@@ -1635,6 +1805,16 @@
           },
           "403": {
             "description": "User does not belong to the group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The activity or group does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -1686,11 +1866,11 @@
           "204": {
             "description": "User removed"
           },
-          "404": {
-            "description": "The activity or group does not exist"
-          },
           "403": {
             "description": "User does not belong to the group"
+          },
+          "404": {
+            "description": "The activity or group does not exist"
           }
         }
       }
@@ -1732,14 +1912,14 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "The activity or group does not exist"
-          },
           "204": {
             "description": "User added"
           },
           "403": {
             "description": "User does not belong to the group"
+          },
+          "404": {
+            "description": "The activity or group does not exist"
           }
         }
       }
@@ -1763,14 +1943,14 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The group is deleted"
           },
           "403": {
             "description": "The client is not the owner of the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       },
@@ -1802,14 +1982,14 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The group is updated"
           },
           "403": {
             "description": "The client is not the owner of the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -1852,11 +2032,11 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The user has joined the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -1893,11 +2073,11 @@
           "200": {
             "description": "The group is now public"
           },
-          "422": {
-            "description": "Group does not exist"
-          },
           "403": {
             "description": "User is not in the group, or the group is already public"
+          },
+          "422": {
+            "description": "Group does not exist"
           }
         }
       }
@@ -2001,11 +2181,11 @@
           "200": {
             "description": "The channel has been updated"
           },
-          "422": {
-            "description": "The channel does not exist"
-          },
           "403": {
             "description": "The client  don't have access to this channel"
+          },
+          "422": {
+            "description": "The channel does not exist"
           }
         }
       }
@@ -2311,6 +2491,41 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/surveys/quizz/{id}": {
+      "get": {
+        "tags": [
+          "survey-controller"
+        ],
+        "summary": "Get all the surveys in a channel",
+        "operationId": "getQuizz",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The data have been successfully retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyModel"
+                  }
                 }
               }
             }
@@ -3028,11 +3243,11 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "No profile has been found"
-          },
           "200": {
             "description": "The profile is deleted"
+          },
+          "422": {
+            "description": "No profile has been found"
           }
         }
       }
@@ -3090,11 +3305,11 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "The report does not exist"
-          },
           "200": {
             "description": "The report has been deleted"
+          },
+          "404": {
+            "description": "The report does not exist"
           }
         }
       }
@@ -3118,11 +3333,11 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "The report does not exist"
-          },
           "200": {
             "description": "The report has been deleted"
+          },
+          "404": {
+            "description": "The report does not exist"
           }
         }
       }
@@ -3179,11 +3394,11 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
-          },
           "200": {
             "description": "The user has left the group"
+          },
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -3216,14 +3431,14 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Group or User does not exist"
+          "200": {
+            "description": "The user is removed"
           },
           "403": {
             "description": "The client is not the owner of the group"
           },
-          "200": {
-            "description": "The user is removed"
+          "422": {
+            "description": "Group or User does not exist"
           }
         }
       }
@@ -3810,8 +4025,137 @@
               "NO_PREFERENCE"
             ]
           },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
           "active": {
             "type": "boolean"
+          }
+        }
+      },
+      "PossibleAnswerRequest": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "rightAnswer": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PostSurveyRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "content": {
+            "type": "string"
+          },
+          "quizz": {
+            "type": "boolean"
+          },
+          "possibleAnswers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PossibleAnswerRequest"
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "TEXT",
+              "IMAGE",
+              "FILE",
+              "SURVEY"
+            ]
+          },
+          "canBeAnsweredMultipleTimes": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PossibleAnswerModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "content": {
+            "type": "string"
+          },
+          "rightAnswer": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SurveyModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "channelId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "question": {
+            "type": "string"
+          },
+          "quizz": {
+            "type": "boolean"
+          },
+          "sendDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "canBeAnsweredMultipleTimes": {
+            "type": "boolean"
+          },
+          "possibleAnswers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PossibleAnswerModel"
+            }
+          },
+          "votes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VoteModel"
+            }
+          }
+        }
+      },
+      "VoteModel": {
+        "type": "object",
+        "properties": {
+          "voter": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "answer": {
+            "$ref": "#/components/schemas/PossibleAnswerModel"
+          }
+        }
+      },
+      "VoteSurveyRequest": {
+        "type": "object",
+        "properties": {
+          "voterId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "answerId": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       },
@@ -3884,6 +4228,10 @@
           },
           "submitter": {
             "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -4417,6 +4765,23 @@
           }
         }
       },
+      "UpdateSurveyRequest": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "possibleAnswers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PossibleAnswerRequest"
+            }
+          },
+          "canBeAnsweredMultipleTimes": {
+            "type": "boolean"
+          }
+        }
+      },
       "UpdateReportRequest": {
         "type": "object",
         "properties": {
@@ -4583,7 +4948,8 @@
             "enum": [
               "TEXT",
               "IMAGE",
-              "FILE"
+              "FILE",
+              "SURVEY"
             ]
           }
         }
@@ -4701,6 +5067,10 @@
           },
           "active": {
             "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },

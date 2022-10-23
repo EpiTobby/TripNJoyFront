@@ -382,6 +382,9 @@ ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
       aboutFood: profileModelAboutFoodFromJson(json['aboutFood']),
       goOutAtNight: profileModelGoOutAtNightFromJson(json['goOutAtNight']),
       sport: profileModelSportFromJson(json['sport']),
+      createdDate: json['createdDate'] == null
+          ? null
+          : DateTime.parse(json['createdDate'] as String),
       active: json['active'] as bool?,
     );
 
@@ -411,7 +414,126 @@ Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
       'aboutFood': profileModelAboutFoodToJson(instance.aboutFood),
       'goOutAtNight': profileModelGoOutAtNightToJson(instance.goOutAtNight),
       'sport': profileModelSportToJson(instance.sport),
+      'createdDate': instance.createdDate?.toIso8601String(),
       'active': instance.active,
+    };
+
+PossibleAnswerRequest _$PossibleAnswerRequestFromJson(
+        Map<String, dynamic> json) =>
+    PossibleAnswerRequest(
+      content: json['content'] as String?,
+      rightAnswer: json['rightAnswer'] as bool?,
+    );
+
+Map<String, dynamic> _$PossibleAnswerRequestToJson(
+        PossibleAnswerRequest instance) =>
+    <String, dynamic>{
+      'content': instance.content,
+      'rightAnswer': instance.rightAnswer,
+    };
+
+PostSurveyRequest _$PostSurveyRequestFromJson(Map<String, dynamic> json) =>
+    PostSurveyRequest(
+      userId: json['userId'] as num?,
+      content: json['content'] as String?,
+      quizz: json['quizz'] as bool?,
+      possibleAnswers: (json['possibleAnswers'] as List<dynamic>?)
+              ?.map((e) =>
+                  PossibleAnswerRequest.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      type: postSurveyRequestType$FromJson(json['type']),
+      canBeAnsweredMultipleTimes: json['canBeAnsweredMultipleTimes'] as bool?,
+    );
+
+Map<String, dynamic> _$PostSurveyRequestToJson(PostSurveyRequest instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'content': instance.content,
+      'quizz': instance.quizz,
+      'possibleAnswers':
+          instance.possibleAnswers?.map((e) => e.toJson()).toList(),
+      'type': postSurveyRequestType$ToJson(instance.type),
+      'canBeAnsweredMultipleTimes': instance.canBeAnsweredMultipleTimes,
+    };
+
+PossibleAnswerModel _$PossibleAnswerModelFromJson(Map<String, dynamic> json) =>
+    PossibleAnswerModel(
+      id: json['id'] as num?,
+      content: json['content'] as String?,
+      rightAnswer: json['rightAnswer'] as bool?,
+    );
+
+Map<String, dynamic> _$PossibleAnswerModelToJson(
+        PossibleAnswerModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'content': instance.content,
+      'rightAnswer': instance.rightAnswer,
+    };
+
+SurveyModel _$SurveyModelFromJson(Map<String, dynamic> json) => SurveyModel(
+      id: json['id'] as num?,
+      channelId: json['channelId'] as num?,
+      question: json['question'] as String?,
+      quizz: json['quizz'] as bool?,
+      sendDate: json['sendDate'] == null
+          ? null
+          : DateTime.parse(json['sendDate'] as String),
+      modifiedDate: json['modifiedDate'] == null
+          ? null
+          : DateTime.parse(json['modifiedDate'] as String),
+      canBeAnsweredMultipleTimes: json['canBeAnsweredMultipleTimes'] as bool?,
+      possibleAnswers: (json['possibleAnswers'] as List<dynamic>?)
+              ?.map((e) =>
+                  PossibleAnswerModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      votes: (json['votes'] as List<dynamic>?)
+              ?.map((e) => VoteModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$SurveyModelToJson(SurveyModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'channelId': instance.channelId,
+      'question': instance.question,
+      'quizz': instance.quizz,
+      'sendDate': instance.sendDate?.toIso8601String(),
+      'modifiedDate': instance.modifiedDate?.toIso8601String(),
+      'canBeAnsweredMultipleTimes': instance.canBeAnsweredMultipleTimes,
+      'possibleAnswers':
+          instance.possibleAnswers?.map((e) => e.toJson()).toList(),
+      'votes': instance.votes?.map((e) => e.toJson()).toList(),
+    };
+
+VoteModel _$VoteModelFromJson(Map<String, dynamic> json) => VoteModel(
+      voter: json['voter'] == null
+          ? null
+          : GroupMemberModel.fromJson(json['voter'] as Map<String, dynamic>),
+      answer: json['answer'] == null
+          ? null
+          : PossibleAnswerModel.fromJson(
+              json['answer'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$VoteModelToJson(VoteModel instance) => <String, dynamic>{
+      'voter': instance.voter?.toJson(),
+      'answer': instance.answer?.toJson(),
+    };
+
+VoteSurveyRequest _$VoteSurveyRequestFromJson(Map<String, dynamic> json) =>
+    VoteSurveyRequest(
+      voterId: json['voterId'] as num?,
+      answerId: json['answerId'] as num?,
+    );
+
+Map<String, dynamic> _$VoteSurveyRequestToJson(VoteSurveyRequest instance) =>
+    <String, dynamic>{
+      'voterId': instance.voterId,
+      'answerId': instance.answerId,
     };
 
 ScanRequest _$ScanRequestFromJson(Map<String, dynamic> json) => ScanRequest(
@@ -461,6 +583,9 @@ ReportModel _$ReportModelFromJson(Map<String, dynamic> json) => ReportModel(
           ? null
           : GroupMemberModel.fromJson(
               json['submitter'] as Map<String, dynamic>),
+      createdDate: json['createdDate'] == null
+          ? null
+          : DateTime.parse(json['createdDate'] as String),
     );
 
 Map<String, dynamic> _$ReportModelToJson(ReportModel instance) =>
@@ -470,6 +595,7 @@ Map<String, dynamic> _$ReportModelToJson(ReportModel instance) =>
       'details': instance.details,
       'reportedUser': instance.reportedUser?.toJson(),
       'submitter': instance.submitter?.toJson(),
+      'createdDate': instance.createdDate?.toIso8601String(),
     };
 
 SubmitRecommendationRequest _$SubmitRecommendationRequestFromJson(
@@ -922,6 +1048,26 @@ Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
       'language': instance.language,
     };
 
+UpdateSurveyRequest _$UpdateSurveyRequestFromJson(Map<String, dynamic> json) =>
+    UpdateSurveyRequest(
+      question: json['question'] as String?,
+      possibleAnswers: (json['possibleAnswers'] as List<dynamic>?)
+              ?.map((e) =>
+                  PossibleAnswerRequest.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      canBeAnsweredMultipleTimes: json['canBeAnsweredMultipleTimes'] as bool?,
+    );
+
+Map<String, dynamic> _$UpdateSurveyRequestToJson(
+        UpdateSurveyRequest instance) =>
+    <String, dynamic>{
+      'question': instance.question,
+      'possibleAnswers':
+          instance.possibleAnswers?.map((e) => e.toJson()).toList(),
+      'canBeAnsweredMultipleTimes': instance.canBeAnsweredMultipleTimes,
+    };
+
 UpdateReportRequest _$UpdateReportRequestFromJson(Map<String, dynamic> json) =>
     UpdateReportRequest(
       reason: updateReportRequestReasonFromJson(json['reason']),
@@ -1187,6 +1333,9 @@ ProfileEntity _$ProfileEntityFromJson(Map<String, dynamic> json) =>
       id: json['id'] as num?,
       name: json['name'] as String?,
       active: json['active'] as bool?,
+      createdDate: json['createdDate'] == null
+          ? null
+          : DateTime.parse(json['createdDate'] as String),
     );
 
 Map<String, dynamic> _$ProfileEntityToJson(ProfileEntity instance) =>
@@ -1194,6 +1343,7 @@ Map<String, dynamic> _$ProfileEntityToJson(ProfileEntity instance) =>
       'id': instance.id,
       'name': instance.name,
       'active': instance.active,
+      'createdDate': instance.createdDate?.toIso8601String(),
     };
 
 RoleEntity _$RoleEntityFromJson(Map<String, dynamic> json) => RoleEntity(
