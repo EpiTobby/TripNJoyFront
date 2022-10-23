@@ -30,25 +30,25 @@ class ChatPoll extends HookConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.background,
-        border: Border.all(color: Theme.of(context).colorScheme.secondary),
+        color: Theme.of(context).colorScheme.surfaceVariant,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               poll.value!.question,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.secondary,
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: poll.value!.options
                     .map(
                       (option) => Row(
@@ -62,8 +62,9 @@ class ChatPoll extends HookConsumerWidget {
                               : Checkbox(
                                   value: multipleOptions.value.contains(option),
                                   onChanged: (selected) => selected!
-                                      ? multipleOptions.value.add(option)
-                                      : multipleOptions.value.remove(option),
+                                      ? multipleOptions.value = [...multipleOptions.value, option]
+                                      : multipleOptions.value =
+                                          multipleOptions.value.where((e) => e != option).toList(),
                                 ),
                           Text(
                             option,
