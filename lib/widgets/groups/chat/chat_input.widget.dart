@@ -14,10 +14,12 @@ import 'package:trip_n_joy_front/widgets/groups/chat/chat_text_field.widget.dart
 class ChatInput extends HookConsumerWidget {
   const ChatInput({
     Key? key,
+    required this.groupId,
     required this.onSend,
     this.readOnly = false,
   }) : super(key: key);
 
+  final int groupId;
   final void Function(String, MessageResponseType$) onSend;
   final bool readOnly;
 
@@ -39,6 +41,7 @@ class ChatInput extends HookConsumerWidget {
             children: [
               Expanded(
                 child: ChatTextField(
+                  groupId: groupId,
                   readOnly: readOnly,
                   controller: controller,
                   onAttachFile: () async {

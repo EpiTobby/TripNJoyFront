@@ -241,6 +241,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                     ),
                   ),
             ChatInput(
+              groupId: group.id!.toInt(),
               readOnly: group.state == GroupModelState.archived,
               onSend: (content, type) {
                 ref.read(chatProvider).sendMessage(widget.channel?.id, content, type);

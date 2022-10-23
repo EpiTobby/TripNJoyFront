@@ -296,6 +296,12 @@
         "file": "Fichier",
         "image": "Image",
         "poll": "Sondage"
+      },
+      "poll": {
+        "title": "Créer un sondage",
+        "question": "Question",
+        "Options": "Options",
+        "multipleChoice": "Sondage à choix multiple"
       }
     },
     "channel": {

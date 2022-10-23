@@ -296,6 +296,12 @@
         "file": "File",
         "image": "Image",
         "poll": "Poll"
+      },
+      "poll": {
+        "title": "New poll",
+        "question": "Question",
+        "Options": "Options",
+        "multipleChoice": "Multiple choice poll"
       }
     },
     "channel": {

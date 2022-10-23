@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 abstract class Poll {
   final int pollId;
   final String question;
@@ -16,4 +18,11 @@ class MultipleChoicePoll extends Poll {
   final List<String> selectedOptions = [];
 
   MultipleChoicePoll(int pollId, String question, List<String> options) : super(pollId, question, options);
+}
+
+class PollOption {
+  final UniqueKey id;
+  final String option;
+
+  PollOption(this.id, this.option);
 }
