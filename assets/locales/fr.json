@@ -291,6 +291,11 @@
       "pinned_messages": {
         "title": "Messages épinglés",
         "empty": "Aucun message épinglé"
+      },
+      "actions": {
+        "file": "Fichier",
+        "image": "Image",
+        "poll": "Sondage"
       }
     },
     "channel": {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/widgets/common/dialog/group_chat_dialog.widget.dart';
 
 class ChatTextField extends StatelessWidget {
   const ChatTextField(
@@ -27,26 +29,24 @@ class ChatTextField extends StatelessWidget {
       decoration: InputDecoration(
         prefixIcon: IconButton(
           icon: Icon(
-            Icons.attach_file,
+            Icons.add,
             color: Theme.of(context).colorScheme.secondary,
           ),
           splashRadius: 16,
           onPressed: () {
-            onAttachFile();
+            showBarModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return GroupChatDialog(
+                  onFile: onAttachFile,
+                  onImage: onAttachImage,
+                  onPoll: () {},
+                );
+              },
+            );
           },
         ),
         prefixIconColor: Theme.of(context).colorScheme.secondary,
-        suffixIcon: IconButton(
-          icon: Icon(
-            Icons.image_outlined,
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-          splashRadius: 16,
-          onPressed: () {
-            onAttachImage();
-          },
-        ),
-        suffixIconColor: Theme.of(context).colorScheme.secondary,
         hintText: AppLocalizations.of(context).translate('groups.chat.hint'),
         hintStyle: TextStyle(
           color: Theme.of(context).colorScheme.primaryContainer,

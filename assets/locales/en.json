@@ -291,6 +291,11 @@
       "pinned_messages": {
         "title": "Pinned messages",
         "empty": "No pinned messages"
+      },
+      "actions": {
+        "file": "File",
+        "image": "Image",
+        "poll": "Poll"
       }
     },
     "channel": {
