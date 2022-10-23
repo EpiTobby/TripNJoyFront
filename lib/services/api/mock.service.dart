@@ -598,4 +598,10 @@ class MockService extends HttpService {
   Future<void> toggleVote(int pollId, String option, bool voted) {
     return Future.value();
   }
+
+  @override
+  Future<SurveyModel?> addPoll(int channelId, PostSurveyRequest request) {
+    // TODO: implement addSurvey
+    throw UnimplementedError();
+  }
 }

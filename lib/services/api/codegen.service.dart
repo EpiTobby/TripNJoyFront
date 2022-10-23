@@ -551,4 +551,10 @@ class CodegenService extends HttpService {
   Future<void> toggleVote(int pollId, String option, bool voted) {
     return Future.value();
   }
+
+  @override
+  Future<SurveyModel?> addPoll(int channelId, PostSurveyRequest request) async {
+    final response = await api.surveysIdPost(id: channelId, body: request);
+    return response.body;
+  }
 }

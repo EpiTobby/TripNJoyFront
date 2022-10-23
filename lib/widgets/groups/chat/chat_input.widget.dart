@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/codegen/api.enums.swagger.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/providers/groups/chat.provider.dart';
 import 'package:trip_n_joy_front/providers/minio/minio.provider.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
@@ -15,11 +16,13 @@ class ChatInput extends HookConsumerWidget {
   const ChatInput({
     Key? key,
     required this.groupId,
+    required this.channelId,
     required this.onSend,
     this.readOnly = false,
   }) : super(key: key);
 
   final int groupId;
+  final int channelId;
   final void Function(String, MessageResponseType$) onSend;
   final bool readOnly;
 
@@ -42,6 +45,7 @@ class ChatInput extends HookConsumerWidget {
               Expanded(
                 child: ChatTextField(
                   groupId: groupId,
+                  channelId: channelId,
                   readOnly: readOnly,
                   controller: controller,
                   onAttachFile: () async {

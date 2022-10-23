@@ -8,6 +8,7 @@ class ChatTextField extends StatelessWidget {
   const ChatTextField(
       {Key? key,
       required this.groupId,
+      required this.channelId,
       required this.controller,
       required this.onAttachFile,
       required this.onAttachImage,
@@ -15,6 +16,7 @@ class ChatTextField extends StatelessWidget {
       : super(key: key);
 
   final int groupId;
+  final int channelId;
   final TextEditingController controller;
   final Function onAttachFile;
   final Function onAttachImage;
@@ -43,8 +45,8 @@ class ChatTextField extends StatelessWidget {
                 return GroupChatDialog(
                   onFile: onAttachFile,
                   onImage: onAttachImage,
-                  onPoll: () =>
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddPoll(groupId: groupId))),
+                  onPoll: () => Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => AddPoll(groupId: groupId, channelId: channelId))),
                 );
               },
             );

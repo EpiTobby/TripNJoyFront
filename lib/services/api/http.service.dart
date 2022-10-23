@@ -159,4 +159,6 @@ abstract class HttpService {
   Future<Poll?> getPoll(int pollId);
 
   Future<void> toggleVote(int pollId, String option, bool voted);
+
+  Future<SurveyModel?> addPoll(int channelId, PostSurveyRequest request);
 }

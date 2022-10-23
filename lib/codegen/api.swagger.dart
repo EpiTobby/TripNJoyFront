@@ -8,6 +8,7 @@ import 'api.enums.swagger.dart' as enums;
 export 'api.enums.swagger.dart';
 
 part 'api.swagger.chopper.dart';
+
 part 'api.swagger.g.dart';
 
 // **************************************************************************
@@ -21,10 +22,8 @@ abstract class Api extends ChopperService {
       return _$Api(client);
     }
 
-    final newClient = ChopperClient(
-        services: [_$Api()],
-        converter: $JsonSerializableConverter(),
-        baseUrl: baseUrl ?? 'http://');
+    final newClient =
+        ChopperClient(services: [_$Api()], converter: $JsonSerializableConverter(), baseUrl: baseUrl ?? 'http://');
     return _$Api(newClient);
   }
 
@@ -32,17 +31,11 @@ abstract class Api extends ChopperService {
   ///@param groupId
   ///@param expenseId
   ///@param user
-  Future<chopper.Response<ExpenseModel>>
-      expensesGroupIdExpenseIdPurchaserUserPut(
-          {required num? groupId,
-          required num? expenseId,
-          required num? user,
-          required ExpenseRequest? body}) {
-    generatedMapping.putIfAbsent(
-        ExpenseModel, () => ExpenseModel.fromJsonFactory);
+  Future<chopper.Response<ExpenseModel>> expensesGroupIdExpenseIdPurchaserUserPut(
+      {required num? groupId, required num? expenseId, required num? user, required ExpenseRequest? body}) {
+    generatedMapping.putIfAbsent(ExpenseModel, () => ExpenseModel.fromJsonFactory);
 
-    return _expensesGroupIdExpenseIdPurchaserUserPut(
-        groupId: groupId, expenseId: expenseId, user: user, body: body);
+    return _expensesGroupIdExpenseIdPurchaserUserPut(groupId: groupId, expenseId: expenseId, user: user, body: body);
   }
 
   ///
@@ -50,19 +43,16 @@ abstract class Api extends ChopperService {
   ///@param expenseId
   ///@param user
   @Put(path: '/expenses/{groupId}/{expenseId}/purchaser/{user}')
-  Future<chopper.Response<ExpenseModel>>
-      _expensesGroupIdExpenseIdPurchaserUserPut(
-          {@Path('groupId') required num? groupId,
-          @Path('expenseId') required num? expenseId,
-          @Path('user') required num? user,
-          @Body() required ExpenseRequest? body});
+  Future<chopper.Response<ExpenseModel>> _expensesGroupIdExpenseIdPurchaserUserPut(
+      {@Path('groupId') required num? groupId,
+      @Path('expenseId') required num? expenseId,
+      @Path('user') required num? user,
+      @Body() required ExpenseRequest? body});
 
   ///Get all profiles from a user
   ///@param id
-  Future<chopper.Response<List<ProfileModel>>> idProfilesGet(
-      {required num? id}) {
-    generatedMapping.putIfAbsent(
-        ProfileModel, () => ProfileModel.fromJsonFactory);
+  Future<chopper.Response<List<ProfileModel>>> idProfilesGet({required num? id}) {
+    generatedMapping.putIfAbsent(ProfileModel, () => ProfileModel.fromJsonFactory);
 
     return _idProfilesGet(id: id);
   }
@@ -70,15 +60,12 @@ abstract class Api extends ChopperService {
   ///Get all profiles from a user
   ///@param id
   @Get(path: '/{id}/profiles')
-  Future<chopper.Response<List<ProfileModel>>> _idProfilesGet(
-      {@Path('id') required num? id});
+  Future<chopper.Response<List<ProfileModel>>> _idProfilesGet({@Path('id') required num? id});
 
   ///Create a profile
   ///@param id
-  Future<chopper.Response<ProfileModel>> idProfilesPost(
-      {required num? id, required ProfileCreationRequest? body}) {
-    generatedMapping.putIfAbsent(
-        ProfileModel, () => ProfileModel.fromJsonFactory);
+  Future<chopper.Response<ProfileModel>> idProfilesPost({required num? id, required ProfileCreationRequest? body}) {
+    generatedMapping.putIfAbsent(ProfileModel, () => ProfileModel.fromJsonFactory);
 
     return _idProfilesPost(id: id, body: body);
   }
@@ -87,14 +74,12 @@ abstract class Api extends ChopperService {
   ///@param id
   @Post(path: '/{id}/profiles')
   Future<chopper.Response<ProfileModel>> _idProfilesPost(
-      {@Path('id') required num? id,
-      @Body() required ProfileCreationRequest? body});
+      {@Path('id') required num? id, @Body() required ProfileCreationRequest? body});
 
   ///Get all the surveys in a channel
   ///@param id
   Future<chopper.Response<List<SurveyModel>>> surveysIdGet({required num? id}) {
-    generatedMapping.putIfAbsent(
-        SurveyModel, () => SurveyModel.fromJsonFactory);
+    generatedMapping.putIfAbsent(SurveyModel, () => SurveyModel.fromJsonFactory);
 
     return _surveysIdGet(id: id);
   }
@@ -102,15 +87,12 @@ abstract class Api extends ChopperService {
   ///Get all the surveys in a channel
   ///@param id
   @Get(path: '/surveys/{id}')
-  Future<chopper.Response<List<SurveyModel>>> _surveysIdGet(
-      {@Path('id') required num? id});
+  Future<chopper.Response<List<SurveyModel>>> _surveysIdGet({@Path('id') required num? id});
 
   ///Create a survey in a challenge
   ///@param id
-  Future<chopper.Response<SurveyModel>> surveysIdPost(
-      {required num? id, required PostSurveyRequest? body}) {
-    generatedMapping.putIfAbsent(
-        SurveyModel, () => SurveyModel.fromJsonFactory);
+  Future<chopper.Response<SurveyModel>> surveysIdPost({required num? id, required PostSurveyRequest? body}) {
+    generatedMapping.putIfAbsent(SurveyModel, () => SurveyModel.fromJsonFactory);
 
     return _surveysIdPost(id: id, body: body);
   }
@@ -134,10 +116,8 @@ abstract class Api extends ChopperService {
 
   ///Update a survey in a channel
   ///@param id
-  Future<chopper.Response<SurveyModel>> surveysIdPatch(
-      {required num? id, required UpdateSurveyRequest? body}) {
-    generatedMapping.putIfAbsent(
-        SurveyModel, () => SurveyModel.fromJsonFactory);
+  Future<chopper.Response<SurveyModel>> surveysIdPatch({required num? id, required UpdateSurveyRequest? body}) {
+    generatedMapping.putIfAbsent(SurveyModel, () => SurveyModel.fromJsonFactory);
 
     return _surveysIdPatch(id: id, body: body);
   }
@@ -146,15 +126,12 @@ abstract class Api extends ChopperService {
   ///@param id
   @Patch(path: '/surveys/{id}')
   Future<chopper.Response<SurveyModel>> _surveysIdPatch(
-      {@Path('id') required num? id,
-      @Body() required UpdateSurveyRequest? body});
+      {@Path('id') required num? id, @Body() required UpdateSurveyRequest? body});
 
   ///Vote for a survey
   ///@param id
-  Future<chopper.Response<SurveyModel>> surveysVoteIdPost(
-      {required num? id, required VoteSurveyRequest? body}) {
-    generatedMapping.putIfAbsent(
-        SurveyModel, () => SurveyModel.fromJsonFactory);
+  Future<chopper.Response<SurveyModel>> surveysVoteIdPost({required num? id, required VoteSurveyRequest? body}) {
+    generatedMapping.putIfAbsent(SurveyModel, () => SurveyModel.fromJsonFactory);
 
     return _surveysVoteIdPost(id: id, body: body);
   }
@@ -166,38 +143,30 @@ abstract class Api extends ChopperService {
       {@Path('id') required num? id, @Body() required VoteSurveyRequest? body});
 
   ///
-  Future<chopper.Response<ScanResponse>> scanPost(
-      {required ScanRequest? body}) {
-    generatedMapping.putIfAbsent(
-        ScanResponse, () => ScanResponse.fromJsonFactory);
+  Future<chopper.Response<ScanResponse>> scanPost({required ScanRequest? body}) {
+    generatedMapping.putIfAbsent(ScanResponse, () => ScanResponse.fromJsonFactory);
 
     return _scanPost(body: body);
   }
 
   ///
   @Post(path: '/scan')
-  Future<chopper.Response<ScanResponse>> _scanPost(
-      {@Body() required ScanRequest? body});
+  Future<chopper.Response<ScanResponse>> _scanPost({@Body() required ScanRequest? body});
 
   ///Create a report
-  Future<chopper.Response<ReportModel>> reportsPost(
-      {required SubmitReportRequest? body}) {
-    generatedMapping.putIfAbsent(
-        ReportModel, () => ReportModel.fromJsonFactory);
+  Future<chopper.Response<ReportModel>> reportsPost({required SubmitReportRequest? body}) {
+    generatedMapping.putIfAbsent(ReportModel, () => ReportModel.fromJsonFactory);
 
     return _reportsPost(body: body);
   }
 
   ///Create a report
   @Post(path: '/reports')
-  Future<chopper.Response<ReportModel>> _reportsPost(
-      {@Body() required SubmitReportRequest? body});
+  Future<chopper.Response<ReportModel>> _reportsPost({@Body() required SubmitReportRequest? body});
 
   ///Create a recommendation
-  Future<chopper.Response<RecommendationModel>> recommendationsPost(
-      {required SubmitRecommendationRequest? body}) {
-    generatedMapping.putIfAbsent(
-        RecommendationModel, () => RecommendationModel.fromJsonFactory);
+  Future<chopper.Response<RecommendationModel>> recommendationsPost({required SubmitRecommendationRequest? body}) {
+    generatedMapping.putIfAbsent(RecommendationModel, () => RecommendationModel.fromJsonFactory);
 
     return _recommendationsPost(body: body);
   }
@@ -208,10 +177,8 @@ abstract class Api extends ChopperService {
       {@Body() required SubmitRecommendationRequest? body});
 
   ///Retrieve 10 places around geographic coordinates
-  Future<chopper.Response<List<PlaceResponse>>> placesCoordinatesPost(
-      {required PlacesFromCoordinatesRequest? body}) {
-    generatedMapping.putIfAbsent(
-        PlaceResponse, () => PlaceResponse.fromJsonFactory);
+  Future<chopper.Response<List<PlaceResponse>>> placesCoordinatesPost({required PlacesFromCoordinatesRequest? body}) {
+    generatedMapping.putIfAbsent(PlaceResponse, () => PlaceResponse.fromJsonFactory);
 
     return _placesCoordinatesPost(body: body);
   }
@@ -222,23 +189,19 @@ abstract class Api extends ChopperService {
       {@Body() required PlacesFromCoordinatesRequest? body});
 
   ///Retrieve 10 places around an address
-  Future<chopper.Response<List<PlaceResponse>>> placesAddressPost(
-      {required PlacesFromAddressRequest? body}) {
-    generatedMapping.putIfAbsent(
-        PlaceResponse, () => PlaceResponse.fromJsonFactory);
+  Future<chopper.Response<List<PlaceResponse>>> placesAddressPost({required PlacesFromAddressRequest? body}) {
+    generatedMapping.putIfAbsent(PlaceResponse, () => PlaceResponse.fromJsonFactory);
 
     return _placesAddressPost(body: body);
   }
 
   ///Retrieve 10 places around an address
   @Post(path: '/places/address')
-  Future<chopper.Response<List<PlaceResponse>>> _placesAddressPost(
-      {@Body() required PlacesFromAddressRequest? body});
+  Future<chopper.Response<List<PlaceResponse>>> _placesAddressPost({@Body() required PlacesFromAddressRequest? body});
 
   ///Create a profile and start the matchmaking
   ///@param user_id
-  Future<chopper.Response> matchmakingPost(
-      {required num? userId, required ProfileCreationRequest? body}) {
+  Future<chopper.Response> matchmakingPost({required num? userId, required ProfileCreationRequest? body}) {
     return _matchmakingPost(userId: userId, body: body);
   }
 
@@ -246,14 +209,12 @@ abstract class Api extends ChopperService {
   ///@param user_id
   @Post(path: '/matchmaking')
   Future<chopper.Response> _matchmakingPost(
-      {@Query('user_id') required num? userId,
-      @Body() required ProfileCreationRequest? body});
+      {@Query('user_id') required num? userId, @Body() required ProfileCreationRequest? body});
 
   ///Start the matchmaking with an existing profile
   ///@param user_id
   ///@param profile_id
-  Future<chopper.Response> matchmakingPatch(
-      {required num? userId, required num? profileId}) {
+  Future<chopper.Response> matchmakingPatch({required num? userId, required num? profileId}) {
     return _matchmakingPatch(userId: userId, profileId: profileId);
   }
 
@@ -262,15 +223,12 @@ abstract class Api extends ChopperService {
   ///@param profile_id
   @Patch(path: '/matchmaking', optionalBody: true)
   Future<chopper.Response> _matchmakingPatch(
-      {@Query('user_id') required num? userId,
-      @Query('profile_id') required num? profileId});
+      {@Query('user_id') required num? userId, @Query('profile_id') required num? profileId});
 
   ///Get the group's activities
   ///@param groupId
-  Future<chopper.Response<List<ActivityModel>>> groupsGroupIdPlanningGet(
-      {required num? groupId}) {
-    generatedMapping.putIfAbsent(
-        ActivityModel, () => ActivityModel.fromJsonFactory);
+  Future<chopper.Response<List<ActivityModel>>> groupsGroupIdPlanningGet({required num? groupId}) {
+    generatedMapping.putIfAbsent(ActivityModel, () => ActivityModel.fromJsonFactory);
 
     return _groupsGroupIdPlanningGet(groupId: groupId);
   }
@@ -278,15 +236,13 @@ abstract class Api extends ChopperService {
   ///Get the group's activities
   ///@param groupId
   @Get(path: '/groups/{groupId}/planning')
-  Future<chopper.Response<List<ActivityModel>>> _groupsGroupIdPlanningGet(
-      {@Path('groupId') required num? groupId});
+  Future<chopper.Response<List<ActivityModel>>> _groupsGroupIdPlanningGet({@Path('groupId') required num? groupId});
 
   ///Add a new activity to the group's planning
   ///@param groupId
   Future<chopper.Response<ActivityModel>> groupsGroupIdPlanningPost(
       {required num? groupId, required CreateActivityRequest? body}) {
-    generatedMapping.putIfAbsent(
-        ActivityModel, () => ActivityModel.fromJsonFactory);
+    generatedMapping.putIfAbsent(ActivityModel, () => ActivityModel.fromJsonFactory);
 
     return _groupsGroupIdPlanningPost(groupId: groupId, body: body);
   }
@@ -295,15 +251,12 @@ abstract class Api extends ChopperService {
   ///@param groupId
   @Post(path: '/groups/{groupId}/planning')
   Future<chopper.Response<ActivityModel>> _groupsGroupIdPlanningPost(
-      {@Path('groupId') required num? groupId,
-      @Body() required CreateActivityRequest? body});
+      {@Path('groupId') required num? groupId, @Body() required CreateActivityRequest? body});
 
   ///Get all the memories from a group
   ///@param groupId
-  Future<chopper.Response<GroupMemoriesResponse>> groupsGroupIdMemoriesGet(
-      {required num? groupId}) {
-    generatedMapping.putIfAbsent(
-        GroupMemoriesResponse, () => GroupMemoriesResponse.fromJsonFactory);
+  Future<chopper.Response<GroupMemoriesResponse>> groupsGroupIdMemoriesGet({required num? groupId}) {
+    generatedMapping.putIfAbsent(GroupMemoriesResponse, () => GroupMemoriesResponse.fromJsonFactory);
 
     return _groupsGroupIdMemoriesGet(groupId: groupId);
   }
@@ -311,15 +264,13 @@ abstract class Api extends ChopperService {
   ///Get all the memories from a group
   ///@param groupId
   @Get(path: '/groups/{groupId}/memories')
-  Future<chopper.Response<GroupMemoriesResponse>> _groupsGroupIdMemoriesGet(
-      {@Path('groupId') required num? groupId});
+  Future<chopper.Response<GroupMemoriesResponse>> _groupsGroupIdMemoriesGet({@Path('groupId') required num? groupId});
 
   ///Add memory to a group
   ///@param groupId
   Future<chopper.Response<GroupMemoriesResponse>> groupsGroupIdMemoriesPost(
       {required num? groupId, required GroupMemoryRequest? body}) {
-    generatedMapping.putIfAbsent(
-        GroupMemoriesResponse, () => GroupMemoriesResponse.fromJsonFactory);
+    generatedMapping.putIfAbsent(GroupMemoriesResponse, () => GroupMemoriesResponse.fromJsonFactory);
 
     return _groupsGroupIdMemoriesPost(groupId: groupId, body: body);
   }
@@ -328,8 +279,7 @@ abstract class Api extends ChopperService {
   ///@param groupId
   @Post(path: '/groups/{groupId}/memories')
   Future<chopper.Response<GroupMemoriesResponse>> _groupsGroupIdMemoriesPost(
-      {@Path('groupId') required num? groupId,
-      @Body() required GroupMemoryRequest? body});
+      {@Path('groupId') required num? groupId, @Body() required GroupMemoryRequest? body});
 
   ///Create a private group
   ///@param id
@@ -344,13 +294,11 @@ abstract class Api extends ChopperService {
   ///@param id
   @Post(path: '/groups/private/{id}')
   Future<chopper.Response<GroupModel>> _groupsPrivateIdPost(
-      {@Path('id') required num? id,
-      @Body() required CreatePrivateGroupRequest? body});
+      {@Path('id') required num? id, @Body() required CreatePrivateGroupRequest? body});
 
   ///Add user to private group
   ///@param group
-  Future<chopper.Response> groupsPrivateGroupUserPost(
-      {required num? group, required ModelWithEmail? body}) {
+  Future<chopper.Response> groupsPrivateGroupUserPost({required num? group, required ModelWithEmail? body}) {
     return _groupsPrivateGroupUserPost(group: group, body: body);
   }
 
@@ -358,21 +306,16 @@ abstract class Api extends ChopperService {
   ///@param group
   @Post(path: '/groups/private/{group}/user')
   Future<chopper.Response> _groupsPrivateGroupUserPost(
-      {@Path('group') required num? group,
-      @Body() required ModelWithEmail? body});
+      {@Path('group') required num? group, @Body() required ModelWithEmail? body});
 
   ///
   ///@param group
   ///@param user
   Future<chopper.Response<ExpenseModel>> expensesGroupPurchaserUserPost(
-      {required num? group,
-      required num? user,
-      required ExpenseRequest? body}) {
-    generatedMapping.putIfAbsent(
-        ExpenseModel, () => ExpenseModel.fromJsonFactory);
+      {required num? group, required num? user, required ExpenseRequest? body}) {
+    generatedMapping.putIfAbsent(ExpenseModel, () => ExpenseModel.fromJsonFactory);
 
-    return _expensesGroupPurchaserUserPost(
-        group: group, user: user, body: body);
+    return _expensesGroupPurchaserUserPost(group: group, user: user, body: body);
   }
 
   ///
@@ -380,16 +323,12 @@ abstract class Api extends ChopperService {
   ///@param user
   @Post(path: '/expenses/{group}/purchaser/{user}')
   Future<chopper.Response<ExpenseModel>> _expensesGroupPurchaserUserPost(
-      {@Path('group') required num? group,
-      @Path('user') required num? user,
-      @Body() required ExpenseRequest? body});
+      {@Path('group') required num? group, @Path('user') required num? user, @Body() required ExpenseRequest? body});
 
   ///Get all the channels from a group
   ///@param group
-  Future<chopper.Response<List<ChannelModel>>> channelsGroupGet(
-      {required num? group}) {
-    generatedMapping.putIfAbsent(
-        ChannelModel, () => ChannelModel.fromJsonFactory);
+  Future<chopper.Response<List<ChannelModel>>> channelsGroupGet({required num? group}) {
+    generatedMapping.putIfAbsent(ChannelModel, () => ChannelModel.fromJsonFactory);
 
     return _channelsGroupGet(group: group);
   }
@@ -397,15 +336,12 @@ abstract class Api extends ChopperService {
   ///Get all the channels from a group
   ///@param group
   @Get(path: '/channels/{group}')
-  Future<chopper.Response<List<ChannelModel>>> _channelsGroupGet(
-      {@Path('group') required num? group});
+  Future<chopper.Response<List<ChannelModel>>> _channelsGroupGet({@Path('group') required num? group});
 
   ///Create a channel
   ///@param group
-  Future<chopper.Response<ChannelModel>> channelsGroupPost(
-      {required num? group, required CreateChannelRequest? body}) {
-    generatedMapping.putIfAbsent(
-        ChannelModel, () => ChannelModel.fromJsonFactory);
+  Future<chopper.Response<ChannelModel>> channelsGroupPost({required num? group, required CreateChannelRequest? body}) {
+    generatedMapping.putIfAbsent(ChannelModel, () => ChannelModel.fromJsonFactory);
 
     return _channelsGroupPost(group: group, body: body);
   }
@@ -414,8 +350,7 @@ abstract class Api extends ChopperService {
   ///@param group
   @Post(path: '/channels/{group}')
   Future<chopper.Response<ChannelModel>> _channelsGroupPost(
-      {@Path('group') required num? group,
-      @Body() required CreateChannelRequest? body});
+      {@Path('group') required num? group, @Body() required CreateChannelRequest? body});
 
   ///Will send a new confirmation code to the user
   ///@param id
@@ -429,22 +364,18 @@ abstract class Api extends ChopperService {
   Future<chopper.Response> _authIdResendPost({@Path('id') required num? id});
 
   ///Create a new account. Will send a confirmation mail to the given address
-  Future<chopper.Response<AuthTokenResponse>> authRegisterPost(
-      {required UserCreationRequest? body}) {
-    generatedMapping.putIfAbsent(
-        AuthTokenResponse, () => AuthTokenResponse.fromJsonFactory);
+  Future<chopper.Response<AuthTokenResponse>> authRegisterPost({required UserCreationRequest? body}) {
+    generatedMapping.putIfAbsent(AuthTokenResponse, () => AuthTokenResponse.fromJsonFactory);
 
     return _authRegisterPost(body: body);
   }
 
   ///Create a new account. Will send a confirmation mail to the given address
   @Post(path: '/auth/register')
-  Future<chopper.Response<AuthTokenResponse>> _authRegisterPost(
-      {@Body() required UserCreationRequest? body});
+  Future<chopper.Response<AuthTokenResponse>> _authRegisterPost({@Body() required UserCreationRequest? body});
 
   ///Create a new admin account. Will send a confirmation mail to the given address
-  Future<chopper.Response<UserModel>> authRegisterAdminPost(
-      {required UserCreationRequest? body}) {
+  Future<chopper.Response<UserModel>> authRegisterAdminPost({required UserCreationRequest? body}) {
     generatedMapping.putIfAbsent(UserModel, () => UserModel.fromJsonFactory);
 
     return _authRegisterAdminPost(body: body);
@@ -452,69 +383,55 @@ abstract class Api extends ChopperService {
 
   ///Create a new admin account. Will send a confirmation mail to the given address
   @Post(path: '/auth/register/admin')
-  Future<chopper.Response<UserModel>> _authRegisterAdminPost(
-      {@Body() required UserCreationRequest? body});
+  Future<chopper.Response<UserModel>> _authRegisterAdminPost({@Body() required UserCreationRequest? body});
 
   ///Log a user, to allow authenticated endpoints
-  Future<chopper.Response<LoginResponse>> authLoginPost(
-      {required LoginRequest? body}) {
-    generatedMapping.putIfAbsent(
-        LoginResponse, () => LoginResponse.fromJsonFactory);
+  Future<chopper.Response<LoginResponse>> authLoginPost({required LoginRequest? body}) {
+    generatedMapping.putIfAbsent(LoginResponse, () => LoginResponse.fromJsonFactory);
 
     return _authLoginPost(body: body);
   }
 
   ///Log a user, to allow authenticated endpoints
   @Post(path: '/auth/login')
-  Future<chopper.Response<LoginResponse>> _authLoginPost(
-      {@Body() required LoginRequest? body});
+  Future<chopper.Response<LoginResponse>> _authLoginPost({@Body() required LoginRequest? body});
 
   ///Log a user, to allow authenticated endpoints
-  Future<chopper.Response<LoginResponse>> authLoginAdminPost(
-      {required LoginRequest? body}) {
-    generatedMapping.putIfAbsent(
-        LoginResponse, () => LoginResponse.fromJsonFactory);
+  Future<chopper.Response<LoginResponse>> authLoginAdminPost({required LoginRequest? body}) {
+    generatedMapping.putIfAbsent(LoginResponse, () => LoginResponse.fromJsonFactory);
 
     return _authLoginAdminPost(body: body);
   }
 
   ///Log a user, to allow authenticated endpoints
   @Post(path: '/auth/login/admin')
-  Future<chopper.Response<LoginResponse>> _authLoginAdminPost(
-      {@Body() required LoginRequest? body});
+  Future<chopper.Response<LoginResponse>> _authLoginAdminPost({@Body() required LoginRequest? body});
 
   ///Log a user, to allow authenticated endpoints
-  Future<chopper.Response<GoogleAuthResponse>> authGooglePost(
-      {required GoogleRequest? body}) {
-    generatedMapping.putIfAbsent(
-        GoogleAuthResponse, () => GoogleAuthResponse.fromJsonFactory);
+  Future<chopper.Response<GoogleAuthResponse>> authGooglePost({required GoogleRequest? body}) {
+    generatedMapping.putIfAbsent(GoogleAuthResponse, () => GoogleAuthResponse.fromJsonFactory);
 
     return _authGooglePost(body: body);
   }
 
   ///Log a user, to allow authenticated endpoints
   @Post(path: '/auth/google')
-  Future<chopper.Response<GoogleAuthResponse>> _authGooglePost(
-      {@Body() required GoogleRequest? body});
+  Future<chopper.Response<GoogleAuthResponse>> _authGooglePost({@Body() required GoogleRequest? body});
 
   ///Used to receive a confirmation to update a password
-  Future<chopper.Response> authForgotPasswordPost(
-      {required ForgotPasswordRequest? body}) {
+  Future<chopper.Response> authForgotPasswordPost({required ForgotPasswordRequest? body}) {
     return _authForgotPasswordPost(body: body);
   }
 
   ///Used to receive a confirmation to update a password
   @Post(path: '/auth/forgot/password')
-  Future<chopper.Response> _authForgotPasswordPost(
-      {@Body() required ForgotPasswordRequest? body});
+  Future<chopper.Response> _authForgotPasswordPost({@Body() required ForgotPasswordRequest? body});
 
   ///Update a profile
   ///@param id
   ///@param profile
   Future<chopper.Response> idProfilesProfileUpdatePatch(
-      {required num? id,
-      required num? profile,
-      required ProfileUpdateRequest? body}) {
+      {required num? id, required num? profile, required ProfileUpdateRequest? body}) {
     return _idProfilesProfileUpdatePatch(id: id, profile: profile, body: body);
   }
 
@@ -529,8 +446,7 @@ abstract class Api extends ChopperService {
 
   ///Used to update the user information
   ///@param id
-  Future<chopper.Response> usersIdUpdatePatch(
-      {required num? id, required UserUpdateRequest? body}) {
+  Future<chopper.Response> usersIdUpdatePatch({required num? id, required UserUpdateRequest? body}) {
     return _usersIdUpdatePatch(id: id, body: body);
   }
 
@@ -542,10 +458,8 @@ abstract class Api extends ChopperService {
 
   ///Get the firebase token of this user
   ///@param id
-  Future<chopper.Response<FirebaseTokenResponse>> usersIdFirebaseGet(
-      {required num? id}) {
-    generatedMapping.putIfAbsent(
-        FirebaseTokenResponse, () => FirebaseTokenResponse.fromJsonFactory);
+  Future<chopper.Response<FirebaseTokenResponse>> usersIdFirebaseGet({required num? id}) {
+    generatedMapping.putIfAbsent(FirebaseTokenResponse, () => FirebaseTokenResponse.fromJsonFactory);
 
     return _usersIdFirebaseGet(id: id);
   }
@@ -553,14 +467,12 @@ abstract class Api extends ChopperService {
   ///Get the firebase token of this user
   ///@param id
   @Get(path: '/users/{id}/firebase')
-  Future<chopper.Response<FirebaseTokenResponse>> _usersIdFirebaseGet(
-      {@Path('id') required num? id});
+  Future<chopper.Response<FirebaseTokenResponse>> _usersIdFirebaseGet({@Path('id') required num? id});
 
   ///Update the firebase token associated to this user. If the token is not provided, it will be unset
   ///@param id
   ///@param token
-  Future<chopper.Response> usersIdFirebasePatch(
-      {required num? id, String? token}) {
+  Future<chopper.Response> usersIdFirebasePatch({required num? id, String? token}) {
     return _usersIdFirebasePatch(id: id, token: token);
   }
 
@@ -568,14 +480,12 @@ abstract class Api extends ChopperService {
   ///@param id
   ///@param token
   @Patch(path: '/users/{id}/firebase', optionalBody: true)
-  Future<chopper.Response> _usersIdFirebasePatch(
-      {@Path('id') required num? id, @Query('token') String? token});
+  Future<chopper.Response> _usersIdFirebasePatch({@Path('id') required num? id, @Query('token') String? token});
 
   ///Get all the report posted by a user
   ///@param id
   Future<chopper.Response<List<ReportModel>>> reportsIdGet({required num? id}) {
-    generatedMapping.putIfAbsent(
-        ReportModel, () => ReportModel.fromJsonFactory);
+    generatedMapping.putIfAbsent(ReportModel, () => ReportModel.fromJsonFactory);
 
     return _reportsIdGet(id: id);
   }
@@ -583,15 +493,12 @@ abstract class Api extends ChopperService {
   ///Get all the report posted by a user
   ///@param id
   @Get(path: '/reports/{id}')
-  Future<chopper.Response<List<ReportModel>>> _reportsIdGet(
-      {@Path('id') required num? id});
+  Future<chopper.Response<List<ReportModel>>> _reportsIdGet({@Path('id') required num? id});
 
   ///Update a report
   ///@param id
-  Future<chopper.Response<ReportModel>> reportsIdPatch(
-      {required num? id, required UpdateReportRequest? body}) {
-    generatedMapping.putIfAbsent(
-        ReportModel, () => ReportModel.fromJsonFactory);
+  Future<chopper.Response<ReportModel>> reportsIdPatch({required num? id, required UpdateReportRequest? body}) {
+    generatedMapping.putIfAbsent(ReportModel, () => ReportModel.fromJsonFactory);
 
     return _reportsIdPatch(id: id, body: body);
   }
@@ -600,13 +507,11 @@ abstract class Api extends ChopperService {
   ///@param id
   @Patch(path: '/reports/{id}')
   Future<chopper.Response<ReportModel>> _reportsIdPatch(
-      {@Path('id') required num? id,
-      @Body() required UpdateReportRequest? body});
+      {@Path('id') required num? id, @Body() required UpdateReportRequest? body});
 
   ///Update the public group
   ///@param group
-  Future<chopper.Response> groupsGroupPatch(
-      {required num? group, required UpdatePublicGroupRequest? body}) {
+  Future<chopper.Response> groupsGroupPatch({required num? group, required UpdatePublicGroupRequest? body}) {
     return _groupsGroupPatch(group: group, body: body);
   }
 
@@ -614,14 +519,12 @@ abstract class Api extends ChopperService {
   ///@param group
   @Patch(path: '/groups/{group}')
   Future<chopper.Response> _groupsGroupPatch(
-      {@Path('group') required num? group,
-      @Body() required UpdatePublicGroupRequest? body});
+      {@Path('group') required num? group, @Body() required UpdatePublicGroupRequest? body});
 
   ///Accept the invitation to the group
   ///@param group
   ///@param id
-  Future<chopper.Response> groupsGroupJoinIdPatch(
-      {required num? group, required num? id}) {
+  Future<chopper.Response> groupsGroupJoinIdPatch({required num? group, required num? id}) {
     return _groupsGroupJoinIdPatch(group: group, id: id);
   }
 
@@ -629,14 +532,12 @@ abstract class Api extends ChopperService {
   ///@param group
   ///@param id
   @Patch(path: '/groups/{group}/join/{id}', optionalBody: true)
-  Future<chopper.Response> _groupsGroupJoinIdPatch(
-      {@Path('group') required num? group, @Path('id') required num? id});
+  Future<chopper.Response> _groupsGroupJoinIdPatch({@Path('group') required num? group, @Path('id') required num? id});
 
   ///Decline the invitation to the group
   ///@param group
   ///@param id
-  Future<chopper.Response> groupsGroupDeclineIdPatch(
-      {required num? group, required num? id}) {
+  Future<chopper.Response> groupsGroupDeclineIdPatch({required num? group, required num? id}) {
     return _groupsGroupDeclineIdPatch(group: group, id: id);
   }
 
@@ -650,10 +551,8 @@ abstract class Api extends ChopperService {
   ///Delete the activity
   ///@param groupId
   ///@param activityId
-  Future<chopper.Response> groupsGroupIdPlanningActivityIdDelete(
-      {required num? groupId, required num? activityId}) {
-    return _groupsGroupIdPlanningActivityIdDelete(
-        groupId: groupId, activityId: activityId);
+  Future<chopper.Response> groupsGroupIdPlanningActivityIdDelete({required num? groupId, required num? activityId}) {
+    return _groupsGroupIdPlanningActivityIdDelete(groupId: groupId, activityId: activityId);
   }
 
   ///Delete the activity
@@ -661,21 +560,16 @@ abstract class Api extends ChopperService {
   ///@param activityId
   @Delete(path: '/groups/{groupId}/planning/{activityId}')
   Future<chopper.Response> _groupsGroupIdPlanningActivityIdDelete(
-      {@Path('groupId') required num? groupId,
-      @Path('activityId') required num? activityId});
+      {@Path('groupId') required num? groupId, @Path('activityId') required num? activityId});
 
   ///Update the activity
   ///@param groupId
   ///@param activityId
   Future<chopper.Response<ActivityModel>> groupsGroupIdPlanningActivityIdPatch(
-      {required num? groupId,
-      required num? activityId,
-      required UpdateActivityRequest? body}) {
-    generatedMapping.putIfAbsent(
-        ActivityModel, () => ActivityModel.fromJsonFactory);
+      {required num? groupId, required num? activityId, required UpdateActivityRequest? body}) {
+    generatedMapping.putIfAbsent(ActivityModel, () => ActivityModel.fromJsonFactory);
 
-    return _groupsGroupIdPlanningActivityIdPatch(
-        groupId: groupId, activityId: activityId, body: body);
+    return _groupsGroupIdPlanningActivityIdPatch(groupId: groupId, activityId: activityId, body: body);
   }
 
   ///Update the activity
@@ -693,16 +587,14 @@ abstract class Api extends ChopperService {
   ///@param userId
   Future<chopper.Response> groupsGroupIdPlanningActivityIdLeavePatch(
       {required num? groupId, required num? activityId, required num? userId}) {
-    return _groupsGroupIdPlanningActivityIdLeavePatch(
-        groupId: groupId, activityId: activityId, userId: userId);
+    return _groupsGroupIdPlanningActivityIdLeavePatch(groupId: groupId, activityId: activityId, userId: userId);
   }
 
   ///Remove the user from the given activity
   ///@param groupId
   ///@param activityId
   ///@param userId
-  @Patch(
-      path: '/groups/{groupId}/planning/{activityId}/leave', optionalBody: true)
+  @Patch(path: '/groups/{groupId}/planning/{activityId}/leave', optionalBody: true)
   Future<chopper.Response> _groupsGroupIdPlanningActivityIdLeavePatch(
       {@Path('groupId') required num? groupId,
       @Path('activityId') required num? activityId,
@@ -714,16 +606,14 @@ abstract class Api extends ChopperService {
   ///@param userId
   Future<chopper.Response> groupsGroupIdPlanningActivityIdJoinPatch(
       {required num? groupId, required num? activityId, required num? userId}) {
-    return _groupsGroupIdPlanningActivityIdJoinPatch(
-        groupId: groupId, activityId: activityId, userId: userId);
+    return _groupsGroupIdPlanningActivityIdJoinPatch(groupId: groupId, activityId: activityId, userId: userId);
   }
 
   ///Add the user to the given activity
   ///@param groupId
   ///@param activityId
   ///@param userId
-  @Patch(
-      path: '/groups/{groupId}/planning/{activityId}/join', optionalBody: true)
+  @Patch(path: '/groups/{groupId}/planning/{activityId}/join', optionalBody: true)
   Future<chopper.Response> _groupsGroupIdPlanningActivityIdJoinPatch(
       {@Path('groupId') required num? groupId,
       @Path('activityId') required num? activityId,
@@ -738,13 +628,11 @@ abstract class Api extends ChopperService {
   ///Delete the private group
   ///@param group
   @Delete(path: '/groups/private/{group}')
-  Future<chopper.Response> _groupsPrivateGroupDelete(
-      {@Path('group') required num? group});
+  Future<chopper.Response> _groupsPrivateGroupDelete({@Path('group') required num? group});
 
   ///Update the private group
   ///@param group
-  Future<chopper.Response> groupsPrivateGroupPatch(
-      {required num? group, required UpdatePrivateGroupRequest? body}) {
+  Future<chopper.Response> groupsPrivateGroupPatch({required num? group, required UpdatePrivateGroupRequest? body}) {
     return _groupsPrivateGroupPatch(group: group, body: body);
   }
 
@@ -752,16 +640,13 @@ abstract class Api extends ChopperService {
   ///@param group
   @Patch(path: '/groups/private/{group}')
   Future<chopper.Response> _groupsPrivateGroupPatch(
-      {@Path('group') required num? group,
-      @Body() required UpdatePrivateGroupRequest? body});
+      {@Path('group') required num? group, @Body() required UpdatePrivateGroupRequest? body});
 
   ///Accept the invitation to the group
   ///@param group
   ///@param id
   Future<chopper.Response> groupsPrivateGroupJoinIdPatch(
-      {required num? group,
-      required num? id,
-      required JoinGroupWithoutInviteModel? body}) {
+      {required num? group, required num? id, required JoinGroupWithoutInviteModel? body}) {
     return _groupsPrivateGroupJoinIdPatch(group: group, id: id, body: body);
   }
 
@@ -785,16 +670,13 @@ abstract class Api extends ChopperService {
   ///@param groupId
   @Patch(path: '/groups/private/{groupId}/public')
   Future<chopper.Response> _groupsPrivateGroupIdPublicPatch(
-      {@Path('groupId') required num? groupId,
-      @Body() required ProfileCreationRequest? body});
+      {@Path('groupId') required num? groupId, @Body() required ProfileCreationRequest? body});
 
   ///Pin a message
   ///@param message_id
   ///@param pin
-  Future<chopper.Response<MessageResponse>> chatMessageIdPinnedPatch(
-      {required num? messageId, bool? pin}) {
-    generatedMapping.putIfAbsent(
-        MessageResponse, () => MessageResponse.fromJsonFactory);
+  Future<chopper.Response<MessageResponse>> chatMessageIdPinnedPatch({required num? messageId, bool? pin}) {
+    generatedMapping.putIfAbsent(MessageResponse, () => MessageResponse.fromJsonFactory);
 
     return _chatMessageIdPinnedPatch(messageId: messageId, pin: pin);
   }
@@ -819,8 +701,7 @@ abstract class Api extends ChopperService {
 
   ///Update a channel
   ///@param id
-  Future<chopper.Response> channelsIdPatch(
-      {required num? id, required UpdateChannelRequest? body}) {
+  Future<chopper.Response> channelsIdPatch({required num? id, required UpdateChannelRequest? body}) {
     return _channelsIdPatch(id: id, body: body);
   }
 
@@ -828,13 +709,11 @@ abstract class Api extends ChopperService {
   ///@param id
   @Patch(path: '/channels/{id}')
   Future<chopper.Response> _channelsIdPatch(
-      {@Path('id') required num? id,
-      @Body() required UpdateChannelRequest? body});
+      {@Path('id') required num? id, @Body() required UpdateChannelRequest? body});
 
   ///Used to update the password
   ///@param id
-  Future<chopper.Response> authIdPasswordPatch(
-      {required num? id, required UpdatePasswordRequest? body}) {
+  Future<chopper.Response> authIdPasswordPatch({required num? id, required UpdatePasswordRequest? body}) {
     return _authIdPasswordPatch(id: id, body: body);
   }
 
@@ -842,15 +721,12 @@ abstract class Api extends ChopperService {
   ///@param id
   @Patch(path: '/auth/{id}/password')
   Future<chopper.Response> _authIdPasswordPatch(
-      {@Path('id') required num? id,
-      @Body() required UpdatePasswordRequest? body});
+      {@Path('id') required num? id, @Body() required UpdatePasswordRequest? body});
 
   ///Used to ask update the user email. Returns a new jwt
   ///@param id
-  Future<chopper.Response<LoginResponse>> authIdEmailPatch(
-      {required num? id, required UpdateEmailRequest? body}) {
-    generatedMapping.putIfAbsent(
-        LoginResponse, () => LoginResponse.fromJsonFactory);
+  Future<chopper.Response<LoginResponse>> authIdEmailPatch({required num? id, required UpdateEmailRequest? body}) {
+    generatedMapping.putIfAbsent(LoginResponse, () => LoginResponse.fromJsonFactory);
 
     return _authIdEmailPatch(id: id, body: body);
   }
@@ -859,13 +735,11 @@ abstract class Api extends ChopperService {
   ///@param id
   @Patch(path: '/auth/{id}/email')
   Future<chopper.Response<LoginResponse>> _authIdEmailPatch(
-      {@Path('id') required num? id,
-      @Body() required UpdateEmailRequest? body});
+      {@Path('id') required num? id, @Body() required UpdateEmailRequest? body});
 
   ///Confirm a user's email
   ///@param id
-  Future<chopper.Response> authIdConfirmationPatch(
-      {required num? id, required ConfirmationCodeModel? body}) {
+  Future<chopper.Response> authIdConfirmationPatch({required num? id, required ConfirmationCodeModel? body}) {
     return _authIdConfirmationPatch(id: id, body: body);
   }
 
@@ -873,14 +747,11 @@ abstract class Api extends ChopperService {
   ///@param id
   @Patch(path: '/auth/{id}/confirmation')
   Future<chopper.Response> _authIdConfirmationPatch(
-      {@Path('id') required num? id,
-      @Body() required ConfirmationCodeModel? body});
+      {@Path('id') required num? id, @Body() required ConfirmationCodeModel? body});
 
   ///Used to update the password with a confirmation code
-  Future<chopper.Response<UserIdResponse>> authValidationPasswordPatch(
-      {required ValidateCodePasswordRequest? body}) {
-    generatedMapping.putIfAbsent(
-        UserIdResponse, () => UserIdResponse.fromJsonFactory);
+  Future<chopper.Response<UserIdResponse>> authValidationPasswordPatch({required ValidateCodePasswordRequest? body}) {
+    generatedMapping.putIfAbsent(UserIdResponse, () => UserIdResponse.fromJsonFactory);
 
     return _authValidationPasswordPatch(body: body);
   }
@@ -892,8 +763,7 @@ abstract class Api extends ChopperService {
 
   ///
   Future<chopper.Response<List<ProfileModel>>> idProfilesActiveGet() {
-    generatedMapping.putIfAbsent(
-        ProfileModel, () => ProfileModel.fromJsonFactory);
+    generatedMapping.putIfAbsent(ProfileModel, () => ProfileModel.fromJsonFactory);
 
     return _idProfilesActiveGet();
   }
@@ -924,21 +794,18 @@ abstract class Api extends ChopperService {
   ///
   ///@param id
   @Get(path: '/users/{id}')
-  Future<chopper.Response<UserModel>> _usersIdGet(
-      {@Path('id') required num? id});
+  Future<chopper.Response<UserModel>> _usersIdGet({@Path('id') required num? id});
 
   ///
   ///@param id
-  Future<chopper.Response> usersIdDelete(
-      {required num? id, required DeleteUserRequest? body}) {
+  Future<chopper.Response> usersIdDelete({required num? id, required DeleteUserRequest? body}) {
     return _usersIdDelete(id: id, body: body);
   }
 
   ///
   ///@param id
   @Delete(path: '/users/{id}')
-  Future<chopper.Response> _usersIdDelete(
-      {@Path('id') required num? id, @Body() required DeleteUserRequest? body});
+  Future<chopper.Response> _usersIdDelete({@Path('id') required num? id, @Body() required DeleteUserRequest? body});
 
   ///
   Future<chopper.Response<UserModel>> usersMeGet() {
@@ -953,10 +820,8 @@ abstract class Api extends ChopperService {
 
   ///Get all the surveys in a channel
   ///@param id
-  Future<chopper.Response<List<SurveyModel>>> surveysQuizzIdGet(
-      {required num? id}) {
-    generatedMapping.putIfAbsent(
-        SurveyModel, () => SurveyModel.fromJsonFactory);
+  Future<chopper.Response<List<SurveyModel>>> surveysQuizzIdGet({required num? id}) {
+    generatedMapping.putIfAbsent(SurveyModel, () => SurveyModel.fromJsonFactory);
 
     return _surveysQuizzIdGet(id: id);
   }
@@ -964,15 +829,12 @@ abstract class Api extends ChopperService {
   ///Get all the surveys in a channel
   ///@param id
   @Get(path: '/surveys/quizz/{id}')
-  Future<chopper.Response<List<SurveyModel>>> _surveysQuizzIdGet(
-      {@Path('id') required num? id});
+  Future<chopper.Response<List<SurveyModel>>> _surveysQuizzIdGet({@Path('id') required num? id});
 
   ///Get all the report of a user
   ///@param id
-  Future<chopper.Response<List<ReportModel>>> reportsAdminIdGet(
-      {required num? id}) {
-    generatedMapping.putIfAbsent(
-        ReportModel, () => ReportModel.fromJsonFactory);
+  Future<chopper.Response<List<ReportModel>>> reportsAdminIdGet({required num? id}) {
+    generatedMapping.putIfAbsent(ReportModel, () => ReportModel.fromJsonFactory);
 
     return _reportsAdminIdGet(id: id);
   }
@@ -980,15 +842,12 @@ abstract class Api extends ChopperService {
   ///Get all the report of a user
   ///@param id
   @Get(path: '/reports/admin/{id}')
-  Future<chopper.Response<List<ReportModel>>> _reportsAdminIdGet(
-      {@Path('id') required num? id});
+  Future<chopper.Response<List<ReportModel>>> _reportsAdminIdGet({@Path('id') required num? id});
 
   ///Get all the recommendation of a user
   ///@param id
-  Future<chopper.Response<List<RecommendationModel>>> recommendationsIdGet(
-      {required num? id}) {
-    generatedMapping.putIfAbsent(
-        RecommendationModel, () => RecommendationModel.fromJsonFactory);
+  Future<chopper.Response<List<RecommendationModel>>> recommendationsIdGet({required num? id}) {
+    generatedMapping.putIfAbsent(RecommendationModel, () => RecommendationModel.fromJsonFactory);
 
     return _recommendationsIdGet(id: id);
   }
@@ -996,8 +855,7 @@ abstract class Api extends ChopperService {
   ///Get all the recommendation of a user
   ///@param id
   @Get(path: '/recommendations/{id}')
-  Future<chopper.Response<List<RecommendationModel>>> _recommendationsIdGet(
-      {@Path('id') required num? id});
+  Future<chopper.Response<List<RecommendationModel>>> _recommendationsIdGet({@Path('id') required num? id});
 
   ///Delete a recommendation
   ///@param id
@@ -1008,8 +866,7 @@ abstract class Api extends ChopperService {
   ///Delete a recommendation
   ///@param id
   @Delete(path: '/recommendations/{id}')
-  Future<chopper.Response> _recommendationsIdDelete(
-      {@Path('id') required num? id});
+  Future<chopper.Response> _recommendationsIdDelete({@Path('id') required num? id});
 
   ///Returns all the categories of locations
   Future<chopper.Response<List<String>>> placesCategoriesGet() {
@@ -1022,8 +879,7 @@ abstract class Api extends ChopperService {
 
   ///
   Future<chopper.Response<List<NotificationModel>>> notificationsGet() {
-    generatedMapping.putIfAbsent(
-        NotificationModel, () => NotificationModel.fromJsonFactory);
+    generatedMapping.putIfAbsent(NotificationModel, () => NotificationModel.fromJsonFactory);
 
     return _notificationsGet();
   }
@@ -1034,10 +890,8 @@ abstract class Api extends ChopperService {
 
   ///Get the state of a match making task
   ///@param taskId
-  Future<chopper.Response<MatchMakingResult>> matchmakingTaskIdGet(
-      {required num? taskId}) {
-    generatedMapping.putIfAbsent(
-        MatchMakingResult, () => MatchMakingResult.fromJsonFactory);
+  Future<chopper.Response<MatchMakingResult>> matchmakingTaskIdGet({required num? taskId}) {
+    generatedMapping.putIfAbsent(MatchMakingResult, () => MatchMakingResult.fromJsonFactory);
 
     return _matchmakingTaskIdGet(taskId: taskId);
   }
@@ -1045,8 +899,7 @@ abstract class Api extends ChopperService {
   ///Get the state of a match making task
   ///@param taskId
   @Get(path: '/matchmaking/{taskId}')
-  Future<chopper.Response<MatchMakingResult>> _matchmakingTaskIdGet(
-      {@Path('taskId') required num? taskId});
+  Future<chopper.Response<MatchMakingResult>> _matchmakingTaskIdGet({@Path('taskId') required num? taskId});
 
   ///Get all the group of the user
   ///@param id
@@ -1059,16 +912,14 @@ abstract class Api extends ChopperService {
   ///Get all the group of the user
   ///@param id
   @Get(path: '/groups/{id}')
-  Future<chopper.Response<List<GroupModel>>> _groupsIdGet(
-      {@Path('id') required num? id});
+  Future<chopper.Response<List<GroupModel>>> _groupsIdGet({@Path('id') required num? id});
 
   ///Get the information related to the member
   ///@param groupId
   ///@param userId
   Future<chopper.Response<GroupMemberModel>> groupsGroupIdUsersUserIdGet(
       {required num? groupId, required num? userId}) {
-    generatedMapping.putIfAbsent(
-        GroupMemberModel, () => GroupMemberModel.fromJsonFactory);
+    generatedMapping.putIfAbsent(GroupMemberModel, () => GroupMemberModel.fromJsonFactory);
 
     return _groupsGroupIdUsersUserIdGet(groupId: groupId, userId: userId);
   }
@@ -1078,26 +929,22 @@ abstract class Api extends ChopperService {
   ///@param userId
   @Get(path: '/groups/{groupId}/users/{userId}')
   Future<chopper.Response<GroupMemberModel>> _groupsGroupIdUsersUserIdGet(
-      {@Path('groupId') required num? groupId,
-      @Path('userId') required num? userId});
+      {@Path('groupId') required num? groupId, @Path('userId') required num? userId});
 
   ///Get the QR code to join a private group
   ///@param group
-  Future<chopper.Response<String>> groupsPrivateGroupQrcodeGet(
-      {required num? group}) {
+  Future<chopper.Response<String>> groupsPrivateGroupQrcodeGet({required num? group}) {
     return _groupsPrivateGroupQrcodeGet(group: group);
   }
 
   ///Get the QR code to join a private group
   ///@param group
   @Get(path: '/groups/private/{group}/qrcode')
-  Future<chopper.Response<String>> _groupsPrivateGroupQrcodeGet(
-      {@Path('group') required num? group});
+  Future<chopper.Response<String>> _groupsPrivateGroupQrcodeGet({@Path('group') required num? group});
 
   ///Get all the group invitation of the user
   ///@param id
-  Future<chopper.Response<List<GroupModel>>> groupsInvitesIdGet(
-      {required num? id}) {
+  Future<chopper.Response<List<GroupModel>>> groupsInvitesIdGet({required num? id}) {
     generatedMapping.putIfAbsent(GroupModel, () => GroupModel.fromJsonFactory);
 
     return _groupsInvitesIdGet(id: id);
@@ -1106,14 +953,12 @@ abstract class Api extends ChopperService {
   ///Get all the group invitation of the user
   ///@param id
   @Get(path: '/groups/invites/{id}')
-  Future<chopper.Response<List<GroupModel>>> _groupsInvitesIdGet(
-      {@Path('id') required num? id});
+  Future<chopper.Response<List<GroupModel>>> _groupsInvitesIdGet({@Path('id') required num? id});
 
   ///Get info about a group
   ///@param id
   Future<chopper.Response<GroupInfoModel>> groupsInfoIdGet({required num? id}) {
-    generatedMapping.putIfAbsent(
-        GroupInfoModel, () => GroupInfoModel.fromJsonFactory);
+    generatedMapping.putIfAbsent(GroupInfoModel, () => GroupInfoModel.fromJsonFactory);
 
     return _groupsInfoIdGet(id: id);
   }
@@ -1121,15 +966,12 @@ abstract class Api extends ChopperService {
   ///Get info about a group
   ///@param id
   @Get(path: '/groups/info/{id}')
-  Future<chopper.Response<GroupInfoModel>> _groupsInfoIdGet(
-      {@Path('id') required num? id});
+  Future<chopper.Response<GroupInfoModel>> _groupsInfoIdGet({@Path('id') required num? id});
 
   ///
   ///@param group
-  Future<chopper.Response<List<ExpenseModel>>> expensesGroupGet(
-      {required num? group}) {
-    generatedMapping.putIfAbsent(
-        ExpenseModel, () => ExpenseModel.fromJsonFactory);
+  Future<chopper.Response<List<ExpenseModel>>> expensesGroupGet({required num? group}) {
+    generatedMapping.putIfAbsent(ExpenseModel, () => ExpenseModel.fromJsonFactory);
 
     return _expensesGroupGet(group: group);
   }
@@ -1137,16 +979,14 @@ abstract class Api extends ChopperService {
   ///
   ///@param group
   @Get(path: '/expenses/{group}')
-  Future<chopper.Response<List<ExpenseModel>>> _expensesGroupGet(
-      {@Path('group') required num? group});
+  Future<chopper.Response<List<ExpenseModel>>> _expensesGroupGet({@Path('group') required num? group});
 
   ///
   ///@param group
   ///@param user
-  Future<chopper.Response<List<MoneyDueResponse>>>
-      expensesGroupUserUserDebtsGet({required num? group, required num? user}) {
-    generatedMapping.putIfAbsent(
-        MoneyDueResponse, () => MoneyDueResponse.fromJsonFactory);
+  Future<chopper.Response<List<MoneyDueResponse>>> expensesGroupUserUserDebtsGet(
+      {required num? group, required num? user}) {
+    generatedMapping.putIfAbsent(MoneyDueResponse, () => MoneyDueResponse.fromJsonFactory);
 
     return _expensesGroupUserUserDebtsGet(group: group, user: user);
   }
@@ -1155,19 +995,15 @@ abstract class Api extends ChopperService {
   ///@param group
   ///@param user
   @Get(path: '/expenses/{group}/user/{user}/debts')
-  Future<chopper.Response<List<MoneyDueResponse>>>
-      _expensesGroupUserUserDebtsGet(
-          {@Path('group') required num? group,
-          @Path('user') required num? user});
+  Future<chopper.Response<List<MoneyDueResponse>>> _expensesGroupUserUserDebtsGet(
+      {@Path('group') required num? group, @Path('user') required num? user});
 
   ///
   ///@param group
   ///@param user
-  Future<chopper.Response<List<MoneyDueResponse>>>
-      expensesGroupUserUserDebtsDueGet(
-          {required num? group, required num? user}) {
-    generatedMapping.putIfAbsent(
-        MoneyDueResponse, () => MoneyDueResponse.fromJsonFactory);
+  Future<chopper.Response<List<MoneyDueResponse>>> expensesGroupUserUserDebtsDueGet(
+      {required num? group, required num? user}) {
+    generatedMapping.putIfAbsent(MoneyDueResponse, () => MoneyDueResponse.fromJsonFactory);
 
     return _expensesGroupUserUserDebtsDueGet(group: group, user: user);
   }
@@ -1176,19 +1012,15 @@ abstract class Api extends ChopperService {
   ///@param group
   ///@param user
   @Get(path: '/expenses/{group}/user/{user}/debts/due')
-  Future<chopper.Response<List<MoneyDueResponse>>>
-      _expensesGroupUserUserDebtsDueGet(
-          {@Path('group') required num? group,
-          @Path('user') required num? user});
+  Future<chopper.Response<List<MoneyDueResponse>>> _expensesGroupUserUserDebtsDueGet(
+      {@Path('group') required num? group, @Path('user') required num? user});
 
   ///
   ///@param group
   ///@param user
-  Future<chopper.Response<List<DebtDetailsResponse>>>
-      expensesGroupUserUserDebtsDetailsGet(
-          {required num? group, required num? user}) {
-    generatedMapping.putIfAbsent(
-        DebtDetailsResponse, () => DebtDetailsResponse.fromJsonFactory);
+  Future<chopper.Response<List<DebtDetailsResponse>>> expensesGroupUserUserDebtsDetailsGet(
+      {required num? group, required num? user}) {
+    generatedMapping.putIfAbsent(DebtDetailsResponse, () => DebtDetailsResponse.fromJsonFactory);
 
     return _expensesGroupUserUserDebtsDetailsGet(group: group, user: user);
   }
@@ -1197,17 +1029,13 @@ abstract class Api extends ChopperService {
   ///@param group
   ///@param user
   @Get(path: '/expenses/{group}/user/{user}/debts/details')
-  Future<chopper.Response<List<DebtDetailsResponse>>>
-      _expensesGroupUserUserDebtsDetailsGet(
-          {@Path('group') required num? group,
-          @Path('user') required num? user});
+  Future<chopper.Response<List<DebtDetailsResponse>>> _expensesGroupUserUserDebtsDetailsGet(
+      {@Path('group') required num? group, @Path('user') required num? user});
 
   ///
   ///@param group
-  Future<chopper.Response<List<BalanceResponse>>> expensesGroupBalancesGet(
-      {required num? group}) {
-    generatedMapping.putIfAbsent(
-        BalanceResponse, () => BalanceResponse.fromJsonFactory);
+  Future<chopper.Response<List<BalanceResponse>>> expensesGroupBalancesGet({required num? group}) {
+    generatedMapping.putIfAbsent(BalanceResponse, () => BalanceResponse.fromJsonFactory);
 
     return _expensesGroupBalancesGet(group: group);
   }
@@ -1215,16 +1043,13 @@ abstract class Api extends ChopperService {
   ///
   ///@param group
   @Get(path: '/expenses/{group}/balances')
-  Future<chopper.Response<List<BalanceResponse>>> _expensesGroupBalancesGet(
-      {@Path('group') required num? group});
+  Future<chopper.Response<List<BalanceResponse>>> _expensesGroupBalancesGet({@Path('group') required num? group});
 
   ///Get the most recent channel's messages, by pages of size 50
   ///@param channel_id
   ///@param page
-  Future<chopper.Response<List<MessageResponse>>> chatChannelIdGet(
-      {required num? channelId, int? page}) {
-    generatedMapping.putIfAbsent(
-        MessageResponse, () => MessageResponse.fromJsonFactory);
+  Future<chopper.Response<List<MessageResponse>>> chatChannelIdGet({required num? channelId, int? page}) {
+    generatedMapping.putIfAbsent(MessageResponse, () => MessageResponse.fromJsonFactory);
 
     return _chatChannelIdGet(channelId: channelId, page: page);
   }
@@ -1238,10 +1063,8 @@ abstract class Api extends ChopperService {
 
   ///Get all pinned messages
   ///@param channel_id
-  Future<chopper.Response<List<MessageResponse>>> chatChannelIdPinnedGet(
-      {required num? channelId}) {
-    generatedMapping.putIfAbsent(
-        MessageResponse, () => MessageResponse.fromJsonFactory);
+  Future<chopper.Response<List<MessageResponse>>> chatChannelIdPinnedGet({required num? channelId}) {
+    generatedMapping.putIfAbsent(MessageResponse, () => MessageResponse.fromJsonFactory);
 
     return _chatChannelIdPinnedGet(channelId: channelId);
   }
@@ -1255,8 +1078,7 @@ abstract class Api extends ChopperService {
   ///Delete the profile of a user
   ///@param id
   ///@param profile
-  Future<chopper.Response> idProfilesProfileDelete(
-      {required num? id, required num? profile}) {
+  Future<chopper.Response> idProfilesProfileDelete({required num? id, required num? profile}) {
     return _idProfilesProfileDelete(id: id, profile: profile);
   }
 
@@ -1269,8 +1091,7 @@ abstract class Api extends ChopperService {
 
   ///
   ///@param id
-  Future<chopper.Response> usersIdAdminDelete(
-      {required num? id, required DeleteUserByAdminRequest? body}) {
+  Future<chopper.Response> usersIdAdminDelete({required num? id, required DeleteUserByAdminRequest? body}) {
     return _usersIdAdminDelete(id: id, body: body);
   }
 
@@ -1278,8 +1099,7 @@ abstract class Api extends ChopperService {
   ///@param id
   @Delete(path: '/users/{id}/admin')
   Future<chopper.Response> _usersIdAdminDelete(
-      {@Path('id') required num? id,
-      @Body() required DeleteUserByAdminRequest? body});
+      {@Path('id') required num? id, @Body() required DeleteUserByAdminRequest? body});
 
   ///Delete a report
   ///@param id
@@ -1290,8 +1110,7 @@ abstract class Api extends ChopperService {
   ///Delete a report
   ///@param id
   @Delete(path: '/reports/{id}/admin')
-  Future<chopper.Response> _reportsIdAdminDelete(
-      {@Path('id') required num? id});
+  Future<chopper.Response> _reportsIdAdminDelete({@Path('id') required num? id});
 
   ///Delete a report
   ///@param id
@@ -1313,14 +1132,12 @@ abstract class Api extends ChopperService {
   ///
   ///@param id
   @Delete(path: '/notifications/{id}')
-  Future<chopper.Response> _notificationsIdDelete(
-      {@Path('id') required num? id});
+  Future<chopper.Response> _notificationsIdDelete({@Path('id') required num? id});
 
   ///Remove the user from a group
   ///@param group
   ///@param id
-  Future<chopper.Response> groupsGroupUserIdDelete(
-      {required num? group, required num? id}) {
+  Future<chopper.Response> groupsGroupUserIdDelete({required num? group, required num? id}) {
     return _groupsGroupUserIdDelete(group: group, id: id);
   }
 
@@ -1328,14 +1145,12 @@ abstract class Api extends ChopperService {
   ///@param group
   ///@param id
   @Delete(path: '/groups/{group}/user/{id}')
-  Future<chopper.Response> _groupsGroupUserIdDelete(
-      {@Path('group') required num? group, @Path('id') required num? id});
+  Future<chopper.Response> _groupsGroupUserIdDelete({@Path('group') required num? group, @Path('id') required num? id});
 
   ///Remove user from private group
   ///@param group
   ///@param id
-  Future<chopper.Response> groupsPrivateGroupUserIdDelete(
-      {required num? group, required num? id}) {
+  Future<chopper.Response> groupsPrivateGroupUserIdDelete({required num? group, required num? id}) {
     return _groupsPrivateGroupUserIdDelete(group: group, id: id);
   }
 
@@ -1349,10 +1164,8 @@ abstract class Api extends ChopperService {
   ///
   ///@param groupId
   ///@param expenseId
-  Future<chopper.Response> expensesGroupIdExpenseIdDelete(
-      {required num? groupId, required num? expenseId}) {
-    return _expensesGroupIdExpenseIdDelete(
-        groupId: groupId, expenseId: expenseId);
+  Future<chopper.Response> expensesGroupIdExpenseIdDelete({required num? groupId, required num? expenseId}) {
+    return _expensesGroupIdExpenseIdDelete(groupId: groupId, expenseId: expenseId);
   }
 
   ///
@@ -1360,8 +1173,7 @@ abstract class Api extends ChopperService {
   ///@param expenseId
   @Delete(path: '/expenses/{groupId}/{expenseId}')
   Future<chopper.Response> _expensesGroupIdExpenseIdDelete(
-      {@Path('groupId') required num? groupId,
-      @Path('expenseId') required num? expenseId});
+      {@Path('groupId') required num? groupId, @Path('expenseId') required num? expenseId});
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1374,8 +1186,7 @@ class ExpenseRequest {
     this.total,
   });
 
-  factory ExpenseRequest.fromJson(Map<String, dynamic> json) =>
-      _$ExpenseRequestFromJson(json);
+  factory ExpenseRequest.fromJson(Map<String, dynamic> json) => _$ExpenseRequestFromJson(json);
 
   @JsonKey(name: 'description')
   final String? description;
@@ -1389,6 +1200,7 @@ class ExpenseRequest {
   final double? total;
   static const fromJsonFactory = _$ExpenseRequestFromJson;
   static const toJsonFactory = _$ExpenseRequestToJson;
+
   Map<String, dynamic> toJson() => _$ExpenseRequestToJson(this);
 
   @override
@@ -1396,18 +1208,13 @@ class ExpenseRequest {
     return identical(this, other) ||
         (other is ExpenseRequest &&
             (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
+                const DeepCollectionEquality().equals(other.description, description)) &&
             (identical(other.moneyDueByEachUser, moneyDueByEachUser) ||
-                const DeepCollectionEquality()
-                    .equals(other.moneyDueByEachUser, moneyDueByEachUser)) &&
-            (identical(other.icon, icon) ||
-                const DeepCollectionEquality().equals(other.icon, icon)) &&
+                const DeepCollectionEquality().equals(other.moneyDueByEachUser, moneyDueByEachUser)) &&
+            (identical(other.icon, icon) || const DeepCollectionEquality().equals(other.icon, icon)) &&
             (identical(other.evenlyDivided, evenlyDivided) ||
-                const DeepCollectionEquality()
-                    .equals(other.evenlyDivided, evenlyDivided)) &&
-            (identical(other.total, total) ||
-                const DeepCollectionEquality().equals(other.total, total)));
+                const DeepCollectionEquality().equals(other.evenlyDivided, evenlyDivided)) &&
+            (identical(other.total, total) || const DeepCollectionEquality().equals(other.total, total)));
   }
 
   @override
@@ -1443,8 +1250,7 @@ class MoneyDueRequest {
     this.money,
   });
 
-  factory MoneyDueRequest.fromJson(Map<String, dynamic> json) =>
-      _$MoneyDueRequestFromJson(json);
+  factory MoneyDueRequest.fromJson(Map<String, dynamic> json) => _$MoneyDueRequestFromJson(json);
 
   @JsonKey(name: 'userId')
   final num? userId;
@@ -1452,29 +1258,25 @@ class MoneyDueRequest {
   final double? money;
   static const fromJsonFactory = _$MoneyDueRequestFromJson;
   static const toJsonFactory = _$MoneyDueRequestToJson;
+
   Map<String, dynamic> toJson() => _$MoneyDueRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is MoneyDueRequest &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.money, money) ||
-                const DeepCollectionEquality().equals(other.money, money)));
+            (identical(other.userId, userId) || const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.money, money) || const DeepCollectionEquality().equals(other.money, money)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(money) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(userId) ^ const DeepCollectionEquality().hash(money) ^ runtimeType.hashCode;
 }
 
 extension $MoneyDueRequestExtension on MoneyDueRequest {
   MoneyDueRequest copyWith({num? userId, double? money}) {
-    return MoneyDueRequest(
-        userId: userId ?? this.userId, money: money ?? this.money);
+    return MoneyDueRequest(userId: userId ?? this.userId, money: money ?? this.money);
   }
 }
 
@@ -1486,8 +1288,7 @@ class ChannelModel {
     this.index,
   });
 
-  factory ChannelModel.fromJson(Map<String, dynamic> json) =>
-      _$ChannelModelFromJson(json);
+  factory ChannelModel.fromJson(Map<String, dynamic> json) => _$ChannelModelFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -1497,18 +1298,16 @@ class ChannelModel {
   final int? index;
   static const fromJsonFactory = _$ChannelModelFromJson;
   static const toJsonFactory = _$ChannelModelToJson;
+
   Map<String, dynamic> toJson() => _$ChannelModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ChannelModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.index, index) ||
-                const DeepCollectionEquality().equals(other.index, index)));
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.index, index) || const DeepCollectionEquality().equals(other.index, index)));
   }
 
   @override
@@ -1521,8 +1320,7 @@ class ChannelModel {
 
 extension $ChannelModelExtension on ChannelModel {
   ChannelModel copyWith({num? id, String? name, int? index}) {
-    return ChannelModel(
-        id: id ?? this.id, name: name ?? this.name, index: index ?? this.index);
+    return ChannelModel(id: id ?? this.id, name: name ?? this.name, index: index ?? this.index);
   }
 }
 
@@ -1532,26 +1330,24 @@ class CityModel {
     this.name,
   });
 
-  factory CityModel.fromJson(Map<String, dynamic> json) =>
-      _$CityModelFromJson(json);
+  factory CityModel.fromJson(Map<String, dynamic> json) => _$CityModelFromJson(json);
 
   @JsonKey(name: 'name')
   final String? name;
   static const fromJsonFactory = _$CityModelFromJson;
   static const toJsonFactory = _$CityModelToJson;
+
   Map<String, dynamic> toJson() => _$CityModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is CityModel &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
 }
 
 extension $CityModelExtension on CityModel {
@@ -1568,8 +1364,7 @@ class ExpenseMemberModel {
     this.amountToPay,
   });
 
-  factory ExpenseMemberModel.fromJson(Map<String, dynamic> json) =>
-      _$ExpenseMemberModelFromJson(json);
+  factory ExpenseMemberModel.fromJson(Map<String, dynamic> json) => _$ExpenseMemberModelFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -1579,20 +1374,18 @@ class ExpenseMemberModel {
   final double? amountToPay;
   static const fromJsonFactory = _$ExpenseMemberModelFromJson;
   static const toJsonFactory = _$ExpenseMemberModelToJson;
+
   Map<String, dynamic> toJson() => _$ExpenseMemberModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ExpenseMemberModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.userModel, userModel) ||
-                const DeepCollectionEquality()
-                    .equals(other.userModel, userModel)) &&
+                const DeepCollectionEquality().equals(other.userModel, userModel)) &&
             (identical(other.amountToPay, amountToPay) ||
-                const DeepCollectionEquality()
-                    .equals(other.amountToPay, amountToPay)));
+                const DeepCollectionEquality().equals(other.amountToPay, amountToPay)));
   }
 
   @override
@@ -1604,12 +1397,9 @@ class ExpenseMemberModel {
 }
 
 extension $ExpenseMemberModelExtension on ExpenseMemberModel {
-  ExpenseMemberModel copyWith(
-      {num? id, GroupMemberModel? userModel, double? amountToPay}) {
+  ExpenseMemberModel copyWith({num? id, GroupMemberModel? userModel, double? amountToPay}) {
     return ExpenseMemberModel(
-        id: id ?? this.id,
-        userModel: userModel ?? this.userModel,
-        amountToPay: amountToPay ?? this.amountToPay);
+        id: id ?? this.id, userModel: userModel ?? this.userModel, amountToPay: amountToPay ?? this.amountToPay);
   }
 }
 
@@ -1626,8 +1416,7 @@ class ExpenseModel {
     this.indebtedUsers,
   });
 
-  factory ExpenseModel.fromJson(Map<String, dynamic> json) =>
-      _$ExpenseModelFromJson(json);
+  factory ExpenseModel.fromJson(Map<String, dynamic> json) => _$ExpenseModelFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -1647,32 +1436,25 @@ class ExpenseModel {
   final List<ExpenseMemberModel>? indebtedUsers;
   static const fromJsonFactory = _$ExpenseModelFromJson;
   static const toJsonFactory = _$ExpenseModelToJson;
+
   Map<String, dynamic> toJson() => _$ExpenseModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ExpenseModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
-            (identical(other.total, total) ||
-                const DeepCollectionEquality().equals(other.total, total)) &&
+                const DeepCollectionEquality().equals(other.description, description)) &&
+            (identical(other.total, total) || const DeepCollectionEquality().equals(other.total, total)) &&
             (identical(other.groupModel, groupModel) ||
-                const DeepCollectionEquality()
-                    .equals(other.groupModel, groupModel)) &&
+                const DeepCollectionEquality().equals(other.groupModel, groupModel)) &&
             (identical(other.purchaser, purchaser) ||
-                const DeepCollectionEquality()
-                    .equals(other.purchaser, purchaser)) &&
-            (identical(other.date, date) ||
-                const DeepCollectionEquality().equals(other.date, date)) &&
-            (identical(other.icon, icon) ||
-                const DeepCollectionEquality().equals(other.icon, icon)) &&
+                const DeepCollectionEquality().equals(other.purchaser, purchaser)) &&
+            (identical(other.date, date) || const DeepCollectionEquality().equals(other.date, date)) &&
+            (identical(other.icon, icon) || const DeepCollectionEquality().equals(other.icon, icon)) &&
             (identical(other.indebtedUsers, indebtedUsers) ||
-                const DeepCollectionEquality()
-                    .equals(other.indebtedUsers, indebtedUsers)));
+                const DeepCollectionEquality().equals(other.indebtedUsers, indebtedUsers)));
   }
 
   @override
@@ -1719,8 +1501,7 @@ class GroupMemberModel {
     this.profilePicture,
   });
 
-  factory GroupMemberModel.fromJson(Map<String, dynamic> json) =>
-      _$GroupMemberModelFromJson(json);
+  factory GroupMemberModel.fromJson(Map<String, dynamic> json) => _$GroupMemberModelFromJson(json);
 
   @JsonKey(name: 'userId')
   final num? userId;
@@ -1732,23 +1513,19 @@ class GroupMemberModel {
   final String? profilePicture;
   static const fromJsonFactory = _$GroupMemberModelFromJson;
   static const toJsonFactory = _$GroupMemberModelToJson;
+
   Map<String, dynamic> toJson() => _$GroupMemberModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is GroupMemberModel &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.userId, userId) || const DeepCollectionEquality().equals(other.userId, userId)) &&
             (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
+                const DeepCollectionEquality().equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) || const DeepCollectionEquality().equals(other.lastname, lastname)) &&
             (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)));
+                const DeepCollectionEquality().equals(other.profilePicture, profilePicture)));
   }
 
   @override
@@ -1761,11 +1538,7 @@ class GroupMemberModel {
 }
 
 extension $GroupMemberModelExtension on GroupMemberModel {
-  GroupMemberModel copyWith(
-      {num? userId,
-      String? firstname,
-      String? lastname,
-      String? profilePicture}) {
+  GroupMemberModel copyWith({num? userId, String? firstname, String? lastname, String? profilePicture}) {
     return GroupMemberModel(
         userId: userId ?? this.userId,
         firstname: firstname ?? this.firstname,
@@ -1792,8 +1565,7 @@ class GroupModel {
     this.createdDate,
   });
 
-  factory GroupModel.fromJson(Map<String, dynamic> json) =>
-      _$GroupModelFromJson(json);
+  factory GroupModel.fromJson(Map<String, dynamic> json) => _$GroupModelFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -1801,10 +1573,7 @@ class GroupModel {
   final String? name;
   @JsonKey(name: 'description')
   final String? description;
-  @JsonKey(
-      name: 'state',
-      toJson: groupModelStateToJson,
-      fromJson: groupModelStateFromJson)
+  @JsonKey(name: 'state', toJson: groupModelStateToJson, fromJson: groupModelStateFromJson)
   final enums.GroupModelState? state;
   @JsonKey(name: 'owner')
   final UserModel? owner;
@@ -1826,47 +1595,31 @@ class GroupModel {
   final String? createdDate;
   static const fromJsonFactory = _$GroupModelFromJson;
   static const toJsonFactory = _$GroupModelToJson;
+
   Map<String, dynamic> toJson() => _$GroupModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is GroupModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
-            (identical(other.state, state) ||
-                const DeepCollectionEquality().equals(other.state, state)) &&
-            (identical(other.owner, owner) ||
-                const DeepCollectionEquality().equals(other.owner, owner)) &&
-            (identical(other.maxSize, maxSize) ||
-                const DeepCollectionEquality()
-                    .equals(other.maxSize, maxSize)) &&
+                const DeepCollectionEquality().equals(other.description, description)) &&
+            (identical(other.state, state) || const DeepCollectionEquality().equals(other.state, state)) &&
+            (identical(other.owner, owner) || const DeepCollectionEquality().equals(other.owner, owner)) &&
+            (identical(other.maxSize, maxSize) || const DeepCollectionEquality().equals(other.maxSize, maxSize)) &&
             (identical(other.startOfTrip, startOfTrip) ||
-                const DeepCollectionEquality()
-                    .equals(other.startOfTrip, startOfTrip)) &&
+                const DeepCollectionEquality().equals(other.startOfTrip, startOfTrip)) &&
             (identical(other.endOfTrip, endOfTrip) ||
-                const DeepCollectionEquality()
-                    .equals(other.endOfTrip, endOfTrip)) &&
-            (identical(other.picture, picture) ||
-                const DeepCollectionEquality()
-                    .equals(other.picture, picture)) &&
+                const DeepCollectionEquality().equals(other.endOfTrip, endOfTrip)) &&
+            (identical(other.picture, picture) || const DeepCollectionEquality().equals(other.picture, picture)) &&
             (identical(other.destination, destination) ||
-                const DeepCollectionEquality()
-                    .equals(other.destination, destination)) &&
-            (identical(other.members, members) ||
-                const DeepCollectionEquality()
-                    .equals(other.members, members)) &&
-            (identical(other.channels, channels) ||
-                const DeepCollectionEquality()
-                    .equals(other.channels, channels)) &&
+                const DeepCollectionEquality().equals(other.destination, destination)) &&
+            (identical(other.members, members) || const DeepCollectionEquality().equals(other.members, members)) &&
+            (identical(other.channels, channels) || const DeepCollectionEquality().equals(other.channels, channels)) &&
             (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)));
+                const DeepCollectionEquality().equals(other.createdDate, createdDate)));
   }
 
   @override
@@ -1935,8 +1688,7 @@ class MemberModel {
     this.confirmed,
   });
 
-  factory MemberModel.fromJson(Map<String, dynamic> json) =>
-      _$MemberModelFromJson(json);
+  factory MemberModel.fromJson(Map<String, dynamic> json) => _$MemberModelFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -1948,10 +1700,7 @@ class MemberModel {
   final String? email;
   @JsonKey(name: 'birthDate')
   final DateTime? birthDate;
-  @JsonKey(
-      name: 'gender',
-      toJson: memberModelGenderToJson,
-      fromJson: memberModelGenderFromJson)
+  @JsonKey(name: 'gender', toJson: memberModelGenderToJson, fromJson: memberModelGenderFromJson)
   final enums.MemberModelGender? gender;
   @JsonKey(name: 'profilePicture')
   final String? profilePicture;
@@ -1965,41 +1714,30 @@ class MemberModel {
   final bool? confirmed;
   static const fromJsonFactory = _$MemberModelFromJson;
   static const toJsonFactory = _$MemberModelToJson;
+
   Map<String, dynamic> toJson() => _$MemberModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is MemberModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
+                const DeepCollectionEquality().equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) || const DeepCollectionEquality().equals(other.lastname, lastname)) &&
+            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)) &&
             (identical(other.birthDate, birthDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthDate, birthDate)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
+                const DeepCollectionEquality().equals(other.birthDate, birthDate)) &&
+            (identical(other.gender, gender) || const DeepCollectionEquality().equals(other.gender, gender)) &&
             (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)) &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
+                const DeepCollectionEquality().equals(other.profilePicture, profilePicture)) &&
+            (identical(other.city, city) || const DeepCollectionEquality().equals(other.city, city)) &&
             (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)) &&
+                const DeepCollectionEquality().equals(other.createdDate, createdDate)) &&
             (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
+                const DeepCollectionEquality().equals(other.phoneNumber, phoneNumber)) &&
             (identical(other.confirmed, confirmed) ||
-                const DeepCollectionEquality()
-                    .equals(other.confirmed, confirmed)));
+                const DeepCollectionEquality().equals(other.confirmed, confirmed)));
   }
 
   @override
@@ -2065,8 +1803,7 @@ class UserModel {
     this.roles,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) =>
-      _$UserModelFromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -2080,10 +1817,7 @@ class UserModel {
   final String? email;
   @JsonKey(name: 'birthDate')
   final DateTime? birthDate;
-  @JsonKey(
-      name: 'gender',
-      toJson: userModelGenderToJson,
-      fromJson: userModelGenderFromJson)
+  @JsonKey(name: 'gender', toJson: userModelGenderToJson, fromJson: userModelGenderFromJson)
   final enums.UserModelGender? gender;
   @JsonKey(name: 'profilePicture')
   final String? profilePicture;
@@ -2097,56 +1831,37 @@ class UserModel {
   final bool? confirmed;
   @JsonKey(name: 'language')
   final String? language;
-  @JsonKey(
-      name: 'roles',
-      toJson: userModelRolesListToJson,
-      fromJson: userModelRolesListFromJson)
+  @JsonKey(name: 'roles', toJson: userModelRolesListToJson, fromJson: userModelRolesListFromJson)
   final List<enums.UserModelRoles>? roles;
   static const fromJsonFactory = _$UserModelFromJson;
   static const toJsonFactory = _$UserModelToJson;
+
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UserModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
+                const DeepCollectionEquality().equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) || const DeepCollectionEquality().equals(other.lastname, lastname)) &&
+            (identical(other.password, password) || const DeepCollectionEquality().equals(other.password, password)) &&
+            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)) &&
             (identical(other.birthDate, birthDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthDate, birthDate)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
+                const DeepCollectionEquality().equals(other.birthDate, birthDate)) &&
+            (identical(other.gender, gender) || const DeepCollectionEquality().equals(other.gender, gender)) &&
             (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)) &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
+                const DeepCollectionEquality().equals(other.profilePicture, profilePicture)) &&
+            (identical(other.city, city) || const DeepCollectionEquality().equals(other.city, city)) &&
             (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)) &&
+                const DeepCollectionEquality().equals(other.createdDate, createdDate)) &&
             (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
+                const DeepCollectionEquality().equals(other.phoneNumber, phoneNumber)) &&
             (identical(other.confirmed, confirmed) ||
-                const DeepCollectionEquality()
-                    .equals(other.confirmed, confirmed)) &&
-            (identical(other.language, language) ||
-                const DeepCollectionEquality()
-                    .equals(other.language, language)) &&
-            (identical(other.roles, roles) ||
-                const DeepCollectionEquality().equals(other.roles, roles)));
+                const DeepCollectionEquality().equals(other.confirmed, confirmed)) &&
+            (identical(other.language, language) || const DeepCollectionEquality().equals(other.language, language)) &&
+            (identical(other.roles, roles) || const DeepCollectionEquality().equals(other.roles, roles)));
   }
 
   @override
@@ -2209,8 +1924,7 @@ class AvailabilityAnswerModel {
     this.endDate,
   });
 
-  factory AvailabilityAnswerModel.fromJson(Map<String, dynamic> json) =>
-      _$AvailabilityAnswerModelFromJson(json);
+  factory AvailabilityAnswerModel.fromJson(Map<String, dynamic> json) => _$AvailabilityAnswerModelFromJson(json);
 
   @JsonKey(name: 'startDate')
   final String? startDate;
@@ -2218,6 +1932,7 @@ class AvailabilityAnswerModel {
   final String? endDate;
   static const fromJsonFactory = _$AvailabilityAnswerModelFromJson;
   static const toJsonFactory = _$AvailabilityAnswerModelToJson;
+
   Map<String, dynamic> toJson() => _$AvailabilityAnswerModelToJson(this);
 
   @override
@@ -2225,10 +1940,8 @@ class AvailabilityAnswerModel {
     return identical(this, other) ||
         (other is AvailabilityAnswerModel &&
             (identical(other.startDate, startDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.startDate, startDate)) &&
-            (identical(other.endDate, endDate) ||
-                const DeepCollectionEquality().equals(other.endDate, endDate)));
+                const DeepCollectionEquality().equals(other.startDate, startDate)) &&
+            (identical(other.endDate, endDate) || const DeepCollectionEquality().equals(other.endDate, endDate)));
   }
 
   @override
@@ -2240,9 +1953,7 @@ class AvailabilityAnswerModel {
 
 extension $AvailabilityAnswerModelExtension on AvailabilityAnswerModel {
   AvailabilityAnswerModel copyWith({String? startDate, String? endDate}) {
-    return AvailabilityAnswerModel(
-        startDate: startDate ?? this.startDate,
-        endDate: endDate ?? this.endDate);
+    return AvailabilityAnswerModel(startDate: startDate ?? this.startDate, endDate: endDate ?? this.endDate);
   }
 }
 
@@ -2266,8 +1977,7 @@ class ProfileCreationRequest {
     this.availabilities,
   });
 
-  factory ProfileCreationRequest.fromJson(Map<String, dynamic> json) =>
-      _$ProfileCreationRequestFromJson(json);
+  factory ProfileCreationRequest.fromJson(Map<String, dynamic> json) => _$ProfileCreationRequestFromJson(json);
 
   @JsonKey(name: 'name')
   final String? name;
@@ -2286,24 +1996,18 @@ class ProfileCreationRequest {
       name: 'travelWithPersonFromSameCity',
       toJson: profileCreationRequestTravelWithPersonFromSameCityToJson,
       fromJson: profileCreationRequestTravelWithPersonFromSameCityFromJson)
-  final enums.ProfileCreationRequestTravelWithPersonFromSameCity?
-      travelWithPersonFromSameCity;
+  final enums.ProfileCreationRequestTravelWithPersonFromSameCity? travelWithPersonFromSameCity;
   @JsonKey(
       name: 'travelWithPersonFromSameCountry',
       toJson: profileCreationRequestTravelWithPersonFromSameCountryToJson,
       fromJson: profileCreationRequestTravelWithPersonFromSameCountryFromJson)
-  final enums.ProfileCreationRequestTravelWithPersonFromSameCountry?
-      travelWithPersonFromSameCountry;
+  final enums.ProfileCreationRequestTravelWithPersonFromSameCountry? travelWithPersonFromSameCountry;
   @JsonKey(
       name: 'travelWithPersonSameLanguage',
       toJson: profileCreationRequestTravelWithPersonSameLanguageToJson,
       fromJson: profileCreationRequestTravelWithPersonSameLanguageFromJson)
-  final enums.ProfileCreationRequestTravelWithPersonSameLanguage?
-      travelWithPersonSameLanguage;
-  @JsonKey(
-      name: 'gender',
-      toJson: profileCreationRequestGenderToJson,
-      fromJson: profileCreationRequestGenderFromJson)
+  final enums.ProfileCreationRequestTravelWithPersonSameLanguage? travelWithPersonSameLanguage;
+  @JsonKey(name: 'gender', toJson: profileCreationRequestGenderToJson, fromJson: profileCreationRequestGenderFromJson)
   final enums.ProfileCreationRequestGender? gender;
   @JsonKey(name: 'groupSize')
   final RangeAnswerModel? groupSize;
@@ -2322,62 +2026,44 @@ class ProfileCreationRequest {
       toJson: profileCreationRequestGoOutAtNightToJson,
       fromJson: profileCreationRequestGoOutAtNightFromJson)
   final enums.ProfileCreationRequestGoOutAtNight? goOutAtNight;
-  @JsonKey(
-      name: 'sport',
-      toJson: profileCreationRequestSportToJson,
-      fromJson: profileCreationRequestSportFromJson)
+  @JsonKey(name: 'sport', toJson: profileCreationRequestSportToJson, fromJson: profileCreationRequestSportFromJson)
   final enums.ProfileCreationRequestSport? sport;
   @JsonKey(name: 'availabilities', defaultValue: <AvailabilityAnswerModel>[])
   final List<AvailabilityAnswerModel>? availabilities;
   static const fromJsonFactory = _$ProfileCreationRequestFromJson;
   static const toJsonFactory = _$ProfileCreationRequestToJson;
+
   Map<String, dynamic> toJson() => _$ProfileCreationRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ProfileCreationRequest &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.duration, duration) ||
-                const DeepCollectionEquality()
-                    .equals(other.duration, duration)) &&
-            (identical(other.budget, budget) ||
-                const DeepCollectionEquality().equals(other.budget, budget)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.duration, duration) || const DeepCollectionEquality().equals(other.duration, duration)) &&
+            (identical(other.budget, budget) || const DeepCollectionEquality().equals(other.budget, budget)) &&
             (identical(other.destinationTypes, destinationTypes) ||
-                const DeepCollectionEquality()
-                    .equals(other.destinationTypes, destinationTypes)) &&
-            (identical(other.ages, ages) ||
-                const DeepCollectionEquality().equals(other.ages, ages)) &&
+                const DeepCollectionEquality().equals(other.destinationTypes, destinationTypes)) &&
+            (identical(other.ages, ages) || const DeepCollectionEquality().equals(other.ages, ages)) &&
             (identical(other.travelWithPersonFromSameCity, travelWithPersonFromSameCity) ||
-                const DeepCollectionEquality().equals(
-                    other.travelWithPersonFromSameCity,
-                    travelWithPersonFromSameCity)) &&
-            (identical(other.travelWithPersonFromSameCountry,
-                    travelWithPersonFromSameCountry) ||
-                const DeepCollectionEquality().equals(
-                    other.travelWithPersonFromSameCountry,
-                    travelWithPersonFromSameCountry)) &&
+                const DeepCollectionEquality()
+                    .equals(other.travelWithPersonFromSameCity, travelWithPersonFromSameCity)) &&
+            (identical(other.travelWithPersonFromSameCountry, travelWithPersonFromSameCountry) ||
+                const DeepCollectionEquality()
+                    .equals(other.travelWithPersonFromSameCountry, travelWithPersonFromSameCountry)) &&
             (identical(other.travelWithPersonSameLanguage, travelWithPersonSameLanguage) ||
-                const DeepCollectionEquality().equals(
-                    other.travelWithPersonSameLanguage,
-                    travelWithPersonSameLanguage)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
+                const DeepCollectionEquality()
+                    .equals(other.travelWithPersonSameLanguage, travelWithPersonSameLanguage)) &&
+            (identical(other.gender, gender) || const DeepCollectionEquality().equals(other.gender, gender)) &&
             (identical(other.groupSize, groupSize) ||
-                const DeepCollectionEquality()
-                    .equals(other.groupSize, groupSize)) &&
+                const DeepCollectionEquality().equals(other.groupSize, groupSize)) &&
             (identical(other.chillOrVisit, chillOrVisit) ||
-                const DeepCollectionEquality()
-                    .equals(other.chillOrVisit, chillOrVisit)) &&
+                const DeepCollectionEquality().equals(other.chillOrVisit, chillOrVisit)) &&
             (identical(other.aboutFood, aboutFood) ||
-                const DeepCollectionEquality()
-                    .equals(other.aboutFood, aboutFood)) &&
+                const DeepCollectionEquality().equals(other.aboutFood, aboutFood)) &&
             (identical(other.goOutAtNight, goOutAtNight) ||
-                const DeepCollectionEquality()
-                    .equals(other.goOutAtNight, goOutAtNight)) &&
-            (identical(other.sport, sport) ||
-                const DeepCollectionEquality().equals(other.sport, sport)) &&
+                const DeepCollectionEquality().equals(other.goOutAtNight, goOutAtNight)) &&
+            (identical(other.sport, sport) || const DeepCollectionEquality().equals(other.sport, sport)) &&
             (identical(other.availabilities, availabilities) ||
                 const DeepCollectionEquality().equals(other.availabilities, availabilities)));
   }
@@ -2409,12 +2095,9 @@ extension $ProfileCreationRequestExtension on ProfileCreationRequest {
       RangeAnswerModel? budget,
       List<enums.ProfileCreationRequestDestinationTypes>? destinationTypes,
       RangeAnswerModel? ages,
-      enums.ProfileCreationRequestTravelWithPersonFromSameCity?
-          travelWithPersonFromSameCity,
-      enums.ProfileCreationRequestTravelWithPersonFromSameCountry?
-          travelWithPersonFromSameCountry,
-      enums.ProfileCreationRequestTravelWithPersonSameLanguage?
-          travelWithPersonSameLanguage,
+      enums.ProfileCreationRequestTravelWithPersonFromSameCity? travelWithPersonFromSameCity,
+      enums.ProfileCreationRequestTravelWithPersonFromSameCountry? travelWithPersonFromSameCountry,
+      enums.ProfileCreationRequestTravelWithPersonSameLanguage? travelWithPersonSameLanguage,
       enums.ProfileCreationRequestGender? gender,
       RangeAnswerModel? groupSize,
       enums.ProfileCreationRequestChillOrVisit? chillOrVisit,
@@ -2428,12 +2111,9 @@ extension $ProfileCreationRequestExtension on ProfileCreationRequest {
         budget: budget ?? this.budget,
         destinationTypes: destinationTypes ?? this.destinationTypes,
         ages: ages ?? this.ages,
-        travelWithPersonFromSameCity:
-            travelWithPersonFromSameCity ?? this.travelWithPersonFromSameCity,
-        travelWithPersonFromSameCountry: travelWithPersonFromSameCountry ??
-            this.travelWithPersonFromSameCountry,
-        travelWithPersonSameLanguage:
-            travelWithPersonSameLanguage ?? this.travelWithPersonSameLanguage,
+        travelWithPersonFromSameCity: travelWithPersonFromSameCity ?? this.travelWithPersonFromSameCity,
+        travelWithPersonFromSameCountry: travelWithPersonFromSameCountry ?? this.travelWithPersonFromSameCountry,
+        travelWithPersonSameLanguage: travelWithPersonSameLanguage ?? this.travelWithPersonSameLanguage,
         gender: gender ?? this.gender,
         groupSize: groupSize ?? this.groupSize,
         chillOrVisit: chillOrVisit ?? this.chillOrVisit,
@@ -2451,8 +2131,7 @@ class RangeAnswerModel {
     this.maxValue,
   });
 
-  factory RangeAnswerModel.fromJson(Map<String, dynamic> json) =>
-      _$RangeAnswerModelFromJson(json);
+  factory RangeAnswerModel.fromJson(Map<String, dynamic> json) => _$RangeAnswerModelFromJson(json);
 
   @JsonKey(name: 'minValue')
   final int? minValue;
@@ -2460,18 +2139,15 @@ class RangeAnswerModel {
   final int? maxValue;
   static const fromJsonFactory = _$RangeAnswerModelFromJson;
   static const toJsonFactory = _$RangeAnswerModelToJson;
+
   Map<String, dynamic> toJson() => _$RangeAnswerModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is RangeAnswerModel &&
-            (identical(other.minValue, minValue) ||
-                const DeepCollectionEquality()
-                    .equals(other.minValue, minValue)) &&
-            (identical(other.maxValue, maxValue) ||
-                const DeepCollectionEquality()
-                    .equals(other.maxValue, maxValue)));
+            (identical(other.minValue, minValue) || const DeepCollectionEquality().equals(other.minValue, minValue)) &&
+            (identical(other.maxValue, maxValue) || const DeepCollectionEquality().equals(other.maxValue, maxValue)));
   }
 
   @override
@@ -2483,9 +2159,7 @@ class RangeAnswerModel {
 
 extension $RangeAnswerModelExtension on RangeAnswerModel {
   RangeAnswerModel copyWith({int? minValue, int? maxValue}) {
-    return RangeAnswerModel(
-        minValue: minValue ?? this.minValue,
-        maxValue: maxValue ?? this.maxValue);
+    return RangeAnswerModel(minValue: minValue ?? this.minValue, maxValue: maxValue ?? this.maxValue);
   }
 }
 
@@ -2512,8 +2186,7 @@ class ProfileModel {
     this.active,
   });
 
-  factory ProfileModel.fromJson(Map<String, dynamic> json) =>
-      _$ProfileModelFromJson(json);
+  factory ProfileModel.fromJson(Map<String, dynamic> json) => _$ProfileModelFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -2536,46 +2209,28 @@ class ProfileModel {
       name: 'travelWithPersonFromSameCity',
       toJson: profileModelTravelWithPersonFromSameCityToJson,
       fromJson: profileModelTravelWithPersonFromSameCityFromJson)
-  final enums.ProfileModelTravelWithPersonFromSameCity?
-      travelWithPersonFromSameCity;
+  final enums.ProfileModelTravelWithPersonFromSameCity? travelWithPersonFromSameCity;
   @JsonKey(
       name: 'travelWithPersonFromSameCountry',
       toJson: profileModelTravelWithPersonFromSameCountryToJson,
       fromJson: profileModelTravelWithPersonFromSameCountryFromJson)
-  final enums.ProfileModelTravelWithPersonFromSameCountry?
-      travelWithPersonFromSameCountry;
+  final enums.ProfileModelTravelWithPersonFromSameCountry? travelWithPersonFromSameCountry;
   @JsonKey(
       name: 'travelWithPersonSameLanguage',
       toJson: profileModelTravelWithPersonSameLanguageToJson,
       fromJson: profileModelTravelWithPersonSameLanguageFromJson)
-  final enums.ProfileModelTravelWithPersonSameLanguage?
-      travelWithPersonSameLanguage;
-  @JsonKey(
-      name: 'gender',
-      toJson: profileModelGenderToJson,
-      fromJson: profileModelGenderFromJson)
+  final enums.ProfileModelTravelWithPersonSameLanguage? travelWithPersonSameLanguage;
+  @JsonKey(name: 'gender', toJson: profileModelGenderToJson, fromJson: profileModelGenderFromJson)
   final enums.ProfileModelGender? gender;
   @JsonKey(name: 'groupSize')
   final RangeAnswerModel? groupSize;
-  @JsonKey(
-      name: 'chillOrVisit',
-      toJson: profileModelChillOrVisitToJson,
-      fromJson: profileModelChillOrVisitFromJson)
+  @JsonKey(name: 'chillOrVisit', toJson: profileModelChillOrVisitToJson, fromJson: profileModelChillOrVisitFromJson)
   final enums.ProfileModelChillOrVisit? chillOrVisit;
-  @JsonKey(
-      name: 'aboutFood',
-      toJson: profileModelAboutFoodToJson,
-      fromJson: profileModelAboutFoodFromJson)
+  @JsonKey(name: 'aboutFood', toJson: profileModelAboutFoodToJson, fromJson: profileModelAboutFoodFromJson)
   final enums.ProfileModelAboutFood? aboutFood;
-  @JsonKey(
-      name: 'goOutAtNight',
-      toJson: profileModelGoOutAtNightToJson,
-      fromJson: profileModelGoOutAtNightFromJson)
+  @JsonKey(name: 'goOutAtNight', toJson: profileModelGoOutAtNightToJson, fromJson: profileModelGoOutAtNightFromJson)
   final enums.ProfileModelGoOutAtNight? goOutAtNight;
-  @JsonKey(
-      name: 'sport',
-      toJson: profileModelSportToJson,
-      fromJson: profileModelSportFromJson)
+  @JsonKey(name: 'sport', toJson: profileModelSportToJson, fromJson: profileModelSportFromJson)
   final enums.ProfileModelSport? sport;
   @JsonKey(name: 'createdDate')
   final DateTime? createdDate;
@@ -2583,60 +2238,43 @@ class ProfileModel {
   final bool? active;
   static const fromJsonFactory = _$ProfileModelFromJson;
   static const toJsonFactory = _$ProfileModelToJson;
+
   Map<String, dynamic> toJson() => _$ProfileModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ProfileModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.availabilities, availabilities) ||
-                const DeepCollectionEquality()
-                    .equals(other.availabilities, availabilities)) &&
-            (identical(other.duration, duration) ||
-                const DeepCollectionEquality()
-                    .equals(other.duration, duration)) &&
-            (identical(other.budget, budget) ||
-                const DeepCollectionEquality().equals(other.budget, budget)) &&
+                const DeepCollectionEquality().equals(other.availabilities, availabilities)) &&
+            (identical(other.duration, duration) || const DeepCollectionEquality().equals(other.duration, duration)) &&
+            (identical(other.budget, budget) || const DeepCollectionEquality().equals(other.budget, budget)) &&
             (identical(other.destinationTypes, destinationTypes) ||
-                const DeepCollectionEquality()
-                    .equals(other.destinationTypes, destinationTypes)) &&
-            (identical(other.ages, ages) ||
-                const DeepCollectionEquality().equals(other.ages, ages)) &&
+                const DeepCollectionEquality().equals(other.destinationTypes, destinationTypes)) &&
+            (identical(other.ages, ages) || const DeepCollectionEquality().equals(other.ages, ages)) &&
             (identical(other.travelWithPersonFromSameCity, travelWithPersonFromSameCity) ||
-                const DeepCollectionEquality().equals(
-                    other.travelWithPersonFromSameCity,
-                    travelWithPersonFromSameCity)) &&
+                const DeepCollectionEquality()
+                    .equals(other.travelWithPersonFromSameCity, travelWithPersonFromSameCity)) &&
             (identical(other.travelWithPersonFromSameCountry, travelWithPersonFromSameCountry) ||
-                const DeepCollectionEquality().equals(
-                    other.travelWithPersonFromSameCountry,
-                    travelWithPersonFromSameCountry)) &&
+                const DeepCollectionEquality()
+                    .equals(other.travelWithPersonFromSameCountry, travelWithPersonFromSameCountry)) &&
             (identical(other.travelWithPersonSameLanguage, travelWithPersonSameLanguage) ||
-                const DeepCollectionEquality().equals(
-                    other.travelWithPersonSameLanguage,
-                    travelWithPersonSameLanguage)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
+                const DeepCollectionEquality()
+                    .equals(other.travelWithPersonSameLanguage, travelWithPersonSameLanguage)) &&
+            (identical(other.gender, gender) || const DeepCollectionEquality().equals(other.gender, gender)) &&
             (identical(other.groupSize, groupSize) ||
-                const DeepCollectionEquality()
-                    .equals(other.groupSize, groupSize)) &&
+                const DeepCollectionEquality().equals(other.groupSize, groupSize)) &&
             (identical(other.chillOrVisit, chillOrVisit) ||
-                const DeepCollectionEquality()
-                    .equals(other.chillOrVisit, chillOrVisit)) &&
+                const DeepCollectionEquality().equals(other.chillOrVisit, chillOrVisit)) &&
             (identical(other.aboutFood, aboutFood) ||
-                const DeepCollectionEquality()
-                    .equals(other.aboutFood, aboutFood)) &&
+                const DeepCollectionEquality().equals(other.aboutFood, aboutFood)) &&
             (identical(other.goOutAtNight, goOutAtNight) ||
-                const DeepCollectionEquality()
-                    .equals(other.goOutAtNight, goOutAtNight)) &&
-            (identical(other.sport, sport) ||
-                const DeepCollectionEquality().equals(other.sport, sport)) &&
+                const DeepCollectionEquality().equals(other.goOutAtNight, goOutAtNight)) &&
+            (identical(other.sport, sport) || const DeepCollectionEquality().equals(other.sport, sport)) &&
             (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)) &&
+                const DeepCollectionEquality().equals(other.createdDate, createdDate)) &&
             (identical(other.active, active) || const DeepCollectionEquality().equals(other.active, active)));
   }
 
@@ -2672,12 +2310,9 @@ extension $ProfileModelExtension on ProfileModel {
       RangeAnswerModel? budget,
       List<enums.ProfileModelDestinationTypes>? destinationTypes,
       RangeAnswerModel? ages,
-      enums.ProfileModelTravelWithPersonFromSameCity?
-          travelWithPersonFromSameCity,
-      enums.ProfileModelTravelWithPersonFromSameCountry?
-          travelWithPersonFromSameCountry,
-      enums.ProfileModelTravelWithPersonSameLanguage?
-          travelWithPersonSameLanguage,
+      enums.ProfileModelTravelWithPersonFromSameCity? travelWithPersonFromSameCity,
+      enums.ProfileModelTravelWithPersonFromSameCountry? travelWithPersonFromSameCountry,
+      enums.ProfileModelTravelWithPersonSameLanguage? travelWithPersonSameLanguage,
       enums.ProfileModelGender? gender,
       RangeAnswerModel? groupSize,
       enums.ProfileModelChillOrVisit? chillOrVisit,
@@ -2694,12 +2329,9 @@ extension $ProfileModelExtension on ProfileModel {
         budget: budget ?? this.budget,
         destinationTypes: destinationTypes ?? this.destinationTypes,
         ages: ages ?? this.ages,
-        travelWithPersonFromSameCity:
-            travelWithPersonFromSameCity ?? this.travelWithPersonFromSameCity,
-        travelWithPersonFromSameCountry: travelWithPersonFromSameCountry ??
-            this.travelWithPersonFromSameCountry,
-        travelWithPersonSameLanguage:
-            travelWithPersonSameLanguage ?? this.travelWithPersonSameLanguage,
+        travelWithPersonFromSameCity: travelWithPersonFromSameCity ?? this.travelWithPersonFromSameCity,
+        travelWithPersonFromSameCountry: travelWithPersonFromSameCountry ?? this.travelWithPersonFromSameCountry,
+        travelWithPersonSameLanguage: travelWithPersonSameLanguage ?? this.travelWithPersonSameLanguage,
         gender: gender ?? this.gender,
         groupSize: groupSize ?? this.groupSize,
         chillOrVisit: chillOrVisit ?? this.chillOrVisit,
@@ -2718,8 +2350,7 @@ class PossibleAnswerRequest {
     this.rightAnswer,
   });
 
-  factory PossibleAnswerRequest.fromJson(Map<String, dynamic> json) =>
-      _$PossibleAnswerRequestFromJson(json);
+  factory PossibleAnswerRequest.fromJson(Map<String, dynamic> json) => _$PossibleAnswerRequestFromJson(json);
 
   @JsonKey(name: 'content')
   final String? content;
@@ -2727,18 +2358,16 @@ class PossibleAnswerRequest {
   final bool? rightAnswer;
   static const fromJsonFactory = _$PossibleAnswerRequestFromJson;
   static const toJsonFactory = _$PossibleAnswerRequestToJson;
+
   Map<String, dynamic> toJson() => _$PossibleAnswerRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is PossibleAnswerRequest &&
-            (identical(other.content, content) ||
-                const DeepCollectionEquality()
-                    .equals(other.content, content)) &&
+            (identical(other.content, content) || const DeepCollectionEquality().equals(other.content, content)) &&
             (identical(other.rightAnswer, rightAnswer) ||
-                const DeepCollectionEquality()
-                    .equals(other.rightAnswer, rightAnswer)));
+                const DeepCollectionEquality().equals(other.rightAnswer, rightAnswer)));
   }
 
   @override
@@ -2750,9 +2379,7 @@ class PossibleAnswerRequest {
 
 extension $PossibleAnswerRequestExtension on PossibleAnswerRequest {
   PossibleAnswerRequest copyWith({String? content, bool? rightAnswer}) {
-    return PossibleAnswerRequest(
-        content: content ?? this.content,
-        rightAnswer: rightAnswer ?? this.rightAnswer);
+    return PossibleAnswerRequest(content: content ?? this.content, rightAnswer: rightAnswer ?? this.rightAnswer);
   }
 }
 
@@ -2767,8 +2394,7 @@ class PostSurveyRequest {
     this.canBeAnsweredMultipleTimes,
   });
 
-  factory PostSurveyRequest.fromJson(Map<String, dynamic> json) =>
-      _$PostSurveyRequestFromJson(json);
+  factory PostSurveyRequest.fromJson(Map<String, dynamic> json) => _$PostSurveyRequestFromJson(json);
 
   @JsonKey(name: 'userId')
   final num? userId;
@@ -2778,38 +2404,27 @@ class PostSurveyRequest {
   final bool? quizz;
   @JsonKey(name: 'possibleAnswers', defaultValue: <PossibleAnswerRequest>[])
   final List<PossibleAnswerRequest>? possibleAnswers;
-  @JsonKey(
-      name: 'type',
-      toJson: postSurveyRequestType$ToJson,
-      fromJson: postSurveyRequestType$FromJson)
+  @JsonKey(name: 'type', toJson: postSurveyRequestType$ToJson, fromJson: postSurveyRequestType$FromJson)
   final enums.PostSurveyRequestType$? type;
   @JsonKey(name: 'canBeAnsweredMultipleTimes')
   final bool? canBeAnsweredMultipleTimes;
   static const fromJsonFactory = _$PostSurveyRequestFromJson;
   static const toJsonFactory = _$PostSurveyRequestToJson;
+
   Map<String, dynamic> toJson() => _$PostSurveyRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is PostSurveyRequest &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.content, content) ||
-                const DeepCollectionEquality()
-                    .equals(other.content, content)) &&
-            (identical(other.quizz, quizz) ||
-                const DeepCollectionEquality().equals(other.quizz, quizz)) &&
+            (identical(other.userId, userId) || const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.content, content) || const DeepCollectionEquality().equals(other.content, content)) &&
+            (identical(other.quizz, quizz) || const DeepCollectionEquality().equals(other.quizz, quizz)) &&
             (identical(other.possibleAnswers, possibleAnswers) ||
-                const DeepCollectionEquality()
-                    .equals(other.possibleAnswers, possibleAnswers)) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
-            (identical(other.canBeAnsweredMultipleTimes,
-                    canBeAnsweredMultipleTimes) ||
-                const DeepCollectionEquality().equals(
-                    other.canBeAnsweredMultipleTimes,
-                    canBeAnsweredMultipleTimes)));
+                const DeepCollectionEquality().equals(other.possibleAnswers, possibleAnswers)) &&
+            (identical(other.type, type) || const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.canBeAnsweredMultipleTimes, canBeAnsweredMultipleTimes) ||
+                const DeepCollectionEquality().equals(other.canBeAnsweredMultipleTimes, canBeAnsweredMultipleTimes)));
   }
 
   @override
@@ -2837,8 +2452,7 @@ extension $PostSurveyRequestExtension on PostSurveyRequest {
         quizz: quizz ?? this.quizz,
         possibleAnswers: possibleAnswers ?? this.possibleAnswers,
         type: type ?? this.type,
-        canBeAnsweredMultipleTimes:
-            canBeAnsweredMultipleTimes ?? this.canBeAnsweredMultipleTimes);
+        canBeAnsweredMultipleTimes: canBeAnsweredMultipleTimes ?? this.canBeAnsweredMultipleTimes);
   }
 }
 
@@ -2850,8 +2464,7 @@ class PossibleAnswerModel {
     this.rightAnswer,
   });
 
-  factory PossibleAnswerModel.fromJson(Map<String, dynamic> json) =>
-      _$PossibleAnswerModelFromJson(json);
+  factory PossibleAnswerModel.fromJson(Map<String, dynamic> json) => _$PossibleAnswerModelFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -2861,20 +2474,17 @@ class PossibleAnswerModel {
   final bool? rightAnswer;
   static const fromJsonFactory = _$PossibleAnswerModelFromJson;
   static const toJsonFactory = _$PossibleAnswerModelToJson;
+
   Map<String, dynamic> toJson() => _$PossibleAnswerModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is PossibleAnswerModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.content, content) ||
-                const DeepCollectionEquality()
-                    .equals(other.content, content)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.content, content) || const DeepCollectionEquality().equals(other.content, content)) &&
             (identical(other.rightAnswer, rightAnswer) ||
-                const DeepCollectionEquality()
-                    .equals(other.rightAnswer, rightAnswer)));
+                const DeepCollectionEquality().equals(other.rightAnswer, rightAnswer)));
   }
 
   @override
@@ -2888,9 +2498,7 @@ class PossibleAnswerModel {
 extension $PossibleAnswerModelExtension on PossibleAnswerModel {
   PossibleAnswerModel copyWith({num? id, String? content, bool? rightAnswer}) {
     return PossibleAnswerModel(
-        id: id ?? this.id,
-        content: content ?? this.content,
-        rightAnswer: rightAnswer ?? this.rightAnswer);
+        id: id ?? this.id, content: content ?? this.content, rightAnswer: rightAnswer ?? this.rightAnswer);
   }
 }
 
@@ -2908,8 +2516,7 @@ class SurveyModel {
     this.votes,
   });
 
-  factory SurveyModel.fromJson(Map<String, dynamic> json) =>
-      _$SurveyModelFromJson(json);
+  factory SurveyModel.fromJson(Map<String, dynamic> json) => _$SurveyModelFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -2931,38 +2538,26 @@ class SurveyModel {
   final List<VoteModel>? votes;
   static const fromJsonFactory = _$SurveyModelFromJson;
   static const toJsonFactory = _$SurveyModelToJson;
+
   Map<String, dynamic> toJson() => _$SurveyModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is SurveyModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.channelId, channelId) ||
-                const DeepCollectionEquality()
-                    .equals(other.channelId, channelId)) &&
-            (identical(other.question, question) ||
-                const DeepCollectionEquality()
-                    .equals(other.question, question)) &&
-            (identical(other.quizz, quizz) ||
-                const DeepCollectionEquality().equals(other.quizz, quizz)) &&
-            (identical(other.sendDate, sendDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.sendDate, sendDate)) &&
+                const DeepCollectionEquality().equals(other.channelId, channelId)) &&
+            (identical(other.question, question) || const DeepCollectionEquality().equals(other.question, question)) &&
+            (identical(other.quizz, quizz) || const DeepCollectionEquality().equals(other.quizz, quizz)) &&
+            (identical(other.sendDate, sendDate) || const DeepCollectionEquality().equals(other.sendDate, sendDate)) &&
             (identical(other.modifiedDate, modifiedDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.modifiedDate, modifiedDate)) &&
-            (identical(other.canBeAnsweredMultipleTimes,
-                    canBeAnsweredMultipleTimes) ||
-                const DeepCollectionEquality().equals(
-                    other.canBeAnsweredMultipleTimes,
-                    canBeAnsweredMultipleTimes)) &&
+                const DeepCollectionEquality().equals(other.modifiedDate, modifiedDate)) &&
+            (identical(other.canBeAnsweredMultipleTimes, canBeAnsweredMultipleTimes) ||
+                const DeepCollectionEquality().equals(other.canBeAnsweredMultipleTimes, canBeAnsweredMultipleTimes)) &&
             (identical(other.possibleAnswers, possibleAnswers) ||
-                const DeepCollectionEquality()
-                    .equals(other.possibleAnswers, possibleAnswers)) &&
-            (identical(other.votes, votes) ||
-                const DeepCollectionEquality().equals(other.votes, votes)));
+                const DeepCollectionEquality().equals(other.possibleAnswers, possibleAnswers)) &&
+            (identical(other.votes, votes) || const DeepCollectionEquality().equals(other.votes, votes)));
   }
 
   @override
@@ -2997,8 +2592,7 @@ extension $SurveyModelExtension on SurveyModel {
         quizz: quizz ?? this.quizz,
         sendDate: sendDate ?? this.sendDate,
         modifiedDate: modifiedDate ?? this.modifiedDate,
-        canBeAnsweredMultipleTimes:
-            canBeAnsweredMultipleTimes ?? this.canBeAnsweredMultipleTimes,
+        canBeAnsweredMultipleTimes: canBeAnsweredMultipleTimes ?? this.canBeAnsweredMultipleTimes,
         possibleAnswers: possibleAnswers ?? this.possibleAnswers,
         votes: votes ?? this.votes);
   }
@@ -3011,8 +2605,7 @@ class VoteModel {
     this.answer,
   });
 
-  factory VoteModel.fromJson(Map<String, dynamic> json) =>
-      _$VoteModelFromJson(json);
+  factory VoteModel.fromJson(Map<String, dynamic> json) => _$VoteModelFromJson(json);
 
   @JsonKey(name: 'voter')
   final GroupMemberModel? voter;
@@ -3020,23 +2613,20 @@ class VoteModel {
   final PossibleAnswerModel? answer;
   static const fromJsonFactory = _$VoteModelFromJson;
   static const toJsonFactory = _$VoteModelToJson;
+
   Map<String, dynamic> toJson() => _$VoteModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is VoteModel &&
-            (identical(other.voter, voter) ||
-                const DeepCollectionEquality().equals(other.voter, voter)) &&
-            (identical(other.answer, answer) ||
-                const DeepCollectionEquality().equals(other.answer, answer)));
+            (identical(other.voter, voter) || const DeepCollectionEquality().equals(other.voter, voter)) &&
+            (identical(other.answer, answer) || const DeepCollectionEquality().equals(other.answer, answer)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(voter) ^
-      const DeepCollectionEquality().hash(answer) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(voter) ^ const DeepCollectionEquality().hash(answer) ^ runtimeType.hashCode;
 }
 
 extension $VoteModelExtension on VoteModel {
@@ -3052,8 +2642,7 @@ class VoteSurveyRequest {
     this.answerId,
   });
 
-  factory VoteSurveyRequest.fromJson(Map<String, dynamic> json) =>
-      _$VoteSurveyRequestFromJson(json);
+  factory VoteSurveyRequest.fromJson(Map<String, dynamic> json) => _$VoteSurveyRequestFromJson(json);
 
   @JsonKey(name: 'voterId')
   final num? voterId;
@@ -3061,18 +2650,15 @@ class VoteSurveyRequest {
   final num? answerId;
   static const fromJsonFactory = _$VoteSurveyRequestFromJson;
   static const toJsonFactory = _$VoteSurveyRequestToJson;
+
   Map<String, dynamic> toJson() => _$VoteSurveyRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is VoteSurveyRequest &&
-            (identical(other.voterId, voterId) ||
-                const DeepCollectionEquality()
-                    .equals(other.voterId, voterId)) &&
-            (identical(other.answerId, answerId) ||
-                const DeepCollectionEquality()
-                    .equals(other.answerId, answerId)));
+            (identical(other.voterId, voterId) || const DeepCollectionEquality().equals(other.voterId, voterId)) &&
+            (identical(other.answerId, answerId) || const DeepCollectionEquality().equals(other.answerId, answerId)));
   }
 
   @override
@@ -3084,8 +2670,7 @@ class VoteSurveyRequest {
 
 extension $VoteSurveyRequestExtension on VoteSurveyRequest {
   VoteSurveyRequest copyWith({num? voterId, num? answerId}) {
-    return VoteSurveyRequest(
-        voterId: voterId ?? this.voterId, answerId: answerId ?? this.answerId);
+    return VoteSurveyRequest(voterId: voterId ?? this.voterId, answerId: answerId ?? this.answerId);
   }
 }
 
@@ -3095,27 +2680,24 @@ class ScanRequest {
     this.minioUrl,
   });
 
-  factory ScanRequest.fromJson(Map<String, dynamic> json) =>
-      _$ScanRequestFromJson(json);
+  factory ScanRequest.fromJson(Map<String, dynamic> json) => _$ScanRequestFromJson(json);
 
   @JsonKey(name: 'minioUrl')
   final String? minioUrl;
   static const fromJsonFactory = _$ScanRequestFromJson;
   static const toJsonFactory = _$ScanRequestToJson;
+
   Map<String, dynamic> toJson() => _$ScanRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ScanRequest &&
-            (identical(other.minioUrl, minioUrl) ||
-                const DeepCollectionEquality()
-                    .equals(other.minioUrl, minioUrl)));
+            (identical(other.minioUrl, minioUrl) || const DeepCollectionEquality().equals(other.minioUrl, minioUrl)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(minioUrl) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(minioUrl) ^ runtimeType.hashCode;
 }
 
 extension $ScanRequestExtension on ScanRequest {
@@ -3131,8 +2713,7 @@ class ScanResponse {
     this.total,
   });
 
-  factory ScanResponse.fromJson(Map<String, dynamic> json) =>
-      _$ScanResponseFromJson(json);
+  factory ScanResponse.fromJson(Map<String, dynamic> json) => _$ScanResponseFromJson(json);
 
   @JsonKey(name: 'items')
   final Map<String, dynamic>? items;
@@ -3140,23 +2721,20 @@ class ScanResponse {
   final double? total;
   static const fromJsonFactory = _$ScanResponseFromJson;
   static const toJsonFactory = _$ScanResponseToJson;
+
   Map<String, dynamic> toJson() => _$ScanResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ScanResponse &&
-            (identical(other.items, items) ||
-                const DeepCollectionEquality().equals(other.items, items)) &&
-            (identical(other.total, total) ||
-                const DeepCollectionEquality().equals(other.total, total)));
+            (identical(other.items, items) || const DeepCollectionEquality().equals(other.items, items)) &&
+            (identical(other.total, total) || const DeepCollectionEquality().equals(other.total, total)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(items) ^
-      const DeepCollectionEquality().hash(total) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(items) ^ const DeepCollectionEquality().hash(total) ^ runtimeType.hashCode;
 }
 
 extension $ScanResponseExtension on ScanResponse {
@@ -3173,20 +2751,17 @@ class SubmitReportRequest {
     this.details,
   });
 
-  factory SubmitReportRequest.fromJson(Map<String, dynamic> json) =>
-      _$SubmitReportRequestFromJson(json);
+  factory SubmitReportRequest.fromJson(Map<String, dynamic> json) => _$SubmitReportRequestFromJson(json);
 
   @JsonKey(name: 'reportedUserId')
   final num? reportedUserId;
-  @JsonKey(
-      name: 'reason',
-      toJson: submitReportRequestReasonToJson,
-      fromJson: submitReportRequestReasonFromJson)
+  @JsonKey(name: 'reason', toJson: submitReportRequestReasonToJson, fromJson: submitReportRequestReasonFromJson)
   final enums.SubmitReportRequestReason? reason;
   @JsonKey(name: 'details')
   final String? details;
   static const fromJsonFactory = _$SubmitReportRequestFromJson;
   static const toJsonFactory = _$SubmitReportRequestToJson;
+
   Map<String, dynamic> toJson() => _$SubmitReportRequestToJson(this);
 
   @override
@@ -3194,12 +2769,9 @@ class SubmitReportRequest {
     return identical(this, other) ||
         (other is SubmitReportRequest &&
             (identical(other.reportedUserId, reportedUserId) ||
-                const DeepCollectionEquality()
-                    .equals(other.reportedUserId, reportedUserId)) &&
-            (identical(other.reason, reason) ||
-                const DeepCollectionEquality().equals(other.reason, reason)) &&
-            (identical(other.details, details) ||
-                const DeepCollectionEquality().equals(other.details, details)));
+                const DeepCollectionEquality().equals(other.reportedUserId, reportedUserId)) &&
+            (identical(other.reason, reason) || const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.details, details) || const DeepCollectionEquality().equals(other.details, details)));
   }
 
   @override
@@ -3211,10 +2783,7 @@ class SubmitReportRequest {
 }
 
 extension $SubmitReportRequestExtension on SubmitReportRequest {
-  SubmitReportRequest copyWith(
-      {num? reportedUserId,
-      enums.SubmitReportRequestReason? reason,
-      String? details}) {
+  SubmitReportRequest copyWith({num? reportedUserId, enums.SubmitReportRequestReason? reason, String? details}) {
     return SubmitReportRequest(
         reportedUserId: reportedUserId ?? this.reportedUserId,
         reason: reason ?? this.reason,
@@ -3233,15 +2802,11 @@ class ReportModel {
     this.createdDate,
   });
 
-  factory ReportModel.fromJson(Map<String, dynamic> json) =>
-      _$ReportModelFromJson(json);
+  factory ReportModel.fromJson(Map<String, dynamic> json) => _$ReportModelFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
-  @JsonKey(
-      name: 'reason',
-      toJson: reportModelReasonToJson,
-      fromJson: reportModelReasonFromJson)
+  @JsonKey(name: 'reason', toJson: reportModelReasonToJson, fromJson: reportModelReasonFromJson)
   final enums.ReportModelReason? reason;
   @JsonKey(name: 'details')
   final String? details;
@@ -3253,28 +2818,22 @@ class ReportModel {
   final DateTime? createdDate;
   static const fromJsonFactory = _$ReportModelFromJson;
   static const toJsonFactory = _$ReportModelToJson;
+
   Map<String, dynamic> toJson() => _$ReportModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ReportModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.reason, reason) ||
-                const DeepCollectionEquality().equals(other.reason, reason)) &&
-            (identical(other.details, details) ||
-                const DeepCollectionEquality()
-                    .equals(other.details, details)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.reason, reason) || const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.details, details) || const DeepCollectionEquality().equals(other.details, details)) &&
             (identical(other.reportedUser, reportedUser) ||
-                const DeepCollectionEquality()
-                    .equals(other.reportedUser, reportedUser)) &&
+                const DeepCollectionEquality().equals(other.reportedUser, reportedUser)) &&
             (identical(other.submitter, submitter) ||
-                const DeepCollectionEquality()
-                    .equals(other.submitter, submitter)) &&
+                const DeepCollectionEquality().equals(other.submitter, submitter)) &&
             (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)));
+                const DeepCollectionEquality().equals(other.createdDate, createdDate)));
   }
 
   @override
@@ -3322,6 +2881,7 @@ class SubmitRecommendationRequest {
   final String? comment;
   static const fromJsonFactory = _$SubmitRecommendationRequestFromJson;
   static const toJsonFactory = _$SubmitRecommendationRequestToJson;
+
   Map<String, dynamic> toJson() => _$SubmitRecommendationRequestToJson(this);
 
   @override
@@ -3329,10 +2889,8 @@ class SubmitRecommendationRequest {
     return identical(this, other) ||
         (other is SubmitRecommendationRequest &&
             (identical(other.reviewedUserId, reviewedUserId) ||
-                const DeepCollectionEquality()
-                    .equals(other.reviewedUserId, reviewedUserId)) &&
-            (identical(other.comment, comment) ||
-                const DeepCollectionEquality().equals(other.comment, comment)));
+                const DeepCollectionEquality().equals(other.reviewedUserId, reviewedUserId)) &&
+            (identical(other.comment, comment) || const DeepCollectionEquality().equals(other.comment, comment)));
   }
 
   @override
@@ -3345,8 +2903,7 @@ class SubmitRecommendationRequest {
 extension $SubmitRecommendationRequestExtension on SubmitRecommendationRequest {
   SubmitRecommendationRequest copyWith({num? reviewedUserId, String? comment}) {
     return SubmitRecommendationRequest(
-        reviewedUserId: reviewedUserId ?? this.reviewedUserId,
-        comment: comment ?? this.comment);
+        reviewedUserId: reviewedUserId ?? this.reviewedUserId, comment: comment ?? this.comment);
   }
 }
 
@@ -3359,8 +2916,7 @@ class RecommendationModel {
     this.comment,
   });
 
-  factory RecommendationModel.fromJson(Map<String, dynamic> json) =>
-      _$RecommendationModelFromJson(json);
+  factory RecommendationModel.fromJson(Map<String, dynamic> json) => _$RecommendationModelFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -3372,22 +2928,18 @@ class RecommendationModel {
   final String? comment;
   static const fromJsonFactory = _$RecommendationModelFromJson;
   static const toJsonFactory = _$RecommendationModelToJson;
+
   Map<String, dynamic> toJson() => _$RecommendationModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is RecommendationModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.reviewer, reviewer) ||
-                const DeepCollectionEquality()
-                    .equals(other.reviewer, reviewer)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.reviewer, reviewer) || const DeepCollectionEquality().equals(other.reviewer, reviewer)) &&
             (identical(other.recommendedUser, recommendedUser) ||
-                const DeepCollectionEquality()
-                    .equals(other.recommendedUser, recommendedUser)) &&
-            (identical(other.comment, comment) ||
-                const DeepCollectionEquality().equals(other.comment, comment)));
+                const DeepCollectionEquality().equals(other.recommendedUser, recommendedUser)) &&
+            (identical(other.comment, comment) || const DeepCollectionEquality().equals(other.comment, comment)));
   }
 
   @override
@@ -3401,10 +2953,7 @@ class RecommendationModel {
 
 extension $RecommendationModelExtension on RecommendationModel {
   RecommendationModel copyWith(
-      {num? id,
-      GroupMemberModel? reviewer,
-      GroupMemberModel? recommendedUser,
-      String? comment}) {
+      {num? id, GroupMemberModel? reviewer, GroupMemberModel? recommendedUser, String? comment}) {
     return RecommendationModel(
         id: id ?? this.id,
         reviewer: reviewer ?? this.reviewer,
@@ -3438,6 +2987,7 @@ class PlacesFromCoordinatesRequest {
   final int? radiusMeter;
   static const fromJsonFactory = _$PlacesFromCoordinatesRequestFromJson;
   static const toJsonFactory = _$PlacesFromCoordinatesRequestToJson;
+
   Map<String, dynamic> toJson() => _$PlacesFromCoordinatesRequestToJson(this);
 
   @override
@@ -3445,17 +2995,12 @@ class PlacesFromCoordinatesRequest {
     return identical(this, other) ||
         (other is PlacesFromCoordinatesRequest &&
             (identical(other.longitude, longitude) ||
-                const DeepCollectionEquality()
-                    .equals(other.longitude, longitude)) &&
-            (identical(other.latitude, latitude) ||
-                const DeepCollectionEquality()
-                    .equals(other.latitude, latitude)) &&
+                const DeepCollectionEquality().equals(other.longitude, longitude)) &&
+            (identical(other.latitude, latitude) || const DeepCollectionEquality().equals(other.latitude, latitude)) &&
             (identical(other.categories, categories) ||
-                const DeepCollectionEquality()
-                    .equals(other.categories, categories)) &&
+                const DeepCollectionEquality().equals(other.categories, categories)) &&
             (identical(other.radiusMeter, radiusMeter) ||
-                const DeepCollectionEquality()
-                    .equals(other.radiusMeter, radiusMeter)));
+                const DeepCollectionEquality().equals(other.radiusMeter, radiusMeter)));
   }
 
   @override
@@ -3467,8 +3012,7 @@ class PlacesFromCoordinatesRequest {
       runtimeType.hashCode;
 }
 
-extension $PlacesFromCoordinatesRequestExtension
-    on PlacesFromCoordinatesRequest {
+extension $PlacesFromCoordinatesRequestExtension on PlacesFromCoordinatesRequest {
   PlacesFromCoordinatesRequest copyWith(
       {double? longitude,
       double? latitude,
@@ -3491,8 +3035,7 @@ class PlaceResponse {
     this.country,
   });
 
-  factory PlaceResponse.fromJson(Map<String, dynamic> json) =>
-      _$PlaceResponseFromJson(json);
+  factory PlaceResponse.fromJson(Map<String, dynamic> json) => _$PlaceResponseFromJson(json);
 
   @JsonKey(name: 'name')
   final String? name;
@@ -3504,20 +3047,17 @@ class PlaceResponse {
   final String? country;
   static const fromJsonFactory = _$PlaceResponseFromJson;
   static const toJsonFactory = _$PlaceResponseToJson;
+
   Map<String, dynamic> toJson() => _$PlaceResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is PlaceResponse &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.street, street) ||
-                const DeepCollectionEquality().equals(other.street, street)) &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
-            (identical(other.country, country) ||
-                const DeepCollectionEquality().equals(other.country, country)));
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.street, street) || const DeepCollectionEquality().equals(other.street, street)) &&
+            (identical(other.city, city) || const DeepCollectionEquality().equals(other.city, city)) &&
+            (identical(other.country, country) || const DeepCollectionEquality().equals(other.country, country)));
   }
 
   @override
@@ -3530,8 +3070,7 @@ class PlaceResponse {
 }
 
 extension $PlaceResponseExtension on PlaceResponse {
-  PlaceResponse copyWith(
-      {String? name, String? street, String? city, String? country}) {
+  PlaceResponse copyWith({String? name, String? street, String? city, String? country}) {
     return PlaceResponse(
         name: name ?? this.name,
         street: street ?? this.street,
@@ -3550,8 +3089,7 @@ class PlacesFromAddressRequest {
     this.city,
   });
 
-  factory PlacesFromAddressRequest.fromJson(Map<String, dynamic> json) =>
-      _$PlacesFromAddressRequestFromJson(json);
+  factory PlacesFromAddressRequest.fromJson(Map<String, dynamic> json) => _$PlacesFromAddressRequestFromJson(json);
 
   @JsonKey(
       name: 'categories',
@@ -3568,6 +3106,7 @@ class PlacesFromAddressRequest {
   final String? city;
   static const fromJsonFactory = _$PlacesFromAddressRequestFromJson;
   static const toJsonFactory = _$PlacesFromAddressRequestToJson;
+
   Map<String, dynamic> toJson() => _$PlacesFromAddressRequestToJson(this);
 
   @override
@@ -3575,19 +3114,13 @@ class PlacesFromAddressRequest {
     return identical(this, other) ||
         (other is PlacesFromAddressRequest &&
             (identical(other.categories, categories) ||
-                const DeepCollectionEquality()
-                    .equals(other.categories, categories)) &&
+                const DeepCollectionEquality().equals(other.categories, categories)) &&
             (identical(other.radiusMeter, radiusMeter) ||
-                const DeepCollectionEquality()
-                    .equals(other.radiusMeter, radiusMeter)) &&
-            (identical(other.address, address) ||
-                const DeepCollectionEquality()
-                    .equals(other.address, address)) &&
+                const DeepCollectionEquality().equals(other.radiusMeter, radiusMeter)) &&
+            (identical(other.address, address) || const DeepCollectionEquality().equals(other.address, address)) &&
             (identical(other.countryCode, countryCode) ||
-                const DeepCollectionEquality()
-                    .equals(other.countryCode, countryCode)) &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)));
+                const DeepCollectionEquality().equals(other.countryCode, countryCode)) &&
+            (identical(other.city, city) || const DeepCollectionEquality().equals(other.city, city)));
   }
 
   @override
@@ -3623,8 +3156,7 @@ class MatchMakingResponse {
     this.errorMessage,
   });
 
-  factory MatchMakingResponse.fromJson(Map<String, dynamic> json) =>
-      _$MatchMakingResponseFromJson(json);
+  factory MatchMakingResponse.fromJson(Map<String, dynamic> json) => _$MatchMakingResponseFromJson(json);
 
   @JsonKey(name: 'taskId')
   final num? taskId;
@@ -3632,17 +3164,16 @@ class MatchMakingResponse {
   final String? errorMessage;
   static const fromJsonFactory = _$MatchMakingResponseFromJson;
   static const toJsonFactory = _$MatchMakingResponseToJson;
+
   Map<String, dynamic> toJson() => _$MatchMakingResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is MatchMakingResponse &&
-            (identical(other.taskId, taskId) ||
-                const DeepCollectionEquality().equals(other.taskId, taskId)) &&
+            (identical(other.taskId, taskId) || const DeepCollectionEquality().equals(other.taskId, taskId)) &&
             (identical(other.errorMessage, errorMessage) ||
-                const DeepCollectionEquality()
-                    .equals(other.errorMessage, errorMessage)));
+                const DeepCollectionEquality().equals(other.errorMessage, errorMessage)));
   }
 
   @override
@@ -3654,9 +3185,7 @@ class MatchMakingResponse {
 
 extension $MatchMakingResponseExtension on MatchMakingResponse {
   MatchMakingResponse copyWith({num? taskId, String? errorMessage}) {
-    return MatchMakingResponse(
-        taskId: taskId ?? this.taskId,
-        errorMessage: errorMessage ?? this.errorMessage);
+    return MatchMakingResponse(taskId: taskId ?? this.taskId, errorMessage: errorMessage ?? this.errorMessage);
   }
 }
 
@@ -3673,8 +3202,7 @@ class CreateActivityRequest {
     this.icon,
   });
 
-  factory CreateActivityRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateActivityRequestFromJson(json);
+  factory CreateActivityRequest.fromJson(Map<String, dynamic> json) => _$CreateActivityRequestFromJson(json);
 
   @JsonKey(name: 'name')
   final String? name;
@@ -3694,33 +3222,24 @@ class CreateActivityRequest {
   final String? icon;
   static const fromJsonFactory = _$CreateActivityRequestFromJson;
   static const toJsonFactory = _$CreateActivityRequestToJson;
+
   Map<String, dynamic> toJson() => _$CreateActivityRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is CreateActivityRequest &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
+                const DeepCollectionEquality().equals(other.description, description)) &&
             (identical(other.startDate, startDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.startDate, startDate)) &&
-            (identical(other.endDate, endDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.endDate, endDate)) &&
+                const DeepCollectionEquality().equals(other.startDate, startDate)) &&
+            (identical(other.endDate, endDate) || const DeepCollectionEquality().equals(other.endDate, endDate)) &&
             (identical(other.participantsIds, participantsIds) ||
-                const DeepCollectionEquality()
-                    .equals(other.participantsIds, participantsIds)) &&
-            (identical(other.color, color) ||
-                const DeepCollectionEquality().equals(other.color, color)) &&
-            (identical(other.location, location) ||
-                const DeepCollectionEquality()
-                    .equals(other.location, location)) &&
-            (identical(other.icon, icon) ||
-                const DeepCollectionEquality().equals(other.icon, icon)));
+                const DeepCollectionEquality().equals(other.participantsIds, participantsIds)) &&
+            (identical(other.color, color) || const DeepCollectionEquality().equals(other.color, color)) &&
+            (identical(other.location, location) || const DeepCollectionEquality().equals(other.location, location)) &&
+            (identical(other.icon, icon) || const DeepCollectionEquality().equals(other.icon, icon)));
   }
 
   @override
@@ -3773,8 +3292,7 @@ class ActivityModel {
     this.infos,
   });
 
-  factory ActivityModel.fromJson(Map<String, dynamic> json) =>
-      _$ActivityModelFromJson(json);
+  factory ActivityModel.fromJson(Map<String, dynamic> json) => _$ActivityModelFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -3798,37 +3316,26 @@ class ActivityModel {
   final List<String>? infos;
   static const fromJsonFactory = _$ActivityModelFromJson;
   static const toJsonFactory = _$ActivityModelToJson;
+
   Map<String, dynamic> toJson() => _$ActivityModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ActivityModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
+                const DeepCollectionEquality().equals(other.description, description)) &&
             (identical(other.startDate, startDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.startDate, startDate)) &&
-            (identical(other.endDate, endDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.endDate, endDate)) &&
+                const DeepCollectionEquality().equals(other.startDate, startDate)) &&
+            (identical(other.endDate, endDate) || const DeepCollectionEquality().equals(other.endDate, endDate)) &&
             (identical(other.participants, participants) ||
-                const DeepCollectionEquality()
-                    .equals(other.participants, participants)) &&
-            (identical(other.color, color) ||
-                const DeepCollectionEquality().equals(other.color, color)) &&
-            (identical(other.location, location) ||
-                const DeepCollectionEquality()
-                    .equals(other.location, location)) &&
-            (identical(other.icon, icon) ||
-                const DeepCollectionEquality().equals(other.icon, icon)) &&
-            (identical(other.infos, infos) ||
-                const DeepCollectionEquality().equals(other.infos, infos)));
+                const DeepCollectionEquality().equals(other.participants, participants)) &&
+            (identical(other.color, color) || const DeepCollectionEquality().equals(other.color, color)) &&
+            (identical(other.location, location) || const DeepCollectionEquality().equals(other.location, location)) &&
+            (identical(other.icon, icon) || const DeepCollectionEquality().equals(other.icon, icon)) &&
+            (identical(other.infos, infos) || const DeepCollectionEquality().equals(other.infos, infos)));
   }
 
   @override
@@ -3878,13 +3385,13 @@ class GroupMemoryRequest {
     this.memoryUrl,
   });
 
-  factory GroupMemoryRequest.fromJson(Map<String, dynamic> json) =>
-      _$GroupMemoryRequestFromJson(json);
+  factory GroupMemoryRequest.fromJson(Map<String, dynamic> json) => _$GroupMemoryRequestFromJson(json);
 
   @JsonKey(name: 'memoryUrl')
   final String? memoryUrl;
   static const fromJsonFactory = _$GroupMemoryRequestFromJson;
   static const toJsonFactory = _$GroupMemoryRequestToJson;
+
   Map<String, dynamic> toJson() => _$GroupMemoryRequestToJson(this);
 
   @override
@@ -3892,13 +3399,11 @@ class GroupMemoryRequest {
     return identical(this, other) ||
         (other is GroupMemoryRequest &&
             (identical(other.memoryUrl, memoryUrl) ||
-                const DeepCollectionEquality()
-                    .equals(other.memoryUrl, memoryUrl)));
+                const DeepCollectionEquality().equals(other.memoryUrl, memoryUrl)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(memoryUrl) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(memoryUrl) ^ runtimeType.hashCode;
 }
 
 extension $GroupMemoryRequestExtension on GroupMemoryRequest {
@@ -3913,27 +3418,24 @@ class GroupMemoriesResponse {
     this.memories,
   });
 
-  factory GroupMemoriesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GroupMemoriesResponseFromJson(json);
+  factory GroupMemoriesResponse.fromJson(Map<String, dynamic> json) => _$GroupMemoriesResponseFromJson(json);
 
   @JsonKey(name: 'memories', defaultValue: <String>[])
   final List<String>? memories;
   static const fromJsonFactory = _$GroupMemoriesResponseFromJson;
   static const toJsonFactory = _$GroupMemoriesResponseToJson;
+
   Map<String, dynamic> toJson() => _$GroupMemoriesResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is GroupMemoriesResponse &&
-            (identical(other.memories, memories) ||
-                const DeepCollectionEquality()
-                    .equals(other.memories, memories)));
+            (identical(other.memories, memories) || const DeepCollectionEquality().equals(other.memories, memories)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(memories) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(memories) ^ runtimeType.hashCode;
 }
 
 extension $GroupMemoriesResponseExtension on GroupMemoriesResponse {
@@ -3950,8 +3452,7 @@ class CreatePrivateGroupRequest {
     this.maxSize,
   });
 
-  factory CreatePrivateGroupRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreatePrivateGroupRequestFromJson(json);
+  factory CreatePrivateGroupRequest.fromJson(Map<String, dynamic> json) => _$CreatePrivateGroupRequestFromJson(json);
 
   @JsonKey(name: 'name')
   final String? name;
@@ -3961,19 +3462,17 @@ class CreatePrivateGroupRequest {
   final int? maxSize;
   static const fromJsonFactory = _$CreatePrivateGroupRequestFromJson;
   static const toJsonFactory = _$CreatePrivateGroupRequestToJson;
+
   Map<String, dynamic> toJson() => _$CreatePrivateGroupRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is CreatePrivateGroupRequest &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
-            (identical(other.maxSize, maxSize) ||
-                const DeepCollectionEquality().equals(other.maxSize, maxSize)));
+                const DeepCollectionEquality().equals(other.description, description)) &&
+            (identical(other.maxSize, maxSize) || const DeepCollectionEquality().equals(other.maxSize, maxSize)));
   }
 
   @override
@@ -3985,12 +3484,9 @@ class CreatePrivateGroupRequest {
 }
 
 extension $CreatePrivateGroupRequestExtension on CreatePrivateGroupRequest {
-  CreatePrivateGroupRequest copyWith(
-      {String? name, String? description, int? maxSize}) {
+  CreatePrivateGroupRequest copyWith({String? name, String? description, int? maxSize}) {
     return CreatePrivateGroupRequest(
-        name: name ?? this.name,
-        description: description ?? this.description,
-        maxSize: maxSize ?? this.maxSize);
+        name: name ?? this.name, description: description ?? this.description, maxSize: maxSize ?? this.maxSize);
   }
 }
 
@@ -4000,26 +3496,24 @@ class ModelWithEmail {
     this.email,
   });
 
-  factory ModelWithEmail.fromJson(Map<String, dynamic> json) =>
-      _$ModelWithEmailFromJson(json);
+  factory ModelWithEmail.fromJson(Map<String, dynamic> json) => _$ModelWithEmailFromJson(json);
 
   @JsonKey(name: 'email')
   final String? email;
   static const fromJsonFactory = _$ModelWithEmailFromJson;
   static const toJsonFactory = _$ModelWithEmailToJson;
+
   Map<String, dynamic> toJson() => _$ModelWithEmailToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ModelWithEmail &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)));
+            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(email) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(email) ^ runtimeType.hashCode;
 }
 
 extension $ModelWithEmailExtension on ModelWithEmail {
@@ -4034,26 +3528,24 @@ class CreateChannelRequest {
     this.name,
   });
 
-  factory CreateChannelRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateChannelRequestFromJson(json);
+  factory CreateChannelRequest.fromJson(Map<String, dynamic> json) => _$CreateChannelRequestFromJson(json);
 
   @JsonKey(name: 'name')
   final String? name;
   static const fromJsonFactory = _$CreateChannelRequestFromJson;
   static const toJsonFactory = _$CreateChannelRequestToJson;
+
   Map<String, dynamic> toJson() => _$CreateChannelRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is CreateChannelRequest &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
 }
 
 extension $CreateChannelRequestExtension on CreateChannelRequest {
@@ -4076,8 +3568,7 @@ class UserCreationRequest {
     this.email,
   });
 
-  factory UserCreationRequest.fromJson(Map<String, dynamic> json) =>
-      _$UserCreationRequestFromJson(json);
+  factory UserCreationRequest.fromJson(Map<String, dynamic> json) => _$UserCreationRequestFromJson(json);
 
   @JsonKey(name: 'firstname')
   final String? firstname;
@@ -4099,6 +3590,7 @@ class UserCreationRequest {
   final String? email;
   static const fromJsonFactory = _$UserCreationRequestFromJson;
   static const toJsonFactory = _$UserCreationRequestToJson;
+
   Map<String, dynamic> toJson() => _$UserCreationRequestToJson(this);
 
   @override
@@ -4106,29 +3598,17 @@ class UserCreationRequest {
     return identical(this, other) ||
         (other is UserCreationRequest &&
             (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
+                const DeepCollectionEquality().equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) || const DeepCollectionEquality().equals(other.lastname, lastname)) &&
+            (identical(other.password, password) || const DeepCollectionEquality().equals(other.password, password)) &&
+            (identical(other.gender, gender) || const DeepCollectionEquality().equals(other.gender, gender)) &&
             (identical(other.birthDate, birthDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthDate, birthDate)) &&
+                const DeepCollectionEquality().equals(other.birthDate, birthDate)) &&
             (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
-            (identical(other.language, language) ||
-                const DeepCollectionEquality()
-                    .equals(other.language, language)) &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)));
+                const DeepCollectionEquality().equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.language, language) || const DeepCollectionEquality().equals(other.language, language)) &&
+            (identical(other.city, city) || const DeepCollectionEquality().equals(other.city, city)) &&
+            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)));
   }
 
   @override
@@ -4175,26 +3655,24 @@ class AuthTokenResponse {
     this.token,
   });
 
-  factory AuthTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$AuthTokenResponseFromJson(json);
+  factory AuthTokenResponse.fromJson(Map<String, dynamic> json) => _$AuthTokenResponseFromJson(json);
 
   @JsonKey(name: 'token')
   final String? token;
   static const fromJsonFactory = _$AuthTokenResponseFromJson;
   static const toJsonFactory = _$AuthTokenResponseToJson;
+
   Map<String, dynamic> toJson() => _$AuthTokenResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is AuthTokenResponse &&
-            (identical(other.token, token) ||
-                const DeepCollectionEquality().equals(other.token, token)));
+            (identical(other.token, token) || const DeepCollectionEquality().equals(other.token, token)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(token) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(token) ^ runtimeType.hashCode;
 }
 
 extension $AuthTokenResponseExtension on AuthTokenResponse {
@@ -4210,8 +3688,7 @@ class LoginRequest {
     this.username,
   });
 
-  factory LoginRequest.fromJson(Map<String, dynamic> json) =>
-      _$LoginRequestFromJson(json);
+  factory LoginRequest.fromJson(Map<String, dynamic> json) => _$LoginRequestFromJson(json);
 
   @JsonKey(name: 'password')
   final String? password;
@@ -4219,18 +3696,15 @@ class LoginRequest {
   final String? username;
   static const fromJsonFactory = _$LoginRequestFromJson;
   static const toJsonFactory = _$LoginRequestToJson;
+
   Map<String, dynamic> toJson() => _$LoginRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is LoginRequest &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)) &&
-            (identical(other.username, username) ||
-                const DeepCollectionEquality()
-                    .equals(other.username, username)));
+            (identical(other.password, password) || const DeepCollectionEquality().equals(other.password, password)) &&
+            (identical(other.username, username) || const DeepCollectionEquality().equals(other.username, username)));
   }
 
   @override
@@ -4242,9 +3716,7 @@ class LoginRequest {
 
 extension $LoginRequestExtension on LoginRequest {
   LoginRequest copyWith({String? password, String? username}) {
-    return LoginRequest(
-        password: password ?? this.password,
-        username: username ?? this.username);
+    return LoginRequest(password: password ?? this.password, username: username ?? this.username);
   }
 }
 
@@ -4255,8 +3727,7 @@ class LoginResponse {
     this.token,
   });
 
-  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
-      _$LoginResponseFromJson(json);
+  factory LoginResponse.fromJson(Map<String, dynamic> json) => _$LoginResponseFromJson(json);
 
   @JsonKey(name: 'username')
   final String? username;
@@ -4264,30 +3735,25 @@ class LoginResponse {
   final String? token;
   static const fromJsonFactory = _$LoginResponseFromJson;
   static const toJsonFactory = _$LoginResponseToJson;
+
   Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is LoginResponse &&
-            (identical(other.username, username) ||
-                const DeepCollectionEquality()
-                    .equals(other.username, username)) &&
-            (identical(other.token, token) ||
-                const DeepCollectionEquality().equals(other.token, token)));
+            (identical(other.username, username) || const DeepCollectionEquality().equals(other.username, username)) &&
+            (identical(other.token, token) || const DeepCollectionEquality().equals(other.token, token)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(username) ^
-      const DeepCollectionEquality().hash(token) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(username) ^ const DeepCollectionEquality().hash(token) ^ runtimeType.hashCode;
 }
 
 extension $LoginResponseExtension on LoginResponse {
   LoginResponse copyWith({String? username, String? token}) {
-    return LoginResponse(
-        username: username ?? this.username, token: token ?? this.token);
+    return LoginResponse(username: username ?? this.username, token: token ?? this.token);
   }
 }
 
@@ -4302,8 +3768,7 @@ class GoogleRequest {
     this.email,
   });
 
-  factory GoogleRequest.fromJson(Map<String, dynamic> json) =>
-      _$GoogleRequestFromJson(json);
+  factory GoogleRequest.fromJson(Map<String, dynamic> json) => _$GoogleRequestFromJson(json);
 
   @JsonKey(name: 'firstname')
   final String? firstname;
@@ -4319,6 +3784,7 @@ class GoogleRequest {
   final String? email;
   static const fromJsonFactory = _$GoogleRequestFromJson;
   static const toJsonFactory = _$GoogleRequestToJson;
+
   Map<String, dynamic> toJson() => _$GoogleRequestToJson(this);
 
   @override
@@ -4326,22 +3792,15 @@ class GoogleRequest {
     return identical(this, other) ||
         (other is GoogleRequest &&
             (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
+                const DeepCollectionEquality().equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) || const DeepCollectionEquality().equals(other.lastname, lastname)) &&
             (identical(other.accessToken, accessToken) ||
-                const DeepCollectionEquality()
-                    .equals(other.accessToken, accessToken)) &&
+                const DeepCollectionEquality().equals(other.accessToken, accessToken)) &&
             (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)) &&
+                const DeepCollectionEquality().equals(other.profilePicture, profilePicture)) &&
             (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)));
+                const DeepCollectionEquality().equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)));
   }
 
   @override
@@ -4381,8 +3840,7 @@ class GoogleAuthResponse {
     this.newUser,
   });
 
-  factory GoogleAuthResponse.fromJson(Map<String, dynamic> json) =>
-      _$GoogleAuthResponseFromJson(json);
+  factory GoogleAuthResponse.fromJson(Map<String, dynamic> json) => _$GoogleAuthResponseFromJson(json);
 
   @JsonKey(name: 'username')
   final String? username;
@@ -4392,19 +3850,16 @@ class GoogleAuthResponse {
   final bool? newUser;
   static const fromJsonFactory = _$GoogleAuthResponseFromJson;
   static const toJsonFactory = _$GoogleAuthResponseToJson;
+
   Map<String, dynamic> toJson() => _$GoogleAuthResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is GoogleAuthResponse &&
-            (identical(other.username, username) ||
-                const DeepCollectionEquality()
-                    .equals(other.username, username)) &&
-            (identical(other.token, token) ||
-                const DeepCollectionEquality().equals(other.token, token)) &&
-            (identical(other.newUser, newUser) ||
-                const DeepCollectionEquality().equals(other.newUser, newUser)));
+            (identical(other.username, username) || const DeepCollectionEquality().equals(other.username, username)) &&
+            (identical(other.token, token) || const DeepCollectionEquality().equals(other.token, token)) &&
+            (identical(other.newUser, newUser) || const DeepCollectionEquality().equals(other.newUser, newUser)));
   }
 
   @override
@@ -4416,12 +3871,9 @@ class GoogleAuthResponse {
 }
 
 extension $GoogleAuthResponseExtension on GoogleAuthResponse {
-  GoogleAuthResponse copyWith(
-      {String? username, String? token, bool? newUser}) {
+  GoogleAuthResponse copyWith({String? username, String? token, bool? newUser}) {
     return GoogleAuthResponse(
-        username: username ?? this.username,
-        token: token ?? this.token,
-        newUser: newUser ?? this.newUser);
+        username: username ?? this.username, token: token ?? this.token, newUser: newUser ?? this.newUser);
   }
 }
 
@@ -4431,26 +3883,24 @@ class ForgotPasswordRequest {
     this.email,
   });
 
-  factory ForgotPasswordRequest.fromJson(Map<String, dynamic> json) =>
-      _$ForgotPasswordRequestFromJson(json);
+  factory ForgotPasswordRequest.fromJson(Map<String, dynamic> json) => _$ForgotPasswordRequestFromJson(json);
 
   @JsonKey(name: 'email')
   final String? email;
   static const fromJsonFactory = _$ForgotPasswordRequestFromJson;
   static const toJsonFactory = _$ForgotPasswordRequestToJson;
+
   Map<String, dynamic> toJson() => _$ForgotPasswordRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ForgotPasswordRequest &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)));
+            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(email) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(email) ^ runtimeType.hashCode;
 }
 
 extension $ForgotPasswordRequestExtension on ForgotPasswordRequest {
@@ -4480,8 +3930,7 @@ class ProfileUpdateRequest {
     this.active,
   });
 
-  factory ProfileUpdateRequest.fromJson(Map<String, dynamic> json) =>
-      _$ProfileUpdateRequestFromJson(json);
+  factory ProfileUpdateRequest.fromJson(Map<String, dynamic> json) => _$ProfileUpdateRequestFromJson(json);
 
   @JsonKey(name: 'name')
   final String? name;
@@ -4502,24 +3951,18 @@ class ProfileUpdateRequest {
       name: 'travelWithPersonFromSameCity',
       toJson: profileUpdateRequestTravelWithPersonFromSameCityToJson,
       fromJson: profileUpdateRequestTravelWithPersonFromSameCityFromJson)
-  final enums.ProfileUpdateRequestTravelWithPersonFromSameCity?
-      travelWithPersonFromSameCity;
+  final enums.ProfileUpdateRequestTravelWithPersonFromSameCity? travelWithPersonFromSameCity;
   @JsonKey(
       name: 'travelWithPersonFromSameCountry',
       toJson: profileUpdateRequestTravelWithPersonFromSameCountryToJson,
       fromJson: profileUpdateRequestTravelWithPersonFromSameCountryFromJson)
-  final enums.ProfileUpdateRequestTravelWithPersonFromSameCountry?
-      travelWithPersonFromSameCountry;
+  final enums.ProfileUpdateRequestTravelWithPersonFromSameCountry? travelWithPersonFromSameCountry;
   @JsonKey(
       name: 'travelWithPersonSameLanguage',
       toJson: profileUpdateRequestTravelWithPersonSameLanguageToJson,
       fromJson: profileUpdateRequestTravelWithPersonSameLanguageFromJson)
-  final enums.ProfileUpdateRequestTravelWithPersonSameLanguage?
-      travelWithPersonSameLanguage;
-  @JsonKey(
-      name: 'gender',
-      toJson: profileUpdateRequestGenderToJson,
-      fromJson: profileUpdateRequestGenderFromJson)
+  final enums.ProfileUpdateRequestTravelWithPersonSameLanguage? travelWithPersonSameLanguage;
+  @JsonKey(name: 'gender', toJson: profileUpdateRequestGenderToJson, fromJson: profileUpdateRequestGenderFromJson)
   final enums.ProfileUpdateRequestGender? gender;
   @JsonKey(name: 'groupSize')
   final RangeAnswerModel? groupSize;
@@ -4529,75 +3972,54 @@ class ProfileUpdateRequest {
       fromJson: profileUpdateRequestChillOrVisitFromJson)
   final enums.ProfileUpdateRequestChillOrVisit? chillOrVisit;
   @JsonKey(
-      name: 'aboutFood',
-      toJson: profileUpdateRequestAboutFoodToJson,
-      fromJson: profileUpdateRequestAboutFoodFromJson)
+      name: 'aboutFood', toJson: profileUpdateRequestAboutFoodToJson, fromJson: profileUpdateRequestAboutFoodFromJson)
   final enums.ProfileUpdateRequestAboutFood? aboutFood;
   @JsonKey(
       name: 'goOutAtNight',
       toJson: profileUpdateRequestGoOutAtNightToJson,
       fromJson: profileUpdateRequestGoOutAtNightFromJson)
   final enums.ProfileUpdateRequestGoOutAtNight? goOutAtNight;
-  @JsonKey(
-      name: 'sport',
-      toJson: profileUpdateRequestSportToJson,
-      fromJson: profileUpdateRequestSportFromJson)
+  @JsonKey(name: 'sport', toJson: profileUpdateRequestSportToJson, fromJson: profileUpdateRequestSportFromJson)
   final enums.ProfileUpdateRequestSport? sport;
   @JsonKey(name: 'active')
   final bool? active;
   static const fromJsonFactory = _$ProfileUpdateRequestFromJson;
   static const toJsonFactory = _$ProfileUpdateRequestToJson;
+
   Map<String, dynamic> toJson() => _$ProfileUpdateRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ProfileUpdateRequest &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.availabilities, availabilities) ||
-                const DeepCollectionEquality()
-                    .equals(other.availabilities, availabilities)) &&
-            (identical(other.duration, duration) ||
-                const DeepCollectionEquality()
-                    .equals(other.duration, duration)) &&
-            (identical(other.budget, budget) ||
-                const DeepCollectionEquality().equals(other.budget, budget)) &&
+                const DeepCollectionEquality().equals(other.availabilities, availabilities)) &&
+            (identical(other.duration, duration) || const DeepCollectionEquality().equals(other.duration, duration)) &&
+            (identical(other.budget, budget) || const DeepCollectionEquality().equals(other.budget, budget)) &&
             (identical(other.destinationTypes, destinationTypes) ||
-                const DeepCollectionEquality()
-                    .equals(other.destinationTypes, destinationTypes)) &&
-            (identical(other.ages, ages) ||
-                const DeepCollectionEquality().equals(other.ages, ages)) &&
+                const DeepCollectionEquality().equals(other.destinationTypes, destinationTypes)) &&
+            (identical(other.ages, ages) || const DeepCollectionEquality().equals(other.ages, ages)) &&
             (identical(other.travelWithPersonFromSameCity, travelWithPersonFromSameCity) ||
-                const DeepCollectionEquality().equals(
-                    other.travelWithPersonFromSameCity,
-                    travelWithPersonFromSameCity)) &&
+                const DeepCollectionEquality()
+                    .equals(other.travelWithPersonFromSameCity, travelWithPersonFromSameCity)) &&
             (identical(other.travelWithPersonFromSameCountry, travelWithPersonFromSameCountry) ||
-                const DeepCollectionEquality().equals(
-                    other.travelWithPersonFromSameCountry,
-                    travelWithPersonFromSameCountry)) &&
+                const DeepCollectionEquality()
+                    .equals(other.travelWithPersonFromSameCountry, travelWithPersonFromSameCountry)) &&
             (identical(other.travelWithPersonSameLanguage, travelWithPersonSameLanguage) ||
-                const DeepCollectionEquality().equals(
-                    other.travelWithPersonSameLanguage,
-                    travelWithPersonSameLanguage)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
+                const DeepCollectionEquality()
+                    .equals(other.travelWithPersonSameLanguage, travelWithPersonSameLanguage)) &&
+            (identical(other.gender, gender) || const DeepCollectionEquality().equals(other.gender, gender)) &&
             (identical(other.groupSize, groupSize) ||
-                const DeepCollectionEquality()
-                    .equals(other.groupSize, groupSize)) &&
+                const DeepCollectionEquality().equals(other.groupSize, groupSize)) &&
             (identical(other.chillOrVisit, chillOrVisit) ||
-                const DeepCollectionEquality()
-                    .equals(other.chillOrVisit, chillOrVisit)) &&
+                const DeepCollectionEquality().equals(other.chillOrVisit, chillOrVisit)) &&
             (identical(other.aboutFood, aboutFood) ||
-                const DeepCollectionEquality()
-                    .equals(other.aboutFood, aboutFood)) &&
+                const DeepCollectionEquality().equals(other.aboutFood, aboutFood)) &&
             (identical(other.goOutAtNight, goOutAtNight) ||
-                const DeepCollectionEquality()
-                    .equals(other.goOutAtNight, goOutAtNight)) &&
-            (identical(other.sport, sport) ||
-                const DeepCollectionEquality().equals(other.sport, sport)) &&
-            (identical(other.active, active) ||
-                const DeepCollectionEquality().equals(other.active, active)));
+                const DeepCollectionEquality().equals(other.goOutAtNight, goOutAtNight)) &&
+            (identical(other.sport, sport) || const DeepCollectionEquality().equals(other.sport, sport)) &&
+            (identical(other.active, active) || const DeepCollectionEquality().equals(other.active, active)));
   }
 
   @override
@@ -4629,12 +4051,9 @@ extension $ProfileUpdateRequestExtension on ProfileUpdateRequest {
       RangeAnswerModel? budget,
       List<enums.ProfileUpdateRequestDestinationTypes>? destinationTypes,
       RangeAnswerModel? ages,
-      enums.ProfileUpdateRequestTravelWithPersonFromSameCity?
-          travelWithPersonFromSameCity,
-      enums.ProfileUpdateRequestTravelWithPersonFromSameCountry?
-          travelWithPersonFromSameCountry,
-      enums.ProfileUpdateRequestTravelWithPersonSameLanguage?
-          travelWithPersonSameLanguage,
+      enums.ProfileUpdateRequestTravelWithPersonFromSameCity? travelWithPersonFromSameCity,
+      enums.ProfileUpdateRequestTravelWithPersonFromSameCountry? travelWithPersonFromSameCountry,
+      enums.ProfileUpdateRequestTravelWithPersonSameLanguage? travelWithPersonSameLanguage,
       enums.ProfileUpdateRequestGender? gender,
       RangeAnswerModel? groupSize,
       enums.ProfileUpdateRequestChillOrVisit? chillOrVisit,
@@ -4649,12 +4068,9 @@ extension $ProfileUpdateRequestExtension on ProfileUpdateRequest {
         budget: budget ?? this.budget,
         destinationTypes: destinationTypes ?? this.destinationTypes,
         ages: ages ?? this.ages,
-        travelWithPersonFromSameCity:
-            travelWithPersonFromSameCity ?? this.travelWithPersonFromSameCity,
-        travelWithPersonFromSameCountry: travelWithPersonFromSameCountry ??
-            this.travelWithPersonFromSameCountry,
-        travelWithPersonSameLanguage:
-            travelWithPersonSameLanguage ?? this.travelWithPersonSameLanguage,
+        travelWithPersonFromSameCity: travelWithPersonFromSameCity ?? this.travelWithPersonFromSameCity,
+        travelWithPersonFromSameCountry: travelWithPersonFromSameCountry ?? this.travelWithPersonFromSameCountry,
+        travelWithPersonSameLanguage: travelWithPersonSameLanguage ?? this.travelWithPersonSameLanguage,
         gender: gender ?? this.gender,
         groupSize: groupSize ?? this.groupSize,
         chillOrVisit: chillOrVisit ?? this.chillOrVisit,
@@ -4678,8 +4094,7 @@ class UserUpdateRequest {
     this.language,
   });
 
-  factory UserUpdateRequest.fromJson(Map<String, dynamic> json) =>
-      _$UserUpdateRequestFromJson(json);
+  factory UserUpdateRequest.fromJson(Map<String, dynamic> json) => _$UserUpdateRequestFromJson(json);
 
   @JsonKey(name: 'firstname')
   final String? firstname;
@@ -4699,6 +4114,7 @@ class UserUpdateRequest {
   final String? language;
   static const fromJsonFactory = _$UserUpdateRequestFromJson;
   static const toJsonFactory = _$UserUpdateRequestToJson;
+
   Map<String, dynamic> toJson() => _$UserUpdateRequestToJson(this);
 
   @override
@@ -4706,27 +4122,17 @@ class UserUpdateRequest {
     return identical(this, other) ||
         (other is UserUpdateRequest &&
             (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
+                const DeepCollectionEquality().equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) || const DeepCollectionEquality().equals(other.lastname, lastname)) &&
             (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)) &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
+                const DeepCollectionEquality().equals(other.profilePicture, profilePicture)) &&
+            (identical(other.city, city) || const DeepCollectionEquality().equals(other.city, city)) &&
             (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
+                const DeepCollectionEquality().equals(other.phoneNumber, phoneNumber)) &&
             (identical(other.birthdate, birthdate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthdate, birthdate)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
-            (identical(other.language, language) ||
-                const DeepCollectionEquality()
-                    .equals(other.language, language)));
+                const DeepCollectionEquality().equals(other.birthdate, birthdate)) &&
+            (identical(other.gender, gender) || const DeepCollectionEquality().equals(other.gender, gender)) &&
+            (identical(other.language, language) || const DeepCollectionEquality().equals(other.language, language)));
   }
 
   @override
@@ -4772,8 +4178,7 @@ class UpdateSurveyRequest {
     this.canBeAnsweredMultipleTimes,
   });
 
-  factory UpdateSurveyRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSurveyRequestFromJson(json);
+  factory UpdateSurveyRequest.fromJson(Map<String, dynamic> json) => _$UpdateSurveyRequestFromJson(json);
 
   @JsonKey(name: 'question')
   final String? question;
@@ -4783,23 +4188,18 @@ class UpdateSurveyRequest {
   final bool? canBeAnsweredMultipleTimes;
   static const fromJsonFactory = _$UpdateSurveyRequestFromJson;
   static const toJsonFactory = _$UpdateSurveyRequestToJson;
+
   Map<String, dynamic> toJson() => _$UpdateSurveyRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UpdateSurveyRequest &&
-            (identical(other.question, question) ||
-                const DeepCollectionEquality()
-                    .equals(other.question, question)) &&
+            (identical(other.question, question) || const DeepCollectionEquality().equals(other.question, question)) &&
             (identical(other.possibleAnswers, possibleAnswers) ||
-                const DeepCollectionEquality()
-                    .equals(other.possibleAnswers, possibleAnswers)) &&
-            (identical(other.canBeAnsweredMultipleTimes,
-                    canBeAnsweredMultipleTimes) ||
-                const DeepCollectionEquality().equals(
-                    other.canBeAnsweredMultipleTimes,
-                    canBeAnsweredMultipleTimes)));
+                const DeepCollectionEquality().equals(other.possibleAnswers, possibleAnswers)) &&
+            (identical(other.canBeAnsweredMultipleTimes, canBeAnsweredMultipleTimes) ||
+                const DeepCollectionEquality().equals(other.canBeAnsweredMultipleTimes, canBeAnsweredMultipleTimes)));
   }
 
   @override
@@ -4812,14 +4212,11 @@ class UpdateSurveyRequest {
 
 extension $UpdateSurveyRequestExtension on UpdateSurveyRequest {
   UpdateSurveyRequest copyWith(
-      {String? question,
-      List<PossibleAnswerRequest>? possibleAnswers,
-      bool? canBeAnsweredMultipleTimes}) {
+      {String? question, List<PossibleAnswerRequest>? possibleAnswers, bool? canBeAnsweredMultipleTimes}) {
     return UpdateSurveyRequest(
         question: question ?? this.question,
         possibleAnswers: possibleAnswers ?? this.possibleAnswers,
-        canBeAnsweredMultipleTimes:
-            canBeAnsweredMultipleTimes ?? this.canBeAnsweredMultipleTimes);
+        canBeAnsweredMultipleTimes: canBeAnsweredMultipleTimes ?? this.canBeAnsweredMultipleTimes);
   }
 }
 
@@ -4830,42 +4227,33 @@ class UpdateReportRequest {
     this.details,
   });
 
-  factory UpdateReportRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateReportRequestFromJson(json);
+  factory UpdateReportRequest.fromJson(Map<String, dynamic> json) => _$UpdateReportRequestFromJson(json);
 
-  @JsonKey(
-      name: 'reason',
-      toJson: updateReportRequestReasonToJson,
-      fromJson: updateReportRequestReasonFromJson)
+  @JsonKey(name: 'reason', toJson: updateReportRequestReasonToJson, fromJson: updateReportRequestReasonFromJson)
   final enums.UpdateReportRequestReason? reason;
   @JsonKey(name: 'details')
   final String? details;
   static const fromJsonFactory = _$UpdateReportRequestFromJson;
   static const toJsonFactory = _$UpdateReportRequestToJson;
+
   Map<String, dynamic> toJson() => _$UpdateReportRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UpdateReportRequest &&
-            (identical(other.reason, reason) ||
-                const DeepCollectionEquality().equals(other.reason, reason)) &&
-            (identical(other.details, details) ||
-                const DeepCollectionEquality().equals(other.details, details)));
+            (identical(other.reason, reason) || const DeepCollectionEquality().equals(other.reason, reason)) &&
+            (identical(other.details, details) || const DeepCollectionEquality().equals(other.details, details)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(reason) ^
-      const DeepCollectionEquality().hash(details) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(reason) ^ const DeepCollectionEquality().hash(details) ^ runtimeType.hashCode;
 }
 
 extension $UpdateReportRequestExtension on UpdateReportRequest {
-  UpdateReportRequest copyWith(
-      {enums.UpdateReportRequestReason? reason, String? details}) {
-    return UpdateReportRequest(
-        reason: reason ?? this.reason, details: details ?? this.details);
+  UpdateReportRequest copyWith({enums.UpdateReportRequestReason? reason, String? details}) {
+    return UpdateReportRequest(reason: reason ?? this.reason, details: details ?? this.details);
   }
 }
 
@@ -4880,8 +4268,7 @@ class UpdatePublicGroupRequest {
     this.destination,
   });
 
-  factory UpdatePublicGroupRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePublicGroupRequestFromJson(json);
+  factory UpdatePublicGroupRequest.fromJson(Map<String, dynamic> json) => _$UpdatePublicGroupRequestFromJson(json);
 
   @JsonKey(name: 'name')
   final String? name;
@@ -4897,29 +4284,23 @@ class UpdatePublicGroupRequest {
   final String? destination;
   static const fromJsonFactory = _$UpdatePublicGroupRequestFromJson;
   static const toJsonFactory = _$UpdatePublicGroupRequestToJson;
+
   Map<String, dynamic> toJson() => _$UpdatePublicGroupRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UpdatePublicGroupRequest &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
+                const DeepCollectionEquality().equals(other.description, description)) &&
             (identical(other.startOfTrip, startOfTrip) ||
-                const DeepCollectionEquality()
-                    .equals(other.startOfTrip, startOfTrip)) &&
+                const DeepCollectionEquality().equals(other.startOfTrip, startOfTrip)) &&
             (identical(other.endOfTrip, endOfTrip) ||
-                const DeepCollectionEquality()
-                    .equals(other.endOfTrip, endOfTrip)) &&
-            (identical(other.picture, picture) ||
-                const DeepCollectionEquality()
-                    .equals(other.picture, picture)) &&
+                const DeepCollectionEquality().equals(other.endOfTrip, endOfTrip)) &&
+            (identical(other.picture, picture) || const DeepCollectionEquality().equals(other.picture, picture)) &&
             (identical(other.destination, destination) ||
-                const DeepCollectionEquality()
-                    .equals(other.destination, destination)));
+                const DeepCollectionEquality().equals(other.destination, destination)));
   }
 
   @override
@@ -4965,8 +4346,7 @@ class UpdateActivityRequest {
     this.participants,
   });
 
-  factory UpdateActivityRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateActivityRequestFromJson(json);
+  factory UpdateActivityRequest.fromJson(Map<String, dynamic> json) => _$UpdateActivityRequestFromJson(json);
 
   @JsonKey(name: 'name')
   final String? name;
@@ -4988,35 +4368,25 @@ class UpdateActivityRequest {
   final List<num>? participants;
   static const fromJsonFactory = _$UpdateActivityRequestFromJson;
   static const toJsonFactory = _$UpdateActivityRequestToJson;
+
   Map<String, dynamic> toJson() => _$UpdateActivityRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UpdateActivityRequest &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
+                const DeepCollectionEquality().equals(other.description, description)) &&
             (identical(other.startDate, startDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.startDate, startDate)) &&
-            (identical(other.endDate, endDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.endDate, endDate)) &&
-            (identical(other.color, color) ||
-                const DeepCollectionEquality().equals(other.color, color)) &&
-            (identical(other.location, location) ||
-                const DeepCollectionEquality()
-                    .equals(other.location, location)) &&
-            (identical(other.icon, icon) ||
-                const DeepCollectionEquality().equals(other.icon, icon)) &&
-            (identical(other.infos, infos) ||
-                const DeepCollectionEquality().equals(other.infos, infos)) &&
+                const DeepCollectionEquality().equals(other.startDate, startDate)) &&
+            (identical(other.endDate, endDate) || const DeepCollectionEquality().equals(other.endDate, endDate)) &&
+            (identical(other.color, color) || const DeepCollectionEquality().equals(other.color, color)) &&
+            (identical(other.location, location) || const DeepCollectionEquality().equals(other.location, location)) &&
+            (identical(other.icon, icon) || const DeepCollectionEquality().equals(other.icon, icon)) &&
+            (identical(other.infos, infos) || const DeepCollectionEquality().equals(other.infos, infos)) &&
             (identical(other.participants, participants) ||
-                const DeepCollectionEquality()
-                    .equals(other.participants, participants)));
+                const DeepCollectionEquality().equals(other.participants, participants)));
   }
 
   @override
@@ -5071,17 +4441,14 @@ class UpdatePrivateGroupRequest {
     this.destination,
   });
 
-  factory UpdatePrivateGroupRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePrivateGroupRequestFromJson(json);
+  factory UpdatePrivateGroupRequest.fromJson(Map<String, dynamic> json) => _$UpdatePrivateGroupRequestFromJson(json);
 
   @JsonKey(name: 'name')
   final String? name;
   @JsonKey(name: 'description')
   final String? description;
   @JsonKey(
-      name: 'state',
-      toJson: updatePrivateGroupRequestStateToJson,
-      fromJson: updatePrivateGroupRequestStateFromJson)
+      name: 'state', toJson: updatePrivateGroupRequestStateToJson, fromJson: updatePrivateGroupRequestStateFromJson)
   final enums.UpdatePrivateGroupRequestState? state;
   @JsonKey(name: 'ownerId')
   final num? ownerId;
@@ -5097,37 +4464,26 @@ class UpdatePrivateGroupRequest {
   final String? destination;
   static const fromJsonFactory = _$UpdatePrivateGroupRequestFromJson;
   static const toJsonFactory = _$UpdatePrivateGroupRequestToJson;
+
   Map<String, dynamic> toJson() => _$UpdatePrivateGroupRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UpdatePrivateGroupRequest &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
-            (identical(other.state, state) ||
-                const DeepCollectionEquality().equals(other.state, state)) &&
-            (identical(other.ownerId, ownerId) ||
-                const DeepCollectionEquality()
-                    .equals(other.ownerId, ownerId)) &&
-            (identical(other.maxSize, maxSize) ||
-                const DeepCollectionEquality()
-                    .equals(other.maxSize, maxSize)) &&
+                const DeepCollectionEquality().equals(other.description, description)) &&
+            (identical(other.state, state) || const DeepCollectionEquality().equals(other.state, state)) &&
+            (identical(other.ownerId, ownerId) || const DeepCollectionEquality().equals(other.ownerId, ownerId)) &&
+            (identical(other.maxSize, maxSize) || const DeepCollectionEquality().equals(other.maxSize, maxSize)) &&
             (identical(other.startOfTrip, startOfTrip) ||
-                const DeepCollectionEquality()
-                    .equals(other.startOfTrip, startOfTrip)) &&
+                const DeepCollectionEquality().equals(other.startOfTrip, startOfTrip)) &&
             (identical(other.endOfTrip, endOfTrip) ||
-                const DeepCollectionEquality()
-                    .equals(other.endOfTrip, endOfTrip)) &&
-            (identical(other.picture, picture) ||
-                const DeepCollectionEquality()
-                    .equals(other.picture, picture)) &&
+                const DeepCollectionEquality().equals(other.endOfTrip, endOfTrip)) &&
+            (identical(other.picture, picture) || const DeepCollectionEquality().equals(other.picture, picture)) &&
             (identical(other.destination, destination) ||
-                const DeepCollectionEquality()
-                    .equals(other.destination, destination)));
+                const DeepCollectionEquality().equals(other.destination, destination)));
   }
 
   @override
@@ -5181,19 +4537,18 @@ class JoinGroupWithoutInviteModel {
   final String? message;
   static const fromJsonFactory = _$JoinGroupWithoutInviteModelFromJson;
   static const toJsonFactory = _$JoinGroupWithoutInviteModelToJson;
+
   Map<String, dynamic> toJson() => _$JoinGroupWithoutInviteModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is JoinGroupWithoutInviteModel &&
-            (identical(other.message, message) ||
-                const DeepCollectionEquality().equals(other.message, message)));
+            (identical(other.message, message) || const DeepCollectionEquality().equals(other.message, message)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(message) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(message) ^ runtimeType.hashCode;
 }
 
 extension $JoinGroupWithoutInviteModelExtension on JoinGroupWithoutInviteModel {
@@ -5215,8 +4570,7 @@ class MessageResponse {
     this.type,
   });
 
-  factory MessageResponse.fromJson(Map<String, dynamic> json) =>
-      _$MessageResponseFromJson(json);
+  factory MessageResponse.fromJson(Map<String, dynamic> json) => _$MessageResponseFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -5232,39 +4586,27 @@ class MessageResponse {
   final DateTime? modifiedDate;
   @JsonKey(name: 'pinned')
   final bool? pinned;
-  @JsonKey(
-      name: 'type',
-      toJson: messageResponseType$ToJson,
-      fromJson: messageResponseType$FromJson)
+  @JsonKey(name: 'type', toJson: messageResponseType$ToJson, fromJson: messageResponseType$FromJson)
   final enums.MessageResponseType$? type;
   static const fromJsonFactory = _$MessageResponseFromJson;
   static const toJsonFactory = _$MessageResponseToJson;
+
   Map<String, dynamic> toJson() => _$MessageResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is MessageResponse &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.channelId, channelId) ||
-                const DeepCollectionEquality()
-                    .equals(other.channelId, channelId)) &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.content, content) ||
-                const DeepCollectionEquality()
-                    .equals(other.content, content)) &&
-            (identical(other.sentDate, sentDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.sentDate, sentDate)) &&
+                const DeepCollectionEquality().equals(other.channelId, channelId)) &&
+            (identical(other.userId, userId) || const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.content, content) || const DeepCollectionEquality().equals(other.content, content)) &&
+            (identical(other.sentDate, sentDate) || const DeepCollectionEquality().equals(other.sentDate, sentDate)) &&
             (identical(other.modifiedDate, modifiedDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.modifiedDate, modifiedDate)) &&
-            (identical(other.pinned, pinned) ||
-                const DeepCollectionEquality().equals(other.pinned, pinned)) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)));
+                const DeepCollectionEquality().equals(other.modifiedDate, modifiedDate)) &&
+            (identical(other.pinned, pinned) || const DeepCollectionEquality().equals(other.pinned, pinned)) &&
+            (identical(other.type, type) || const DeepCollectionEquality().equals(other.type, type)));
   }
 
   @override
@@ -5309,8 +4651,7 @@ class UpdateChannelRequest {
     this.index,
   });
 
-  factory UpdateChannelRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateChannelRequestFromJson(json);
+  factory UpdateChannelRequest.fromJson(Map<String, dynamic> json) => _$UpdateChannelRequestFromJson(json);
 
   @JsonKey(name: 'name')
   final String? name;
@@ -5318,29 +4659,25 @@ class UpdateChannelRequest {
   final int? index;
   static const fromJsonFactory = _$UpdateChannelRequestFromJson;
   static const toJsonFactory = _$UpdateChannelRequestToJson;
+
   Map<String, dynamic> toJson() => _$UpdateChannelRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UpdateChannelRequest &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.index, index) ||
-                const DeepCollectionEquality().equals(other.index, index)));
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.index, index) || const DeepCollectionEquality().equals(other.index, index)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(index) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(name) ^ const DeepCollectionEquality().hash(index) ^ runtimeType.hashCode;
 }
 
 extension $UpdateChannelRequestExtension on UpdateChannelRequest {
   UpdateChannelRequest copyWith({String? name, int? index}) {
-    return UpdateChannelRequest(
-        name: name ?? this.name, index: index ?? this.index);
+    return UpdateChannelRequest(name: name ?? this.name, index: index ?? this.index);
   }
 }
 
@@ -5351,8 +4688,7 @@ class UpdatePasswordRequest {
     this.newPassword,
   });
 
-  factory UpdatePasswordRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePasswordRequestFromJson(json);
+  factory UpdatePasswordRequest.fromJson(Map<String, dynamic> json) => _$UpdatePasswordRequestFromJson(json);
 
   @JsonKey(name: 'oldPassword')
   final String? oldPassword;
@@ -5360,6 +4696,7 @@ class UpdatePasswordRequest {
   final String? newPassword;
   static const fromJsonFactory = _$UpdatePasswordRequestFromJson;
   static const toJsonFactory = _$UpdatePasswordRequestToJson;
+
   Map<String, dynamic> toJson() => _$UpdatePasswordRequestToJson(this);
 
   @override
@@ -5367,11 +4704,9 @@ class UpdatePasswordRequest {
     return identical(this, other) ||
         (other is UpdatePasswordRequest &&
             (identical(other.oldPassword, oldPassword) ||
-                const DeepCollectionEquality()
-                    .equals(other.oldPassword, oldPassword)) &&
+                const DeepCollectionEquality().equals(other.oldPassword, oldPassword)) &&
             (identical(other.newPassword, newPassword) ||
-                const DeepCollectionEquality()
-                    .equals(other.newPassword, newPassword)));
+                const DeepCollectionEquality().equals(other.newPassword, newPassword)));
   }
 
   @override
@@ -5384,8 +4719,7 @@ class UpdatePasswordRequest {
 extension $UpdatePasswordRequestExtension on UpdatePasswordRequest {
   UpdatePasswordRequest copyWith({String? oldPassword, String? newPassword}) {
     return UpdatePasswordRequest(
-        oldPassword: oldPassword ?? this.oldPassword,
-        newPassword: newPassword ?? this.newPassword);
+        oldPassword: oldPassword ?? this.oldPassword, newPassword: newPassword ?? this.newPassword);
   }
 }
 
@@ -5396,8 +4730,7 @@ class UpdateEmailRequest {
     this.password,
   });
 
-  factory UpdateEmailRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateEmailRequestFromJson(json);
+  factory UpdateEmailRequest.fromJson(Map<String, dynamic> json) => _$UpdateEmailRequestFromJson(json);
 
   @JsonKey(name: 'newEmail')
   final String? newEmail;
@@ -5405,18 +4738,15 @@ class UpdateEmailRequest {
   final String? password;
   static const fromJsonFactory = _$UpdateEmailRequestFromJson;
   static const toJsonFactory = _$UpdateEmailRequestToJson;
+
   Map<String, dynamic> toJson() => _$UpdateEmailRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UpdateEmailRequest &&
-            (identical(other.newEmail, newEmail) ||
-                const DeepCollectionEquality()
-                    .equals(other.newEmail, newEmail)) &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)));
+            (identical(other.newEmail, newEmail) || const DeepCollectionEquality().equals(other.newEmail, newEmail)) &&
+            (identical(other.password, password) || const DeepCollectionEquality().equals(other.password, password)));
   }
 
   @override
@@ -5428,9 +4758,7 @@ class UpdateEmailRequest {
 
 extension $UpdateEmailRequestExtension on UpdateEmailRequest {
   UpdateEmailRequest copyWith({String? newEmail, String? password}) {
-    return UpdateEmailRequest(
-        newEmail: newEmail ?? this.newEmail,
-        password: password ?? this.password);
+    return UpdateEmailRequest(newEmail: newEmail ?? this.newEmail, password: password ?? this.password);
   }
 }
 
@@ -5440,26 +4768,24 @@ class ConfirmationCodeModel {
     this.value,
   });
 
-  factory ConfirmationCodeModel.fromJson(Map<String, dynamic> json) =>
-      _$ConfirmationCodeModelFromJson(json);
+  factory ConfirmationCodeModel.fromJson(Map<String, dynamic> json) => _$ConfirmationCodeModelFromJson(json);
 
   @JsonKey(name: 'value')
   final String? value;
   static const fromJsonFactory = _$ConfirmationCodeModelFromJson;
   static const toJsonFactory = _$ConfirmationCodeModelToJson;
+
   Map<String, dynamic> toJson() => _$ConfirmationCodeModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ConfirmationCodeModel &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)));
+            (identical(other.value, value) || const DeepCollectionEquality().equals(other.value, value)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(value) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(value) ^ runtimeType.hashCode;
 }
 
 extension $ConfirmationCodeModelExtension on ConfirmationCodeModel {
@@ -5487,19 +4813,17 @@ class ValidateCodePasswordRequest {
   final String? email;
   static const fromJsonFactory = _$ValidateCodePasswordRequestFromJson;
   static const toJsonFactory = _$ValidateCodePasswordRequestToJson;
+
   Map<String, dynamic> toJson() => _$ValidateCodePasswordRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ValidateCodePasswordRequest &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)) &&
+            (identical(other.value, value) || const DeepCollectionEquality().equals(other.value, value)) &&
             (identical(other.newPassword, newPassword) ||
-                const DeepCollectionEquality()
-                    .equals(other.newPassword, newPassword)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)));
+                const DeepCollectionEquality().equals(other.newPassword, newPassword)) &&
+            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)));
   }
 
   @override
@@ -5511,12 +4835,9 @@ class ValidateCodePasswordRequest {
 }
 
 extension $ValidateCodePasswordRequestExtension on ValidateCodePasswordRequest {
-  ValidateCodePasswordRequest copyWith(
-      {String? value, String? newPassword, String? email}) {
+  ValidateCodePasswordRequest copyWith({String? value, String? newPassword, String? email}) {
     return ValidateCodePasswordRequest(
-        value: value ?? this.value,
-        newPassword: newPassword ?? this.newPassword,
-        email: email ?? this.email);
+        value: value ?? this.value, newPassword: newPassword ?? this.newPassword, email: email ?? this.email);
   }
 }
 
@@ -5526,26 +4847,24 @@ class UserIdResponse {
     this.userId,
   });
 
-  factory UserIdResponse.fromJson(Map<String, dynamic> json) =>
-      _$UserIdResponseFromJson(json);
+  factory UserIdResponse.fromJson(Map<String, dynamic> json) => _$UserIdResponseFromJson(json);
 
   @JsonKey(name: 'userId')
   final num? userId;
   static const fromJsonFactory = _$UserIdResponseFromJson;
   static const toJsonFactory = _$UserIdResponseToJson;
+
   Map<String, dynamic> toJson() => _$UserIdResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UserIdResponse &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)));
+            (identical(other.userId, userId) || const DeepCollectionEquality().equals(other.userId, userId)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(userId) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(userId) ^ runtimeType.hashCode;
 }
 
 extension $UserIdResponseExtension on UserIdResponse {
@@ -5561,8 +4880,7 @@ class CityEntity {
     this.name,
   });
 
-  factory CityEntity.fromJson(Map<String, dynamic> json) =>
-      _$CityEntityFromJson(json);
+  factory CityEntity.fromJson(Map<String, dynamic> json) => _$CityEntityFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -5570,23 +4888,20 @@ class CityEntity {
   final String? name;
   static const fromJsonFactory = _$CityEntityFromJson;
   static const toJsonFactory = _$CityEntityToJson;
+
   Map<String, dynamic> toJson() => _$CityEntityToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is CityEntity &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(name) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(id) ^ const DeepCollectionEquality().hash(name) ^ runtimeType.hashCode;
 }
 
 extension $CityEntityExtension on CityEntity {
@@ -5602,8 +4917,7 @@ class GenderEntity {
     this.value,
   });
 
-  factory GenderEntity.fromJson(Map<String, dynamic> json) =>
-      _$GenderEntityFromJson(json);
+  factory GenderEntity.fromJson(Map<String, dynamic> json) => _$GenderEntityFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -5611,23 +4925,20 @@ class GenderEntity {
   final String? value;
   static const fromJsonFactory = _$GenderEntityFromJson;
   static const toJsonFactory = _$GenderEntityToJson;
+
   Map<String, dynamic> toJson() => _$GenderEntityToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is GenderEntity &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)));
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.value, value) || const DeepCollectionEquality().equals(other.value, value)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(value) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(id) ^ const DeepCollectionEquality().hash(value) ^ runtimeType.hashCode;
 }
 
 extension $GenderEntityExtension on GenderEntity {
@@ -5643,8 +4954,7 @@ class LanguageEntity {
     this.value,
   });
 
-  factory LanguageEntity.fromJson(Map<String, dynamic> json) =>
-      _$LanguageEntityFromJson(json);
+  factory LanguageEntity.fromJson(Map<String, dynamic> json) => _$LanguageEntityFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -5652,23 +4962,20 @@ class LanguageEntity {
   final String? value;
   static const fromJsonFactory = _$LanguageEntityFromJson;
   static const toJsonFactory = _$LanguageEntityToJson;
+
   Map<String, dynamic> toJson() => _$LanguageEntityToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is LanguageEntity &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)));
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.value, value) || const DeepCollectionEquality().equals(other.value, value)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(value) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(id) ^ const DeepCollectionEquality().hash(value) ^ runtimeType.hashCode;
 }
 
 extension $LanguageEntityExtension on LanguageEntity {
@@ -5686,8 +4993,7 @@ class ProfileEntity {
     this.createdDate,
   });
 
-  factory ProfileEntity.fromJson(Map<String, dynamic> json) =>
-      _$ProfileEntityFromJson(json);
+  factory ProfileEntity.fromJson(Map<String, dynamic> json) => _$ProfileEntityFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -5699,21 +5005,18 @@ class ProfileEntity {
   final DateTime? createdDate;
   static const fromJsonFactory = _$ProfileEntityFromJson;
   static const toJsonFactory = _$ProfileEntityToJson;
+
   Map<String, dynamic> toJson() => _$ProfileEntityToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ProfileEntity &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.active, active) ||
-                const DeepCollectionEquality().equals(other.active, active)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.active, active) || const DeepCollectionEquality().equals(other.active, active)) &&
             (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)));
+                const DeepCollectionEquality().equals(other.createdDate, createdDate)));
   }
 
   @override
@@ -5726,8 +5029,7 @@ class ProfileEntity {
 }
 
 extension $ProfileEntityExtension on ProfileEntity {
-  ProfileEntity copyWith(
-      {num? id, String? name, bool? active, DateTime? createdDate}) {
+  ProfileEntity copyWith({num? id, String? name, bool? active, DateTime? createdDate}) {
     return ProfileEntity(
         id: id ?? this.id,
         name: name ?? this.name,
@@ -5744,8 +5046,7 @@ class RoleEntity {
     this.authority,
   });
 
-  factory RoleEntity.fromJson(Map<String, dynamic> json) =>
-      _$RoleEntityFromJson(json);
+  factory RoleEntity.fromJson(Map<String, dynamic> json) => _$RoleEntityFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -5755,19 +5056,17 @@ class RoleEntity {
   final String? authority;
   static const fromJsonFactory = _$RoleEntityFromJson;
   static const toJsonFactory = _$RoleEntityToJson;
+
   Map<String, dynamic> toJson() => _$RoleEntityToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is RoleEntity &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.authority, authority) ||
-                const DeepCollectionEquality()
-                    .equals(other.authority, authority)));
+                const DeepCollectionEquality().equals(other.authority, authority)));
   }
 
   @override
@@ -5780,10 +5079,7 @@ class RoleEntity {
 
 extension $RoleEntityExtension on RoleEntity {
   RoleEntity copyWith({num? id, String? name, String? authority}) {
-    return RoleEntity(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        authority: authority ?? this.authority);
+    return RoleEntity(id: id ?? this.id, name: name ?? this.name, authority: authority ?? this.authority);
   }
 }
 
@@ -5809,8 +5105,7 @@ class UserEntity {
     this.waitingForGroup,
   });
 
-  factory UserEntity.fromJson(Map<String, dynamic> json) =>
-      _$UserEntityFromJson(json);
+  factory UserEntity.fromJson(Map<String, dynamic> json) => _$UserEntityFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -5848,58 +5143,38 @@ class UserEntity {
   final bool? waitingForGroup;
   static const fromJsonFactory = _$UserEntityFromJson;
   static const toJsonFactory = _$UserEntityToJson;
+
   Map<String, dynamic> toJson() => _$UserEntityToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UserEntity &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)) &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
+                const DeepCollectionEquality().equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) || const DeepCollectionEquality().equals(other.lastname, lastname)) &&
+            (identical(other.password, password) || const DeepCollectionEquality().equals(other.password, password)) &&
+            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)) &&
             (identical(other.birthDate, birthDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.birthDate, birthDate)) &&
-            (identical(other.gender, gender) ||
-                const DeepCollectionEquality().equals(other.gender, gender)) &&
+                const DeepCollectionEquality().equals(other.birthDate, birthDate)) &&
+            (identical(other.gender, gender) || const DeepCollectionEquality().equals(other.gender, gender)) &&
             (identical(other.profilePicture, profilePicture) ||
-                const DeepCollectionEquality()
-                    .equals(other.profilePicture, profilePicture)) &&
-            (identical(other.city, city) ||
-                const DeepCollectionEquality().equals(other.city, city)) &&
+                const DeepCollectionEquality().equals(other.profilePicture, profilePicture)) &&
+            (identical(other.city, city) || const DeepCollectionEquality().equals(other.city, city)) &&
             (identical(other.createdDate, createdDate) ||
-                const DeepCollectionEquality()
-                    .equals(other.createdDate, createdDate)) &&
+                const DeepCollectionEquality().equals(other.createdDate, createdDate)) &&
             (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
+                const DeepCollectionEquality().equals(other.phoneNumber, phoneNumber)) &&
             (identical(other.confirmed, confirmed) ||
-                const DeepCollectionEquality()
-                    .equals(other.confirmed, confirmed)) &&
+                const DeepCollectionEquality().equals(other.confirmed, confirmed)) &&
             (identical(other.firebaseToken, firebaseToken) ||
-                const DeepCollectionEquality()
-                    .equals(other.firebaseToken, firebaseToken)) &&
-            (identical(other.language, language) ||
-                const DeepCollectionEquality()
-                    .equals(other.language, language)) &&
-            (identical(other.roles, roles) ||
-                const DeepCollectionEquality().equals(other.roles, roles)) &&
-            (identical(other.profiles, profiles) ||
-                const DeepCollectionEquality()
-                    .equals(other.profiles, profiles)) &&
+                const DeepCollectionEquality().equals(other.firebaseToken, firebaseToken)) &&
+            (identical(other.language, language) || const DeepCollectionEquality().equals(other.language, language)) &&
+            (identical(other.roles, roles) || const DeepCollectionEquality().equals(other.roles, roles)) &&
+            (identical(other.profiles, profiles) || const DeepCollectionEquality().equals(other.profiles, profiles)) &&
             (identical(other.waitingForGroup, waitingForGroup) ||
-                const DeepCollectionEquality()
-                    .equals(other.waitingForGroup, waitingForGroup)));
+                const DeepCollectionEquality().equals(other.waitingForGroup, waitingForGroup)));
   }
 
   @override
@@ -5970,26 +5245,24 @@ class FirebaseTokenResponse {
     this.token,
   });
 
-  factory FirebaseTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$FirebaseTokenResponseFromJson(json);
+  factory FirebaseTokenResponse.fromJson(Map<String, dynamic> json) => _$FirebaseTokenResponseFromJson(json);
 
   @JsonKey(name: 'token')
   final String? token;
   static const fromJsonFactory = _$FirebaseTokenResponseFromJson;
   static const toJsonFactory = _$FirebaseTokenResponseToJson;
+
   Map<String, dynamic> toJson() => _$FirebaseTokenResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is FirebaseTokenResponse &&
-            (identical(other.token, token) ||
-                const DeepCollectionEquality().equals(other.token, token)));
+            (identical(other.token, token) || const DeepCollectionEquality().equals(other.token, token)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(token) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(token) ^ runtimeType.hashCode;
 }
 
 extension $FirebaseTokenResponseExtension on FirebaseTokenResponse {
@@ -6008,8 +5281,7 @@ class NotificationModel {
     this.firebaseId,
   });
 
-  factory NotificationModel.fromJson(Map<String, dynamic> json) =>
-      _$NotificationModelFromJson(json);
+  factory NotificationModel.fromJson(Map<String, dynamic> json) => _$NotificationModelFromJson(json);
 
   @JsonKey(name: 'title')
   final String? title;
@@ -6023,23 +5295,19 @@ class NotificationModel {
   final String? firebaseId;
   static const fromJsonFactory = _$NotificationModelFromJson;
   static const toJsonFactory = _$NotificationModelToJson;
+
   Map<String, dynamic> toJson() => _$NotificationModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is NotificationModel &&
-            (identical(other.title, title) ||
-                const DeepCollectionEquality().equals(other.title, title)) &&
-            (identical(other.body, body) ||
-                const DeepCollectionEquality().equals(other.body, body)) &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.title, title) || const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.body, body) || const DeepCollectionEquality().equals(other.body, body)) &&
+            (identical(other.userId, userId) || const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.firebaseId, firebaseId) ||
-                const DeepCollectionEquality()
-                    .equals(other.firebaseId, firebaseId)));
+                const DeepCollectionEquality().equals(other.firebaseId, firebaseId)));
   }
 
   @override
@@ -6053,8 +5321,7 @@ class NotificationModel {
 }
 
 extension $NotificationModelExtension on NotificationModel {
-  NotificationModel copyWith(
-      {String? title, String? body, num? userId, num? id, String? firebaseId}) {
+  NotificationModel copyWith({String? title, String? body, num? userId, num? id, String? firebaseId}) {
     return NotificationModel(
         title: title ?? this.title,
         body: body ?? this.body,
@@ -6071,42 +5338,33 @@ class MatchMakingResult {
     this.group,
   });
 
-  factory MatchMakingResult.fromJson(Map<String, dynamic> json) =>
-      _$MatchMakingResultFromJson(json);
+  factory MatchMakingResult.fromJson(Map<String, dynamic> json) => _$MatchMakingResultFromJson(json);
 
-  @JsonKey(
-      name: 'type',
-      toJson: matchMakingResultType$ToJson,
-      fromJson: matchMakingResultType$FromJson)
+  @JsonKey(name: 'type', toJson: matchMakingResultType$ToJson, fromJson: matchMakingResultType$FromJson)
   final enums.MatchMakingResultType$? type;
   @JsonKey(name: 'group')
   final GroupModel? group;
   static const fromJsonFactory = _$MatchMakingResultFromJson;
   static const toJsonFactory = _$MatchMakingResultToJson;
+
   Map<String, dynamic> toJson() => _$MatchMakingResultToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is MatchMakingResult &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
-            (identical(other.group, group) ||
-                const DeepCollectionEquality().equals(other.group, group)));
+            (identical(other.type, type) || const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.group, group) || const DeepCollectionEquality().equals(other.group, group)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(type) ^
-      const DeepCollectionEquality().hash(group) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(type) ^ const DeepCollectionEquality().hash(group) ^ runtimeType.hashCode;
 }
 
 extension $MatchMakingResultExtension on MatchMakingResult {
-  MatchMakingResult copyWith(
-      {enums.MatchMakingResultType$? type, GroupModel? group}) {
-    return MatchMakingResult(
-        type: type ?? this.type, group: group ?? this.group);
+  MatchMakingResult copyWith({enums.MatchMakingResultType$? type, GroupModel? group}) {
+    return MatchMakingResult(type: type ?? this.type, group: group ?? this.group);
   }
 }
 
@@ -6121,8 +5379,7 @@ class GroupInfoModel {
     this.picture,
   });
 
-  factory GroupInfoModel.fromJson(Map<String, dynamic> json) =>
-      _$GroupInfoModelFromJson(json);
+  factory GroupInfoModel.fromJson(Map<String, dynamic> json) => _$GroupInfoModelFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -6132,35 +5389,25 @@ class GroupInfoModel {
   final List<GroupMemberPublicInfoModel>? members;
   @JsonKey(name: 'maxSize')
   final int? maxSize;
-  @JsonKey(
-      name: 'state',
-      toJson: groupInfoModelStateToJson,
-      fromJson: groupInfoModelStateFromJson)
+  @JsonKey(name: 'state', toJson: groupInfoModelStateToJson, fromJson: groupInfoModelStateFromJson)
   final enums.GroupInfoModelState? state;
   @JsonKey(name: 'picture')
   final String? picture;
   static const fromJsonFactory = _$GroupInfoModelFromJson;
   static const toJsonFactory = _$GroupInfoModelToJson;
+
   Map<String, dynamic> toJson() => _$GroupInfoModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is GroupInfoModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.members, members) ||
-                const DeepCollectionEquality()
-                    .equals(other.members, members)) &&
-            (identical(other.maxSize, maxSize) ||
-                const DeepCollectionEquality()
-                    .equals(other.maxSize, maxSize)) &&
-            (identical(other.state, state) ||
-                const DeepCollectionEquality().equals(other.state, state)) &&
-            (identical(other.picture, picture) ||
-                const DeepCollectionEquality().equals(other.picture, picture)));
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) || const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.members, members) || const DeepCollectionEquality().equals(other.members, members)) &&
+            (identical(other.maxSize, maxSize) || const DeepCollectionEquality().equals(other.maxSize, maxSize)) &&
+            (identical(other.state, state) || const DeepCollectionEquality().equals(other.state, state)) &&
+            (identical(other.picture, picture) || const DeepCollectionEquality().equals(other.picture, picture)));
   }
 
   @override
@@ -6200,8 +5447,7 @@ class GroupMemberPublicInfoModel {
     this.lastname,
   });
 
-  factory GroupMemberPublicInfoModel.fromJson(Map<String, dynamic> json) =>
-      _$GroupMemberPublicInfoModelFromJson(json);
+  factory GroupMemberPublicInfoModel.fromJson(Map<String, dynamic> json) => _$GroupMemberPublicInfoModelFromJson(json);
 
   @JsonKey(name: 'id')
   final num? id;
@@ -6211,20 +5457,17 @@ class GroupMemberPublicInfoModel {
   final String? lastname;
   static const fromJsonFactory = _$GroupMemberPublicInfoModelFromJson;
   static const toJsonFactory = _$GroupMemberPublicInfoModelToJson;
+
   Map<String, dynamic> toJson() => _$GroupMemberPublicInfoModelToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is GroupMemberPublicInfoModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)));
+                const DeepCollectionEquality().equals(other.firstname, firstname)) &&
+            (identical(other.lastname, lastname) || const DeepCollectionEquality().equals(other.lastname, lastname)));
   }
 
   @override
@@ -6236,12 +5479,9 @@ class GroupMemberPublicInfoModel {
 }
 
 extension $GroupMemberPublicInfoModelExtension on GroupMemberPublicInfoModel {
-  GroupMemberPublicInfoModel copyWith(
-      {num? id, String? firstname, String? lastname}) {
+  GroupMemberPublicInfoModel copyWith({num? id, String? firstname, String? lastname}) {
     return GroupMemberPublicInfoModel(
-        id: id ?? this.id,
-        firstname: firstname ?? this.firstname,
-        lastname: lastname ?? this.lastname);
+        id: id ?? this.id, firstname: firstname ?? this.firstname, lastname: lastname ?? this.lastname);
   }
 }
 
@@ -6252,8 +5492,7 @@ class MoneyDueResponse {
     this.total,
   });
 
-  factory MoneyDueResponse.fromJson(Map<String, dynamic> json) =>
-      _$MoneyDueResponseFromJson(json);
+  factory MoneyDueResponse.fromJson(Map<String, dynamic> json) => _$MoneyDueResponseFromJson(json);
 
   @JsonKey(name: 'user')
   final GroupMemberModel? user;
@@ -6261,29 +5500,25 @@ class MoneyDueResponse {
   final double? total;
   static const fromJsonFactory = _$MoneyDueResponseFromJson;
   static const toJsonFactory = _$MoneyDueResponseToJson;
+
   Map<String, dynamic> toJson() => _$MoneyDueResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is MoneyDueResponse &&
-            (identical(other.user, user) ||
-                const DeepCollectionEquality().equals(other.user, user)) &&
-            (identical(other.total, total) ||
-                const DeepCollectionEquality().equals(other.total, total)));
+            (identical(other.user, user) || const DeepCollectionEquality().equals(other.user, user)) &&
+            (identical(other.total, total) || const DeepCollectionEquality().equals(other.total, total)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(user) ^
-      const DeepCollectionEquality().hash(total) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(user) ^ const DeepCollectionEquality().hash(total) ^ runtimeType.hashCode;
 }
 
 extension $MoneyDueResponseExtension on MoneyDueResponse {
   MoneyDueResponse copyWith({GroupMemberModel? user, double? total}) {
-    return MoneyDueResponse(
-        user: user ?? this.user, total: total ?? this.total);
+    return MoneyDueResponse(user: user ?? this.user, total: total ?? this.total);
   }
 }
 
@@ -6297,8 +5532,7 @@ class DebtDetailsResponse {
     this.date,
   });
 
-  factory DebtDetailsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DebtDetailsResponseFromJson(json);
+  factory DebtDetailsResponse.fromJson(Map<String, dynamic> json) => _$DebtDetailsResponseFromJson(json);
 
   @JsonKey(name: 'indebtedUser')
   final GroupMemberModel? indebtedUser;
@@ -6312,6 +5546,7 @@ class DebtDetailsResponse {
   final DateTime? date;
   static const fromJsonFactory = _$DebtDetailsResponseFromJson;
   static const toJsonFactory = _$DebtDetailsResponseToJson;
+
   Map<String, dynamic> toJson() => _$DebtDetailsResponseToJson(this);
 
   @override
@@ -6319,19 +5554,14 @@ class DebtDetailsResponse {
     return identical(this, other) ||
         (other is DebtDetailsResponse &&
             (identical(other.indebtedUser, indebtedUser) ||
-                const DeepCollectionEquality()
-                    .equals(other.indebtedUser, indebtedUser)) &&
+                const DeepCollectionEquality().equals(other.indebtedUser, indebtedUser)) &&
             (identical(other.purchaser, purchaser) ||
-                const DeepCollectionEquality()
-                    .equals(other.purchaser, purchaser)) &&
+                const DeepCollectionEquality().equals(other.purchaser, purchaser)) &&
             (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
+                const DeepCollectionEquality().equals(other.description, description)) &&
             (identical(other.amountToPay, amountToPay) ||
-                const DeepCollectionEquality()
-                    .equals(other.amountToPay, amountToPay)) &&
-            (identical(other.date, date) ||
-                const DeepCollectionEquality().equals(other.date, date)));
+                const DeepCollectionEquality().equals(other.amountToPay, amountToPay)) &&
+            (identical(other.date, date) || const DeepCollectionEquality().equals(other.date, date)));
   }
 
   @override
@@ -6367,8 +5597,7 @@ class BalanceResponse {
     this.money,
   });
 
-  factory BalanceResponse.fromJson(Map<String, dynamic> json) =>
-      _$BalanceResponseFromJson(json);
+  factory BalanceResponse.fromJson(Map<String, dynamic> json) => _$BalanceResponseFromJson(json);
 
   @JsonKey(name: 'user')
   final GroupMemberModel? user;
@@ -6376,23 +5605,20 @@ class BalanceResponse {
   final double? money;
   static const fromJsonFactory = _$BalanceResponseFromJson;
   static const toJsonFactory = _$BalanceResponseToJson;
+
   Map<String, dynamic> toJson() => _$BalanceResponseToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is BalanceResponse &&
-            (identical(other.user, user) ||
-                const DeepCollectionEquality().equals(other.user, user)) &&
-            (identical(other.money, money) ||
-                const DeepCollectionEquality().equals(other.money, money)));
+            (identical(other.user, user) || const DeepCollectionEquality().equals(other.user, user)) &&
+            (identical(other.money, money) || const DeepCollectionEquality().equals(other.money, money)));
   }
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(user) ^
-      const DeepCollectionEquality().hash(money) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(user) ^ const DeepCollectionEquality().hash(money) ^ runtimeType.hashCode;
 }
 
 extension $BalanceResponseExtension on BalanceResponse {
@@ -6407,27 +5633,24 @@ class DeleteUserRequest {
     this.password,
   });
 
-  factory DeleteUserRequest.fromJson(Map<String, dynamic> json) =>
-      _$DeleteUserRequestFromJson(json);
+  factory DeleteUserRequest.fromJson(Map<String, dynamic> json) => _$DeleteUserRequestFromJson(json);
 
   @JsonKey(name: 'password')
   final String? password;
   static const fromJsonFactory = _$DeleteUserRequestFromJson;
   static const toJsonFactory = _$DeleteUserRequestToJson;
+
   Map<String, dynamic> toJson() => _$DeleteUserRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is DeleteUserRequest &&
-            (identical(other.password, password) ||
-                const DeepCollectionEquality()
-                    .equals(other.password, password)));
+            (identical(other.password, password) || const DeepCollectionEquality().equals(other.password, password)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(password) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(password) ^ runtimeType.hashCode;
 }
 
 extension $DeleteUserRequestExtension on DeleteUserRequest {
@@ -6442,26 +5665,24 @@ class DeleteUserByAdminRequest {
     this.reason,
   });
 
-  factory DeleteUserByAdminRequest.fromJson(Map<String, dynamic> json) =>
-      _$DeleteUserByAdminRequestFromJson(json);
+  factory DeleteUserByAdminRequest.fromJson(Map<String, dynamic> json) => _$DeleteUserByAdminRequestFromJson(json);
 
   @JsonKey(name: 'reason')
   final String? reason;
   static const fromJsonFactory = _$DeleteUserByAdminRequestFromJson;
   static const toJsonFactory = _$DeleteUserByAdminRequestToJson;
+
   Map<String, dynamic> toJson() => _$DeleteUserByAdminRequestToJson(this);
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is DeleteUserByAdminRequest &&
-            (identical(other.reason, reason) ||
-                const DeepCollectionEquality().equals(other.reason, reason)));
+            (identical(other.reason, reason) || const DeepCollectionEquality().equals(other.reason, reason)));
   }
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(reason) ^ runtimeType.hashCode;
+  int get hashCode => const DeepCollectionEquality().hash(reason) ^ runtimeType.hashCode;
 }
 
 extension $DeleteUserByAdminRequestExtension on DeleteUserByAdminRequest {
@@ -6477,29 +5698,22 @@ String? groupModelStateToJson(enums.GroupModelState? groupModelState) {
 enums.GroupModelState groupModelStateFromJson(Object? groupModelState) {
   if (groupModelState is int) {
     return enums.$GroupModelStateMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == groupModelState.toString(),
-            orElse: () => const MapEntry(
-                enums.GroupModelState.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == groupModelState.toString(),
+            orElse: () => const MapEntry(enums.GroupModelState.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (groupModelState is String) {
     return enums.$GroupModelStateMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == groupModelState.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.GroupModelState.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == groupModelState.toLowerCase(),
+            orElse: () => const MapEntry(enums.GroupModelState.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.GroupModelState.swaggerGeneratedUnknown;
 }
 
-List<String> groupModelStateListToJson(
-    List<enums.GroupModelState>? groupModelState) {
+List<String> groupModelStateListToJson(List<enums.GroupModelState>? groupModelState) {
   if (groupModelState == null) {
     return [];
   }
@@ -6512,9 +5726,7 @@ List<enums.GroupModelState> groupModelStateListFromJson(List? groupModelState) {
     return [];
   }
 
-  return groupModelState
-      .map((e) => groupModelStateFromJson(e.toString()))
-      .toList();
+  return groupModelState.map((e) => groupModelStateFromJson(e.toString())).toList();
 }
 
 String? memberModelGenderToJson(enums.MemberModelGender? memberModelGender) {
@@ -6524,29 +5736,22 @@ String? memberModelGenderToJson(enums.MemberModelGender? memberModelGender) {
 enums.MemberModelGender memberModelGenderFromJson(Object? memberModelGender) {
   if (memberModelGender is int) {
     return enums.$MemberModelGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == memberModelGender.toString(),
-            orElse: () => const MapEntry(
-                enums.MemberModelGender.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == memberModelGender.toString(),
+            orElse: () => const MapEntry(enums.MemberModelGender.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (memberModelGender is String) {
     return enums.$MemberModelGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == memberModelGender.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.MemberModelGender.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == memberModelGender.toLowerCase(),
+            orElse: () => const MapEntry(enums.MemberModelGender.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.MemberModelGender.swaggerGeneratedUnknown;
 }
 
-List<String> memberModelGenderListToJson(
-    List<enums.MemberModelGender>? memberModelGender) {
+List<String> memberModelGenderListToJson(List<enums.MemberModelGender>? memberModelGender) {
   if (memberModelGender == null) {
     return [];
   }
@@ -6554,15 +5759,12 @@ List<String> memberModelGenderListToJson(
   return memberModelGender.map((e) => enums.$MemberModelGenderMap[e]!).toList();
 }
 
-List<enums.MemberModelGender> memberModelGenderListFromJson(
-    List? memberModelGender) {
+List<enums.MemberModelGender> memberModelGenderListFromJson(List? memberModelGender) {
   if (memberModelGender == null) {
     return [];
   }
 
-  return memberModelGender
-      .map((e) => memberModelGenderFromJson(e.toString()))
-      .toList();
+  return memberModelGender.map((e) => memberModelGenderFromJson(e.toString())).toList();
 }
 
 String? userModelGenderToJson(enums.UserModelGender? userModelGender) {
@@ -6572,29 +5774,22 @@ String? userModelGenderToJson(enums.UserModelGender? userModelGender) {
 enums.UserModelGender userModelGenderFromJson(Object? userModelGender) {
   if (userModelGender is int) {
     return enums.$UserModelGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == userModelGender.toString(),
-            orElse: () => const MapEntry(
-                enums.UserModelGender.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == userModelGender.toString(),
+            orElse: () => const MapEntry(enums.UserModelGender.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (userModelGender is String) {
     return enums.$UserModelGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == userModelGender.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.UserModelGender.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == userModelGender.toLowerCase(),
+            orElse: () => const MapEntry(enums.UserModelGender.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.UserModelGender.swaggerGeneratedUnknown;
 }
 
-List<String> userModelGenderListToJson(
-    List<enums.UserModelGender>? userModelGender) {
+List<String> userModelGenderListToJson(List<enums.UserModelGender>? userModelGender) {
   if (userModelGender == null) {
     return [];
   }
@@ -6607,9 +5802,7 @@ List<enums.UserModelGender> userModelGenderListFromJson(List? userModelGender) {
     return [];
   }
 
-  return userModelGender
-      .map((e) => userModelGenderFromJson(e.toString()))
-      .toList();
+  return userModelGender.map((e) => userModelGenderFromJson(e.toString())).toList();
 }
 
 String? userModelRolesToJson(enums.UserModelRoles? userModelRoles) {
@@ -6619,29 +5812,22 @@ String? userModelRolesToJson(enums.UserModelRoles? userModelRoles) {
 enums.UserModelRoles userModelRolesFromJson(Object? userModelRoles) {
   if (userModelRoles is int) {
     return enums.$UserModelRolesMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == userModelRoles.toString(),
-            orElse: () => const MapEntry(
-                enums.UserModelRoles.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == userModelRoles.toString(),
+            orElse: () => const MapEntry(enums.UserModelRoles.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (userModelRoles is String) {
     return enums.$UserModelRolesMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == userModelRoles.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.UserModelRoles.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == userModelRoles.toLowerCase(),
+            orElse: () => const MapEntry(enums.UserModelRoles.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.UserModelRoles.swaggerGeneratedUnknown;
 }
 
-List<String> userModelRolesListToJson(
-    List<enums.UserModelRoles>? userModelRoles) {
+List<String> userModelRolesListToJson(List<enums.UserModelRoles>? userModelRoles) {
   if (userModelRoles == null) {
     return [];
   }
@@ -6654,44 +5840,27 @@ List<enums.UserModelRoles> userModelRolesListFromJson(List? userModelRoles) {
     return [];
   }
 
-  return userModelRoles
-      .map((e) => userModelRolesFromJson(e.toString()))
-      .toList();
+  return userModelRoles.map((e) => userModelRolesFromJson(e.toString())).toList();
 }
 
 String? profileCreationRequestDestinationTypesToJson(
-    enums.ProfileCreationRequestDestinationTypes?
-        profileCreationRequestDestinationTypes) {
-  return enums.$ProfileCreationRequestDestinationTypesMap[
-      profileCreationRequestDestinationTypes];
+    enums.ProfileCreationRequestDestinationTypes? profileCreationRequestDestinationTypes) {
+  return enums.$ProfileCreationRequestDestinationTypesMap[profileCreationRequestDestinationTypes];
 }
 
-enums.ProfileCreationRequestDestinationTypes
-    profileCreationRequestDestinationTypesFromJson(
-        Object? profileCreationRequestDestinationTypes) {
+enums.ProfileCreationRequestDestinationTypes profileCreationRequestDestinationTypesFromJson(
+    Object? profileCreationRequestDestinationTypes) {
   if (profileCreationRequestDestinationTypes is int) {
     return enums.$ProfileCreationRequestDestinationTypesMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestDestinationTypes.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationRequestDestinationTypes
-                    .swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileCreationRequestDestinationTypes.toString(),
+            orElse: () => const MapEntry(enums.ProfileCreationRequestDestinationTypes.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileCreationRequestDestinationTypes is String) {
     return enums.$ProfileCreationRequestDestinationTypesMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestDestinationTypes.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationRequestDestinationTypes
-                    .swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileCreationRequestDestinationTypes.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileCreationRequestDestinationTypes.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -6699,8 +5868,7 @@ enums.ProfileCreationRequestDestinationTypes
 }
 
 List<String> profileCreationRequestDestinationTypesListToJson(
-    List<enums.ProfileCreationRequestDestinationTypes>?
-        profileCreationRequestDestinationTypes) {
+    List<enums.ProfileCreationRequestDestinationTypes>? profileCreationRequestDestinationTypes) {
   if (profileCreationRequestDestinationTypes == null) {
     return [];
   }
@@ -6710,9 +5878,8 @@ List<String> profileCreationRequestDestinationTypesListToJson(
       .toList();
 }
 
-List<enums.ProfileCreationRequestDestinationTypes>
-    profileCreationRequestDestinationTypesListFromJson(
-        List? profileCreationRequestDestinationTypes) {
+List<enums.ProfileCreationRequestDestinationTypes> profileCreationRequestDestinationTypesListFromJson(
+    List? profileCreationRequestDestinationTypes) {
   if (profileCreationRequestDestinationTypes == null) {
     return [];
   }
@@ -6723,25 +5890,19 @@ List<enums.ProfileCreationRequestDestinationTypes>
 }
 
 String? profileCreationRequestTravelWithPersonFromSameCityToJson(
-    enums.ProfileCreationRequestTravelWithPersonFromSameCity?
-        profileCreationRequestTravelWithPersonFromSameCity) {
-  return enums.$ProfileCreationRequestTravelWithPersonFromSameCityMap[
-      profileCreationRequestTravelWithPersonFromSameCity];
+    enums.ProfileCreationRequestTravelWithPersonFromSameCity? profileCreationRequestTravelWithPersonFromSameCity) {
+  return enums
+      .$ProfileCreationRequestTravelWithPersonFromSameCityMap[profileCreationRequestTravelWithPersonFromSameCity];
 }
 
-enums.ProfileCreationRequestTravelWithPersonFromSameCity
-    profileCreationRequestTravelWithPersonFromSameCityFromJson(
-        Object? profileCreationRequestTravelWithPersonFromSameCity) {
+enums.ProfileCreationRequestTravelWithPersonFromSameCity profileCreationRequestTravelWithPersonFromSameCityFromJson(
+    Object? profileCreationRequestTravelWithPersonFromSameCity) {
   if (profileCreationRequestTravelWithPersonFromSameCity is int) {
     return enums.$ProfileCreationRequestTravelWithPersonFromSameCityMap.entries
         .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestTravelWithPersonFromSameCity.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationRequestTravelWithPersonFromSameCity
-                    .swaggerGeneratedUnknown,
-                ''))
+            (element) => element.value.toLowerCase() == profileCreationRequestTravelWithPersonFromSameCity.toString(),
+            orElse: () =>
+                const MapEntry(enums.ProfileCreationRequestTravelWithPersonFromSameCity.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -6749,18 +5910,13 @@ enums.ProfileCreationRequestTravelWithPersonFromSameCity
     return enums.$ProfileCreationRequestTravelWithPersonFromSameCityMap.entries
         .firstWhere(
             (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestTravelWithPersonFromSameCity
-                    .toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationRequestTravelWithPersonFromSameCity
-                    .swaggerGeneratedUnknown,
-                ''))
+                element.value.toLowerCase() == profileCreationRequestTravelWithPersonFromSameCity.toLowerCase(),
+            orElse: () =>
+                const MapEntry(enums.ProfileCreationRequestTravelWithPersonFromSameCity.swaggerGeneratedUnknown, ''))
         .key;
   }
 
-  return enums.ProfileCreationRequestTravelWithPersonFromSameCity
-      .swaggerGeneratedUnknown;
+  return enums.ProfileCreationRequestTravelWithPersonFromSameCity.swaggerGeneratedUnknown;
 }
 
 List<String> profileCreationRequestTravelWithPersonFromSameCityListToJson(
@@ -6771,8 +5927,7 @@ List<String> profileCreationRequestTravelWithPersonFromSameCityListToJson(
   }
 
   return profileCreationRequestTravelWithPersonFromSameCity
-      .map((e) =>
-          enums.$ProfileCreationRequestTravelWithPersonFromSameCityMap[e]!)
+      .map((e) => enums.$ProfileCreationRequestTravelWithPersonFromSameCityMap[e]!)
       .toList();
 }
 
@@ -6784,53 +5939,41 @@ List<enums.ProfileCreationRequestTravelWithPersonFromSameCity>
   }
 
   return profileCreationRequestTravelWithPersonFromSameCity
-      .map((e) => profileCreationRequestTravelWithPersonFromSameCityFromJson(
-          e.toString()))
+      .map((e) => profileCreationRequestTravelWithPersonFromSameCityFromJson(e.toString()))
       .toList();
 }
 
 String? profileCreationRequestTravelWithPersonFromSameCountryToJson(
     enums.ProfileCreationRequestTravelWithPersonFromSameCountry?
         profileCreationRequestTravelWithPersonFromSameCountry) {
-  return enums.$ProfileCreationRequestTravelWithPersonFromSameCountryMap[
-      profileCreationRequestTravelWithPersonFromSameCountry];
+  return enums
+      .$ProfileCreationRequestTravelWithPersonFromSameCountryMap[profileCreationRequestTravelWithPersonFromSameCountry];
 }
 
 enums.ProfileCreationRequestTravelWithPersonFromSameCountry
     profileCreationRequestTravelWithPersonFromSameCountryFromJson(
         Object? profileCreationRequestTravelWithPersonFromSameCountry) {
   if (profileCreationRequestTravelWithPersonFromSameCountry is int) {
-    return enums
-        .$ProfileCreationRequestTravelWithPersonFromSameCountryMap.entries
+    return enums.$ProfileCreationRequestTravelWithPersonFromSameCountryMap.entries
         .firstWhere(
             (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestTravelWithPersonFromSameCountry
-                    .toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationRequestTravelWithPersonFromSameCountry
-                    .swaggerGeneratedUnknown,
-                ''))
+                element.value.toLowerCase() == profileCreationRequestTravelWithPersonFromSameCountry.toString(),
+            orElse: () =>
+                const MapEntry(enums.ProfileCreationRequestTravelWithPersonFromSameCountry.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileCreationRequestTravelWithPersonFromSameCountry is String) {
-    return enums
-        .$ProfileCreationRequestTravelWithPersonFromSameCountryMap.entries
+    return enums.$ProfileCreationRequestTravelWithPersonFromSameCountryMap.entries
         .firstWhere(
             (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestTravelWithPersonFromSameCountry
-                    .toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationRequestTravelWithPersonFromSameCountry
-                    .swaggerGeneratedUnknown,
-                ''))
+                element.value.toLowerCase() == profileCreationRequestTravelWithPersonFromSameCountry.toLowerCase(),
+            orElse: () =>
+                const MapEntry(enums.ProfileCreationRequestTravelWithPersonFromSameCountry.swaggerGeneratedUnknown, ''))
         .key;
   }
 
-  return enums.ProfileCreationRequestTravelWithPersonFromSameCountry
-      .swaggerGeneratedUnknown;
+  return enums.ProfileCreationRequestTravelWithPersonFromSameCountry.swaggerGeneratedUnknown;
 }
 
 List<String> profileCreationRequestTravelWithPersonFromSameCountryListToJson(
@@ -6841,8 +5984,7 @@ List<String> profileCreationRequestTravelWithPersonFromSameCountryListToJson(
   }
 
   return profileCreationRequestTravelWithPersonFromSameCountry
-      .map((e) =>
-          enums.$ProfileCreationRequestTravelWithPersonFromSameCountryMap[e]!)
+      .map((e) => enums.$ProfileCreationRequestTravelWithPersonFromSameCountryMap[e]!)
       .toList();
 }
 
@@ -6854,31 +5996,24 @@ List<enums.ProfileCreationRequestTravelWithPersonFromSameCountry>
   }
 
   return profileCreationRequestTravelWithPersonFromSameCountry
-      .map((e) => profileCreationRequestTravelWithPersonFromSameCountryFromJson(
-          e.toString()))
+      .map((e) => profileCreationRequestTravelWithPersonFromSameCountryFromJson(e.toString()))
       .toList();
 }
 
 String? profileCreationRequestTravelWithPersonSameLanguageToJson(
-    enums.ProfileCreationRequestTravelWithPersonSameLanguage?
-        profileCreationRequestTravelWithPersonSameLanguage) {
-  return enums.$ProfileCreationRequestTravelWithPersonSameLanguageMap[
-      profileCreationRequestTravelWithPersonSameLanguage];
+    enums.ProfileCreationRequestTravelWithPersonSameLanguage? profileCreationRequestTravelWithPersonSameLanguage) {
+  return enums
+      .$ProfileCreationRequestTravelWithPersonSameLanguageMap[profileCreationRequestTravelWithPersonSameLanguage];
 }
 
-enums.ProfileCreationRequestTravelWithPersonSameLanguage
-    profileCreationRequestTravelWithPersonSameLanguageFromJson(
-        Object? profileCreationRequestTravelWithPersonSameLanguage) {
+enums.ProfileCreationRequestTravelWithPersonSameLanguage profileCreationRequestTravelWithPersonSameLanguageFromJson(
+    Object? profileCreationRequestTravelWithPersonSameLanguage) {
   if (profileCreationRequestTravelWithPersonSameLanguage is int) {
     return enums.$ProfileCreationRequestTravelWithPersonSameLanguageMap.entries
         .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestTravelWithPersonSameLanguage.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationRequestTravelWithPersonSameLanguage
-                    .swaggerGeneratedUnknown,
-                ''))
+            (element) => element.value.toLowerCase() == profileCreationRequestTravelWithPersonSameLanguage.toString(),
+            orElse: () =>
+                const MapEntry(enums.ProfileCreationRequestTravelWithPersonSameLanguage.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -6886,18 +6021,13 @@ enums.ProfileCreationRequestTravelWithPersonSameLanguage
     return enums.$ProfileCreationRequestTravelWithPersonSameLanguageMap.entries
         .firstWhere(
             (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestTravelWithPersonSameLanguage
-                    .toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationRequestTravelWithPersonSameLanguage
-                    .swaggerGeneratedUnknown,
-                ''))
+                element.value.toLowerCase() == profileCreationRequestTravelWithPersonSameLanguage.toLowerCase(),
+            orElse: () =>
+                const MapEntry(enums.ProfileCreationRequestTravelWithPersonSameLanguage.swaggerGeneratedUnknown, ''))
         .key;
   }
 
-  return enums.ProfileCreationRequestTravelWithPersonSameLanguage
-      .swaggerGeneratedUnknown;
+  return enums.ProfileCreationRequestTravelWithPersonSameLanguage.swaggerGeneratedUnknown;
 }
 
 List<String> profileCreationRequestTravelWithPersonSameLanguageListToJson(
@@ -6908,8 +6038,7 @@ List<String> profileCreationRequestTravelWithPersonSameLanguageListToJson(
   }
 
   return profileCreationRequestTravelWithPersonSameLanguage
-      .map((e) =>
-          enums.$ProfileCreationRequestTravelWithPersonSameLanguageMap[e]!)
+      .map((e) => enums.$ProfileCreationRequestTravelWithPersonSameLanguageMap[e]!)
       .toList();
 }
 
@@ -6921,37 +6050,26 @@ List<enums.ProfileCreationRequestTravelWithPersonSameLanguage>
   }
 
   return profileCreationRequestTravelWithPersonSameLanguage
-      .map((e) => profileCreationRequestTravelWithPersonSameLanguageFromJson(
-          e.toString()))
+      .map((e) => profileCreationRequestTravelWithPersonSameLanguageFromJson(e.toString()))
       .toList();
 }
 
-String? profileCreationRequestGenderToJson(
-    enums.ProfileCreationRequestGender? profileCreationRequestGender) {
+String? profileCreationRequestGenderToJson(enums.ProfileCreationRequestGender? profileCreationRequestGender) {
   return enums.$ProfileCreationRequestGenderMap[profileCreationRequestGender];
 }
 
-enums.ProfileCreationRequestGender profileCreationRequestGenderFromJson(
-    Object? profileCreationRequestGender) {
+enums.ProfileCreationRequestGender profileCreationRequestGenderFromJson(Object? profileCreationRequestGender) {
   if (profileCreationRequestGender is int) {
     return enums.$ProfileCreationRequestGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestGender.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationRequestGender.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileCreationRequestGender.toString(),
+            orElse: () => const MapEntry(enums.ProfileCreationRequestGender.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileCreationRequestGender is String) {
     return enums.$ProfileCreationRequestGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestGender.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationRequestGender.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileCreationRequestGender.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileCreationRequestGender.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -6964,56 +6082,35 @@ List<String> profileCreationRequestGenderListToJson(
     return [];
   }
 
-  return profileCreationRequestGender
-      .map((e) => enums.$ProfileCreationRequestGenderMap[e]!)
-      .toList();
+  return profileCreationRequestGender.map((e) => enums.$ProfileCreationRequestGenderMap[e]!).toList();
 }
 
-List<enums.ProfileCreationRequestGender>
-    profileCreationRequestGenderListFromJson(
-        List? profileCreationRequestGender) {
+List<enums.ProfileCreationRequestGender> profileCreationRequestGenderListFromJson(List? profileCreationRequestGender) {
   if (profileCreationRequestGender == null) {
     return [];
   }
 
-  return profileCreationRequestGender
-      .map((e) => profileCreationRequestGenderFromJson(e.toString()))
-      .toList();
+  return profileCreationRequestGender.map((e) => profileCreationRequestGenderFromJson(e.toString())).toList();
 }
 
 String? profileCreationRequestChillOrVisitToJson(
-    enums.ProfileCreationRequestChillOrVisit?
-        profileCreationRequestChillOrVisit) {
-  return enums.$ProfileCreationRequestChillOrVisitMap[
-      profileCreationRequestChillOrVisit];
+    enums.ProfileCreationRequestChillOrVisit? profileCreationRequestChillOrVisit) {
+  return enums.$ProfileCreationRequestChillOrVisitMap[profileCreationRequestChillOrVisit];
 }
 
-enums.ProfileCreationRequestChillOrVisit
-    profileCreationRequestChillOrVisitFromJson(
-        Object? profileCreationRequestChillOrVisit) {
+enums.ProfileCreationRequestChillOrVisit profileCreationRequestChillOrVisitFromJson(
+    Object? profileCreationRequestChillOrVisit) {
   if (profileCreationRequestChillOrVisit is int) {
     return enums.$ProfileCreationRequestChillOrVisitMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestChillOrVisit.toString(),
-            orElse: () => const MapEntry(
-                enums
-                    .ProfileCreationRequestChillOrVisit.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileCreationRequestChillOrVisit.toString(),
+            orElse: () => const MapEntry(enums.ProfileCreationRequestChillOrVisit.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileCreationRequestChillOrVisit is String) {
     return enums.$ProfileCreationRequestChillOrVisitMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestChillOrVisit.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums
-                    .ProfileCreationRequestChillOrVisit.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileCreationRequestChillOrVisit.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileCreationRequestChillOrVisit.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -7021,20 +6118,16 @@ enums.ProfileCreationRequestChillOrVisit
 }
 
 List<String> profileCreationRequestChillOrVisitListToJson(
-    List<enums.ProfileCreationRequestChillOrVisit>?
-        profileCreationRequestChillOrVisit) {
+    List<enums.ProfileCreationRequestChillOrVisit>? profileCreationRequestChillOrVisit) {
   if (profileCreationRequestChillOrVisit == null) {
     return [];
   }
 
-  return profileCreationRequestChillOrVisit
-      .map((e) => enums.$ProfileCreationRequestChillOrVisitMap[e]!)
-      .toList();
+  return profileCreationRequestChillOrVisit.map((e) => enums.$ProfileCreationRequestChillOrVisitMap[e]!).toList();
 }
 
-List<enums.ProfileCreationRequestChillOrVisit>
-    profileCreationRequestChillOrVisitListFromJson(
-        List? profileCreationRequestChillOrVisit) {
+List<enums.ProfileCreationRequestChillOrVisit> profileCreationRequestChillOrVisitListFromJson(
+    List? profileCreationRequestChillOrVisit) {
   if (profileCreationRequestChillOrVisit == null) {
     return [];
   }
@@ -7044,35 +6137,22 @@ List<enums.ProfileCreationRequestChillOrVisit>
       .toList();
 }
 
-String? profileCreationRequestAboutFoodToJson(
-    enums.ProfileCreationRequestAboutFood? profileCreationRequestAboutFood) {
-  return enums
-      .$ProfileCreationRequestAboutFoodMap[profileCreationRequestAboutFood];
+String? profileCreationRequestAboutFoodToJson(enums.ProfileCreationRequestAboutFood? profileCreationRequestAboutFood) {
+  return enums.$ProfileCreationRequestAboutFoodMap[profileCreationRequestAboutFood];
 }
 
-enums.ProfileCreationRequestAboutFood profileCreationRequestAboutFoodFromJson(
-    Object? profileCreationRequestAboutFood) {
+enums.ProfileCreationRequestAboutFood profileCreationRequestAboutFoodFromJson(Object? profileCreationRequestAboutFood) {
   if (profileCreationRequestAboutFood is int) {
     return enums.$ProfileCreationRequestAboutFoodMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestAboutFood.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationRequestAboutFood.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileCreationRequestAboutFood.toString(),
+            orElse: () => const MapEntry(enums.ProfileCreationRequestAboutFood.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileCreationRequestAboutFood is String) {
     return enums.$ProfileCreationRequestAboutFoodMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestAboutFood.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationRequestAboutFood.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileCreationRequestAboutFood.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileCreationRequestAboutFood.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -7080,62 +6160,41 @@ enums.ProfileCreationRequestAboutFood profileCreationRequestAboutFoodFromJson(
 }
 
 List<String> profileCreationRequestAboutFoodListToJson(
-    List<enums.ProfileCreationRequestAboutFood>?
-        profileCreationRequestAboutFood) {
+    List<enums.ProfileCreationRequestAboutFood>? profileCreationRequestAboutFood) {
   if (profileCreationRequestAboutFood == null) {
     return [];
   }
 
-  return profileCreationRequestAboutFood
-      .map((e) => enums.$ProfileCreationRequestAboutFoodMap[e]!)
-      .toList();
+  return profileCreationRequestAboutFood.map((e) => enums.$ProfileCreationRequestAboutFoodMap[e]!).toList();
 }
 
-List<enums.ProfileCreationRequestAboutFood>
-    profileCreationRequestAboutFoodListFromJson(
-        List? profileCreationRequestAboutFood) {
+List<enums.ProfileCreationRequestAboutFood> profileCreationRequestAboutFoodListFromJson(
+    List? profileCreationRequestAboutFood) {
   if (profileCreationRequestAboutFood == null) {
     return [];
   }
 
-  return profileCreationRequestAboutFood
-      .map((e) => profileCreationRequestAboutFoodFromJson(e.toString()))
-      .toList();
+  return profileCreationRequestAboutFood.map((e) => profileCreationRequestAboutFoodFromJson(e.toString())).toList();
 }
 
 String? profileCreationRequestGoOutAtNightToJson(
-    enums.ProfileCreationRequestGoOutAtNight?
-        profileCreationRequestGoOutAtNight) {
-  return enums.$ProfileCreationRequestGoOutAtNightMap[
-      profileCreationRequestGoOutAtNight];
+    enums.ProfileCreationRequestGoOutAtNight? profileCreationRequestGoOutAtNight) {
+  return enums.$ProfileCreationRequestGoOutAtNightMap[profileCreationRequestGoOutAtNight];
 }
 
-enums.ProfileCreationRequestGoOutAtNight
-    profileCreationRequestGoOutAtNightFromJson(
-        Object? profileCreationRequestGoOutAtNight) {
+enums.ProfileCreationRequestGoOutAtNight profileCreationRequestGoOutAtNightFromJson(
+    Object? profileCreationRequestGoOutAtNight) {
   if (profileCreationRequestGoOutAtNight is int) {
     return enums.$ProfileCreationRequestGoOutAtNightMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestGoOutAtNight.toString(),
-            orElse: () => const MapEntry(
-                enums
-                    .ProfileCreationRequestGoOutAtNight.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileCreationRequestGoOutAtNight.toString(),
+            orElse: () => const MapEntry(enums.ProfileCreationRequestGoOutAtNight.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileCreationRequestGoOutAtNight is String) {
     return enums.$ProfileCreationRequestGoOutAtNightMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestGoOutAtNight.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums
-                    .ProfileCreationRequestGoOutAtNight.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileCreationRequestGoOutAtNight.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileCreationRequestGoOutAtNight.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -7143,20 +6202,16 @@ enums.ProfileCreationRequestGoOutAtNight
 }
 
 List<String> profileCreationRequestGoOutAtNightListToJson(
-    List<enums.ProfileCreationRequestGoOutAtNight>?
-        profileCreationRequestGoOutAtNight) {
+    List<enums.ProfileCreationRequestGoOutAtNight>? profileCreationRequestGoOutAtNight) {
   if (profileCreationRequestGoOutAtNight == null) {
     return [];
   }
 
-  return profileCreationRequestGoOutAtNight
-      .map((e) => enums.$ProfileCreationRequestGoOutAtNightMap[e]!)
-      .toList();
+  return profileCreationRequestGoOutAtNight.map((e) => enums.$ProfileCreationRequestGoOutAtNightMap[e]!).toList();
 }
 
-List<enums.ProfileCreationRequestGoOutAtNight>
-    profileCreationRequestGoOutAtNightListFromJson(
-        List? profileCreationRequestGoOutAtNight) {
+List<enums.ProfileCreationRequestGoOutAtNight> profileCreationRequestGoOutAtNightListFromJson(
+    List? profileCreationRequestGoOutAtNight) {
   if (profileCreationRequestGoOutAtNight == null) {
     return [];
   }
@@ -7166,32 +6221,22 @@ List<enums.ProfileCreationRequestGoOutAtNight>
       .toList();
 }
 
-String? profileCreationRequestSportToJson(
-    enums.ProfileCreationRequestSport? profileCreationRequestSport) {
+String? profileCreationRequestSportToJson(enums.ProfileCreationRequestSport? profileCreationRequestSport) {
   return enums.$ProfileCreationRequestSportMap[profileCreationRequestSport];
 }
 
-enums.ProfileCreationRequestSport profileCreationRequestSportFromJson(
-    Object? profileCreationRequestSport) {
+enums.ProfileCreationRequestSport profileCreationRequestSportFromJson(Object? profileCreationRequestSport) {
   if (profileCreationRequestSport is int) {
     return enums.$ProfileCreationRequestSportMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestSport.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationRequestSport.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileCreationRequestSport.toString(),
+            orElse: () => const MapEntry(enums.ProfileCreationRequestSport.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileCreationRequestSport is String) {
     return enums.$ProfileCreationRequestSportMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileCreationRequestSport.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileCreationRequestSport.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileCreationRequestSport.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileCreationRequestSport.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -7204,48 +6249,33 @@ List<String> profileCreationRequestSportListToJson(
     return [];
   }
 
-  return profileCreationRequestSport
-      .map((e) => enums.$ProfileCreationRequestSportMap[e]!)
-      .toList();
+  return profileCreationRequestSport.map((e) => enums.$ProfileCreationRequestSportMap[e]!).toList();
 }
 
-List<enums.ProfileCreationRequestSport> profileCreationRequestSportListFromJson(
-    List? profileCreationRequestSport) {
+List<enums.ProfileCreationRequestSport> profileCreationRequestSportListFromJson(List? profileCreationRequestSport) {
   if (profileCreationRequestSport == null) {
     return [];
   }
 
-  return profileCreationRequestSport
-      .map((e) => profileCreationRequestSportFromJson(e.toString()))
-      .toList();
+  return profileCreationRequestSport.map((e) => profileCreationRequestSportFromJson(e.toString())).toList();
 }
 
-String? profileModelDestinationTypesToJson(
-    enums.ProfileModelDestinationTypes? profileModelDestinationTypes) {
+String? profileModelDestinationTypesToJson(enums.ProfileModelDestinationTypes? profileModelDestinationTypes) {
   return enums.$ProfileModelDestinationTypesMap[profileModelDestinationTypes];
 }
 
-enums.ProfileModelDestinationTypes profileModelDestinationTypesFromJson(
-    Object? profileModelDestinationTypes) {
+enums.ProfileModelDestinationTypes profileModelDestinationTypesFromJson(Object? profileModelDestinationTypes) {
   if (profileModelDestinationTypes is int) {
     return enums.$ProfileModelDestinationTypesMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileModelDestinationTypes.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelDestinationTypes.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelDestinationTypes.toString(),
+            orElse: () => const MapEntry(enums.ProfileModelDestinationTypes.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileModelDestinationTypes is String) {
     return enums.$ProfileModelDestinationTypesMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileModelDestinationTypes.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelDestinationTypes.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelDestinationTypes.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileModelDestinationTypes.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -7258,56 +6288,35 @@ List<String> profileModelDestinationTypesListToJson(
     return [];
   }
 
-  return profileModelDestinationTypes
-      .map((e) => enums.$ProfileModelDestinationTypesMap[e]!)
-      .toList();
+  return profileModelDestinationTypes.map((e) => enums.$ProfileModelDestinationTypesMap[e]!).toList();
 }
 
-List<enums.ProfileModelDestinationTypes>
-    profileModelDestinationTypesListFromJson(
-        List? profileModelDestinationTypes) {
+List<enums.ProfileModelDestinationTypes> profileModelDestinationTypesListFromJson(List? profileModelDestinationTypes) {
   if (profileModelDestinationTypes == null) {
     return [];
   }
 
-  return profileModelDestinationTypes
-      .map((e) => profileModelDestinationTypesFromJson(e.toString()))
-      .toList();
+  return profileModelDestinationTypes.map((e) => profileModelDestinationTypesFromJson(e.toString())).toList();
 }
 
 String? profileModelTravelWithPersonFromSameCityToJson(
-    enums.ProfileModelTravelWithPersonFromSameCity?
-        profileModelTravelWithPersonFromSameCity) {
-  return enums.$ProfileModelTravelWithPersonFromSameCityMap[
-      profileModelTravelWithPersonFromSameCity];
+    enums.ProfileModelTravelWithPersonFromSameCity? profileModelTravelWithPersonFromSameCity) {
+  return enums.$ProfileModelTravelWithPersonFromSameCityMap[profileModelTravelWithPersonFromSameCity];
 }
 
-enums.ProfileModelTravelWithPersonFromSameCity
-    profileModelTravelWithPersonFromSameCityFromJson(
-        Object? profileModelTravelWithPersonFromSameCity) {
+enums.ProfileModelTravelWithPersonFromSameCity profileModelTravelWithPersonFromSameCityFromJson(
+    Object? profileModelTravelWithPersonFromSameCity) {
   if (profileModelTravelWithPersonFromSameCity is int) {
     return enums.$ProfileModelTravelWithPersonFromSameCityMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileModelTravelWithPersonFromSameCity.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelTravelWithPersonFromSameCity
-                    .swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelTravelWithPersonFromSameCity.toString(),
+            orElse: () => const MapEntry(enums.ProfileModelTravelWithPersonFromSameCity.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileModelTravelWithPersonFromSameCity is String) {
     return enums.$ProfileModelTravelWithPersonFromSameCityMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileModelTravelWithPersonFromSameCity.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelTravelWithPersonFromSameCity
-                    .swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelTravelWithPersonFromSameCity.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileModelTravelWithPersonFromSameCity.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -7315,8 +6324,7 @@ enums.ProfileModelTravelWithPersonFromSameCity
 }
 
 List<String> profileModelTravelWithPersonFromSameCityListToJson(
-    List<enums.ProfileModelTravelWithPersonFromSameCity>?
-        profileModelTravelWithPersonFromSameCity) {
+    List<enums.ProfileModelTravelWithPersonFromSameCity>? profileModelTravelWithPersonFromSameCity) {
   if (profileModelTravelWithPersonFromSameCity == null) {
     return [];
   }
@@ -7326,62 +6334,44 @@ List<String> profileModelTravelWithPersonFromSameCityListToJson(
       .toList();
 }
 
-List<enums.ProfileModelTravelWithPersonFromSameCity>
-    profileModelTravelWithPersonFromSameCityListFromJson(
-        List? profileModelTravelWithPersonFromSameCity) {
+List<enums.ProfileModelTravelWithPersonFromSameCity> profileModelTravelWithPersonFromSameCityListFromJson(
+    List? profileModelTravelWithPersonFromSameCity) {
   if (profileModelTravelWithPersonFromSameCity == null) {
     return [];
   }
 
   return profileModelTravelWithPersonFromSameCity
-      .map(
-          (e) => profileModelTravelWithPersonFromSameCityFromJson(e.toString()))
+      .map((e) => profileModelTravelWithPersonFromSameCityFromJson(e.toString()))
       .toList();
 }
 
 String? profileModelTravelWithPersonFromSameCountryToJson(
-    enums.ProfileModelTravelWithPersonFromSameCountry?
-        profileModelTravelWithPersonFromSameCountry) {
-  return enums.$ProfileModelTravelWithPersonFromSameCountryMap[
-      profileModelTravelWithPersonFromSameCountry];
+    enums.ProfileModelTravelWithPersonFromSameCountry? profileModelTravelWithPersonFromSameCountry) {
+  return enums.$ProfileModelTravelWithPersonFromSameCountryMap[profileModelTravelWithPersonFromSameCountry];
 }
 
-enums.ProfileModelTravelWithPersonFromSameCountry
-    profileModelTravelWithPersonFromSameCountryFromJson(
-        Object? profileModelTravelWithPersonFromSameCountry) {
+enums.ProfileModelTravelWithPersonFromSameCountry profileModelTravelWithPersonFromSameCountryFromJson(
+    Object? profileModelTravelWithPersonFromSameCountry) {
   if (profileModelTravelWithPersonFromSameCountry is int) {
     return enums.$ProfileModelTravelWithPersonFromSameCountryMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileModelTravelWithPersonFromSameCountry.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelTravelWithPersonFromSameCountry
-                    .swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelTravelWithPersonFromSameCountry.toString(),
+            orElse: () => const MapEntry(enums.ProfileModelTravelWithPersonFromSameCountry.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileModelTravelWithPersonFromSameCountry is String) {
     return enums.$ProfileModelTravelWithPersonFromSameCountryMap.entries
         .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileModelTravelWithPersonFromSameCountry.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelTravelWithPersonFromSameCountry
-                    .swaggerGeneratedUnknown,
-                ''))
+            (element) => element.value.toLowerCase() == profileModelTravelWithPersonFromSameCountry.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileModelTravelWithPersonFromSameCountry.swaggerGeneratedUnknown, ''))
         .key;
   }
 
-  return enums
-      .ProfileModelTravelWithPersonFromSameCountry.swaggerGeneratedUnknown;
+  return enums.ProfileModelTravelWithPersonFromSameCountry.swaggerGeneratedUnknown;
 }
 
 List<String> profileModelTravelWithPersonFromSameCountryListToJson(
-    List<enums.ProfileModelTravelWithPersonFromSameCountry>?
-        profileModelTravelWithPersonFromSameCountry) {
+    List<enums.ProfileModelTravelWithPersonFromSameCountry>? profileModelTravelWithPersonFromSameCountry) {
   if (profileModelTravelWithPersonFromSameCountry == null) {
     return [];
   }
@@ -7391,52 +6381,35 @@ List<String> profileModelTravelWithPersonFromSameCountryListToJson(
       .toList();
 }
 
-List<enums.ProfileModelTravelWithPersonFromSameCountry>
-    profileModelTravelWithPersonFromSameCountryListFromJson(
-        List? profileModelTravelWithPersonFromSameCountry) {
+List<enums.ProfileModelTravelWithPersonFromSameCountry> profileModelTravelWithPersonFromSameCountryListFromJson(
+    List? profileModelTravelWithPersonFromSameCountry) {
   if (profileModelTravelWithPersonFromSameCountry == null) {
     return [];
   }
 
   return profileModelTravelWithPersonFromSameCountry
-      .map((e) =>
-          profileModelTravelWithPersonFromSameCountryFromJson(e.toString()))
+      .map((e) => profileModelTravelWithPersonFromSameCountryFromJson(e.toString()))
       .toList();
 }
 
 String? profileModelTravelWithPersonSameLanguageToJson(
-    enums.ProfileModelTravelWithPersonSameLanguage?
-        profileModelTravelWithPersonSameLanguage) {
-  return enums.$ProfileModelTravelWithPersonSameLanguageMap[
-      profileModelTravelWithPersonSameLanguage];
+    enums.ProfileModelTravelWithPersonSameLanguage? profileModelTravelWithPersonSameLanguage) {
+  return enums.$ProfileModelTravelWithPersonSameLanguageMap[profileModelTravelWithPersonSameLanguage];
 }
 
-enums.ProfileModelTravelWithPersonSameLanguage
-    profileModelTravelWithPersonSameLanguageFromJson(
-        Object? profileModelTravelWithPersonSameLanguage) {
+enums.ProfileModelTravelWithPersonSameLanguage profileModelTravelWithPersonSameLanguageFromJson(
+    Object? profileModelTravelWithPersonSameLanguage) {
   if (profileModelTravelWithPersonSameLanguage is int) {
     return enums.$ProfileModelTravelWithPersonSameLanguageMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileModelTravelWithPersonSameLanguage.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelTravelWithPersonSameLanguage
-                    .swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelTravelWithPersonSameLanguage.toString(),
+            orElse: () => const MapEntry(enums.ProfileModelTravelWithPersonSameLanguage.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileModelTravelWithPersonSameLanguage is String) {
     return enums.$ProfileModelTravelWithPersonSameLanguageMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileModelTravelWithPersonSameLanguage.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelTravelWithPersonSameLanguage
-                    .swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelTravelWithPersonSameLanguage.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileModelTravelWithPersonSameLanguage.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -7444,8 +6417,7 @@ enums.ProfileModelTravelWithPersonSameLanguage
 }
 
 List<String> profileModelTravelWithPersonSameLanguageListToJson(
-    List<enums.ProfileModelTravelWithPersonSameLanguage>?
-        profileModelTravelWithPersonSameLanguage) {
+    List<enums.ProfileModelTravelWithPersonSameLanguage>? profileModelTravelWithPersonSameLanguage) {
   if (profileModelTravelWithPersonSameLanguage == null) {
     return [];
   }
@@ -7455,16 +6427,14 @@ List<String> profileModelTravelWithPersonSameLanguageListToJson(
       .toList();
 }
 
-List<enums.ProfileModelTravelWithPersonSameLanguage>
-    profileModelTravelWithPersonSameLanguageListFromJson(
-        List? profileModelTravelWithPersonSameLanguage) {
+List<enums.ProfileModelTravelWithPersonSameLanguage> profileModelTravelWithPersonSameLanguageListFromJson(
+    List? profileModelTravelWithPersonSameLanguage) {
   if (profileModelTravelWithPersonSameLanguage == null) {
     return [];
   }
 
   return profileModelTravelWithPersonSameLanguage
-      .map(
-          (e) => profileModelTravelWithPersonSameLanguageFromJson(e.toString()))
+      .map((e) => profileModelTravelWithPersonSameLanguageFromJson(e.toString()))
       .toList();
 }
 
@@ -7472,212 +6442,152 @@ String? profileModelGenderToJson(enums.ProfileModelGender? profileModelGender) {
   return enums.$ProfileModelGenderMap[profileModelGender];
 }
 
-enums.ProfileModelGender profileModelGenderFromJson(
-    Object? profileModelGender) {
+enums.ProfileModelGender profileModelGenderFromJson(Object? profileModelGender) {
   if (profileModelGender is int) {
     return enums.$ProfileModelGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == profileModelGender.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelGender.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelGender.toString(),
+            orElse: () => const MapEntry(enums.ProfileModelGender.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileModelGender is String) {
     return enums.$ProfileModelGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == profileModelGender.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelGender.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelGender.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileModelGender.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.ProfileModelGender.swaggerGeneratedUnknown;
 }
 
-List<String> profileModelGenderListToJson(
-    List<enums.ProfileModelGender>? profileModelGender) {
+List<String> profileModelGenderListToJson(List<enums.ProfileModelGender>? profileModelGender) {
   if (profileModelGender == null) {
     return [];
   }
 
-  return profileModelGender
-      .map((e) => enums.$ProfileModelGenderMap[e]!)
-      .toList();
+  return profileModelGender.map((e) => enums.$ProfileModelGenderMap[e]!).toList();
 }
 
-List<enums.ProfileModelGender> profileModelGenderListFromJson(
-    List? profileModelGender) {
+List<enums.ProfileModelGender> profileModelGenderListFromJson(List? profileModelGender) {
   if (profileModelGender == null) {
     return [];
   }
 
-  return profileModelGender
-      .map((e) => profileModelGenderFromJson(e.toString()))
-      .toList();
+  return profileModelGender.map((e) => profileModelGenderFromJson(e.toString())).toList();
 }
 
-String? profileModelChillOrVisitToJson(
-    enums.ProfileModelChillOrVisit? profileModelChillOrVisit) {
+String? profileModelChillOrVisitToJson(enums.ProfileModelChillOrVisit? profileModelChillOrVisit) {
   return enums.$ProfileModelChillOrVisitMap[profileModelChillOrVisit];
 }
 
-enums.ProfileModelChillOrVisit profileModelChillOrVisitFromJson(
-    Object? profileModelChillOrVisit) {
+enums.ProfileModelChillOrVisit profileModelChillOrVisitFromJson(Object? profileModelChillOrVisit) {
   if (profileModelChillOrVisit is int) {
     return enums.$ProfileModelChillOrVisitMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileModelChillOrVisit.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelChillOrVisit.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelChillOrVisit.toString(),
+            orElse: () => const MapEntry(enums.ProfileModelChillOrVisit.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileModelChillOrVisit is String) {
     return enums.$ProfileModelChillOrVisitMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileModelChillOrVisit.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelChillOrVisit.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelChillOrVisit.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileModelChillOrVisit.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.ProfileModelChillOrVisit.swaggerGeneratedUnknown;
 }
 
-List<String> profileModelChillOrVisitListToJson(
-    List<enums.ProfileModelChillOrVisit>? profileModelChillOrVisit) {
+List<String> profileModelChillOrVisitListToJson(List<enums.ProfileModelChillOrVisit>? profileModelChillOrVisit) {
   if (profileModelChillOrVisit == null) {
     return [];
   }
 
-  return profileModelChillOrVisit
-      .map((e) => enums.$ProfileModelChillOrVisitMap[e]!)
-      .toList();
+  return profileModelChillOrVisit.map((e) => enums.$ProfileModelChillOrVisitMap[e]!).toList();
 }
 
-List<enums.ProfileModelChillOrVisit> profileModelChillOrVisitListFromJson(
-    List? profileModelChillOrVisit) {
+List<enums.ProfileModelChillOrVisit> profileModelChillOrVisitListFromJson(List? profileModelChillOrVisit) {
   if (profileModelChillOrVisit == null) {
     return [];
   }
 
-  return profileModelChillOrVisit
-      .map((e) => profileModelChillOrVisitFromJson(e.toString()))
-      .toList();
+  return profileModelChillOrVisit.map((e) => profileModelChillOrVisitFromJson(e.toString())).toList();
 }
 
-String? profileModelAboutFoodToJson(
-    enums.ProfileModelAboutFood? profileModelAboutFood) {
+String? profileModelAboutFoodToJson(enums.ProfileModelAboutFood? profileModelAboutFood) {
   return enums.$ProfileModelAboutFoodMap[profileModelAboutFood];
 }
 
-enums.ProfileModelAboutFood profileModelAboutFoodFromJson(
-    Object? profileModelAboutFood) {
+enums.ProfileModelAboutFood profileModelAboutFoodFromJson(Object? profileModelAboutFood) {
   if (profileModelAboutFood is int) {
     return enums.$ProfileModelAboutFoodMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == profileModelAboutFood.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelAboutFood.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelAboutFood.toString(),
+            orElse: () => const MapEntry(enums.ProfileModelAboutFood.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileModelAboutFood is String) {
     return enums.$ProfileModelAboutFoodMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileModelAboutFood.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelAboutFood.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelAboutFood.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileModelAboutFood.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.ProfileModelAboutFood.swaggerGeneratedUnknown;
 }
 
-List<String> profileModelAboutFoodListToJson(
-    List<enums.ProfileModelAboutFood>? profileModelAboutFood) {
+List<String> profileModelAboutFoodListToJson(List<enums.ProfileModelAboutFood>? profileModelAboutFood) {
   if (profileModelAboutFood == null) {
     return [];
   }
 
-  return profileModelAboutFood
-      .map((e) => enums.$ProfileModelAboutFoodMap[e]!)
-      .toList();
+  return profileModelAboutFood.map((e) => enums.$ProfileModelAboutFoodMap[e]!).toList();
 }
 
-List<enums.ProfileModelAboutFood> profileModelAboutFoodListFromJson(
-    List? profileModelAboutFood) {
+List<enums.ProfileModelAboutFood> profileModelAboutFoodListFromJson(List? profileModelAboutFood) {
   if (profileModelAboutFood == null) {
     return [];
   }
 
-  return profileModelAboutFood
-      .map((e) => profileModelAboutFoodFromJson(e.toString()))
-      .toList();
+  return profileModelAboutFood.map((e) => profileModelAboutFoodFromJson(e.toString())).toList();
 }
 
-String? profileModelGoOutAtNightToJson(
-    enums.ProfileModelGoOutAtNight? profileModelGoOutAtNight) {
+String? profileModelGoOutAtNightToJson(enums.ProfileModelGoOutAtNight? profileModelGoOutAtNight) {
   return enums.$ProfileModelGoOutAtNightMap[profileModelGoOutAtNight];
 }
 
-enums.ProfileModelGoOutAtNight profileModelGoOutAtNightFromJson(
-    Object? profileModelGoOutAtNight) {
+enums.ProfileModelGoOutAtNight profileModelGoOutAtNightFromJson(Object? profileModelGoOutAtNight) {
   if (profileModelGoOutAtNight is int) {
     return enums.$ProfileModelGoOutAtNightMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileModelGoOutAtNight.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelGoOutAtNight.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelGoOutAtNight.toString(),
+            orElse: () => const MapEntry(enums.ProfileModelGoOutAtNight.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileModelGoOutAtNight is String) {
     return enums.$ProfileModelGoOutAtNightMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileModelGoOutAtNight.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelGoOutAtNight.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelGoOutAtNight.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileModelGoOutAtNight.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.ProfileModelGoOutAtNight.swaggerGeneratedUnknown;
 }
 
-List<String> profileModelGoOutAtNightListToJson(
-    List<enums.ProfileModelGoOutAtNight>? profileModelGoOutAtNight) {
+List<String> profileModelGoOutAtNightListToJson(List<enums.ProfileModelGoOutAtNight>? profileModelGoOutAtNight) {
   if (profileModelGoOutAtNight == null) {
     return [];
   }
 
-  return profileModelGoOutAtNight
-      .map((e) => enums.$ProfileModelGoOutAtNightMap[e]!)
-      .toList();
+  return profileModelGoOutAtNight.map((e) => enums.$ProfileModelGoOutAtNightMap[e]!).toList();
 }
 
-List<enums.ProfileModelGoOutAtNight> profileModelGoOutAtNightListFromJson(
-    List? profileModelGoOutAtNight) {
+List<enums.ProfileModelGoOutAtNight> profileModelGoOutAtNightListFromJson(List? profileModelGoOutAtNight) {
   if (profileModelGoOutAtNight == null) {
     return [];
   }
 
-  return profileModelGoOutAtNight
-      .map((e) => profileModelGoOutAtNightFromJson(e.toString()))
-      .toList();
+  return profileModelGoOutAtNight.map((e) => profileModelGoOutAtNightFromJson(e.toString())).toList();
 }
 
 String? profileModelSportToJson(enums.ProfileModelSport? profileModelSport) {
@@ -7687,29 +6597,22 @@ String? profileModelSportToJson(enums.ProfileModelSport? profileModelSport) {
 enums.ProfileModelSport profileModelSportFromJson(Object? profileModelSport) {
   if (profileModelSport is int) {
     return enums.$ProfileModelSportMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == profileModelSport.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelSport.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelSport.toString(),
+            orElse: () => const MapEntry(enums.ProfileModelSport.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileModelSport is String) {
     return enums.$ProfileModelSportMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == profileModelSport.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileModelSport.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileModelSport.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileModelSport.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.ProfileModelSport.swaggerGeneratedUnknown;
 }
 
-List<String> profileModelSportListToJson(
-    List<enums.ProfileModelSport>? profileModelSport) {
+List<String> profileModelSportListToJson(List<enums.ProfileModelSport>? profileModelSport) {
   if (profileModelSport == null) {
     return [];
   }
@@ -7717,123 +6620,88 @@ List<String> profileModelSportListToJson(
   return profileModelSport.map((e) => enums.$ProfileModelSportMap[e]!).toList();
 }
 
-List<enums.ProfileModelSport> profileModelSportListFromJson(
-    List? profileModelSport) {
+List<enums.ProfileModelSport> profileModelSportListFromJson(List? profileModelSport) {
   if (profileModelSport == null) {
     return [];
   }
 
-  return profileModelSport
-      .map((e) => profileModelSportFromJson(e.toString()))
-      .toList();
+  return profileModelSport.map((e) => profileModelSportFromJson(e.toString())).toList();
 }
 
-String? postSurveyRequestType$ToJson(
-    enums.PostSurveyRequestType$? postSurveyRequestType$) {
+String? postSurveyRequestType$ToJson(enums.PostSurveyRequestType$? postSurveyRequestType$) {
   return enums.$PostSurveyRequestType$Map[postSurveyRequestType$];
 }
 
-enums.PostSurveyRequestType$ postSurveyRequestType$FromJson(
-    Object? postSurveyRequestType$) {
+enums.PostSurveyRequestType$ postSurveyRequestType$FromJson(Object? postSurveyRequestType$) {
   if (postSurveyRequestType$ is int) {
     return enums.$PostSurveyRequestType$Map.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                postSurveyRequestType$.toString(),
-            orElse: () => const MapEntry(
-                enums.PostSurveyRequestType$.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == postSurveyRequestType$.toString(),
+            orElse: () => const MapEntry(enums.PostSurveyRequestType$.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (postSurveyRequestType$ is String) {
     return enums.$PostSurveyRequestType$Map.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                postSurveyRequestType$.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.PostSurveyRequestType$.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == postSurveyRequestType$.toLowerCase(),
+            orElse: () => const MapEntry(enums.PostSurveyRequestType$.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.PostSurveyRequestType$.swaggerGeneratedUnknown;
 }
 
-List<String> postSurveyRequestType$ListToJson(
-    List<enums.PostSurveyRequestType$>? postSurveyRequestType$) {
+List<String> postSurveyRequestType$ListToJson(List<enums.PostSurveyRequestType$>? postSurveyRequestType$) {
   if (postSurveyRequestType$ == null) {
     return [];
   }
 
-  return postSurveyRequestType$
-      .map((e) => enums.$PostSurveyRequestType$Map[e]!)
-      .toList();
+  return postSurveyRequestType$.map((e) => enums.$PostSurveyRequestType$Map[e]!).toList();
 }
 
-List<enums.PostSurveyRequestType$> postSurveyRequestType$ListFromJson(
-    List? postSurveyRequestType$) {
+List<enums.PostSurveyRequestType$> postSurveyRequestType$ListFromJson(List? postSurveyRequestType$) {
   if (postSurveyRequestType$ == null) {
     return [];
   }
 
-  return postSurveyRequestType$
-      .map((e) => postSurveyRequestType$FromJson(e.toString()))
-      .toList();
+  return postSurveyRequestType$.map((e) => postSurveyRequestType$FromJson(e.toString())).toList();
 }
 
-String? submitReportRequestReasonToJson(
-    enums.SubmitReportRequestReason? submitReportRequestReason) {
+String? submitReportRequestReasonToJson(enums.SubmitReportRequestReason? submitReportRequestReason) {
   return enums.$SubmitReportRequestReasonMap[submitReportRequestReason];
 }
 
-enums.SubmitReportRequestReason submitReportRequestReasonFromJson(
-    Object? submitReportRequestReason) {
+enums.SubmitReportRequestReason submitReportRequestReasonFromJson(Object? submitReportRequestReason) {
   if (submitReportRequestReason is int) {
     return enums.$SubmitReportRequestReasonMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                submitReportRequestReason.toString(),
-            orElse: () => const MapEntry(
-                enums.SubmitReportRequestReason.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == submitReportRequestReason.toString(),
+            orElse: () => const MapEntry(enums.SubmitReportRequestReason.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (submitReportRequestReason is String) {
     return enums.$SubmitReportRequestReasonMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                submitReportRequestReason.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.SubmitReportRequestReason.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == submitReportRequestReason.toLowerCase(),
+            orElse: () => const MapEntry(enums.SubmitReportRequestReason.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.SubmitReportRequestReason.swaggerGeneratedUnknown;
 }
 
-List<String> submitReportRequestReasonListToJson(
-    List<enums.SubmitReportRequestReason>? submitReportRequestReason) {
+List<String> submitReportRequestReasonListToJson(List<enums.SubmitReportRequestReason>? submitReportRequestReason) {
   if (submitReportRequestReason == null) {
     return [];
   }
 
-  return submitReportRequestReason
-      .map((e) => enums.$SubmitReportRequestReasonMap[e]!)
-      .toList();
+  return submitReportRequestReason.map((e) => enums.$SubmitReportRequestReasonMap[e]!).toList();
 }
 
-List<enums.SubmitReportRequestReason> submitReportRequestReasonListFromJson(
-    List? submitReportRequestReason) {
+List<enums.SubmitReportRequestReason> submitReportRequestReasonListFromJson(List? submitReportRequestReason) {
   if (submitReportRequestReason == null) {
     return [];
   }
 
-  return submitReportRequestReason
-      .map((e) => submitReportRequestReasonFromJson(e.toString()))
-      .toList();
+  return submitReportRequestReason.map((e) => submitReportRequestReasonFromJson(e.toString())).toList();
 }
 
 String? reportModelReasonToJson(enums.ReportModelReason? reportModelReason) {
@@ -7843,29 +6711,22 @@ String? reportModelReasonToJson(enums.ReportModelReason? reportModelReason) {
 enums.ReportModelReason reportModelReasonFromJson(Object? reportModelReason) {
   if (reportModelReason is int) {
     return enums.$ReportModelReasonMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == reportModelReason.toString(),
-            orElse: () => const MapEntry(
-                enums.ReportModelReason.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == reportModelReason.toString(),
+            orElse: () => const MapEntry(enums.ReportModelReason.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (reportModelReason is String) {
     return enums.$ReportModelReasonMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == reportModelReason.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ReportModelReason.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == reportModelReason.toLowerCase(),
+            orElse: () => const MapEntry(enums.ReportModelReason.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.ReportModelReason.swaggerGeneratedUnknown;
 }
 
-List<String> reportModelReasonListToJson(
-    List<enums.ReportModelReason>? reportModelReason) {
+List<String> reportModelReasonListToJson(List<enums.ReportModelReason>? reportModelReason) {
   if (reportModelReason == null) {
     return [];
   }
@@ -7873,50 +6734,32 @@ List<String> reportModelReasonListToJson(
   return reportModelReason.map((e) => enums.$ReportModelReasonMap[e]!).toList();
 }
 
-List<enums.ReportModelReason> reportModelReasonListFromJson(
-    List? reportModelReason) {
+List<enums.ReportModelReason> reportModelReasonListFromJson(List? reportModelReason) {
   if (reportModelReason == null) {
     return [];
   }
 
-  return reportModelReason
-      .map((e) => reportModelReasonFromJson(e.toString()))
-      .toList();
+  return reportModelReason.map((e) => reportModelReasonFromJson(e.toString())).toList();
 }
 
 String? placesFromCoordinatesRequestCategoriesToJson(
-    enums.PlacesFromCoordinatesRequestCategories?
-        placesFromCoordinatesRequestCategories) {
-  return enums.$PlacesFromCoordinatesRequestCategoriesMap[
-      placesFromCoordinatesRequestCategories];
+    enums.PlacesFromCoordinatesRequestCategories? placesFromCoordinatesRequestCategories) {
+  return enums.$PlacesFromCoordinatesRequestCategoriesMap[placesFromCoordinatesRequestCategories];
 }
 
-enums.PlacesFromCoordinatesRequestCategories
-    placesFromCoordinatesRequestCategoriesFromJson(
-        Object? placesFromCoordinatesRequestCategories) {
+enums.PlacesFromCoordinatesRequestCategories placesFromCoordinatesRequestCategoriesFromJson(
+    Object? placesFromCoordinatesRequestCategories) {
   if (placesFromCoordinatesRequestCategories is int) {
     return enums.$PlacesFromCoordinatesRequestCategoriesMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                placesFromCoordinatesRequestCategories.toString(),
-            orElse: () => const MapEntry(
-                enums.PlacesFromCoordinatesRequestCategories
-                    .swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == placesFromCoordinatesRequestCategories.toString(),
+            orElse: () => const MapEntry(enums.PlacesFromCoordinatesRequestCategories.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (placesFromCoordinatesRequestCategories is String) {
     return enums.$PlacesFromCoordinatesRequestCategoriesMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                placesFromCoordinatesRequestCategories.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.PlacesFromCoordinatesRequestCategories
-                    .swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == placesFromCoordinatesRequestCategories.toLowerCase(),
+            orElse: () => const MapEntry(enums.PlacesFromCoordinatesRequestCategories.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -7924,8 +6767,7 @@ enums.PlacesFromCoordinatesRequestCategories
 }
 
 List<String> placesFromCoordinatesRequestCategoriesListToJson(
-    List<enums.PlacesFromCoordinatesRequestCategories>?
-        placesFromCoordinatesRequestCategories) {
+    List<enums.PlacesFromCoordinatesRequestCategories>? placesFromCoordinatesRequestCategories) {
   if (placesFromCoordinatesRequestCategories == null) {
     return [];
   }
@@ -7935,9 +6777,8 @@ List<String> placesFromCoordinatesRequestCategoriesListToJson(
       .toList();
 }
 
-List<enums.PlacesFromCoordinatesRequestCategories>
-    placesFromCoordinatesRequestCategoriesListFromJson(
-        List? placesFromCoordinatesRequestCategories) {
+List<enums.PlacesFromCoordinatesRequestCategories> placesFromCoordinatesRequestCategoriesListFromJson(
+    List? placesFromCoordinatesRequestCategories) {
   if (placesFromCoordinatesRequestCategories == null) {
     return [];
   }
@@ -7948,38 +6789,23 @@ List<enums.PlacesFromCoordinatesRequestCategories>
 }
 
 String? placesFromAddressRequestCategoriesToJson(
-    enums.PlacesFromAddressRequestCategories?
-        placesFromAddressRequestCategories) {
-  return enums.$PlacesFromAddressRequestCategoriesMap[
-      placesFromAddressRequestCategories];
+    enums.PlacesFromAddressRequestCategories? placesFromAddressRequestCategories) {
+  return enums.$PlacesFromAddressRequestCategoriesMap[placesFromAddressRequestCategories];
 }
 
-enums.PlacesFromAddressRequestCategories
-    placesFromAddressRequestCategoriesFromJson(
-        Object? placesFromAddressRequestCategories) {
+enums.PlacesFromAddressRequestCategories placesFromAddressRequestCategoriesFromJson(
+    Object? placesFromAddressRequestCategories) {
   if (placesFromAddressRequestCategories is int) {
     return enums.$PlacesFromAddressRequestCategoriesMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                placesFromAddressRequestCategories.toString(),
-            orElse: () => const MapEntry(
-                enums
-                    .PlacesFromAddressRequestCategories.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == placesFromAddressRequestCategories.toString(),
+            orElse: () => const MapEntry(enums.PlacesFromAddressRequestCategories.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (placesFromAddressRequestCategories is String) {
     return enums.$PlacesFromAddressRequestCategoriesMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                placesFromAddressRequestCategories.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums
-                    .PlacesFromAddressRequestCategories.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == placesFromAddressRequestCategories.toLowerCase(),
+            orElse: () => const MapEntry(enums.PlacesFromAddressRequestCategories.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -7987,20 +6813,16 @@ enums.PlacesFromAddressRequestCategories
 }
 
 List<String> placesFromAddressRequestCategoriesListToJson(
-    List<enums.PlacesFromAddressRequestCategories>?
-        placesFromAddressRequestCategories) {
+    List<enums.PlacesFromAddressRequestCategories>? placesFromAddressRequestCategories) {
   if (placesFromAddressRequestCategories == null) {
     return [];
   }
 
-  return placesFromAddressRequestCategories
-      .map((e) => enums.$PlacesFromAddressRequestCategoriesMap[e]!)
-      .toList();
+  return placesFromAddressRequestCategories.map((e) => enums.$PlacesFromAddressRequestCategoriesMap[e]!).toList();
 }
 
-List<enums.PlacesFromAddressRequestCategories>
-    placesFromAddressRequestCategoriesListFromJson(
-        List? placesFromAddressRequestCategories) {
+List<enums.PlacesFromAddressRequestCategories> placesFromAddressRequestCategoriesListFromJson(
+    List? placesFromAddressRequestCategories) {
   if (placesFromAddressRequestCategories == null) {
     return [];
   }
@@ -8011,38 +6833,23 @@ List<enums.PlacesFromAddressRequestCategories>
 }
 
 String? profileUpdateRequestDestinationTypesToJson(
-    enums.ProfileUpdateRequestDestinationTypes?
-        profileUpdateRequestDestinationTypes) {
-  return enums.$ProfileUpdateRequestDestinationTypesMap[
-      profileUpdateRequestDestinationTypes];
+    enums.ProfileUpdateRequestDestinationTypes? profileUpdateRequestDestinationTypes) {
+  return enums.$ProfileUpdateRequestDestinationTypesMap[profileUpdateRequestDestinationTypes];
 }
 
-enums.ProfileUpdateRequestDestinationTypes
-    profileUpdateRequestDestinationTypesFromJson(
-        Object? profileUpdateRequestDestinationTypes) {
+enums.ProfileUpdateRequestDestinationTypes profileUpdateRequestDestinationTypesFromJson(
+    Object? profileUpdateRequestDestinationTypes) {
   if (profileUpdateRequestDestinationTypes is int) {
     return enums.$ProfileUpdateRequestDestinationTypesMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestDestinationTypes.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestDestinationTypes
-                    .swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileUpdateRequestDestinationTypes.toString(),
+            orElse: () => const MapEntry(enums.ProfileUpdateRequestDestinationTypes.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileUpdateRequestDestinationTypes is String) {
     return enums.$ProfileUpdateRequestDestinationTypesMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestDestinationTypes.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestDestinationTypes
-                    .swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileUpdateRequestDestinationTypes.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileUpdateRequestDestinationTypes.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -8050,20 +6857,16 @@ enums.ProfileUpdateRequestDestinationTypes
 }
 
 List<String> profileUpdateRequestDestinationTypesListToJson(
-    List<enums.ProfileUpdateRequestDestinationTypes>?
-        profileUpdateRequestDestinationTypes) {
+    List<enums.ProfileUpdateRequestDestinationTypes>? profileUpdateRequestDestinationTypes) {
   if (profileUpdateRequestDestinationTypes == null) {
     return [];
   }
 
-  return profileUpdateRequestDestinationTypes
-      .map((e) => enums.$ProfileUpdateRequestDestinationTypesMap[e]!)
-      .toList();
+  return profileUpdateRequestDestinationTypes.map((e) => enums.$ProfileUpdateRequestDestinationTypesMap[e]!).toList();
 }
 
-List<enums.ProfileUpdateRequestDestinationTypes>
-    profileUpdateRequestDestinationTypesListFromJson(
-        List? profileUpdateRequestDestinationTypes) {
+List<enums.ProfileUpdateRequestDestinationTypes> profileUpdateRequestDestinationTypesListFromJson(
+    List? profileUpdateRequestDestinationTypes) {
   if (profileUpdateRequestDestinationTypes == null) {
     return [];
   }
@@ -8074,55 +6877,41 @@ List<enums.ProfileUpdateRequestDestinationTypes>
 }
 
 String? profileUpdateRequestTravelWithPersonFromSameCityToJson(
-    enums.ProfileUpdateRequestTravelWithPersonFromSameCity?
-        profileUpdateRequestTravelWithPersonFromSameCity) {
-  return enums.$ProfileUpdateRequestTravelWithPersonFromSameCityMap[
-      profileUpdateRequestTravelWithPersonFromSameCity];
+    enums.ProfileUpdateRequestTravelWithPersonFromSameCity? profileUpdateRequestTravelWithPersonFromSameCity) {
+  return enums.$ProfileUpdateRequestTravelWithPersonFromSameCityMap[profileUpdateRequestTravelWithPersonFromSameCity];
 }
 
-enums.ProfileUpdateRequestTravelWithPersonFromSameCity
-    profileUpdateRequestTravelWithPersonFromSameCityFromJson(
-        Object? profileUpdateRequestTravelWithPersonFromSameCity) {
+enums.ProfileUpdateRequestTravelWithPersonFromSameCity profileUpdateRequestTravelWithPersonFromSameCityFromJson(
+    Object? profileUpdateRequestTravelWithPersonFromSameCity) {
   if (profileUpdateRequestTravelWithPersonFromSameCity is int) {
     return enums.$ProfileUpdateRequestTravelWithPersonFromSameCityMap.entries
         .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestTravelWithPersonFromSameCity.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestTravelWithPersonFromSameCity
-                    .swaggerGeneratedUnknown,
-                ''))
+            (element) => element.value.toLowerCase() == profileUpdateRequestTravelWithPersonFromSameCity.toString(),
+            orElse: () =>
+                const MapEntry(enums.ProfileUpdateRequestTravelWithPersonFromSameCity.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileUpdateRequestTravelWithPersonFromSameCity is String) {
     return enums.$ProfileUpdateRequestTravelWithPersonFromSameCityMap.entries
         .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestTravelWithPersonFromSameCity.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestTravelWithPersonFromSameCity
-                    .swaggerGeneratedUnknown,
-                ''))
+            (element) => element.value.toLowerCase() == profileUpdateRequestTravelWithPersonFromSameCity.toLowerCase(),
+            orElse: () =>
+                const MapEntry(enums.ProfileUpdateRequestTravelWithPersonFromSameCity.swaggerGeneratedUnknown, ''))
         .key;
   }
 
-  return enums
-      .ProfileUpdateRequestTravelWithPersonFromSameCity.swaggerGeneratedUnknown;
+  return enums.ProfileUpdateRequestTravelWithPersonFromSameCity.swaggerGeneratedUnknown;
 }
 
 List<String> profileUpdateRequestTravelWithPersonFromSameCityListToJson(
-    List<enums.ProfileUpdateRequestTravelWithPersonFromSameCity>?
-        profileUpdateRequestTravelWithPersonFromSameCity) {
+    List<enums.ProfileUpdateRequestTravelWithPersonFromSameCity>? profileUpdateRequestTravelWithPersonFromSameCity) {
   if (profileUpdateRequestTravelWithPersonFromSameCity == null) {
     return [];
   }
 
   return profileUpdateRequestTravelWithPersonFromSameCity
-      .map(
-          (e) => enums.$ProfileUpdateRequestTravelWithPersonFromSameCityMap[e]!)
+      .map((e) => enums.$ProfileUpdateRequestTravelWithPersonFromSameCityMap[e]!)
       .toList();
 }
 
@@ -8134,31 +6923,24 @@ List<enums.ProfileUpdateRequestTravelWithPersonFromSameCity>
   }
 
   return profileUpdateRequestTravelWithPersonFromSameCity
-      .map((e) => profileUpdateRequestTravelWithPersonFromSameCityFromJson(
-          e.toString()))
+      .map((e) => profileUpdateRequestTravelWithPersonFromSameCityFromJson(e.toString()))
       .toList();
 }
 
 String? profileUpdateRequestTravelWithPersonFromSameCountryToJson(
-    enums.ProfileUpdateRequestTravelWithPersonFromSameCountry?
-        profileUpdateRequestTravelWithPersonFromSameCountry) {
-  return enums.$ProfileUpdateRequestTravelWithPersonFromSameCountryMap[
-      profileUpdateRequestTravelWithPersonFromSameCountry];
+    enums.ProfileUpdateRequestTravelWithPersonFromSameCountry? profileUpdateRequestTravelWithPersonFromSameCountry) {
+  return enums
+      .$ProfileUpdateRequestTravelWithPersonFromSameCountryMap[profileUpdateRequestTravelWithPersonFromSameCountry];
 }
 
-enums.ProfileUpdateRequestTravelWithPersonFromSameCountry
-    profileUpdateRequestTravelWithPersonFromSameCountryFromJson(
-        Object? profileUpdateRequestTravelWithPersonFromSameCountry) {
+enums.ProfileUpdateRequestTravelWithPersonFromSameCountry profileUpdateRequestTravelWithPersonFromSameCountryFromJson(
+    Object? profileUpdateRequestTravelWithPersonFromSameCountry) {
   if (profileUpdateRequestTravelWithPersonFromSameCountry is int) {
     return enums.$ProfileUpdateRequestTravelWithPersonFromSameCountryMap.entries
         .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestTravelWithPersonFromSameCountry.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestTravelWithPersonFromSameCountry
-                    .swaggerGeneratedUnknown,
-                ''))
+            (element) => element.value.toLowerCase() == profileUpdateRequestTravelWithPersonFromSameCountry.toString(),
+            orElse: () =>
+                const MapEntry(enums.ProfileUpdateRequestTravelWithPersonFromSameCountry.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -8166,18 +6948,13 @@ enums.ProfileUpdateRequestTravelWithPersonFromSameCountry
     return enums.$ProfileUpdateRequestTravelWithPersonFromSameCountryMap.entries
         .firstWhere(
             (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestTravelWithPersonFromSameCountry
-                    .toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestTravelWithPersonFromSameCountry
-                    .swaggerGeneratedUnknown,
-                ''))
+                element.value.toLowerCase() == profileUpdateRequestTravelWithPersonFromSameCountry.toLowerCase(),
+            orElse: () =>
+                const MapEntry(enums.ProfileUpdateRequestTravelWithPersonFromSameCountry.swaggerGeneratedUnknown, ''))
         .key;
   }
 
-  return enums.ProfileUpdateRequestTravelWithPersonFromSameCountry
-      .swaggerGeneratedUnknown;
+  return enums.ProfileUpdateRequestTravelWithPersonFromSameCountry.swaggerGeneratedUnknown;
 }
 
 List<String> profileUpdateRequestTravelWithPersonFromSameCountryListToJson(
@@ -8188,8 +6965,7 @@ List<String> profileUpdateRequestTravelWithPersonFromSameCountryListToJson(
   }
 
   return profileUpdateRequestTravelWithPersonFromSameCountry
-      .map((e) =>
-          enums.$ProfileUpdateRequestTravelWithPersonFromSameCountryMap[e]!)
+      .map((e) => enums.$ProfileUpdateRequestTravelWithPersonFromSameCountryMap[e]!)
       .toList();
 }
 
@@ -8201,61 +6977,46 @@ List<enums.ProfileUpdateRequestTravelWithPersonFromSameCountry>
   }
 
   return profileUpdateRequestTravelWithPersonFromSameCountry
-      .map((e) => profileUpdateRequestTravelWithPersonFromSameCountryFromJson(
-          e.toString()))
+      .map((e) => profileUpdateRequestTravelWithPersonFromSameCountryFromJson(e.toString()))
       .toList();
 }
 
 String? profileUpdateRequestTravelWithPersonSameLanguageToJson(
-    enums.ProfileUpdateRequestTravelWithPersonSameLanguage?
-        profileUpdateRequestTravelWithPersonSameLanguage) {
-  return enums.$ProfileUpdateRequestTravelWithPersonSameLanguageMap[
-      profileUpdateRequestTravelWithPersonSameLanguage];
+    enums.ProfileUpdateRequestTravelWithPersonSameLanguage? profileUpdateRequestTravelWithPersonSameLanguage) {
+  return enums.$ProfileUpdateRequestTravelWithPersonSameLanguageMap[profileUpdateRequestTravelWithPersonSameLanguage];
 }
 
-enums.ProfileUpdateRequestTravelWithPersonSameLanguage
-    profileUpdateRequestTravelWithPersonSameLanguageFromJson(
-        Object? profileUpdateRequestTravelWithPersonSameLanguage) {
+enums.ProfileUpdateRequestTravelWithPersonSameLanguage profileUpdateRequestTravelWithPersonSameLanguageFromJson(
+    Object? profileUpdateRequestTravelWithPersonSameLanguage) {
   if (profileUpdateRequestTravelWithPersonSameLanguage is int) {
     return enums.$ProfileUpdateRequestTravelWithPersonSameLanguageMap.entries
         .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestTravelWithPersonSameLanguage.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestTravelWithPersonSameLanguage
-                    .swaggerGeneratedUnknown,
-                ''))
+            (element) => element.value.toLowerCase() == profileUpdateRequestTravelWithPersonSameLanguage.toString(),
+            orElse: () =>
+                const MapEntry(enums.ProfileUpdateRequestTravelWithPersonSameLanguage.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileUpdateRequestTravelWithPersonSameLanguage is String) {
     return enums.$ProfileUpdateRequestTravelWithPersonSameLanguageMap.entries
         .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestTravelWithPersonSameLanguage.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestTravelWithPersonSameLanguage
-                    .swaggerGeneratedUnknown,
-                ''))
+            (element) => element.value.toLowerCase() == profileUpdateRequestTravelWithPersonSameLanguage.toLowerCase(),
+            orElse: () =>
+                const MapEntry(enums.ProfileUpdateRequestTravelWithPersonSameLanguage.swaggerGeneratedUnknown, ''))
         .key;
   }
 
-  return enums
-      .ProfileUpdateRequestTravelWithPersonSameLanguage.swaggerGeneratedUnknown;
+  return enums.ProfileUpdateRequestTravelWithPersonSameLanguage.swaggerGeneratedUnknown;
 }
 
 List<String> profileUpdateRequestTravelWithPersonSameLanguageListToJson(
-    List<enums.ProfileUpdateRequestTravelWithPersonSameLanguage>?
-        profileUpdateRequestTravelWithPersonSameLanguage) {
+    List<enums.ProfileUpdateRequestTravelWithPersonSameLanguage>? profileUpdateRequestTravelWithPersonSameLanguage) {
   if (profileUpdateRequestTravelWithPersonSameLanguage == null) {
     return [];
   }
 
   return profileUpdateRequestTravelWithPersonSameLanguage
-      .map(
-          (e) => enums.$ProfileUpdateRequestTravelWithPersonSameLanguageMap[e]!)
+      .map((e) => enums.$ProfileUpdateRequestTravelWithPersonSameLanguageMap[e]!)
       .toList();
 }
 
@@ -8267,94 +7028,66 @@ List<enums.ProfileUpdateRequestTravelWithPersonSameLanguage>
   }
 
   return profileUpdateRequestTravelWithPersonSameLanguage
-      .map((e) => profileUpdateRequestTravelWithPersonSameLanguageFromJson(
-          e.toString()))
+      .map((e) => profileUpdateRequestTravelWithPersonSameLanguageFromJson(e.toString()))
       .toList();
 }
 
-String? profileUpdateRequestGenderToJson(
-    enums.ProfileUpdateRequestGender? profileUpdateRequestGender) {
+String? profileUpdateRequestGenderToJson(enums.ProfileUpdateRequestGender? profileUpdateRequestGender) {
   return enums.$ProfileUpdateRequestGenderMap[profileUpdateRequestGender];
 }
 
-enums.ProfileUpdateRequestGender profileUpdateRequestGenderFromJson(
-    Object? profileUpdateRequestGender) {
+enums.ProfileUpdateRequestGender profileUpdateRequestGenderFromJson(Object? profileUpdateRequestGender) {
   if (profileUpdateRequestGender is int) {
     return enums.$ProfileUpdateRequestGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestGender.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestGender.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileUpdateRequestGender.toString(),
+            orElse: () => const MapEntry(enums.ProfileUpdateRequestGender.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileUpdateRequestGender is String) {
     return enums.$ProfileUpdateRequestGenderMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestGender.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestGender.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileUpdateRequestGender.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileUpdateRequestGender.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.ProfileUpdateRequestGender.swaggerGeneratedUnknown;
 }
 
-List<String> profileUpdateRequestGenderListToJson(
-    List<enums.ProfileUpdateRequestGender>? profileUpdateRequestGender) {
+List<String> profileUpdateRequestGenderListToJson(List<enums.ProfileUpdateRequestGender>? profileUpdateRequestGender) {
   if (profileUpdateRequestGender == null) {
     return [];
   }
 
-  return profileUpdateRequestGender
-      .map((e) => enums.$ProfileUpdateRequestGenderMap[e]!)
-      .toList();
+  return profileUpdateRequestGender.map((e) => enums.$ProfileUpdateRequestGenderMap[e]!).toList();
 }
 
-List<enums.ProfileUpdateRequestGender> profileUpdateRequestGenderListFromJson(
-    List? profileUpdateRequestGender) {
+List<enums.ProfileUpdateRequestGender> profileUpdateRequestGenderListFromJson(List? profileUpdateRequestGender) {
   if (profileUpdateRequestGender == null) {
     return [];
   }
 
-  return profileUpdateRequestGender
-      .map((e) => profileUpdateRequestGenderFromJson(e.toString()))
-      .toList();
+  return profileUpdateRequestGender.map((e) => profileUpdateRequestGenderFromJson(e.toString())).toList();
 }
 
 String? profileUpdateRequestChillOrVisitToJson(
     enums.ProfileUpdateRequestChillOrVisit? profileUpdateRequestChillOrVisit) {
-  return enums
-      .$ProfileUpdateRequestChillOrVisitMap[profileUpdateRequestChillOrVisit];
+  return enums.$ProfileUpdateRequestChillOrVisitMap[profileUpdateRequestChillOrVisit];
 }
 
 enums.ProfileUpdateRequestChillOrVisit profileUpdateRequestChillOrVisitFromJson(
     Object? profileUpdateRequestChillOrVisit) {
   if (profileUpdateRequestChillOrVisit is int) {
     return enums.$ProfileUpdateRequestChillOrVisitMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestChillOrVisit.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestChillOrVisit.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileUpdateRequestChillOrVisit.toString(),
+            orElse: () => const MapEntry(enums.ProfileUpdateRequestChillOrVisit.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileUpdateRequestChillOrVisit is String) {
     return enums.$ProfileUpdateRequestChillOrVisitMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestChillOrVisit.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestChillOrVisit.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileUpdateRequestChillOrVisit.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileUpdateRequestChillOrVisit.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -8362,57 +7095,39 @@ enums.ProfileUpdateRequestChillOrVisit profileUpdateRequestChillOrVisitFromJson(
 }
 
 List<String> profileUpdateRequestChillOrVisitListToJson(
-    List<enums.ProfileUpdateRequestChillOrVisit>?
-        profileUpdateRequestChillOrVisit) {
+    List<enums.ProfileUpdateRequestChillOrVisit>? profileUpdateRequestChillOrVisit) {
   if (profileUpdateRequestChillOrVisit == null) {
     return [];
   }
 
-  return profileUpdateRequestChillOrVisit
-      .map((e) => enums.$ProfileUpdateRequestChillOrVisitMap[e]!)
-      .toList();
+  return profileUpdateRequestChillOrVisit.map((e) => enums.$ProfileUpdateRequestChillOrVisitMap[e]!).toList();
 }
 
-List<enums.ProfileUpdateRequestChillOrVisit>
-    profileUpdateRequestChillOrVisitListFromJson(
-        List? profileUpdateRequestChillOrVisit) {
+List<enums.ProfileUpdateRequestChillOrVisit> profileUpdateRequestChillOrVisitListFromJson(
+    List? profileUpdateRequestChillOrVisit) {
   if (profileUpdateRequestChillOrVisit == null) {
     return [];
   }
 
-  return profileUpdateRequestChillOrVisit
-      .map((e) => profileUpdateRequestChillOrVisitFromJson(e.toString()))
-      .toList();
+  return profileUpdateRequestChillOrVisit.map((e) => profileUpdateRequestChillOrVisitFromJson(e.toString())).toList();
 }
 
-String? profileUpdateRequestAboutFoodToJson(
-    enums.ProfileUpdateRequestAboutFood? profileUpdateRequestAboutFood) {
+String? profileUpdateRequestAboutFoodToJson(enums.ProfileUpdateRequestAboutFood? profileUpdateRequestAboutFood) {
   return enums.$ProfileUpdateRequestAboutFoodMap[profileUpdateRequestAboutFood];
 }
 
-enums.ProfileUpdateRequestAboutFood profileUpdateRequestAboutFoodFromJson(
-    Object? profileUpdateRequestAboutFood) {
+enums.ProfileUpdateRequestAboutFood profileUpdateRequestAboutFoodFromJson(Object? profileUpdateRequestAboutFood) {
   if (profileUpdateRequestAboutFood is int) {
     return enums.$ProfileUpdateRequestAboutFoodMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestAboutFood.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestAboutFood.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileUpdateRequestAboutFood.toString(),
+            orElse: () => const MapEntry(enums.ProfileUpdateRequestAboutFood.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileUpdateRequestAboutFood is String) {
     return enums.$ProfileUpdateRequestAboutFoodMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestAboutFood.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestAboutFood.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileUpdateRequestAboutFood.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileUpdateRequestAboutFood.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -8425,52 +7140,36 @@ List<String> profileUpdateRequestAboutFoodListToJson(
     return [];
   }
 
-  return profileUpdateRequestAboutFood
-      .map((e) => enums.$ProfileUpdateRequestAboutFoodMap[e]!)
-      .toList();
+  return profileUpdateRequestAboutFood.map((e) => enums.$ProfileUpdateRequestAboutFoodMap[e]!).toList();
 }
 
-List<enums.ProfileUpdateRequestAboutFood>
-    profileUpdateRequestAboutFoodListFromJson(
-        List? profileUpdateRequestAboutFood) {
+List<enums.ProfileUpdateRequestAboutFood> profileUpdateRequestAboutFoodListFromJson(
+    List? profileUpdateRequestAboutFood) {
   if (profileUpdateRequestAboutFood == null) {
     return [];
   }
 
-  return profileUpdateRequestAboutFood
-      .map((e) => profileUpdateRequestAboutFoodFromJson(e.toString()))
-      .toList();
+  return profileUpdateRequestAboutFood.map((e) => profileUpdateRequestAboutFoodFromJson(e.toString())).toList();
 }
 
 String? profileUpdateRequestGoOutAtNightToJson(
     enums.ProfileUpdateRequestGoOutAtNight? profileUpdateRequestGoOutAtNight) {
-  return enums
-      .$ProfileUpdateRequestGoOutAtNightMap[profileUpdateRequestGoOutAtNight];
+  return enums.$ProfileUpdateRequestGoOutAtNightMap[profileUpdateRequestGoOutAtNight];
 }
 
 enums.ProfileUpdateRequestGoOutAtNight profileUpdateRequestGoOutAtNightFromJson(
     Object? profileUpdateRequestGoOutAtNight) {
   if (profileUpdateRequestGoOutAtNight is int) {
     return enums.$ProfileUpdateRequestGoOutAtNightMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestGoOutAtNight.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestGoOutAtNight.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileUpdateRequestGoOutAtNight.toString(),
+            orElse: () => const MapEntry(enums.ProfileUpdateRequestGoOutAtNight.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileUpdateRequestGoOutAtNight is String) {
     return enums.$ProfileUpdateRequestGoOutAtNightMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestGoOutAtNight.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestGoOutAtNight.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileUpdateRequestGoOutAtNight.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileUpdateRequestGoOutAtNight.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -8478,166 +7177,115 @@ enums.ProfileUpdateRequestGoOutAtNight profileUpdateRequestGoOutAtNightFromJson(
 }
 
 List<String> profileUpdateRequestGoOutAtNightListToJson(
-    List<enums.ProfileUpdateRequestGoOutAtNight>?
-        profileUpdateRequestGoOutAtNight) {
+    List<enums.ProfileUpdateRequestGoOutAtNight>? profileUpdateRequestGoOutAtNight) {
   if (profileUpdateRequestGoOutAtNight == null) {
     return [];
   }
 
-  return profileUpdateRequestGoOutAtNight
-      .map((e) => enums.$ProfileUpdateRequestGoOutAtNightMap[e]!)
-      .toList();
+  return profileUpdateRequestGoOutAtNight.map((e) => enums.$ProfileUpdateRequestGoOutAtNightMap[e]!).toList();
 }
 
-List<enums.ProfileUpdateRequestGoOutAtNight>
-    profileUpdateRequestGoOutAtNightListFromJson(
-        List? profileUpdateRequestGoOutAtNight) {
+List<enums.ProfileUpdateRequestGoOutAtNight> profileUpdateRequestGoOutAtNightListFromJson(
+    List? profileUpdateRequestGoOutAtNight) {
   if (profileUpdateRequestGoOutAtNight == null) {
     return [];
   }
 
-  return profileUpdateRequestGoOutAtNight
-      .map((e) => profileUpdateRequestGoOutAtNightFromJson(e.toString()))
-      .toList();
+  return profileUpdateRequestGoOutAtNight.map((e) => profileUpdateRequestGoOutAtNightFromJson(e.toString())).toList();
 }
 
-String? profileUpdateRequestSportToJson(
-    enums.ProfileUpdateRequestSport? profileUpdateRequestSport) {
+String? profileUpdateRequestSportToJson(enums.ProfileUpdateRequestSport? profileUpdateRequestSport) {
   return enums.$ProfileUpdateRequestSportMap[profileUpdateRequestSport];
 }
 
-enums.ProfileUpdateRequestSport profileUpdateRequestSportFromJson(
-    Object? profileUpdateRequestSport) {
+enums.ProfileUpdateRequestSport profileUpdateRequestSportFromJson(Object? profileUpdateRequestSport) {
   if (profileUpdateRequestSport is int) {
     return enums.$ProfileUpdateRequestSportMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestSport.toString(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestSport.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileUpdateRequestSport.toString(),
+            orElse: () => const MapEntry(enums.ProfileUpdateRequestSport.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (profileUpdateRequestSport is String) {
     return enums.$ProfileUpdateRequestSportMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                profileUpdateRequestSport.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.ProfileUpdateRequestSport.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == profileUpdateRequestSport.toLowerCase(),
+            orElse: () => const MapEntry(enums.ProfileUpdateRequestSport.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.ProfileUpdateRequestSport.swaggerGeneratedUnknown;
 }
 
-List<String> profileUpdateRequestSportListToJson(
-    List<enums.ProfileUpdateRequestSport>? profileUpdateRequestSport) {
+List<String> profileUpdateRequestSportListToJson(List<enums.ProfileUpdateRequestSport>? profileUpdateRequestSport) {
   if (profileUpdateRequestSport == null) {
     return [];
   }
 
-  return profileUpdateRequestSport
-      .map((e) => enums.$ProfileUpdateRequestSportMap[e]!)
-      .toList();
+  return profileUpdateRequestSport.map((e) => enums.$ProfileUpdateRequestSportMap[e]!).toList();
 }
 
-List<enums.ProfileUpdateRequestSport> profileUpdateRequestSportListFromJson(
-    List? profileUpdateRequestSport) {
+List<enums.ProfileUpdateRequestSport> profileUpdateRequestSportListFromJson(List? profileUpdateRequestSport) {
   if (profileUpdateRequestSport == null) {
     return [];
   }
 
-  return profileUpdateRequestSport
-      .map((e) => profileUpdateRequestSportFromJson(e.toString()))
-      .toList();
+  return profileUpdateRequestSport.map((e) => profileUpdateRequestSportFromJson(e.toString())).toList();
 }
 
-String? updateReportRequestReasonToJson(
-    enums.UpdateReportRequestReason? updateReportRequestReason) {
+String? updateReportRequestReasonToJson(enums.UpdateReportRequestReason? updateReportRequestReason) {
   return enums.$UpdateReportRequestReasonMap[updateReportRequestReason];
 }
 
-enums.UpdateReportRequestReason updateReportRequestReasonFromJson(
-    Object? updateReportRequestReason) {
+enums.UpdateReportRequestReason updateReportRequestReasonFromJson(Object? updateReportRequestReason) {
   if (updateReportRequestReason is int) {
     return enums.$UpdateReportRequestReasonMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                updateReportRequestReason.toString(),
-            orElse: () => const MapEntry(
-                enums.UpdateReportRequestReason.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == updateReportRequestReason.toString(),
+            orElse: () => const MapEntry(enums.UpdateReportRequestReason.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (updateReportRequestReason is String) {
     return enums.$UpdateReportRequestReasonMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                updateReportRequestReason.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.UpdateReportRequestReason.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == updateReportRequestReason.toLowerCase(),
+            orElse: () => const MapEntry(enums.UpdateReportRequestReason.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.UpdateReportRequestReason.swaggerGeneratedUnknown;
 }
 
-List<String> updateReportRequestReasonListToJson(
-    List<enums.UpdateReportRequestReason>? updateReportRequestReason) {
+List<String> updateReportRequestReasonListToJson(List<enums.UpdateReportRequestReason>? updateReportRequestReason) {
   if (updateReportRequestReason == null) {
     return [];
   }
 
-  return updateReportRequestReason
-      .map((e) => enums.$UpdateReportRequestReasonMap[e]!)
-      .toList();
+  return updateReportRequestReason.map((e) => enums.$UpdateReportRequestReasonMap[e]!).toList();
 }
 
-List<enums.UpdateReportRequestReason> updateReportRequestReasonListFromJson(
-    List? updateReportRequestReason) {
+List<enums.UpdateReportRequestReason> updateReportRequestReasonListFromJson(List? updateReportRequestReason) {
   if (updateReportRequestReason == null) {
     return [];
   }
 
-  return updateReportRequestReason
-      .map((e) => updateReportRequestReasonFromJson(e.toString()))
-      .toList();
+  return updateReportRequestReason.map((e) => updateReportRequestReasonFromJson(e.toString())).toList();
 }
 
-String? updatePrivateGroupRequestStateToJson(
-    enums.UpdatePrivateGroupRequestState? updatePrivateGroupRequestState) {
-  return enums
-      .$UpdatePrivateGroupRequestStateMap[updatePrivateGroupRequestState];
+String? updatePrivateGroupRequestStateToJson(enums.UpdatePrivateGroupRequestState? updatePrivateGroupRequestState) {
+  return enums.$UpdatePrivateGroupRequestStateMap[updatePrivateGroupRequestState];
 }
 
-enums.UpdatePrivateGroupRequestState updatePrivateGroupRequestStateFromJson(
-    Object? updatePrivateGroupRequestState) {
+enums.UpdatePrivateGroupRequestState updatePrivateGroupRequestStateFromJson(Object? updatePrivateGroupRequestState) {
   if (updatePrivateGroupRequestState is int) {
     return enums.$UpdatePrivateGroupRequestStateMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                updatePrivateGroupRequestState.toString(),
-            orElse: () => const MapEntry(
-                enums.UpdatePrivateGroupRequestState.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == updatePrivateGroupRequestState.toString(),
+            orElse: () => const MapEntry(enums.UpdatePrivateGroupRequestState.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (updatePrivateGroupRequestState is String) {
     return enums.$UpdatePrivateGroupRequestStateMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                updatePrivateGroupRequestState.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.UpdatePrivateGroupRequestState.swaggerGeneratedUnknown,
-                ''))
+        .firstWhere((element) => element.value.toLowerCase() == updatePrivateGroupRequestState.toLowerCase(),
+            orElse: () => const MapEntry(enums.UpdatePrivateGroupRequestState.swaggerGeneratedUnknown, ''))
         .key;
   }
 
@@ -8645,187 +7293,135 @@ enums.UpdatePrivateGroupRequestState updatePrivateGroupRequestStateFromJson(
 }
 
 List<String> updatePrivateGroupRequestStateListToJson(
-    List<enums.UpdatePrivateGroupRequestState>?
-        updatePrivateGroupRequestState) {
+    List<enums.UpdatePrivateGroupRequestState>? updatePrivateGroupRequestState) {
   if (updatePrivateGroupRequestState == null) {
     return [];
   }
 
-  return updatePrivateGroupRequestState
-      .map((e) => enums.$UpdatePrivateGroupRequestStateMap[e]!)
-      .toList();
+  return updatePrivateGroupRequestState.map((e) => enums.$UpdatePrivateGroupRequestStateMap[e]!).toList();
 }
 
-List<enums.UpdatePrivateGroupRequestState>
-    updatePrivateGroupRequestStateListFromJson(
-        List? updatePrivateGroupRequestState) {
+List<enums.UpdatePrivateGroupRequestState> updatePrivateGroupRequestStateListFromJson(
+    List? updatePrivateGroupRequestState) {
   if (updatePrivateGroupRequestState == null) {
     return [];
   }
 
-  return updatePrivateGroupRequestState
-      .map((e) => updatePrivateGroupRequestStateFromJson(e.toString()))
-      .toList();
+  return updatePrivateGroupRequestState.map((e) => updatePrivateGroupRequestStateFromJson(e.toString())).toList();
 }
 
-String? messageResponseType$ToJson(
-    enums.MessageResponseType$? messageResponseType$) {
+String? messageResponseType$ToJson(enums.MessageResponseType$? messageResponseType$) {
   return enums.$MessageResponseType$Map[messageResponseType$];
 }
 
-enums.MessageResponseType$ messageResponseType$FromJson(
-    Object? messageResponseType$) {
+enums.MessageResponseType$ messageResponseType$FromJson(Object? messageResponseType$) {
   if (messageResponseType$ is int) {
     return enums.$MessageResponseType$Map.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == messageResponseType$.toString(),
-            orElse: () => const MapEntry(
-                enums.MessageResponseType$.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == messageResponseType$.toString(),
+            orElse: () => const MapEntry(enums.MessageResponseType$.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (messageResponseType$ is String) {
     return enums.$MessageResponseType$Map.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                messageResponseType$.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.MessageResponseType$.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == messageResponseType$.toLowerCase(),
+            orElse: () => const MapEntry(enums.MessageResponseType$.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.MessageResponseType$.swaggerGeneratedUnknown;
 }
 
-List<String> messageResponseType$ListToJson(
-    List<enums.MessageResponseType$>? messageResponseType$) {
+List<String> messageResponseType$ListToJson(List<enums.MessageResponseType$>? messageResponseType$) {
   if (messageResponseType$ == null) {
     return [];
   }
 
-  return messageResponseType$
-      .map((e) => enums.$MessageResponseType$Map[e]!)
-      .toList();
+  return messageResponseType$.map((e) => enums.$MessageResponseType$Map[e]!).toList();
 }
 
-List<enums.MessageResponseType$> messageResponseType$ListFromJson(
-    List? messageResponseType$) {
+List<enums.MessageResponseType$> messageResponseType$ListFromJson(List? messageResponseType$) {
   if (messageResponseType$ == null) {
     return [];
   }
 
-  return messageResponseType$
-      .map((e) => messageResponseType$FromJson(e.toString()))
-      .toList();
+  return messageResponseType$.map((e) => messageResponseType$FromJson(e.toString())).toList();
 }
 
-String? matchMakingResultType$ToJson(
-    enums.MatchMakingResultType$? matchMakingResultType$) {
+String? matchMakingResultType$ToJson(enums.MatchMakingResultType$? matchMakingResultType$) {
   return enums.$MatchMakingResultType$Map[matchMakingResultType$];
 }
 
-enums.MatchMakingResultType$ matchMakingResultType$FromJson(
-    Object? matchMakingResultType$) {
+enums.MatchMakingResultType$ matchMakingResultType$FromJson(Object? matchMakingResultType$) {
   if (matchMakingResultType$ is int) {
     return enums.$MatchMakingResultType$Map.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                matchMakingResultType$.toString(),
-            orElse: () => const MapEntry(
-                enums.MatchMakingResultType$.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == matchMakingResultType$.toString(),
+            orElse: () => const MapEntry(enums.MatchMakingResultType$.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (matchMakingResultType$ is String) {
     return enums.$MatchMakingResultType$Map.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                matchMakingResultType$.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.MatchMakingResultType$.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == matchMakingResultType$.toLowerCase(),
+            orElse: () => const MapEntry(enums.MatchMakingResultType$.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.MatchMakingResultType$.swaggerGeneratedUnknown;
 }
 
-List<String> matchMakingResultType$ListToJson(
-    List<enums.MatchMakingResultType$>? matchMakingResultType$) {
+List<String> matchMakingResultType$ListToJson(List<enums.MatchMakingResultType$>? matchMakingResultType$) {
   if (matchMakingResultType$ == null) {
     return [];
   }
 
-  return matchMakingResultType$
-      .map((e) => enums.$MatchMakingResultType$Map[e]!)
-      .toList();
+  return matchMakingResultType$.map((e) => enums.$MatchMakingResultType$Map[e]!).toList();
 }
 
-List<enums.MatchMakingResultType$> matchMakingResultType$ListFromJson(
-    List? matchMakingResultType$) {
+List<enums.MatchMakingResultType$> matchMakingResultType$ListFromJson(List? matchMakingResultType$) {
   if (matchMakingResultType$ == null) {
     return [];
   }
 
-  return matchMakingResultType$
-      .map((e) => matchMakingResultType$FromJson(e.toString()))
-      .toList();
+  return matchMakingResultType$.map((e) => matchMakingResultType$FromJson(e.toString())).toList();
 }
 
-String? groupInfoModelStateToJson(
-    enums.GroupInfoModelState? groupInfoModelState) {
+String? groupInfoModelStateToJson(enums.GroupInfoModelState? groupInfoModelState) {
   return enums.$GroupInfoModelStateMap[groupInfoModelState];
 }
 
-enums.GroupInfoModelState groupInfoModelStateFromJson(
-    Object? groupInfoModelState) {
+enums.GroupInfoModelState groupInfoModelStateFromJson(Object? groupInfoModelState) {
   if (groupInfoModelState is int) {
     return enums.$GroupInfoModelStateMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() == groupInfoModelState.toString(),
-            orElse: () => const MapEntry(
-                enums.GroupInfoModelState.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == groupInfoModelState.toString(),
+            orElse: () => const MapEntry(enums.GroupInfoModelState.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   if (groupInfoModelState is String) {
     return enums.$GroupInfoModelStateMap.entries
-        .firstWhere(
-            (element) =>
-                element.value.toLowerCase() ==
-                groupInfoModelState.toLowerCase(),
-            orElse: () => const MapEntry(
-                enums.GroupInfoModelState.swaggerGeneratedUnknown, ''))
+        .firstWhere((element) => element.value.toLowerCase() == groupInfoModelState.toLowerCase(),
+            orElse: () => const MapEntry(enums.GroupInfoModelState.swaggerGeneratedUnknown, ''))
         .key;
   }
 
   return enums.GroupInfoModelState.swaggerGeneratedUnknown;
 }
 
-List<String> groupInfoModelStateListToJson(
-    List<enums.GroupInfoModelState>? groupInfoModelState) {
+List<String> groupInfoModelStateListToJson(List<enums.GroupInfoModelState>? groupInfoModelState) {
   if (groupInfoModelState == null) {
     return [];
   }
 
-  return groupInfoModelState
-      .map((e) => enums.$GroupInfoModelStateMap[e]!)
-      .toList();
+  return groupInfoModelState.map((e) => enums.$GroupInfoModelStateMap[e]!).toList();
 }
 
-List<enums.GroupInfoModelState> groupInfoModelStateListFromJson(
-    List? groupInfoModelState) {
+List<enums.GroupInfoModelState> groupInfoModelStateListFromJson(List? groupInfoModelState) {
   if (groupInfoModelState == null) {
     return [];
   }
 
-  return groupInfoModelState
-      .map((e) => groupInfoModelStateFromJson(e.toString()))
-      .toList();
+  return groupInfoModelState.map((e) => groupInfoModelStateFromJson(e.toString())).toList();
 }
 
 typedef $JsonFactory<T> = T Function(Map<String, dynamic> json);
@@ -8860,14 +7456,12 @@ class $CustomJsonDecoder {
     return jsonFactory(values);
   }
 
-  List<T> _decodeList<T>(Iterable values) =>
-      values.where((v) => v != null).map<T>((v) => decode<T>(v) as T).toList();
+  List<T> _decodeList<T>(Iterable values) => values.where((v) => v != null).map<T>((v) => decode<T>(v) as T).toList();
 }
 
 class $JsonSerializableConverter extends chopper.JsonConverter {
   @override
-  chopper.Response<ResultType> convertResponse<ResultType, Item>(
-      chopper.Response response) {
+  chopper.Response<ResultType> convertResponse<ResultType, Item>(chopper.Response response) {
     if (response.bodyString.isEmpty) {
       // In rare cases, when let's say 204 (no content) is returned -
       // we cannot decode the missing json with the result type specified
@@ -8875,8 +7469,7 @@ class $JsonSerializableConverter extends chopper.JsonConverter {
     }
 
     final jsonRes = super.convertResponse(response);
-    return jsonRes.copyWith<ResultType>(
-        body: $jsonDecoder.decode<Item>(jsonRes.body) as ResultType);
+    return jsonRes.copyWith<ResultType>(body: $jsonDecoder.decode<Item>(jsonRes.body) as ResultType);
   }
 }
 
