@@ -6,6 +6,7 @@ import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/models/group/poll.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 import 'package:weather/weather.dart';
@@ -539,5 +540,15 @@ class CodegenService extends HttpService {
       }
     }
     return filteredWeathers;
+  }
+
+  @override
+  Future<Poll?> getPoll(int pollId) async {
+    return Future.value(SingleChoicePoll(1, "What is your favorite color?", ["Red", "Blue", "Green"]));
+  }
+
+  @override
+  Future<void> toggleVote(int pollId, String option, bool voted) {
+    return Future.value();
   }
 }

@@ -5,6 +5,7 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/models/group/poll.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:weather/weather.dart';
 
@@ -586,5 +587,15 @@ class MockService extends HttpService {
   @override
   Future<List<Weather>?> getWeeklyWeather(String destination) {
     return Future.value([]);
+  }
+
+  @override
+  Future<Poll?> getPoll(int pollId) async {
+    return Future.value(SingleChoicePoll(1, "What is your favorite color?", ["Red", "Blue", "Green"]));
+  }
+
+  @override
+  Future<void> toggleVote(int pollId, String option, bool voted) {
+    return Future.value();
   }
 }
