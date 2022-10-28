@@ -165,4 +165,10 @@ class ChatViewModel extends ChangeNotifier {
     getMessages(groupId, channelId);
     listenToChannel(groupId, channelId);
   }
+
+  void deleteMessage(int messageId) {
+    messages.removeWhere((element) => element.id == messageId);
+
+    notifyListeners();
+  }
 }
