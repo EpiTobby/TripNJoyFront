@@ -1,17 +1,22 @@
+import 'dart:convert';
+
 import 'package:chopper/chopper.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/models/api/news_article.model.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 import 'package:weather/weather.dart';
+import 'package:http/http.dart' as http;
 
 const BASE_URL = String.fromEnvironment("BASE_URL", defaultValue: "http://localhost:8080");
 const WEATHER_API_KEY = String.fromEnvironment("WEATHER_API_KEY", defaultValue: "");
+const NEWS_API_KEY = String.fromEnvironment("NEWS_API_KEY", defaultValue: "");
 
 class CodegenService extends HttpService {
   late Api api;
@@ -539,5 +544,34 @@ class CodegenService extends HttpService {
       }
     }
     return filteredWeathers;
+  }
+
+  @override
+  Future<List<NewsArticle>> getNews(String destination) async {
+    String url =
+        "http://newsapi.org/v2/everything?q=$destination&language=fr&pageSize=20&sortBy=publishedAt&apiKey=$NEWS_API_KEY";
+
+    var response = await http.get(Uri.parse(url));
+
+    List<NewsArticle> news = [];
+
+    var jsonData = jsonDecode(response.body);
+
+    if (jsonData['status'] == "ok") {
+      jsonData["articles"].forEach((element) {
+        NewsArticle article = NewsArticle(
+          title: element['title'] ?? "",
+          author: element['author'] ?? "",
+          description: element['description'] ?? "",
+          urlToImage: element['urlToImage'] ?? "",
+          publishedAt: DateTime.parse(element['publishedAt'] ?? ""),
+          content: element["content"] ?? "",
+          articleUrl: element["url"] ?? "",
+        );
+        news.add(article);
+      });
+    }
+
+    return news;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/models/api/news_article.model.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 import 'package:weather/weather.dart';
@@ -154,4 +155,6 @@ abstract class HttpService {
   Future<Weather?> getWeather(String destination);
 
   Future<List<Weather>?> getWeeklyWeather(String destination);
+
+  Future<List<NewsArticle>> getNews(String destination);
 }
