@@ -45,8 +45,12 @@ class ChatTextField extends StatelessWidget {
                 return GroupChatDialog(
                   onFile: onAttachFile,
                   onImage: onAttachImage,
-                  onPoll: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => AddPoll(groupId: groupId, channelId: channelId))),
+                  onPoll: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => AddPoll(groupId: groupId, channelId: channelId),
+                    ),
+                  ),
+                  onQuizz: () {},
                 );
               },
             );

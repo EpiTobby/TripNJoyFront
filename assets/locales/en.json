@@ -295,7 +295,8 @@
       "actions": {
         "file": "File",
         "image": "Image",
-        "poll": "Poll"
+        "poll": "Poll",
+        "quiz": "Quiz"
       },
       "poll": {
         "title": "New poll",
@@ -494,7 +495,12 @@
     "confirmDeleteAccount": "Confirm password to delete your account",
     "country": "Change your country",
     "city": "Change your city",
-    "noCity": "No city"
+    "noCity": "No city",
+    "quiz": {
+      "title": "Quiz",
+      "empty": "No quiz",
+      "add": "Add a quiz"
+    }
   },
   "notifications": {
     "title": "Notifications"

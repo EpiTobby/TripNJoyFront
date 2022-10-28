@@ -7,11 +7,13 @@ class GroupChatDialog extends StatelessWidget {
     required this.onFile,
     required this.onImage,
     required this.onPoll,
+    required this.onQuizz,
   }) : super(key: key);
 
   final Function? onFile;
   final Function? onImage;
   final Function? onPoll;
+  final Function? onQuizz;
 
   @override
   Widget build(BuildContext context) {
@@ -27,31 +29,49 @@ class GroupChatDialog extends StatelessWidget {
           top: false,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (onImage != null)
-                  GroupChatDialogIcon(
-                    label: AppLocalizations.of(context).translate("groups.chat.actions.image"),
-                    icon: Icons.image,
-                    onPressed: onImage!,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                if (onFile != null)
-                  GroupChatDialogIcon(
-                    label: AppLocalizations.of(context).translate("groups.chat.actions.file"),
-                    icon: Icons.attach_file,
-                    onPressed: onFile!,
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-                if (onPoll != null)
-                  GroupChatDialogIcon(
-                    label: AppLocalizations.of(context).translate("groups.chat.actions.poll"),
-                    icon: Icons.poll,
-                    onPressed: onPoll!,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (onImage != null)
+                      GroupChatDialogIcon(
+                        label: AppLocalizations.of(context).translate("groups.chat.actions.image"),
+                        icon: Icons.image,
+                        onPressed: onImage!,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                    if (onFile != null)
+                      GroupChatDialogIcon(
+                        label: AppLocalizations.of(context).translate("groups.chat.actions.file"),
+                        icon: Icons.attach_file,
+                        onPressed: onFile!,
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    if (onPoll != null)
+                      GroupChatDialogIcon(
+                        label: AppLocalizations.of(context).translate("groups.chat.actions.poll"),
+                        icon: Icons.poll,
+                        onPressed: onPoll!,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (onQuizz != null)
+                      GroupChatDialogIcon(
+                        label: AppLocalizations.of(context).translate("groups.chat.actions.quiz"),
+                        icon: Icons.quiz,
+                        onPressed: onQuizz!,
+                        color: Theme.of(context).colorScheme.tertiary,
+                      )
+                  ],
+                )
               ],
             ),
           ),
