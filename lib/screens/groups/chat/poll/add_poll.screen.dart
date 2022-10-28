@@ -52,7 +52,7 @@ class AddPoll extends HookConsumerWidget {
               ),
               splashRadius: 16,
               onPressed: () async {
-                await ref.read(pollProvider).addPoll(
+                final survey = await ref.read(pollProvider).addPoll(
                       channelId.toInt(),
                       PostSurveyRequest(
                         userId: ref.read(userProvider).value?.id,
@@ -63,7 +63,7 @@ class AddPoll extends HookConsumerWidget {
                         possibleAnswers: options.value.map((e) => PossibleAnswerRequest(content: e.option)).toList(),
                       ),
                     );
-                chatService.getMessages(groupId, channelId);
+                chatService.sendMessage(channelId, survey!.id!.toString(), MessageResponseType$.survey);
                 Navigator.of(context).pop();
               },
             ),

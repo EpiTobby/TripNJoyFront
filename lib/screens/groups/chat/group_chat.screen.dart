@@ -297,7 +297,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
         return ChatPoll(
           pollId: int.parse(element.content!),
           onDelete: () {
-            chatViewModel.getMessages(widget.groupId, widget.channel!.id);
+            chatViewModel.deleteMessage(element.id!.toInt());
           },
         );
       default:
