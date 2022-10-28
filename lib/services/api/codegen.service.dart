@@ -543,18 +543,37 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<Poll?> getPoll(int pollId) async {
-    return Future.value(SingleChoicePoll(1, "What is your favorite color?", ["Red", "Blue", "Green"]));
+  Future<SurveyModel?> getPoll(int pollId) async {
+    final response = await api.surveysIdGet(id: pollId);
+
+    return response.body;
   }
 
   @override
-  Future<void> toggleVote(int pollId, String option, bool voted) {
-    return Future.value();
+  Future<void> singleChoiceVote(int pollId, int answerId) async {
+    await api.surveysVoteIdPost(
+      id: pollId,
+      body: VoteSurveyRequest(answerId: answerId),
+    );
+  }
+
+  @override
+  Future<void> multipleChoiceVote(int pollId, int answerId, bool voted) async {
+    if (voted) {
+      await api.surveysVoteIdPost(id: pollId, body: VoteSurveyRequest(answerId: answerId));
+    } else {
+      await api.surveysVoteIdDelete(id: answerId);
+    }
   }
 
   @override
   Future<SurveyModel?> addPoll(int channelId, PostSurveyRequest request) async {
     final response = await api.surveysIdPost(id: channelId, body: request);
     return response.body;
+  }
+
+  @override
+  Future<void> deletePoll(int pollId) async {
+    await api.surveysIdDelete(id: pollId);
   }
 }

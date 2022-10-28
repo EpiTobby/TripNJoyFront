@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/group/poll.dart';
+import 'package:trip_n_joy_front/providers/groups/chat.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/poll.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
@@ -21,10 +22,13 @@ class AddPoll extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final chatService = ref.watch(chatProvider);
+
     final pollQuestionController = useTextEditingController();
     final multipleChoicePoll = useState<bool>(false);
     final options = useState<List<PollOption>>([PollOption(UniqueKey(), "")]);
     void addOption() => options.value = [...options.value, PollOption(UniqueKey(), "")];
+
     void onChangeOption(UniqueKey id, String value) {
       options.value = options.value.map((e) => e.id == id ? PollOption(e.id, value) : e).toList();
     }
@@ -47,18 +51,19 @@ class AddPoll extends HookConsumerWidget {
                 color: Theme.of(context).colorScheme.primary,
               ),
               splashRadius: 16,
-              onPressed: () {
-                ref.read(pollProvider).addPoll(
+              onPressed: () async {
+                await ref.read(pollProvider).addPoll(
                       channelId.toInt(),
                       PostSurveyRequest(
                         userId: ref.read(userProvider).value?.id,
                         quizz: false,
                         type: PostSurveyRequestType$.survey,
                         content: pollQuestionController.value.text,
-                        canBeAnsweredMultipleTimes: multipleChoicePoll.value,
+                        isMultipleChoiceSurvey: multipleChoicePoll.value,
                         possibleAnswers: options.value.map((e) => PossibleAnswerRequest(content: e.option)).toList(),
                       ),
                     );
+                chatService.getMessages(groupId, channelId);
                 Navigator.of(context).pop();
               },
             ),
@@ -79,7 +84,12 @@ class AddPoll extends HookConsumerWidget {
                 children: [
                   Checkbox(
                       value: multipleChoicePoll.value, onChanged: (value) => multipleChoicePoll.value = value ?? false),
-                  Text(AppLocalizations.of(context).translate("groups.chat.poll.multipleChoice")),
+                  Text(
+                    AppLocalizations.of(context).translate("groups.chat.poll.multipleChoice"),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
                 ],
               ),
               ...options.value

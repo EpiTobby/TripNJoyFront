@@ -29,7 +29,7 @@ class ChatInput extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = useTextEditingController();
-    final chatService = ref.watch(chatProvider);
+
     final minioService = ref.watch(minioProvider);
 
     return Container(

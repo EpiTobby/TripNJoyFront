@@ -156,9 +156,13 @@ abstract class HttpService {
 
   Future<List<Weather>?> getWeeklyWeather(String destination);
 
-  Future<Poll?> getPoll(int pollId);
+  Future<SurveyModel?> getPoll(int pollId);
 
-  Future<void> toggleVote(int pollId, String option, bool voted);
+  Future<void> singleChoiceVote(int pollId, int answerId);
+
+  Future<void> multipleChoiceVote(int pollId, int answerId, bool voted);
 
   Future<SurveyModel?> addPoll(int channelId, PostSurveyRequest request);
+
+  Future<void> deletePoll(int pollId);
 }

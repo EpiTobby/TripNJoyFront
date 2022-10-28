@@ -406,6 +406,26 @@ const $PostSurveyRequestType$Map = {
   PostSurveyRequestType$.survey: 'SURVEY'
 };
 
+enum SurveyModelType$ {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('TEXT')
+  text,
+  @JsonValue('IMAGE')
+  image,
+  @JsonValue('FILE')
+  file,
+  @JsonValue('SURVEY')
+  survey
+}
+
+const $SurveyModelType$Map = {
+  SurveyModelType$.text: 'TEXT',
+  SurveyModelType$.image: 'IMAGE',
+  SurveyModelType$.file: 'FILE',
+  SurveyModelType$.survey: 'SURVEY'
+};
+
 enum SubmitReportRequestReason {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,

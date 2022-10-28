@@ -90,6 +90,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
           _ref.read(chatProvider).changeChannel(widget.groupId, widget.channel!.id);
         });
       }
+      return () {};
     }, [widget.channel, isConnected]);
 
     return Scaffold(
@@ -274,6 +275,8 @@ class _GroupChatState extends ConsumerState<GroupChat> {
   }
 
   Widget getChatElement(MessageResponse element, bool isUser) {
+    final chatViewModel = ref.watch(chatProvider);
+
     switch (element.type) {
       case MessageResponseType$.text:
         return ChatMessage(
@@ -293,6 +296,9 @@ class _GroupChatState extends ConsumerState<GroupChat> {
       case MessageResponseType$.survey:
         return ChatPoll(
           pollId: int.parse(element.content!),
+          onDelete: () {
+            chatViewModel.getMessages(widget.groupId, widget.channel!.id);
+          },
         );
       default:
         return Container();

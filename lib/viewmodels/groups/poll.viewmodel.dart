@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
-import 'package:trip_n_joy_front/models/group/poll.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
-import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 class PollViewModel extends ChangeNotifier {
   PollViewModel(this.httpService);
 
   final HttpService httpService;
 
-  Future<Poll?> getPoll(int pollId) async {
+  Future<SurveyModel?> getPoll(int pollId) async {
     return await httpService.getPoll(pollId);
   }
 
-  Future<void> toggleVote(int pollId, String option, bool voted) async {
-    await httpService.toggleVote(pollId, option, voted);
+  Future<void> singleChoiceVote(int pollId, int answerId) async {
+    await httpService.singleChoiceVote(pollId, answerId);
+  }
+
+  Future<void> multipleChoiceVote(int pollId, int answerId, bool voted) async {
+    await httpService.multipleChoiceVote(pollId, answerId, voted);
   }
 
   Future<SurveyModel?> addPoll(int channelId, PostSurveyRequest poll) async {
     return await httpService.addPoll(channelId, poll);
+  }
+
+  Future<void> deletePoll(int pollId) async {
+    await httpService.deletePoll(pollId);
   }
 }

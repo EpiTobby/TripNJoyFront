@@ -590,18 +590,27 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<Poll?> getPoll(int pollId) async {
-    return Future.value(SingleChoicePoll(1, "What is your favorite color?", ["Red", "Blue", "Green"]));
-  }
-
-  @override
-  Future<void> toggleVote(int pollId, String option, bool voted) {
+  Future<SurveyModel?> getPoll(int pollId) async {
     return Future.value();
   }
 
   @override
+  Future<void> singleChoiceVote(int pollId, int answerId) {
+    return Future.value(null);
+  }
+
+  @override
+  Future<void> multipleChoiceVote(int pollId, int answerId, bool voted) {
+    return Future.value(null);
+  }
+
+  @override
   Future<SurveyModel?> addPoll(int channelId, PostSurveyRequest request) {
-    // TODO: implement addSurvey
-    throw UnimplementedError();
+    return Future.value(null);
+  }
+
+  @override
+  Future<void> deletePoll(int pollId) async {
+    return Future.value();
   }
 }
