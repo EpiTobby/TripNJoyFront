@@ -11,6 +11,7 @@ import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/chat/group_chat_pinned_messages.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/planning/group_planning.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/quiz/group_quiz.screen.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat/chat_element.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat/chat_file.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat/chat_header.widget.dart';
@@ -168,6 +169,15 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                 if (value == 3) {
                   _navigator.push(
                     MaterialPageRoute(
+                      builder: (_) => GroupQuiz(
+                        groupId: group.id!.toInt(),
+                      ),
+                    ),
+                  );
+                }
+                if (value == 4) {
+                  _navigator.push(
+                    MaterialPageRoute(
                       settings: const RouteSettings(name: "/planning"),
                       builder: (_) => GroupPlanning(
                         groupId: group.id!.toInt(),
@@ -181,6 +191,12 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                   PopupMenuItem(
                     textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                     child: Text(AppLocalizations.of(context).translate('groups.planning.title')),
+                    value: 4,
+                  ),
+                if (group.state == GroupModelState.closed)
+                  PopupMenuItem(
+                    textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+                    child: Text(AppLocalizations.of(context).translate('settings.quiz.title')),
                     value: 3,
                   ),
                 if (widget.channel != null)

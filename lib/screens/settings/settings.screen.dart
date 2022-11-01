@@ -12,6 +12,7 @@ import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/quiz/add_quiz.screen.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
 import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog.widget.dart';
@@ -197,37 +198,20 @@ class SettingsPage extends HookConsumerWidget {
           LayoutBox(
             title: AppLocalizations.of(context).translate("settings.quiz.title"),
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  PrimaryButton(
-                    text: AppLocalizations.of(context).translate("settings.quiz.add"),
-                    onPressed: () {
-                      // ADD A QUIZ
-                    },
-                  )
-                ],
-              ),
-              if (quiz.isEmpty)
-                LayoutItem(
-                  child: Text(
-                    AppLocalizations.of(context).translate("settings.quiz.empty"),
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
+              LayoutItem(
+                child: LayoutItemValue(
+                  value: AppLocalizations.of(context).translate("settings.quiz.add"),
+                  icon: Icons.add,
+                  onPressed: () async {},
                 ),
-              ...quiz
-                  .map(
-                    (e) => LayoutItem(
-                      title: e.title,
-                      child: LayoutItemValue(
-                        value: user.city?.name ?? AppLocalizations.of(context).translate("settings.noCity"),
-                        icon: Icons.keyboard_arrow_right_sharp,
-                        onPressed: () {},
-                      ),
-                    ),
-                  )
-                  .toList()
+              ),
+              LayoutItem(
+                child: LayoutItemValue(
+                  value: 'Voir ses quiz',
+                  icon: Icons.keyboard_arrow_right_sharp,
+                  onPressed: () {},
+                ),
+              ),
             ],
           ),
           LayoutBox(
