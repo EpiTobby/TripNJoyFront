@@ -6,6 +6,7 @@ import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/api/news_article.model.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/models/group/poll.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:weather/weather.dart';
 
@@ -590,6 +591,30 @@ class MockService extends HttpService {
   }
 
   @override
+  Future<SurveyModel?> getPoll(int pollId) async {
+    return Future.value();
+  }
+
+  @override
+  Future<void> singleChoiceVote(int pollId, int answerId) {
+    return Future.value(null);
+  }
+
+  @override
+  Future<void> multipleChoiceVote(int pollId, int answerId, bool voted) {
+    return Future.value(null);
+  }
+
+  @override
+  Future<SurveyModel?> addPoll(int channelId, PostSurveyRequest request) {
+    return Future.value(null);
+  }
+
+  @override
+  Future<void> deletePoll(int pollId) async {
+    return Future.value();
+  }
+
   Future<List<NewsArticle>> getNews(String destination) {
     return Future.value([]);
   }

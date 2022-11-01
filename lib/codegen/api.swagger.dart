@@ -90,6 +90,92 @@ abstract class Api extends ChopperService {
       {@Path('id') required num? id,
       @Body() required ProfileCreationRequest? body});
 
+  ///Get a survey by id
+  ///@param id
+  Future<chopper.Response<SurveyModel>> surveysIdGet({required num? id}) {
+    generatedMapping.putIfAbsent(
+        SurveyModel, () => SurveyModel.fromJsonFactory);
+
+    return _surveysIdGet(id: id);
+  }
+
+  ///Get a survey by id
+  ///@param id
+  @Get(path: '/surveys/{id}')
+  Future<chopper.Response<SurveyModel>> _surveysIdGet(
+      {@Path('id') required num? id});
+
+  ///Create a survey in a channel
+  ///@param id
+  Future<chopper.Response<SurveyModel>> surveysIdPost(
+      {required num? id, required PostSurveyRequest? body}) {
+    generatedMapping.putIfAbsent(
+        SurveyModel, () => SurveyModel.fromJsonFactory);
+
+    return _surveysIdPost(id: id, body: body);
+  }
+
+  ///Create a survey in a channel
+  ///@param id
+  @Post(path: '/surveys/{id}')
+  Future<chopper.Response<SurveyModel>> _surveysIdPost(
+      {@Path('id') required num? id, @Body() required PostSurveyRequest? body});
+
+  ///Delete a survey in a channel
+  ///@param id
+  Future<chopper.Response> surveysIdDelete({required num? id}) {
+    return _surveysIdDelete(id: id);
+  }
+
+  ///Delete a survey in a channel
+  ///@param id
+  @Delete(path: '/surveys/{id}')
+  Future<chopper.Response> _surveysIdDelete({@Path('id') required num? id});
+
+  ///Update a survey in a channel
+  ///@param id
+  Future<chopper.Response<SurveyModel>> surveysIdPatch(
+      {required num? id, required UpdateSurveyRequest? body}) {
+    generatedMapping.putIfAbsent(
+        SurveyModel, () => SurveyModel.fromJsonFactory);
+
+    return _surveysIdPatch(id: id, body: body);
+  }
+
+  ///Update a survey in a channel
+  ///@param id
+  @Patch(path: '/surveys/{id}')
+  Future<chopper.Response<SurveyModel>> _surveysIdPatch(
+      {@Path('id') required num? id,
+      @Body() required UpdateSurveyRequest? body});
+
+  ///Vote for a survey
+  ///@param id
+  Future<chopper.Response<SurveyModel>> surveysVoteIdPost(
+      {required num? id, required VoteSurveyRequest? body}) {
+    generatedMapping.putIfAbsent(
+        SurveyModel, () => SurveyModel.fromJsonFactory);
+
+    return _surveysVoteIdPost(id: id, body: body);
+  }
+
+  ///Vote for a survey
+  ///@param id
+  @Post(path: '/surveys/vote/{id}')
+  Future<chopper.Response<SurveyModel>> _surveysVoteIdPost(
+      {@Path('id') required num? id, @Body() required VoteSurveyRequest? body});
+
+  ///Deletes a vote for a survey
+  ///@param id
+  Future<chopper.Response> surveysVoteIdDelete({required num? id}) {
+    return _surveysVoteIdDelete(id: id);
+  }
+
+  ///Deletes a vote for a survey
+  ///@param id
+  @Delete(path: '/surveys/vote/{id}')
+  Future<chopper.Response> _surveysVoteIdDelete({@Path('id') required num? id});
+
   ///
   Future<chopper.Response<ScanResponse>> scanPost(
       {required ScanRequest? body}) {
@@ -875,6 +961,38 @@ abstract class Api extends ChopperService {
   ///
   @Get(path: '/users/me')
   Future<chopper.Response<UserModel>> _usersMeGet();
+
+  ///Get all the surveys in a channel
+  ///@param id
+  Future<chopper.Response<List<SurveyModel>>> surveysQuizzIdGet(
+      {required num? id}) {
+    generatedMapping.putIfAbsent(
+        SurveyModel, () => SurveyModel.fromJsonFactory);
+
+    return _surveysQuizzIdGet(id: id);
+  }
+
+  ///Get all the surveys in a channel
+  ///@param id
+  @Get(path: '/surveys/quizz/{id}')
+  Future<chopper.Response<List<SurveyModel>>> _surveysQuizzIdGet(
+      {@Path('id') required num? id});
+
+  ///Get all the surveys in a channel
+  ///@param id
+  Future<chopper.Response<List<SurveyModel>>> surveysChannelIdGet(
+      {required num? id}) {
+    generatedMapping.putIfAbsent(
+        SurveyModel, () => SurveyModel.fromJsonFactory);
+
+    return _surveysChannelIdGet(id: id);
+  }
+
+  ///Get all the surveys in a channel
+  ///@param id
+  @Get(path: '/surveys/channel/{id}')
+  Future<chopper.Response<List<SurveyModel>>> _surveysChannelIdGet(
+      {@Path('id') required num? id});
 
   ///Get all the report of a user
   ///@param id
@@ -2417,6 +2535,7 @@ class ProfileModel {
     this.aboutFood,
     this.goOutAtNight,
     this.sport,
+    this.createdDate,
     this.active,
   });
 
@@ -2485,6 +2604,8 @@ class ProfileModel {
       toJson: profileModelSportToJson,
       fromJson: profileModelSportFromJson)
   final enums.ProfileModelSport? sport;
+  @JsonKey(name: 'createdDate')
+  final DateTime? createdDate;
   @JsonKey(name: 'active')
   final bool? active;
   static const fromJsonFactory = _$ProfileModelFromJson;
@@ -2540,8 +2661,10 @@ class ProfileModel {
                     .equals(other.goOutAtNight, goOutAtNight)) &&
             (identical(other.sport, sport) ||
                 const DeepCollectionEquality().equals(other.sport, sport)) &&
-            (identical(other.active, active) ||
-                const DeepCollectionEquality().equals(other.active, active)));
+            (identical(other.createdDate, createdDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdDate, createdDate)) &&
+            (identical(other.active, active) || const DeepCollectionEquality().equals(other.active, active)));
   }
 
   @override
@@ -2562,6 +2685,7 @@ class ProfileModel {
       const DeepCollectionEquality().hash(aboutFood) ^
       const DeepCollectionEquality().hash(goOutAtNight) ^
       const DeepCollectionEquality().hash(sport) ^
+      const DeepCollectionEquality().hash(createdDate) ^
       const DeepCollectionEquality().hash(active) ^
       runtimeType.hashCode;
 }
@@ -2587,6 +2711,7 @@ extension $ProfileModelExtension on ProfileModel {
       enums.ProfileModelAboutFood? aboutFood,
       enums.ProfileModelGoOutAtNight? goOutAtNight,
       enums.ProfileModelSport? sport,
+      DateTime? createdDate,
       bool? active}) {
     return ProfileModel(
         id: id ?? this.id,
@@ -2608,7 +2733,413 @@ extension $ProfileModelExtension on ProfileModel {
         aboutFood: aboutFood ?? this.aboutFood,
         goOutAtNight: goOutAtNight ?? this.goOutAtNight,
         sport: sport ?? this.sport,
+        createdDate: createdDate ?? this.createdDate,
         active: active ?? this.active);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PossibleAnswerRequest {
+  PossibleAnswerRequest({
+    this.content,
+    this.rightAnswer,
+  });
+
+  factory PossibleAnswerRequest.fromJson(Map<String, dynamic> json) =>
+      _$PossibleAnswerRequestFromJson(json);
+
+  @JsonKey(name: 'content')
+  final String? content;
+  @JsonKey(name: 'rightAnswer')
+  final bool? rightAnswer;
+  static const fromJsonFactory = _$PossibleAnswerRequestFromJson;
+  static const toJsonFactory = _$PossibleAnswerRequestToJson;
+  Map<String, dynamic> toJson() => _$PossibleAnswerRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is PossibleAnswerRequest &&
+            (identical(other.content, content) ||
+                const DeepCollectionEquality()
+                    .equals(other.content, content)) &&
+            (identical(other.rightAnswer, rightAnswer) ||
+                const DeepCollectionEquality()
+                    .equals(other.rightAnswer, rightAnswer)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(content) ^
+      const DeepCollectionEquality().hash(rightAnswer) ^
+      runtimeType.hashCode;
+}
+
+extension $PossibleAnswerRequestExtension on PossibleAnswerRequest {
+  PossibleAnswerRequest copyWith({String? content, bool? rightAnswer}) {
+    return PossibleAnswerRequest(
+        content: content ?? this.content,
+        rightAnswer: rightAnswer ?? this.rightAnswer);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PostSurveyRequest {
+  PostSurveyRequest({
+    this.userId,
+    this.content,
+    this.quizz,
+    this.possibleAnswers,
+    this.isMultipleChoiceSurvey,
+    this.type,
+    this.multipleChoiceSurvey,
+  });
+
+  factory PostSurveyRequest.fromJson(Map<String, dynamic> json) =>
+      _$PostSurveyRequestFromJson(json);
+
+  @JsonKey(name: 'userId')
+  final num? userId;
+  @JsonKey(name: 'content')
+  final String? content;
+  @JsonKey(name: 'quizz')
+  final bool? quizz;
+  @JsonKey(name: 'possibleAnswers', defaultValue: <PossibleAnswerRequest>[])
+  final List<PossibleAnswerRequest>? possibleAnswers;
+  @JsonKey(name: 'isMultipleChoiceSurvey')
+  final bool? isMultipleChoiceSurvey;
+  @JsonKey(
+      name: 'type',
+      toJson: postSurveyRequestType$ToJson,
+      fromJson: postSurveyRequestType$FromJson)
+  final enums.PostSurveyRequestType$? type;
+  @JsonKey(name: 'multipleChoiceSurvey')
+  final bool? multipleChoiceSurvey;
+  static const fromJsonFactory = _$PostSurveyRequestFromJson;
+  static const toJsonFactory = _$PostSurveyRequestToJson;
+  Map<String, dynamic> toJson() => _$PostSurveyRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is PostSurveyRequest &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.content, content) ||
+                const DeepCollectionEquality()
+                    .equals(other.content, content)) &&
+            (identical(other.quizz, quizz) ||
+                const DeepCollectionEquality().equals(other.quizz, quizz)) &&
+            (identical(other.possibleAnswers, possibleAnswers) ||
+                const DeepCollectionEquality()
+                    .equals(other.possibleAnswers, possibleAnswers)) &&
+            (identical(other.isMultipleChoiceSurvey, isMultipleChoiceSurvey) ||
+                const DeepCollectionEquality().equals(
+                    other.isMultipleChoiceSurvey, isMultipleChoiceSurvey)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.multipleChoiceSurvey, multipleChoiceSurvey) ||
+                const DeepCollectionEquality()
+                    .equals(other.multipleChoiceSurvey, multipleChoiceSurvey)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(content) ^
+      const DeepCollectionEquality().hash(quizz) ^
+      const DeepCollectionEquality().hash(possibleAnswers) ^
+      const DeepCollectionEquality().hash(isMultipleChoiceSurvey) ^
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(multipleChoiceSurvey) ^
+      runtimeType.hashCode;
+}
+
+extension $PostSurveyRequestExtension on PostSurveyRequest {
+  PostSurveyRequest copyWith(
+      {num? userId,
+      String? content,
+      bool? quizz,
+      List<PossibleAnswerRequest>? possibleAnswers,
+      bool? isMultipleChoiceSurvey,
+      enums.PostSurveyRequestType$? type,
+      bool? multipleChoiceSurvey}) {
+    return PostSurveyRequest(
+        userId: userId ?? this.userId,
+        content: content ?? this.content,
+        quizz: quizz ?? this.quizz,
+        possibleAnswers: possibleAnswers ?? this.possibleAnswers,
+        isMultipleChoiceSurvey:
+            isMultipleChoiceSurvey ?? this.isMultipleChoiceSurvey,
+        type: type ?? this.type,
+        multipleChoiceSurvey:
+            multipleChoiceSurvey ?? this.multipleChoiceSurvey);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PossibleAnswerModel {
+  PossibleAnswerModel({
+    this.id,
+    this.content,
+    this.rightAnswer,
+  });
+
+  factory PossibleAnswerModel.fromJson(Map<String, dynamic> json) =>
+      _$PossibleAnswerModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'content')
+  final String? content;
+  @JsonKey(name: 'rightAnswer')
+  final bool? rightAnswer;
+  static const fromJsonFactory = _$PossibleAnswerModelFromJson;
+  static const toJsonFactory = _$PossibleAnswerModelToJson;
+  Map<String, dynamic> toJson() => _$PossibleAnswerModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is PossibleAnswerModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.content, content) ||
+                const DeepCollectionEquality()
+                    .equals(other.content, content)) &&
+            (identical(other.rightAnswer, rightAnswer) ||
+                const DeepCollectionEquality()
+                    .equals(other.rightAnswer, rightAnswer)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(content) ^
+      const DeepCollectionEquality().hash(rightAnswer) ^
+      runtimeType.hashCode;
+}
+
+extension $PossibleAnswerModelExtension on PossibleAnswerModel {
+  PossibleAnswerModel copyWith({num? id, String? content, bool? rightAnswer}) {
+    return PossibleAnswerModel(
+        id: id ?? this.id,
+        content: content ?? this.content,
+        rightAnswer: rightAnswer ?? this.rightAnswer);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SurveyModel {
+  SurveyModel({
+    this.id,
+    this.channelId,
+    this.question,
+    this.submitter,
+    this.quizz,
+    this.sendDate,
+    this.modifiedDate,
+    this.possibleAnswers,
+    this.votes,
+    this.type,
+    this.multipleChoiceSurvey,
+  });
+
+  factory SurveyModel.fromJson(Map<String, dynamic> json) =>
+      _$SurveyModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'channelId')
+  final num? channelId;
+  @JsonKey(name: 'question')
+  final String? question;
+  @JsonKey(name: 'submitter')
+  final GroupMemberModel? submitter;
+  @JsonKey(name: 'quizz')
+  final bool? quizz;
+  @JsonKey(name: 'sendDate')
+  final DateTime? sendDate;
+  @JsonKey(name: 'modifiedDate')
+  final DateTime? modifiedDate;
+  @JsonKey(name: 'possibleAnswers', defaultValue: <PossibleAnswerModel>[])
+  final List<PossibleAnswerModel>? possibleAnswers;
+  @JsonKey(name: 'votes', defaultValue: <VoteModel>[])
+  final List<VoteModel>? votes;
+  @JsonKey(
+      name: 'type',
+      toJson: surveyModelType$ToJson,
+      fromJson: surveyModelType$FromJson)
+  final enums.SurveyModelType$? type;
+  @JsonKey(name: 'multipleChoiceSurvey')
+  final bool? multipleChoiceSurvey;
+  static const fromJsonFactory = _$SurveyModelFromJson;
+  static const toJsonFactory = _$SurveyModelToJson;
+  Map<String, dynamic> toJson() => _$SurveyModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is SurveyModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.channelId, channelId) ||
+                const DeepCollectionEquality()
+                    .equals(other.channelId, channelId)) &&
+            (identical(other.question, question) ||
+                const DeepCollectionEquality()
+                    .equals(other.question, question)) &&
+            (identical(other.submitter, submitter) ||
+                const DeepCollectionEquality()
+                    .equals(other.submitter, submitter)) &&
+            (identical(other.quizz, quizz) ||
+                const DeepCollectionEquality().equals(other.quizz, quizz)) &&
+            (identical(other.sendDate, sendDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.sendDate, sendDate)) &&
+            (identical(other.modifiedDate, modifiedDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.modifiedDate, modifiedDate)) &&
+            (identical(other.possibleAnswers, possibleAnswers) ||
+                const DeepCollectionEquality()
+                    .equals(other.possibleAnswers, possibleAnswers)) &&
+            (identical(other.votes, votes) ||
+                const DeepCollectionEquality().equals(other.votes, votes)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.multipleChoiceSurvey, multipleChoiceSurvey) ||
+                const DeepCollectionEquality()
+                    .equals(other.multipleChoiceSurvey, multipleChoiceSurvey)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(channelId) ^
+      const DeepCollectionEquality().hash(question) ^
+      const DeepCollectionEquality().hash(submitter) ^
+      const DeepCollectionEquality().hash(quizz) ^
+      const DeepCollectionEquality().hash(sendDate) ^
+      const DeepCollectionEquality().hash(modifiedDate) ^
+      const DeepCollectionEquality().hash(possibleAnswers) ^
+      const DeepCollectionEquality().hash(votes) ^
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(multipleChoiceSurvey) ^
+      runtimeType.hashCode;
+}
+
+extension $SurveyModelExtension on SurveyModel {
+  SurveyModel copyWith(
+      {num? id,
+      num? channelId,
+      String? question,
+      GroupMemberModel? submitter,
+      bool? quizz,
+      DateTime? sendDate,
+      DateTime? modifiedDate,
+      List<PossibleAnswerModel>? possibleAnswers,
+      List<VoteModel>? votes,
+      enums.SurveyModelType$? type,
+      bool? multipleChoiceSurvey}) {
+    return SurveyModel(
+        id: id ?? this.id,
+        channelId: channelId ?? this.channelId,
+        question: question ?? this.question,
+        submitter: submitter ?? this.submitter,
+        quizz: quizz ?? this.quizz,
+        sendDate: sendDate ?? this.sendDate,
+        modifiedDate: modifiedDate ?? this.modifiedDate,
+        possibleAnswers: possibleAnswers ?? this.possibleAnswers,
+        votes: votes ?? this.votes,
+        type: type ?? this.type,
+        multipleChoiceSurvey:
+            multipleChoiceSurvey ?? this.multipleChoiceSurvey);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class VoteModel {
+  VoteModel({
+    this.id,
+    this.voter,
+    this.answer,
+  });
+
+  factory VoteModel.fromJson(Map<String, dynamic> json) =>
+      _$VoteModelFromJson(json);
+
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'voter')
+  final GroupMemberModel? voter;
+  @JsonKey(name: 'answer')
+  final PossibleAnswerModel? answer;
+  static const fromJsonFactory = _$VoteModelFromJson;
+  static const toJsonFactory = _$VoteModelToJson;
+  Map<String, dynamic> toJson() => _$VoteModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is VoteModel &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.voter, voter) ||
+                const DeepCollectionEquality().equals(other.voter, voter)) &&
+            (identical(other.answer, answer) ||
+                const DeepCollectionEquality().equals(other.answer, answer)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(voter) ^
+      const DeepCollectionEquality().hash(answer) ^
+      runtimeType.hashCode;
+}
+
+extension $VoteModelExtension on VoteModel {
+  VoteModel copyWith(
+      {num? id, GroupMemberModel? voter, PossibleAnswerModel? answer}) {
+    return VoteModel(
+        id: id ?? this.id,
+        voter: voter ?? this.voter,
+        answer: answer ?? this.answer);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class VoteSurveyRequest {
+  VoteSurveyRequest({
+    this.answerId,
+  });
+
+  factory VoteSurveyRequest.fromJson(Map<String, dynamic> json) =>
+      _$VoteSurveyRequestFromJson(json);
+
+  @JsonKey(name: 'answerId')
+  final num? answerId;
+  static const fromJsonFactory = _$VoteSurveyRequestFromJson;
+  static const toJsonFactory = _$VoteSurveyRequestToJson;
+  Map<String, dynamic> toJson() => _$VoteSurveyRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is VoteSurveyRequest &&
+            (identical(other.answerId, answerId) ||
+                const DeepCollectionEquality()
+                    .equals(other.answerId, answerId)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(answerId) ^ runtimeType.hashCode;
+}
+
+extension $VoteSurveyRequestExtension on VoteSurveyRequest {
+  VoteSurveyRequest copyWith({num? answerId}) {
+    return VoteSurveyRequest(answerId: answerId ?? this.answerId);
   }
 }
 
@@ -2753,6 +3284,7 @@ class ReportModel {
     this.details,
     this.reportedUser,
     this.submitter,
+    this.createdDate,
   });
 
   factory ReportModel.fromJson(Map<String, dynamic> json) =>
@@ -2771,6 +3303,8 @@ class ReportModel {
   final GroupMemberModel? reportedUser;
   @JsonKey(name: 'submitter')
   final GroupMemberModel? submitter;
+  @JsonKey(name: 'createdDate')
+  final DateTime? createdDate;
   static const fromJsonFactory = _$ReportModelFromJson;
   static const toJsonFactory = _$ReportModelToJson;
   Map<String, dynamic> toJson() => _$ReportModelToJson(this);
@@ -2791,7 +3325,10 @@ class ReportModel {
                     .equals(other.reportedUser, reportedUser)) &&
             (identical(other.submitter, submitter) ||
                 const DeepCollectionEquality()
-                    .equals(other.submitter, submitter)));
+                    .equals(other.submitter, submitter)) &&
+            (identical(other.createdDate, createdDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdDate, createdDate)));
   }
 
   @override
@@ -2801,6 +3338,7 @@ class ReportModel {
       const DeepCollectionEquality().hash(details) ^
       const DeepCollectionEquality().hash(reportedUser) ^
       const DeepCollectionEquality().hash(submitter) ^
+      const DeepCollectionEquality().hash(createdDate) ^
       runtimeType.hashCode;
 }
 
@@ -2810,13 +3348,15 @@ extension $ReportModelExtension on ReportModel {
       enums.ReportModelReason? reason,
       String? details,
       GroupMemberModel? reportedUser,
-      GroupMemberModel? submitter}) {
+      GroupMemberModel? submitter,
+      DateTime? createdDate}) {
     return ReportModel(
         id: id ?? this.id,
         reason: reason ?? this.reason,
         details: details ?? this.details,
         reportedUser: reportedUser ?? this.reportedUser,
-        submitter: submitter ?? this.submitter);
+        submitter: submitter ?? this.submitter,
+        createdDate: createdDate ?? this.createdDate);
   }
 }
 
@@ -4279,6 +4819,63 @@ extension $UserUpdateRequestExtension on UserUpdateRequest {
 }
 
 @JsonSerializable(explicitToJson: true)
+class UpdateSurveyRequest {
+  UpdateSurveyRequest({
+    this.question,
+    this.possibleAnswers,
+    this.multipleChoiceSurvey,
+  });
+
+  factory UpdateSurveyRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateSurveyRequestFromJson(json);
+
+  @JsonKey(name: 'question')
+  final String? question;
+  @JsonKey(name: 'possibleAnswers', defaultValue: <PossibleAnswerRequest>[])
+  final List<PossibleAnswerRequest>? possibleAnswers;
+  @JsonKey(name: 'multipleChoiceSurvey')
+  final bool? multipleChoiceSurvey;
+  static const fromJsonFactory = _$UpdateSurveyRequestFromJson;
+  static const toJsonFactory = _$UpdateSurveyRequestToJson;
+  Map<String, dynamic> toJson() => _$UpdateSurveyRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UpdateSurveyRequest &&
+            (identical(other.question, question) ||
+                const DeepCollectionEquality()
+                    .equals(other.question, question)) &&
+            (identical(other.possibleAnswers, possibleAnswers) ||
+                const DeepCollectionEquality()
+                    .equals(other.possibleAnswers, possibleAnswers)) &&
+            (identical(other.multipleChoiceSurvey, multipleChoiceSurvey) ||
+                const DeepCollectionEquality()
+                    .equals(other.multipleChoiceSurvey, multipleChoiceSurvey)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(question) ^
+      const DeepCollectionEquality().hash(possibleAnswers) ^
+      const DeepCollectionEquality().hash(multipleChoiceSurvey) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdateSurveyRequestExtension on UpdateSurveyRequest {
+  UpdateSurveyRequest copyWith(
+      {String? question,
+      List<PossibleAnswerRequest>? possibleAnswers,
+      bool? multipleChoiceSurvey}) {
+    return UpdateSurveyRequest(
+        question: question ?? this.question,
+        possibleAnswers: possibleAnswers ?? this.possibleAnswers,
+        multipleChoiceSurvey:
+            multipleChoiceSurvey ?? this.multipleChoiceSurvey);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class UpdateReportRequest {
   UpdateReportRequest({
     this.reason,
@@ -5138,6 +5735,7 @@ class ProfileEntity {
     this.id,
     this.name,
     this.active,
+    this.createdDate,
   });
 
   factory ProfileEntity.fromJson(Map<String, dynamic> json) =>
@@ -5149,6 +5747,8 @@ class ProfileEntity {
   final String? name;
   @JsonKey(name: 'active')
   final bool? active;
+  @JsonKey(name: 'createdDate')
+  final DateTime? createdDate;
   static const fromJsonFactory = _$ProfileEntityFromJson;
   static const toJsonFactory = _$ProfileEntityToJson;
   Map<String, dynamic> toJson() => _$ProfileEntityToJson(this);
@@ -5162,7 +5762,10 @@ class ProfileEntity {
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.active, active) ||
-                const DeepCollectionEquality().equals(other.active, active)));
+                const DeepCollectionEquality().equals(other.active, active)) &&
+            (identical(other.createdDate, createdDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdDate, createdDate)));
   }
 
   @override
@@ -5170,15 +5773,18 @@ class ProfileEntity {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(active) ^
+      const DeepCollectionEquality().hash(createdDate) ^
       runtimeType.hashCode;
 }
 
 extension $ProfileEntityExtension on ProfileEntity {
-  ProfileEntity copyWith({num? id, String? name, bool? active}) {
+  ProfileEntity copyWith(
+      {num? id, String? name, bool? active, DateTime? createdDate}) {
     return ProfileEntity(
         id: id ?? this.id,
         name: name ?? this.name,
-        active: active ?? this.active);
+        active: active ?? this.active,
+        createdDate: createdDate ?? this.createdDate);
   }
 }
 
@@ -7171,6 +7777,108 @@ List<enums.ProfileModelSport> profileModelSportListFromJson(
 
   return profileModelSport
       .map((e) => profileModelSportFromJson(e.toString()))
+      .toList();
+}
+
+String? postSurveyRequestType$ToJson(
+    enums.PostSurveyRequestType$? postSurveyRequestType$) {
+  return enums.$PostSurveyRequestType$Map[postSurveyRequestType$];
+}
+
+enums.PostSurveyRequestType$ postSurveyRequestType$FromJson(
+    Object? postSurveyRequestType$) {
+  if (postSurveyRequestType$ is int) {
+    return enums.$PostSurveyRequestType$Map.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                postSurveyRequestType$.toString(),
+            orElse: () => const MapEntry(
+                enums.PostSurveyRequestType$.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (postSurveyRequestType$ is String) {
+    return enums.$PostSurveyRequestType$Map.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() ==
+                postSurveyRequestType$.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.PostSurveyRequestType$.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.PostSurveyRequestType$.swaggerGeneratedUnknown;
+}
+
+List<String> postSurveyRequestType$ListToJson(
+    List<enums.PostSurveyRequestType$>? postSurveyRequestType$) {
+  if (postSurveyRequestType$ == null) {
+    return [];
+  }
+
+  return postSurveyRequestType$
+      .map((e) => enums.$PostSurveyRequestType$Map[e]!)
+      .toList();
+}
+
+List<enums.PostSurveyRequestType$> postSurveyRequestType$ListFromJson(
+    List? postSurveyRequestType$) {
+  if (postSurveyRequestType$ == null) {
+    return [];
+  }
+
+  return postSurveyRequestType$
+      .map((e) => postSurveyRequestType$FromJson(e.toString()))
+      .toList();
+}
+
+String? surveyModelType$ToJson(enums.SurveyModelType$? surveyModelType$) {
+  return enums.$SurveyModelType$Map[surveyModelType$];
+}
+
+enums.SurveyModelType$ surveyModelType$FromJson(Object? surveyModelType$) {
+  if (surveyModelType$ is int) {
+    return enums.$SurveyModelType$Map.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == surveyModelType$.toString(),
+            orElse: () => const MapEntry(
+                enums.SurveyModelType$.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  if (surveyModelType$ is String) {
+    return enums.$SurveyModelType$Map.entries
+        .firstWhere(
+            (element) =>
+                element.value.toLowerCase() == surveyModelType$.toLowerCase(),
+            orElse: () => const MapEntry(
+                enums.SurveyModelType$.swaggerGeneratedUnknown, ''))
+        .key;
+  }
+
+  return enums.SurveyModelType$.swaggerGeneratedUnknown;
+}
+
+List<String> surveyModelType$ListToJson(
+    List<enums.SurveyModelType$>? surveyModelType$) {
+  if (surveyModelType$ == null) {
+    return [];
+  }
+
+  return surveyModelType$.map((e) => enums.$SurveyModelType$Map[e]!).toList();
+}
+
+List<enums.SurveyModelType$> surveyModelType$ListFromJson(
+    List? surveyModelType$) {
+  if (surveyModelType$ == null) {
+    return [];
+  }
+
+  return surveyModelType$
+      .map((e) => surveyModelType$FromJson(e.toString()))
       .toList();
 }
 

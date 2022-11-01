@@ -386,6 +386,46 @@ const $ProfileModelSportMap = {
   ProfileModelSport.noPreference: 'NO_PREFERENCE'
 };
 
+enum PostSurveyRequestType$ {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('TEXT')
+  text,
+  @JsonValue('IMAGE')
+  image,
+  @JsonValue('FILE')
+  file,
+  @JsonValue('SURVEY')
+  survey
+}
+
+const $PostSurveyRequestType$Map = {
+  PostSurveyRequestType$.text: 'TEXT',
+  PostSurveyRequestType$.image: 'IMAGE',
+  PostSurveyRequestType$.file: 'FILE',
+  PostSurveyRequestType$.survey: 'SURVEY'
+};
+
+enum SurveyModelType$ {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('TEXT')
+  text,
+  @JsonValue('IMAGE')
+  image,
+  @JsonValue('FILE')
+  file,
+  @JsonValue('SURVEY')
+  survey
+}
+
+const $SurveyModelType$Map = {
+  SurveyModelType$.text: 'TEXT',
+  SurveyModelType$.image: 'IMAGE',
+  SurveyModelType$.file: 'FILE',
+  SurveyModelType$.survey: 'SURVEY'
+};
+
 enum SubmitReportRequestReason {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
@@ -790,13 +830,16 @@ enum MessageResponseType$ {
   @JsonValue('IMAGE')
   image,
   @JsonValue('FILE')
-  file
+  file,
+  @JsonValue('SURVEY')
+  survey
 }
 
 const $MessageResponseType$Map = {
   MessageResponseType$.text: 'TEXT',
   MessageResponseType$.image: 'IMAGE',
-  MessageResponseType$.file: 'FILE'
+  MessageResponseType$.file: 'FILE',
+  MessageResponseType$.survey: 'SURVEY'
 };
 
 enum MatchMakingResultType$ {

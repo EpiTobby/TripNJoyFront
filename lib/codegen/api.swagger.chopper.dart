@@ -45,6 +45,54 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<SurveyModel>> _surveysIdGet({required num? id}) {
+    final $url = '/surveys/${id}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<SurveyModel, SurveyModel>($request);
+  }
+
+  @override
+  Future<Response<SurveyModel>> _surveysIdPost(
+      {required num? id, required PostSurveyRequest? body}) {
+    final $url = '/surveys/${id}';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<SurveyModel, SurveyModel>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _surveysIdDelete({required num? id}) {
+    final $url = '/surveys/${id}';
+    final $request = Request('DELETE', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<SurveyModel>> _surveysIdPatch(
+      {required num? id, required UpdateSurveyRequest? body}) {
+    final $url = '/surveys/${id}';
+    final $body = body;
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
+    return client.send<SurveyModel, SurveyModel>($request);
+  }
+
+  @override
+  Future<Response<SurveyModel>> _surveysVoteIdPost(
+      {required num? id, required VoteSurveyRequest? body}) {
+    final $url = '/surveys/vote/${id}';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<SurveyModel, SurveyModel>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> _surveysVoteIdDelete({required num? id}) {
+    final $url = '/surveys/vote/${id}';
+    final $request = Request('DELETE', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<ScanResponse>> _scanPost({required ScanRequest? body}) {
     final $url = '/scan';
     final $body = body;
@@ -504,6 +552,20 @@ class _$Api extends Api {
     final $url = '/users/me';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<UserModel, UserModel>($request);
+  }
+
+  @override
+  Future<Response<List<SurveyModel>>> _surveysQuizzIdGet({required num? id}) {
+    final $url = '/surveys/quizz/${id}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<List<SurveyModel>, SurveyModel>($request);
+  }
+
+  @override
+  Future<Response<List<SurveyModel>>> _surveysChannelIdGet({required num? id}) {
+    final $url = '/surveys/channel/${id}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<List<SurveyModel>, SurveyModel>($request);
   }
 
   @override

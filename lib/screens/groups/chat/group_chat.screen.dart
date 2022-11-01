@@ -17,6 +17,7 @@ import 'package:trip_n_joy_front/widgets/groups/chat/chat_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat/chat_image.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat/chat_input.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat/chat_message.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/chat/polls/chat_poll.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_icon.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/planning/planning_activity.widget.dart';
 
@@ -89,6 +90,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
           _ref.read(chatProvider).changeChannel(widget.groupId, widget.channel!.id);
         });
       }
+      return () {};
     }, [widget.channel, isConnected]);
 
     return Scaffold(
@@ -241,6 +243,8 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                     ),
                   ),
             ChatInput(
+              groupId: group.id!.toInt(),
+              channelId: widget.channel?.id?.toInt() ?? 0,
               readOnly: group.state == GroupModelState.archived,
               onSend: (content, type) {
                 ref.read(chatProvider).sendMessage(widget.channel?.id, content, type);
@@ -271,6 +275,8 @@ class _GroupChatState extends ConsumerState<GroupChat> {
   }
 
   Widget getChatElement(MessageResponse element, bool isUser) {
+    final chatViewModel = ref.watch(chatProvider);
+
     switch (element.type) {
       case MessageResponseType$.text:
         return ChatMessage(
@@ -286,6 +292,13 @@ class _GroupChatState extends ConsumerState<GroupChat> {
         return ChatFile(
           path: element.content!,
           isUser: isUser,
+        );
+      case MessageResponseType$.survey:
+        return ChatPoll(
+          pollId: int.parse(element.content!),
+          onDelete: () {
+            chatViewModel.deleteMessage(element.id!.toInt());
+          },
         );
       default:
         return Container();

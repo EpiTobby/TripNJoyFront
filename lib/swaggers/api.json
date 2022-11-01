@@ -168,6 +168,206 @@
         }
       }
     },
+    "/surveys/{id}": {
+      "get": {
+        "tags": [
+          "survey-controller"
+        ],
+        "summary": "Get a survey by id",
+        "operationId": "getSurveyById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The data have been successfully retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "survey-controller"
+        ],
+        "summary": "Create a survey in a channel",
+        "operationId": "createSurvey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostSurveyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The survey has been created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "survey-controller"
+        ],
+        "summary": "Delete a survey in a channel",
+        "operationId": "deleteSurvey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The survey has been updated"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "survey-controller"
+        ],
+        "summary": "Update a survey in a channel",
+        "operationId": "updateSurvey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSurveyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The survey has been updated",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/surveys/vote/{id}": {
+      "post": {
+        "tags": [
+          "survey-controller"
+        ],
+        "summary": "Vote for a survey",
+        "operationId": "submitVote",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoteSurveyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The vote has been submitted",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "survey-controller"
+        ],
+        "summary": "Deletes a vote for a survey",
+        "operationId": "deleteVote",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The vote has been submitted"
+          }
+        }
+      }
+    },
     "/scan": {
       "post": {
         "tags": [
@@ -2318,6 +2518,76 @@
         }
       }
     },
+    "/surveys/quizz/{id}": {
+      "get": {
+        "tags": [
+          "survey-controller"
+        ],
+        "summary": "Get all the surveys in a channel",
+        "operationId": "getQuizz",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The data have been successfully retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/surveys/channel/{id}": {
+      "get": {
+        "tags": [
+          "survey-controller"
+        ],
+        "summary": "Get all the surveys in a channel",
+        "operationId": "getSurveysByChannelId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The data have been successfully retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/reports/admin/{id}": {
       "get": {
         "tags": [
@@ -3810,8 +4080,153 @@
               "NO_PREFERENCE"
             ]
           },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
           "active": {
             "type": "boolean"
+          }
+        }
+      },
+      "PossibleAnswerRequest": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "rightAnswer": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PostSurveyRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "content": {
+            "type": "string"
+          },
+          "quizz": {
+            "type": "boolean"
+          },
+          "possibleAnswers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PossibleAnswerRequest"
+            }
+          },
+          "isMultipleChoiceSurvey": {
+            "type": "boolean",
+            "writeOnly": true
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "TEXT",
+              "IMAGE",
+              "FILE",
+              "SURVEY"
+            ]
+          },
+          "multipleChoiceSurvey": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PossibleAnswerModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "content": {
+            "type": "string"
+          },
+          "rightAnswer": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SurveyModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "channelId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "question": {
+            "type": "string"
+          },
+          "submitter": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "quizz": {
+            "type": "boolean"
+          },
+          "sendDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "possibleAnswers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PossibleAnswerModel"
+            }
+          },
+          "votes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VoteModel"
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "TEXT",
+              "IMAGE",
+              "FILE",
+              "SURVEY"
+            ]
+          },
+          "multipleChoiceSurvey": {
+            "type": "boolean"
+          }
+        }
+      },
+      "VoteModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "voter": {
+            "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "answer": {
+            "$ref": "#/components/schemas/PossibleAnswerModel"
+          }
+        }
+      },
+      "VoteSurveyRequest": {
+        "type": "object",
+        "properties": {
+          "answerId": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       },
@@ -3884,6 +4299,10 @@
           },
           "submitter": {
             "$ref": "#/components/schemas/GroupMemberModel"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -4417,6 +4836,23 @@
           }
         }
       },
+      "UpdateSurveyRequest": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "possibleAnswers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PossibleAnswerRequest"
+            }
+          },
+          "multipleChoiceSurvey": {
+            "type": "boolean"
+          }
+        }
+      },
       "UpdateReportRequest": {
         "type": "object",
         "properties": {
@@ -4583,7 +5019,8 @@
             "enum": [
               "TEXT",
               "IMAGE",
-              "FILE"
+              "FILE",
+              "SURVEY"
             ]
           }
         }
@@ -4701,6 +5138,10 @@
           },
           "active": {
             "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },

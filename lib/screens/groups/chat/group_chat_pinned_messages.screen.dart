@@ -13,6 +13,7 @@ import 'package:trip_n_joy_front/widgets/groups/chat/chat_file.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat/chat_header.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat/chat_image.widget.dart';
 import 'package:trip_n_joy_front/widgets/groups/chat/chat_message.widget.dart';
+import 'package:trip_n_joy_front/widgets/groups/chat/polls/chat_poll.widget.dart';
 
 class PinnedMessages extends HookConsumerWidget {
   const PinnedMessages({
@@ -93,6 +94,11 @@ class PinnedMessages extends HookConsumerWidget {
         break;
       case MessageResponseType$.file:
         child = ChatFile(path: message.content!, isUser: false);
+        break;
+      case MessageResponseType$.survey:
+        child = ChatPoll(
+          pollId: int.parse(message.content!),
+        );
         break;
       default:
         return Container();

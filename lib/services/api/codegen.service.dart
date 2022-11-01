@@ -9,6 +9,7 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/api/news_article.model.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/models/group/poll.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 import 'package:weather/weather.dart';
@@ -544,6 +545,41 @@ class CodegenService extends HttpService {
       }
     }
     return filteredWeathers;
+  }
+
+  @override
+  Future<SurveyModel?> getPoll(int pollId) async {
+    final response = await api.surveysIdGet(id: pollId);
+
+    return response.body;
+  }
+
+  @override
+  Future<void> singleChoiceVote(int pollId, int answerId) async {
+    await api.surveysVoteIdPost(
+      id: pollId,
+      body: VoteSurveyRequest(answerId: answerId),
+    );
+  }
+
+  @override
+  Future<void> multipleChoiceVote(int pollId, int answerId, bool voted) async {
+    if (voted) {
+      await api.surveysVoteIdPost(id: pollId, body: VoteSurveyRequest(answerId: answerId));
+    } else {
+      await api.surveysVoteIdDelete(id: answerId);
+    }
+  }
+
+  @override
+  Future<SurveyModel?> addPoll(int channelId, PostSurveyRequest request) async {
+    final response = await api.surveysIdPost(id: channelId, body: request);
+    return response.body;
+  }
+
+  @override
+  Future<void> deletePoll(int pollId) async {
+    await api.surveysIdDelete(id: pollId);
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/api/news_article.model.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
+import 'package:trip_n_joy_front/models/group/poll.dart';
 import 'package:weather/weather.dart';
 
 enum Method { POST, GET, PUT, DELETE, PATCH }
@@ -155,6 +156,16 @@ abstract class HttpService {
   Future<Weather?> getWeather(String destination);
 
   Future<List<Weather>?> getWeeklyWeather(String destination);
+
+  Future<SurveyModel?> getPoll(int pollId);
+
+  Future<void> singleChoiceVote(int pollId, int answerId);
+
+  Future<void> multipleChoiceVote(int pollId, int answerId, bool voted);
+
+  Future<SurveyModel?> addPoll(int channelId, PostSurveyRequest request);
+
+  Future<void> deletePoll(int pollId);
 
   Future<List<NewsArticle>> getNews(String destination);
 }

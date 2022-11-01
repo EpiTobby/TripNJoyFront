@@ -34,7 +34,7 @@ class GroupChatContainer extends HookConsumerWidget {
       channels.isEmpty
           ? Scaffold(
               backgroundColor: Theme.of(context).colorScheme.background,
-              body: Center(
+              body: const Center(
                 child: CircularProgressIndicator(),
               ),
             )
