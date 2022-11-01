@@ -8,6 +8,7 @@ import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/planning/add_activity.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/planning/edit_activity.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/planning/news/news.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/planning/weather/weather.screen.dart';
 import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_empty.widget.dart';
@@ -74,7 +75,11 @@ class GroupPlanning extends HookConsumerWidget {
                       child: PlanningPill(
                         label: AppLocalizations.of(context).translate("groups.planning.news.title"),
                         icon: Icons.newspaper,
-                        onTap: () => {},
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => NewsList(groupId: groupId),
+                          ),
+                        ),
                       ),
                     ),
                   ],
