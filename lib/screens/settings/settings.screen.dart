@@ -12,7 +12,9 @@ import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/quiz/add_quiz.screen.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
+import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog_email.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog_password.widget.dart';
@@ -33,6 +35,8 @@ class SettingsPage extends HookConsumerWidget {
     var user = ref.watch(userProvider).value;
     final settingsViewModel = ref.watch(settingsProvider);
     final isDarkMode = settingsViewModel.isDarkMode;
+
+    final quiz = [];
 
     final minioService = ref.watch(minioProvider);
 
@@ -62,172 +66,221 @@ class SettingsPage extends HookConsumerWidget {
             },
             background: false,
           ),
-          LayoutBox(title: AppLocalizations.of(context).translate("settings.about"), children: <Widget>[
-            LayoutItem(
+          LayoutBox(
+            title: AppLocalizations.of(context).translate("settings.about"),
+            children: <Widget>[
+              LayoutItem(
                 title: AppLocalizations.of(context).translate("user.firstname"),
                 child: LayoutItemValue(
                   value: user.firstname!,
                   onPressed: () {
                     showBarModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return InputDialog(
-                              title: AppLocalizations.of(context).translate("settings.firstname"),
-                              label: AppLocalizations.of(context).translate("user.firstname"),
-                              initialValue: user.firstname!,
-                              onConfirm: (value) async {
-                                userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(firstname: value));
-                              });
-                        });
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialog(
+                          title: AppLocalizations.of(context).translate("settings.firstname"),
+                          label: AppLocalizations.of(context).translate("user.firstname"),
+                          initialValue: user.firstname!,
+                          onConfirm: (value) async {
+                            userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(firstname: value));
+                          },
+                        );
+                      },
+                    );
                   },
-                )),
-            LayoutItem(
+                ),
+              ),
+              LayoutItem(
                 title: AppLocalizations.of(context).translate("user.lastname"),
                 child: LayoutItemValue(
                   value: user.lastname!,
                   onPressed: () {
                     showBarModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return InputDialog(
-                              title: AppLocalizations.of(context).translate("settings.lastname"),
-                              label: AppLocalizations.of(context).translate("user.lastname"),
-                              initialValue: user.lastname!,
-                              onConfirm: (value) async {
-                                userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(lastname: value));
-                              });
-                        });
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialog(
+                          title: AppLocalizations.of(context).translate("settings.lastname"),
+                          label: AppLocalizations.of(context).translate("user.lastname"),
+                          initialValue: user.lastname!,
+                          onConfirm: (value) async {
+                            userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(lastname: value));
+                          },
+                        );
+                      },
+                    );
                   },
-                )),
-            LayoutItem(
+                ),
+              ),
+              LayoutItem(
                 title: AppLocalizations.of(context).translate("user.email"),
                 child: LayoutItemValue(
                   value: user.email!,
                   onPressed: () {
                     showBarModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return InputDialogEmail(onConfirm: (newEmail, password) async {
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialogEmail(
+                          onConfirm: (newEmail, password) async {
                             await userViewModel.updateEmail(
                                 user.id!.toInt(), UpdateEmailRequest(newEmail: newEmail, password: password));
-                          });
-                        });
+                          },
+                        );
+                      },
+                    );
                   },
-                )),
-            LayoutItem(
+                ),
+              ),
+              LayoutItem(
                 title: AppLocalizations.of(context).translate("user.password"),
                 child: LayoutItemValue(
                   value: "•••••••••",
                   onPressed: () {
                     showBarModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return InputDialogPassword(onConfirm: (password, newPassword) async {
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialogPassword(
+                          onConfirm: (password, newPassword) async {
                             authViewModel
                                 .updatePassword(UpdatePasswordRequest(oldPassword: password, newPassword: newPassword));
-                          });
-                        });
+                          },
+                        );
+                      },
+                    );
                   },
-                )),
-            LayoutItem(
+                ),
+              ),
+              LayoutItem(
                 title: AppLocalizations.of(context).translate("user.phoneNumber"),
                 child: LayoutItemValue(
                   value: user.phoneNumber ?? AppLocalizations.of(context).translate("settings.noPhoneNumber"),
                   onPressed: () {
                     showBarModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return InputDialog(
-                              title: AppLocalizations.of(context).translate("settings.phoneNumber"),
-                              label: AppLocalizations.of(context).translate("user.phoneNumber"),
-                              initialValue: user.phoneNumber ?? "",
-                              onConfirm: (value) async {
-                                userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(phoneNumber: value));
-                              });
-                        });
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialog(
+                          title: AppLocalizations.of(context).translate("settings.phoneNumber"),
+                          label: AppLocalizations.of(context).translate("user.phoneNumber"),
+                          initialValue: user.phoneNumber ?? "",
+                          onConfirm: (value) async {
+                            userViewModel.updateUser(authViewModel.token!, UserUpdateRequest(phoneNumber: value));
+                          },
+                        );
+                      },
+                    );
                   },
-                )),
-            LayoutItem(
+                ),
+              ),
+              LayoutItem(
                 title: AppLocalizations.of(context).translate("user.city"),
                 child: LayoutItemValue(
                   value: user.city?.name ?? AppLocalizations.of(context).translate("settings.noCity"),
                   icon: Icons.keyboard_arrow_right_sharp,
                   onPressed: () {
                     showBarModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return InputDialog(
-                              title: AppLocalizations.of(context).translate("settings.city"),
-                              label: AppLocalizations.of(context).translate("user.city"),
-                              initialValue: user.city?.name ?? "",
-                              onConfirm: (value) async {
-                                userViewModel.updateUser(
-                                    authViewModel.token!, UserUpdateRequest(city: CityModel(name: value)));
-                              });
-                        });
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialog(
+                          title: AppLocalizations.of(context).translate("settings.city"),
+                          label: AppLocalizations.of(context).translate("user.city"),
+                          initialValue: user.city?.name ?? "",
+                          onConfirm: (value) async {
+                            userViewModel.updateUser(
+                                authViewModel.token!, UserUpdateRequest(city: CityModel(name: value)));
+                          },
+                        );
+                      },
+                    );
                   },
-                )),
-          ]),
+                ),
+              ),
+            ],
+          ),
+          LayoutBox(
+            title: AppLocalizations.of(context).translate("settings.quiz.title"),
+            children: <Widget>[
+              LayoutItem(
+                child: LayoutItemValue(
+                  value: AppLocalizations.of(context).translate("settings.quiz.add"),
+                  icon: Icons.add,
+                  onPressed: () async {},
+                ),
+              ),
+              LayoutItem(
+                child: LayoutItemValue(
+                  value: 'Voir ses quiz',
+                  icon: Icons.keyboard_arrow_right_sharp,
+                  onPressed: () {},
+                ),
+              ),
+            ],
+          ),
           LayoutBox(
             title: AppLocalizations.of(context).translate("settings.theme"),
             children: <Widget>[
               LayoutItem(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(AppLocalizations.of(context).translate("settings.darkMode"),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context).translate("settings.darkMode"),
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold)),
-                  Switch(
-                    value: isDarkMode,
-                    onChanged: (bool value) {
-                      settingsViewModel.setDarkMode(value);
-                    },
-                  ),
-                ],
-              ))
+                          color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Switch(
+                      value: isDarkMode,
+                      onChanged: (bool value) {
+                        settingsViewModel.setDarkMode(value);
+                      },
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
           LayoutBox(
             title: AppLocalizations.of(context).translate("common.account"),
             children: <Widget>[
               LayoutItem(
-                  child: LayoutItemValue(
-                value: AppLocalizations.of(context).translate("common.logout"),
-                icon: Icons.exit_to_app,
-                onPressed: () {
-                  authViewModel.logout();
-                  ref.read(navbarStateProvider.notifier).navigate(NavbarPage.MATCHMAKING);
-                },
-              )),
+                child: LayoutItemValue(
+                  value: AppLocalizations.of(context).translate("common.logout"),
+                  icon: Icons.exit_to_app,
+                  onPressed: () {
+                    authViewModel.logout();
+                    ref.read(navbarStateProvider.notifier).navigate(NavbarPage.MATCHMAKING);
+                  },
+                ),
+              ),
               LayoutItem(
-                  cardVariant: true,
-                  child: LayoutItemValue(
-                    value: AppLocalizations.of(context).translate("settings.deleteAccount"),
-                    icon: Icons.close,
-                    customColor: Theme.of(context).colorScheme.error,
-                    onPressed: () async {
-                      showBarModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return InputDialog(
-                                title: AppLocalizations.of(context).translate("settings.confirmDeleteAccount"),
-                                label: AppLocalizations.of(context).translate("user.password"),
-                                isPassword: true,
-                                initialValue: '',
-                                onConfirm: (value) async {
-                                  final success = await userViewModel.deleteUser(
-                                      authViewModel.token!, DeleteUserRequest(password: value));
-                                  if (success) {
-                                    authViewModel.logout();
-                                  } else {
-                                    throw HttpException(
-                                        message: AppLocalizations.of(context).translate("errors.wrongPassword"));
-                                  }
-                                });
-                          });
-                    },
-                  )),
+                cardVariant: true,
+                child: LayoutItemValue(
+                  value: AppLocalizations.of(context).translate("settings.deleteAccount"),
+                  icon: Icons.close,
+                  customColor: Theme.of(context).colorScheme.error,
+                  onPressed: () async {
+                    showBarModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InputDialog(
+                          title: AppLocalizations.of(context).translate("settings.confirmDeleteAccount"),
+                          label: AppLocalizations.of(context).translate("user.password"),
+                          isPassword: true,
+                          initialValue: '',
+                          onConfirm: (value) async {
+                            final success = await userViewModel.deleteUser(
+                                authViewModel.token!, DeleteUserRequest(password: value));
+                            if (success) {
+                              authViewModel.logout();
+                            } else {
+                              throw HttpException(
+                                  message: AppLocalizations.of(context).translate("errors.wrongPassword"));
+                            }
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
             ],
           ),
           const Padding(padding: EdgeInsets.only(bottom: 20)),

@@ -19,7 +19,11 @@ class PollViewModel extends ChangeNotifier {
     await httpService.multipleChoiceVote(pollId, answerId, voted);
   }
 
-  Future<SurveyModel?> addPoll(int channelId, PostSurveyRequest poll) async {
+  Future<SurveyModel?> addPoll(int? channelId, PostSurveyRequest poll) async {
+    if (channelId == null) {
+      return null;
+    }
+
     return await httpService.addPoll(channelId, poll);
   }
 

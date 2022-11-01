@@ -295,7 +295,8 @@
       "actions": {
         "file": "Fichier",
         "image": "Image",
-        "poll": "Sondage"
+        "poll": "Sondage",
+        "quiz": "Quiz"
       },
       "poll": {
         "title": "Créer un sondage",
@@ -494,7 +495,12 @@
     "confirmDeleteAccount": "Confirmer le mot de passe pour supprimer votre compte",
     "country": "Changer de pays",
     "city": "Changer de ville",
-    "noCity": "Aucune ville"
+    "noCity": "Aucune ville",
+    "quiz": {
+      "title": "Quiz",
+      "empty": "Aucun quiz",
+      "add": "Ajouter un quiz"
+    }
   },
   "notifications": {
     "title": "Notifications"
