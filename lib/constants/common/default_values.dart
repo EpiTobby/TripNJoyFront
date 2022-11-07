@@ -17,3 +17,7 @@ const MINIO_BUCKET = String.fromEnvironment('MINIO_BUCKET', defaultValue: 'tripn
 
 /// BACKGROUND GRADIENT
 const BACKGROUND_GRADIENT = "https://wallpapercave.com/wp/wp4411792.jpg";
+
+// AGORA TOKEN FOR VIDEO CALLS
+const AGORA_APP_ID = String.fromEnvironment('AGORA_APP_ID');
+const AGORA_TOKEN = String.fromEnvironment('AGORA_TOKEN');
