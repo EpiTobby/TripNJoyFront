@@ -49,7 +49,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: admin_app
+          name: tripnjoy-web-app
           path: build/web/
 
   build-android:
@@ -65,7 +65,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: admin_app
+          name: tripnjoy-release-apk
           path: build/app/outputs/apk/release/app-release.apk
 
   build-windows:
@@ -90,7 +90,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: admin_app
+          name: tripnjoy-windows-exe
           path: build/windows/runner/Release/
 
   build-macos:
@@ -102,7 +102,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: admin_app
+          name: tripnjoy-macos-app
           path: build/macos/Build/Products/Release
 
   build-ios:
@@ -113,18 +113,19 @@ jobs:
 
   release-macos:
     runs-on: macos-latest
-    needs: build
+    needs: build-macos
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v3
       - run: echo "::set-output name=version::$(grep -E 'version. (.*)' pubspec.yaml -m 1 > tmp && grep -Eo '\d.*' tmp && rm tmp)"
         name: Get version
         id: get_version
-      - run: mkdir -p tmp/admin-app && cd tmp/admin-app
+      - run: mkdir -p tmp/tripnjoy-macos-app && cd tmp/tripnjoy-macos-app
       - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
-          name: admin_app
-          path: /Users/runner/work/admin-app/admin-app/tmp
+          name: tripnjoy-macos-app
+          path: /Users/runner/work/tripnjoy-macos-app/tripnjoy-macos-app/tmp
       - name: Create release
         uses: actions/create-release@v1
         id: create_release
@@ -136,8 +137,8 @@ jobs:
           body: Some changes
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - run: chmod +x admin_app.app/Contents/MacOS/admin_app
-      - run: cd /Users/runner/work/admin-app/admin-app/tmp && zip -r admin-app.zip admin-app
+      - run: chmod +x tripnjoy-macos-app.app/Contents/MacOS/tripnjoy-macos-app
+      - run: cd /Users/runner/work/tripnjoy-macos-app/tripnjoy-macos-app/tmp && zip -r tripnjoy-macos-app.zip tripnjoy-macos-app
       - run: pwd
       - name: upload artifact
         uses: actions/upload-release-asset@v1
@@ -145,6 +146,38 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: /Users/runner/work/admin-app/admin-app/admin-app.zip
-          asset_name: admin_app.zip
+          asset_path: /Users/runner/work/tripnjoy-macos-app/tripnjoy-macos-app/tripnjoy-macos-app.zip
+          asset_name: tripnjoy-macos-app.zip
           asset_content_type: application/zip
+
+  deploy-web:
+    name: Deploy web
+    needs: build-web
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: production-files
+          path: ./build
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+
+  release-all:
+    needs: [build-android, build-windows]
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+      - uses: ncipollo/release-action@v2
+        with:
+          artifacts: "artifacts/*.apk, artifacts/*.exe"
+          token: ${{ secrets.YOUR_GITHUB_TOKEN }}
