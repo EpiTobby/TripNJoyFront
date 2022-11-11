@@ -474,6 +474,9 @@
         "price": "Price"
       },
       "missing": "Missing"
+    },
+    "call": {
+      "title": "Video call"
     }
   },
   "settings": {

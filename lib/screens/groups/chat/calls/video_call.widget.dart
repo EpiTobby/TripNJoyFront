@@ -4,6 +4,7 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:flutter/material.dart';
+import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 
 class VideoCall extends StatefulWidget {
@@ -278,10 +279,14 @@ class _VideoCallState extends State<VideoCall> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Video Call Demo'),
+        title: Text(AppLocalizations.of(context).translate('groups.call.title'),
+            style: TextStyle(color: Theme.of(context).colorScheme.primary)),
         centerTitle: true,
+        foregroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+        shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: Stack(
           children: <Widget>[
