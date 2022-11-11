@@ -106,6 +106,8 @@ class IndexState extends State<GroupVideoCallV1> {
       _channelController.text.isEmpty ? _validateError = true : _validateError = false;
     });
     if (_channelController.text.isNotEmpty) {
+      await _handleCameraAndMic(Permission.bluetooth);
+      await _handleCameraAndMic(Permission.bluetoothConnect);
       await _handleCameraAndMic(Permission.camera);
       await _handleCameraAndMic(Permission.microphone);
       await Navigator.push(
@@ -122,6 +124,7 @@ class IndexState extends State<GroupVideoCallV1> {
 
   Future<void> _handleCameraAndMic(Permission permission) async {
     final status = await permission.request();
+    print(permission.toString());
     print(status);
   }
 }
