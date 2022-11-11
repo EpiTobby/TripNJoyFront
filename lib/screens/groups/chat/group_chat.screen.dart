@@ -1,15 +1,18 @@
+import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/group/activity.dart';
+import 'package:trip_n_joy_front/providers/groups/call.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/chat.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/chat/calls/group_call_v2.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/chat/calls/group_video_call.screen.dart';
+import 'package:trip_n_joy_front/screens/groups/chat/calls/video_call.widget.dart';
 import 'package:trip_n_joy_front/screens/groups/chat/group_chat_pinned_messages.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/planning/group_planning.screen.dart';
@@ -153,6 +156,25 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                   ),
                 ],
               ),
+            IconButton(
+              icon: Icon(Icons.videocam, color: Theme.of(context).colorScheme.onBackground),
+              onPressed: () async {
+                final callViewModel = ref.read(callProvider);
+                await callViewModel.getPermissions();
+                final channelName = callViewModel.getChannelName(widget.groupId);
+                final token = await callViewModel.getToken(widget.groupId);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => VideoCall(
+                      channelName: channelName,
+                      role: ClientRole.Broadcaster,
+                      token: token,
+                    ),
+                  ),
+                );
+              },
+              splashRadius: 16,
+            ),
             PopupMenuButton(
               color: Theme.of(context).colorScheme.background,
               onSelected: (value) {

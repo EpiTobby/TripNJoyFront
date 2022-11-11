@@ -6,6 +6,7 @@ import 'package:jwt_decode/jwt_decode.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/api/news_article.model.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
@@ -609,5 +610,10 @@ class CodegenService extends HttpService {
     }
 
     return news;
+  }
+
+  @override
+  Future<String?> getToken(int groupId) {
+    return Future.value(AGORA_TOKEN);
   }
 }

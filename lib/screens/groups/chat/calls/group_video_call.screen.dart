@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/screens/groups/chat/calls/video_call.widget.dart';
 
 class GroupVideoCallV1 extends StatefulWidget {
@@ -116,6 +117,7 @@ class IndexState extends State<GroupVideoCallV1> {
           builder: (context) => VideoCall(
             channelName: _channelController.text,
             role: _role,
+            token: AGORA_TOKEN,
           ),
         ),
       );

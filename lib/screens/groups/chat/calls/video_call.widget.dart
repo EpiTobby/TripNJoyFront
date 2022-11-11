@@ -9,8 +9,14 @@ import 'package:trip_n_joy_front/constants/common/default_values.dart';
 class VideoCall extends StatefulWidget {
   final String channelName;
   final ClientRole role;
+  final String token;
 
-  const VideoCall({Key? key, required this.channelName, required this.role}) : super(key: key);
+  const VideoCall({
+    Key? key,
+    required this.channelName,
+    required this.role,
+    required this.token,
+  }) : super(key: key);
 
   @override
   _VideoCallState createState() => _VideoCallState();
@@ -56,7 +62,7 @@ class _VideoCallState extends State<VideoCall> {
     VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
     configuration.dimensions = VideoDimensions(height: 1920, width: 1080);
     await _engine.setVideoEncoderConfiguration(configuration);
-    await _engine.joinChannel(AGORA_TOKEN, widget.channelName, null, 0);
+    await _engine.joinChannel(widget.token, widget.channelName, null, 0);
   }
 
   Future<void> _initAgoraRtcEngine() async {

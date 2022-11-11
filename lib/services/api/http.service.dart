@@ -168,4 +168,6 @@ abstract class HttpService {
   Future<void> deletePoll(int pollId);
 
   Future<List<NewsArticle>> getNews(String destination);
+
+  Future<String?> getToken(int groupId);
 }
