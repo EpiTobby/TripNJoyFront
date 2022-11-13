@@ -620,7 +620,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<String?> getToken(int groupId) {
+  Future<String?> getToken(String channelName) {
     return Future.value(AGORA_TOKEN);
   }
 }

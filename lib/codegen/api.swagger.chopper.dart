@@ -709,6 +709,14 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<String>> _callRtcChannelNameUidGet(
+      {required String? channelName, required int? uid}) {
+    final $url = '/call/rtc/${channelName}/${uid}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<String, String>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _idProfilesProfileDelete(
       {required num? id, required num? profile}) {
     final $url = '/${id}/profiles/${profile}';

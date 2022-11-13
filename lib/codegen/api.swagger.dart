@@ -1279,6 +1279,22 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<List<MessageResponse>>> _chatChannelIdPinnedGet(
       {@Path('channel_id') required num? channelId});
 
+  ///Returns the token for the RTC call
+  ///@param channelName
+  ///@param uid
+  Future<chopper.Response<String>> callRtcChannelNameUidGet(
+      {required String? channelName, required int? uid}) {
+    return _callRtcChannelNameUidGet(channelName: channelName, uid: uid);
+  }
+
+  ///Returns the token for the RTC call
+  ///@param channelName
+  ///@param uid
+  @Get(path: '/call/rtc/{channelName}/{uid}')
+  Future<chopper.Response<String>> _callRtcChannelNameUidGet(
+      {@Path('channelName') required String? channelName,
+      @Path('uid') required int? uid});
+
   ///Delete the profile of a user
   ///@param id
   ///@param profile

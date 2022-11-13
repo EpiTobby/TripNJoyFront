@@ -34,10 +34,11 @@ class CodegenService extends HttpService {
         client: ChopperClient(
             converter: $JsonSerializableConverter(),
             interceptors: [
-              (Request request) async => applyHeader(
-                  request, 'authorization', "Bearer " + (await storage.read(key: AuthViewModel.tokenKey) ?? ""),
-                  override: false),
-              (Response response) async {
+                  (Request request) async =>
+                  applyHeader(
+                      request, 'authorization', "Bearer " + (await storage.read(key: AuthViewModel.tokenKey) ?? ""),
+                      override: false),
+                  (Response response) async {
                 if (response.statusCode == 401) {
                   await storage.delete(key: AuthViewModel.tokenKey);
                 }
@@ -69,16 +70,16 @@ class CodegenService extends HttpService {
   Future<AuthTokenResponse?> signup(SignupCredentials data) async {
     final response = await api.authRegisterPost(
         body: UserCreationRequest(
-      gender: data.gender,
-      email: data.email,
-      password: data.password,
-      birthDate: DateTime.parse(data.birthDate),
-      firstname: data.firstname,
-      lastname: data.lastname,
-      phoneNumber: data.phoneNumber,
-      city: data.city,
-      language: data.language,
-    ));
+          gender: data.gender,
+          email: data.email,
+          password: data.password,
+          birthDate: DateTime.parse(data.birthDate),
+          firstname: data.firstname,
+          lastname: data.lastname,
+          phoneNumber: data.phoneNumber,
+          city: data.city,
+          language: data.language,
+        ));
     return response.body;
   }
 
@@ -365,7 +366,7 @@ class CodegenService extends HttpService {
   @override
   Future<ActivityModel?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) async {
     final response =
-        await api.groupsGroupIdPlanningActivityIdPatch(groupId: groupId, activityId: activityId, body: request);
+    await api.groupsGroupIdPlanningActivityIdPatch(groupId: groupId, activityId: activityId, body: request);
     return response.body;
   }
 
@@ -613,7 +614,8 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<String?> getToken(int groupId) {
-    return Future.value(AGORA_TOKEN);
+  Future<String?> getToken(String channelName) async {
+    final response = await api.callRtcChannelNameUidGet(channelName: channelName, uid: 0);
+    return response.body;
   }
 }

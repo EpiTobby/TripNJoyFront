@@ -169,5 +169,5 @@ abstract class HttpService {
 
   Future<List<NewsArticle>> getNews(String destination);
 
-  Future<String?> getToken(int groupId);
+  Future<String?> getToken(String channelName);
 }
