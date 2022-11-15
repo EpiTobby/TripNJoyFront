@@ -14,19 +14,18 @@ class GroupViewModel extends ChangeNotifier {
   final AuthViewModel authViewModel;
   final PushNotificationService pushNotificationService;
 
-  List<GroupModel> groups = [];
+  List<GroupResponse> groups = [];
   AsyncValue<GroupInfoModel> groupInfo = const AsyncValue.loading();
   bool isLoading = false;
   static const String groupTopic = 'chat_';
 
-  final defaultGroupModel = GroupModel(
+  final defaultGroupModel = GroupResponse(
     id: 0,
     name: '',
     maxSize: 0,
     members: [],
-    owner: null,
-    state: GroupModelState.open,
-    channels: [],
+    ownerId: null,
+    state: GroupResponseState.open,
   );
 
   Map<int, List<String>> memories = {};
@@ -61,7 +60,7 @@ class GroupViewModel extends ChangeNotifier {
     }
   }
 
-  Future<List<GroupModel>> getUserInvitesGroups() async {
+  Future<List<GroupResponse>> getUserInvitesGroups() async {
     if (authViewModel.token == null) {
       return [];
     }

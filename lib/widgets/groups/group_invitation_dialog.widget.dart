@@ -95,9 +95,9 @@ class GroupInvitationDialog extends HookConsumerWidget {
                                             .translate("groups.settings.type.${data.state!.name}"),
                                         style: const TextStyle(color: Colors.white),
                                       ),
-                                      backgroundColor: data.state == GroupModelState.closed
+                                      backgroundColor: data.state == GroupInfoModelState.closed
                                           ? Theme.of(context).colorScheme.tertiary
-                                          : data.state == GroupModelState.open
+                                          : data.state == GroupInfoModelState.open
                                               ? Theme.of(context).colorScheme.secondary
                                               : Theme.of(context).colorScheme.primary,
                                       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),

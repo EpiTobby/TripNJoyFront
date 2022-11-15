@@ -13,7 +13,7 @@ import 'groups_scan_qr_code.screen.dart';
 class GroupsInvitations extends StatefulHookConsumerWidget {
   const GroupsInvitations({Key? key, required this.groups}) : super(key: key);
 
-  final List<GroupModel> groups;
+  final List<GroupResponse> groups;
 
   @override
   ConsumerState createState() => _GroupsInvitationsState();

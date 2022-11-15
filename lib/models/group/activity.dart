@@ -30,7 +30,7 @@ class Activity {
   List<ChatMember> members;
   Color color;
 
-  static Activity fromActivityResponse(ActivityModel activity) {
+  static Activity fromActivityResponse(ActivityResponse activity) {
     return Activity(
       id: activity.id!,
       icon: IconData(int.parse(activity.icon!), fontFamily: 'MaterialIcons'),

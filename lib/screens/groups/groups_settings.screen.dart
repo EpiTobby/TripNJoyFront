@@ -41,7 +41,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
       return Container();
     }
 
-    final isPrivateGroup = group.owner != null;
+    final isPrivateGroup = group.ownerId != null;
 
     final minioService = ref.watch(minioProvider);
 
@@ -60,7 +60,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                 LayoutHeader(
                   background: true,
                   imageURL: MinioService.getImageUrl(group.picture, DEFAULT_URL.GROUP),
-                  onClick: group.state == GroupModelState.archived
+                  onClick: group.state == GroupInfoModelState.archived
                       ? null
                       : () async {
                           final imageURL = await minioService.uploadImage();
@@ -83,7 +83,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                       title: AppLocalizations.of(context).translate("groups.settings.groupName"),
                       child: LayoutItemValue(
                         value: group.name ?? '',
-                        editable: group.state != GroupModelState.archived && group.owner?.id == user.id,
+                        editable: group.state != GroupInfoModelState.archived && group.ownerId == user.id,
                         onPressed: () {
                           showBarModalBottomSheet(
                               context: context,
@@ -128,9 +128,9 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                                 AppLocalizations.of(context).translate("groups.settings.type.${group.state!.name}"),
                                 style: const TextStyle(color: Colors.white),
                               ),
-                              backgroundColor: group.state == GroupModelState.closed
+                              backgroundColor: group.state == GroupInfoModelState.closed
                                   ? Theme.of(context).colorScheme.tertiary
-                                  : group.state == GroupModelState.open
+                                  : group.state == GroupInfoModelState.open
                                       ? Theme.of(context).colorScheme.secondary
                                       : Theme.of(context).colorScheme.primary,
                               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -156,16 +156,16 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                                         return UserDialog(user: member);
                                       });
                                 },
-                                onDelete: user.id != group.owner?.id ||
-                                        member.id == group.owner?.id ||
-                                        group.state == GroupModelState.archived
+                                onDelete: user.id != group.ownerId ||
+                                        member == group.ownerId ||
+                                        group.state == GroupInfoModelState.archived
                                     ? null
                                     : () async {
                                         await groupViewModel.removeUserFromGroup(group.id!.toInt(), member.id!.toInt());
                                       },
                               );
                             }).toList(),
-                            if (isPrivateGroup && group.state != GroupModelState.archived)
+                            if (isPrivateGroup && group.state != GroupInfoModelState.archived)
                               PrimaryButton(
                                   text: '+',
                                   fitContent: true,
@@ -187,7 +187,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                         ),
                       ),
                     ),
-                    if (isPrivateGroup && group.state != GroupModelState.archived)
+                    if (isPrivateGroup && group.state != GroupInfoModelState.archived)
                       LayoutItem(
                         child: LayoutItemValue(
                           value: AppLocalizations.of(context).translate("groups.qr_code.generate"),
@@ -205,9 +205,9 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                       ),
                   ],
                 ),
-                if (group.state != GroupModelState.archived)
+                if (group.state != GroupInfoModelState.archived)
                   LayoutBox(title: AppLocalizations.of(context).translate("groups.settings.groupSettings"), children: [
-                    if (!isPrivateGroup && group.state == GroupModelState.open)
+                    if (!isPrivateGroup && group.state == GroupInfoModelState.open)
                       LayoutItem(
                           child: LayoutItemValue(
                         value: AppLocalizations.of(context).translate("groups.settings.close"),
@@ -222,7 +222,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                         icon: Icons.group_outlined,
                         onPressed: () {},
                       )),
-                    if (group.owner?.id == user.id)
+                    if (group.ownerId == user.id)
                       LayoutItem(
                           child: LayoutItemValue(
                         value: AppLocalizations.of(context).translate("groups.settings.archive"),

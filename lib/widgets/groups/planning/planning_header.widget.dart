@@ -43,7 +43,7 @@ class PlanningHeader extends ConsumerWidget {
               card: false,
               title: AppLocalizations.of(context).translate("groups.planning.destination.title"),
               child: LayoutItemValue(
-                editable: group.state != GroupModelState.archived,
+                editable: group.state != GroupInfoModelState.archived,
                 value: group.destination ?? AppLocalizations.of(context).translate("groups.planning.destination.empty"),
                 onPressed: () {
                   showBarModalBottomSheet(
@@ -72,7 +72,7 @@ class PlanningHeader extends ConsumerWidget {
               card: false,
               title: AppLocalizations.of(context).translate("groups.planning.date.title"),
               child: LayoutItemValue(
-                editable: group.state != GroupModelState.archived,
+                editable: group.state != GroupInfoModelState.archived,
                 value: group.startOfTrip == null || group.endOfTrip == null
                     ? AppLocalizations.of(context).translate("groups.planning.date.empty")
                     : "${DateFormat("dd/MM/yyyy").format(group.startOfTrip!)} - ${DateFormat("dd/MM/yyyy").format(group.endOfTrip!)}",
@@ -98,7 +98,7 @@ class PlanningHeader extends ConsumerWidget {
               card: false,
               title: AppLocalizations.of(context).translate("groups.planning.note.title"),
               child: LayoutItemValue(
-                editable: group.state != GroupModelState.archived,
+                editable: group.state != GroupInfoModelState.archived,
                 value: group.description ?? AppLocalizations.of(context).translate("groups.planning.note.empty"),
                 multiline: true,
                 fontSize: 16,

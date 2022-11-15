@@ -13,7 +13,7 @@ abstract class HttpService {
 
   void initInterceptors();
 
-  Future<UserModel?> loadUser();
+  Future<UserResponse?> loadUser();
 
   Future<LoginResponse?> login(String email, String password);
 
@@ -53,13 +53,13 @@ abstract class HttpService {
 
   Future<MatchMakingResponse?> retryMatchmaking(int userId, int profileId);
 
-  Future<List<GroupModel>?> getGroups(int id);
+  Future<List<GroupResponse>?> getGroups(int id);
 
-  Future<List<GroupModel>?> getUserInvitesGroups(int id);
+  Future<List<GroupResponse>?> getUserInvitesGroups(int id);
 
   Future<void> declineGroupInvitation(int groupId, int userId);
 
-  Future<GroupModel?> createPrivateGroup(int id, CreatePrivateGroupRequest createPrivateGroupRequest);
+  Future<GroupResponse?> createPrivateGroup(int id, CreatePrivateGroupRequest createPrivateGroupRequest);
 
   Future<void> addUserToPrivateGroup(int groupId, String email);
 
@@ -97,13 +97,13 @@ abstract class HttpService {
 
   Future<MessageResponse?> togglePinnedMessage(num messageId, bool pinned);
 
-  Future<List<ActivityModel>?> getActivities(int groupId);
+  Future<List<ActivityResponse>?> getActivities(int groupId);
 
-  Future<ActivityModel?> createActivity(int groupId, CreateActivityRequest request);
+  Future<ActivityResponse?> createActivity(int groupId, CreateActivityRequest request);
 
   Future<void> deleteActivity(int groupId, num activityId);
 
-  Future<ActivityModel?> updateActivity(int groupId, num activityId, UpdateActivityRequest request);
+  Future<ActivityResponse?> updateActivity(int groupId, num activityId, UpdateActivityRequest request);
 
   Future<bool> toggleActivityMember(int groupId, num activityId, num userId, bool join);
 
@@ -111,17 +111,17 @@ abstract class HttpService {
 
   Future<List<PlaceResponse>?> getSuggestedActivities(PlacesFromCoordinatesRequest request);
 
-  Future<ReportModel?> submitReport(SubmitReportRequest submitReportRequest);
+  Future<ReportResponse?> submitReport(SubmitReportRequest submitReportRequest);
 
-  Future<List<ReportModel>?> getReports(int submitterId);
+  Future<List<ReportResponse>?> getReports(int submitterId);
 
-  Future<ReportModel?> updateReport(int reportId, UpdateReportRequest updateReportRequest);
+  Future<ReportResponse?> updateReport(int reportId, UpdateReportRequest updateReportRequest);
 
   Future<void> deleteReport(int reportId);
 
-  Future<RecommendationModel?> submitRecommendation(SubmitRecommendationRequest request);
+  Future<RecommendationResponse?> submitRecommendation(SubmitRecommendationRequest request);
 
-  Future<List<RecommendationModel>?> getRecommendations(int reviewedUserId);
+  Future<List<RecommendationResponse>?> getRecommendations(int reviewedUserId);
 
   Future<void> deleteRecommendation(int recommendationId);
 

@@ -134,18 +134,18 @@ class _GroupChatState extends ConsumerState<GroupChat> {
             ],
           ),
           actions: [
-            if (group.owner == null)
+            if (group.ownerId == null)
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    group.state! == GroupModelState.closed
+                    group.state! == GroupInfoModelState.closed
                         ? AppLocalizations.of(context).translate('groups.chat.close')
                         : AppLocalizations.of(context).translate('groups.chat.open'),
                     style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: group.state! == GroupModelState.closed
+                        color: group.state! == GroupInfoModelState.closed
                             ? Theme.of(context).colorScheme.tertiary
                             : Theme.of(context).colorScheme.secondary),
                   ),
@@ -187,13 +187,13 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                 }
               },
               itemBuilder: (ctx) => [
-                if (group.state == GroupModelState.closed)
+                if (group.state == GroupInfoModelState.closed)
                   PopupMenuItem(
                     textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                     child: Text(AppLocalizations.of(context).translate('groups.planning.title')),
                     value: 4,
                   ),
-                if (group.state == GroupModelState.closed)
+                if (group.state == GroupInfoModelState.closed)
                   PopupMenuItem(
                     textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                     child: Text(AppLocalizations.of(context).translate('settings.quiz.title')),
@@ -261,7 +261,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
             ChatInput(
               groupId: group.id!.toInt(),
               channelId: widget.channel?.id?.toInt() ?? 0,
-              readOnly: group.state == GroupModelState.archived,
+              readOnly: group.state == GroupInfoModelState.archived,
               onSend: (content, type) {
                 ref.read(chatProvider).sendMessage(widget.channel?.id, content, type);
               },

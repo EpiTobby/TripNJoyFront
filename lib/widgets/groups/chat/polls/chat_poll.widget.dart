@@ -38,12 +38,12 @@ class ChatPoll extends HookConsumerWidget {
         if (poll.value != null) {
           if (poll.value!.multipleChoiceSurvey!) {
             multipleOptions.value = poll.value!.votes!
-                .where((element) => element.voter?.userId == userService.userId)
+                .where((element) => element.voter == userService.userId)
                 .map((e) => e.answer!.content!)
                 .toList();
           } else {
             singleOption.value =
-                poll.value!.votes!.firstWhere((element) => element.voter?.userId == userService.userId).answer?.content;
+                poll.value!.votes!.firstWhere((element) => element.voter == userService.userId).answer?.content;
           }
         }
       });
@@ -135,7 +135,7 @@ class ChatPoll extends HookConsumerWidget {
                     .toList(),
               ),
             ),
-            if (poll.value!.submitter!.userId == userService.userId && onDelete != null)
+            if (poll.value!.submitter == userService.userId && onDelete != null)
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

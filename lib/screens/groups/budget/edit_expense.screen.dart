@@ -35,14 +35,14 @@ class EditExpense extends HookConsumerWidget {
         useState(expense?.description ?? AppLocalizations.of(context).translate("groups.budget.expenses.title"));
     final price = useState(expense?.total ?? 0.0);
     final paidBy = useState(
-        expense != null ? group.members?.firstWhere((m) => m.id == expense?.purchaser?.userId) : group.members?.first);
+        expense != null ? group.members?.firstWhere((m) => m.id == expense?.purchaserId) : group.members?.first);
     final paidFor = useState(expense != null && expense!.indebtedUsers != null
         ? expense!.indebtedUsers!
                 .map((e) => MemberExpense(
-                    member: group.members!.firstWhere((m) => m.id == e.userModel?.userId), amount: e.amountToPay))
+                    member: group.members!.firstWhere((m) => m.id == e.userId), amount: e.amountToPay))
                 .toList() +
             group.members!
-                .where((m) => !expense!.indebtedUsers!.any((user) => user.userModel?.userId == m.id))
+                .where((m) => !expense!.indebtedUsers!.any((user) => user.userId == m.id))
                 .map((e) => MemberExpense(member: e, selected: false))
                 .toList()
         : group.members?.map((e) => MemberExpense(member: e, weight: 1)).toList())

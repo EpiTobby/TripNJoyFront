@@ -53,20 +53,20 @@ class CodegenService extends HttpService {
   void initInterceptors() {}
 
   @override
-  Future<UserModel?> loadUser() async {
-    final response = await api.usersMeGet();
+  Future<UserResponse?> loadUser() async {
+    final response = await api.usersUsersMeGet();
     return response.body;
   }
 
   @override
   Future<LoginResponse?> login(String email, String password) async {
-    final response = await api.authLoginPost(body: LoginRequest(password: password, username: email));
+    final response = await api.usersAuthLoginPost(body: LoginRequest(password: password, username: email));
     return response.body;
   }
 
   @override
   Future<AuthTokenResponse?> signup(SignupCredentials data) async {
-    final response = await api.authRegisterPost(
+    final response = await api.usersAuthRegisterPost(
         body: UserCreationRequest(
       gender: data.gender,
       email: data.email,
@@ -83,14 +83,14 @@ class CodegenService extends HttpService {
 
   @override
   Future<bool> deleteUser(int id, DeleteUserRequest deleteUserRequest) async {
-    final response = await api.usersIdDelete(body: deleteUserRequest, id: id);
+    final response = await api.usersUsersDelete(body: deleteUserRequest, userId: id);
 
     return response.isSuccessful;
   }
 
   @override
   Future<bool> verifyAccount(int id, String code) async {
-    final response = await api.authIdConfirmationPatch(body: ConfirmationCodeModel(value: code), id: id);
+    final response = await api.usersAuthIdConfirmationPatch(body: ConfirmationCodeModel(value: code), id: id);
     return response.isSuccessful;
   }
 
@@ -111,64 +111,64 @@ class CodegenService extends HttpService {
 
   @override
   Future<void> forgotPassword(String email) async {
-    await api.authForgotPasswordPost(body: ForgotPasswordRequest(email: email));
+    await api.usersAuthForgotPasswordPost(body: ForgotPasswordRequest(email: email));
   }
 
   @override
   Future<UserIdResponse?> resetPassword(String email, String code, String password) async {
-    final response = await api.authValidationPasswordPatch(
+    final response = await api.usersAuthValidationPasswordPatch(
         body: ValidateCodePasswordRequest(email: email, newPassword: password, value: code));
     return response.body;
   }
 
   @override
   Future<void> resendVerificationCode(int id) async {
-    await api.authIdResendPost(id: id);
+    await api.usersAuthIdResendPost(id: id);
   }
 
   @override
   Future<void> updateUser(int id, UserUpdateRequest updateRequest) async {
-    await api.usersIdUpdatePatch(id: id, body: updateRequest);
+    await api.usersUsersUpdatePatch(userId: id, body: updateRequest);
   }
 
   @override
   Future<LoginResponse?> updateEmail(int id, UpdateEmailRequest updateEmailRequest) async {
-    final response = await api.authIdEmailPatch(id: id, body: updateEmailRequest);
+    final response = await api.usersAuthIdEmailPatch(id: id, body: updateEmailRequest);
     return response.body;
   }
 
   @override
   Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest) async {
-    await api.authIdPasswordPatch(id: id, body: updatePasswordRequest);
+    await api.usersAuthIdPasswordPatch(id: id, body: updatePasswordRequest);
   }
 
   @override
   Future<ProfileModel?> createProfile(int id, ProfileCreationRequest profile) async {
-    final response = await api.idProfilesPost(id: id, body: profile);
+    final response = await api.profilesProfilesPost(userId: id, body: profile);
 
     return response.body;
   }
 
   @override
   Future<void> deleteProfile(int id, int profileId) async {
-    await api.idProfilesProfileDelete(id: id, profile: profileId);
+    await api.profilesProfilesProfileDelete(id: id, profile: profileId);
   }
 
   @override
   Future<List<ProfileModel>?> getUserProfiles(int id) async {
-    final response = await api.idProfilesGet(id: id);
+    final response = await api.profilesProfilesGet(userId: id);
 
     return response.body;
   }
 
   @override
   Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest) async {
-    await api.idProfilesProfileUpdatePatch(id: id, profile: profileId, body: profileUpdateRequest);
+    await api.profilesProfilesProfileUpdatePatch(id: id, profile: profileId, body: profileUpdateRequest);
   }
 
   @override
   Future<GoogleAuthResponse?> signInUpGoogle(SignInUpGoogleCredentials data) async {
-    final response = await api.authGooglePost(
+    final response = await api.usersAuthGooglePost(
         body: GoogleRequest(
             email: data.email,
             firstname: data.firstname,
@@ -182,62 +182,62 @@ class CodegenService extends HttpService {
 
   @override
   Future<void> addUserToPrivateGroup(int groupId, String email) async {
-    await api.groupsPrivateGroupUserPost(group: groupId, body: ModelWithEmail(email: email));
+    await api.groupsGroupsPrivateGroupUserPost(group: groupId, body: ModelWithEmail(email: email));
   }
 
   @override
-  Future<GroupModel?> createPrivateGroup(int id, CreatePrivateGroupRequest createPrivateGroupRequest) async {
-    final response = await api.groupsPrivateIdPost(id: id, body: createPrivateGroupRequest);
+  Future<GroupResponse?> createPrivateGroup(int id, CreatePrivateGroupRequest createPrivateGroupRequest) async {
+    final response = await api.groupsGroupsPrivatePost(id: id, body: createPrivateGroupRequest);
 
     return response.body;
   }
 
   @override
   Future<void> deletePrivateGroup(int groupId) async {
-    await api.groupsPrivateGroupDelete(group: groupId);
+    await api.groupsGroupsPrivateGroupDelete(group: groupId);
   }
 
   @override
-  Future<List<GroupModel>?> getGroups(int id) async {
-    final response = await api.groupsIdGet(id: id);
+  Future<List<GroupResponse>?> getGroups(int id) async {
+    final response = await api.groupsGroupsIdGet(id: id);
 
     return response.body;
   }
 
   @override
-  Future<List<GroupModel>?> getUserInvitesGroups(int id) async {
-    final response = await api.groupsInvitesIdGet(id: id);
+  Future<List<GroupResponse>?> getUserInvitesGroups(int id) async {
+    final response = await api.groupsGroupsInvitesIdGet(id: id);
     return response.body;
   }
 
   @override
   Future<void> declineGroupInvitation(int groupId, int userId) async {
-    await api.groupsGroupDeclineIdPatch(group: groupId, id: userId);
+    await api.groupsGroupsGroupDeclinePatch(group: groupId, userId: userId);
   }
 
   @override
   Future<void> joinPrivateGroup(int groupId, int userId) async {
-    await api.groupsGroupJoinIdPatch(group: groupId, id: userId);
+    await api.groupsGroupsPrivateGroupJoinPatch(group: groupId, userId: userId, body: null);
   }
 
   @override
   Future<void> leaveGroup(int groupId, int userId) async {
-    await api.groupsGroupUserIdDelete(group: groupId, id: userId);
+    await api.groupsGroupsGroupUserDelete(group: groupId, userId: userId);
   }
 
   @override
   Future<void> removeUserFromPrivateGroup(int groupId, int userId) async {
-    await api.groupsPrivateGroupUserIdDelete(group: groupId, id: userId);
+    await api.groupsGroupsPrivateGroupUserIdDelete(group: groupId, id: userId);
   }
 
   @override
   Future<void> updatePrivateGroup(int groupId, UpdatePrivateGroupRequest groupUpdateRequest) async {
-    await api.groupsPrivateGroupPatch(group: groupId, body: groupUpdateRequest);
+    await api.groupsGroupsPrivateGroupPatch(group: groupId, body: groupUpdateRequest);
   }
 
   @override
   Future<void> updatePublicGroup(int groupId, UpdatePublicGroupRequest groupUpdateRequest) async {
-    await api.groupsGroupPatch(group: groupId, body: groupUpdateRequest);
+    await api.groupsGroupsGroupPatch(group: groupId, body: groupUpdateRequest);
   }
 
   @override
@@ -245,38 +245,38 @@ class CodegenService extends HttpService {
 
   @override
   Future<List<ChannelModel>> getChannels(int groupId) async {
-    final response = await api.channelsGroupGet(group: groupId);
+    final response = await api.chatChannelsGroupGet(group: groupId);
 
     return response.body != null ? response.body! : [];
   }
 
   @override
   Future<ChannelModel?> createChannel(int groupId, CreateChannelRequest createChannelRequest) async {
-    final response = await api.channelsGroupPost(group: groupId, body: createChannelRequest);
+    final response = await api.chatChannelsGroupPost(group: groupId, body: createChannelRequest);
     return response.body;
   }
 
   @override
   Future<ChannelModel?> updateChannel(num channelId, UpdateChannelRequest updateChannelRequest) async {
-    final response = await api.channelsIdPatch(id: channelId, body: updateChannelRequest);
+    final response = await api.chatChannelsIdPatch(id: channelId, body: updateChannelRequest);
     return response.body;
   }
 
   @override
   Future<void> deleteChannel(num channelId) async {
-    await api.channelsIdDelete(id: channelId);
+    await api.chatChannelsIdDelete(id: channelId);
   }
 
   @override
   Future<MatchMakingResult?> getMatchmakingResult(int taskId) async {
-    final response = await api.matchmakingTaskIdGet(taskId: taskId);
+    final response = await api.profilesMatchmakingTaskIdGet(taskId: taskId);
 
     return response.body;
   }
 
   @override
   Future<MatchMakingResponse?> startMatchmaking(int userId, ProfileCreationRequest profile) async {
-    final response = await api.matchmakingPost(userId: userId, body: profile);
+    final response = await api.profilesMatchmakingPost(userId: userId, body: profile);
 
     try {
       return MatchMakingResponse(taskId: response.body!['taskId'], errorMessage: response.body!['errorMessage']);
@@ -287,7 +287,7 @@ class CodegenService extends HttpService {
 
   @override
   Future<MatchMakingResponse?> retryMatchmaking(int userId, int profileId) async {
-    final response = await api.matchmakingPatch(userId: userId, profileId: profileId);
+    final response = await api.profilesMatchmakingPatch(userId: userId, profileId: profileId);
 
     try {
       return MatchMakingResponse(taskId: response.body!['taskId'], errorMessage: response.body!['errorMessage']);
@@ -321,58 +321,58 @@ class CodegenService extends HttpService {
 
   @override
   Future<List<MessageResponse>> getChannelMessages(num channelId, int page) async {
-    final response = await api.chatChannelIdGet(channelId: channelId, page: page);
+    final response = await api.chatChatChannelIdGet(channelId: channelId, page: page);
     return response.body!;
   }
 
   @override
   Future<List<MessageResponse>> getPinnedMessages(num channelId) async {
-    final response = await api.chatChannelIdPinnedGet(channelId: channelId);
+    final response = await api.chatChatChannelIdPinnedGet(channelId: channelId);
     return response.body!;
   }
 
   @override
   Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId) async {
-    final response = await api.groupsGroupIdUsersUserIdGet(groupId: groupId, userId: userId);
+    final response = await api.groupsGroupsGroupIdUsersUserIdGet(groupId: groupId, userId: userId);
 
     return response.body;
   }
 
   @override
   Future<MessageResponse?> togglePinnedMessage(num messageId, bool pinned) async {
-    final response = await api.chatMessageIdPinnedPatch(messageId: messageId, pin: pinned);
+    final response = await api.chatChatMessageIdPinnedPatch(messageId: messageId, pin: pinned);
     return response.body;
   }
 
   @override
-  Future<List<ActivityModel>?> getActivities(int groupId) async {
-    final response = await api.groupsGroupIdPlanningGet(groupId: groupId);
+  Future<List<ActivityResponse>?> getActivities(int groupId) async {
+    final response = await api.planningGroupsGroupIdPlanningGet(groupId: groupId);
     return response.body;
   }
 
   @override
-  Future<ActivityModel?> createActivity(int groupId, CreateActivityRequest request) async {
-    final response = await api.groupsGroupIdPlanningPost(groupId: groupId, body: request);
+  Future<ActivityResponse?> createActivity(int groupId, CreateActivityRequest request) async {
+    final response = await api.planningGroupsGroupIdPlanningPost(groupId: groupId, body: request);
     return response.body;
   }
 
   @override
   Future<void> deleteActivity(int groupId, num activityId) async {
-    await api.groupsGroupIdPlanningActivityIdDelete(groupId: groupId, activityId: activityId);
+    await api.planningGroupsGroupIdPlanningActivityIdDelete(groupId: groupId, activityId: activityId);
   }
 
   @override
-  Future<ActivityModel?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) async {
+  Future<ActivityResponse?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) async {
     final response =
-        await api.groupsGroupIdPlanningActivityIdPatch(groupId: groupId, activityId: activityId, body: request);
+        await api.planningGroupsGroupIdPlanningActivityIdPatch(groupId: groupId, activityId: activityId, body: request);
     return response.body;
   }
 
   @override
   Future<bool> toggleActivityMember(int groupId, num activityId, num userId, bool join) async {
     final response = join
-        ? await api.groupsGroupIdPlanningActivityIdJoinPatch(groupId: groupId, activityId: activityId, userId: userId)
-        : await api.groupsGroupIdPlanningActivityIdLeavePatch(groupId: groupId, activityId: activityId, userId: userId);
+        ? await api.planningGroupsGroupIdPlanningActivityIdJoinPatch(groupId: groupId, activityId: activityId, userId: userId)
+        : await api.planningGroupsGroupIdPlanningActivityIdLeavePatch(groupId: groupId, activityId: activityId, userId: userId);
     return response.isSuccessful;
   }
 
@@ -389,84 +389,84 @@ class CodegenService extends HttpService {
   }
 
   @override
-  Future<List<ReportModel>?> getReports(int submitterId) async {
-    final response = await api.reportsIdGet(id: submitterId);
+  Future<List<ReportResponse>?> getReports(int submitterId) async {
+    final response = await api.reportsReportsIdGet(id: submitterId);
     return response.body;
   }
 
   @override
-  Future<ReportModel?> submitReport(SubmitReportRequest submitReportRequest) async {
-    final response = await api.reportsPost(body: submitReportRequest);
+  Future<ReportResponse?> submitReport(SubmitReportRequest submitReportRequest) async {
+    final response = await api.reportsReportsPost(body: submitReportRequest);
     return response.body;
   }
 
   @override
-  Future<ReportModel?> updateReport(int reportId, UpdateReportRequest updateReportRequest) async {
-    final response = await api.reportsIdPatch(id: reportId, body: updateReportRequest);
+  Future<ReportResponse?> updateReport(int reportId, UpdateReportRequest updateReportRequest) async {
+    final response = await api.reportsReportsIdPatch(id: reportId, body: updateReportRequest);
     return response.body;
   }
 
   @override
   Future<void> deleteReport(int reportId) async {
-    await api.reportsIdDelete(id: reportId);
+    await api.reportsReportsIdDelete(id: reportId);
   }
 
   @override
-  Future<List<RecommendationModel>?> getRecommendations(int reviewedUserId) async {
-    final response = await api.recommendationsIdGet(id: reviewedUserId);
+  Future<List<RecommendationResponse>?> getRecommendations(int reviewedUserId) async {
+    final response = await api.reportsRecommendationsIdGet(id: reviewedUserId);
     return response.body;
   }
 
   @override
-  Future<RecommendationModel?> submitRecommendation(SubmitRecommendationRequest request) async {
-    final response = await api.recommendationsPost(body: request);
+  Future<RecommendationResponse?> submitRecommendation(SubmitRecommendationRequest request) async {
+    final response = await api.reportsRecommendationsPost(body: request);
     return response.body;
   }
 
   @override
   Future<void> deleteRecommendation(int recommendationId) async {
-    await api.recommendationsIdDelete(id: recommendationId);
+    await api.reportsRecommendationsIdDelete(id: recommendationId);
   }
 
   @override
   Future<List<BalanceResponse>?> getBudgetBalance(int groupId) async {
-    final response = await api.expensesGroupBalancesGet(group: groupId);
+    final response = await api.expensesExpensesGroupBalancesGet(group: groupId);
     return response.body;
   }
 
   @override
   Future<ExpenseModel?> createExpense(int groupId, num? userId, ExpenseRequest body) async {
-    final response = await api.expensesGroupPurchaserUserPost(group: groupId, user: userId, body: body);
+    final response = await api.expensesExpensesGroupPurchaserUserPost(group: groupId, user: userId, body: body);
     return response.body;
   }
 
   @override
   Future<ExpenseModel?> updateExpense(int groupId, num? userId, num? expenseId, ExpenseRequest body) async {
-    final response = await api.expensesGroupIdExpenseIdPurchaserUserPut(
+    final response = await api.expensesExpensesGroupIdExpenseIdPurchaserUserPut(
         groupId: groupId, expenseId: expenseId, user: userId, body: body);
     return response.body;
   }
 
   @override
   Future<List<ExpenseModel>?> getExpenses(int groupId) async {
-    final response = await api.expensesGroupGet(group: groupId);
+    final response = await api.expensesExpensesGroupGet(group: groupId);
     return response.body;
   }
 
   @override
   Future<void> deleteExpense(int groupId, num? expenseId) async {
-    await api.expensesGroupIdExpenseIdDelete(groupId: groupId, expenseId: expenseId);
+    await api.expensesExpensesGroupIdExpenseIdDelete(groupId: groupId, expenseId: expenseId);
   }
 
   @override
   Future<List<MoneyDueResponse>?> getUserOwedMoney(int groupId, num? userId) async {
-    final response = await api.expensesGroupUserUserDebtsDueGet(group: groupId, user: userId);
+    final response = await api.expensesExpensesGroupUserUserDebtsDueGet(group: groupId, user: userId);
     return response.body;
   }
 
   @override
   Future<List<MoneyDueResponse>?> getUserDueMoney(int groupId, num? userId) async {
-    final response = await api.expensesGroupUserUserDebtsGet(group: groupId, user: userId);
+    final response = await api.expensesExpensesGroupUserUserDebtsGet(group: groupId, user: userId);
     return response.body;
   }
 
@@ -479,38 +479,38 @@ class CodegenService extends HttpService {
 
   @override
   Future<GroupMemoriesResponse?> addGroupMemory(int groupId, GroupMemoryRequest request) async {
-    final response = await api.groupsGroupIdMemoriesPost(groupId: groupId, body: request);
+    final response = await api.groupsGroupsGroupIdMemoriesPost(groupId: groupId, body: request);
     return response.body;
   }
 
   @override
   Future<GroupMemoriesResponse?> getGroupMemories(int groupId) async {
-    final response = await api.groupsGroupIdMemoriesGet(groupId: groupId);
+    final response = await api.groupsGroupsGroupIdMemoriesGet(groupId: groupId);
 
     return response.body;
   }
 
   @override
   Future<String?> getGroupQRCode(int groupId) async {
-    final response = await api.groupsPrivateGroupQrcodeGet(group: groupId);
+    final response = await api.groupsGroupsPrivateGroupQrcodeGet(group: groupId);
     return response.body;
   }
 
   @override
   Future<GroupInfoModel?> getGroupPublicInfoById(int groupId) async {
-    final response = await api.groupsInfoIdGet(id: groupId);
+    final response = await api.groupsGroupsInfoIdGet(id: groupId);
 
     return response.body;
   }
 
   @override
   Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId, JoinGroupWithoutInviteModel body) async {
-    await api.groupsPrivateGroupJoinIdPatch(group: groupId, id: userId, body: body);
+    await api.groupsGroupsPrivateGroupJoinPatch(group: groupId, id: userId, body: body);
   }
 
   @override
   Future<void> setUserFirebaseToken(int userId, String token) async {
-    await api.usersIdFirebasePatch(id: userId, token: token);
+    await api.usersUsersIdFirebasePatch(id: userId, token: token);
   }
 
   @override
@@ -549,14 +549,14 @@ class CodegenService extends HttpService {
 
   @override
   Future<SurveyModel?> getPoll(int pollId) async {
-    final response = await api.surveysIdGet(id: pollId);
+    final response = await api.chatSurveysIdGet(id: pollId);
 
     return response.body;
   }
 
   @override
   Future<void> singleChoiceVote(int pollId, int answerId) async {
-    await api.surveysVoteIdPost(
+    await api.chatSurveysVoteIdPost(
       id: pollId,
       body: VoteSurveyRequest(answerId: answerId),
     );
@@ -565,21 +565,21 @@ class CodegenService extends HttpService {
   @override
   Future<void> multipleChoiceVote(int pollId, int answerId, bool voted) async {
     if (voted) {
-      await api.surveysVoteIdPost(id: pollId, body: VoteSurveyRequest(answerId: answerId));
+      await api.chatSurveysVoteIdPost(id: pollId, body: VoteSurveyRequest(answerId: answerId));
     } else {
-      await api.surveysVoteIdDelete(id: answerId);
+      await api.chatSurveysVoteIdDelete(id: answerId);
     }
   }
 
   @override
   Future<SurveyModel?> addPoll(int channelId, PostSurveyRequest request) async {
-    final response = await api.surveysIdPost(id: channelId, body: request);
+    final response = await api.chatSurveysIdPost(id: channelId, body: request);
     return response.body;
   }
 
   @override
   Future<void> deletePoll(int pollId) async {
-    await api.surveysIdDelete(id: pollId);
+    await api.chatSurveysIdDelete(id: pollId);
   }
 
   @override

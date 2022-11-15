@@ -140,8 +140,8 @@ class GroupPlanning extends HookConsumerWidget {
         ),
       ),
       floatingActionButtonLocation:
-          group.state != GroupModelState.archived ? FloatingActionButtonLocation.endFloat : null,
-      floatingActionButton: group.state != GroupModelState.archived
+          group.state != GroupInfoModelState.archived ? FloatingActionButtonLocation.endFloat : null,
+      floatingActionButton: group.state != GroupInfoModelState.archived
           ? FloatingActionButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddActivity(groupId: groupId)));

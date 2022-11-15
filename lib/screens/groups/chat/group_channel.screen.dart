@@ -54,7 +54,7 @@ class GroupChannels extends HookConsumerWidget {
                     });
               },
             ),
-          if (group.state != GroupModelState.archived)
+          if (group.state != GroupInfoModelState.archived)
             Padding(
               padding: const EdgeInsets.only(right: 40),
               child: IconButton(

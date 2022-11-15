@@ -1,70 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-enum GroupModelState {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('OPEN')
-  open,
-  @JsonValue('CLOSED')
-  closed,
-  @JsonValue('ARCHIVED')
-  archived
-}
-
-const $GroupModelStateMap = {
-  GroupModelState.open: 'OPEN',
-  GroupModelState.closed: 'CLOSED',
-  GroupModelState.archived: 'ARCHIVED'
-};
-
-enum MemberModelGender {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('MALE')
-  male,
-  @JsonValue('FEMALE')
-  female,
-  @JsonValue('NOT_SPECIFIED')
-  notSpecified
-}
-
-const $MemberModelGenderMap = {
-  MemberModelGender.male: 'MALE',
-  MemberModelGender.female: 'FEMALE',
-  MemberModelGender.notSpecified: 'NOT_SPECIFIED'
-};
-
-enum UserModelGender {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('MALE')
-  male,
-  @JsonValue('FEMALE')
-  female,
-  @JsonValue('NOT_SPECIFIED')
-  notSpecified
-}
-
-const $UserModelGenderMap = {
-  UserModelGender.male: 'MALE',
-  UserModelGender.female: 'FEMALE',
-  UserModelGender.notSpecified: 'NOT_SPECIFIED'
-};
-
-enum UserModelRoles {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('DEFAULT')
-  $default,
-  @JsonValue('ADMIN')
-  admin
-}
-
-const $UserModelRolesMap = {
-  UserModelRoles.$default: 'DEFAULT',
-  UserModelRoles.admin: 'ADMIN'
-};
-
 enum ProfileCreationRequestDestinationTypes {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
@@ -227,6 +162,104 @@ const $ProfileCreationRequestSportMap = {
   ProfileCreationRequestSport.noPreference: 'NO_PREFERENCE'
 };
 
+enum GroupInfoModelState {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('OPEN')
+  open,
+  @JsonValue('CLOSED')
+  closed,
+  @JsonValue('ARCHIVED')
+  archived
+}
+
+const $GroupInfoModelStateMap = {
+  GroupInfoModelState.open: 'OPEN',
+  GroupInfoModelState.closed: 'CLOSED',
+  GroupInfoModelState.archived: 'ARCHIVED'
+};
+
+enum PlacesFromCoordinatesRequestCategories {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('ANTIQUES_SHOP')
+  antiquesShop,
+  @JsonValue('ARTS_CENTER')
+  artsCenter,
+  @JsonValue('ART_SHOP')
+  artShop,
+  @JsonValue('BAR_AND_PUB')
+  barAndPub,
+  @JsonValue('BEACH')
+  beach,
+  @JsonValue('BUS')
+  bus,
+  @JsonValue('CHANGE')
+  change,
+  @JsonValue('CHINESE_RESTAURANT')
+  chineseRestaurant,
+  @JsonValue('COFFEE_SHOP')
+  coffeeShop,
+  @JsonValue('ENTERTAINMENT')
+  entertainment,
+  @JsonValue('FAST_FOOD')
+  fastFood,
+  @JsonValue('FISH_AND_CHIPS_RESTAURANT')
+  fishAndChipsRestaurant,
+  @JsonValue('ITALIAN_RESTAURANT')
+  italianRestaurant,
+  @JsonValue('MUSEUM')
+  museum,
+  @JsonValue('PARKING')
+  parking,
+  @JsonValue('RESTAURANT')
+  restaurant,
+  @JsonValue('SEAFOOD_RESTAURANT')
+  seafoodRestaurant,
+  @JsonValue('SUPERMARKET')
+  supermarket,
+  @JsonValue('SWIMMING_POOL')
+  swimmingPool,
+  @JsonValue('SUBWAY')
+  subway,
+  @JsonValue('THEATRE')
+  theatre,
+  @JsonValue('TOURISM')
+  tourism,
+  @JsonValue('TRANSPORT')
+  transport
+}
+
+const $PlacesFromCoordinatesRequestCategoriesMap = {
+  PlacesFromCoordinatesRequestCategories.antiquesShop: 'ANTIQUES_SHOP',
+  PlacesFromCoordinatesRequestCategories.artsCenter: 'ARTS_CENTER',
+  PlacesFromCoordinatesRequestCategories.artShop: 'ART_SHOP',
+  PlacesFromCoordinatesRequestCategories.barAndPub: 'BAR_AND_PUB',
+  PlacesFromCoordinatesRequestCategories.beach: 'BEACH',
+  PlacesFromCoordinatesRequestCategories.bus: 'BUS',
+  PlacesFromCoordinatesRequestCategories.change: 'CHANGE',
+  PlacesFromCoordinatesRequestCategories.chineseRestaurant:
+      'CHINESE_RESTAURANT',
+  PlacesFromCoordinatesRequestCategories.coffeeShop: 'COFFEE_SHOP',
+  PlacesFromCoordinatesRequestCategories.entertainment: 'ENTERTAINMENT',
+  PlacesFromCoordinatesRequestCategories.fastFood: 'FAST_FOOD',
+  PlacesFromCoordinatesRequestCategories.fishAndChipsRestaurant:
+      'FISH_AND_CHIPS_RESTAURANT',
+  PlacesFromCoordinatesRequestCategories.italianRestaurant:
+      'ITALIAN_RESTAURANT',
+  PlacesFromCoordinatesRequestCategories.museum: 'MUSEUM',
+  PlacesFromCoordinatesRequestCategories.parking: 'PARKING',
+  PlacesFromCoordinatesRequestCategories.restaurant: 'RESTAURANT',
+  PlacesFromCoordinatesRequestCategories.seafoodRestaurant:
+      'SEAFOOD_RESTAURANT',
+  PlacesFromCoordinatesRequestCategories.supermarket: 'SUPERMARKET',
+  PlacesFromCoordinatesRequestCategories.swimmingPool: 'SWIMMING_POOL',
+  PlacesFromCoordinatesRequestCategories.subway: 'SUBWAY',
+  PlacesFromCoordinatesRequestCategories.theatre: 'THEATRE',
+  PlacesFromCoordinatesRequestCategories.tourism: 'TOURISM',
+  PlacesFromCoordinatesRequestCategories.transport: 'TRANSPORT'
+};
+
 enum ProfileModelDestinationTypes {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
@@ -386,167 +419,6 @@ const $ProfileModelSportMap = {
   ProfileModelSport.noPreference: 'NO_PREFERENCE'
 };
 
-enum PostSurveyRequestType$ {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('TEXT')
-  text,
-  @JsonValue('IMAGE')
-  image,
-  @JsonValue('FILE')
-  file,
-  @JsonValue('SURVEY')
-  survey
-}
-
-const $PostSurveyRequestType$Map = {
-  PostSurveyRequestType$.text: 'TEXT',
-  PostSurveyRequestType$.image: 'IMAGE',
-  PostSurveyRequestType$.file: 'FILE',
-  PostSurveyRequestType$.survey: 'SURVEY'
-};
-
-enum SurveyModelType$ {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('TEXT')
-  text,
-  @JsonValue('IMAGE')
-  image,
-  @JsonValue('FILE')
-  file,
-  @JsonValue('SURVEY')
-  survey
-}
-
-const $SurveyModelType$Map = {
-  SurveyModelType$.text: 'TEXT',
-  SurveyModelType$.image: 'IMAGE',
-  SurveyModelType$.file: 'FILE',
-  SurveyModelType$.survey: 'SURVEY'
-};
-
-enum SubmitReportRequestReason {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('REIMBURSEMENT_PROBLEM')
-  reimbursementProblem,
-  @JsonValue('INNAPROPRIATE_BEHAVIOR')
-  innapropriateBehavior,
-  @JsonValue('HYGIENE_PROBLEM')
-  hygieneProblem,
-  @JsonValue('OTHER')
-  other
-}
-
-const $SubmitReportRequestReasonMap = {
-  SubmitReportRequestReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
-  SubmitReportRequestReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
-  SubmitReportRequestReason.hygieneProblem: 'HYGIENE_PROBLEM',
-  SubmitReportRequestReason.other: 'OTHER'
-};
-
-enum ReportModelReason {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('REIMBURSEMENT_PROBLEM')
-  reimbursementProblem,
-  @JsonValue('INNAPROPRIATE_BEHAVIOR')
-  innapropriateBehavior,
-  @JsonValue('HYGIENE_PROBLEM')
-  hygieneProblem,
-  @JsonValue('OTHER')
-  other
-}
-
-const $ReportModelReasonMap = {
-  ReportModelReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
-  ReportModelReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
-  ReportModelReason.hygieneProblem: 'HYGIENE_PROBLEM',
-  ReportModelReason.other: 'OTHER'
-};
-
-enum PlacesFromCoordinatesRequestCategories {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('ANTIQUES_SHOP')
-  antiquesShop,
-  @JsonValue('ARTS_CENTER')
-  artsCenter,
-  @JsonValue('ART_SHOP')
-  artShop,
-  @JsonValue('BAR_AND_PUB')
-  barAndPub,
-  @JsonValue('BEACH')
-  beach,
-  @JsonValue('BUS')
-  bus,
-  @JsonValue('CHANGE')
-  change,
-  @JsonValue('CHINESE_RESTAURANT')
-  chineseRestaurant,
-  @JsonValue('COFFEE_SHOP')
-  coffeeShop,
-  @JsonValue('ENTERTAINMENT')
-  entertainment,
-  @JsonValue('FAST_FOOD')
-  fastFood,
-  @JsonValue('FISH_AND_CHIPS_RESTAURANT')
-  fishAndChipsRestaurant,
-  @JsonValue('ITALIAN_RESTAURANT')
-  italianRestaurant,
-  @JsonValue('MUSEUM')
-  museum,
-  @JsonValue('PARKING')
-  parking,
-  @JsonValue('RESTAURANT')
-  restaurant,
-  @JsonValue('SEAFOOD_RESTAURANT')
-  seafoodRestaurant,
-  @JsonValue('SUPERMARKET')
-  supermarket,
-  @JsonValue('SWIMMING_POOL')
-  swimmingPool,
-  @JsonValue('SUBWAY')
-  subway,
-  @JsonValue('THEATRE')
-  theatre,
-  @JsonValue('TOURISM')
-  tourism,
-  @JsonValue('TRANSPORT')
-  transport
-}
-
-const $PlacesFromCoordinatesRequestCategoriesMap = {
-  PlacesFromCoordinatesRequestCategories.antiquesShop: 'ANTIQUES_SHOP',
-  PlacesFromCoordinatesRequestCategories.artsCenter: 'ARTS_CENTER',
-  PlacesFromCoordinatesRequestCategories.artShop: 'ART_SHOP',
-  PlacesFromCoordinatesRequestCategories.barAndPub: 'BAR_AND_PUB',
-  PlacesFromCoordinatesRequestCategories.beach: 'BEACH',
-  PlacesFromCoordinatesRequestCategories.bus: 'BUS',
-  PlacesFromCoordinatesRequestCategories.change: 'CHANGE',
-  PlacesFromCoordinatesRequestCategories.chineseRestaurant:
-      'CHINESE_RESTAURANT',
-  PlacesFromCoordinatesRequestCategories.coffeeShop: 'COFFEE_SHOP',
-  PlacesFromCoordinatesRequestCategories.entertainment: 'ENTERTAINMENT',
-  PlacesFromCoordinatesRequestCategories.fastFood: 'FAST_FOOD',
-  PlacesFromCoordinatesRequestCategories.fishAndChipsRestaurant:
-      'FISH_AND_CHIPS_RESTAURANT',
-  PlacesFromCoordinatesRequestCategories.italianRestaurant:
-      'ITALIAN_RESTAURANT',
-  PlacesFromCoordinatesRequestCategories.museum: 'MUSEUM',
-  PlacesFromCoordinatesRequestCategories.parking: 'PARKING',
-  PlacesFromCoordinatesRequestCategories.restaurant: 'RESTAURANT',
-  PlacesFromCoordinatesRequestCategories.seafoodRestaurant:
-      'SEAFOOD_RESTAURANT',
-  PlacesFromCoordinatesRequestCategories.supermarket: 'SUPERMARKET',
-  PlacesFromCoordinatesRequestCategories.swimmingPool: 'SWIMMING_POOL',
-  PlacesFromCoordinatesRequestCategories.subway: 'SUBWAY',
-  PlacesFromCoordinatesRequestCategories.theatre: 'THEATRE',
-  PlacesFromCoordinatesRequestCategories.tourism: 'TOURISM',
-  PlacesFromCoordinatesRequestCategories.transport: 'TRANSPORT'
-};
-
 enum PlacesFromAddressRequestCategories {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
@@ -623,6 +495,228 @@ const $PlacesFromAddressRequestCategoriesMap = {
   PlacesFromAddressRequestCategories.theatre: 'THEATRE',
   PlacesFromAddressRequestCategories.tourism: 'TOURISM',
   PlacesFromAddressRequestCategories.transport: 'TRANSPORT'
+};
+
+enum MessageResponseType$ {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('TEXT')
+  text,
+  @JsonValue('IMAGE')
+  image,
+  @JsonValue('FILE')
+  file,
+  @JsonValue('SURVEY')
+  survey
+}
+
+const $MessageResponseType$Map = {
+  MessageResponseType$.text: 'TEXT',
+  MessageResponseType$.image: 'IMAGE',
+  MessageResponseType$.file: 'FILE',
+  MessageResponseType$.survey: 'SURVEY'
+};
+
+enum UpdatePrivateGroupRequestState {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('OPEN')
+  open,
+  @JsonValue('CLOSED')
+  closed,
+  @JsonValue('ARCHIVED')
+  archived
+}
+
+const $UpdatePrivateGroupRequestStateMap = {
+  UpdatePrivateGroupRequestState.open: 'OPEN',
+  UpdatePrivateGroupRequestState.closed: 'CLOSED',
+  UpdatePrivateGroupRequestState.archived: 'ARCHIVED'
+};
+
+enum UpdateReportRequestReason {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('REIMBURSEMENT_PROBLEM')
+  reimbursementProblem,
+  @JsonValue('INNAPROPRIATE_BEHAVIOR')
+  innapropriateBehavior,
+  @JsonValue('HYGIENE_PROBLEM')
+  hygieneProblem,
+  @JsonValue('OTHER')
+  other
+}
+
+const $UpdateReportRequestReasonMap = {
+  UpdateReportRequestReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
+  UpdateReportRequestReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
+  UpdateReportRequestReason.hygieneProblem: 'HYGIENE_PROBLEM',
+  UpdateReportRequestReason.other: 'OTHER'
+};
+
+enum PostSurveyRequestType$ {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('TEXT')
+  text,
+  @JsonValue('IMAGE')
+  image,
+  @JsonValue('FILE')
+  file,
+  @JsonValue('SURVEY')
+  survey
+}
+
+const $PostSurveyRequestType$Map = {
+  PostSurveyRequestType$.text: 'TEXT',
+  PostSurveyRequestType$.image: 'IMAGE',
+  PostSurveyRequestType$.file: 'FILE',
+  PostSurveyRequestType$.survey: 'SURVEY'
+};
+
+enum UserModelGender {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('MALE')
+  male,
+  @JsonValue('FEMALE')
+  female,
+  @JsonValue('NOT_SPECIFIED')
+  notSpecified
+}
+
+const $UserModelGenderMap = {
+  UserModelGender.male: 'MALE',
+  UserModelGender.female: 'FEMALE',
+  UserModelGender.notSpecified: 'NOT_SPECIFIED'
+};
+
+enum UserModelRoles {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('DEFAULT')
+  $default,
+  @JsonValue('ADMIN')
+  admin
+}
+
+const $UserModelRolesMap = {
+  UserModelRoles.$default: 'DEFAULT',
+  UserModelRoles.admin: 'ADMIN'
+};
+
+enum ReportResponseReason {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('REIMBURSEMENT_PROBLEM')
+  reimbursementProblem,
+  @JsonValue('INNAPROPRIATE_BEHAVIOR')
+  innapropriateBehavior,
+  @JsonValue('HYGIENE_PROBLEM')
+  hygieneProblem,
+  @JsonValue('OTHER')
+  other
+}
+
+const $ReportResponseReasonMap = {
+  ReportResponseReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
+  ReportResponseReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
+  ReportResponseReason.hygieneProblem: 'HYGIENE_PROBLEM',
+  ReportResponseReason.other: 'OTHER'
+};
+
+enum MatchMakingResultType$ {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('CREATED')
+  created,
+  @JsonValue('JOINED')
+  joined,
+  @JsonValue('WAITING')
+  waiting,
+  @JsonValue('SEARCHING')
+  searching
+}
+
+const $MatchMakingResultType$Map = {
+  MatchMakingResultType$.created: 'CREATED',
+  MatchMakingResultType$.joined: 'JOINED',
+  MatchMakingResultType$.waiting: 'WAITING',
+  MatchMakingResultType$.searching: 'SEARCHING'
+};
+
+enum SubmitReportRequestReason {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('REIMBURSEMENT_PROBLEM')
+  reimbursementProblem,
+  @JsonValue('INNAPROPRIATE_BEHAVIOR')
+  innapropriateBehavior,
+  @JsonValue('HYGIENE_PROBLEM')
+  hygieneProblem,
+  @JsonValue('OTHER')
+  other
+}
+
+const $SubmitReportRequestReasonMap = {
+  SubmitReportRequestReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
+  SubmitReportRequestReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
+  SubmitReportRequestReason.hygieneProblem: 'HYGIENE_PROBLEM',
+  SubmitReportRequestReason.other: 'OTHER'
+};
+
+enum GroupResponseState {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('OPEN')
+  open,
+  @JsonValue('CLOSED')
+  closed,
+  @JsonValue('ARCHIVED')
+  archived
+}
+
+const $GroupResponseStateMap = {
+  GroupResponseState.open: 'OPEN',
+  GroupResponseState.closed: 'CLOSED',
+  GroupResponseState.archived: 'ARCHIVED'
+};
+
+enum UserResponseGender {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('MALE')
+  male,
+  @JsonValue('FEMALE')
+  female,
+  @JsonValue('NOT_SPECIFIED')
+  notSpecified
+}
+
+const $UserResponseGenderMap = {
+  UserResponseGender.male: 'MALE',
+  UserResponseGender.female: 'FEMALE',
+  UserResponseGender.notSpecified: 'NOT_SPECIFIED'
+};
+
+enum SurveyModelType$ {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('TEXT')
+  text,
+  @JsonValue('IMAGE')
+  image,
+  @JsonValue('FILE')
+  file,
+  @JsonValue('SURVEY')
+  survey
+}
+
+const $SurveyModelType$Map = {
+  SurveyModelType$.text: 'TEXT',
+  SurveyModelType$.image: 'IMAGE',
+  SurveyModelType$.file: 'FILE',
+  SurveyModelType$.survey: 'SURVEY'
 };
 
 enum ProfileUpdateRequestDestinationTypes {
@@ -783,98 +877,4 @@ const $ProfileUpdateRequestSportMap = {
   ProfileUpdateRequestSport.yes: 'YES',
   ProfileUpdateRequestSport.no: 'NO',
   ProfileUpdateRequestSport.noPreference: 'NO_PREFERENCE'
-};
-
-enum UpdateReportRequestReason {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('REIMBURSEMENT_PROBLEM')
-  reimbursementProblem,
-  @JsonValue('INNAPROPRIATE_BEHAVIOR')
-  innapropriateBehavior,
-  @JsonValue('HYGIENE_PROBLEM')
-  hygieneProblem,
-  @JsonValue('OTHER')
-  other
-}
-
-const $UpdateReportRequestReasonMap = {
-  UpdateReportRequestReason.reimbursementProblem: 'REIMBURSEMENT_PROBLEM',
-  UpdateReportRequestReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
-  UpdateReportRequestReason.hygieneProblem: 'HYGIENE_PROBLEM',
-  UpdateReportRequestReason.other: 'OTHER'
-};
-
-enum UpdatePrivateGroupRequestState {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('OPEN')
-  open,
-  @JsonValue('CLOSED')
-  closed,
-  @JsonValue('ARCHIVED')
-  archived
-}
-
-const $UpdatePrivateGroupRequestStateMap = {
-  UpdatePrivateGroupRequestState.open: 'OPEN',
-  UpdatePrivateGroupRequestState.closed: 'CLOSED',
-  UpdatePrivateGroupRequestState.archived: 'ARCHIVED'
-};
-
-enum MessageResponseType$ {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('TEXT')
-  text,
-  @JsonValue('IMAGE')
-  image,
-  @JsonValue('FILE')
-  file,
-  @JsonValue('SURVEY')
-  survey
-}
-
-const $MessageResponseType$Map = {
-  MessageResponseType$.text: 'TEXT',
-  MessageResponseType$.image: 'IMAGE',
-  MessageResponseType$.file: 'FILE',
-  MessageResponseType$.survey: 'SURVEY'
-};
-
-enum MatchMakingResultType$ {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('CREATED')
-  created,
-  @JsonValue('JOINED')
-  joined,
-  @JsonValue('WAITING')
-  waiting,
-  @JsonValue('SEARCHING')
-  searching
-}
-
-const $MatchMakingResultType$Map = {
-  MatchMakingResultType$.created: 'CREATED',
-  MatchMakingResultType$.joined: 'JOINED',
-  MatchMakingResultType$.waiting: 'WAITING',
-  MatchMakingResultType$.searching: 'SEARCHING'
-};
-
-enum GroupInfoModelState {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('OPEN')
-  open,
-  @JsonValue('CLOSED')
-  closed,
-  @JsonValue('ARCHIVED')
-  archived
-}
-
-const $GroupInfoModelStateMap = {
-  GroupInfoModelState.open: 'OPEN',
-  GroupInfoModelState.closed: 'CLOSED',
-  GroupInfoModelState.archived: 'ARCHIVED'
 };

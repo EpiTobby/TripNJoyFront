@@ -28,12 +28,12 @@ class _GroupsPageState extends ConsumerState<GroupsPage> with SingleTickerProvid
     final groups = ref.watch(groupProvider).groups;
     final groupViewModel = ref.watch(groupProvider);
 
-    final openGroups = groups.where((group) => group.state! != GroupModelState.archived).toList();
-    final archivedGroups = groups.where((group) => group.state! == GroupModelState.archived).toList();
+    final openGroups = groups.where((group) => group.state! != GroupInfoModelState.archived).toList();
+    final archivedGroups = groups.where((group) => group.state! == GroupInfoModelState.archived).toList();
 
     final searchText = useState('');
-    final searchedOpenGroups = useState<List<GroupModel>>([]);
-    final searchedArchivedGroups = useState<List<GroupModel>>([]);
+    final searchedOpenGroups = useState<List<GroupResponse>>([]);
+    final searchedArchivedGroups = useState<List<GroupResponse>>([]);
 
     return Scaffold(
       appBar: AppBar(

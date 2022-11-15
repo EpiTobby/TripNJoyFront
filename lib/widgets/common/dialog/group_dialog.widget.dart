@@ -13,7 +13,7 @@ import 'package:trip_n_joy_front/widgets/common/snackbar.widget.dart';
 class GroupDialog extends StatefulHookWidget {
   const GroupDialog({Key? key, this.initialValue, this.onConfirm}) : super(key: key);
 
-  final GroupModel? initialValue;
+  final GroupResponse? initialValue;
   final Function? onConfirm;
 
   @override

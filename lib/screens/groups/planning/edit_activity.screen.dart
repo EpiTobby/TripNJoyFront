@@ -65,7 +65,7 @@ class EditActivity extends HookConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
         actions: [
-          if (group.state != GroupModelState.archived)
+          if (group.state != GroupInfoModelState.archived)
             IconButton(
               splashRadius: 16,
               icon: const Icon(Icons.check),
@@ -126,7 +126,7 @@ class EditActivity extends HookConsumerWidget {
                               size: 48,
                               color: Theme.of(context).colorScheme.onBackground,
                             ),
-                            onTap: group.state != GroupModelState.archived
+                            onTap: group.state != GroupInfoModelState.archived
                                 ? () async {
                                     IconData? selectedIcon = await FlutterIconPicker.showIconPicker(
                                       context,
@@ -145,7 +145,7 @@ class EditActivity extends HookConsumerWidget {
                               backgroundColor: color.value,
                               radius: 24,
                             ),
-                            onTap: group.state != GroupModelState.archived
+                            onTap: group.state != GroupInfoModelState.archived
                                 ? () {
                                     showBarModalBottomSheet(
                                       context: context,
@@ -174,7 +174,7 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.name.title"),
                       child: LayoutItemValue(
-                        editable: group.state != GroupModelState.archived,
+                        editable: group.state != GroupInfoModelState.archived,
                         value: name.value,
                         onPressed: () {
                           showBarModalBottomSheet(
@@ -198,7 +198,7 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.location.title"),
                       child: LayoutItemValue(
-                        editable: group.state != GroupModelState.archived,
+                        editable: group.state != GroupInfoModelState.archived,
                         value: location.value,
                         onPressed: () {
                           showBarModalBottomSheet(
@@ -222,7 +222,7 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.begin.title"),
                       child: LayoutItemValue(
-                        editable: group.state != GroupModelState.archived,
+                        editable: group.state != GroupInfoModelState.archived,
                         value: DateFormat("HH:mm - dd/MM/yyyy").format(startDate.value),
                         onPressed: () {
                           showBarModalBottomSheet(
@@ -244,7 +244,7 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.end.title"),
                       child: LayoutItemValue(
-                        editable: group.state != GroupModelState.archived,
+                        editable: group.state != GroupInfoModelState.archived,
                         value: DateFormat("HH:mm - dd/MM/yyyy").format(endDate.value),
                         onPressed: () {
                           showBarModalBottomSheet(
@@ -265,7 +265,7 @@ class EditActivity extends HookConsumerWidget {
                     LayoutItem(
                       title: AppLocalizations.of(context).translate("groups.planning.activity.edit.description.title"),
                       child: LayoutItemValue(
-                        editable: group.state != GroupModelState.archived,
+                        editable: group.state != GroupInfoModelState.archived,
                         value: description.value,
                         multiline: true,
                         fontSize: 20,
@@ -305,7 +305,7 @@ class EditActivity extends HookConsumerWidget {
                                           avatarUrl: MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
                                           isSelected:
                                               participants.value.where((member) => member.id == e.id).isNotEmpty,
-                                          onTap: group.state != GroupModelState.archived
+                                          onTap: group.state != GroupInfoModelState.archived
                                               ? (value) {
                                                   if (value) {
                                                     participants.value = [
@@ -331,7 +331,7 @@ class EditActivity extends HookConsumerWidget {
                           ),
                         ),
                       ),
-                    if (!draft && group.state != GroupModelState.archived)
+                    if (!draft && group.state != GroupInfoModelState.archived)
                       LayoutItem(
                         card: true,
                         cardVariant: true,

@@ -39,14 +39,14 @@ class GroupBudget extends HookConsumerWidget {
             },
             splashRadius: 16,
           ),
-          if (group.state != GroupModelState.archived)
+          if (group.state != GroupInfoModelState.archived)
             IconButton(
                 icon: Icon(Icons.camera_alt, color: Theme.of(context).colorScheme.onBackground),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (_) => GroupScanReceipt(groupId: groupId)));
                 },
                 splashRadius: 16),
-          if (group.state != GroupModelState.archived)
+          if (group.state != GroupInfoModelState.archived)
             IconButton(
               icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onBackground),
               onPressed: () {

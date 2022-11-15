@@ -36,7 +36,7 @@ class MatchmakingViewModel extends ChangeNotifier {
   List<CardModel> cards = [];
   int index = 0;
   MatchmakingStatus status = MatchmakingStatus.CREATE_PROFILE;
-  GroupModel? groupFound;
+  GroupResponse? groupFound;
 
   Map<String, dynamic> profileCreationRequest = {};
 
@@ -54,7 +54,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           return;
         }
 
-        groupFound = matchmakingResult.group;
+        groupFound = matchmakingResult.groupId;
         updateMatchmakingStatus(matchmakingResult.type!);
       }
     }

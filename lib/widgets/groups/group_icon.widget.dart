@@ -41,7 +41,7 @@ class GroupIcon extends HookConsumerWidget {
             ),
           CircleAvatar(
               radius: radius,
-              backgroundColor: group.state! != GroupModelState.archived
+              backgroundColor: group.state! != GroupInfoModelState.archived
                   ? Theme.of(context).colorScheme.surface
                   : Theme.of(context).disabledColor.withOpacity(0.1),
               backgroundImage: NetworkImage(MinioService.getImageUrl(group.picture, DEFAULT_URL.GROUP))),

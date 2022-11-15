@@ -20,9 +20,9 @@ class MockService extends HttpService {
   void initInterceptors() {}
 
   @override
-  Future<UserModel?> loadUser() async {
+  Future<UserResponse?> loadUser() async {
     return Future.delayed(const Duration(seconds: 1), () {
-      return UserModel(
+      return UserResponse(
           firstname: "Tony",
           lastname: "Heng",
           email: "tony.heng@epita.fr",
@@ -132,7 +132,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<GroupModel> createPrivateGroup(int id, CreatePrivateGroupRequest createPrivateGroupRequest) {
+  Future<GroupResponse> createPrivateGroup(int id, CreatePrivateGroupRequest createPrivateGroupRequest) {
     // TODO: implement createPrivateGroup
     throw UnimplementedError();
   }
@@ -144,12 +144,12 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<List<GroupModel>?> getGroups(int id) {
+  Future<List<GroupResponse>?> getGroups(int id) {
     return Future.delayed(const Duration(seconds: 1), () {
       return [
-        GroupModel(
+        GroupResponse(
             id: 1,
-            state: GroupModelState.closed,
+            state: GroupResponseState.closed,
             name: "A very long title that should be truncated in the appbar",
             members: [
               MemberModel(firstname: "tony", lastname: "stark"),
@@ -161,12 +161,12 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<List<GroupModel>?> getUserInvitesGroups(int id) async {
+  Future<List<GroupResponse>?> getUserInvitesGroups(int id) async {
     return Future.delayed(const Duration(seconds: 1), () {
       return [
-        GroupModel(
+        GroupResponse(
             id: 1,
-            state: GroupModelState.closed,
+            state: GroupResponseState.closed,
             name: "A very long title that should be truncated in the appbar",
             members: [
               MemberModel(firstname: "tony", lastname: "stark"),
@@ -245,17 +245,9 @@ class MockService extends HttpService {
 
   @override
   Future<MatchMakingResult?> getMatchmakingResult(int taskId) {
-    return Future.value(MatchMakingResult(
-        group: GroupModel(
-            id: 1,
-            state: GroupModelState.closed,
-            name: "A very long title that should be truncated in the appbar",
-            members: [
-              MemberModel(firstname: "tony", lastname: "stark"),
-              MemberModel(firstname: "steve", lastname: "rogers")
-            ],
-            picture: "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png"),
-        type: MatchMakingResultType$.joined));
+    return Future.value(
+      MatchMakingResult(groupId: 1, type: MatchMakingResultType$.joined),
+    );
   }
 
   @override
@@ -377,11 +369,11 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<List<ActivityModel>?> getActivities(int groupId) {
+  Future<List<ActivityResponse>?> getActivities(int groupId) {
     return Future.delayed(
       const Duration(milliseconds: 500),
       () => [
-        ActivityModel(
+        ActivityResponse(
           id: 1,
           icon: Icons.airplane_ticket.codePoint.toString(),
           name: "Flight Departure",
@@ -390,13 +382,9 @@ class MockService extends HttpService {
           endDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
           color: ActivityColors.blue.toString(),
           description: "Go to Terminal 1, take the first flight to CDG, then take the second flight to JFK",
-          participants: [
-            GroupMemberModel(userId: 1, firstname: "Tony", lastname: "Heng", profilePicture: DEFAULT_AVATAR_URL),
-            GroupMemberModel(userId: 2, firstname: "Yanis", lastname: "Chaabane", profilePicture: DEFAULT_AVATAR_URL),
-            GroupMemberModel(userId: 3, firstname: "Gabriels", lastname: "Raynik", profilePicture: DEFAULT_AVATAR_URL),
-          ],
+          participants: [1, 2, 3],
         ),
-        ActivityModel(
+        ActivityResponse(
           id: 2,
           icon: Icons.beach_access.codePoint.toString(),
           name: "Beach Time !",
@@ -405,12 +393,9 @@ class MockService extends HttpService {
           endDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
           color: ActivityColors.turquoise.toString(),
           description: "Chill and swim at the beach",
-          participants: [
-            GroupMemberModel(userId: 1, firstname: "Tony", lastname: "Heng", profilePicture: DEFAULT_AVATAR_URL),
-            GroupMemberModel(userId: 2, firstname: "Yanis", lastname: "Chaabane", profilePicture: DEFAULT_AVATAR_URL),
-          ],
+          participants: [1, 2],
         ),
-        ActivityModel(
+        ActivityResponse(
           id: 1,
           icon: Icons.airplane_ticket.codePoint.toString(),
           name: "Flight Return",
@@ -419,20 +404,16 @@ class MockService extends HttpService {
           endDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
           color: ActivityColors.blue.toString(),
           description: "Go to Terminal 1, take the first flight to CDG, then take the second flight to JFK",
-          participants: [
-            GroupMemberModel(userId: 1, firstname: "Tony", lastname: "Heng", profilePicture: DEFAULT_AVATAR_URL),
-            GroupMemberModel(userId: 2, firstname: "Yanis", lastname: "Chaabane", profilePicture: DEFAULT_AVATAR_URL),
-            GroupMemberModel(userId: 3, firstname: "Gabriels", lastname: "Raynik", profilePicture: DEFAULT_AVATAR_URL),
-          ],
+          participants: [1, 2, 3],
         ),
       ],
     );
   }
 
   @override
-  Future<ActivityModel?> createActivity(int groupId, CreateActivityRequest request) {
+  Future<ActivityResponse?> createActivity(int groupId, CreateActivityRequest request) {
     return Future.value(
-      ActivityModel(),
+      ActivityResponse(),
     );
   }
 
@@ -442,7 +423,7 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<ActivityModel?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) {
+  Future<ActivityResponse?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) {
     throw UnimplementedError();
   }
 
@@ -467,17 +448,17 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<List<ReportModel>?> getReports(int submitterId) {
+  Future<List<ReportResponse>?> getReports(int submitterId) {
     return Future.value([]);
   }
 
   @override
-  Future<ReportModel?> submitReport(SubmitReportRequest submitReportRequest) {
+  Future<ReportResponse?> submitReport(SubmitReportRequest submitReportRequest) {
     return Future.value(null);
   }
 
   @override
-  Future<ReportModel?> updateReport(int reportId, UpdateReportRequest updateReportRequest) {
+  Future<ReportResponse?> updateReport(int reportId, UpdateReportRequest updateReportRequest) {
     return Future.value(null);
   }
 
@@ -487,12 +468,12 @@ class MockService extends HttpService {
   }
 
   @override
-  Future<List<RecommendationModel>?> getRecommendations(int reviewedUserId) {
+  Future<List<RecommendationResponse>?> getRecommendations(int reviewedUserId) {
     return Future.value([]);
   }
 
   @override
-  Future<RecommendationModel?> submitRecommendation(SubmitRecommendationRequest request) {
+  Future<RecommendationResponse?> submitRecommendation(SubmitRecommendationRequest request) {
     return Future.value(null);
   }
 
