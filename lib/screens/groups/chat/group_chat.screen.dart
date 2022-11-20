@@ -10,8 +10,6 @@ import 'package:trip_n_joy_front/providers/groups/chat.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/planning.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
-import 'package:trip_n_joy_front/screens/groups/chat/calls/group_call_v2.screen.dart';
-import 'package:trip_n_joy_front/screens/groups/chat/calls/group_video_call.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/chat/calls/video_call.widget.dart';
 import 'package:trip_n_joy_front/screens/groups/chat/group_chat_pinned_messages.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/groups_settings.screen.dart';
@@ -209,24 +207,8 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                     ),
                   );
                 }
-                if (value == 5) {
-                  _navigator.push(MaterialPageRoute(builder: (_) => GroupVideoCallV2()));
-                }
-                if (value == 6) {
-                  _navigator.push(MaterialPageRoute(builder: (_) => GroupVideoCallV1()));
-                }
               },
               itemBuilder: (ctx) => [
-                PopupMenuItem(
-                  textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
-                  child: Text('CALL V1'),
-                  value: 6,
-                ),
-                PopupMenuItem(
-                  textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
-                  child: Text('CALL V2'),
-                  value: 5,
-                ),
                 if (group.state == GroupModelState.closed)
                   PopupMenuItem(
                     textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
