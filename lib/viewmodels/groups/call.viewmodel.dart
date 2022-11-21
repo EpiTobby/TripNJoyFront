@@ -9,6 +9,7 @@ class CallViewModel extends ChangeNotifier {
 
   final HttpService httpService;
   static const String channelPrefix = 'tripnjoy_call_';
+  bool onCall = false;
 
   String getChannelName(int groupId) {
     final channelName = '$channelPrefix$groupId';
@@ -35,5 +36,10 @@ class CallViewModel extends ChangeNotifier {
   Future<void> handlePermission(Permission permission) async {
     final status = await permission.request();
     logger.d(permission.toString() + status.toString());
+  }
+
+  void setOnCall(bool value) {
+    onCall = value;
+    notifyListeners();
   }
 }

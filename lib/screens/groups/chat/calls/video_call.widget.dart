@@ -4,10 +4,11 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:flutter/material.dart';
-import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
+import 'package:trip_n_joy_front/providers/groups/call.provider.dart';
 
-class VideoCall extends StatefulWidget {
+class VideoCall extends StatefulHookConsumerWidget {
   final String channelName;
   final ClientRole role;
   final String token;
@@ -20,10 +21,10 @@ class VideoCall extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _VideoCallState createState() => _VideoCallState();
+  ConsumerState createState() => _VideoCallState();
 }
 
-class _VideoCallState extends State<VideoCall> {
+class _VideoCallState extends ConsumerState<VideoCall> {
   final _users = <int>[];
   final _infoStrings = <String>[];
   bool muted = false;
@@ -183,7 +184,7 @@ class _VideoCallState extends State<VideoCall> {
             padding: const EdgeInsets.all(12.0),
           ),
           RawMaterialButton(
-            onPressed: () => _onCallEnd(context),
+            onPressed: () => _onCallEnd(context, ref),
             child: Icon(
               Icons.call_end,
               color: Colors.white,
@@ -234,22 +235,22 @@ class _VideoCallState extends State<VideoCall> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Flexible(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 2,
-                          horizontal: 5,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.yellowAccent,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Text(
-                          _infoStrings[index],
-                          style: TextStyle(color: Colors.blueGrey),
-                        ),
-                      ),
-                    )
+                    // Flexible(
+                    //   child: Container(
+                    //     padding: const EdgeInsets.symmetric(
+                    //       vertical: 2,
+                    //       horizontal: 5,
+                    //     ),
+                    //     decoration: BoxDecoration(
+                    //       color: Colors.yellowAccent,
+                    //       borderRadius: BorderRadius.circular(5),
+                    //     ),
+                    //     child: Text(
+                    //       _infoStrings[index],
+                    //       style: TextStyle(color: Colors.blueGrey),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               );
@@ -260,7 +261,8 @@ class _VideoCallState extends State<VideoCall> {
     );
   }
 
-  void _onCallEnd(BuildContext context) {
+  void _onCallEnd(BuildContext context, WidgetRef ref) {
+    ref.read(callProvider).setOnCall(false);
     Navigator.pop(context);
   }
 
@@ -278,14 +280,6 @@ class _VideoCallState extends State<VideoCall> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('groups.call.title'),
-            style: TextStyle(color: Theme.of(context).colorScheme.primary)),
-        centerTitle: true,
-        foregroundColor: Theme.of(context).colorScheme.primary,
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
-        shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-      ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: Stack(

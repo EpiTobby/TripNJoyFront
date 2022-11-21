@@ -44,22 +44,22 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settingsViewModel = ref.watch(settingsProvider);
-    return FirebaseProvider(
-      child: MaterialApp(
-        title: 'TripNJoy',
-        theme: settingsViewModel.isDarkMode ? darkTheme : lightTheme,
-        supportedLocales: const [
-          Locale('fr', 'FR'),
-          Locale('en', 'en_US'),
-        ],
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          ...GlobalMaterialLocalizations.delegates,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        home: const TripNJoy(title: 'TripNJoy'),
-        debugShowCheckedModeBanner: false,
+    return MaterialApp(
+      title: 'TripNJoy',
+      theme: settingsViewModel.isDarkMode ? darkTheme : lightTheme,
+      supportedLocales: const [
+        Locale('fr', 'FR'),
+        Locale('en', 'en_US'),
+      ],
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      home: const FirebaseProvider(
+        child: TripNJoy(title: 'TripNJoy'),
       ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
