@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,11 +6,13 @@ import 'package:trip_n_joy_front/constants/common/colors.style.dart';
 import 'package:trip_n_joy_front/models/group/activity.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
+import 'package:trip_n_joy_front/viewmodels/groups/group.viewmodel.dart';
 
 class PlanningViewModel extends ChangeNotifier {
-  PlanningViewModel(this.httpService);
+  PlanningViewModel(this.httpService, this.groupViewModel);
 
   final HttpService httpService;
+  final GroupViewModel groupViewModel;
 
   AsyncValue<List<Activity>> activities = const AsyncValue.loading();
   AsyncValue<List<String>> places = const AsyncValue.loading();
@@ -23,7 +24,10 @@ class PlanningViewModel extends ChangeNotifier {
     notifyListeners();
     final newActivities = await httpService.getActivities(groupId);
     activities = newActivities != null
-        ? AsyncValue.data(newActivities.map((e) => Activity.fromActivityResponse(e)).toList()
+        ? AsyncValue.data(newActivities
+            .map((e) => Activity.fromActivityResponse(e,
+                e.participants?.map((participant) => groupViewModel.groupMembers[participant.toInt()]!).toList() ?? []))
+            .toList()
           ..sort((a, b) => a.startDate.compareTo(b.startDate)))
         : AsyncValue.error(Exception('Failed to get activities'));
     notifyListeners();
@@ -67,13 +71,27 @@ class PlanningViewModel extends ChangeNotifier {
           icon: Icons.airplane_ticket.codePoint.toString(),
         ));
     getActivities(groupId);
-    return newActivity != null ? Activity.fromActivityResponse(newActivity) : null;
+    return newActivity != null
+        ? Activity.fromActivityResponse(
+            newActivity,
+            newActivity.participants
+                    ?.map((participant) => groupViewModel.groupMembers[participant.toInt()]!)
+                    .toList() ??
+                [])
+        : null;
   }
 
   Future<Activity?> addActivity(int groupId, CreateActivityRequest createActivityRequest) async {
     final newActivity = await httpService.createActivity(groupId, createActivityRequest);
     getActivities(groupId);
-    return newActivity != null ? Activity.fromActivityResponse(newActivity) : null;
+    return newActivity != null
+        ? Activity.fromActivityResponse(
+            newActivity,
+            newActivity.participants
+                    ?.map((participant) => groupViewModel.groupMembers[participant.toInt()]!)
+                    .toList() ??
+                [])
+        : null;
   }
 
   Future<void> deleteActivity(int groupId, num activityId) async {
@@ -84,7 +102,12 @@ class PlanningViewModel extends ChangeNotifier {
   Future<Activity?> updateActivity(int groupId, num activityId, UpdateActivityRequest request) async {
     final activity = await httpService.updateActivity(groupId, activityId, request);
     getActivities(groupId);
-    return activity != null ? Activity.fromActivityResponse(activity) : null;
+    return activity != null
+        ? Activity.fromActivityResponse(
+            activity,
+            activity.participants?.map((participant) => groupViewModel.groupMembers[participant.toInt()]!).toList() ??
+                [])
+        : null;
   }
 
   Future<bool> toggleActivityMember(int groupId, num activityId, num userId, bool join) async {
@@ -111,7 +134,14 @@ class PlanningViewModel extends ChangeNotifier {
           icon: getCategoryIcon(getCategory(category)).codePoint.toString(),
         ));
     getActivities(groupId);
-    return newActivity != null ? Activity.fromActivityResponse(newActivity) : null;
+    return newActivity != null
+        ? Activity.fromActivityResponse(
+            newActivity,
+            newActivity.participants
+                    ?.map((participant) => groupViewModel.groupMembers[participant.toInt()]!)
+                    .toList() ??
+                [])
+        : null;
   }
 
   CreateActivityRequest getSuggestedActivity(int groupId, String category, PlaceResponse activity) {

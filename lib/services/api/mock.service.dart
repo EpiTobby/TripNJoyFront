@@ -53,6 +53,18 @@ class MockService extends HttpService {
   }
 
   @override
+  Future<UserResponse?> getUserById(int id) async {
+    return Future.delayed(const Duration(seconds: 1), () {
+      return UserResponse(
+          firstname: "Tony",
+          lastname: "Heng",
+          email: "tony.heng@epita.fr",
+          birthDate: DateTime.now(),
+          phoneNumber: "0612345678");
+    });
+  }
+
+  @override
   Future<bool> verifyAccount(int id, String code) {
     return Future.delayed(const Duration(seconds: 1), () {
       return true;
@@ -151,10 +163,7 @@ class MockService extends HttpService {
             id: 1,
             state: GroupResponseState.closed,
             name: "A very long title that should be truncated in the appbar",
-            members: [
-              MemberModel(firstname: "tony", lastname: "stark"),
-              MemberModel(firstname: "steve", lastname: "rogers")
-            ],
+            members: [1, 2],
             picture: "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png"),
       ];
     });
@@ -168,10 +177,7 @@ class MockService extends HttpService {
             id: 1,
             state: GroupResponseState.closed,
             name: "A very long title that should be truncated in the appbar",
-            members: [
-              MemberModel(firstname: "tony", lastname: "stark"),
-              MemberModel(firstname: "steve", lastname: "rogers")
-            ],
+            members: [1, 2],
             picture: "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png"),
       ];
     });

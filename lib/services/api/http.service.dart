@@ -3,7 +3,6 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/models/api/news_article.model.dart';
 import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
-import 'package:trip_n_joy_front/models/group/poll.dart';
 import 'package:weather/weather.dart';
 
 enum Method { POST, GET, PUT, DELETE, PATCH }
@@ -38,6 +37,8 @@ abstract class HttpService {
   Future<void> updatePassword(int id, UpdatePasswordRequest updatePasswordRequest);
 
   Future<LoginResponse?> updateEmail(int id, UpdateEmailRequest updateEmailRequest);
+
+  Future<UserResponse?> getUserById(int id);
 
   Future<List<ProfileModel>?> getUserProfiles(int id);
 

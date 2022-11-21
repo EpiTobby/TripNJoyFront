@@ -35,12 +35,22 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
 
+    final groupInfoModel = useState<GroupInfoModel?>(null);
+
+    useEffect(() {
+      Future.microtask(() async {
+        groupInfoModel.value = await groupViewModel.getGroupPublicInfo(groupId);
+      });
+
+      return () {};
+    }, [groupId]);
+
     final budgetViewModel = ref.watch(budgetProvider);
 
     final icon = useState(Icons.add_shopping_cart);
     final name = useTextEditingController(text: AppLocalizations.of(context).translate("groups.budget.expenses.title"));
     final paidBy = useState(group.members?.first);
-    final paidFor = useState(group.members?.map((e) => MemberExpense(member: e, weight: 1)).toList());
+    final paidFor = useState(group.members?.map((e) => MemberExpense(memberId: e.toInt(), weight: 1)).toList());
 
     List<Article> getArticles(ScanResponse? scanReceipt) {
       var idx = 0;
@@ -51,7 +61,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
           id: idx,
           name: key,
           price: item,
-          participants: group.members!.map((e) => e.id!.toInt()).toList(),
+          participants: group.members!.map((e) => e.toInt()).toList(),
         ));
       });
       return articles;
@@ -114,6 +124,10 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
       return idx;
     }
 
+    if (groupInfoModel.value == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return ListView(
       shrinkWrap: true,
       children: [
@@ -152,14 +166,14 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                 height: 100,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  children: group.members
+                  children: groupInfoModel.value?.members
                           ?.map(
                             (e) => LayoutRowItemMember(
                               name: "${e.firstname} ${e.lastname}",
                               avatarUrl: MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
-                              isSelected: paidBy.value == e,
+                              isSelected: paidBy.value == e.userId,
                               onTap: (value) {
-                                paidBy.value = e;
+                                paidBy.value = e.userId;
                               },
                             ),
                           )
@@ -264,7 +278,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                             id: getUnusedArticleId(),
                             name: name,
                             price: price,
-                            participants: group.members!.map((e) => e.id!.toInt()).toList(),
+                            participants: group.members!.map((e) => e.toInt()).toList(),
                           )
                         ];
                       },
@@ -300,7 +314,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                                 onWeightChange: (value) {
                                   paidFor.value = paidFor.value?.map(
                                     (member) {
-                                      if (member.member == e.member) {
+                                      if (member.memberId == e.memberId) {
                                         member.weight = int.tryParse(value);
                                         member.amount = null;
                                       }
@@ -312,7 +326,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                                 onAmountChange: (value) {
                                   paidFor.value = paidFor.value?.map(
                                     (member) {
-                                      if (member.member == e.member) {
+                                      if (member.memberId == e.memberId) {
                                         member.amount = double.tryParse(value);
                                         member.weight = null;
                                       }
@@ -324,7 +338,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                                 onToggleSelection: (value) {
                                   paidFor.value = paidFor.value?.map(
                                     (member) {
-                                      if (member.member == e.member) {
+                                      if (member.memberId == e.memberId) {
                                         member.selected = value == true;
                                         member.amount = null;
                                         member.weight = value == true ? 1 : null;
@@ -360,7 +374,7 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                 if (payTotal.value) {
                   json['moneyDueByEachUser'] = paidFor.value!
                       .where((element) => element.selected)
-                      .map((element) => MoneyDueRequest(userId: element.member.id, money: element.amount).toJson())
+                      .map((element) => MoneyDueRequest(userId: element.memberId, money: element.amount).toJson())
                       .toList();
 
                   json['evenlyDivided'] = paidFor.value!.every((element) => element.weight == 1);
@@ -368,15 +382,15 @@ class BudgetReceiptExpenses extends HookConsumerWidget {
                   json['moneyDueByEachUser'] = group.members!.map((e) {
                     var amountToPay = 0.0;
                     for (var article in articles.value) {
-                      if (article.participants.contains(e.id!.toInt())) {
+                      if (article.participants.contains(e.toInt())) {
                         amountToPay += article.price / article.participants.length;
                       }
                     }
                     amountToPay = amountToPay * 100 / 100;
-                    return MoneyDueRequest(userId: e.id, money: amountToPay).toJson();
+                    return MoneyDueRequest(userId: e, money: amountToPay).toJson();
                   }).toList();
                 }
-                await budgetViewModel.addExpense(groupId, paidBy.value!.id, ExpenseRequest.fromJson(json));
+                await budgetViewModel.addExpense(groupId, paidBy.value!, ExpenseRequest.fromJson(json));
                 Navigator.of(context).pop();
               },
             ),

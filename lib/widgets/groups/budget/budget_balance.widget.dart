@@ -1,9 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 
-class BudgetBalance extends StatelessWidget {
+class BudgetBalance extends HookConsumerWidget {
   const BudgetBalance({
     Key? key,
     required this.balance,
@@ -14,8 +17,19 @@ class BudgetBalance extends StatelessWidget {
   final double total;
 
   @override
-  Widget build(BuildContext context) {
-    final username = "${balance.user?.firstname} ${balance.user?.lastname}";
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userViewModel = ref.watch(userProvider.notifier);
+
+    final balanceUser = useState<UserResponse?>(null);
+
+    useEffect(() {
+      Future.microtask(() async {
+        balanceUser.value = await userViewModel.getUserById(balance.user!.toInt());
+      });
+      return () {};
+    }, [balance]);
+
+    final username = "${balanceUser.value?.firstname} ${balanceUser.value?.lastname}";
     final money = balance.money ?? 0;
     final positiveMoney = money.isNegative ? -money : money;
     final widthPercent = min(max(positiveMoney / total, 0.1), 1);
@@ -23,6 +37,10 @@ class BudgetBalance extends StatelessWidget {
     final widthByScreen = widthPercent * (MediaQuery.of(context).size.width - screenPadding);
     const threshold = 0.3;
     final exceedThreshold = widthPercent > threshold;
+
+    if (balanceUser.value == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

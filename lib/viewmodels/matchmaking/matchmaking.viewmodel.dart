@@ -11,6 +11,7 @@ import 'package:trip_n_joy_front/models/matchmaking/card.model.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
+import 'package:trip_n_joy_front/viewmodels/groups/group.viewmodel.dart';
 import 'package:trip_n_joy_front/viewmodels/matchmaking/profile.viewmodel.dart';
 import 'package:trip_n_joy_front/viewmodels/settings/settings.viewmodel.dart';
 import 'package:trip_n_joy_front/widgets/matchmaking/cards/availability_card.widget.dart';
@@ -21,7 +22,7 @@ import 'package:trip_n_joy_front/widgets/matchmaking/cards/swipe_card.widget.dar
 
 class MatchmakingViewModel extends ChangeNotifier {
   MatchmakingViewModel(
-      this.httpService, this.authViewModel, this.profileViewModel, this.settingsViewModel, this.storage) {
+      this.httpService, this.authViewModel, this.groupViewModel, this.profileViewModel, this.settingsViewModel, this.storage,) {
     _init();
   }
 
@@ -29,6 +30,7 @@ class MatchmakingViewModel extends ChangeNotifier {
   final HttpService httpService;
   final ProfileViewModel profileViewModel;
   final SettingsViewModel settingsViewModel;
+  final GroupViewModel groupViewModel;
 
   final FlutterSecureStorage storage;
   static const String taskKey = 'taskId';
@@ -36,7 +38,7 @@ class MatchmakingViewModel extends ChangeNotifier {
   List<CardModel> cards = [];
   int index = 0;
   MatchmakingStatus status = MatchmakingStatus.CREATE_PROFILE;
-  GroupResponse? groupFound;
+  GroupInfoModel? groupFound;
 
   Map<String, dynamic> profileCreationRequest = {};
 
@@ -54,7 +56,7 @@ class MatchmakingViewModel extends ChangeNotifier {
           return;
         }
 
-        groupFound = matchmakingResult.groupId;
+        groupFound = await groupViewModel.getGroupPublicInfo(matchmakingResult.groupId!.toInt());
         updateMatchmakingStatus(matchmakingResult.type!);
       }
     }
@@ -312,7 +314,7 @@ class MatchmakingViewModel extends ChangeNotifier {
       return;
     }
 
-    groupFound = matchmakingResult.group;
+    groupFound = await groupViewModel.getGroupPublicInfo(matchmakingResult.groupId!.toInt());
     updateMatchmakingStatus(matchmakingResult.type!);
   }
 

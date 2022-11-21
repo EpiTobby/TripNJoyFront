@@ -5,14 +5,14 @@ import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/services/notification/push_notification.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 
-class UserViewModel extends StateNotifier<AsyncValue<UserModel?>> {
+class UserViewModel extends StateNotifier<AsyncValue<UserResponse?>> {
   UserViewModel(this.httpService, this.authViewModel, this.pushNotificationService) : super(const AsyncValue.loading());
   final HttpService httpService;
   final AuthViewModel authViewModel;
   final PushNotificationService pushNotificationService;
-  UserModel? user;
+  UserResponse? user;
 
-  Future<UserModel?> loadUser() async {
+  Future<UserResponse?> loadUser() async {
     try {
       state = const AsyncLoading();
       user = await httpService.loadUser().timeout(const Duration(seconds: 10));
@@ -24,6 +24,7 @@ class UserViewModel extends StateNotifier<AsyncValue<UserModel?>> {
     } catch (e) {
       state = AsyncError(e);
     }
+    return null;
   }
 
   Future<bool> deleteUser(String token, DeleteUserRequest deleteUserRequest) async {
@@ -63,6 +64,12 @@ class UserViewModel extends StateNotifier<AsyncValue<UserModel?>> {
     } catch (e) {
       state = AsyncError(e);
     }
+  }
+
+  Future<UserResponse?> getUserById(int id) async {
+    final response = await httpService.getUserById(id);
+
+    return response;
   }
 
   num? get userId => user?.id;

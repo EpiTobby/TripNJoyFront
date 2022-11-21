@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
@@ -16,6 +18,7 @@ class GroupViewModel extends ChangeNotifier {
 
   List<GroupResponse> groups = [];
   AsyncValue<GroupInfoModel> groupInfo = const AsyncValue.loading();
+  HashMap<num, GroupMemberModel> groupMembers = HashMap();
   bool isLoading = false;
   static const String groupTopic = 'chat_';
 
@@ -52,8 +55,14 @@ class GroupViewModel extends ChangeNotifier {
 
     for (var group in groups) {
       await getGroupMemories(group.id!.toInt());
+
+      for (var memberId in group.members!) {
+        if (!groupMembers.containsKey(memberId)) {
+          loadGroupMember(group.id!.toInt(), memberId);
+        }
+      }
     }
-    
+
     notifyListeners();
     for (var group in groups) {
       pushNotificationService.subscribeToTopic(groupTopic + group.id.toString());
@@ -149,6 +158,15 @@ class GroupViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<GroupInfoModel?> getGroupPublicInfo(int? groupId) async {
+    if (groupId == null) {
+      return null;
+    }
+    final response = await httpService.getGroupPublicInfoById(groupId);
+
+    return response;
+  }
+
   Future<void> getGroupMemories(int groupId) async {
     final memoriesResponse = await httpService.getGroupMemories(groupId);
     memories[groupId] = memoriesResponse?.memories ?? [];
@@ -157,5 +175,13 @@ class GroupViewModel extends ChangeNotifier {
   Future<void> addMemoryToGroup(int groupId, String memoryUrl) async {
     final memoriesResponse = await httpService.addGroupMemory(groupId, GroupMemoryRequest(memoryUrl: memoryUrl));
     memories[groupId] = memoriesResponse?.memories ?? [];
+  }
+
+  void loadGroupMember(int groupId, num memberId) async {
+    final member = await httpService.getUserPublicInfo(groupId, memberId);
+    if (member != null && member.userId != null) {
+      groupMembers[member.userId!.toInt()] = member;
+      notifyListeners();
+    }
   }
 }

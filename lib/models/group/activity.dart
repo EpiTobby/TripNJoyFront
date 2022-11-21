@@ -30,7 +30,7 @@ class Activity {
   List<ChatMember> members;
   Color color;
 
-  static Activity fromActivityResponse(ActivityResponse activity) {
+  static Activity fromActivityResponse(ActivityResponse activity, List<GroupMemberModel> members) {
     return Activity(
       id: activity.id!,
       icon: IconData(int.parse(activity.icon!), fontFamily: 'MaterialIcons'),
@@ -39,13 +39,12 @@ class Activity {
       startDate: activity.startDate!,
       endDate: activity.endDate!,
       description: activity.description,
-      members: activity.participants
-              ?.map((e) => ChatMember(
-                  id: e.userId!,
-                  name: "${e.firstname} ${e.lastname}",
-                  avatar: NetworkImage(MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR))))
-              .toList() ??
-          [],
+      members: members
+          .map((e) => ChatMember(
+              id: e.userId!,
+              name: "${e.firstname} ${e.lastname}",
+              avatar: NetworkImage(MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR))))
+          .toList(),
       color: HexColor.fromHex(activity.color!),
     );
   }

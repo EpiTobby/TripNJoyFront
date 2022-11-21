@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/providers/groups/budget.provider.dart';
+import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/widgets/common/async_value.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/layout/layout_box.widget.dart';
@@ -26,6 +27,7 @@ class BudgetReimbursement extends HookConsumerWidget {
     final budgetViewModel = ref.watch(budgetProvider);
     final owedMoney = budgetViewModel.owedMoney;
     final dueMoney = budgetViewModel.dueMoney;
+    final groupMembers = ref.watch(groupProvider).groupMembers;
 
     useEffect(() {
       Future.microtask(() => budgetViewModel.getUserReimbursement(groupId, userId));
@@ -69,7 +71,7 @@ class BudgetReimbursement extends HookConsumerWidget {
                                 (e) => MoneyDue(
                                   amount: e.total,
                                   user: username,
-                                  other: "${e.user?.firstname} ${e.user?.lastname}",
+                                  other: "${groupMembers[e.userId]?.firstname} ${groupMembers[e.userId]?.lastname}",
                                   owed: true,
                                 ),
                               )
@@ -95,7 +97,7 @@ class BudgetReimbursement extends HookConsumerWidget {
                               (e) => MoneyDue(
                                 amount: e.total,
                                 user: username,
-                                other: "${e.user?.firstname} ${e.user?.lastname}",
+                                other: "${groupMembers[e.userId]?.firstname} ${groupMembers[e.userId]?.lastname}",
                                 owed: false,
                               ),
                             )

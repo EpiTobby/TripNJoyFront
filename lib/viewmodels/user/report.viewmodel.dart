@@ -13,15 +13,15 @@ class ReportViewModel extends ChangeNotifier {
 
   void _init() async {}
 
-  Future<List<ReportModel>?> getReports(int submitterId) async {
+  Future<List<ReportResponse>?> getReports(int submitterId) async {
     return await httpService.getReports(submitterId);
   }
 
-  Future<ReportModel?> submitReport(SubmitReportRequest submitReportRequest) async {
+  Future<ReportResponse?> submitReport(SubmitReportRequest submitReportRequest) async {
     return await httpService.submitReport(submitReportRequest);
   }
 
-  Future<ReportModel?> updateReport(int reportId, UpdateReportRequest updateReportRequest) async {
+  Future<ReportResponse?> updateReport(int reportId, UpdateReportRequest updateReportRequest) async {
     return await httpService.updateReport(reportId, updateReportRequest);
   }
 

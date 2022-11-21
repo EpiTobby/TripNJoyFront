@@ -12,9 +12,7 @@ import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/providers/settings/settings.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/screens/errors/error.screen.dart';
-import 'package:trip_n_joy_front/screens/groups/quiz/add_quiz.screen.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
-import 'package:trip_n_joy_front/widgets/common/button.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog_email.widget.dart';
 import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog_password.widget.dart';
@@ -173,7 +171,7 @@ class SettingsPage extends HookConsumerWidget {
               LayoutItem(
                 title: AppLocalizations.of(context).translate("user.city"),
                 child: LayoutItemValue(
-                  value: user.city?.name ?? AppLocalizations.of(context).translate("settings.noCity"),
+                  value: user.city ?? AppLocalizations.of(context).translate("settings.noCity"),
                   icon: Icons.keyboard_arrow_right_sharp,
                   onPressed: () {
                     showBarModalBottomSheet(
@@ -182,7 +180,7 @@ class SettingsPage extends HookConsumerWidget {
                         return InputDialog(
                           title: AppLocalizations.of(context).translate("settings.city"),
                           label: AppLocalizations.of(context).translate("user.city"),
-                          initialValue: user.city?.name ?? "",
+                          initialValue: user.city ?? "",
                           onConfirm: (value) async {
                             userViewModel.updateUser(
                                 authViewModel.token!, UserUpdateRequest(city: CityModel(name: value)));

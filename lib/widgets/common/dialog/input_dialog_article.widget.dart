@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
+import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/group/article.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
@@ -27,11 +28,25 @@ class InputDialogArticle extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final groupViewModel = ref.watch(groupProvider);
-    final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
+
+    final groupInfoModel = useState<GroupInfoModel?>(null);
+
+    useEffect(() {
+      Future.microtask(() async {
+        groupInfoModel.value = await groupViewModel.getGroupPublicInfo(groupId);
+      });
+
+      return () {};
+    }, [groupId]);
 
     final newName = useTextEditingController(text: article.name);
     final newPrice = useTextEditingController(text: article.price.toString());
     final newParticipants = useState(article.participants);
+
+    if (groupInfoModel.value == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return AnimatedPadding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -62,19 +77,19 @@ class InputDialogArticle extends HookConsumerWidget {
                     height: 100,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children: group.members
+                      children: groupInfoModel.value!.members
                               ?.map(
                                 (e) => LayoutRowItemMember(
                                   name: "${e.firstname} ${e.lastname}",
                                   avatarUrl: MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
-                                  isSelected: newParticipants.value.contains(e.id!.toInt()),
+                                  isSelected: newParticipants.value.contains(e.userId!.toInt()),
                                   onTap: (value) {
-                                    if (newParticipants.value.any((p) => p == e.id!.toInt())) {
-                                      newParticipants.value.remove(e.id!.toInt());
+                                    if (newParticipants.value.any((p) => p == e.userId!.toInt())) {
+                                      newParticipants.value.remove(e.userId!.toInt());
                                       newParticipants.value = [...newParticipants.value];
                                     } else {
-                                      newParticipants.value.add(e.id!.toInt());
-                                      newParticipants.value = [...newParticipants.value, e.id!.toInt()];
+                                      newParticipants.value.add(e.userId!.toInt());
+                                      newParticipants.value = [...newParticipants.value, e.userId!.toInt()];
                                     }
                                   },
                                 ),

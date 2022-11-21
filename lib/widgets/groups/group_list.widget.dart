@@ -1,7 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
+import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/screens/groups/chat/group_chat_container.screen.dart';
 import 'package:trip_n_joy_front/screens/groups/planning/end_of_trip.screen.dart';
 import 'package:trip_n_joy_front/widgets/groups/group_icon.widget.dart';
@@ -30,7 +32,7 @@ class GroupList extends StatelessWidget {
           ),
         ...groups
             .map((group) => GroupListItem(
-                  group: group,
+                  groupId: group.id!.toInt(),
                   onClick: () {
                     Navigator.push(
                       context,
@@ -55,14 +57,28 @@ class GroupList extends StatelessWidget {
   }
 }
 
-class GroupListItem extends StatelessWidget {
-  const GroupListItem({Key? key, required this.group, required this.onClick}) : super(key: key);
+class GroupListItem extends HookConsumerWidget {
+  const GroupListItem({Key? key, required this.groupId, required this.onClick}) : super(key: key);
 
-  final GroupResponse group;
+  final int groupId;
   final Function onClick;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final groupService = ref.watch(groupProvider);
+    final group = useState<GroupInfoModel?>(null);
+
+    useEffect(() {
+      Future.microtask(() async {
+        group.value = await groupService.getGroupPublicInfo(groupId);
+      });
+      return () {};
+    }, [groupId]);
+
+    if (group.value == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return ListTile(
       onTap: () {
         onClick();
@@ -70,7 +86,7 @@ class GroupListItem extends StatelessWidget {
       title: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: group.state! != GroupInfoModelState.archived
+          color: group.value!.state! != GroupInfoModelState.archived
               ? Theme.of(context).colorScheme.surface.withOpacity(0.5)
               : Theme.of(context).disabledColor.withOpacity(0.1),
         ),
@@ -78,7 +94,10 @@ class GroupListItem extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            GroupIcon(groupId: group.id!.toInt(), radius: 40,),
+            GroupIcon(
+              groupId: group.value!.id!.toInt(),
+              radius: 40,
+            ),
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
@@ -86,7 +105,7 @@ class GroupListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      group.name ?? group.members!.map((e) => e.firstname).join(', '),
+                      group.value!.name ?? group.value!.members!.map((e) => e.firstname).join(', '),
                       style: GoogleFonts.raleway(
                         fontSize: 22,
                         fontWeight: FontWeight.w800,

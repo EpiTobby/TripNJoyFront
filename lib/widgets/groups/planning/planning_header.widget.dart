@@ -54,7 +54,7 @@ class PlanningHeader extends ConsumerWidget {
                         label: AppLocalizations.of(context).translate("groups.planning.destination.title"),
                         initialValue: group.destination ?? '',
                         onConfirm: (value) async {
-                          if (group.owner == null) {
+                          if (group.ownerId == null) {
                             await groupViewModel.updatePublicGroup(
                                 group.id!.toInt(), UpdatePublicGroupRequest(destination: value));
                           } else {

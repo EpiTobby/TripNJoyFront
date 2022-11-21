@@ -43,6 +43,16 @@ class EditActivity extends HookConsumerWidget {
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
 
+    final groupInfoModel = useState<GroupInfoModel?>(null);
+
+    useEffect(() {
+      Future.microtask(() async {
+        groupInfoModel.value = await groupViewModel.getGroupPublicInfo(groupId);
+      });
+
+      return () {};
+    }, [groupId]);
+
     final draft = activity == null;
 
     final name = useState(activity?.name ?? suggestedActivity?.name ?? 'Name');
@@ -57,6 +67,10 @@ class EditActivity extends HookConsumerWidget {
             ? IconData(int.parse(suggestedActivity!.icon!), fontFamily: 'MaterialIcons')
             : Icons.airplane_ticket));
     final participants = useState(activity?.members ?? []);
+
+    if (groupInfoModel.value == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -298,27 +312,27 @@ class EditActivity extends HookConsumerWidget {
                             height: 100,
                             child: ListView(
                               scrollDirection: Axis.horizontal,
-                              children: group.members
+                              children: groupInfoModel.value!.members
                                       ?.map(
                                         (e) => LayoutRowItemMember(
                                           name: "${e.firstname} ${e.lastname}",
                                           avatarUrl: MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
                                           isSelected:
-                                              participants.value.where((member) => member.id == e.id).isNotEmpty,
+                                              participants.value.where((member) => member.id == e.userId).isNotEmpty,
                                           onTap: group.state != GroupInfoModelState.archived
                                               ? (value) {
                                                   if (value) {
                                                     participants.value = [
                                                       ...participants.value,
                                                       ChatMember(
-                                                          id: e.id!,
+                                                          id: e.userId!,
                                                           name: "${e.firstname} ${e.lastname}",
                                                           avatar: NetworkImage(MinioService.getImageUrl(
                                                               e.profilePicture, DEFAULT_URL.AVATAR)))
                                                     ];
                                                   } else {
                                                     participants.value = participants.value
-                                                        .where((member) => member.id != e.id)
+                                                        .where((member) => member.id != e.userId)
                                                         .toList();
                                                   }
                                                 }

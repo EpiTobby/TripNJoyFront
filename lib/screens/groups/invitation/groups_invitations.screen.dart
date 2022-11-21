@@ -64,7 +64,7 @@ class _GroupsInvitationsState extends ConsumerState<GroupsInvitations> {
                         ]
                       : widget.groups
                           .map((group) => GroupListItem(
-                              group: group,
+                              groupId: group.id!.toInt(),
                               onClick: () {
                                 showBarModalBottomSheet(
                                     context: context,

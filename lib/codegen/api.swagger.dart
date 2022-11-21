@@ -28,6 +28,22 @@ abstract class Api extends ChopperService {
     return _$Api(newClient);
   }
 
+  ///Get all the group of the user
+  ///@param id
+  Future<chopper.Response<List<GroupResponse>>> groupsIdGet(
+      {required num? id}) {
+    generatedMapping.putIfAbsent(
+        GroupResponse, () => GroupResponse.fromJsonFactory);
+
+    return _groupsIdGet(id: id);
+  }
+
+  ///Get all the group of the user
+  ///@param id
+  @Get(path: '/groups/{id}')
+  Future<chopper.Response<List<GroupResponse>>> _groupsIdGet(
+      {@Path('id') required num? id});
+
   ///Used to update the password
   ///@param id
   Future<chopper.Response> usersAuthIdPasswordPatch(
@@ -110,25 +126,34 @@ abstract class Api extends ChopperService {
       @Path('id') required num? id,
       @Body() required UpdateReportRequest? body});
 
-  ///Accept the invitation to the group
-  ///@param group
-  ///@param userId
-  Future<chopper.Response> groupsGroupsPrivateGroupJoinPatch(
-      {required num? group,
-      String? userId,
-      required JoinGroupWithoutInviteModel? body}) {
-    return _groupsGroupsPrivateGroupJoinPatch(
-        group: group, userId: userId, body: body);
+  ///Get info about a group
+  ///@param id
+  Future<chopper.Response<GroupInfoModel>> groupsInfoIdGet({required num? id}) {
+    generatedMapping.putIfAbsent(
+        GroupInfoModel, () => GroupInfoModel.fromJsonFactory);
+
+    return _groupsInfoIdGet(id: id);
   }
 
-  ///Accept the invitation to the group
-  ///@param group
-  ///@param userId
-  @Patch(path: '/groups/groups/private/{group}/join/')
-  Future<chopper.Response> _groupsGroupsPrivateGroupJoinPatch(
-      {@Path('group') required num? group,
-      @Header('userId') String? userId,
-      @Body() required JoinGroupWithoutInviteModel? body});
+  ///Get info about a group
+  ///@param id
+  @Get(path: '/groups/info/{id}')
+  Future<chopper.Response<GroupInfoModel>> _groupsInfoIdGet(
+      {@Path('id') required num? id});
+
+  ///
+  Future<chopper.Response<ScanResponse>> expensesScanPost(
+      {required ScanRequest? body}) {
+    generatedMapping.putIfAbsent(
+        ScanResponse, () => ScanResponse.fromJsonFactory);
+
+    return _expensesScanPost(body: body);
+  }
+
+  ///
+  @Post(path: '/expenses/scan')
+  Future<chopper.Response<ScanResponse>> _expensesScanPost(
+      {@Body() required ScanRequest? body});
 
   ///
   ///@param group
@@ -153,6 +178,41 @@ abstract class Api extends ChopperService {
           {@Path('group') required num? group,
           @Path('user') required num? user,
           @Body() required ExpenseRequest? body});
+
+  ///Create a private group
+  ///@param userId
+  Future<chopper.Response<GroupResponse>> groupsPrivatePost(
+      {String? userId, required CreatePrivateGroupRequest? body}) {
+    generatedMapping.putIfAbsent(
+        GroupResponse, () => GroupResponse.fromJsonFactory);
+
+    return _groupsPrivatePost(userId: userId, body: body);
+  }
+
+  ///Create a private group
+  ///@param userId
+  @Post(path: '/groups/private/')
+  Future<chopper.Response<GroupResponse>> _groupsPrivatePost(
+      {@Header('userId') String? userId,
+      @Body() required CreatePrivateGroupRequest? body});
+
+  ///Add user to private group
+  ///@param group
+  ///@param username
+  Future<chopper.Response> groupsPrivateGroupUserPost(
+      {required num? group, String? username, required ModelWithEmail? body}) {
+    return _groupsPrivateGroupUserPost(
+        group: group, username: username, body: body);
+  }
+
+  ///Add user to private group
+  ///@param group
+  ///@param username
+  @Post(path: '/groups/private/{group}/user')
+  Future<chopper.Response> _groupsPrivateGroupUserPost(
+      {@Path('group') required num? group,
+      @Header('username') String? username,
+      @Body() required ModelWithEmail? body});
 
   ///Get all the surveys in a channel
   ///@param userId
@@ -220,59 +280,6 @@ abstract class Api extends ChopperService {
           @Path('user') required num? user,
           @Body() required ExpenseRequest? body});
 
-  ///
-  ///@param roles
-  Future<chopper.Response<GroupResponse>> groupsGroupsPost(
-      {String? roles, required CreatePublicGroupRequest? body}) {
-    generatedMapping.putIfAbsent(
-        GroupResponse, () => GroupResponse.fromJsonFactory);
-
-    return _groupsGroupsPost(roles: roles, body: body);
-  }
-
-  ///
-  ///@param roles
-  @Post(path: '/groups/groups/')
-  Future<chopper.Response<GroupResponse>> _groupsGroupsPost(
-      {@Header('roles') String? roles,
-      @Body() required CreatePublicGroupRequest? body});
-
-  ///Remove user from private group
-  ///@param group
-  ///@param username
-  ///@param id
-  Future<chopper.Response> groupsGroupsPrivateGroupUserIdDelete(
-      {required num? group, String? username, required num? id}) {
-    return _groupsGroupsPrivateGroupUserIdDelete(
-        group: group, username: username, id: id);
-  }
-
-  ///Remove user from private group
-  ///@param group
-  ///@param username
-  ///@param id
-  @Delete(path: '/groups/groups/private/{group}/user/{id}')
-  Future<chopper.Response> _groupsGroupsPrivateGroupUserIdDelete(
-      {@Path('group') required num? group,
-      @Header('username') String? username,
-      @Path('id') required num? id});
-
-  ///
-  ///@param id
-  Future<chopper.Response<BooleanResponse>> groupsGroupsIdExistsGet(
-      {required num? id}) {
-    generatedMapping.putIfAbsent(
-        BooleanResponse, () => BooleanResponse.fromJsonFactory);
-
-    return _groupsGroupsIdExistsGet(id: id);
-  }
-
-  ///
-  ///@param id
-  @Get(path: '/groups/groups/{id}/exists')
-  Future<chopper.Response<BooleanResponse>> _groupsGroupsIdExistsGet(
-      {@Path('id') required num? id});
-
   ///Will send a new confirmation code to the user
   ///@param id
   Future<chopper.Response> usersAuthIdResendPost({required num? id}) {
@@ -320,6 +327,38 @@ abstract class Api extends ChopperService {
   Future<chopper.Response> _chatSurveysVoteIdDelete(
       {@Header('userId') String? userId, @Path('id') required num? id});
 
+  ///
+  ///@param roles
+  Future<chopper.Response<GroupResponse>> groupsPost(
+      {String? roles, required CreatePublicGroupRequest? body}) {
+    generatedMapping.putIfAbsent(
+        GroupResponse, () => GroupResponse.fromJsonFactory);
+
+    return _groupsPost(roles: roles, body: body);
+  }
+
+  ///
+  ///@param roles
+  @Post(path: '/groups/')
+  Future<chopper.Response<GroupResponse>> _groupsPost(
+      {@Header('roles') String? roles,
+      @Body() required CreatePublicGroupRequest? body});
+
+  ///Accept the invitation to the group
+  ///@param group
+  ///@param userId
+  Future<chopper.Response> groupsGroupJoinPatch(
+      {required num? group, String? userId}) {
+    return _groupsGroupJoinPatch(group: group, userId: userId);
+  }
+
+  ///Accept the invitation to the group
+  ///@param group
+  ///@param userId
+  @Patch(path: '/groups/{group}/join/', optionalBody: true)
+  Future<chopper.Response> _groupsGroupJoinPatch(
+      {@Path('group') required num? group, @Header('userId') String? userId});
+
   ///Create a new admin account. Will send a confirmation mail to the given address
   ///@param roles
   Future<chopper.Response<UserModel>> usersAuthRegisterAdminPost(
@@ -336,22 +375,20 @@ abstract class Api extends ChopperService {
       {@Header('roles') String? roles,
       @Body() required UserCreationRequest? body});
 
-  ///Create a private group
+  ///Get the QR code to join a private group
+  ///@param group
   ///@param userId
-  Future<chopper.Response<GroupResponse>> groupsGroupsPrivatePost(
-      {String? userId, required CreatePrivateGroupRequest? body}) {
-    generatedMapping.putIfAbsent(
-        GroupResponse, () => GroupResponse.fromJsonFactory);
-
-    return _groupsGroupsPrivatePost(userId: userId, body: body);
+  Future<chopper.Response<String>> groupsPrivateGroupQrcodeGet(
+      {required num? group, String? userId}) {
+    return _groupsPrivateGroupQrcodeGet(group: group, userId: userId);
   }
 
-  ///Create a private group
+  ///Get the QR code to join a private group
+  ///@param group
   ///@param userId
-  @Post(path: '/groups/groups/private/')
-  Future<chopper.Response<GroupResponse>> _groupsGroupsPrivatePost(
-      {@Header('userId') String? userId,
-      @Body() required CreatePrivateGroupRequest? body});
+  @Get(path: '/groups/private/{group}/qrcode')
+  Future<chopper.Response<String>> _groupsPrivateGroupQrcodeGet(
+      {@Path('group') required num? group, @Header('userId') String? userId});
 
   ///
   ///@param roles
@@ -368,55 +405,25 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<List<UserResponse>>> _usersUsersGet(
       {@Header('roles') String? roles});
 
-  ///Update the public group
+  ///Remove user from private group
   ///@param group
-  Future<chopper.Response> groupsGroupsGroupPatch(
-      {required num? group, required UpdatePublicGroupRequest? body}) {
-    return _groupsGroupsGroupPatch(group: group, body: body);
+  ///@param username
+  ///@param id
+  Future<chopper.Response> groupsPrivateGroupUserIdDelete(
+      {required num? group, String? username, required num? id}) {
+    return _groupsPrivateGroupUserIdDelete(
+        group: group, username: username, id: id);
   }
 
-  ///Update the public group
-  ///@param group
-  @Patch(path: '/groups/groups/{group}')
-  Future<chopper.Response> _groupsGroupsGroupPatch(
-      {@Path('group') required num? group,
-      @Body() required UpdatePublicGroupRequest? body});
-
-  ///Delete the private group
+  ///Remove user from private group
   ///@param group
   ///@param username
-  Future<chopper.Response> groupsGroupsPrivateGroupDelete(
-      {required num? group, String? username}) {
-    return _groupsGroupsPrivateGroupDelete(group: group, username: username);
-  }
-
-  ///Delete the private group
-  ///@param group
-  ///@param username
-  @Delete(path: '/groups/groups/private/{group}')
-  Future<chopper.Response> _groupsGroupsPrivateGroupDelete(
-      {@Path('group') required num? group,
-      @Header('username') String? username});
-
-  ///Update the private group
-  ///@param group
-  ///@param username
-  Future<chopper.Response> groupsGroupsPrivateGroupPatch(
-      {required num? group,
-      String? username,
-      required UpdatePrivateGroupRequest? body}) {
-    return _groupsGroupsPrivateGroupPatch(
-        group: group, username: username, body: body);
-  }
-
-  ///Update the private group
-  ///@param group
-  ///@param username
-  @Patch(path: '/groups/groups/private/{group}')
-  Future<chopper.Response> _groupsGroupsPrivateGroupPatch(
+  ///@param id
+  @Delete(path: '/groups/private/{group}/user/{id}')
+  Future<chopper.Response> _groupsPrivateGroupUserIdDelete(
       {@Path('group') required num? group,
       @Header('username') String? username,
-      @Body() required UpdatePrivateGroupRequest? body});
+      @Path('id') required num? id});
 
   ///Create a group profile
   ///@param roles
@@ -441,20 +448,35 @@ abstract class Api extends ChopperService {
       @Path('groupId') required num? groupId,
       @Body() required ProfileCreationRequest? body});
 
+  ///
+  ///@param id
+  ///@param userId
+  Future<chopper.Response> notificationsNotificationsIdDelete(
+      {required num? id, String? userId}) {
+    return _notificationsNotificationsIdDelete(id: id, userId: userId);
+  }
+
+  ///
+  ///@param id
+  ///@param userId
+  @Delete(path: '/notifications/notifications/{id}')
+  Future<chopper.Response> _notificationsNotificationsIdDelete(
+      {@Path('id') required num? id, @Header('userId') String? userId});
+
   ///Delete a report
-  ///@param userRoles
+  ///@param roles
   ///@param id
   Future<chopper.Response> reportsReportsIdAdminDelete(
-      {String? userRoles, required num? id}) {
-    return _reportsReportsIdAdminDelete(userRoles: userRoles, id: id);
+      {String? roles, required num? id}) {
+    return _reportsReportsIdAdminDelete(roles: roles, id: id);
   }
 
   ///Delete a report
-  ///@param userRoles
+  ///@param roles
   ///@param id
   @Delete(path: '/reports/reports/{id}/admin')
   Future<chopper.Response> _reportsReportsIdAdminDelete(
-      {@Header('userRoles') String? userRoles, @Path('id') required num? id});
+      {@Header('roles') String? roles, @Path('id') required num? id});
 
   ///Create a report
   ///@param userId
@@ -505,23 +527,36 @@ abstract class Api extends ChopperService {
       @Path('id') required num? id,
       @Body() required UpdateChannelRequest? body});
 
-  ///Add user to private group
+  ///Decline the invitation to the group
   ///@param group
-  ///@param username
-  Future<chopper.Response> groupsGroupsPrivateGroupUserPost(
-      {required num? group, String? username, required ModelWithEmail? body}) {
-    return _groupsGroupsPrivateGroupUserPost(
-        group: group, username: username, body: body);
+  ///@param userId
+  Future<chopper.Response> groupsGroupDeclinePatch(
+      {required num? group, String? userId}) {
+    return _groupsGroupDeclinePatch(group: group, userId: userId);
   }
 
-  ///Add user to private group
+  ///Decline the invitation to the group
   ///@param group
-  ///@param username
-  @Post(path: '/groups/groups/private/{group}/user')
-  Future<chopper.Response> _groupsGroupsPrivateGroupUserPost(
-      {@Path('group') required num? group,
-      @Header('username') String? username,
-      @Body() required ModelWithEmail? body});
+  ///@param userId
+  @Patch(path: '/groups/{group}/decline/', optionalBody: true)
+  Future<chopper.Response> _groupsGroupDeclinePatch(
+      {@Path('group') required num? group, @Header('userId') String? userId});
+
+  ///Get all the group invitation of the user
+  ///@param id
+  Future<chopper.Response<List<GroupResponse>>> groupsInvitesIdGet(
+      {required num? id}) {
+    generatedMapping.putIfAbsent(
+        GroupResponse, () => GroupResponse.fromJsonFactory);
+
+    return _groupsInvitesIdGet(id: id);
+  }
+
+  ///Get all the group invitation of the user
+  ///@param id
+  @Get(path: '/groups/invites/{id}')
+  Future<chopper.Response<List<GroupResponse>>> _groupsInvitesIdGet(
+      {@Path('id') required num? id});
 
   ///
   ///@param group
@@ -545,25 +580,40 @@ abstract class Api extends ChopperService {
           {@Path('group') required num? group,
           @Path('user') required num? user});
 
-  ///Decline the invitation to the group
+  ///Update the public group
   ///@param group
-  ///@param userId
-  Future<chopper.Response> groupsGroupsGroupDeclinePatch(
-      {required num? group, String? userId}) {
-    return _groupsGroupsGroupDeclinePatch(group: group, userId: userId);
+  Future<chopper.Response> groupsGroupPatch(
+      {required num? group, required UpdatePublicGroupRequest? body}) {
+    return _groupsGroupPatch(group: group, body: body);
   }
 
-  ///Decline the invitation to the group
+  ///Update the public group
   ///@param group
+  @Patch(path: '/groups/{group}')
+  Future<chopper.Response> _groupsGroupPatch(
+      {@Path('group') required num? group,
+      @Body() required UpdatePublicGroupRequest? body});
+
+  ///
   ///@param userId
-  @Patch(path: '/groups/groups/{group}/decline/', optionalBody: true)
-  Future<chopper.Response> _groupsGroupsGroupDeclinePatch(
-      {@Path('group') required num? group, @Header('userId') String? userId});
+  Future<chopper.Response<List<NotificationModel>>>
+      notificationsNotificationsGet({String? userId}) {
+    generatedMapping.putIfAbsent(
+        NotificationModel, () => NotificationModel.fromJsonFactory);
+
+    return _notificationsNotificationsGet(userId: userId);
+  }
+
+  ///
+  ///@param userId
+  @Get(path: '/notifications/notifications/')
+  Future<chopper.Response<List<NotificationModel>>>
+      _notificationsNotificationsGet({@Header('userId') String? userId});
 
   ///
   ///@param userId
   Future<chopper.Response> usersUsersDelete(
-      {num? userId, required DeleteUserRequest? body}) {
+      {String? userId, required DeleteUserRequest? body}) {
     return _usersUsersDelete(userId: userId, body: body);
   }
 
@@ -571,8 +621,17 @@ abstract class Api extends ChopperService {
   ///@param userId
   @Delete(path: '/users/users/')
   Future<chopper.Response> _usersUsersDelete(
-      {@Header('userId') num? userId,
+      {@Header('userId') String? userId,
       @Body() required DeleteUserRequest? body});
+
+  ///Get all open groups
+  Future<chopper.Response<List<num>>> groupsOpenGet() {
+    return _groupsOpenGet();
+  }
+
+  ///Get all open groups
+  @Get(path: '/groups/open')
+  Future<chopper.Response<List<num>>> _groupsOpenGet();
 
   ///Add the user to the given activity
   ///@param groupId
@@ -639,6 +698,57 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<UserResponse>> _usersUsersMeGet(
       {@Header('username') String? username});
 
+  ///Delete the private group
+  ///@param group
+  ///@param username
+  Future<chopper.Response> groupsPrivateGroupDelete(
+      {required num? group, String? username}) {
+    return _groupsPrivateGroupDelete(group: group, username: username);
+  }
+
+  ///Delete the private group
+  ///@param group
+  ///@param username
+  @Delete(path: '/groups/private/{group}')
+  Future<chopper.Response> _groupsPrivateGroupDelete(
+      {@Path('group') required num? group,
+      @Header('username') String? username});
+
+  ///Update the private group
+  ///@param group
+  ///@param username
+  Future<chopper.Response> groupsPrivateGroupPatch(
+      {required num? group,
+      String? username,
+      required UpdatePrivateGroupRequest? body}) {
+    return _groupsPrivateGroupPatch(
+        group: group, username: username, body: body);
+  }
+
+  ///Update the private group
+  ///@param group
+  ///@param username
+  @Patch(path: '/groups/private/{group}')
+  Future<chopper.Response> _groupsPrivateGroupPatch(
+      {@Path('group') required num? group,
+      @Header('username') String? username,
+      @Body() required UpdatePrivateGroupRequest? body});
+
+  ///Remove the user from a group
+  ///@param group
+  ///@param userId
+  Future<chopper.Response> groupsGroupUserDelete(
+      {required num? group, String? userId}) {
+    return _groupsGroupUserDelete(group: group, userId: userId);
+  }
+
+  ///Remove the user from a group
+  ///@param group
+  ///@param userId
+  @Delete(path: '/groups/{group}/user/')
+  Future<chopper.Response> _groupsGroupUserDelete(
+      {@Path('group') required num? group, @Header('userId') String? userId});
+
   ///Returns all the categories of locations
   Future<chopper.Response<List<String>>> placesCategoriesGet() {
     return _placesCategoriesGet();
@@ -647,6 +757,25 @@ abstract class Api extends ChopperService {
   ///Returns all the categories of locations
   @Get(path: '/places/categories')
   Future<chopper.Response<List<String>>> _placesCategoriesGet();
+
+  ///
+  ///@param groupId
+  ///@param userId
+  Future<chopper.Response<BooleanResponse>> groupsIsInGroupGet(
+      {required num? groupId, required num? userId}) {
+    generatedMapping.putIfAbsent(
+        BooleanResponse, () => BooleanResponse.fromJsonFactory);
+
+    return _groupsIsInGroupGet(groupId: groupId, userId: userId);
+  }
+
+  ///
+  ///@param groupId
+  ///@param userId
+  @Get(path: '/groups/isInGroup')
+  Future<chopper.Response<BooleanResponse>> _groupsIsInGroupGet(
+      {@Query('groupId') required num? groupId,
+      @Query('userId') required num? userId});
 
   ///Used to ask update the user email. Returns a new jwt
   ///@param id
@@ -668,7 +797,7 @@ abstract class Api extends ChopperService {
   ///Used to update the user information
   ///@param userId
   Future<chopper.Response> usersUsersUpdatePatch(
-      {num? userId, required UserUpdateRequest? body}) {
+      {String? userId, required UserUpdateRequest? body}) {
     return _usersUsersUpdatePatch(userId: userId, body: body);
   }
 
@@ -676,7 +805,7 @@ abstract class Api extends ChopperService {
   ///@param userId
   @Patch(path: '/users/users/update')
   Future<chopper.Response> _usersUsersUpdatePatch(
-      {@Header('userId') num? userId,
+      {@Header('userId') String? userId,
       @Body() required UserUpdateRequest? body});
 
   ///
@@ -692,19 +821,6 @@ abstract class Api extends ChopperService {
   @Post(path: '/users/auth/jwtcheck')
   Future<chopper.Response<CheckJwtResponse>> _usersAuthJwtcheckPost(
       {@Body() required CheckJwtRequest? body});
-
-  ///
-  ///@param id
-  Future<chopper.Response<List<num>>> groupsGroupsIdMembersGet(
-      {required num? id}) {
-    return _groupsGroupsIdMembersGet(id: id);
-  }
-
-  ///
-  ///@param id
-  @Get(path: '/groups/groups/{id}/members')
-  Future<chopper.Response<List<num>>> _groupsGroupsIdMembersGet(
-      {@Path('id') required num? id});
 
   ///Update a profile
   ///@param userId
@@ -780,22 +896,6 @@ abstract class Api extends ChopperService {
       @Path('group') required num? group,
       @Body() required CreateChannelRequest? body});
 
-  ///Get all the group of the user
-  ///@param id
-  Future<chopper.Response<List<GroupResponse>>> groupsGroupsIdGet(
-      {required num? id}) {
-    generatedMapping.putIfAbsent(
-        GroupResponse, () => GroupResponse.fromJsonFactory);
-
-    return _groupsGroupsIdGet(id: id);
-  }
-
-  ///Get all the group of the user
-  ///@param id
-  @Get(path: '/groups/groups/{id}')
-  Future<chopper.Response<List<GroupResponse>>> _groupsGroupsIdGet(
-      {@Path('id') required num? id});
-
   ///Log a user, to allow authenticated endpoints
   Future<chopper.Response<LoginResponse>> usersAuthLoginPost(
       {required LoginRequest? body}) {
@@ -810,54 +910,23 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<LoginResponse>> _usersAuthLoginPost(
       {@Body() required LoginRequest? body});
 
-  ///Get the QR code to join a private group
-  ///@param group
-  ///@param userId
-  Future<chopper.Response<String>> groupsGroupsPrivateGroupQrcodeGet(
-      {required num? group, String? userId}) {
-    return _groupsGroupsPrivateGroupQrcodeGet(group: group, userId: userId);
-  }
-
-  ///Get the QR code to join a private group
-  ///@param group
-  ///@param userId
-  @Get(path: '/groups/groups/private/{group}/qrcode')
-  Future<chopper.Response<String>> _groupsGroupsPrivateGroupQrcodeGet(
-      {@Path('group') required num? group, @Header('userId') String? userId});
-
   ///Get all the report of a user
-  ///@param userRoles
+  ///@param roles
   ///@param id
   Future<chopper.Response<List<ReportResponse>>> reportsReportsAdminIdGet(
-      {String? userRoles, required num? id}) {
+      {String? roles, required num? id}) {
     generatedMapping.putIfAbsent(
         ReportResponse, () => ReportResponse.fromJsonFactory);
 
-    return _reportsReportsAdminIdGet(userRoles: userRoles, id: id);
+    return _reportsReportsAdminIdGet(roles: roles, id: id);
   }
 
   ///Get all the report of a user
-  ///@param userRoles
+  ///@param roles
   ///@param id
   @Get(path: '/reports/reports/admin/{id}')
   Future<chopper.Response<List<ReportResponse>>> _reportsReportsAdminIdGet(
-      {@Header('userRoles') String? userRoles, @Path('id') required num? id});
-
-  ///Get all the group invitation of the user
-  ///@param id
-  Future<chopper.Response<List<GroupResponse>>> groupsGroupsInvitesIdGet(
-      {required num? id}) {
-    generatedMapping.putIfAbsent(
-        GroupResponse, () => GroupResponse.fromJsonFactory);
-
-    return _groupsGroupsInvitesIdGet(id: id);
-  }
-
-  ///Get all the group invitation of the user
-  ///@param id
-  @Get(path: '/groups/groups/invites/{id}')
-  Future<chopper.Response<List<GroupResponse>>> _groupsGroupsInvitesIdGet(
-      {@Path('id') required num? id});
+      {@Header('roles') String? roles, @Path('id') required num? id});
 
   ///Create a new account. Will send a confirmation mail to the given address
   Future<chopper.Response<AuthTokenResponse>> usersAuthRegisterPost(
@@ -872,25 +941,6 @@ abstract class Api extends ChopperService {
   @Post(path: '/users/auth/register')
   Future<chopper.Response<AuthTokenResponse>> _usersAuthRegisterPost(
       {@Body() required UserCreationRequest? body});
-
-  ///
-  ///@param groupId
-  ///@param userId
-  Future<chopper.Response<BooleanResponse>> groupsGroupsIsInGroupGet(
-      {required num? groupId, required num? userId}) {
-    generatedMapping.putIfAbsent(
-        BooleanResponse, () => BooleanResponse.fromJsonFactory);
-
-    return _groupsGroupsIsInGroupGet(groupId: groupId, userId: userId);
-  }
-
-  ///
-  ///@param groupId
-  ///@param userId
-  @Get(path: '/groups/groups/isInGroup')
-  Future<chopper.Response<BooleanResponse>> _groupsGroupsIsInGroupGet(
-      {@Query('groupId') required num? groupId,
-      @Query('userId') required num? userId});
 
   ///Delete the activity
   ///@param userId
@@ -1031,6 +1081,24 @@ abstract class Api extends ChopperService {
       @Path('id') required num? id,
       @Body() required UpdateSurveyRequest? body});
 
+  ///Get the information related to the member
+  ///@param id
+  ///@param userId
+  Future<chopper.Response<GroupMemberModel>> groupsIdUsersUserIdGet(
+      {required num? id, required num? userId}) {
+    generatedMapping.putIfAbsent(
+        GroupMemberModel, () => GroupMemberModel.fromJsonFactory);
+
+    return _groupsIdUsersUserIdGet(id: id, userId: userId);
+  }
+
+  ///Get the information related to the member
+  ///@param id
+  ///@param userId
+  @Get(path: '/groups/{id}/users/{userId}')
+  Future<chopper.Response<GroupMemberModel>> _groupsIdUsersUserIdGet(
+      {@Path('id') required num? id, @Path('userId') required num? userId});
+
   ///
   ///@param group
   Future<chopper.Response<List<ExpenseModel>>> expensesExpensesGroupGet(
@@ -1150,26 +1218,6 @@ abstract class Api extends ChopperService {
           {@Path('group') required num? group,
           @Path('user') required num? user});
 
-  ///Make a private group public
-  ///@param username
-  ///@param groupId
-  Future<chopper.Response> groupsGroupsPrivateGroupIdPublicPatch(
-      {String? username,
-      required num? groupId,
-      required ProfileCreationRequest? body}) {
-    return _groupsGroupsPrivateGroupIdPublicPatch(
-        username: username, groupId: groupId, body: body);
-  }
-
-  ///Make a private group public
-  ///@param username
-  ///@param groupId
-  @Patch(path: '/groups/groups/private/{groupId}/public')
-  Future<chopper.Response> _groupsGroupsPrivateGroupIdPublicPatch(
-      {@Header('username') String? username,
-      @Path('groupId') required num? groupId,
-      @Body() required ProfileCreationRequest? body});
-
   ///Create a recommendation
   ///@param userId
   Future<chopper.Response<RecommendationResponse>> reportsRecommendationsPost(
@@ -1220,6 +1268,18 @@ abstract class Api extends ChopperService {
   @Post(path: '/places/address')
   Future<chopper.Response<List<PlaceResponse>>> _placesAddressPost(
       {@Body() required PlacesFromAddressRequest? body});
+
+  ///
+  ///@param id
+  Future<chopper.Response<List<num>>> groupsIdMembersGet({required num? id}) {
+    return _groupsIdMembersGet(id: id);
+  }
+
+  ///
+  ///@param id
+  @Get(path: '/groups/{id}/members')
+  Future<chopper.Response<List<num>>> _groupsIdMembersGet(
+      {@Path('id') required num? id});
 
   ///
   ///@param roles
@@ -1349,25 +1409,6 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<GoogleAuthResponse>> _usersAuthGooglePost(
       {@Body() required GoogleRequest? body});
 
-  ///Get the information related to the member
-  ///@param groupId
-  ///@param userId
-  Future<chopper.Response<GroupMemberModel>> groupsGroupsGroupIdUsersUserIdGet(
-      {required num? groupId, required num? userId}) {
-    generatedMapping.putIfAbsent(
-        GroupMemberModel, () => GroupMemberModel.fromJsonFactory);
-
-    return _groupsGroupsGroupIdUsersUserIdGet(groupId: groupId, userId: userId);
-  }
-
-  ///Get the information related to the member
-  ///@param groupId
-  ///@param userId
-  @Get(path: '/groups/groups/{groupId}/users/{userId}')
-  Future<chopper.Response<GroupMemberModel>> _groupsGroupsGroupIdUsersUserIdGet(
-      {@Path('groupId') required num? groupId,
-      @Path('userId') required num? userId});
-
   ///Create a profile
   ///@param userId
   Future<chopper.Response<ProfileModel>> profilesProfilesPost(
@@ -1384,6 +1425,59 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<ProfileModel>> _profilesProfilesPost(
       {@Header('userId') String? userId,
       @Body() required ProfileCreationRequest? body});
+
+  ///Get all the memories from a group
+  ///@param groupId
+  Future<chopper.Response<GroupMemoriesResponse>> groupsGroupIdMemoriesGet(
+      {required num? groupId}) {
+    generatedMapping.putIfAbsent(
+        GroupMemoriesResponse, () => GroupMemoriesResponse.fromJsonFactory);
+
+    return _groupsGroupIdMemoriesGet(groupId: groupId);
+  }
+
+  ///Get all the memories from a group
+  ///@param groupId
+  @Get(path: '/groups/{groupId}/memories')
+  Future<chopper.Response<GroupMemoriesResponse>> _groupsGroupIdMemoriesGet(
+      {@Path('groupId') required num? groupId});
+
+  ///Add memory to a group
+  ///@param groupId
+  Future<chopper.Response<GroupMemoriesResponse>> groupsGroupIdMemoriesPost(
+      {required num? groupId, required GroupMemoryRequest? body}) {
+    generatedMapping.putIfAbsent(
+        GroupMemoriesResponse, () => GroupMemoriesResponse.fromJsonFactory);
+
+    return _groupsGroupIdMemoriesPost(groupId: groupId, body: body);
+  }
+
+  ///Add memory to a group
+  ///@param groupId
+  @Post(path: '/groups/{groupId}/memories')
+  Future<chopper.Response<GroupMemoriesResponse>> _groupsGroupIdMemoriesPost(
+      {@Path('groupId') required num? groupId,
+      @Body() required GroupMemoryRequest? body});
+
+  ///Accept the invitation to the group
+  ///@param group
+  ///@param userId
+  Future<chopper.Response> groupsPrivateGroupJoinPatch(
+      {required num? group,
+      String? userId,
+      required JoinGroupWithoutInviteModel? body}) {
+    return _groupsPrivateGroupJoinPatch(
+        group: group, userId: userId, body: body);
+  }
+
+  ///Accept the invitation to the group
+  ///@param group
+  ///@param userId
+  @Patch(path: '/groups/private/{group}/join/')
+  Future<chopper.Response> _groupsPrivateGroupJoinPatch(
+      {@Path('group') required num? group,
+      @Header('userId') String? userId,
+      @Body() required JoinGroupWithoutInviteModel? body});
 
   ///
   ///@param group
@@ -1405,30 +1499,6 @@ abstract class Api extends ChopperService {
       _expensesExpensesGroupUserUserDebtsGet(
           {@Path('group') required num? group,
           @Path('user') required num? user});
-
-  ///Get all open groups
-  Future<chopper.Response<List<num>>> groupsGroupsOpenGet() {
-    return _groupsGroupsOpenGet();
-  }
-
-  ///Get all open groups
-  @Get(path: '/groups/groups/open')
-  Future<chopper.Response<List<num>>> _groupsGroupsOpenGet();
-
-  ///Remove the user from a group
-  ///@param group
-  ///@param userId
-  Future<chopper.Response> groupsGroupsGroupUserDelete(
-      {required num? group, String? userId}) {
-    return _groupsGroupsGroupUserDelete(group: group, userId: userId);
-  }
-
-  ///Remove the user from a group
-  ///@param group
-  ///@param userId
-  @Delete(path: '/groups/groups/{group}/user/')
-  Future<chopper.Response> _groupsGroupsGroupUserDelete(
-      {@Path('group') required num? group, @Header('userId') String? userId});
 
   ///Get the firebase token of this user
   ///@param id
@@ -1477,20 +1547,25 @@ abstract class Api extends ChopperService {
   Future<chopper.Response<BooleanResponse>> _usersUsersIdExistsGet(
       {@Path('id') required num? id});
 
-  ///Accept the invitation to the group
-  ///@param group
-  ///@param userId
-  Future<chopper.Response> groupsGroupsGroupJoinPatch(
-      {required num? group, String? userId}) {
-    return _groupsGroupsGroupJoinPatch(group: group, userId: userId);
+  ///Make a private group public
+  ///@param username
+  ///@param groupId
+  Future<chopper.Response> groupsPrivateGroupIdPublicPatch(
+      {String? username,
+      required num? groupId,
+      required ProfileCreationRequest? body}) {
+    return _groupsPrivateGroupIdPublicPatch(
+        username: username, groupId: groupId, body: body);
   }
 
-  ///Accept the invitation to the group
-  ///@param group
-  ///@param userId
-  @Patch(path: '/groups/groups/{group}/join/', optionalBody: true)
-  Future<chopper.Response> _groupsGroupsGroupJoinPatch(
-      {@Path('group') required num? group, @Header('userId') String? userId});
+  ///Make a private group public
+  ///@param username
+  ///@param groupId
+  @Patch(path: '/groups/private/{groupId}/public')
+  Future<chopper.Response> _groupsPrivateGroupIdPublicPatch(
+      {@Header('username') String? username,
+      @Path('groupId') required num? groupId,
+      @Body() required ProfileCreationRequest? body});
 
   ///Get all the surveys in a channel
   ///@param userId
@@ -1542,6 +1617,22 @@ abstract class Api extends ChopperService {
       {@Path('id') required num? id,
       @Body() required ConfirmationCodeModel? body});
 
+  ///
+  ///@param id
+  Future<chopper.Response<BooleanResponse>> groupsIdExistsGet(
+      {required num? id}) {
+    generatedMapping.putIfAbsent(
+        BooleanResponse, () => BooleanResponse.fromJsonFactory);
+
+    return _groupsIdExistsGet(id: id);
+  }
+
+  ///
+  ///@param id
+  @Get(path: '/groups/{id}/exists')
+  Future<chopper.Response<BooleanResponse>> _groupsIdExistsGet(
+      {@Path('id') required num? id});
+
   ///Used to receive a confirmation to update a password
   Future<chopper.Response> usersAuthForgotPasswordPost(
       {required ForgotPasswordRequest? body}) {
@@ -1566,57 +1657,6 @@ abstract class Api extends ChopperService {
   @Post(path: '/users/auth/login/admin')
   Future<chopper.Response<LoginResponse>> _usersAuthLoginAdminPost(
       {@Body() required LoginRequest? body});
-
-  ///Get all the memories from a group
-  ///@param groupId
-  Future<chopper.Response<GroupMemoriesResponse>>
-      groupsGroupsGroupIdMemoriesGet({required num? groupId}) {
-    generatedMapping.putIfAbsent(
-        GroupMemoriesResponse, () => GroupMemoriesResponse.fromJsonFactory);
-
-    return _groupsGroupsGroupIdMemoriesGet(groupId: groupId);
-  }
-
-  ///Get all the memories from a group
-  ///@param groupId
-  @Get(path: '/groups/groups/{groupId}/memories')
-  Future<chopper.Response<GroupMemoriesResponse>>
-      _groupsGroupsGroupIdMemoriesGet({@Path('groupId') required num? groupId});
-
-  ///Add memory to a group
-  ///@param groupId
-  Future<chopper.Response<GroupMemoriesResponse>>
-      groupsGroupsGroupIdMemoriesPost(
-          {required num? groupId, required GroupMemoryRequest? body}) {
-    generatedMapping.putIfAbsent(
-        GroupMemoriesResponse, () => GroupMemoriesResponse.fromJsonFactory);
-
-    return _groupsGroupsGroupIdMemoriesPost(groupId: groupId, body: body);
-  }
-
-  ///Add memory to a group
-  ///@param groupId
-  @Post(path: '/groups/groups/{groupId}/memories')
-  Future<chopper.Response<GroupMemoriesResponse>>
-      _groupsGroupsGroupIdMemoriesPost(
-          {@Path('groupId') required num? groupId,
-          @Body() required GroupMemoryRequest? body});
-
-  ///Get info about a group
-  ///@param id
-  Future<chopper.Response<GroupInfoModel>> groupsGroupsInfoIdGet(
-      {required num? id}) {
-    generatedMapping.putIfAbsent(
-        GroupInfoModel, () => GroupInfoModel.fromJsonFactory);
-
-    return _groupsGroupsInfoIdGet(id: id);
-  }
-
-  ///Get info about a group
-  ///@param id
-  @Get(path: '/groups/groups/info/{id}')
-  Future<chopper.Response<GroupInfoModel>> _groupsGroupsInfoIdGet(
-      {@Path('id') required num? id});
 
   ///Delete a report
   ///@param userId
@@ -2685,8 +2725,8 @@ class GroupInfoModel {
   final num? id;
   @JsonKey(name: 'name')
   final String? name;
-  @JsonKey(name: 'members', defaultValue: <GroupMemberPublicInfoModel>[])
-  final List<GroupMemberPublicInfoModel>? members;
+  @JsonKey(name: 'members', defaultValue: <GroupMemberModel>[])
+  final List<GroupMemberModel>? members;
   @JsonKey(name: 'maxSize')
   final int? maxSize;
   @JsonKey(
@@ -2735,7 +2775,7 @@ extension $GroupInfoModelExtension on GroupInfoModel {
   GroupInfoModel copyWith(
       {num? id,
       String? name,
-      List<GroupMemberPublicInfoModel>? members,
+      List<GroupMemberModel>? members,
       int? maxSize,
       enums.GroupInfoModelState? state,
       String? picture}) {
@@ -3462,6 +3502,47 @@ extension $UpdateSurveyRequestExtension on UpdateSurveyRequest {
         possibleAnswers: possibleAnswers ?? this.possibleAnswers,
         multipleChoiceSurvey:
             multipleChoiceSurvey ?? this.multipleChoiceSurvey);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ScanResponse {
+  ScanResponse({
+    this.items,
+    this.total,
+  });
+
+  factory ScanResponse.fromJson(Map<String, dynamic> json) =>
+      _$ScanResponseFromJson(json);
+
+  @JsonKey(name: 'items')
+  final Map<String, dynamic>? items;
+  @JsonKey(name: 'total')
+  final double? total;
+  static const fromJsonFactory = _$ScanResponseFromJson;
+  static const toJsonFactory = _$ScanResponseToJson;
+  Map<String, dynamic> toJson() => _$ScanResponseToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ScanResponse &&
+            (identical(other.items, items) ||
+                const DeepCollectionEquality().equals(other.items, items)) &&
+            (identical(other.total, total) ||
+                const DeepCollectionEquality().equals(other.total, total)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(items) ^
+      const DeepCollectionEquality().hash(total) ^
+      runtimeType.hashCode;
+}
+
+extension $ScanResponseExtension on ScanResponse {
+  ScanResponse copyWith({Map<String, dynamic>? items, double? total}) {
+    return ScanResponse(items: items ?? this.items, total: total ?? this.total);
   }
 }
 
@@ -4226,6 +4307,72 @@ extension $MoneyDueResponseExtension on MoneyDueResponse {
   MoneyDueResponse copyWith({num? userId, double? total}) {
     return MoneyDueResponse(
         userId: userId ?? this.userId, total: total ?? this.total);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class NotificationModel {
+  NotificationModel({
+    this.title,
+    this.body,
+    this.userId,
+    this.id,
+    this.firebaseId,
+  });
+
+  factory NotificationModel.fromJson(Map<String, dynamic> json) =>
+      _$NotificationModelFromJson(json);
+
+  @JsonKey(name: 'title')
+  final String? title;
+  @JsonKey(name: 'body')
+  final String? body;
+  @JsonKey(name: 'userId')
+  final num? userId;
+  @JsonKey(name: 'id')
+  final num? id;
+  @JsonKey(name: 'firebaseId')
+  final String? firebaseId;
+  static const fromJsonFactory = _$NotificationModelFromJson;
+  static const toJsonFactory = _$NotificationModelToJson;
+  Map<String, dynamic> toJson() => _$NotificationModelToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is NotificationModel &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.body, body) ||
+                const DeepCollectionEquality().equals(other.body, body)) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.firebaseId, firebaseId) ||
+                const DeepCollectionEquality()
+                    .equals(other.firebaseId, firebaseId)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(body) ^
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(firebaseId) ^
+      runtimeType.hashCode;
+}
+
+extension $NotificationModelExtension on NotificationModel {
+  NotificationModel copyWith(
+      {String? title, String? body, num? userId, num? id, String? firebaseId}) {
+    return NotificationModel(
+        title: title ?? this.title,
+        body: body ?? this.body,
+        userId: userId ?? this.userId,
+        id: id ?? this.id,
+        firebaseId: firebaseId ?? this.firebaseId);
   }
 }
 
@@ -5006,59 +5153,6 @@ extension $ModelWithEmailExtension on ModelWithEmail {
 }
 
 @JsonSerializable(explicitToJson: true)
-class GroupMemberPublicInfoModel {
-  GroupMemberPublicInfoModel({
-    this.id,
-    this.firstname,
-    this.lastname,
-  });
-
-  factory GroupMemberPublicInfoModel.fromJson(Map<String, dynamic> json) =>
-      _$GroupMemberPublicInfoModelFromJson(json);
-
-  @JsonKey(name: 'id')
-  final num? id;
-  @JsonKey(name: 'firstname')
-  final String? firstname;
-  @JsonKey(name: 'lastname')
-  final String? lastname;
-  static const fromJsonFactory = _$GroupMemberPublicInfoModelFromJson;
-  static const toJsonFactory = _$GroupMemberPublicInfoModelToJson;
-  Map<String, dynamic> toJson() => _$GroupMemberPublicInfoModelToJson(this);
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is GroupMemberPublicInfoModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.firstname, firstname) ||
-                const DeepCollectionEquality()
-                    .equals(other.firstname, firstname)) &&
-            (identical(other.lastname, lastname) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastname, lastname)));
-  }
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(firstname) ^
-      const DeepCollectionEquality().hash(lastname) ^
-      runtimeType.hashCode;
-}
-
-extension $GroupMemberPublicInfoModelExtension on GroupMemberPublicInfoModel {
-  GroupMemberPublicInfoModel copyWith(
-      {num? id, String? firstname, String? lastname}) {
-    return GroupMemberPublicInfoModel(
-        id: id ?? this.id,
-        firstname: firstname ?? this.firstname,
-        lastname: lastname ?? this.lastname);
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class SubmitReportRequest {
   SubmitReportRequest({
     this.reportedUserId,
@@ -5537,6 +5631,41 @@ extension $MoneyDueRequestExtension on MoneyDueRequest {
   MoneyDueRequest copyWith({num? userId, double? money}) {
     return MoneyDueRequest(
         userId: userId ?? this.userId, money: money ?? this.money);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ScanRequest {
+  ScanRequest({
+    this.minioUrl,
+  });
+
+  factory ScanRequest.fromJson(Map<String, dynamic> json) =>
+      _$ScanRequestFromJson(json);
+
+  @JsonKey(name: 'minioUrl')
+  final String? minioUrl;
+  static const fromJsonFactory = _$ScanRequestFromJson;
+  static const toJsonFactory = _$ScanRequestToJson;
+  Map<String, dynamic> toJson() => _$ScanRequestToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ScanRequest &&
+            (identical(other.minioUrl, minioUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.minioUrl, minioUrl)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(minioUrl) ^ runtimeType.hashCode;
+}
+
+extension $ScanRequestExtension on ScanRequest {
+  ScanRequest copyWith({String? minioUrl}) {
+    return ScanRequest(minioUrl: minioUrl ?? this.minioUrl);
   }
 }
 

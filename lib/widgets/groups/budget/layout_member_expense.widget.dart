@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trip_n_joy_front/models/group/member_expense.dart';
+import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 
 class LayoutMemberExpense extends HookConsumerWidget {
   const LayoutMemberExpense({
@@ -22,6 +23,7 @@ class LayoutMemberExpense extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final weightController = useTextEditingController(text: expense.weight?.toString());
     final amountController = useTextEditingController(text: expense.amount?.toString() ?? "0.0");
+    final member = ref.watch(groupProvider).groupMembers[expense.memberId];
 
     useEffect(() {
       weightController.text = expense.weight?.toString() ?? "";
@@ -68,7 +70,7 @@ class LayoutMemberExpense extends HookConsumerWidget {
             activeColor: Theme.of(context).colorScheme.secondary),
         Expanded(
           child: Text(
-            "${expense.member.firstname} ${expense.member.lastname}",
+            "${member?.firstname} ${member?.lastname}",
             style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.primary),
           ),
         ),

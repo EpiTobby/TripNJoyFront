@@ -5,6 +5,61 @@
     "version": "v0"
   },
   "paths": {
+    "/groups/{id}": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get all the group of the user",
+        "operationId": "getUserGroups",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Return the list of groups the user is in",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/auth/{id}/password": {
       "patch": {
         "tags": [
@@ -34,8 +89,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -44,8 +99,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -254,26 +309,17 @@
         }
       }
     },
-    "/groups/groups/private/{group}/join/": {
-      "patch": {
+    "/groups/info/{id}": {
+      "get": {
         "tags": [
           "group-controller"
         ],
-        "summary": "Accept the invitation to the group",
-        "operationId": "joinGroupWithoutInvite",
+        "summary": "Get info about a group",
+        "operationId": "getInfo",
         "parameters": [
           {
-            "name": "group",
+            "name": "id",
             "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "header",
             "required": true,
             "schema": {
               "type": "integer",
@@ -281,16 +327,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/JoinGroupWithoutInviteModel"
-              }
-            }
-          },
-          "required": true
-        },
         "responses": {
           "403": {
             "description": "Forbidden",
@@ -303,7 +339,7 @@
             }
           },
           "422": {
-            "description": "Group or User does not exist",
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -313,7 +349,44 @@
             }
           },
           "200": {
-            "description": "The user has joined the group"
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupInfoModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/scan": {
+      "post": {
+        "tags": [
+          "scan-controller"
+        ],
+        "operationId": "scan",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -364,6 +437,131 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/groups/private/": {
+      "post": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Create a private group",
+        "operationId": "createPrivateGroup",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePrivateGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "User or Group does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns the created group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/private/{group}/user": {
+      "post": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Add user to private group",
+        "operationId": "inviteUserInPrivateGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "username",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModelWithEmail"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "The client is not the owner of the group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Group or User does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The user is added to the group"
           }
         }
       }
@@ -448,8 +646,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -458,8 +656,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -553,182 +751,6 @@
         }
       }
     },
-    "/groups/groups/": {
-      "post": {
-        "tags": [
-          "group-controller"
-        ],
-        "operationId": "createPublicGroup",
-        "parameters": [
-          {
-            "name": "roles",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreatePublicGroupRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/GroupResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/groups/groups/private/{group}/user/{id}": {
-      "delete": {
-        "tags": [
-          "group-controller"
-        ],
-        "summary": "Remove user from private group",
-        "operationId": "removeUserFromPrivateGroup",
-        "parameters": [
-          {
-            "name": "group",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "username",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "403": {
-            "description": "The client is not the owner of the group",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Group or User does not exist",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "The user is removed"
-          }
-        }
-      }
-    },
-    "/groups/groups/{id}/exists": {
-      "get": {
-        "tags": [
-          "group-controller"
-        ],
-        "operationId": "exists",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/BooleanResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/users/auth/{id}/resend": {
       "post": {
         "tags": [
@@ -748,8 +770,8 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -758,8 +780,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -877,6 +899,123 @@
         }
       }
     },
+    "/groups/": {
+      "post": {
+        "tags": [
+          "group-controller"
+        ],
+        "operationId": "createPublicGroup",
+        "parameters": [
+          {
+            "name": "roles",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePublicGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group}/join/": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Accept the invitation to the group",
+        "operationId": "joinGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Group or User does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The user has joined the group"
+          }
+        }
+      }
+    },
     "/users/auth/register/admin": {
       "post": {
         "tags": [
@@ -908,8 +1047,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "If the email is already in use by another user",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -918,8 +1057,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "If the email is already in use by another user",
             "content": {
               "*/*": {
                 "schema": {
@@ -961,14 +1100,23 @@
         }
       }
     },
-    "/groups/groups/private/": {
-      "post": {
+    "/groups/private/{group}/qrcode": {
+      "get": {
         "tags": [
           "group-controller"
         ],
-        "summary": "Create a private group",
-        "operationId": "createPrivateGroup",
+        "summary": "Get the QR code to join a private group",
+        "operationId": "getQRCode",
         "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
           {
             "name": "userId",
             "in": "header",
@@ -979,16 +1127,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreatePrivateGroupRequest"
-              }
-            }
-          },
-          "required": true
-        },
         "responses": {
           "403": {
             "description": "Forbidden",
@@ -1001,7 +1139,7 @@
             }
           },
           "422": {
-            "description": "User or Group does not exist",
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -1011,11 +1149,11 @@
             }
           },
           "200": {
-            "description": "Returns the created group",
+            "description": "Returns the encoded qr code",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/GroupResponse"
+                  "type": "string"
                 }
               }
             }
@@ -1043,8 +1181,8 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -1053,8 +1191,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -1099,68 +1237,13 @@
         }
       }
     },
-    "/groups/groups/{group}": {
-      "patch": {
-        "tags": [
-          "group-controller"
-        ],
-        "summary": "Update the public group",
-        "operationId": "updatePublicGroup",
-        "parameters": [
-          {
-            "name": "group",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdatePublicGroupRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Group does not exist",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "The group is updated"
-          }
-        }
-      }
-    },
-    "/groups/groups/private/{group}": {
+    "/groups/private/{group}/user/{id}": {
       "delete": {
         "tags": [
           "group-controller"
         ],
-        "summary": "Delete the private group",
-        "operationId": "deletePrivateGroup",
+        "summary": "Remove user from private group",
+        "operationId": "removeUserFromPrivateGroup",
         "parameters": [
           {
             "name": "group",
@@ -1177,6 +1260,15 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
@@ -1202,68 +1294,7 @@
             }
           },
           "200": {
-            "description": "The group is deleted"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "group-controller"
-        ],
-        "summary": "Update the private group",
-        "operationId": "updatePrivateGroup",
-        "parameters": [
-          {
-            "name": "group",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "username",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdatePrivateGroupRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "403": {
-            "description": "The client is not the owner of the group",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Group or User does not exist",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "The group is updated"
+            "description": "The user is removed"
           }
         }
       }
@@ -1331,6 +1362,39 @@
         }
       }
     },
+    "/notifications/notifications/{id}": {
+      "delete": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "discard",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/reports/reports/{id}/admin": {
       "delete": {
         "tags": [
@@ -1340,7 +1404,7 @@
         "operationId": "deleteReportAdmin",
         "parameters": [
           {
-            "name": "userRoles",
+            "name": "roles",
             "in": "header",
             "required": true,
             "schema": {
@@ -1507,113 +1571,7 @@
         }
       }
     },
-    "/groups/groups/private/{group}/user": {
-      "post": {
-        "tags": [
-          "group-controller"
-        ],
-        "summary": "Add user to private group",
-        "operationId": "inviteUserInPrivateGroup",
-        "parameters": [
-          {
-            "name": "group",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "username",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ModelWithEmail"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "403": {
-            "description": "The client is not the owner of the group",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Group or User does not exist",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "The user is added to the group"
-          }
-        }
-      }
-    },
-    "/expenses/expenses/{group}/user/{user}/debts/details": {
-      "get": {
-        "tags": [
-          "expense-controller"
-        ],
-        "operationId": "getUserDebtsDetails",
-        "parameters": [
-          {
-            "name": "group",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "user",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DebtDetailsResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/groups/groups/{group}/decline/": {
+    "/groups/{group}/decline/": {
       "patch": {
         "tags": [
           "group-controller"
@@ -1667,6 +1625,193 @@
         }
       }
     },
+    "/groups/invites/{id}": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get all the group invitation of the user",
+        "operationId": "getUserInvites",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Return the list of groups the user is invited to",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/expenses/{group}/user/{user}/debts/details": {
+      "get": {
+        "tags": [
+          "expense-controller"
+        ],
+        "operationId": "getUserDebtsDetails",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DebtDetailsResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{group}": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Update the public group",
+        "operationId": "updatePublicGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePublicGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Group does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The group is updated"
+          }
+        }
+      }
+    },
+    "/notifications/notifications/": {
+      "get": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "getForUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NotificationModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/users/": {
       "delete": {
         "tags": [
@@ -1695,8 +1840,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -1705,8 +1850,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -1737,6 +1882,51 @@
           },
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/groups/open": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get all open groups",
+        "operationId": "getOpenGroups",
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Return the list of open groups",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int64"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1868,8 +2058,8 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -1878,8 +2068,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -1917,6 +2107,174 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/groups/private/{group}": {
+      "delete": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Delete the private group",
+        "operationId": "deletePrivateGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "username",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "The client is not the owner of the group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Group or User does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The group is deleted"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Update the private group",
+        "operationId": "updatePrivateGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "username",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePrivateGroupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "The client is not the owner of the group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Group or User does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The group is updated"
+          }
+        }
+      }
+    },
+    "/groups/{group}/user/": {
+      "delete": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Remove the user from a group",
+        "operationId": "leaveGroup",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Group or User does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The user has left the group"
           }
         }
       }
@@ -1970,6 +2328,66 @@
         }
       }
     },
+    "/groups/isInGroup": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "operationId": "isUserInGroup",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/auth/{id}/email": {
       "patch": {
         "tags": [
@@ -1999,8 +2417,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "If the new email does not exist or is already in use",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -2009,8 +2427,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "If the new email does not exist or is already in use",
             "content": {
               "*/*": {
                 "schema": {
@@ -2081,8 +2499,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "If the user does not exist",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -2091,8 +2509,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "If the user does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -2144,8 +2562,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -2154,8 +2572,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -2190,61 +2608,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/CheckJwtResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/groups/groups/{id}/members": {
-      "get": {
-        "tags": [
-          "group-controller"
-        ],
-        "operationId": "getMembers",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer",
-                    "format": "int64"
-                  }
                 }
               }
             }
@@ -2317,8 +2680,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -2327,8 +2690,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -2486,61 +2849,6 @@
         }
       }
     },
-    "/groups/groups/{id}": {
-      "get": {
-        "tags": [
-          "group-controller"
-        ],
-        "summary": "Get all the group of the user",
-        "operationId": "getUserGroups",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Return the list of groups the user is in",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GroupResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/users/auth/login": {
       "post": {
         "tags": [
@@ -2559,8 +2867,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -2569,8 +2877,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -2612,67 +2920,6 @@
         }
       }
     },
-    "/groups/groups/private/{group}/qrcode": {
-      "get": {
-        "tags": [
-          "group-controller"
-        ],
-        "summary": "Get the QR code to join a private group",
-        "operationId": "getQRCode",
-        "parameters": [
-          {
-            "name": "group",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Returns the encoded qr code",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/reports/reports/admin/{id}": {
       "get": {
         "tags": [
@@ -2682,7 +2929,7 @@
         "operationId": "getByReportedUserId",
         "parameters": [
           {
-            "name": "userRoles",
+            "name": "roles",
             "in": "header",
             "required": true,
             "schema": {
@@ -2719,61 +2966,6 @@
         }
       }
     },
-    "/groups/groups/invites/{id}": {
-      "get": {
-        "tags": [
-          "group-controller"
-        ],
-        "summary": "Get all the group invitation of the user",
-        "operationId": "getUserInvites",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Return the list of groups the user is invited to",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GroupResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/users/auth/register": {
       "post": {
         "tags": [
@@ -2792,8 +2984,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "If the email is already in use by another user",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -2802,8 +2994,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "If the email is already in use by another user",
             "content": {
               "*/*": {
                 "schema": {
@@ -2838,66 +3030,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthTokenResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/groups/groups/isInGroup": {
-      "get": {
-        "tags": [
-          "group-controller"
-        ],
-        "operationId": "isUserInGroup",
-        "parameters": [
-          {
-            "name": "groupId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/BooleanResponse"
                 }
               }
             }
@@ -3236,6 +3368,67 @@
         }
       }
     },
+    "/groups/{id}/users/{userId}": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get the information related to the member",
+        "operationId": "getMember",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "You are not allowed to view members of this group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "User or group not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "User information",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemberModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/expenses/expenses/{group}": {
       "get": {
         "tags": [
@@ -3537,69 +3730,6 @@
         }
       }
     },
-    "/groups/groups/private/{groupId}/public": {
-      "patch": {
-        "tags": [
-          "group-controller"
-        ],
-        "summary": "Make a private group public",
-        "operationId": "setGroupPublic",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "groupId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProfileCreationRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "403": {
-            "description": "User is not in the group, or the group is already public",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Group does not exist",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "The group is now public"
-          }
-        }
-      }
-    },
     "/reports/recommendations": {
       "post": {
         "tags": [
@@ -3734,6 +3864,61 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/PlaceResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/{id}/members": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "operationId": "getMembers",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int64"
                   }
                 }
               }
@@ -3988,8 +4173,8 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -3998,8 +4183,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -4112,8 +4297,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -4122,8 +4307,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -4158,67 +4343,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/GoogleAuthResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/groups/groups/{groupId}/users/{userId}": {
-      "get": {
-        "tags": [
-          "group-controller"
-        ],
-        "summary": "Get the information related to the member",
-        "operationId": "getMember",
-        "parameters": [
-          {
-            "name": "groupId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "403": {
-            "description": "You are not allowed to view members of this group",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "User or group not found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "User information",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/GroupMemberModel"
                 }
               }
             }
@@ -4278,6 +4402,182 @@
         }
       }
     },
+    "/groups/{groupId}/memories": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Get all the memories from a group",
+        "operationId": "getMemories",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Group does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The memories are returned",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemoriesResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Add memory to a group",
+        "operationId": "addMemory",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupMemoryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Group or Memory does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The memory is added to the group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMemoriesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups/private/{group}/join/": {
+      "patch": {
+        "tags": [
+          "group-controller"
+        ],
+        "summary": "Accept the invitation to the group",
+        "operationId": "joinGroupWithoutInvite",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JoinGroupWithoutInviteModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Group or User does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The user has joined the group"
+          }
+        }
+      }
+    },
     "/expenses/expenses/{group}/user/{user}/debts": {
       "get": {
         "tags": [
@@ -4321,105 +4621,6 @@
         }
       }
     },
-    "/groups/groups/open": {
-      "get": {
-        "tags": [
-          "group-controller"
-        ],
-        "summary": "Get all open groups",
-        "operationId": "getOpenGroups",
-        "responses": {
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Return the list of open groups",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer",
-                    "format": "int64"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/groups/groups/{group}/user/": {
-      "delete": {
-        "tags": [
-          "group-controller"
-        ],
-        "summary": "Remove the user from a group",
-        "operationId": "leaveGroup",
-        "parameters": [
-          {
-            "name": "group",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Group or User does not exist",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "The user has left the group"
-          }
-        }
-      }
-    },
     "/users/users/{id}/firebase": {
       "get": {
         "tags": [
@@ -4439,8 +4640,8 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "The user does not exist",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -4449,8 +4650,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "The user does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -4517,8 +4718,8 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "If the user does not exist",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -4527,8 +4728,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "If the user does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -4581,8 +4782,8 @@
           }
         ],
         "responses": {
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -4591,8 +4792,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -4634,26 +4835,25 @@
         }
       }
     },
-    "/groups/groups/{group}/join/": {
+    "/groups/private/{groupId}/public": {
       "patch": {
         "tags": [
           "group-controller"
         ],
-        "summary": "Accept the invitation to the group",
-        "operationId": "joinGroup",
+        "summary": "Make a private group public",
+        "operationId": "setGroupPublic",
         "parameters": [
           {
-            "name": "group",
-            "in": "path",
+            "name": "username",
+            "in": "header",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           },
           {
-            "name": "userId",
-            "in": "header",
+            "name": "groupId",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "integer",
@@ -4661,9 +4861,19 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "403": {
-            "description": "Forbidden",
+            "description": "User is not in the group, or the group is already public",
             "content": {
               "*/*": {
                 "schema": {
@@ -4673,7 +4883,7 @@
             }
           },
           "422": {
-            "description": "Group or User does not exist",
+            "description": "Group does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -4683,7 +4893,7 @@
             }
           },
           "200": {
-            "description": "The user has joined the group"
+            "description": "The group is now public"
           }
         }
       }
@@ -4802,8 +5012,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -4812,8 +5022,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -4848,6 +5058,57 @@
         }
       }
     },
+    "/groups/{id}/exists": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "operationId": "exists",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/auth/forgot/password": {
       "post": {
         "tags": [
@@ -4866,8 +5127,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "If the user does not exist",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -4876,8 +5137,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "If the user does not exist",
             "content": {
               "*/*": {
                 "schema": {
@@ -4930,8 +5191,8 @@
           "required": true
         },
         "responses": {
-          "422": {
-            "description": "Unprocessable Entity",
+          "404": {
+            "description": "Not Found",
             "content": {
               "*/*": {
                 "schema": {
@@ -4940,8 +5201,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
@@ -4976,170 +5237,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/LoginResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/groups/groups/{groupId}/memories": {
-      "get": {
-        "tags": [
-          "group-controller"
-        ],
-        "summary": "Get all the memories from a group",
-        "operationId": "getMemories",
-        "parameters": [
-          {
-            "name": "groupId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Group does not exist",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "The memories are returned",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/GroupMemoriesResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "group-controller"
-        ],
-        "summary": "Add memory to a group",
-        "operationId": "addMemory",
-        "parameters": [
-          {
-            "name": "groupId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GroupMemoryRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Group or Memory does not exist",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "The memory is added to the group",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/GroupMemoriesResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/groups/groups/info/{id}": {
-      "get": {
-        "tags": [
-          "group-controller"
-        ],
-        "summary": "Get info about a group",
-        "operationId": "getInfo",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/GroupInfoModel"
                 }
               }
             }
@@ -5589,7 +5686,7 @@
           "members": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/GroupMemberPublicInfoModel"
+              "$ref": "#/components/schemas/GroupMemberModel"
             }
           },
           "maxSize": {
@@ -5914,7 +6011,8 @@
               "TEXT",
               "IMAGE",
               "FILE",
-              "SURVEY"
+              "SURVEY",
+              "CALL"
             ]
           }
         }
@@ -5933,6 +6031,22 @@
           },
           "multipleChoiceSurvey": {
             "type": "boolean"
+          }
+        }
+      },
+      "ScanResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "format": "float"
+            }
+          },
+          "total": {
+            "type": "number",
+            "format": "float"
           }
         }
       },
@@ -6102,7 +6216,8 @@
               "TEXT",
               "IMAGE",
               "FILE",
-              "SURVEY"
+              "SURVEY",
+              "CALL"
             ]
           },
           "multipleChoiceSurvey": {
@@ -6172,6 +6287,28 @@
           "total": {
             "type": "number",
             "format": "double"
+          }
+        }
+      },
+      "NotificationModel": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firebaseId": {
+            "type": "string"
           }
         }
       },
@@ -6425,21 +6562,6 @@
           }
         }
       },
-      "GroupMemberPublicInfoModel": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "firstname": {
-            "type": "string"
-          },
-          "lastname": {
-            "type": "string"
-          }
-        }
-      },
       "SubmitReportRequest": {
         "type": "object",
         "properties": {
@@ -6607,6 +6729,14 @@
           }
         }
       },
+      "ScanRequest": {
+        "type": "object",
+        "properties": {
+          "minioUrl": {
+            "type": "string"
+          }
+        }
+      },
       "ChannelModel": {
         "type": "object",
         "properties": {
@@ -6691,7 +6821,8 @@
               "TEXT",
               "IMAGE",
               "FILE",
-              "SURVEY"
+              "SURVEY",
+              "CALL"
             ]
           },
           "multipleChoiceSurvey": {

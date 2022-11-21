@@ -27,6 +27,17 @@ class EditExpense extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups.firstWhere((group) => group.id == groupId);
+
+    final groupInfoModel = useState<GroupInfoModel?>(null);
+
+    useEffect(() {
+      Future.microtask(() async {
+        groupInfoModel.value = await groupViewModel.getGroupPublicInfo(groupId);
+      });
+
+      return () {};
+    }, [groupId]);
+
     final budgetViewModel = ref.watch(budgetProvider);
     final icon = useState(expense?.icon != null
         ? IconData(int.parse(expense!.icon!), fontFamily: 'MaterialIcons')
@@ -34,19 +45,20 @@ class EditExpense extends HookConsumerWidget {
     final name =
         useState(expense?.description ?? AppLocalizations.of(context).translate("groups.budget.expenses.title"));
     final price = useState(expense?.total ?? 0.0);
-    final paidBy = useState(
-        expense != null ? group.members?.firstWhere((m) => m.id == expense?.purchaserId) : group.members?.first);
+    final paidBy =
+        useState(expense != null ? group.members?.firstWhere((m) => m == expense?.purchaserId) : group.members?.first);
     final paidFor = useState(expense != null && expense!.indebtedUsers != null
         ? expense!.indebtedUsers!
                 .map((e) => MemberExpense(
-                    member: group.members!.firstWhere((m) => m.id == e.userId), amount: e.amountToPay))
+                    memberId: group.members!.firstWhere((m) => m == e.userId).toInt(), amount: e.amountToPay))
                 .toList() +
             group.members!
-                .where((m) => !expense!.indebtedUsers!.any((user) => user.userId == m.id))
-                .map((e) => MemberExpense(member: e, selected: false))
+                .where((m) => !expense!.indebtedUsers!.any((user) => user.userId == m))
+                .map((e) => MemberExpense(memberId: e.toInt(), selected: false))
                 .toList()
-        : group.members?.map((e) => MemberExpense(member: e, weight: 1)).toList())
-      ..value?.sort((a, b) => a.member.firstname!.compareTo(b.member.firstname!));
+        : group.members
+            ?.map((e) => MemberExpense(memberId: e.toInt(), weight: 1))
+            .toList()); // TODO : add a sort with usernames
     final isLoading = useState(false);
 
     void balanceExpenses() {
@@ -70,6 +82,10 @@ class EditExpense extends HookConsumerWidget {
         balanceExpenses();
       });
 
+    if (groupInfoModel.value == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)
@@ -89,7 +105,7 @@ class EditExpense extends HookConsumerWidget {
                     'description': name.value,
                     'moneyDueByEachUser': paidFor.value!
                         .where((element) => element.selected)
-                        .map((element) => MoneyDueRequest(userId: element.member.id, money: element.amount).toJson())
+                        .map((element) => MoneyDueRequest(userId: element.memberId, money: element.amount).toJson())
                         .toList(),
                     'icon': icon.value.codePoint.toString(),
                     'evenlyDivided': paidFor.value!.every((element) => element.weight == 1),
@@ -97,9 +113,9 @@ class EditExpense extends HookConsumerWidget {
                   };
                   if (expense != null) {
                     await budgetViewModel.updateExpense(
-                        groupId, paidBy.value!.id, expense!.id, ExpenseRequest.fromJson(json));
+                        groupId, paidBy.value!, expense!.id, ExpenseRequest.fromJson(json));
                   } else {
-                    await budgetViewModel.addExpense(groupId, paidBy.value!.id, ExpenseRequest.fromJson(json));
+                    await budgetViewModel.addExpense(groupId, paidBy.value!, ExpenseRequest.fromJson(json));
                   }
                   isLoading.value = false;
                   Navigator.of(context).pop();
@@ -180,14 +196,14 @@ class EditExpense extends HookConsumerWidget {
                   height: 100,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
-                    children: group.members
+                    children: groupInfoModel.value!.members
                             ?.map(
                               (e) => LayoutRowItemMember(
                                 name: "${e.firstname} ${e.lastname}",
                                 avatarUrl: MinioService.getImageUrl(e.profilePicture, DEFAULT_URL.AVATAR),
-                                isSelected: paidBy.value == e,
+                                isSelected: paidBy.value == e.userId,
                                 onTap: (value) {
-                                  paidBy.value = e;
+                                  paidBy.value = e.userId;
                                 },
                               ),
                             )
@@ -216,7 +232,7 @@ class EditExpense extends HookConsumerWidget {
                                 onWeightChange: (value) {
                                   paidFor.value = paidFor.value?.map(
                                     (member) {
-                                      if (member.member == e.member) {
+                                      if (member.memberId == e.memberId) {
                                         member.weight = int.tryParse(value);
                                         member.amount = null;
                                       }
@@ -228,7 +244,7 @@ class EditExpense extends HookConsumerWidget {
                                 onAmountChange: (value) {
                                   paidFor.value = paidFor.value?.map(
                                     (member) {
-                                      if (member.member == e.member) {
+                                      if (member.memberId == e.memberId) {
                                         member.amount = double.tryParse(value);
                                         member.weight = null;
                                       }
@@ -240,7 +256,7 @@ class EditExpense extends HookConsumerWidget {
                                 onToggleSelection: (value) {
                                   paidFor.value = paidFor.value?.map(
                                     (member) {
-                                      if (member.member == e.member) {
+                                      if (member.memberId == e.memberId) {
                                         member.selected = value == true;
                                         member.amount = null;
                                         member.weight = value == true ? 1 : null;

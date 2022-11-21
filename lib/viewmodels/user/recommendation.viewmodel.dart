@@ -13,11 +13,11 @@ class RecommendationViewModel extends ChangeNotifier {
 
   void _init() async {}
 
-  Future<List<RecommendationModel>?> getRecommendations(int submitterId) async {
+  Future<List<RecommendationResponse>?> getRecommendations(int submitterId) async {
     return await httpService.getRecommendations(submitterId);
   }
 
-  Future<RecommendationModel?> submitRecommendation(SubmitRecommendationRequest submitRecommendationRequest) async {
+  Future<RecommendationResponse?> submitRecommendation(SubmitRecommendationRequest submitRecommendationRequest) async {
     return await httpService.submitRecommendation(submitRecommendationRequest);
   }
 

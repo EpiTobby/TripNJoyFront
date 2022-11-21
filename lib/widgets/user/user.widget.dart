@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
@@ -13,15 +14,25 @@ import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog.widget.dart'
 import 'package:trip_n_joy_front/widgets/common/dialog/input_dialog_report.widget.dart';
 
 class UserDialog extends HookConsumerWidget {
-  const UserDialog({Key? key, required this.user}) : super(key: key);
+  const UserDialog({Key? key, required this.userId}) : super(key: key);
 
-  final MemberModel user;
+  final int userId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final reportViewModel = ref.watch(reportProvider.notifier);
     final recommendationViewModel = ref.watch(recommendationProvider.notifier);
+    final userViewModel = ref.watch(userProvider.notifier);
     final currentUser = ref.watch(userProvider.notifier).userId;
+
+    final user = useState<UserResponse?>(null);
+
+    useEffect(() {
+      Future.microtask(() async {
+        user.value = await userViewModel.getUserById(userId);
+      });
+      return () {};
+    }, [userId]);
 
     return Material(
       color: Theme.of(context).colorScheme.background,
@@ -32,12 +43,13 @@ class UserDialog extends HookConsumerWidget {
             child: Column(
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(MinioService.getImageUrl(user.profilePicture, DEFAULT_URL.AVATAR)),
+                  backgroundImage:
+                      NetworkImage(MinioService.getImageUrl(user.value!.profilePicture, DEFAULT_URL.AVATAR)),
                   radius: 48,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(user.firstname! + ' ' + user.lastname!,
+                  child: Text(user.value!.firstname! + ' ' + user.value!.lastname!,
                       style: TextStyle(
                           fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary)),
                 ),
@@ -55,25 +67,27 @@ class UserDialog extends HookConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          user.email!,
+                          user.value!.email!,
                           style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.primary),
                         ),
                         Text(
-                          user.phoneNumber ?? AppLocalizations.of(context).translate('user.noPhoneNumber'),
+                          user.value!.phoneNumber ?? AppLocalizations.of(context).translate('user.noPhoneNumber'),
                           style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.primary),
                         ),
                         Text(
-                          user.gender.toString().split('.')[1],
+                          user.value!.gender.toString().split('.')[1],
                           style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.primary),
                         ),
                         Text(
-                          user.city != null ? user.city!.name! : AppLocalizations.of(context).translate('user.noCity'),
+                          user.value!.city != null
+                              ? user.value!.city!
+                              : AppLocalizations.of(context).translate('user.noCity'),
                           style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.primary),
                         ),
                       ],
                     ),
                   ),
-                  if (currentUser != user.id)
+                  if (currentUser != userId)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -91,7 +105,7 @@ class UserDialog extends HookConsumerWidget {
                                   textCapitalization: TextCapitalization.none,
                                   onConfirm: (value) async {
                                     await recommendationViewModel.submitRecommendation(
-                                        SubmitRecommendationRequest(reviewedUserId: user.id, comment: value));
+                                        SubmitRecommendationRequest(reviewedUserId: userId, comment: value));
                                   },
                                 );
                               },
@@ -108,7 +122,7 @@ class UserDialog extends HookConsumerWidget {
                                 return InputDialogReport(
                                   onConfirm: (value, reason) async {
                                     await reportViewModel.submitReport(
-                                        SubmitReportRequest(reportedUserId: user.id, reason: reason, details: value));
+                                        SubmitReportRequest(reportedUserId: userId, reason: reason, details: value));
                                   },
                                 );
                               },

@@ -51,7 +51,10 @@ class _GroupChatState extends ConsumerState<GroupChat> {
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups
         .firstWhere((group) => group.id == widget.groupId, orElse: () => groupViewModel.defaultGroupModel);
+    final groupInfoModel = useState<GroupInfoModel?>(null);
+
     final userId = ref.read(userProvider).value?.id;
+
 
     final chatViewModel = ref.watch(chatProvider);
     final messages = chatViewModel.messages;
@@ -64,8 +67,14 @@ class _GroupChatState extends ConsumerState<GroupChat> {
 
     final activities = ref.watch(planningProvider).activities;
     final nextActivity = useState<Activity?>(null);
+
     useEffect(() {
       Future.microtask(() => ref.read(planningProvider).getActivities(widget.groupId));
+      Future.microtask(() async {
+        groupInfoModel.value = await groupViewModel.getGroupPublicInfo(widget.groupId);
+      });
+
+      return () {};
     }, [widget.groupId]);
 
     useEffect(() {
@@ -77,6 +86,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
           nextActivity.value = null;
         }
       }
+      return () {};
     }, [activities]);
 
     useEffect(() {
@@ -93,6 +103,10 @@ class _GroupChatState extends ConsumerState<GroupChat> {
       }
       return () {};
     }, [widget.channel, isConnected]);
+
+    if (groupInfoModel.value == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     return Scaffold(
         appBar: AppBar(
@@ -116,7 +130,7 @@ class _GroupChatState extends ConsumerState<GroupChat> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        group.name ?? group.members!.map((e) => e.firstname).join(', '),
+                        group.name ?? groupInfoModel.value!.members!.map((e) => e.firstname).join(', '),
                         style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,

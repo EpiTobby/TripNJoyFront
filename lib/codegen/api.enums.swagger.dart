@@ -507,14 +507,17 @@ enum MessageResponseType$ {
   @JsonValue('FILE')
   file,
   @JsonValue('SURVEY')
-  survey
+  survey,
+  @JsonValue('CALL')
+  call
 }
 
 const $MessageResponseType$Map = {
   MessageResponseType$.text: 'TEXT',
   MessageResponseType$.image: 'IMAGE',
   MessageResponseType$.file: 'FILE',
-  MessageResponseType$.survey: 'SURVEY'
+  MessageResponseType$.survey: 'SURVEY',
+  MessageResponseType$.call: 'CALL'
 };
 
 enum UpdatePrivateGroupRequestState {
@@ -564,14 +567,17 @@ enum PostSurveyRequestType$ {
   @JsonValue('FILE')
   file,
   @JsonValue('SURVEY')
-  survey
+  survey,
+  @JsonValue('CALL')
+  call
 }
 
 const $PostSurveyRequestType$Map = {
   PostSurveyRequestType$.text: 'TEXT',
   PostSurveyRequestType$.image: 'IMAGE',
   PostSurveyRequestType$.file: 'FILE',
-  PostSurveyRequestType$.survey: 'SURVEY'
+  PostSurveyRequestType$.survey: 'SURVEY',
+  PostSurveyRequestType$.call: 'CALL'
 };
 
 enum UserModelGender {
@@ -709,14 +715,17 @@ enum SurveyModelType$ {
   @JsonValue('FILE')
   file,
   @JsonValue('SURVEY')
-  survey
+  survey,
+  @JsonValue('CALL')
+  call
 }
 
 const $SurveyModelType$Map = {
   SurveyModelType$.text: 'TEXT',
   SurveyModelType$.image: 'IMAGE',
   SurveyModelType$.file: 'FILE',
-  SurveyModelType$.survey: 'SURVEY'
+  SurveyModelType$.survey: 'SURVEY',
+  SurveyModelType$.call: 'CALL'
 };
 
 enum ProfileUpdateRequestDestinationTypes {

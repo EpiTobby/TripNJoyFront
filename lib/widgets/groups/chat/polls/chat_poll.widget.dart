@@ -6,6 +6,7 @@ import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/models/group/poll.dart';
 import 'package:trip_n_joy_front/providers/auth/auth.provider.dart';
+import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
 import 'package:trip_n_joy_front/providers/groups/poll.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
 import 'package:trip_n_joy_front/services/minio/minio.service.dart';
@@ -25,6 +26,7 @@ class ChatPoll extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pollService = ref.watch(pollProvider);
     final userService = ref.watch(userProvider.notifier);
+    final groupViewModel = ref.watch(groupProvider);
 
     final poll = useState<SurveyModel?>(null);
     final isSingleChoicePoll = useMemoized(() => poll.value?.multipleChoiceSurvey == false, [poll.value]);
@@ -120,7 +122,7 @@ class ChatPoll extends HookConsumerWidget {
                                       padding: const EdgeInsets.symmetric(horizontal: 1.0),
                                       child: CircleAvatar(
                                         backgroundImage: NetworkImage(
-                                          MinioService.getImageUrl(e.voter?.profilePicture, DEFAULT_URL.AVATAR),
+                                          MinioService.getImageUrl(groupViewModel.groupMembers[e.voter!.toInt()]?.profilePicture, DEFAULT_URL.AVATAR),
                                         ),
                                         radius: 10,
                                       ),

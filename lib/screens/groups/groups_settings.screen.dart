@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:trip_n_joy_front/app_localizations.dart';
-import 'package:trip_n_joy_front/codegen/api.enums.swagger.dart';
 import 'package:trip_n_joy_front/codegen/api.swagger.dart';
 import 'package:trip_n_joy_front/constants/common/default_values.dart';
 import 'package:trip_n_joy_front/providers/groups/group.provider.dart';
@@ -19,31 +19,37 @@ import 'package:trip_n_joy_front/widgets/common/layout/layout_item_value.widget.
 import 'package:trip_n_joy_front/widgets/common/layout/layout_member.widget.dart';
 import 'package:trip_n_joy_front/widgets/user/user.widget.dart';
 
-class GroupsSettings extends StatefulHookConsumerWidget {
+class GroupsSettings extends HookConsumerWidget {
   const GroupsSettings({Key? key, required this.groupId}) : super(key: key);
 
   final int groupId;
 
   @override
-  ConsumerState createState() => _GroupsSettingsState();
-}
-
-class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final groupViewModel = ref.watch(groupProvider);
     final group = groupViewModel.groups
-        .firstWhere((group) => group.id == widget.groupId, orElse: () => groupViewModel.defaultGroupModel);
+        .firstWhere((group) => group.id == groupId, orElse: () => groupViewModel.defaultGroupModel);
 
+    final isPrivateGroup = group.ownerId != null;
+    final minioService = ref.watch(minioProvider);
     final user = ref.watch(userProvider).value;
 
     if (user == null) {
       return Container();
     }
 
-    final isPrivateGroup = group.ownerId != null;
+    final groupInfoModel = useState<GroupInfoModel?>(null);
 
-    final minioService = ref.watch(minioProvider);
+    useEffect(() {
+      Future.microtask(() async {
+        groupInfoModel.value = await groupViewModel.getGroupPublicInfo(groupId);
+      });
+      return () {};
+    }, [groupId]);
+
+    if (groupInfoModel.value == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -145,7 +151,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Column(
                           children: [
-                            ...group.members!.map((member) {
+                            ...groupInfoModel.value!.members!.map((member) {
                               return LayoutMember(
                                 name: member.firstname! + " " + member.lastname!,
                                 imageURL: MinioService.getImageUrl(member.profilePicture, DEFAULT_URL.AVATAR),
@@ -153,15 +159,15 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                                   showBarModalBottomSheet(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return UserDialog(user: member);
+                                        return UserDialog(userId: member.userId!.toInt());
                                       });
                                 },
                                 onDelete: user.id != group.ownerId ||
-                                        member == group.ownerId ||
+                                        member.userId == group.ownerId ||
                                         group.state == GroupInfoModelState.archived
                                     ? null
                                     : () async {
-                                        await groupViewModel.removeUserFromGroup(group.id!.toInt(), member.id!.toInt());
+                                        await groupViewModel.removeUserFromGroup(group.id!.toInt(), member.userId!.toInt());
                                       },
                               );
                             }).toList(),
@@ -197,7 +203,7 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                             showBarModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
-                                return QRCodeDialog(groupId: widget.groupId);
+                                return QRCodeDialog(groupId: groupId);
                               },
                             );
                           },

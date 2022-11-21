@@ -83,9 +83,16 @@ class CodegenService extends HttpService {
 
   @override
   Future<bool> deleteUser(int id, DeleteUserRequest deleteUserRequest) async {
-    final response = await api.usersUsersDelete(body: deleteUserRequest, userId: id);
+    final response = await api.usersUsersDelete(body: deleteUserRequest);
 
     return response.isSuccessful;
+  }
+
+  @override
+  Future<UserResponse?> getUserById(int id) async {
+    final response = await api.usersUsersIdGet(id: id);
+
+    return response.body;
   }
 
   @override
@@ -128,7 +135,7 @@ class CodegenService extends HttpService {
 
   @override
   Future<void> updateUser(int id, UserUpdateRequest updateRequest) async {
-    await api.usersUsersUpdatePatch(userId: id, body: updateRequest);
+    await api.usersUsersUpdatePatch(body: updateRequest);
   }
 
   @override
@@ -144,26 +151,26 @@ class CodegenService extends HttpService {
 
   @override
   Future<ProfileModel?> createProfile(int id, ProfileCreationRequest profile) async {
-    final response = await api.profilesProfilesPost(userId: id, body: profile);
+    final response = await api.profilesProfilesPost(body: profile);
 
     return response.body;
   }
 
   @override
   Future<void> deleteProfile(int id, int profileId) async {
-    await api.profilesProfilesProfileDelete(id: id, profile: profileId);
+    await api.profilesProfilesProfileDelete(profile: profileId);
   }
 
   @override
   Future<List<ProfileModel>?> getUserProfiles(int id) async {
-    final response = await api.profilesProfilesGet(userId: id);
+    final response = await api.profilesProfilesGet();
 
     return response.body;
   }
 
   @override
   Future<void> updateProfile(int id, int profileId, ProfileUpdateRequest profileUpdateRequest) async {
-    await api.profilesProfilesProfileUpdatePatch(id: id, profile: profileId, body: profileUpdateRequest);
+    await api.profilesProfilesProfileUpdatePatch(profile: profileId, body: profileUpdateRequest);
   }
 
   @override
@@ -182,62 +189,62 @@ class CodegenService extends HttpService {
 
   @override
   Future<void> addUserToPrivateGroup(int groupId, String email) async {
-    await api.groupsGroupsPrivateGroupUserPost(group: groupId, body: ModelWithEmail(email: email));
+    await api.groupsPrivateGroupUserPost(group: groupId, body: ModelWithEmail(email: email));
   }
 
   @override
   Future<GroupResponse?> createPrivateGroup(int id, CreatePrivateGroupRequest createPrivateGroupRequest) async {
-    final response = await api.groupsGroupsPrivatePost(id: id, body: createPrivateGroupRequest);
+    final response = await api.groupsPrivatePost(body: createPrivateGroupRequest);
 
     return response.body;
   }
 
   @override
   Future<void> deletePrivateGroup(int groupId) async {
-    await api.groupsGroupsPrivateGroupDelete(group: groupId);
+    await api.groupsPrivateGroupDelete(group: groupId);
   }
 
   @override
   Future<List<GroupResponse>?> getGroups(int id) async {
-    final response = await api.groupsGroupsIdGet(id: id);
+    final response = await api.groupsIdGet(id: id);
 
     return response.body;
   }
 
   @override
   Future<List<GroupResponse>?> getUserInvitesGroups(int id) async {
-    final response = await api.groupsGroupsInvitesIdGet(id: id);
+    final response = await api.groupsInvitesIdGet(id: id);
     return response.body;
   }
 
   @override
   Future<void> declineGroupInvitation(int groupId, int userId) async {
-    await api.groupsGroupsGroupDeclinePatch(group: groupId, userId: userId);
+    await api.groupsGroupDeclinePatch(group: groupId);
   }
 
   @override
   Future<void> joinPrivateGroup(int groupId, int userId) async {
-    await api.groupsGroupsPrivateGroupJoinPatch(group: groupId, userId: userId, body: null);
+    await api.groupsPrivateGroupJoinPatch(group: groupId, body: null);
   }
 
   @override
   Future<void> leaveGroup(int groupId, int userId) async {
-    await api.groupsGroupsGroupUserDelete(group: groupId, userId: userId);
+    await api.groupsGroupUserDelete(group: groupId);
   }
 
   @override
   Future<void> removeUserFromPrivateGroup(int groupId, int userId) async {
-    await api.groupsGroupsPrivateGroupUserIdDelete(group: groupId, id: userId);
+    await api.groupsPrivateGroupUserIdDelete(group: groupId, id: userId);
   }
 
   @override
   Future<void> updatePrivateGroup(int groupId, UpdatePrivateGroupRequest groupUpdateRequest) async {
-    await api.groupsGroupsPrivateGroupPatch(group: groupId, body: groupUpdateRequest);
+    await api.groupsPrivateGroupPatch(group: groupId, body: groupUpdateRequest);
   }
 
   @override
   Future<void> updatePublicGroup(int groupId, UpdatePublicGroupRequest groupUpdateRequest) async {
-    await api.groupsGroupsGroupPatch(group: groupId, body: groupUpdateRequest);
+    await api.groupsGroupPatch(group: groupId, body: groupUpdateRequest);
   }
 
   @override
@@ -333,7 +340,7 @@ class CodegenService extends HttpService {
 
   @override
   Future<GroupMemberModel?> getUserPublicInfo(int groupId, num userId) async {
-    final response = await api.groupsGroupsGroupIdUsersUserIdGet(groupId: groupId, userId: userId);
+    final response = await api.groupsIdUsersUserIdGet(id: groupId, userId: userId);
 
     return response.body;
   }
@@ -472,40 +479,40 @@ class CodegenService extends HttpService {
 
   @override
   Future<ScanResponse?> scanReceipt(String minioUrl) async {
-    final response = await api.scanPost(body: ScanRequest(minioUrl: minioUrl));
+    final response = await api.expensesScanPost(body: ScanRequest(minioUrl: minioUrl));
 
     return response.body;
   }
 
   @override
   Future<GroupMemoriesResponse?> addGroupMemory(int groupId, GroupMemoryRequest request) async {
-    final response = await api.groupsGroupsGroupIdMemoriesPost(groupId: groupId, body: request);
+    final response = await api.groupsGroupIdMemoriesPost(groupId: groupId, body: request);
     return response.body;
   }
 
   @override
   Future<GroupMemoriesResponse?> getGroupMemories(int groupId) async {
-    final response = await api.groupsGroupsGroupIdMemoriesGet(groupId: groupId);
+    final response = await api.groupsGroupIdMemoriesGet(groupId: groupId);
 
     return response.body;
   }
 
   @override
   Future<String?> getGroupQRCode(int groupId) async {
-    final response = await api.groupsGroupsPrivateGroupQrcodeGet(group: groupId);
+    final response = await api.groupsPrivateGroupQrcodeGet(group: groupId);
     return response.body;
   }
 
   @override
   Future<GroupInfoModel?> getGroupPublicInfoById(int groupId) async {
-    final response = await api.groupsGroupsInfoIdGet(id: groupId);
+    final response = await api.groupsInfoIdGet(id: groupId);
 
     return response.body;
   }
 
   @override
   Future<void> joinPrivateGroupWithoutInvitation(int groupId, int userId, JoinGroupWithoutInviteModel body) async {
-    await api.groupsGroupsPrivateGroupJoinPatch(group: groupId, id: userId, body: body);
+    await api.groupsPrivateGroupJoinPatch(group: groupId, body: body);
   }
 
   @override
@@ -515,7 +522,7 @@ class CodegenService extends HttpService {
 
   @override
   Future<List<NotificationModel>> getNotifications() async {
-    final response = await api.notificationsGet();
+    final response = await api.notificationsNotificationsGet();
     return response.body ?? [];
   }
 

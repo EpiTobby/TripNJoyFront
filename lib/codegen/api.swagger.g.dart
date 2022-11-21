@@ -338,8 +338,7 @@ GroupInfoModel _$GroupInfoModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as num?,
       name: json['name'] as String?,
       members: (json['members'] as List<dynamic>?)
-              ?.map((e) => GroupMemberPublicInfoModel.fromJson(
-                  e as Map<String, dynamic>))
+              ?.map((e) => GroupMemberModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       maxSize: json['maxSize'] as int?,
@@ -572,6 +571,17 @@ Map<String, dynamic> _$UpdateSurveyRequestToJson(
       'multipleChoiceSurvey': instance.multipleChoiceSurvey,
     };
 
+ScanResponse _$ScanResponseFromJson(Map<String, dynamic> json) => ScanResponse(
+      items: json['items'] as Map<String, dynamic>?,
+      total: (json['total'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$ScanResponseToJson(ScanResponse instance) =>
+    <String, dynamic>{
+      'items': instance.items,
+      'total': instance.total,
+    };
+
 ExpenseMemberModel _$ExpenseMemberModelFromJson(Map<String, dynamic> json) =>
     ExpenseMemberModel(
       userId: json['userId'] as num?,
@@ -790,6 +800,24 @@ Map<String, dynamic> _$MoneyDueResponseToJson(MoneyDueResponse instance) =>
       'total': instance.total,
     };
 
+NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) =>
+    NotificationModel(
+      title: json['title'] as String?,
+      body: json['body'] as String?,
+      userId: json['userId'] as num?,
+      id: json['id'] as num?,
+      firebaseId: json['firebaseId'] as String?,
+    );
+
+Map<String, dynamic> _$NotificationModelToJson(NotificationModel instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'body': instance.body,
+      'userId': instance.userId,
+      'id': instance.id,
+      'firebaseId': instance.firebaseId,
+    };
+
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       id: json['id'] as num?,
       firstname: json['firstname'] as String?,
@@ -1004,22 +1032,6 @@ Map<String, dynamic> _$ModelWithEmailToJson(ModelWithEmail instance) =>
       'email': instance.email,
     };
 
-GroupMemberPublicInfoModel _$GroupMemberPublicInfoModelFromJson(
-        Map<String, dynamic> json) =>
-    GroupMemberPublicInfoModel(
-      id: json['id'] as num?,
-      firstname: json['firstname'] as String?,
-      lastname: json['lastname'] as String?,
-    );
-
-Map<String, dynamic> _$GroupMemberPublicInfoModelToJson(
-        GroupMemberPublicInfoModel instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'firstname': instance.firstname,
-      'lastname': instance.lastname,
-    };
-
 SubmitReportRequest _$SubmitReportRequestFromJson(Map<String, dynamic> json) =>
     SubmitReportRequest(
       reportedUserId: json['reportedUserId'] as num?,
@@ -1152,6 +1164,15 @@ Map<String, dynamic> _$MoneyDueRequestToJson(MoneyDueRequest instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'money': instance.money,
+    };
+
+ScanRequest _$ScanRequestFromJson(Map<String, dynamic> json) => ScanRequest(
+      minioUrl: json['minioUrl'] as String?,
+    );
+
+Map<String, dynamic> _$ScanRequestToJson(ScanRequest instance) =>
+    <String, dynamic>{
+      'minioUrl': instance.minioUrl,
     };
 
 ChannelModel _$ChannelModelFromJson(Map<String, dynamic> json) => ChannelModel(

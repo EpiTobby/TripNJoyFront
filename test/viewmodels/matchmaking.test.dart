@@ -5,6 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:trip_n_joy_front/models/matchmaking/availability.model.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
+import 'package:trip_n_joy_front/viewmodels/groups/group.viewmodel.dart';
 import 'package:trip_n_joy_front/viewmodels/matchmaking/matchmaking.viewmodel.dart';
 import 'package:trip_n_joy_front/viewmodels/matchmaking/profile.viewmodel.dart';
 import 'package:trip_n_joy_front/viewmodels/settings/settings.viewmodel.dart';
@@ -17,22 +18,25 @@ class MockProfileViewModel extends Mock implements ProfileViewModel {}
 
 class MockSettingsViewModel extends Mock implements SettingsViewModel {}
 
+class MockGroupViewModel extends Mock implements GroupViewModel {}
+
 void main() {
   MockHttpService mockHttpService = MockHttpService();
   MockAuthViewModel mockAuthViewModel = MockAuthViewModel();
   MockProfileViewModel mockProfileViewModel = MockProfileViewModel();
   MockSettingsViewModel mockSettingsViewModel = MockSettingsViewModel();
+  MockGroupViewModel mockGroupViewModel = MockGroupViewModel();
   FlutterSecureStorage flutterSecureStorage = const FlutterSecureStorage();
-  MatchmakingViewModel matchmakingViewModel = MatchmakingViewModel(
-      mockHttpService, mockAuthViewModel, mockProfileViewModel, mockSettingsViewModel, flutterSecureStorage);
+  MatchmakingViewModel matchmakingViewModel = MatchmakingViewModel(mockHttpService, mockAuthViewModel,
+      mockGroupViewModel, mockProfileViewModel, mockSettingsViewModel, flutterSecureStorage);
 
   setUp(() {
     mockHttpService = MockHttpService();
     mockAuthViewModel = MockAuthViewModel();
     mockProfileViewModel = MockProfileViewModel();
     mockSettingsViewModel = MockSettingsViewModel();
-    matchmakingViewModel = MatchmakingViewModel(
-        mockHttpService, mockAuthViewModel, mockProfileViewModel, mockSettingsViewModel, flutterSecureStorage);
+    matchmakingViewModel = MatchmakingViewModel(mockHttpService, mockAuthViewModel, mockGroupViewModel,
+        mockProfileViewModel, mockSettingsViewModel, flutterSecureStorage);
   });
 
   test('should init cards state to empty array when init matchmaking ViewModel', () {
