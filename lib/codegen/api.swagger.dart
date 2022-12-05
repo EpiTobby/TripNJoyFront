@@ -428,6 +428,18 @@ abstract class Api extends ChopperService {
       {@Path('group') required num? group,
       @Body() required CreateChannelRequest? body});
 
+  ///
+  ///@param groupId
+  Future<chopper.Response> callStartGroupIdPost({required num? groupId}) {
+    return _callStartGroupIdPost(groupId: groupId);
+  }
+
+  ///
+  ///@param groupId
+  @Post(path: '/call/start/{groupId}', optionalBody: true)
+  Future<chopper.Response> _callStartGroupIdPost(
+      {@Path('groupId') required num? groupId});
+
   ///Will send a new confirmation code to the user
   ///@param id
   Future<chopper.Response> authIdResendPost({required num? id}) {
@@ -1248,11 +1260,8 @@ abstract class Api extends ChopperService {
   ///Get the most recent channel's messages, by pages of size 50
   ///@param channel_id
   ///@param page
-  Future<chopper.Response<List<MessageResponse>>> chatChannelIdGet(
+  Future<chopper.Response> chatChannelIdGet(
       {required num? channelId, int? page}) {
-    generatedMapping.putIfAbsent(
-        MessageResponse, () => MessageResponse.fromJsonFactory);
-
     return _chatChannelIdGet(channelId: channelId, page: page);
   }
 
@@ -1260,7 +1269,7 @@ abstract class Api extends ChopperService {
   ///@param channel_id
   ///@param page
   @Get(path: '/chat/{channel_id}')
-  Future<chopper.Response<List<MessageResponse>>> _chatChannelIdGet(
+  Future<chopper.Response> _chatChannelIdGet(
       {@Path('channel_id') required num? channelId, @Query('page') int? page});
 
   ///Get all pinned messages

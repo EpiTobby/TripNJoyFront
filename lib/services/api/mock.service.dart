@@ -623,4 +623,9 @@ class MockService extends HttpService {
   Future<String?> getToken(String channelName) {
     return Future.value(AGORA_TOKEN);
   }
+
+  @override
+  Future<void> sendCallNotification(num groupId) {
+    return Future.value();
+  }
 }

@@ -170,4 +170,6 @@ abstract class HttpService {
   Future<List<NewsArticle>> getNews(String destination);
 
   Future<String?> getToken(String channelName);
+
+  Future<void> sendCallNotification(num groupId);
 }

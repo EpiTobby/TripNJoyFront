@@ -241,6 +241,13 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<dynamic>> _callStartGroupIdPost({required num? groupId}) {
+    final $url = '/call/start/${groupId}';
+    final $request = Request('POST', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _authIdResendPost({required num? id}) {
     final $url = '/auth/${id}/resend';
     final $request = Request('POST', $url, client.baseUrl);
@@ -692,12 +699,12 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<List<MessageResponse>>> _chatChannelIdGet(
+  Future<Response<dynamic>> _chatChannelIdGet(
       {required num? channelId, int? page}) {
     final $url = '/chat/${channelId}';
     final $params = <String, dynamic>{'page': page};
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
-    return client.send<List<MessageResponse>, MessageResponse>($request);
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override

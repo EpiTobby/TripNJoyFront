@@ -1119,6 +1119,30 @@
         }
       }
     },
+    "/call/start/{groupId}": {
+      "post": {
+        "tags": [
+          "call-controller"
+        ],
+        "operationId": "startCall",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/auth/{id}/resend": {
       "post": {
         "tags": [
@@ -3219,8 +3243,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
+          "206": {
+            "description": "Partial Content",
             "content": {
               "*/*": {
                 "schema": {

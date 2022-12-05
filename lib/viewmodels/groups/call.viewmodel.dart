@@ -20,6 +20,7 @@ class CallViewModel extends ChangeNotifier {
   Future<String> getToken(int groupId) async {
     final token = await httpService.getToken(getChannelName(groupId)) ?? AGORA_TOKEN;
     logger.d("Agora Token: $token");
+    httpService.sendCallNotification(groupId);
     return token;
   }
 
