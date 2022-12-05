@@ -27,7 +27,7 @@ class GroupMemories extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Image'),
+        title: const Text('Memories'),
         foregroundColor: Theme.of(context).colorScheme.primary,
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
