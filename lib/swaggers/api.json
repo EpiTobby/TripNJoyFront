@@ -1679,10 +1679,24 @@
         },
         "responses": {
           "200": {
-            "description": "The group is updated"
+            "description": "The group is updated",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupModel"
+                }
+              }
+            }
           },
           "422": {
-            "description": "Group does not exist"
+            "description": "Group does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupModel"
+                }
+              }
+            }
           }
         }
       }
@@ -2027,13 +2041,34 @@
         },
         "responses": {
           "200": {
-            "description": "The group is updated"
+            "description": "The group is updated",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupModel"
+                }
+              }
+            }
           },
           "403": {
-            "description": "The client is not the owner of the group"
+            "description": "The client is not the owner of the group",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupModel"
+                }
+              }
+            }
           },
           "422": {
-            "description": "Group or User does not exist"
+            "description": "Group or User does not exist",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupModel"
+                }
+              }
+            }
           }
         }
       }
@@ -3750,7 +3785,7 @@
             ]
           },
           "owner": {
-            "$ref": "#/components/schemas/UserModel"
+            "$ref": "#/components/schemas/MemberModel"
           },
           "maxSize": {
             "type": "integer",
@@ -3830,68 +3865,6 @@
           },
           "confirmed": {
             "type": "boolean"
-          }
-        }
-      },
-      "UserModel": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "firstname": {
-            "type": "string"
-          },
-          "lastname": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "birthDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "gender": {
-            "type": "string",
-            "enum": [
-              "MALE",
-              "FEMALE",
-              "NOT_SPECIFIED"
-            ]
-          },
-          "profilePicture": {
-            "type": "string"
-          },
-          "city": {
-            "$ref": "#/components/schemas/CityModel"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "confirmed": {
-            "type": "boolean"
-          },
-          "language": {
-            "type": "string"
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "DEFAULT",
-                "ADMIN"
-              ]
-            }
           }
         }
       },
@@ -4696,6 +4669,68 @@
           }
         }
       },
+      "UserModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "NOT_SPECIFIED"
+            ]
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "city": {
+            "$ref": "#/components/schemas/CityModel"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          },
+          "language": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "DEFAULT",
+                "ADMIN"
+              ]
+            }
+          }
+        }
+      },
       "LoginRequest": {
         "type": "object",
         "properties": {
@@ -4956,6 +4991,14 @@
           },
           "destination": {
             "type": "string"
+          },
+          "newState": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "CLOSED",
+              "ARCHIVED"
+            ]
           }
         }
       },

@@ -622,4 +622,10 @@ class CodegenService extends HttpService {
   Future<void> sendCallNotification(num groupId) async {
     await api.callStartGroupIdPost(groupId: groupId);
   }
+
+  @override
+  Future<void> closePublicGroup(int groupId) async {
+    await api.groupsGroupPatch(
+        group: groupId, body: UpdatePublicGroupRequest(newState: UpdatePublicGroupRequestNewState.closed));
+  }
 }

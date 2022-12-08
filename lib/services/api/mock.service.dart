@@ -628,4 +628,9 @@ class MockService extends HttpService {
   Future<void> sendCallNotification(num groupId) {
     return Future.value();
   }
+
+  @override
+  Future<void> closePublicGroup(int groupId) {
+    return Future.value();
+  }
 }

@@ -172,4 +172,6 @@ abstract class HttpService {
   Future<String?> getToken(String channelName);
 
   Future<void> sendCallNotification(num groupId);
+
+  Future<void> closePublicGroup(int groupId);
 }

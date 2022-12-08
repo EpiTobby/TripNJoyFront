@@ -212,7 +212,9 @@ class _GroupsSettingsState extends ConsumerState<GroupsSettings> {
                           child: LayoutItemValue(
                         value: AppLocalizations.of(context).translate("groups.settings.close"),
                         icon: Icons.lock_outline,
-                        onPressed: () {},
+                        onPressed: () {
+                          groupViewModel.closePublicGroup(widget.groupId);
+                        },
                       )),
                     if (isPrivateGroup)
                       LayoutItem(

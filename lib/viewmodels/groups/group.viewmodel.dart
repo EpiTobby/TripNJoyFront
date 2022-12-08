@@ -54,7 +54,7 @@ class GroupViewModel extends ChangeNotifier {
     for (var group in groups) {
       await getGroupMemories(group.id!.toInt());
     }
-    
+
     notifyListeners();
     for (var group in groups) {
       pushNotificationService.subscribeToTopic(groupTopic + group.id.toString());
@@ -158,5 +158,10 @@ class GroupViewModel extends ChangeNotifier {
   Future<void> addMemoryToGroup(int groupId, String memoryUrl) async {
     final memoriesResponse = await httpService.addGroupMemory(groupId, GroupMemoryRequest(memoryUrl: memoryUrl));
     memories[groupId] = memoriesResponse?.memories ?? [];
+  }
+
+  Future<void> closePublicGroup(int groupId) async {
+    await httpService.closePublicGroup(groupId);
+    await getGroups(); // TODO: update only the group
   }
 }
