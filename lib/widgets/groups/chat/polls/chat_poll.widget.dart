@@ -55,6 +55,7 @@ class ChatPoll extends HookConsumerWidget {
     }
 
     return Container(
+      width: MediaQuery.of(context).size.width * 0.8,
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceVariant,
@@ -69,6 +70,7 @@ class ChatPoll extends HookConsumerWidget {
               poll.value!.question!,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.secondary,
+                fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
             ),
@@ -111,23 +113,26 @@ class ChatPoll extends HookConsumerWidget {
                               ),
                             ],
                           ),
-                          Row(
-                            children: [
-                              ...?poll.value!.votes
-                                  ?.where((element) => element.answer!.content == option.content)
-                                  .map(
-                                    (e) => Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 1.0),
-                                      child: CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                          MinioService.getImageUrl(e.voter?.profilePicture, DEFAULT_URL.AVATAR),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 50.0),
+                            child: Row(
+                              children: [
+                                ...?poll.value!.votes
+                                    ?.where((element) => element.answer!.content == option.content)
+                                    .map(
+                                      (e) => Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 1.0),
+                                        child: CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                            MinioService.getImageUrl(e.voter?.profilePicture, DEFAULT_URL.AVATAR),
+                                          ),
+                                          radius: 10,
                                         ),
-                                        radius: 10,
                                       ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ],
+                                    )
+                                    .toList(),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -139,9 +144,8 @@ class ChatPoll extends HookConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  SecondaryButton(
-                    text: AppLocalizations.of(context).translate('common.delete'),
-                    fitContent: true,
+                  IconButton(
+                    icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.error),
                     onPressed: () async {
                       await pollService.deletePoll(pollId);
                       onDelete!();
