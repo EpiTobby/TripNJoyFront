@@ -27,6 +27,12 @@ class _AuthState extends ConsumerState<Auth> {
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: Stack(children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(30),
+              child: step == AuthStep.LOGIN ? Login(parentContext: context) : SignUp(parentContext: context),
+            ),
+          ),
           Positioned(
             top: 16,
             right: 16,
@@ -46,12 +52,6 @@ class _AuthState extends ConsumerState<Auth> {
                           });
                     });
               },
-            ),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(30),
-              child: step == AuthStep.LOGIN ? Login(parentContext: context) : SignUp(parentContext: context),
             ),
           ),
         ]),
