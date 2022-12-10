@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:trip_n_joy_front/constants/navbar/navbar.enum.dart';
+import 'package:trip_n_joy_front/providers/groups/call.provider.dart';
 import 'package:trip_n_joy_front/providers/matchmaking/matchmaking.provider.dart';
 import 'package:trip_n_joy_front/providers/navbar/navbar.provider.dart';
 import 'package:trip_n_joy_front/providers/user/user.provider.dart';
+import 'package:trip_n_joy_front/screens/groups/chat/calls/call_page.screen.dart';
 import 'package:trip_n_joy_front/services/log/logger.service.dart';
 
 class FirebaseProvider extends HookConsumerWidget {
@@ -41,6 +43,17 @@ class FirebaseProvider extends HookConsumerWidget {
         }
 
         final user = ref.read(userProvider);
+        if (ref.read(callProvider).onCall == false &&
+            message.notification != null &&
+            message.notification!.title != null &&
+            message.notification!.title!.contains('tripnjoy_call')) {
+          ref.read(callProvider).setOnCall(true);
+          final groupId = message.data['groupId'];
+          final groupIdInt = int.tryParse(groupId);
+          if (groupIdInt != null) {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => CallPage(groupId: groupIdInt)));
+          }
+        }
         if (user.value != null && user.value!.id!.toString() != message.data['sender']) {
           showSimpleNotification(
             Text(message.notification!.title!), // use translation

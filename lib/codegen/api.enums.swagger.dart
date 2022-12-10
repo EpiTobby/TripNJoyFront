@@ -34,37 +34,6 @@ const $MemberModelGenderMap = {
   MemberModelGender.notSpecified: 'NOT_SPECIFIED'
 };
 
-enum UserModelGender {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('MALE')
-  male,
-  @JsonValue('FEMALE')
-  female,
-  @JsonValue('NOT_SPECIFIED')
-  notSpecified
-}
-
-const $UserModelGenderMap = {
-  UserModelGender.male: 'MALE',
-  UserModelGender.female: 'FEMALE',
-  UserModelGender.notSpecified: 'NOT_SPECIFIED'
-};
-
-enum UserModelRoles {
-  @JsonValue('swaggerGeneratedUnknown')
-  swaggerGeneratedUnknown,
-  @JsonValue('DEFAULT')
-  $default,
-  @JsonValue('ADMIN')
-  admin
-}
-
-const $UserModelRolesMap = {
-  UserModelRoles.$default: 'DEFAULT',
-  UserModelRoles.admin: 'ADMIN'
-};
-
 enum ProfileCreationRequestDestinationTypes {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
@@ -625,6 +594,37 @@ const $PlacesFromAddressRequestCategoriesMap = {
   PlacesFromAddressRequestCategories.transport: 'TRANSPORT'
 };
 
+enum UserModelGender {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('MALE')
+  male,
+  @JsonValue('FEMALE')
+  female,
+  @JsonValue('NOT_SPECIFIED')
+  notSpecified
+}
+
+const $UserModelGenderMap = {
+  UserModelGender.male: 'MALE',
+  UserModelGender.female: 'FEMALE',
+  UserModelGender.notSpecified: 'NOT_SPECIFIED'
+};
+
+enum UserModelRoles {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('DEFAULT')
+  $default,
+  @JsonValue('ADMIN')
+  admin
+}
+
+const $UserModelRolesMap = {
+  UserModelRoles.$default: 'DEFAULT',
+  UserModelRoles.admin: 'ADMIN'
+};
+
 enum ProfileUpdateRequestDestinationTypes {
   @JsonValue('swaggerGeneratedUnknown')
   swaggerGeneratedUnknown,
@@ -803,6 +803,23 @@ const $UpdateReportRequestReasonMap = {
   UpdateReportRequestReason.innapropriateBehavior: 'INNAPROPRIATE_BEHAVIOR',
   UpdateReportRequestReason.hygieneProblem: 'HYGIENE_PROBLEM',
   UpdateReportRequestReason.other: 'OTHER'
+};
+
+enum UpdatePublicGroupRequestNewState {
+  @JsonValue('swaggerGeneratedUnknown')
+  swaggerGeneratedUnknown,
+  @JsonValue('OPEN')
+  open,
+  @JsonValue('CLOSED')
+  closed,
+  @JsonValue('ARCHIVED')
+  archived
+}
+
+const $UpdatePublicGroupRequestNewStateMap = {
+  UpdatePublicGroupRequestNewState.open: 'OPEN',
+  UpdatePublicGroupRequestNewState.closed: 'CLOSED',
+  UpdatePublicGroupRequestNewState.archived: 'ARCHIVED'
 };
 
 enum UpdatePrivateGroupRequestState {

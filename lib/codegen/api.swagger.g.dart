@@ -134,7 +134,7 @@ GroupModel _$GroupModelFromJson(Map<String, dynamic> json) => GroupModel(
       state: groupModelStateFromJson(json['state']),
       owner: json['owner'] == null
           ? null
-          : UserModel.fromJson(json['owner'] as Map<String, dynamic>),
+          : MemberModel.fromJson(json['owner'] as Map<String, dynamic>),
       maxSize: json['maxSize'] as int?,
       startOfTrip: json['startOfTrip'] == null
           ? null
@@ -205,46 +205,6 @@ Map<String, dynamic> _$MemberModelToJson(MemberModel instance) =>
       'createdDate': instance.createdDate?.toIso8601String(),
       'phoneNumber': instance.phoneNumber,
       'confirmed': instance.confirmed,
-    };
-
-UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
-      id: json['id'] as num?,
-      firstname: json['firstname'] as String?,
-      lastname: json['lastname'] as String?,
-      password: json['password'] as String?,
-      email: json['email'] as String?,
-      birthDate: json['birthDate'] == null
-          ? null
-          : DateTime.parse(json['birthDate'] as String),
-      gender: userModelGenderFromJson(json['gender']),
-      profilePicture: json['profilePicture'] as String?,
-      city: json['city'] == null
-          ? null
-          : CityModel.fromJson(json['city'] as Map<String, dynamic>),
-      createdDate: json['createdDate'] == null
-          ? null
-          : DateTime.parse(json['createdDate'] as String),
-      phoneNumber: json['phoneNumber'] as String?,
-      confirmed: json['confirmed'] as bool?,
-      language: json['language'] as String?,
-      roles: userModelRolesListFromJson(json['roles'] as List?),
-    );
-
-Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
-      'id': instance.id,
-      'firstname': instance.firstname,
-      'lastname': instance.lastname,
-      'password': instance.password,
-      'email': instance.email,
-      'birthDate': instance.birthDate?.toIso8601String(),
-      'gender': userModelGenderToJson(instance.gender),
-      'profilePicture': instance.profilePicture,
-      'city': instance.city?.toJson(),
-      'createdDate': instance.createdDate?.toIso8601String(),
-      'phoneNumber': instance.phoneNumber,
-      'confirmed': instance.confirmed,
-      'language': instance.language,
-      'roles': userModelRolesListToJson(instance.roles),
     };
 
 AvailabilityAnswerModel _$AvailabilityAnswerModelFromJson(
@@ -886,6 +846,46 @@ Map<String, dynamic> _$AuthTokenResponseToJson(AuthTokenResponse instance) =>
       'token': instance.token,
     };
 
+UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
+      id: json['id'] as num?,
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
+      password: json['password'] as String?,
+      email: json['email'] as String?,
+      birthDate: json['birthDate'] == null
+          ? null
+          : DateTime.parse(json['birthDate'] as String),
+      gender: userModelGenderFromJson(json['gender']),
+      profilePicture: json['profilePicture'] as String?,
+      city: json['city'] == null
+          ? null
+          : CityModel.fromJson(json['city'] as Map<String, dynamic>),
+      createdDate: json['createdDate'] == null
+          ? null
+          : DateTime.parse(json['createdDate'] as String),
+      phoneNumber: json['phoneNumber'] as String?,
+      confirmed: json['confirmed'] as bool?,
+      language: json['language'] as String?,
+      roles: userModelRolesListFromJson(json['roles'] as List?),
+    );
+
+Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
+      'id': instance.id,
+      'firstname': instance.firstname,
+      'lastname': instance.lastname,
+      'password': instance.password,
+      'email': instance.email,
+      'birthDate': instance.birthDate?.toIso8601String(),
+      'gender': userModelGenderToJson(instance.gender),
+      'profilePicture': instance.profilePicture,
+      'city': instance.city?.toJson(),
+      'createdDate': instance.createdDate?.toIso8601String(),
+      'phoneNumber': instance.phoneNumber,
+      'confirmed': instance.confirmed,
+      'language': instance.language,
+      'roles': userModelRolesListToJson(instance.roles),
+    };
+
 LoginRequest _$LoginRequestFromJson(Map<String, dynamic> json) => LoginRequest(
       password: json['password'] as String?,
       username: json['username'] as String?,
@@ -1103,6 +1103,7 @@ UpdatePublicGroupRequest _$UpdatePublicGroupRequestFromJson(
           : DateTime.parse(json['endOfTrip'] as String),
       picture: json['picture'] as String?,
       destination: json['destination'] as String?,
+      newState: updatePublicGroupRequestNewStateFromJson(json['newState']),
     );
 
 Map<String, dynamic> _$UpdatePublicGroupRequestToJson(
@@ -1114,6 +1115,7 @@ Map<String, dynamic> _$UpdatePublicGroupRequestToJson(
       'endOfTrip': instance.endOfTrip?.toIso8601String(),
       'picture': instance.picture,
       'destination': instance.destination,
+      'newState': updatePublicGroupRequestNewStateToJson(instance.newState),
     };
 
 UpdateActivityRequest _$UpdateActivityRequestFromJson(

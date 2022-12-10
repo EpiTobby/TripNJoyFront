@@ -241,6 +241,13 @@ class _$Api extends Api {
   }
 
   @override
+  Future<Response<dynamic>> _callStartGroupIdPost({required num? groupId}) {
+    final $url = '/call/start/${groupId}';
+    final $request = Request('POST', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _authIdResendPost({required num? id}) {
     final $url = '/auth/${id}/resend';
     final $request = Request('POST', $url, client.baseUrl);
@@ -356,12 +363,12 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _groupsGroupPatch(
+  Future<Response<GroupModel>> _groupsGroupPatch(
       {required num? group, required UpdatePublicGroupRequest? body}) {
     final $url = '/groups/${group}';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
-    return client.send<dynamic, dynamic>($request);
+    return client.send<GroupModel, GroupModel>($request);
   }
 
   @override
@@ -427,12 +434,12 @@ class _$Api extends Api {
   }
 
   @override
-  Future<Response<dynamic>> _groupsPrivateGroupPatch(
+  Future<Response<GroupModel>> _groupsPrivateGroupPatch(
       {required num? group, required UpdatePrivateGroupRequest? body}) {
     final $url = '/groups/private/${group}';
     final $body = body;
     final $request = Request('PATCH', $url, client.baseUrl, body: $body);
-    return client.send<dynamic, dynamic>($request);
+    return client.send<GroupModel, GroupModel>($request);
   }
 
   @override
@@ -706,6 +713,14 @@ class _$Api extends Api {
     final $url = '/chat/${channelId}/pinned';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<List<MessageResponse>, MessageResponse>($request);
+  }
+
+  @override
+  Future<Response<String>> _callRtcChannelNameUidGet(
+      {required String? channelName, required int? uid}) {
+    final $url = '/call/rtc/${channelName}/${uid}';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<String, String>($request);
   }
 
   @override

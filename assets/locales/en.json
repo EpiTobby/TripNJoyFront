@@ -474,6 +474,10 @@
         "price": "Price"
       },
       "missing": "Missing"
+    },
+    "call": {
+      "title": "Video call",
+      "notification": "You have a video call"
     }
   },
   "settings": {

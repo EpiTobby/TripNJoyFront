@@ -168,4 +168,10 @@ abstract class HttpService {
   Future<void> deletePoll(int pollId);
 
   Future<List<NewsArticle>> getNews(String destination);
+
+  Future<String?> getToken(String channelName);
+
+  Future<void> sendCallNotification(num groupId);
+
+  Future<void> closePublicGroup(int groupId);
 }

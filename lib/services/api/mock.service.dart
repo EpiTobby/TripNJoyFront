@@ -618,4 +618,19 @@ class MockService extends HttpService {
   Future<List<NewsArticle>> getNews(String destination) {
     return Future.value([]);
   }
+
+  @override
+  Future<String?> getToken(String channelName) {
+    return Future.value(AGORA_TOKEN);
+  }
+
+  @override
+  Future<void> sendCallNotification(num groupId) {
+    return Future.value();
+  }
+
+  @override
+  Future<void> closePublicGroup(int groupId) {
+    return Future.value();
+  }
 }

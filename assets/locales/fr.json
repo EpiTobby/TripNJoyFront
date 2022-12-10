@@ -474,6 +474,10 @@
         "price": "Prix"
       },
       "missing": "Manquant :"
+    },
+    "call": {
+      "title": "Appel vidéo",
+      "notification": "Appel vidéo en cours"
     }
   },
   "settings": {
