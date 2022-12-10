@@ -12,6 +12,7 @@ import 'package:trip_n_joy_front/models/auth/signInUpGoogle.model.dart';
 import 'package:trip_n_joy_front/models/auth/signup.model.dart';
 import 'package:trip_n_joy_front/models/group/poll.dart';
 import 'package:trip_n_joy_front/services/api/http.service.dart';
+import 'package:trip_n_joy_front/services/log/logger.service.dart';
 import 'package:trip_n_joy_front/viewmodels/auth/auth.viewmodel.dart';
 import 'package:weather/weather.dart';
 import 'package:http/http.dart' as http;
@@ -37,6 +38,7 @@ class CodegenService extends HttpService {
 
   @override
   Future<void> updateApiHost(String host) async {
+    logger.d("Updating API host to $host");
     api = Api.create(
         client: ChopperClient(
             converter: $JsonSerializableConverter(),
@@ -53,7 +55,7 @@ class CodegenService extends HttpService {
             ],
             baseUrl: host),
         baseUrl: host);
-    MINIO_ENDPOINT = host.replaceAll("http://", "");
+    MINIO_ENDPOINT = host.replaceAll("http://", "").replaceAll(":8080", "");
   }
 
   @override
