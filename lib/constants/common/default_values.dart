@@ -9,7 +9,7 @@ enum DEFAULT_URL { AVATAR, GROUP, IMAGE }
 
 /// MINIO CONSTANTS
 
-const MINIO_ENDPOINT = String.fromEnvironment('MINIO_ENDPOINT', defaultValue: "127.0.0.1");
+var MINIO_ENDPOINT = String.fromEnvironment('MINIO_ENDPOINT', defaultValue: "127.0.0.1");
 const MINIO_ACCESS_KEY = String.fromEnvironment('MINIO_ACCESS_KEY');
 const MINIO_SECRET_KEY = String.fromEnvironment('MINIO_SECRET_KEY');
 final MINIO_PORT = int.parse(const String.fromEnvironment('MINIO_PORT', defaultValue: '9000'));

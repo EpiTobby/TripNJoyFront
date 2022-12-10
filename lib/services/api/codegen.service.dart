@@ -30,6 +30,13 @@ class CodegenService extends HttpService {
 
   @override
   Future<HttpService> init() async {
+    updateApiHost(BASE_URL);
+    initInterceptors();
+    return this;
+  }
+
+  @override
+  Future<void> updateApiHost(String host) async {
     api = Api.create(
         client: ChopperClient(
             converter: $JsonSerializableConverter(),
@@ -44,10 +51,9 @@ class CodegenService extends HttpService {
                 return response;
               }
             ],
-            baseUrl: BASE_URL),
-        baseUrl: BASE_URL);
-    initInterceptors();
-    return this;
+            baseUrl: host),
+        baseUrl: host);
+    MINIO_ENDPOINT = host.replaceAll("http://", "");
   }
 
   @override

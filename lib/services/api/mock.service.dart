@@ -17,6 +17,11 @@ class MockService extends HttpService {
   }
 
   @override
+  Future<void> updateApiHost(String host) async {
+    return;
+  }
+
+  @override
   void initInterceptors() {}
 
   @override
@@ -278,48 +283,49 @@ class MockService extends HttpService {
   Future<List<MessageResponse>> getChannelMessages(num channelId, int page) {
     return Future.delayed(
       const Duration(milliseconds: 500),
-      () => [
-        MessageResponse(
-          id: 1,
-          content: "Hello",
-          type: MessageResponseType$.text,
-          modifiedDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
-          sentDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
-          channelId: 1,
-          userId: 1,
-          pinned: true,
-        ),
-        MessageResponse(
-          id: 2,
-          content: "Hello!",
-          type: MessageResponseType$.text,
-          modifiedDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
-          sentDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
-          channelId: 1,
-          userId: 2,
-          pinned: true,
-        ),
-        MessageResponse(
-          id: 3,
-          content: "file.txt",
-          type: MessageResponseType$.file,
-          modifiedDate: DateTime.parse("2020-01-03T00:00:00.000Z"),
-          sentDate: DateTime.parse("2020-01-03T00:00:00.000Z"),
-          channelId: 1,
-          userId: 1,
-          pinned: false,
-        ),
-        MessageResponse(
-          id: 4,
-          content: "https://as2.ftcdn.net/v2/jpg/01/81/75/23/1000_F_181752325_chPCE32kZXwYmHxhwPdfaaGio7Pr3v5V.jpg",
-          type: MessageResponseType$.image,
-          modifiedDate: DateTime.parse("2020-01-04T00:00:00.000Z"),
-          sentDate: DateTime.parse("2020-01-04T00:00:00.000Z"),
-          channelId: 1,
-          userId: 2,
-          pinned: false,
-        ),
-      ].reversed.toList(),
+          () =>
+          [
+            MessageResponse(
+              id: 1,
+              content: "Hello",
+              type: MessageResponseType$.text,
+              modifiedDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+              sentDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+              channelId: 1,
+              userId: 1,
+              pinned: true,
+            ),
+            MessageResponse(
+              id: 2,
+              content: "Hello!",
+              type: MessageResponseType$.text,
+              modifiedDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
+              sentDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
+              channelId: 1,
+              userId: 2,
+              pinned: true,
+            ),
+            MessageResponse(
+              id: 3,
+              content: "file.txt",
+              type: MessageResponseType$.file,
+              modifiedDate: DateTime.parse("2020-01-03T00:00:00.000Z"),
+              sentDate: DateTime.parse("2020-01-03T00:00:00.000Z"),
+              channelId: 1,
+              userId: 1,
+              pinned: false,
+            ),
+            MessageResponse(
+              id: 4,
+              content: "https://as2.ftcdn.net/v2/jpg/01/81/75/23/1000_F_181752325_chPCE32kZXwYmHxhwPdfaaGio7Pr3v5V.jpg",
+              type: MessageResponseType$.image,
+              modifiedDate: DateTime.parse("2020-01-04T00:00:00.000Z"),
+              sentDate: DateTime.parse("2020-01-04T00:00:00.000Z"),
+              channelId: 1,
+              userId: 2,
+              pinned: false,
+            ),
+          ].reversed.toList(),
     );
   }
 
@@ -327,28 +333,29 @@ class MockService extends HttpService {
   Future<List<MessageResponse>> getPinnedMessages(num channelId) {
     return Future.delayed(
       const Duration(milliseconds: 500),
-      () => [
-        MessageResponse(
-          id: 1,
-          content: "Hello",
-          type: MessageResponseType$.text,
-          modifiedDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
-          sentDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
-          channelId: 1,
-          userId: 1,
-          pinned: true,
-        ),
-        MessageResponse(
-          id: 2,
-          content: "Hello!",
-          type: MessageResponseType$.text,
-          modifiedDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
-          sentDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
-          channelId: 1,
-          userId: 2,
-          pinned: true,
-        ),
-      ].reversed.toList(),
+          () =>
+          [
+            MessageResponse(
+              id: 1,
+              content: "Hello",
+              type: MessageResponseType$.text,
+              modifiedDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+              sentDate: DateTime.parse("2020-01-01T00:00:00.000Z"),
+              channelId: 1,
+              userId: 1,
+              pinned: true,
+            ),
+            MessageResponse(
+              id: 2,
+              content: "Hello!",
+              type: MessageResponseType$.text,
+              modifiedDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
+              sentDate: DateTime.parse("2020-01-02T00:00:00.000Z"),
+              channelId: 1,
+              userId: 2,
+              pinned: true,
+            ),
+          ].reversed.toList(),
     );
   }
 
@@ -357,17 +364,17 @@ class MockService extends HttpService {
     return Future.value(
       userId == 1
           ? GroupMemberModel(
-              userId: 1,
-              firstname: "Tony",
-              lastname: "Heng",
-              profilePicture:
-                  "https://as2.ftcdn.net/v2/jpg/01/81/75/23/1000_F_181752325_chPCE32kZXwYmHxhwPdfaaGio7Pr3v5V.jpg",
-            )
+        userId: 1,
+        firstname: "Tony",
+        lastname: "Heng",
+        profilePicture:
+        "https://as2.ftcdn.net/v2/jpg/01/81/75/23/1000_F_181752325_chPCE32kZXwYmHxhwPdfaaGio7Pr3v5V.jpg",
+      )
           : GroupMemberModel(
-              userId: 2,
-              firstname: "Yanis",
-              lastname: "Chaabane",
-            ),
+        userId: 2,
+        firstname: "Yanis",
+        lastname: "Chaabane",
+      ),
     );
   }
 
@@ -380,7 +387,8 @@ class MockService extends HttpService {
   Future<List<ActivityModel>?> getActivities(int groupId) {
     return Future.delayed(
       const Duration(milliseconds: 500),
-      () => [
+          () =>
+      [
         ActivityModel(
           id: 1,
           icon: Icons.airplane_ticket.codePoint.toString(),
@@ -562,7 +570,11 @@ class MockService extends HttpService {
   @override
   Future<GroupInfoModel?> getGroupPublicInfoById(int groupId) {
     return Future.value(
-        GroupInfoModel(name: 'Group TripNJoy', id: groupId, members: [], maxSize: 10, state: GroupInfoModelState.open));
+        GroupInfoModel(name: 'Group TripNJoy',
+            id: groupId,
+            members: [],
+            maxSize: 10,
+            state: GroupInfoModelState.open));
   }
 
   @override

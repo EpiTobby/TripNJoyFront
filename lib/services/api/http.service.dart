@@ -11,6 +11,8 @@ enum Method { POST, GET, PUT, DELETE, PATCH }
 abstract class HttpService {
   Future<HttpService> init();
 
+  Future<void> updateApiHost(String host);
+
   void initInterceptors();
 
   Future<UserModel?> loadUser();
